@@ -283,7 +283,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_ENDDATE =
                 "Please select the date and time after which the feedback session will no longer accept submissions from users.";
         public static final String FEEDBACK_SESSION_VISIBLEDATE =
-                "Select this option to enter in a custom date and time for which the feedback session will become visible.<br>"
+                "Select this option to enter in a custom date and time for which the feedback session will become visible.<br />"
                 + "Note that you can make a session visible before it is open for submissions so that users can preview the questions.";
         public static final String FEEDBACK_SESSION_PUBLISHDATE = "Select this option to enter in a custom date and time for which</br>"
                 + "the responses for this feedback session will become visible.";
@@ -300,10 +300,10 @@ public final class Const {
                 "Please select when the responses for the feedback session will be visible to the designated recipients."
                 + "<br />You can select the response visibility for each type of user and question later.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLECUSTOM =
-                "Select this option to use a custom time for when the responses of the feedback session<br>"
+                "Select this option to use a custom time for when the responses of the feedback session<br />"
                 + "will be visible to the designated recipients.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE =
-                "Select this option to have the feedback responses be immediately visible<br>"
+                "Select this option to have the feedback responses be immediately visible<br />"
                 + "when the session becomes visible to users.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER =
                 "Select this option if you intend to manually publish the responses for this session later on.";
@@ -319,7 +319,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_SENDPUBLISHEDEMAIL =
                 "Select this option to automatically send an email to students to notify them when the session results is published.";
         public static final String FEEDBACK_SESSION_INSTRUCTIONS =
-                "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br>"
+                "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> "
                 + "It will be displayed at the top of the page when users respond to the session.";
         public static final String FEEDBACK_SESSION_STATUS_PRIVATE = "This is a private session. Nobody can see it but you.";
         public static final String FEEDBACK_SESSION_STATUS_VISIBLE = ", is visible";
@@ -329,12 +329,12 @@ public final class Const {
         public static final String FEEDBACK_SESSION_STATUS_PUBLISHED = ".<br />The responses for this session are visible";
         
         public static final String FEEDBACK_SESSION_INPUT_TIMEZONE =
-                "You should not need to change this as your timezone is auto-detected.<br><br>"
+                "You should not need to change this as your timezone is auto-detected. <br /><br />"
                 + "However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is "
                 + "daylight saving, you should choose UTC -7:00 and its corresponding timings.";
 
         public static final String FEEDBACK_SESSION_INPUT_GRACEPERIOD =
-                "Please select the amount of time that the system will continue accepting <br>"
+                "Please select the amount of time that the system will continue accepting <br />"
                 + "submissions after the specified deadline.";
 
         public static final String FEEDBACK_SESSION_RESPONSE_RATE = "Number of students submitted / Class size";
