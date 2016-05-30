@@ -72,7 +72,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("empty options");
 
-        feedbackEditPage.fillQuestionBox("Test question text");
+        feedbackEditPage.fillNewQuestionBox("Test question text");
         feedbackEditPage.clickAddQuestionButton();
         assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
 
@@ -80,7 +80,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.fillQuestionBox("Test question text");
+        feedbackEditPage.fillNewQuestionBox("Test question text");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
 
         feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
@@ -97,7 +97,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.fillQuestionBox("Test question text");
+        feedbackEditPage.fillNewQuestionBox("Test question text");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
 
         feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
@@ -145,7 +145,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: add question action success");
 
-        feedbackEditPage.fillQuestionBox("mcq qn");
+        feedbackEditPage.fillNewQuestionBox("mcq qn");
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());

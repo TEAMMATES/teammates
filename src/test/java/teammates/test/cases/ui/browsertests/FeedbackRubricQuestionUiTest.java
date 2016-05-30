@@ -204,7 +204,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("empty weight test");
 
-        feedbackEditPage.fillQuestionBox("empty weight test");
+        feedbackEditPage.fillNewQuestionBox("empty weight test");
         feedbackEditPage.clickAssignWeightsCheckbox(-1);
         feedbackEditPage.fillRubricWeightBox("", -1, 3);
         feedbackEditPage.clickAddQuestionButton();
@@ -225,7 +225,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.fillQuestionBox("RUBRIC qn");
+        feedbackEditPage.fillNewQuestionBox("RUBRIC qn");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
@@ -354,7 +354,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         
         // start editing it
-        feedbackEditPage.fillQuestionBox("RUBRIC qn JS validation test");
+        feedbackEditPage.fillNewQuestionBox("RUBRIC qn JS validation test");
         feedbackEditPage.clickAddQuestionButton();
         
         feedbackEditPage.clickEditQuestionButton(1);

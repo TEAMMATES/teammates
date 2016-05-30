@@ -198,7 +198,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("empty number of max respondants field");
 
-        feedbackEditPage.fillQuestionBox("filled qn");
+        feedbackEditPage.fillNewQuestionBox("filled qn");
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.fillNumOfEntitiesToGiveFeedbackToBox("");
         feedbackEditPage.clickCustomNumberOfRecipientsButton();
@@ -281,7 +281,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("add question 2 and edit it to giver's team members and giver");
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.fillQuestionBox("test visibility when choosing giver's team members and giver");
+        feedbackEditPage.fillNewQuestionBox("test visibility when choosing giver's team members and giver");
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.selectRecipientsToBeGiverTeamMembersAndGiver();
         feedbackEditPage.clickMaxNumberOfRecipientsButton();
@@ -360,7 +360,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // Add question 2 first
         feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.fillQuestionBox("mcq qn");
+        feedbackEditPage.fillNewQuestionBox("mcq qn");
         feedbackEditPage.fillMcqOption(0, "Choice 1");
         feedbackEditPage.fillMcqOption(1, "Choice 2");
         feedbackEditPage.clickAddQuestionButton();
@@ -486,7 +486,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // Create a new question and save
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.fillQuestionBox("new question");
+        feedbackEditPage.fillNewQuestionBox("new question");
         feedbackEditPage.clickAddQuestionButton();
 
         // Delete the new question through the backdoor so that it still appears in the browser
@@ -511,7 +511,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         // Create a new question and save
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.fillQuestionBox("new question");
+        feedbackEditPage.fillNewQuestionBox("new question");
         feedbackEditPage.clickAddQuestionButton();
 
         // Create response for the new question
@@ -566,26 +566,26 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // add questions for previewing
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.fillQuestionBox("question for me");
+        feedbackEditPage.fillNewQuestionBox("question for me");
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
         
 
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.fillQuestionBox("question for students");
+        feedbackEditPage.fillNewQuestionBox("question for students");
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.fillQuestionBox("question for instructors");
+        feedbackEditPage.fillNewQuestionBox("question for instructors");
         feedbackEditPage.selectGiverToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.fillQuestionBox("question for students to instructors");
+        feedbackEditPage.fillNewQuestionBox("question for students to instructors");
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.selectRecipientsToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();

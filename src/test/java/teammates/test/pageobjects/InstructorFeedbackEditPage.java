@@ -175,7 +175,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
     
-    public void fillQuestionBox(String qnText) {
+    public void fillNewQuestionBox(String qnText) {
         fillTextBox(questionTextBox, qnText);
     }
     
