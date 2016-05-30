@@ -654,6 +654,7 @@ public final class Const {
         public static final String TO_EMAIL = "toemail";
         public static final String SECTION_NAME = "sectionname";
         public static final String TEAM_NAME = "teamname";
+        public static final String TEAM_CHANGED_FOR_WHOLE_TEAM = "isteamchangedforwholeteam";
         public static final String POINTS = "points";
         public static final String JUSTIFICATION = "justification";
         public static final String COMMENTS = "comments";

@@ -36,6 +36,15 @@
                 </div>
             </div>
             <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-11">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="<%=Const.ParamsNames.TEAM_CHANGED_FOR_WHOLE_TEAM%>"> Change for whole team?
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-1 control-label">E-mail Address:
                     <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" 
                            id="<%=Const.ParamsNames.STUDENT_EMAIL%>"
