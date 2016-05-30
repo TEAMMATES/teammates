@@ -443,6 +443,14 @@ public final class Const {
         public static final String RUBRIC = "Rubric question";
     }
     
+    public class FeedbackSessionResults {
+        public static final String QUESTION_SORT_TYPE = "question";
+        public static final String GRQ_SORT_TYPE = "giver-recipient-question";
+        public static final String RGQ_SORT_TYPE = "recipient-giver-question";
+        public static final String GQR_SORT_TYPE = "giver-question-recipient";
+        public static final String RQG_SORT_TYPE = "recipient-question-giver";
+    }
+
     public class InstructorPermissionRoleNames {
         public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
         public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
