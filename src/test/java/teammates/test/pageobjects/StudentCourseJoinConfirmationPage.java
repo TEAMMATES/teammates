@@ -40,7 +40,7 @@ public class StudentCourseJoinConfirmationPage extends AppPage {
     public LoginPage clickCancelButton() {
         cancelButton.click();
         waitForPageToLoad();
-        if (TestProperties.inst().isDevServer()) {
+        if (TestProperties.isDevServer()) {
             return changePageType(DevServerLoginPage.class);
         }
         return changePageType(GoogleLoginPage.class);

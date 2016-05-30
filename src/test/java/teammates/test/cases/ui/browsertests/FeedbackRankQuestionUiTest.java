@@ -287,15 +287,15 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     private void testNewRankRecipientsQuestionFrame() {
         ______TS("Rank recipients: new question (frame)");
 
-        feedbackEditPage.selectNewQuestionType("Rank (recipients) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RANK_RECIPIENTS");
         assertTrue(feedbackEditPage.verifyNewRankRecipientsQuestionFormIsDisplayed());
     }
 
     private void testNewRankOptionsQuestionFrame() {
         ______TS("Rank options: new question (frame)");
-        feedbackEditPage.selectNewQuestionType("Rank (options) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
         assertTrue(feedbackEditPage.verifyNewRankOptionsQuestionFormIsDisplayed());
     }
 
@@ -329,8 +329,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                      + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".",
                      feedbackEditPage.getStatus());
 
-        feedbackEditPage.selectNewQuestionType("Rank (options) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
         
         feedbackEditPage.fillQuestionBox("Rank qn");
         
@@ -350,8 +350,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals("Blank options should have been removed", 2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(1));
         
         ______TS("Rank edit: add rank recipient question action success");
-        feedbackEditPage.selectNewQuestionType("Rank (recipients) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RANK_RECIPIENTS");
         
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 2));
         

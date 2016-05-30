@@ -33,9 +33,7 @@
       <property name="tokens" value="RPAREN,TYPECAST"/>
     </module>
     <module name="ModifierOrder"/>
-    <module name="RedundantModifier">
-      <property name="tokens" value="ANNOTATION_FIELD_DEF,INTERFACE_DEF,METHOD_DEF,VARIABLE_DEF"/>
-    </module>
+    <module name="RedundantModifier"/>
     <module name="NeedBraces">
       <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FOR,LITERAL_IF,LITERAL_WHILE"/>
     </module>
@@ -83,7 +81,9 @@
     <module name="StaticVariableName"/>
     <module name="TypeName"/>
     <module name="MemberName"/>
-    <module name="MethodName"/>
+    <module name="MethodName">
+      <property name="format" value="^([a-z][a-zA-Z0-9]*)(_[a-z][a-zA-Z0-9]*){0,2}$"/>
+    </module>
     <module name="DeclarationOrder"/>
     <module name="RedundantImport"/>
     <module name="SimplifyBooleanExpression"/>
@@ -100,6 +100,20 @@
       <property name="option" value="nl"/>
       <property name="tokens" value="DOT"/>
     </module>
+    <module name="UpperEll"/>
+    <module name="OuterTypeFilename"/>
+    <module name="OneTopLevelClass"/>
+    <module name="UncommentedMain"/>
+    <module name="CatchParameterName">
+      <property name="format" value="^(e|t|[a-z][a-zA-Z]+)$"/>
+    </module>
+    <module name="AbbreviationAsWordInName">
+      <property name="allowedAbbreviationLength" value="1"/>
+      <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
+    </module>
+    <module name="ConstantName">
+      <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|.*(Db|Logic)|dataBundle)$"/>
+    </module>
     <module name="RegexpSinglelineJava">
       <property name="format" value="((?!\*)\S|\* ) +$"/>
       <property name="message" value="Line has trailing spaces."/>
@@ -109,7 +123,11 @@
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>
   </module>
   <module name="FileTabCharacter"/>
-  <module name="SuppressionCommentFilter"/>
+  <module name="SuppressionCommentFilter">
+      <property name="offCommentFormat" value="CHECKSTYLE\.OFF:([A-Za-z\|]+)"/>
+      <property name="onCommentFormat" value="CHECKSTYLE\.ON:([A-Za-z\|]+)"/>
+      <property name="checkFormat" value="$1"/>
+  </module>
   <module name="NewlineAtEndOfFile">
     <property name="lineSeparator" value="lf_cr_crlf"/>
   </module>

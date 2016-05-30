@@ -320,15 +320,15 @@ public class InstructorHomePage extends AppPage {
     }
 
     private int getEvaluationRowId(String courseId, String evalName) {
-        int courseRowID = getCourseRowId(courseId);
-        if (courseRowID == -1) {
+        int courseRowId = getCourseRowId(courseId);
+        if (courseRowId == -1) {
             return -2;
         }
         String template = "//div[@id='course-%d']//tr[@id='session%d']";
         int max = browser.driver.findElements(By.xpath("//div[starts-with(@id, 'course-')]//tr")).size();
         for (int id = 0; id < max; id++) {
             if (getElementText(
-                    By.xpath(String.format(template + "//td[1]", courseRowID,
+                    By.xpath(String.format(template + "//td[1]", courseRowId,
                             id))).equals(evalName)) {
                 return id;
             }

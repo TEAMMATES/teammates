@@ -242,21 +242,15 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /**
      * Should only be used for testing
      */
-    //CHECKSTYLE:OFF
-    // Naming violation is so that it will be noticed if it is accidentally included in production code
-    public void setCreatedAt_NonProduction(Date createdAt) {
+    public void setCreatedAt_nonProduction(Date createdAt) {
         this.createdAt = createdAt;
     }
-    //CHECKSTYLE:ON
 
     /**
      * Should only be used for testing
      */
-    //CHECKSTYLE:OFF
-    // Naming violation is so that it will be noticed if it is accidentally included in production code
-    public void setUpdatedAt_NonProduction(Date updatedAt) {
+    public void setUpdatedAt_nonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-    //CHECKSTYLE:ON
     
 }

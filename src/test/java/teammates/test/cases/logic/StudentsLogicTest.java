@@ -691,8 +691,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.enrollStudentsWithoutDocument("a|b|c|d", null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         
@@ -776,8 +776,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getStudentForEmail(null, "valid@email.tmt");
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         ______TS("non-exist student");
@@ -800,8 +800,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getStudentForRegistrationKey(null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         
@@ -890,8 +890,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getStudentsForGoogleId(null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
 
@@ -925,8 +925,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getStudentForCourseIdAndGoogleId("valid.course", null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
 
@@ -953,8 +953,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getStudentsForCourse(null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     
         ______TS("non-existent course");
@@ -971,8 +971,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getKeyForStudent("valid.course.id", null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     
         
@@ -1006,8 +1006,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getEncryptedKeyForStudent("valid.course.id", null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     
         
@@ -1149,8 +1149,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.sendRegistrationInviteForCourse(null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
     
@@ -1183,8 +1183,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.deleteStudentCascadeWithoutDocument(null, "valid@email.tmt");
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
 
@@ -1198,12 +1198,12 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     }
     
     @SuppressWarnings("unchecked")
-    private static List<String> invokeGetInvalidityInfoInEnrollLines(String lines, String courseID)
+    private static List<String> invokeGetInvalidityInfoInEnrollLines(String lines, String courseId)
             throws Exception {
         Method privateMethod = StudentsLogic.class.getDeclaredMethod("getInvalidityInfoInEnrollLines",
                                     new Class[] { String.class, String.class });
         privateMethod.setAccessible(true);
-        Object[] params = new Object[] { lines, courseID };
+        Object[] params = new Object[] { lines, courseId };
         return (List<String>) privateMethod.invoke(StudentsLogic.inst(), params);
     }
         

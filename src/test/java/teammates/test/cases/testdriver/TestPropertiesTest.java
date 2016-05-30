@@ -13,6 +13,6 @@ public class TestPropertiesTest extends BaseTestCase {
     
     @Test
     public void testConstruction() {
-        assertTrue(null != TestProperties.inst().TEAMMATES_VERSION);
+        assertTrue(null != TestProperties.TEAMMATES_VERSION);
     }
 }
