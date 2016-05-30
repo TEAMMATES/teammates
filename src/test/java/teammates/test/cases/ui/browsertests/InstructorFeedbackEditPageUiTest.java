@@ -356,11 +356,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     private void testCancelEditQuestion() {
         ______TS("Canceling the edit of an existing question");
+        String qnTextOriginal = "mcq qn";
 
         // Add question 2 first
         feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.fillNewQuestionBox("mcq qn");
+        feedbackEditPage.fillNewQuestionBox(qnTextOriginal);
         feedbackEditPage.fillMcqOption(0, "Choice 1");
         feedbackEditPage.fillMcqOption(1, "Choice 2");
         feedbackEditPage.clickAddQuestionButton();
@@ -375,8 +376,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         
         ______TS("Click cancel and click yes to confirmation prompt");
+        feedbackEditPage.fillEditQuestionBox("new edits to question text", 1);
+        String qnTextAfterEdit = feedbackEditPage.getQuestionBoxText(1);
+        assertFalse(qnTextOriginal.equals(qnTextAfterEdit));
+
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(1));
         assertFalse(feedbackEditPage.isCancelEditButtonVisible(1));
+        String qnTextAfterCancelEdit = feedbackEditPage.getQuestionBoxText(1);
+        assertEquals(qnTextOriginal, qnTextAfterCancelEdit);
         
         // Delete it to reset the status for the following tests
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));

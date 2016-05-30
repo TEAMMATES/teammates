@@ -187,6 +187,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void fillNumOfEntitiesToGiveFeedbackToBox(String num) {
         fillTextBox(numberOfRecipients, num);
     }
+
+    public String getQuestionBoxText(int qnIndex) {
+        WebElement questionEditTextBox = browser.driver.findElement(By.id("questiontext-" + qnIndex));
+        return getTextBoxValue(questionEditTextBox);
+    }
     
     private String getIdSuffix(int qnNumber) {
         int newQuestionNumber = -1;
