@@ -29,10 +29,10 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
     public void test() {
         ______TS("typical success case");
         
-        AccountAttributes account = dataBundle.accounts.get("student1InCourse1");      
+        AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
         StudentCourseDetailsPageData pageData = new StudentCourseDetailsPageData(account);
               
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");        
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         
         CourseDetailsBundle courseDetails = new CourseDetailsBundle(course);
@@ -80,7 +80,7 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         
         ______TS("student in unregistered course");
         
-        student = dataBundle.students.get("student1InUnregisteredCourse");        
+        student = dataBundle.students.get("student1InUnregisteredCourse");
         course = dataBundle.courses.get("unregisteredCourse");
         
         courseDetails = new CourseDetailsBundle(course);
@@ -107,7 +107,7 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         assertEquals(courseDetails.course.getName(), pageData.getStudentCourseDetailsPanel().getCourseName());
         assertEquals(courseDetails.course.getId(), pageData.getStudentCourseDetailsPanel().getCourseId());
         
-        assertFalse(courseInstructors.isEmpty());        
+        assertFalse(courseInstructors.isEmpty());
         assertFalse(teammates.isEmpty());
         
         assertEquals(student.email, pageData.getStudentCourseDetailsPanel().getStudentEmail());
@@ -122,7 +122,7 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         
         ______TS("student in archived course");
               
-        student = dataBundle.students.get("student1InArchivedCourse");        
+        student = dataBundle.students.get("student1InArchivedCourse");
         course = dataBundle.courses.get("archivedCourse");
         
         courseDetails = new CourseDetailsBundle(course);
@@ -149,7 +149,7 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         assertEquals(courseDetails.course.getName(), pageData.getStudentCourseDetailsPanel().getCourseName());
         assertEquals(courseDetails.course.getId(), pageData.getStudentCourseDetailsPanel().getCourseId());
         
-        assertFalse(courseInstructors.isEmpty());        
+        assertFalse(courseInstructors.isEmpty());
         assertFalse(teammates.isEmpty());
         
         assertEquals(student.email, pageData.getStudentCourseDetailsPanel().getStudentEmail());

@@ -94,7 +94,7 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                     "IFQSubmitUiT.instr@gmail.tmt",
                     "IFQSubmitUiT.instr@gmail.tmt").getResponseDetails().getAnswerString());
         
-        ______TS("edit existing response");        
+        ______TS("edit existing response");
         
         String editedResponse = "Edited self feedback.";
         submitPage.fillResponseTextBox(1, 0, editedResponse);

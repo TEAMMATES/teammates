@@ -5,7 +5,7 @@ import teammates.common.util.Const;
 /**
  * Represents submission statistics for the feedback session.
  * <br> Contains:
- * <br> * The total number of students who were expected to submit. 
+ * <br> * The total number of students who were expected to submit.
  * <br> * The total number of students who submitted .
  */
 public class FeedbackSessionStats {

@@ -19,14 +19,14 @@ public class InstructorFeedbackRemindParticularStudentsPageAction extends Action
         Assumption.assertNotNull(feedbackSessionName);
         
         FeedbackSessionAttributes fsa = logic.getFeedbackSession(feedbackSessionName, courseId);
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);        
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(instructor, fsa, false);
         
-        FeedbackSessionResponseStatus fsResponseStatus = 
+        FeedbackSessionResponseStatus fsResponseStatus =
                 logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);
         
-        InstructorFeedbackRemindParticularStudentsPageData data = 
-                new InstructorFeedbackRemindParticularStudentsPageData(account, fsResponseStatus, 
+        InstructorFeedbackRemindParticularStudentsPageData data =
+                new InstructorFeedbackRemindParticularStudentsPageData(account, fsResponseStatus,
                                                                        courseId, feedbackSessionName);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL, data);

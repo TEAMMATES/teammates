@@ -47,10 +47,10 @@ public class SessionAttributesTest extends BaseTestCase {
         testList.add(s4);
         testList.add(s5);
         
-        expected.add(s1); 
-        expected.add(s3); 
+        expected.add(s1);
+        expected.add(s3);
         expected.add(s4);
-        expected.add(s2); 
+        expected.add(s2);
         expected.add(s5);
         
         Collections.sort(testList, SessionAttributes.ASCENDING_ORDER);
@@ -88,7 +88,7 @@ public class SessionAttributesTest extends BaseTestCase {
         public Date endTime;
         public String name;
         
-        public MiniEval(Date startTime, Date endTime, String name) {
+        MiniEval(Date startTime, Date endTime, String name) {
             this.startTime = startTime;
             this.endTime = endTime;
             this.name = name;
@@ -117,7 +117,7 @@ public class SessionAttributesTest extends BaseTestCase {
         public Date endTime;
         public String name;
         
-        public MiniFeedback(Date startTime, Date endTime, String name) {
+        MiniFeedback(Date startTime, Date endTime, String name) {
             this.startTime = startTime;
             this.endTime = endTime;
             this.name = name;

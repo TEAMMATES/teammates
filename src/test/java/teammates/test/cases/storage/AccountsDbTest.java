@@ -191,7 +191,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.studentProfile.shortName = "Edite";
         accountsDb.updateAccount(a, true);
         
-        actualAccount = accountsDb.getAccount(a.googleId, true);        
+        actualAccount = accountsDb.getAccount(a.googleId, true);
         assertEquals(a.studentProfile.shortName, actualAccount.studentProfile.shortName);
         
         ______TS("success: profile not modified in the default case");

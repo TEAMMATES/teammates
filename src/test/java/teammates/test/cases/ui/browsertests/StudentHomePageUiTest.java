@@ -18,8 +18,8 @@ import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
 
 /**
- * Covers Homepage and Login page for students. Some part of it is using a 
- * real Google account alice.tmms. <br> 
+ * Covers Homepage and Login page for students. Some part of it is using a
+ * real Google account alice.tmms. <br>
  * SUT: {@link StudentHelpPage} and {@link LoginPage} for students.
  */
 public class StudentHomePageUiTest extends BaseUiTestCase {
@@ -35,7 +35,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         // use the 1st student account injected for this test
        
-        String student1GoogleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+        String student1GoogleId = TestProperties.TEST_STUDENT1_ACCOUNT;
         String student1Email = student1GoogleId + "@gmail.com";
         testData.accounts.get("alice.tmms").googleId = student1GoogleId;
         testData.accounts.get("alice.tmms").email = student1Email;
@@ -56,9 +56,9 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser(true);
     }
 
-    @Test    
+    @Test
     public void allTests() throws Exception {
-        testContentAndLogin();        
+        testContentAndLogin();
         testLinks();
         testLinkAndContentAfterDelete();
     }
@@ -67,8 +67,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         ______TS("content: no courses, 'welcome stranger' message");
         
-        String unregUserId = TestProperties.inst().TEST_UNREG_ACCOUNT;
-        String unregPassword = TestProperties.inst().TEST_UNREG_PASSWORD;
+        String unregUserId = TestProperties.TEST_UNREG_ACCOUNT;
+        String unregPassword = TestProperties.TEST_UNREG_PASSWORD;
         BackDoor.deleteAccount(unregUserId); //delete account if it exists
         
         logout(browser);
@@ -90,8 +90,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         studentHome = getHomePage(browser)
                               .clickStudentLogin()
-                              .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT, 
-                                              TestProperties.inst().TEST_STUDENT1_PASSWORD);
+                              .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
+                                              TestProperties.TEST_STUDENT1_PASSWORD);
             
         ______TS("content: multiple courses");
         
@@ -180,7 +180,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         ______TS("access the feedback session exactly after it is deleted");
         
-        BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");     
+        BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");
         studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
         studentHomePage.waitForPageToLoad();
         studentHomePage.verifyHtmlMainContent("/studentHomeFeedbackDeletedHTML.html");

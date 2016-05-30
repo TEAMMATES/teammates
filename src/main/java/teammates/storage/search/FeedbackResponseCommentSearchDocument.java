@@ -147,7 +147,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         //it contains
         //courseId, courseName, feedback session name, question number, question title
         //response answer
-        //commentGiverEmail, commentGiverName, 
+        //commentGiverEmail, commentGiverName,
         //related people's information, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(comment.courseId).append(delim)
@@ -164,10 +164,10 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         //for data-migration use
         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion || comment.isVisibleTo(FeedbackParticipantType.GIVER);
-        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion 
+        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion
                                     ? relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                                     : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
-        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion 
+        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion
                                       ? relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
                                       : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
         

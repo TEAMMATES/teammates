@@ -172,9 +172,9 @@ public class InstructorCourseEditPage extends AppPage {
          *  Therefore the formula for the position of the details link of the group i-th (count from 1) is i * 3 - 1
          */
         int cssLinkNum = viewLinkNum * 3 - 1;
-        WebElement viewLink = 
+        WebElement viewLink =
                 browser.driver.findElement(
-                        By.cssSelector("#accessControlEditDivForInstr" + instrNum 
+                        By.cssSelector("#accessControlEditDivForInstr" + instrNum
                                        + " > div.form-group > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
         
         viewLink.click();
@@ -193,14 +193,14 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public boolean isPrivilegeCheckboxInModalChecked(String privilege) {
-        By selector = By.cssSelector("#tunePermissionsDivForInstructorAll input[type='checkbox'][name='" 
+        By selector = By.cssSelector("#tunePermissionsDivForInstructorAll input[type='checkbox'][name='"
                                      + privilege + "']");
         WebElement checkbox = browser.driver.findElement(selector);
         return checkbox.isSelected();
     }
     
     public boolean isPrivilegeCheckboxInPermissionDivChecked(int instructorIndex, String privilege) {
-        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instructorIndex 
+        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instructorIndex
                                      + " input[type='checkbox'][name='" + privilege + "']");
         WebElement checkbox = browser.driver.findElement(selector);
         return checkbox.isSelected();
@@ -349,7 +349,7 @@ public class InstructorCourseEditPage extends AppPage {
      * Click the delete instructor button at position {@code instrNum} and click "Yes" in the follow up dialog
      * @param instrNum is the position of the instructor (e.g. 1, 2, 3, ...)
      */
-    public void clickDeleteInstructorLinkAndConfirm(int instrNum) { 
+    public void clickDeleteInstructorLinkAndConfirm(int instrNum) {
         WebElement deleteInstructorLink = browser.driver.findElement(By.id("instrDeleteLink" + instrNum));
         clickAndConfirm(deleteInstructorLink);
         waitForPageToLoad();

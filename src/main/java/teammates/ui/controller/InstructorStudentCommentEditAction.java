@@ -29,7 +29,7 @@ import com.google.appengine.api.datastore.Text;
 public class InstructorStudentCommentEditAction extends Action {
 
     @Override
-    protected ActionResult execute()  throws EntityDoesNotExistException {
+    protected ActionResult execute() throws EntityDoesNotExistException {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
@@ -53,17 +53,17 @@ public class InstructorStudentCommentEditAction extends Action {
                 logic.putDocument(updatedComment);
                 
                 statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_EDITED, StatusMessageColor.SUCCESS));
-                statusToAdmin = "Edited Comment for Student:<span class=\"bold\">(" 
-                        + comment.recipients + ")</span> for Course <span class=\"bold\">[" 
-                        + comment.courseId + "]</span><br>" 
+                statusToAdmin = "Edited Comment for Student:<span class=\"bold\">("
+                        + comment.recipients + ")</span> for Course <span class=\"bold\">["
+                        + comment.courseId + "]</span><br>"
                         + "<span class=\"bold\">Comment:</span> " + comment.commentText;
             } else if ("delete".equals(editType)) {
                 logic.deleteDocument(comment);
                 logic.deleteComment(comment);
                 statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_DELETED, StatusMessageColor.SUCCESS));
-                statusToAdmin = "Deleted Comment for Student:<span class=\"bold\">(" 
-                        + comment.recipients + ")</span> for Course <span class=\"bold\">[" 
-                        + comment.courseId + "]</span><br>" 
+                statusToAdmin = "Deleted Comment for Student:<span class=\"bold\">("
+                        + comment.recipients + ")</span> for Course <span class=\"bold\">["
+                        + comment.courseId + "]</span><br>"
                         + "<span class=\"bold\">Comment:</span> " + comment.commentText;
             }
         } catch (InvalidParametersException e) {
@@ -73,10 +73,10 @@ public class InstructorStudentCommentEditAction extends Action {
             isError = true;
         }
         
-        return isFromCommentPage 
-             ? createRedirectResult(new PageData(account).getInstructorCommentsLink() 
+        return isFromCommentPage
+             ? createRedirectResult(new PageData(account).getInstructorCommentsLink()
                                     + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId)
-             : createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail)); 
+             : createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail));
     }
 
     private void verifyAccessibleByInstructor(String courseId, String commentId) {
@@ -148,7 +148,7 @@ public class InstructorStudentCommentEditAction extends Action {
         
         comment.setCommentId(Long.valueOf(commentId));
         comment.courseId = courseId;
-        comment.giverEmail = instructorDetailForCourse.email; 
+        comment.giverEmail = instructorDetailForCourse.email;
         if (recipientType == null) {
             comment.recipientType = null;
         } else {

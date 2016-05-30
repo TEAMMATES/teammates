@@ -68,8 +68,8 @@ public class FeedbackResponseCommentsLogic {
                 }
                 frComment.setId(existingComment.getId());
                 
-                return frcDb.updateFeedbackResponseComment(frComment);            
-            } catch (Exception EntityDoesNotExistException) {
+                return frcDb.updateFeedbackResponseComment(frComment);
+            } catch (Exception ex) {
                 Assumption.fail();
                 return null;
             }
@@ -103,12 +103,12 @@ public class FeedbackResponseCommentsLogic {
     }
     
     public void updateFeedbackResponseCommentsForChangingResponseId(
-            String oldResponseId, String newResponseId) 
+            String oldResponseId, String newResponseId)
             throws InvalidParametersException, EntityDoesNotExistException {
-        List<FeedbackResponseCommentAttributes> responseComments = 
+        List<FeedbackResponseCommentAttributes> responseComments =
                 getFeedbackResponseCommentForResponse(oldResponseId);
         for (FeedbackResponseCommentAttributes responseComment : responseComments) {
-            responseComment.feedbackResponseId = newResponseId;         
+            responseComment.feedbackResponseId = newResponseId;
             updateFeedbackResponseComment(responseComment);
         }
     }
@@ -132,11 +132,11 @@ public class FeedbackResponseCommentsLogic {
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
                                                      FeedbackResponseCommentAttributes feedbackResponseComment)
                                                      throws InvalidParametersException, EntityDoesNotExistException {
-        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);    
+        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(
-                                                           String courseId, CommentSendingState state) 
+                                                           String courseId, CommentSendingState state)
                                                            throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId);
         
@@ -152,14 +152,14 @@ public class FeedbackResponseCommentsLogic {
     }
     
     public void updateFeedbackResponseCommentsSendingState(
-            String courseId, CommentSendingState oldState, CommentSendingState newState) 
+            String courseId, CommentSendingState oldState, CommentSendingState newState)
             throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId);
         
         List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes fs : feedbackSessions) {
             if (fs.isPublished()) {
-                frcDb.updateFeedbackResponseComments(courseId, fs.feedbackSessionName, oldState, newState);    
+                frcDb.updateFeedbackResponseComments(courseId, fs.feedbackSessionName, oldState, newState);
             }
         }
     }
@@ -192,7 +192,7 @@ public class FeedbackResponseCommentsLogic {
     }
     
     public void deleteFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
-        frcDb.deleteEntity(feedbackResponseComment);    
+        frcDb.deleteEntity(feedbackResponseComment);
     }
     
     /**
@@ -252,7 +252,7 @@ public class FeedbackResponseCommentsLogic {
             } else if (type == FeedbackParticipantType.STUDENTS && roster.getStudentForEmail(userEmail) != null) {
                 return true;
             }
-        }   
+        }
         return false;
     }
     
@@ -269,7 +269,7 @@ public class FeedbackResponseCommentsLogic {
         }
         
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion 
+        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
                                  || relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
         
         boolean isVisibleResponseComment = false;
@@ -291,8 +291,8 @@ public class FeedbackResponseCommentsLogic {
                 userIsStudent && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                                             FeedbackParticipantType.STUDENTS);
         
-        boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients = 
-                userIsStudent 
+        boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients =
+                userIsStudent
                 && relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
                 && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.RECEIVER)
@@ -325,8 +325,8 @@ public class FeedbackResponseCommentsLogic {
                                                FeedbackResponseCommentAttributes relatedComment,
                                                FeedbackParticipantType viewerType) {
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion 
-                            ? relatedQuestion.isResponseVisibleTo(viewerType) 
+        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion
+                            ? relatedQuestion.isResponseVisibleTo(viewerType)
                             : relatedComment.isVisibleTo(viewerType);
         return isVisibleTo;
     }
@@ -350,7 +350,7 @@ public class FeedbackResponseCommentsLogic {
             throws EntityDoesNotExistException {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
         if (session == null) {
-            throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName 
+            throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName
                                                 + " is not a session for course " + courseId + ".");
         }
     }

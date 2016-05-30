@@ -32,7 +32,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
             try {
                 updateFeedbackSession(session);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is 
+             // This situation is not tested as replicating such a situation is
              // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
@@ -43,12 +43,12 @@ public class FeedbackSessionsDb extends EntitiesDb {
         
         List<FeedbackSessionAttributes> list = new LinkedList<FeedbackSessionAttributes>();
         
-        final Query endTimequery = getPM().newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
+        final Query endTimequery = getPm().newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
                                                     + "WHERE this.endTime>rangeStart && this.endTime<=rangeEnd "
                                                     + " PARAMETERS java.util.Date rangeStart, "
                                                     + "java.util.Date rangeEnd");
 
-        final Query startTimequery = getPM().newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
+        final Query startTimequery = getPm().newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
                                                       + "WHERE this.startTime>=rangeStart && this.startTime<rangeEnd "
                                                       + "PARAMETERS java.util.Date rangeStart, "
                                                       + "java.util.Date rangeEnd");
@@ -67,11 +67,11 @@ public class FeedbackSessionsDb extends EntitiesDb {
         List<FeedbackSession> startEntities = (List<FeedbackSession>) startTimequery.execute(curStart, curEnd);
         
         List<FeedbackSession> endTimeEntities = new ArrayList<FeedbackSession>(endEntities);
-        List<FeedbackSession> startTimeEntities = new ArrayList<FeedbackSession>(startEntities); 
+        List<FeedbackSession> startTimeEntities = new ArrayList<FeedbackSession>(startEntities);
         
         endTimeEntities.removeAll(startTimeEntities);
         startTimeEntities.removeAll(endTimeEntities);
-        endTimeEntities.addAll(startTimeEntities);        
+        endTimeEntities.addAll(startTimeEntities);
                     
         
         Iterator<FeedbackSession> it = endTimeEntities.iterator();
@@ -105,7 +105,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return Null if not found.
      */
     public FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
@@ -119,7 +119,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
             log.info("Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
             return null;
         }
-        return new FeedbackSessionAttributes(fs);    
+        return new FeedbackSessionAttributes(fs);
         
     }
     
@@ -129,10 +129,10 @@ public class FeedbackSessionsDb extends EntitiesDb {
      */
     @Deprecated
     public List<FeedbackSessionAttributes> getAllFeedbackSessions() {
-        List<FeedbackSession> allFS = getAllFeedbackSessionEntities();
+        List<FeedbackSession> allFs = getAllFeedbackSessionEntities();
         List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
         
-        for (FeedbackSession fs : allFS) {
+        for (FeedbackSession fs : allFs) {
             if (!JDOHelper.isDeleted(fs)) {
                 fsaList.add(new FeedbackSessionAttributes(fs));
             }
@@ -142,7 +142,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return An empty list if no non-private sessions are found.
      */
     public List<FeedbackSessionAttributes> getNonPrivateFeedbackSessions() {
@@ -160,7 +160,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return An empty list if no sessions are found for the given course.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
@@ -180,7 +180,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return An empty list if no sessions are found that have unsent open emails.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWithUnsentOpenEmail() {
@@ -198,7 +198,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     
     /**
      * Preconditions: <br>
-     * * All parameters are non-null. 
+     * * All parameters are non-null.
      * @return An empty list if no sessions are found that have unsent published emails.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWithUnsentPublishedEmail() {
@@ -216,19 +216,19 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
     
     /**
-     * Updates the feedback session identified by {@code newAttributes.feedbackSesionName} 
-     * and {@code newAttributes.courseId}. 
-     * For the remaining parameters, the existing value is preserved 
-     *   if the parameter is null (due to 'keep existing' policy).<br> 
+     * Updates the feedback session identified by {@code newAttributes.feedbackSesionName}
+     * and {@code newAttributes.courseId}.
+     * For the remaining parameters, the existing value is preserved
+     *   if the parameter is null (due to 'keep existing' policy).<br>
      * Preconditions: <br>
      * * {@code newAttributes.feedbackSesionName} and {@code newAttributes.courseId}
      *  are non-null and correspond to an existing feedback session. <br>
      */
-    public void updateFeedbackSession(FeedbackSessionAttributes newAttributes) 
+    public void updateFeedbackSession(FeedbackSessionAttributes newAttributes)
         throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(
-                Const.StatusCodes.DBLEVEL_NULL_INPUT, 
+                Const.StatusCodes.DBLEVEL_NULL_INPUT,
                 newAttributes);
         
         newAttributes.sanitizeForSaving();
@@ -258,7 +258,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled);
                 
         log.info(newAttributes.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
 
     public void addInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
@@ -288,7 +288,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.getRespondingInstructorList().addAll(emails);
         
         log.info(feedbackSession.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
 
     public void updateInstructorRespondant(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
@@ -315,7 +315,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
        
         log.info(feedbackSession.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
 
     public void clearInstructorRespondants(FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
@@ -337,7 +337,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.getRespondingInstructorList().clear();
 
         log.info(feedbackSession.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
 
     public void addStudentRespondant(String email, FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException, InvalidParametersException {
@@ -367,7 +367,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.getRespondingInstructorList().remove(email);
 
         log.info(feedbackSession.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
 
     public void addStudentRespondants(List<String> emails, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
@@ -390,7 +390,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.getRespondingStudentList().addAll(emails);
 
         log.info(feedbackSession.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
 
     public void updateStudentRespondant(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
@@ -417,7 +417,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
         
         log.info(feedbackSession.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
 
     public void clearStudentRespondants(FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
@@ -439,7 +439,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.getRespondingStudentList().clear();
 
         log.info(feedbackSession.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
 
     public void deleteStudentRespondant(String email, FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException, InvalidParametersException {
@@ -462,7 +462,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.getRespondingStudentList().remove(email);
 
         log.info(feedbackSession.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
     
     public void deleteFeedbackSessionsForCourse(String courseId) {
@@ -478,28 +478,28 @@ public class FeedbackSessionsDb extends EntitiesDb {
         
         List<FeedbackSession> feedbackSessionList = getFeedbackSessionEntitiesForCourses(courseIds);
         
-        getPM().deletePersistentAll(feedbackSessionList);
-        getPM().flush();
+        getPm().deletePersistentAll(feedbackSessionList);
+        getPm().flush();
     }
     
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourses(List<String> courseIds) {
-        Query q = getPM().newQuery(FeedbackSession.class);
+        Query q = getPm().newQuery(FeedbackSession.class);
         q.setFilter(":p.contains(courseId)");
         
         return (List<FeedbackSession>) q.execute(courseIds);
     }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getAllFeedbackSessionEntities() {        
-        Query q = getPM().newQuery(FeedbackSession.class);
+    private List<FeedbackSession> getAllFeedbackSessionEntities() {
+        Query q = getPm().newQuery(FeedbackSession.class);
 
         return (List<FeedbackSession>) q.execute();
     }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getNonPrivateFeedbackSessionEntities() {        
-        Query q = getPM().newQuery(FeedbackSession.class);
+    private List<FeedbackSession> getNonPrivateFeedbackSessionEntities() {
+        Query q = getPm().newQuery(FeedbackSession.class);
         q.declareParameters("Enum private");
         q.setFilter("feedbackSessionType != private");
         
@@ -507,8 +507,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {        
-        Query q = getPM().newQuery(FeedbackSession.class);
+    private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
+        Query q = getPm().newQuery(FeedbackSession.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
         
@@ -517,16 +517,16 @@ public class FeedbackSessionsDb extends EntitiesDb {
     
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentOpenEmail() {
-        Query q = getPM().newQuery(FeedbackSession.class);
+        Query q = getPm().newQuery(FeedbackSession.class);
         q.declareParameters("boolean sentParam, Enum notTypeParam");
         q.setFilter("sentOpenEmail == sentParam && feedbackSessionType != notTypeParam");
         
         return (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
-    }    
+    }
     
     @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentPublishedEmail() {        
-        Query q = getPM().newQuery(FeedbackSession.class);
+    private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentPublishedEmail() {
+        Query q = getPm().newQuery(FeedbackSession.class);
         q.declareParameters("boolean sentParam, Enum notTypeParam");
         q.setFilter("sentPublishedEmail == sentParam && feedbackSessionType != notTypeParam");
         
@@ -535,7 +535,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     
     private FeedbackSession getFeedbackSessionEntity(String feedbackSessionName, String courseId) {
         
-        Query q = getPM().newQuery(FeedbackSession.class);
+        Query q = getPm().newQuery(FeedbackSession.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
 
@@ -554,5 +554,5 @@ public class FeedbackSessionsDb extends EntitiesDb {
     protected Object getEntity(EntityAttributes attributes) {
         FeedbackSessionAttributes feedbackSessionToGet = (FeedbackSessionAttributes) attributes;
         return getFeedbackSessionEntity(feedbackSessionToGet.feedbackSessionName, feedbackSessionToGet.courseId);
-    }    
+    }
 }

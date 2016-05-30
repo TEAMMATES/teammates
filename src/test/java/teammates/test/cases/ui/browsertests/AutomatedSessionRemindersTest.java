@@ -31,7 +31,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
          * In this test, we set the email address of the accounts to be the same as the
          * support email address. When running the test against a production server,
          * email alerts will be sent to the specified support email address.
-         * The tester should manually check the email box after running the test suite. 
+         * The tester should manually check the email box after running the test suite.
          */
         
         testData.accounts.get("instructorWithEvals").email = Config.SUPPORT_EMAIL;

@@ -40,7 +40,7 @@ public class TeamEvalResult {
     public List<String> studentEmails;
 
     public TeamEvalResult(int[][] submissionValues) {
-        /*This is the only method that should be public. However, many of the 
+        /*This is the only method that should be public. However, many of the
          * other methods are set as public for the ease of testing.
          */
 
@@ -299,7 +299,7 @@ public class TeamEvalResult {
     private static double[] intToDouble(int[] input) {
         double[] converted = new double[input.length];
         for (int i = 0; i < input.length; i++) {
-            converted[i] = (double) input[i];  
+            converted[i] = (double) input[i];
         }
         return converted;
     }

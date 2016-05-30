@@ -24,7 +24,7 @@ public class StudentCommentsPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser(true);
     }
     
-    @Test 
+    @Test
     public void allTests() throws Exception {
         testContent();
     }
