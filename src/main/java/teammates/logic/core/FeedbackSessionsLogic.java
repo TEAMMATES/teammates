@@ -819,7 +819,7 @@ public class FeedbackSessionsLogic {
         long indicatedRange = (section == null) ? 10000 : -1;
         FeedbackSessionResultsBundle results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
                 feedbackSessionName, courseId, userEmail, section,
-                indicatedRange, "question");
+                indicatedRange, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);
         
         if (!results.isComplete) {
             throw new ExceedingRangeException("Number of responses exceeds the limited range");
@@ -2111,8 +2111,8 @@ public class FeedbackSessionsLogic {
         }
 
         if (params.get("viewType") == null
-                || "giver-recipient-question".equals(params.get("viewType"))
-                || "recipient-giver-question".equals(params.get("viewType"))) {
+                || Const.FeedbackSessionResults.GRQ_SORT_TYPE.equals(params.get("viewType"))
+                || Const.FeedbackSessionResults.RGQ_SORT_TYPE.equals(params.get("viewType"))) {
             List<FeedbackResponseCommentAttributes> allResponseComments =
                     frcLogic.getFeedbackResponseCommentForSessionInSection(courseId,
                             feedbackSessionName, section);
