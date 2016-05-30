@@ -244,32 +244,29 @@ public class InstructorCourseEditPage extends AppPage {
     
     private WebElement sectionLevelPanelCheckBox(int instrNum, int sectionLevelNum, String checkBoxName) {
         WebElement sectionPanel = this.sectionLevelPanel(instrNum, sectionLevelNum);
-        String cssSelector = "input[type='checkbox'][name='" + checkBoxName + sectionLevelNum + "']";
+        String cssSelector = "input[type='checkbox'][name='" + checkBoxName
+                             + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionLevelNum + "']";
         return sectionPanel.findElement(By.cssSelector(cssSelector));
     }
     
     public void clickViewStudentCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
         this.sectionLevelPanelCheckBox(instrNum, sectionLevelNum,
-                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS
-                                       + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP).click();
+                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS).click();
     }
     
     public void clickViewOthersCommentsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
         this.sectionLevelPanelCheckBox(instrNum, sectionLevelNum,
-                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS
-                                       + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP).click();
+                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS).click();
     }
     
     public void clickViewSessionResultsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
         this.sectionLevelPanelCheckBox(instrNum, sectionLevelNum,
-                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
-                                       + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP).click();
+                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS).click();
     }
     
     public void clickModifySessionResultCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
         this.sectionLevelPanelCheckBox(instrNum, sectionLevelNum,
-                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
-                                       + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP).click();
+                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS).click();
     }
     
     public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelNum) {
