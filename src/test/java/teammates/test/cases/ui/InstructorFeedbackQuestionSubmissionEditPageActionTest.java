@@ -24,7 +24,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 

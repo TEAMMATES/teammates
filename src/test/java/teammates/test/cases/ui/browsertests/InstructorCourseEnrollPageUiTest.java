@@ -58,7 +58,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage.verifyHtml("/InstructorCourseEnrollPage.html");
     }
 
-    private void testSampleLink() throws Exception {
+    private void testSampleLink() {
         
         ______TS("link for the sample spreadsheet");
         enrollPage.clickSpreadsheetLink();

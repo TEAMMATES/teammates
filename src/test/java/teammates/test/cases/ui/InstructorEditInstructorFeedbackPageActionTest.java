@@ -26,7 +26,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("IEIFPTCourseinstr");
         InstructorAttributes moderatedInstructor = dataBundle.instructors.get("IEIFPTCoursehelper1");
         InstructorEditInstructorFeedbackPageAction editInstructorFpAction;

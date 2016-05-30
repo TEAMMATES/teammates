@@ -23,7 +23,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
         InstructorAttributes instructorHelper = dataBundle.instructors.get("helperOfCourse1");

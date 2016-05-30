@@ -26,7 +26,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
         InstructorAttributes instructorHelper = dataBundle.instructors.get("IESFPTCoursehelper1");
         String idOfInstructor = instructor.googleId;

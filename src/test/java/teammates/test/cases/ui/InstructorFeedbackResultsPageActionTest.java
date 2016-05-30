@@ -23,7 +23,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
         String[] paramsWithoutSortType = {

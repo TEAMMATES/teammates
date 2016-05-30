@@ -24,7 +24,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);

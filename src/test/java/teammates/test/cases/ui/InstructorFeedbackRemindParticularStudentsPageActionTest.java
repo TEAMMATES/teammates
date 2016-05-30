@@ -24,7 +24,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");

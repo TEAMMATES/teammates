@@ -36,7 +36,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessMsq() throws Exception {
+    public void testExecuteAndPostProcessMsq() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -177,7 +177,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessMcq() throws Exception {
+    public void testExecuteAndPostProcessMcq() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -319,7 +319,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessNumScale() throws Exception {
+    public void testExecuteAndPostProcessNumScale() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -369,7 +369,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessConstSumOption() throws Exception {
+    public void testExecuteAndPostProcessConstSumOption() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -424,7 +424,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessConstSumRecipient() throws Exception {
+    public void testExecuteAndPostProcessConstSumRecipient() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -476,7 +476,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessContributionQuestion() throws Exception {
+    public void testExecuteAndPostProcessContributionQuestion() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -567,7 +567,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessRubricQuestion() throws Exception {
+    public void testExecuteAndPostProcessRubricQuestion() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -625,7 +625,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
