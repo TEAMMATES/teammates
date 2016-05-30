@@ -232,25 +232,29 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public void clickViewStudentCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        String cssSelector = "input[type=\"checkbox\"][name=\"canviewstudentinsectionsectiongroup"
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                             + " input[type=\"checkbox\"][name=\"canviewstudentinsectionsectiongroup"
                              + sectionLevelNum + "\"]";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickViewOthersCommentsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        String cssSelector = "input[type=\"checkbox\"][name=\"canviewcommentinsectionsectiongroup"
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                             + " input[type=\"checkbox\"][name=\"canviewcommentinsectionsectiongroup"
                              + sectionLevelNum + "\"]";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickViewSessionResultsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        String cssSelector = "input[type=\"checkbox\"][name=\"canviewsessioninsectionsectiongroup"
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                             + " input[type=\"checkbox\"][name=\"canviewsessioninsectionsectiongroup"
                              + sectionLevelNum + "\"]";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickModifySessionResultCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        String cssSelector = "input[type=\"checkbox\"][name=\"canmodifysessioncommentinsectionsectiongroup"
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                             + " input[type=\"checkbox\"][name=\"canmodifysessioncommentinsectionsectiongroup"
                              + sectionLevelNum + "\"]";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
