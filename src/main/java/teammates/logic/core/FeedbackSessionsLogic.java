@@ -72,31 +72,24 @@ public class FeedbackSessionsLogic {
     private static final String KEY_VIEW_TYPE = "viewType";
     private static final String VALUE_FALSE = "false";
     private static final String VALUE_TRUE = "true";
-    private static final String STRING_EMPTY = "";
     private static final String STRING_PERIOD = ".";
     private static final String STRING_COLON = ": ";
-    private static final String ERROR_SESSION_DOES_NOT_EXIST_STRING_FORMAT = "Trying to %s feedback session%s that does not exist%s";
+    private static final String ERROR_SESSION_DOES_NOT_EXIST_STRING_FORMAT = "Trying to %s a feedback session that does not exist%s";
+    private static final String ERROR_SESSION_DOES_NOT_EXIST_EXTRA_PARAM_STRING_FORMAT = "Trying to %s feedback session%s that does not exist.";
     private static final String ERROR_NON_EXISTENT_FS_GET = String.format(ERROR_SESSION_DOES_NOT_EXIST_STRING_FORMAT,
-                                                                          "get a", STRING_EMPTY,
-                                                                          STRING_PERIOD);
-    private static final String ERROR_NON_EXISTENT_FS_GET_FOR_COURSE = String.format(ERROR_SESSION_DOES_NOT_EXIST_STRING_FORMAT,
-                                                                                     "get", "s for a course",
-                                                                                     STRING_PERIOD);
-    private static final String ERROR_NON_EXISTENT_FS_GET_FOR_STUDENT = String.format(ERROR_SESSION_DOES_NOT_EXIST_STRING_FORMAT,
-                                                                                      "get a", " for student",
-                                                                                      STRING_PERIOD);
+                                                                          "get", STRING_PERIOD);
+    private static final String ERROR_NON_EXISTENT_FS_GET_FOR_COURSE = String.format(ERROR_SESSION_DOES_NOT_EXIST_EXTRA_PARAM_STRING_FORMAT,
+                                                                                     "get", "s for a course");
+    private static final String ERROR_NON_EXISTENT_FS_GET_FOR_STUDENT = String.format(ERROR_SESSION_DOES_NOT_EXIST_EXTRA_PARAM_STRING_FORMAT,
+                                                                                      "get a", " for student");
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_SESSION_DOES_NOT_EXIST_STRING_FORMAT,
-                                                                             "update a", STRING_EMPTY,
-                                                                             STRING_PERIOD);
+                                                                             "update", STRING_PERIOD);
     private static final String ERROR_NON_EXISTENT_FS_CHECK = String.format(ERROR_SESSION_DOES_NOT_EXIST_STRING_FORMAT,
-                                                                            "check a", STRING_EMPTY,
-                                                                            STRING_PERIOD);
+                                                                            "check", STRING_PERIOD);
     private static final String ERROR_NON_EXISTENT_FS_REMIND = String.format(ERROR_SESSION_DOES_NOT_EXIST_STRING_FORMAT,
-                                                                             "remind a", STRING_EMPTY,
-                                                                             STRING_COLON);
+                                                                             "remind", STRING_COLON);
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_SESSION_DOES_NOT_EXIST_STRING_FORMAT,
-                                                                           "view a", STRING_EMPTY,
-                                                                           STRING_PERIOD);
+                                                                           "view", STRING_PERIOD);
     
     private static FeedbackSessionsLogic instance;
 
