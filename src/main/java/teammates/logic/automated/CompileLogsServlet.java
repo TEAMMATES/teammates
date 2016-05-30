@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.Const;
 
-
 @SuppressWarnings("serial")
 public class CompileLogsServlet extends AutomatedRemindersServlet {
     

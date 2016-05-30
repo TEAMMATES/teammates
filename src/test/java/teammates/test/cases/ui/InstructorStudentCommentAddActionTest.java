@@ -47,7 +47,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.COURSE_ID), e.getMessage());
         }
        
@@ -63,7 +63,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.STUDENT_EMAIL), e.getMessage());
         }
         
@@ -79,9 +79,9 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.COMMENT_TEXT), e.getMessage());
-        }  
+        }
         
         ______TS("Unsuccessful case: non-existent team");
         
@@ -99,7 +99,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
             signalFailureToDetectException("Did not detect that team does not exist.");
         } catch (AssertionError e) {
             assertEquals("null", e.getMessage());
-        }  
+        }
         
         ______TS("Unsuccessful case: non-existent student");
         
@@ -117,7 +117,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
             signalFailureToDetectException("Did not detect that student does not exist.");
         } catch (AssertionError e) {
             assertEquals("null", e.getMessage());
-        }  
+        }
        
         ______TS("Typical success case from student records page");
         
@@ -141,13 +141,13 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
-        String expectedLogMessage = 
-                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd" 
-                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3" 
-                + "|||instr3@course1n2.tmt|||" 
-                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> " 
-                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" 
-                + "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" 
+        String expectedLogMessage =
+                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
+                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
+                + "|||instr3@course1n2.tmt|||"
+                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> "
+                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
+                + "<span class=\"bold\">Comment:</span> " + "<Text: A typical comment to be added>"
                 + "|||/page/instructorStudentCommentAdd";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -174,13 +174,13 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
-        expectedLogMessage = 
-                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd" 
-                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3" 
-                + "|||instr3@course1n2.tmt|||" 
-                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> " 
-                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" 
-                + "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" 
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
+                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
+                + "|||instr3@course1n2.tmt|||"
+                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> "
+                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
+                + "<span class=\"bold\">Comment:</span> " + "<Text: A typical comment to be added>"
                 + "|||/page/instructorStudentCommentAdd";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -208,13 +208,13 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
-        expectedLogMessage = 
-                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd" 
-                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3" 
-                + "|||instr3@course1n2.tmt|||" 
-                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> " 
-                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" 
-                + "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" 
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
+                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
+                + "|||instr3@course1n2.tmt|||"
+                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> "
+                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
+                + "<span class=\"bold\">Comment:</span> " + "<Text: A typical comment to be added>"
                 + "|||/page/instructorStudentCommentAdd";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -241,13 +241,13 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
-        expectedLogMessage = 
-                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd" 
-                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3" 
-                + "|||instr3@course1n2.tmt|||" 
-                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> " 
-                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" 
-                + "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" 
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
+                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
+                + "|||instr3@course1n2.tmt|||"
+                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> "
+                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
+                + "<span class=\"bold\">Comment:</span> " + "<Text: A typical comment to be added>"
                 + "|||/page/instructorStudentCommentAdd";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -274,13 +274,13 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
-        expectedLogMessage = 
-                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd" 
-                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3" 
-                + "|||instr3@course1n2.tmt|||" 
-                + "Created Comment for Student:<span class=\"bold\">([" + student.course + "])</span> " 
-                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" 
-                + "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" 
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
+                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
+                + "|||instr3@course1n2.tmt|||"
+                + "Created Comment for Student:<span class=\"bold\">([" + student.course + "])</span> "
+                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
+                + "<span class=\"bold\">Comment:</span> " + "<Text: A typical comment to be added>"
                 + "|||/page/instructorStudentCommentAdd";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -307,13 +307,13 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
-        expectedLogMessage = 
-                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd" 
-                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3" 
-                + "|||instr3@course1n2.tmt|||" 
-                + "Created Comment for Student:<span class=\"bold\">([" + student.section + "])</span> " 
-                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" 
-                + "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" 
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
+                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
+                + "|||instr3@course1n2.tmt|||"
+                + "Created Comment for Student:<span class=\"bold\">([" + student.section + "])</span> "
+                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
+                + "<span class=\"bold\">Comment:</span> " + "<Text: A typical comment to be added>"
                 + "|||/page/instructorStudentCommentAdd";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -340,13 +340,13 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
-        expectedLogMessage = 
-                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd" 
-                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3" 
-                + "|||instr3@course1n2.tmt|||" 
-                + "Created Comment for Student:<span class=\"bold\">([" + Sanitizer.sanitizeForHtml(student.team) + "])</span> " 
-                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" 
-                + "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" 
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
+                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
+                + "|||instr3@course1n2.tmt|||"
+                + "Created Comment for Student:<span class=\"bold\">([" + Sanitizer.sanitizeForHtml(student.team) + "])</span> "
+                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
+                + "<span class=\"bold\">Comment:</span> " + "<Text: A typical comment to be added>"
                 + "|||/page/instructorStudentCommentAdd";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -372,13 +372,13 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
-        expectedLogMessage = 
-                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd" 
-                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3" 
-                + "|||instr3@course1n2.tmt|||" 
-                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> " 
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
+                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
+                + "|||instr3@course1n2.tmt|||"
+                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> "
                 + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
-                + "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" 
+                + "<span class=\"bold\">Comment:</span> " + "<Text: A typical comment to be added>"
                 + "|||/page/instructorStudentCommentAdd";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -406,13 +406,13 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
-        expectedLogMessage = 
-                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd" 
-                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3" 
-                + "|||instr3@course1n2.tmt|||" 
-                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> " 
-                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" 
-                + "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" 
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
+                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
+                + "|||instr3@course1n2.tmt|||"
+                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> "
+                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
+                + "<span class=\"bold\">Comment:</span> " + "<Text: A typical comment to be added>"
                 + "|||/page/instructorStudentCommentAdd";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -440,19 +440,19 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         assertFalse(r.isError);
         assertEquals("New comment has been added", r.getStatusMessage());
 
-        expectedLogMessage = 
-                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd" 
-                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3" 
-                + "|||instr3@course1n2.tmt|||" 
-                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> " 
-                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" 
-                + "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" 
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
+                + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
+                + "|||instr3@course1n2.tmt|||"
+                + "Created Comment for Student:<span class=\"bold\">([" + student.email + "])</span> "
+                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
+                + "<span class=\"bold\">Comment:</span> " + "<Text: A typical comment to be added>"
                 + "|||/page/instructorStudentCommentAdd";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
     
-    private InstructorStudentCommentAddAction getAction(String... params) throws Exception {
+    private InstructorStudentCommentAddAction getAction(String... params) {
         return (InstructorStudentCommentAddAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

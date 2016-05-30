@@ -9,8 +9,8 @@ public class FeedbackSessionsTable {
     
     private List<FeedbackSessionsTableRow> existingFeedbackSessions;
         
-    public FeedbackSessionsTable(List<FeedbackSessionsTableRow> existingFeedbackSessions, 
-                                 String feedbackSessionNameToHighlight, 
+    public FeedbackSessionsTable(List<FeedbackSessionsTableRow> existingFeedbackSessions,
+                                 String feedbackSessionNameToHighlight,
                                  String courseIdToHighlight) {
         this.existingFeedbackSessions = existingFeedbackSessions;
         this.feedbackSessionNameToHighlight = feedbackSessionNameToHighlight;

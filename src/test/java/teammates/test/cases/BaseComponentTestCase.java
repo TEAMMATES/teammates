@@ -3,8 +3,6 @@ package teammates.test.cases;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-import com.google.gson.Gson;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -28,6 +26,8 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.driver.GaeSimulation;
 
+import com.google.gson.Gson;
+
 /** Base class for Component tests.
  * Automatically sets up the GAE Simulation @BeforeTest and tears it down @AfterTest
  */
@@ -45,10 +45,10 @@ public class BaseComponentTestCase extends BaseTestCase {
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
 
-    private static final Gson gson = Utils.getTeammatesGson();
+    private static Gson gson = Utils.getTeammatesGson();
 
     @BeforeTest
-    public void testSetUp() throws Exception {
+    public void testSetUp() {
         gaeSimulation = GaeSimulation.inst();
         gaeSimulation.setup();
         
@@ -89,7 +89,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
 
     protected static void verifyAbsentInDatastore(FeedbackQuestionAttributes fq) {
-        assertNull(fqDb.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber));    
+        assertNull(fqDb.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber));
     }
     
     protected static void verifyPresentInDatastore(FeedbackQuestionAttributes expected) {
@@ -138,7 +138,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     protected static void verifyAbsentInDatastore(FeedbackSessionAttributes fs) {
-        assertNull(fsDb.getFeedbackSession(fs.courseId, fs.feedbackSessionName));    
+        assertNull(fsDb.getFeedbackSession(fs.courseId, fs.feedbackSessionName));
     }
     
     protected static void verifyPresentInDatastore(FeedbackSessionAttributes expected) {
@@ -201,11 +201,11 @@ public class BaseComponentTestCase extends BaseTestCase {
         // and cannot be anticipated
         if (actualStudent.key != null) {
             expectedStudent.key = actualStudent.key;
-        }    
+        }
     }
     
     @AfterTest
-    public void testTearDown() throws Exception {
+    public void testTearDown() {
         gaeSimulation.tearDown();
     }
 }

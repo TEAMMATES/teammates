@@ -9,19 +9,16 @@ import com.google.appengine.api.users.User;
  */
 public class UserType {
     
-    /** Represents the role played by the user. e.g. when loading 
+    /** Represents the role played by the user. e.g. when loading
      * instructorHomePage, the user is playing the role INSTRUCTOR */
-    public enum Role { ADMIN, INSTRUCTOR, STUDENT };
+    public enum Role { ADMIN, INSTRUCTOR, STUDENT }
     
-    //TODO: add a com.google.appengine.api.users.User object here 
+    //TODO: add a com.google.appengine.api.users.User object here
     public String id;
     
     public boolean isAdmin;
     public boolean isInstructor;
     public boolean isStudent;
-    
-    public UserType() {
-    }
     
     public UserType(String googleId) {
         this.id = googleId;

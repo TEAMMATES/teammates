@@ -15,11 +15,6 @@ import java.util.List;
  *
  */
 public class CourseDetailsBundle {
-
-    public CourseDetailsBundle(CourseAttributes courseData) {
-        this.course = courseData;
-    }
-
     public CourseAttributes course;
     public CourseStats stats = new CourseStats();
     
@@ -29,6 +24,9 @@ public class CourseDetailsBundle {
     //Do not remove as we might cater for situations where there are no teams in future
     public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
     
+    public CourseDetailsBundle(CourseAttributes courseData) {
+        this.course = courseData;
+    }
     
     /**
      * Gets all FeedbackSessionAttributes in this CourseDetailsBundle
@@ -44,6 +42,7 @@ public class CourseDetailsBundle {
     
     public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
+            @Override
             public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
                 return obj1.course.getId().compareTo(obj2.course.getId());
             }
@@ -53,9 +52,10 @@ public class CourseDetailsBundle {
     
     /**
      * Sorts courses based on course ID
-     */ 
+     */
     public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
+            @Override
             public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
                 return obj1.course.getId().compareTo(obj2.course.getId());
             }
@@ -67,6 +67,7 @@ public class CourseDetailsBundle {
      */
     public static void sortDetailedCoursesByCreationDate(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
+            @Override
             public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
                 return (-1) * obj1.course.createdAt.compareTo(obj2.course.createdAt);
             }

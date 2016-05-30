@@ -62,11 +62,17 @@ public class StudentAttributesFactory {
         int fieldCount = locateColumnIndexes(headerRow);
 
         if (fieldCount < MIN_FIELD_COUNT || !hasTeam || !hasName || !hasEmail) {
-            String missingField = "";
-            missingField = hasTeam ? missingField : missingField + " <mark>Team</mark>";
-            missingField = hasName ? missingField : missingField + " <mark>Name</mark>";
-            missingField = hasEmail ? missingField : missingField + " <mark>Email</mark>";
-            throw new EnrollException(ERROR_HEADER_ROW_FIELD_MISSED + ": " + missingField);
+            StringBuilder missingField = new StringBuilder(50);
+            if (!hasTeam) {
+                missingField.append(" <mark>Team</mark>");
+            }
+            if (!hasName) {
+                missingField.append(" <mark>Name</mark>");
+            }
+            if (!hasEmail) {
+                missingField.append(" <mark>Email</mark>");
+            }
+            throw new EnrollException(ERROR_HEADER_ROW_FIELD_MISSED + ":" + missingField.toString());
         }
     }
 
@@ -129,27 +135,27 @@ public class StudentAttributesFactory {
             if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_SECTION)) {
                 sectionColumnIndex = curPos;
                 count++;
-                fieldCount = !hasSection ? fieldCount + 1 : fieldCount;
+                fieldCount = hasSection ? fieldCount : fieldCount + 1;
                 hasSection = true;
             } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_TEAM)) {
                 teamColumnIndex = curPos;
                 count++;
-                fieldCount = !hasTeam ? fieldCount + 1 : fieldCount;
+                fieldCount = hasTeam ? fieldCount : fieldCount + 1;
                 hasTeam = true;
             } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_NAME)) {
                 nameColumnIndex = curPos;
                 count++;
-                fieldCount = !hasName ? fieldCount + 1 : fieldCount;
+                fieldCount = hasName ? fieldCount : fieldCount + 1;
                 hasName = true;
             } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_EMAIL)) {
                 emailColumnIndex = curPos;
                 count++;
-                fieldCount = !hasEmail ? fieldCount + 1 : fieldCount;
+                fieldCount = hasEmail ? fieldCount : fieldCount + 1;
                 hasEmail = true;
             } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_COMMENT)) {
                 commentColumnIndex = curPos;
                 count++;
-                fieldCount = !hasComment ? fieldCount + 1 : fieldCount;
+                fieldCount = hasComment ? fieldCount : fieldCount + 1;
                 hasComment = true;
             }
         }
@@ -163,7 +169,6 @@ public class StudentAttributesFactory {
 
     private String[] splitLineIntoColumns(String line) {
         Assumption.assertNotNull(line);
-        String[] cols = line.replace("|", "\t").split("\t", -1);
-        return cols;
+        return line.replace("|", "\t").split("\t", -1);
     }
 }

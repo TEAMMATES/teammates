@@ -26,7 +26,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                           FeedbackQuestionType questionType) {
         
-        String areDuplicatesAllowedString = 
+        String areDuplicatesAllowedString =
                 HttpRequestHelper.getValueFromParamMap(
                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED);
         boolean areDuplicatesAllowed = "on".equals(areDuplicatesAllowedString);
@@ -34,7 +34,6 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         this.areDuplicatesAllowed = areDuplicatesAllowed;
         return true;
     }
-
 
     @Override
     public abstract String getQuestionTypeDisplayName();
@@ -48,12 +47,9 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     @Override
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients);
-    
-
 
     @Override
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
-
 
     /**
      * Used to update the mapping of ranks for the option optionReceivingPoints
@@ -80,29 +76,29 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      */
     protected String getListOfRanksReceivedAsString(List<Integer> ranksReceived) {
         Collections.sort(ranksReceived);
-        String pointsReceived = "";
+        StringBuilder pointsReceived = new StringBuilder();
         
         if (ranksReceived.size() > 10) {
             for (int i = 0; i < 5; i++) {
-                pointsReceived += ranksReceived.get(i) + " , ";
+                pointsReceived.append(ranksReceived.get(i)).append(" , ");
             }
             
-            pointsReceived += "...";
+            pointsReceived.append("...");
             
             for (int i = ranksReceived.size() - 5; i < ranksReceived.size(); i++) {
-                pointsReceived += " , " + ranksReceived.get(i);
+                pointsReceived.append(" , ").append(ranksReceived.get(i));
             }
         } else {
             for (int i = 0; i < ranksReceived.size(); i++) {
-                pointsReceived += ranksReceived.get(i);
+                pointsReceived.append(ranksReceived.get(i));
                 
                 if (i != ranksReceived.size() - 1) {
-                    pointsReceived += " , ";
+                    pointsReceived.append(" , ");
                 }
             }
         }
         
-        return pointsReceived;
+        return pointsReceived.toString();
     }
 
     protected double computeAverage(List<Integer> values) {
@@ -114,11 +110,11 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     }
    
     /**
-     * For a single set of ranking (options / feedback responses), 
+     * For a single set of ranking (options / feedback responses),
      * fix ties by assigning the MIN value of the ordering to all the tied options
      * e.g. the normalised ranks of the set of ranks (1,4,1,4) is (1,3,1,3)
      * @param rankOfOption  a map containing the original unfiltered answer for each options
-     * @param options  a list of options 
+     * @param options  a list of options
      * @return a map of the option to the normalised rank of the response
      */
     protected <K> Map<K, Integer> obtainMappingToNormalisedRanksForRanking(
@@ -126,7 +122,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                                                         List<K> options) {
         Map<K, Integer> normalisedRankForSingleSetOfRankings = new HashMap<>();
         
-        // group the options/feedback response by its rank 
+        // group the options/feedback response by its rank
         TreeMap<Integer, List<K>> rankToAnswersMap = new TreeMap<>();
         for (K answer : options) {
             int rankGiven = rankOfOption.get(answer);

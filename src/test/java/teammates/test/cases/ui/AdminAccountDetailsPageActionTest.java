@@ -21,7 +21,6 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataInDatastore();
     }
 
-    
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         
@@ -40,7 +39,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
 
         assertEquals("", result.getStatusMessage());
-        assertEquals("/jsp/adminAccountDetails.jsp?error=false&user=admin.user", 
+        assertEquals("/jsp/adminAccountDetails.jsp?error=false&user=admin.user",
                      result.getDestinationWithParams());
         assertFalse(result.isError);
 
@@ -48,11 +47,9 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         assertEquals(instructor1OfCourse1.googleId, data.getAccountInformation().googleId);
                 
     }
-    
 
-    private AdminAccountDetailsPageAction getAction(String... params) throws Exception {
+    private AdminAccountDetailsPageAction getAction(String... params) {
         return (AdminAccountDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
-    
 
 }

@@ -1,20 +1,21 @@
 package teammates.ui.controller;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackRemindParticularStudentsAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
+        if (nextUrl == null) {
+            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        }
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -35,7 +36,7 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         for (String user : usersToRemind) {
             statusToAdmin += "<br>" + user;
         }
-        statusToAdmin += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName 
+        statusToAdmin += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName
                          + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
         
         return createRedirectResult(nextUrl);

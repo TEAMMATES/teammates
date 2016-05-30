@@ -1,7 +1,5 @@
 package teammates.test.cases.storage;
 
-import static teammates.common.util.FieldValidator.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +15,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.EntitiesDb;
@@ -48,7 +47,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testCreateInstructor() 
+    public void testCreateInstructor()
             throws EntityAlreadyExistsException, InvalidParametersException {
         
         ______TS("Success: create an instructor");
@@ -85,7 +84,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT),
+                    String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId, FieldValidator.REASON_INCORRECT_FORMAT),
                     e.getMessage());
         }
         
@@ -96,7 +95,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT),
+                    String.format(FieldValidator.EMAIL_ERROR_MESSAGE, i.email, FieldValidator.REASON_INCORRECT_FORMAT),
                     e.getMessage());
         }
 
@@ -111,7 +110,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorForEmail() throws InvalidParametersException {
+    public void testGetInstructorForEmail() {
         
         InstructorAttributes i = dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -136,7 +135,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorForGoogleId() throws InvalidParametersException {
+    public void testGetInstructorForGoogleId() {
         
         InstructorAttributes i = dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -161,7 +160,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorForRegistrationKey() throws InvalidParametersException {
+    public void testGetInstructorForRegistrationKey() {
         
         InstructorAttributes i = dataBundle.instructors.get("instructorNotYetJoinCourse");
         
@@ -191,7 +190,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetInstructorsForEmail() throws Exception {
+    public void testGetInstructorsForEmail() {
         
         ______TS("Success: get instructors with specific email");
         
@@ -259,7 +258,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorsForCourse() throws Exception {
+    public void testGetInstructorsForCourse() {
         
         ______TS("Success: get instructors of a specific course");
         
@@ -319,8 +318,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                        String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, REASON_EMPTY) + Const.EOL 
-                        + String.format(EMAIL_ERROR_MESSAGE, instructorToEdit.email, REASON_INCORRECT_FORMAT),
+                        String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, FieldValidator.REASON_EMPTY) + Const.EOL
+                        + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email, FieldValidator.REASON_INCORRECT_FORMAT),
                         e.getMessage());
         }
 
@@ -372,9 +371,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId, REASON_INCORRECT_FORMAT)
+                    String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId, FieldValidator.REASON_INCORRECT_FORMAT)
                             + Const.EOL
-                            + String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, REASON_EMPTY),
+                            + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, FieldValidator.REASON_EMPTY),
                     e.getMessage());
         }
 
@@ -403,7 +402,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDeleteInstructor() throws InvalidParametersException {
+    public void testDeleteInstructor() {
         InstructorAttributes i = dataBundle.instructors.get("instructorWithOnlyOneSampleCourse");
         
         ______TS("Success: delete an instructor");
@@ -428,7 +427,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDeleteInstructorsForGoogleId() throws Exception {
+    public void testDeleteInstructorsForGoogleId() {
         
         ______TS("Success: delete instructors with specific googleId");
         
@@ -453,7 +452,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDeleteInstructorsForCourse() throws Exception {
+    public void testDeleteInstructorsForCourse() {
         
         ______TS("Success: delete instructors of a specific course");
         
@@ -478,12 +477,12 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public void classTearDown() throws Exception {
+    public void classTearDown() {
         deleteInstructorsFromDb();
         printTestClassFooter();
     }
     
-    private static void deleteInstructorsFromDb() throws Exception {
+    private static void deleteInstructorsFromDb() {
         Set<String> keys = dataBundle.instructors.keySet();
         for (String i : keys) {
             instructorsDb.deleteEntity(dataBundle.instructors.get(i));

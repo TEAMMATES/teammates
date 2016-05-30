@@ -10,8 +10,12 @@ import java.util.Scanner;
 
 /** Holds file-related functions
  */
-public class FileHelper {
+public final class FileHelper {
 
+    private FileHelper() {
+        // utility class
+    }
+    
     /**
      * Reads a file content and return a String
      */
@@ -28,7 +32,7 @@ public class FileHelper {
         stream.read(buffer);
         stream.close();
         
-        return buffer;        
+        return buffer;
     }
 
     /**

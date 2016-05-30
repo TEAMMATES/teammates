@@ -37,7 +37,7 @@ public class AdminSessionsPageData extends PageData {
     }
     
     public void init(
-            Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap, 
+            Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap,
             int totalOngoingSessions, int totalOpenStatusSessions, int totalClosedStatusSessions,
             int totalWaitToOpenStatusSessions, int totalInstitutes, Date rangeStart, Date rangeEnd, double zone, boolean isShowAll) {
 
@@ -97,23 +97,21 @@ public class AdminSessionsPageData extends PageData {
     public List<InstitutionPanel> getInstitutionPanels() {
         return institutionPanels;
     }
+    
     public String getInstructorHomePageViewLink(String email) {
 
         Logic logic = new Logic();
         List<InstructorAttributes> instructors = logic
                 .getInstructorsForEmail(email);
 
-        String link = "";
-
-        if (instructors != null && !instructors.isEmpty()) {
-            String googleId = logic.getInstructorsForEmail(email).get(0).googleId;
-            link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
-            link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
-            link = "href=\"" + link + "\"";
-        } else {
+        if (instructors == null || instructors.isEmpty()) {
             return "";
         }
-        return link;
+        
+        String googleId = logic.getInstructorsForEmail(email).get(0).googleId;
+        String link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
+        return "href=\"" + link + "\"";
     }
 
     @SuppressWarnings("deprecation")
@@ -146,14 +144,14 @@ public class AdminSessionsPageData extends PageData {
         return StringHelper.toUtcFormat(zone);
     }
     
-    public String getFeedbackSessionStatsLink(String courseID, String feedbackSessionName, String user) {
+    public String getFeedbackSessionStatsLink(String courseId, String feedbackSessionName, String user) {
         String link;
         if (user.isEmpty()) {
             link = "";
         } else {
             link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
-            link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
-            link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName); 
+            link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+            link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
             link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, user);
         }
         return link;
@@ -161,27 +159,24 @@ public class AdminSessionsPageData extends PageData {
     
     public String getSessionStatusForShow(FeedbackSessionAttributes fs) {
         
-        String status = "";
+        StringBuilder status = new StringBuilder(100);
         if (fs.isClosed()) {
-            status += "[Closed]";   
+            status.append("[Closed]");
         }
-          if (fs.isOpened()) {
-            status += "[Opened]";    
-        } 
-          if (fs.isWaitingToOpen()) {
-            status +=  "[Waiting To Open]";   
-        } 
-          if (fs.isPublished()) {
-            status +=  "[Published]";   
+        if (fs.isOpened()) {
+            status.append("[Opened]");
         }
-          if (fs.isInGracePeriod()) {
-            status +=  "[Grace Period]";   
+        if (fs.isWaitingToOpen()) {
+            status.append("[Waiting To Open]");
+        }
+        if (fs.isPublished()) {
+            status.append("[Published]");
+        }
+        if (fs.isInGracePeriod()) {
+            status.append("[Grace Period]");
         }
           
-        status = status.isEmpty() ? "No Status" : status;
-        
-        return status;
-        
+        return status.length() == 0 ? "No Status" : status.toString();
     }
     
     public List<AdminFeedbackSessionRow> getFeedbackSessionRows(
@@ -190,10 +185,10 @@ public class AdminSessionsPageData extends PageData {
         for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
             String googleId = sessionToInstructorIdMap.get(feedbackSession.getIdentificationString());
             feedbackSessionRows.add(new AdminFeedbackSessionRow(
-                                            getSessionStatusForShow(feedbackSession), 
+                                            getSessionStatusForShow(feedbackSession),
                                             getFeedbackSessionStatsLink(
-                                                    feedbackSession.courseId, 
-                                                    feedbackSession.feedbackSessionName, 
+                                                    feedbackSession.courseId,
+                                                    feedbackSession.feedbackSessionName,
                                                     googleId),
                                             TimeHelper.formatTime12H(feedbackSession.getSessionStartTime()),
                                             TimeHelper.formatTime12H(feedbackSession.getSessionEndTime()),
@@ -204,11 +199,10 @@ public class AdminSessionsPageData extends PageData {
         }
         return feedbackSessionRows;
     }
-    
-    
+
     private void setFilter() {
-        filter = new AdminFilter(TimeHelper.formatDate(rangeStart), getHourOptionsAsHtml(rangeStart), 
-                                 getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDate(rangeEnd), 
+        filter = new AdminFilter(TimeHelper.formatDate(rangeStart), getHourOptionsAsHtml(rangeStart),
+                                 getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDate(rangeEnd),
                                  getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd),
                                  getTimeZoneOptionsAsHtml());
     }
@@ -220,7 +214,7 @@ public class AdminSessionsPageData extends PageData {
             if (!key.equals(UNKNOWN_INSTITUTION)) {
                 institutionPanels.add(new InstitutionPanel(
                                               key, getFeedbackSessionRows(
-                                                           map.get(key), 
+                                                           map.get(key),
                                                            sessionToInstructorIdMap)));
             }
         }
@@ -229,7 +223,7 @@ public class AdminSessionsPageData extends PageData {
         if (feedbackSessions != null) {
             institutionPanels.add(new InstitutionPanel(
                                           key, getFeedbackSessionRows(
-                                                       feedbackSessions, 
+                                                       feedbackSessions,
                                                        sessionToInstructorIdMap)));
         }
     }

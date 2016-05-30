@@ -14,17 +14,16 @@ import teammates.test.pageobjects.BrowserPool;
 public class TableSortTest extends BaseUiTestCase {
     private static Browser browser;
     private static AppPage page;
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        browser = BrowserPool.getBrowser();        
+        browser = BrowserPool.getBrowser();
         page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/tableSort.html"));
     }
     
     @Test
-    public void testTableSortingID() throws Exception {
+    public void testTableSortingId() {
         verifySortingOrder(By.id("button_sortid"),
             
                 "-13.5",
@@ -46,7 +45,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingName() throws Exception {
+    public void testTableSortingName() {
         
         verifySortingOrder(By.id("button_sortname"),
                 
@@ -69,7 +68,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingDate() throws Exception {
+    public void testTableSortingDate() {
         
         verifySortingOrder(By.id("button_sortdate"),
                 
@@ -90,9 +89,8 @@ public class TableSortTest extends BaseUiTestCase {
                 "05 June 2013");
     }
 
-
     @Test
-    public void testTableSortingDiff() throws Exception {
+    public void testTableSortingDiff() {
         
         verifySortingOrder(By.id("button_sortDiff"),
                 
@@ -115,7 +113,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingPoint() throws Exception {
+    public void testTableSortingPoint() {
         verifySortingOrder(By.id("button_sortPoint"),
         
                 "E -99%",
@@ -136,79 +134,81 @@ public class TableSortTest extends BaseUiTestCase {
     }
  
     @Test
-    public void testStableSort() throws Exception {
+    public void testStableSort() {
         page.click(By.id("button_sortid"));
         page.click(By.id("button_sortid"));
         page.click(By.id("button_sortname"));
 
-        String[] idList = { "15", 
-                            "0", 
-                            "-13.5",
-                            "2",
-                            "-2",
-                            "-1.3",
-                            "10.01",
-                            "24",
-                            "1",
-                            "10.7",
-                            "3",
-                            "33",
-                            "10.35",
-                            "-0.001",
-                            "10.3"
-                          };
+        String[] idList = {
+                "15",
+                "0",
+                "-13.5",
+                "2",
+                "-2",
+                "-1.3",
+                "10.01",
+                "24",
+                "1",
+                "10.7",
+                "3",
+                "33",
+                "10.35",
+                "-0.001",
+                "10.3"
+        };
 
-        String searchString = "";
+        StringBuilder searchString = new StringBuilder();
         for (int i = 0; i < idList.length; i++) {
-            searchString += idList[i] + "{*}";
+            searchString.append(idList[i]).append("{*}");
         }
-        page.verifyContains(searchString);
+        page.verifyContains(searchString.toString());
 
         page.click(By.id("button_sortname"));
-        String[] reversedIdList = {  "10.3",
-                    "-0.001",
-                    "10.35",
-                    "33",
-                    "3",
-                    "10.7",
-                    "1",
-                    "-2",
-                    "-1.3",
-                    "10.01",
-                    "24",
-                    "2",
-                    "-13.5",
-                    "0",
-                    "15"
-                 };
+        String[] reversedIdList = {
+                "10.3",
+                "-0.001",
+                "10.35",
+                "33",
+                "3",
+                "10.7",
+                "1",
+                "-2",
+                "-1.3",
+                "10.01",
+                "24",
+                "2",
+                "-13.5",
+                "0",
+                "15"
+        };
 
-        searchString = "";
+        searchString = new StringBuilder();
         for (int i = 0; i < reversedIdList.length; i++) {
-            searchString += reversedIdList[i] + "{*}";
+            searchString.append(reversedIdList[i]).append("{*}");
         }
-        page.verifyContains(searchString);
+        page.verifyContains(searchString.toString());
     }
     
     private void verifySortingOrder(By sortIcon, String... values) {
         //check if the rows match the given order of values
         page.click(sortIcon);
-        String searchString = "";
+        StringBuilder searchString = new StringBuilder();
         for (int i = 0; i < values.length; i++) {
-            searchString += values[i] + "{*}";
+            searchString.append(values[i]).append("{*}");
         }
-        page.verifyContains(searchString);
+        page.verifyContains(searchString.toString());
         
         //click the sort icon again and check for the reverse order
         page.click(sortIcon);
-        searchString = "";
+        searchString = new StringBuilder();
         for (int i = values.length; i > 0; i--) {
-            searchString += values[i - 1] + "{*}";
+            searchString.append(values[i - 1]).append("{*}");
         }
-        page.verifyContains(searchString);
+        page.verifyContains(searchString.toString());
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
         BrowserPool.release(browser);
     }

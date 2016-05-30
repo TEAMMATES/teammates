@@ -12,13 +12,13 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
 
 /**
  * This action handles students who attempt to join a course after
- * the student has been forced to re-authenticate himself by 
+ * the student has been forced to re-authenticate himself by
  * {@link StudentCourseJoinAction}. This action does the actual
  * joining of the student to the course.
  */
@@ -62,15 +62,15 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         
         final String studentInfo = "Action Student Joins Course"
                 + "<br/>Google ID: " + account.googleId
-                + "<br/>Key : " + regkey; 
+                + "<br/>Key : " + regkey;
         RedirectResult response = createRedirectResult(nextUrl);
         response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, getStudent().course);
         excludeStudentDetailsFromResponseParams();
         
-        if (statusToAdmin != null && !statusToAdmin.trim().isEmpty()) {
-            statusToAdmin += "<br/><br/>" + studentInfo;
-        } else {
+        if (statusToAdmin == null || statusToAdmin.trim().isEmpty()) {
             statusToAdmin = studentInfo;
+        } else {
+            statusToAdmin += "<br/><br/>" + studentInfo;
         }
         
         addStatusMessageToUser();
@@ -80,14 +80,14 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
 
     private void addStatusMessageToUser() throws EntityDoesNotExistException {
         CourseAttributes course = logic.getCourse(getStudent().course);
-        String courseDisplayText = "[" + course.getId() + "] " + course.getName(); 
+        String courseDisplayText = "[" + course.getId() + "] " + course.getName();
         
-        statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, 
+        statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
                                                            courseDisplayText), StatusMessageColor.SUCCESS));
 
         List<FeedbackSessionAttributes> fsa = logic.getFeedbackSessionsForUserInCourse(getStudent().course, getStudent().email);
         if (fsa.isEmpty()) {
-            statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, 
+            statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
                                                                courseDisplayText), StatusMessageColor.INFO));
             
             StudentProfileAttributes spa = logic.getStudentProfile(account.googleId);

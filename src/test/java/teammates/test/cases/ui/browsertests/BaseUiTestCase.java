@@ -19,13 +19,13 @@ import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
 
-public class BaseUiTestCase extends BaseTestCase {
+public abstract class BaseUiTestCase extends BaseTestCase {
 
     /** indicates if the test-run is to use GodMode */
     protected static Boolean enableGodMode = false;
 
     /**
-     * Checks if the current test-run should use godmode, 
+     * Checks if the current test-run should use godmode,
      * if yes, enables GodMode
      */
     @BeforeSuite
@@ -41,7 +41,7 @@ public class BaseUiTestCase extends BaseTestCase {
      * {@code relativeUrl} must start with a "/".
      */
     protected static AppUrl createUrl(String relativeUrl) {
-        return new AppUrl(TestProperties.inst().TEAMMATES_URL + relativeUrl);
+        return new AppUrl(TestProperties.TEAMMATES_URL + relativeUrl);
     }
     
     /**
@@ -50,7 +50,7 @@ public class BaseUiTestCase extends BaseTestCase {
      * {@code testFileName} must start with a "/".
      */
     protected static Url createLocalUrl(String testFileName) throws IOException {
-        return new Url("file:///" + new File(".").getCanonicalPath() + "/" 
+        return new Url("file:///" + new File(".").getCanonicalPath() + "/"
                                   + TestProperties.TEST_PAGES_FOLDER + testFileName);
     }
     
@@ -82,14 +82,14 @@ public class BaseUiTestCase extends BaseTestCase {
             }
         }
         
-        //logout and attempt to load the requested URL. This will be 
+        //logout and attempt to load the requested URL. This will be
         //  redirected to a dev-server/google login page
         logout(browser);
         browser.driver.get(url.toAbsoluteString());
         String pageSource = browser.driver.getPageSource();
         
-        String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT; 
-        String adminPassword = TestProperties.inst().TEST_ADMIN_PASSWORD;
+        String adminUsername = TestProperties.TEST_ADMIN_ACCOUNT;
+        String adminPassword = TestProperties.TEST_ADMIN_PASSWORD;
         
         String instructorId = url.get(Const.ParamsNames.USER_ID);
         
@@ -140,7 +140,7 @@ public class BaseUiTestCase extends BaseTestCase {
         int counter = 0;
         String backDoorOperationStatus = "";
         int retryLimit;
-        if (TestProperties.inst().isDevServer()) {
+        if (TestProperties.isDevServer()) {
             retryLimit = 5;
         } else {
             retryLimit = 1;
@@ -167,7 +167,7 @@ public class BaseUiTestCase extends BaseTestCase {
         int counter = 0;
         String backDoorOperationStatus = "";
         int retryLimit;
-        if (TestProperties.inst().isDevServer()) {
+        if (TestProperties.isDevServer()) {
             retryLimit = 5;
         } else {
             retryLimit = 1;
@@ -193,7 +193,7 @@ public class BaseUiTestCase extends BaseTestCase {
         int counter = 0;
         String backDoorOperationStatus = "";
         int retryLimit;
-        if (TestProperties.inst().isDevServer()) {
+        if (TestProperties.isDevServer()) {
             retryLimit = 5;
         } else {
             retryLimit = 1;
@@ -216,7 +216,7 @@ public class BaseUiTestCase extends BaseTestCase {
         int counter = 0;
         String backDoorOperationStatus = "";
         int retryLimit;
-        if (TestProperties.inst().isDevServer()) {
+        if (TestProperties.isDevServer()) {
             retryLimit = 5;
         } else {
             retryLimit = 1;

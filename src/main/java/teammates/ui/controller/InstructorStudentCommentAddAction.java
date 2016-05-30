@@ -1,12 +1,9 @@
 package teammates.ui.controller;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
@@ -20,10 +17,12 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Url;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
+
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Action: Create a new {@link CommentAttributes}
@@ -42,15 +41,15 @@ public class InstructorStudentCommentAddAction extends Action {
         boolean isFromCommentsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COMMENTS_PAGE);
         boolean isFromStudentDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_STUDENT_DETAILS_PAGE);
         boolean isFromCourseDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COURSE_DETAILS_PAGE);
-        boolean isFromStudentRecordsPage = !isFromCommentsPage 
-                                        && !isFromStudentDetailsPage 
+        boolean isFromStudentRecordsPage = !isFromCommentsPage
+                                        && !isFromStudentDetailsPage
                                         && !isFromCourseDetailsPage;
         
         if (isFromStudentDetailsPage || isFromStudentRecordsPage) {
             Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         }
         
-        String commentText = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT); 
+        String commentText = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_TEXT, commentText);
         Assumption.assertNotEmpty(commentText);
         
@@ -68,7 +67,7 @@ public class InstructorStudentCommentAddAction extends Action {
                             + comment.recipients + ")</span> for Course <span class=\"bold\">["
                             + comment.courseId + "]</span><br>"
                             + "<span class=\"bold\">Comment:</span> " + comment.commentText;
-        } catch (EntityAlreadyExistsException e) {  // this exception should not be thrown normally unless 
+        } catch (EntityAlreadyExistsException e) {  // this exception should not be thrown normally unless
                                                     // GAE creates duplicate commentId
             Assumption.fail("Creating a duplicate comment should not be possible "
                           + "as comments should have different timestamp\n");
@@ -82,7 +81,7 @@ public class InstructorStudentCommentAddAction extends Action {
         //TODO: remove fromCommentsPage
         if (isFromCommentsPage) {
             return createRedirectResult(
-                           (new PageData(account).getInstructorCommentsLink()) 
+                           (new PageData(account).getInstructorCommentsLink())
                            + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
         } else if (isFromStudentDetailsPage) {
             return createRedirectResult(getCourseStudentDetailsLink(courseId, studentEmail));
@@ -93,12 +92,12 @@ public class InstructorStudentCommentAddAction extends Action {
         }
     }
 
-    private void verifyAccessibleByInstructor(String courseId) throws EntityDoesNotExistException {
+    private void verifyAccessibleByInstructor(String courseId) {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes course = logic.getCourse(courseId);
         String recipientType = getRequestParamValue(Const.ParamsNames.RECIPIENT_TYPE);
-        CommentParticipantType commentRecipientType = recipientType == null 
-                                                    ? CommentParticipantType.PERSON 
+        CommentParticipantType commentRecipientType = recipientType == null
+                                                    ? CommentParticipantType.PERSON
                                                     : CommentParticipantType.valueOf(recipientType);
         String recipients = getRequestParamValue(Const.ParamsNames.RECIPIENTS);
         if (commentRecipientType == CommentParticipantType.COURSE) {
@@ -145,17 +144,17 @@ public class InstructorStudentCommentAddAction extends Action {
         
         comment.courseId = courseId;
         comment.giverEmail = instructorDetailForCourse.email;
-        comment.recipientType = recipientType == null 
-                              ? CommentParticipantType.PERSON 
+        comment.recipientType = recipientType == null
+                              ? CommentParticipantType.PERSON
                               : CommentParticipantType.valueOf(recipientType);
         comment.recipients = new HashSet<String>();
-        if (recipients != null && !recipients.isEmpty()) {
+        if (recipients == null || recipients.isEmpty()) {
+            comment.recipients.add(studentEmail);
+        } else {
             String[] recipientsArray = recipients.split(",");
             for (String recipient : recipientsArray) {
                 comment.recipients.add(recipient.trim());
             }
-        } else {
-            comment.recipients.add(studentEmail);
         }
         comment.status = CommentStatus.FINAL;
         

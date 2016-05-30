@@ -1,6 +1,8 @@
 package teammates.ui.controller;
 
+// CHECKSTYLE.OFF:AvoidStarImport as there would be many (>100) import lines added if we were to import all of the ActionURIs
 import static teammates.common.util.Const.ActionURIs.*;
+// CHECKSTYLE.ON:AvoidStarImport
 
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -15,7 +17,7 @@ import teammates.common.util.Utils;
  * Is used to generate the matching {@link Action} for a given URI.
  */
 public class ActionFactory {
-    protected static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     private static HashMap<String, Class<? extends Action>> actionMappings = new HashMap<String, Class<? extends Action>>();
     

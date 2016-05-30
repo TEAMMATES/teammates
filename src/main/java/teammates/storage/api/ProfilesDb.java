@@ -1,16 +1,9 @@
 package teammates.storage.api;
 
 import java.util.Date;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
@@ -19,9 +12,13 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Handles CRUD Operations for profiles.
@@ -30,9 +27,6 @@ import teammates.storage.entity.StudentProfile;
  */
 public class ProfilesDb extends EntitiesDb {
     
-    @SuppressWarnings("unused")
-    private static final Logger log = Utils.getLogger();
-    
     /**
      * Gets the datatransfer (*Attributes) version of the profile
      * corresponding to the googleId given. Returns null if the
@@ -40,7 +34,7 @@ public class ProfilesDb extends EntitiesDb {
      * 
      * @param accountGoogleId
      */
-    public StudentProfileAttributes getStudentProfile(String accountGoogleId) {        
+    public StudentProfileAttributes getStudentProfile(String accountGoogleId) {
         StudentProfile sp = getStudentProfileEntityFromDb(accountGoogleId);
         if (sp == null) {
             return null;
@@ -54,22 +48,24 @@ public class ProfilesDb extends EntitiesDb {
      * Assumes that the googleId remains the same and so updates the profile
      * with the given googleId.
      * 
-     * TODO: update the profile with whatever given values are valid and 
+     * TODO: update the profile with whatever given values are valid and
      * ignore those that are not valid.
      * @param newSpa
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public void updateStudentProfile(StudentProfileAttributes newSpa) 
-            throws InvalidParametersException, EntityDoesNotExistException {        
+    public void updateStudentProfile(StudentProfileAttributes newSpa)
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         validateNewProfile(newSpa);
         
         StudentProfile profileToUpdate = getCurrentProfileFromDb(newSpa.googleId);
-        if (hasNoNewChangesToProfile(newSpa, profileToUpdate)) return;
+        if (hasNoNewChangesToProfile(newSpa, profileToUpdate)) {
+            return;
+        }
 
         updateProfileWithNewValues(newSpa, profileToUpdate);
-        closePM();
+        closePm();
     }
 
     private void validateNewProfile(StudentProfileAttributes newSpa)
@@ -132,7 +128,7 @@ public class ProfilesDb extends EntitiesDb {
             profileToUpdate.setModifiedDate(new Date());
         }
         
-        closePM();
+        closePm();
     }
 
     private void validateParametersForUpdatePicture(String googleId,
@@ -144,15 +140,14 @@ public class ProfilesDb extends EntitiesDb {
     }
     
     /**
-     * Deletes the profile picture from GCS and 
-     * updates the profile entity: 
-     *     empties the key and updates the modifiedDate 
+     * Deletes the profile picture from GCS and
+     * updates the profile entity:
+     *     empties the key and updates the modifiedDate
      * 
      * @param googleId
-     * @throws BlobstoreFailureException
-     * @throws EntityDoesNotExistException 
+     * @throws EntityDoesNotExistException
      */
-    public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException, EntityDoesNotExistException {
+    public void deleteStudentProfilePicture(String googleId) throws EntityDoesNotExistException {
         StudentProfile sp = getCurrentProfileFromDb(googleId);
         
         if (!sp.getPictureKey().equals(new BlobKey(""))) {
@@ -161,7 +156,7 @@ public class ProfilesDb extends EntitiesDb {
             sp.setModifiedDate(new Date());
         }
         
-        closePM();
+        closePm();
     }
     
     
@@ -197,9 +192,9 @@ public class ProfilesDb extends EntitiesDb {
     private StudentProfile getStudentProfileEntityForLegacyData(String googleId) {
         Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
         try {
-            // This method is not testable as loading legacy data into 
+            // This method is not testable as loading legacy data into
             // current database is restricted by new validity checks
-            Account account = getPM().getObjectById(Account.class, key);
+            Account account = getPm().getObjectById(Account.class, key);
             if (account == null
                     || JDOHelper.isDeleted(account)) {
                 return null;
@@ -216,7 +211,7 @@ public class ProfilesDb extends EntitiesDb {
     /**
      * Gets the profile entity associated with given googleId.
      * If the profile does not exist, it tries to get the
-     * profile from the function 
+     * profile from the function
      * 'getStudentProfileEntityForLegacyData'.
      * 
      * TODO: update this function once legacy data have been ported over
@@ -227,7 +222,7 @@ public class ProfilesDb extends EntitiesDb {
                                  .getChild(StudentProfile.class.getSimpleName(), googleId);
         
         try {
-            StudentProfile profile = getPM().getObjectById(StudentProfile.class, childKey);
+            StudentProfile profile = getPm().getObjectById(StudentProfile.class, childKey);
             if (profile == null
                     || JDOHelper.isDeleted(profile)) {
                 return null;

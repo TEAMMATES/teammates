@@ -166,9 +166,9 @@ public class InstructorCourseEditPage extends AppPage {
          *  Therefore the formula for the position of the details link of the group i-th (count from 1) is i * 3 - 1
          */
         int cssLinkNum = viewLinkNum * 3 - 1;
-        WebElement viewLink = 
+        WebElement viewLink =
                 browser.driver.findElement(
-                        By.cssSelector("#accessControlEditDivForInstr" + instrNum 
+                        By.cssSelector("#accessControlEditDivForInstr" + instrNum
                                        + " > div.form-group > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
         
         viewLink.click();
@@ -182,18 +182,19 @@ public class InstructorCourseEditPage extends AppPage {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
     
     public boolean isPrivilegeCheckboxInModalChecked(String privilege) {
-        By selector = By.cssSelector("#tunePermissionsDivForInstructorAll input[type='checkbox'][name='" 
+        By selector = By.cssSelector("#tunePermissionsDivForInstructorAll input[type='checkbox'][name='"
                                      + privilege + "']");
         WebElement checkbox = browser.driver.findElement(selector);
         return checkbox.isSelected();
     }
     
     public boolean isPrivilegeCheckboxInPermissionDivChecked(int instructorIndex, String privilege) {
-        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instructorIndex 
+        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instructorIndex
                                      + " input[type='checkbox'][name='" + privilege + "']");
         WebElement checkbox = browser.driver.findElement(selector);
         return checkbox.isSelected();
@@ -219,49 +220,41 @@ public class InstructorCourseEditPage extends AppPage {
         this.addSectionLevelPrivilegesLink(instrNum).click();
     }
     
-    public WebElement sectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
-        sectionLevelNum--;
-        sectionNum--;
+    private WebElement sectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
                 + " input[name=sectiongroup" + sectionLevelNum + "section" + sectionNum + "]";
         return browser.driver.findElement(By.cssSelector(cssSelector));
     }
     
     public void clickSectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
-        this.sectionCheckBoxInSectionLevel(instrNum, sectionLevelNum, sectionNum).click();
+        this.sectionCheckBoxInSectionLevel(instrNum, sectionLevelNum - 1, sectionNum - 1).click();
     }
     
     public void clickViewStudentCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        // in page, sectionLevel is 0 based
-        sectionLevelNum--;
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
                 + " > div > div.panel-body > div.col-sm-6.border-right-gray > input[type=\"checkbox\"]:nth-child(1)";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickViewOthersCommentsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        sectionLevelNum--;
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
                 + " > div > div.panel-body > div.col-sm-6.border-right-gray > input[type=\"checkbox\"]:nth-child(5)";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickViewSessionResultsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        sectionLevelNum--;
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
                 + " > div > div.panel-body > div.col-sm-5.col-sm-offset-1 > input[type=\"checkbox\"]:nth-child(3)";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickModifySessionResultCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        sectionLevelNum--;
         String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
                 + " > div > div.panel-body > div.col-sm-5.col-sm-offset-1 > input[type=\"checkbox\"]:nth-child(5)";
         browser.driver.findElement(By.cssSelector(cssSelector)).click();
     }
     
     public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelNum) {
-        sectionLevelNum--;
         String linkId = "toggleSessionLevelInSection" + sectionLevelNum + "ForInstructor" + instrNum;
         browser.driver.findElement(By.id(linkId)).click();
     }
@@ -341,7 +334,7 @@ public class InstructorCourseEditPage extends AppPage {
      * Click the delete instructor button at position {@code instrNum} and click "Yes" in the follow up dialog
      * @param instrNum is the position of the instructor (e.g. 1, 2, 3, ...)
      */
-    public void clickDeleteInstructorLinkAndConfirm(int instrNum) { 
+    public void clickDeleteInstructorLinkAndConfirm(int instrNum) {
         WebElement deleteInstructorLink = browser.driver.findElement(By.id("instrDeleteLink" + instrNum));
         clickAndConfirm(deleteInstructorLink);
         waitForPageToLoad();
@@ -355,17 +348,17 @@ public class InstructorCourseEditPage extends AppPage {
         WebElement deleteInstructorLink = browser.driver.findElement(By.id("instrDeleteLink" + instrNum));
         clickAndCancel(deleteInstructorLink);
     }
-    
-    
+
     public WebElement getNameField(int instrNum) {
         return browser.driver.findElement(By.id("instructorname" + instrNum));
     }
+    
     public WebElement getEmailField(int instrNum) {
         return browser.driver.findElement(By.id("instructoremail" + instrNum));
     }
 
     public boolean isCustomCheckboxChecked(String privilege, int instrNum) {
-        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instrNum + " input[type='checkbox'][name='" 
+        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instrNum + " input[type='checkbox'][name='"
                         + privilege + "']");
         WebElement checkbox = browser.driver.findElement(selector);
         return checkbox.isSelected();

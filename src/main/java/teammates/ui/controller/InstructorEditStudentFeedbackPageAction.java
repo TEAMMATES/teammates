@@ -13,10 +13,10 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID); 
+        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String moderatedEntityIdentifier = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         
-        StudentAttributes studentUnderModeration = logic.getStudentForEmail(courseId, moderatedEntityIdentifier); 
+        StudentAttributes studentUnderModeration = logic.getStudentForEmail(courseId, moderatedEntityIdentifier);
         
         if (studentUnderModeration == null) {
             List<TeamDetailsBundle> teams = logic.getTeamsForCourse(courseId);
@@ -41,19 +41,19 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         
         new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                false, studentUnderModeration.section, 
+                false, studentUnderModeration.section,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         
         String moderatedQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_QUESTION_ID);
 
 
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
-                                               Const.ParamsNames.COURSE_ID), 
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
+                                               Const.ParamsNames.COURSE_ID),
                                  courseId);
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
                                                Const.ParamsNames.FEEDBACK_SESSION_NAME),
                                  feedbackSessionName);
-        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
                                                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON),
                                  moderatedEntityIdentifier);
         
@@ -74,8 +74,8 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
             data.setModeratedQuestionId(moderatedQuestionId);
         }
 
-        statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" 
-                + "Session Name: " + feedbackSessionName + "<br>" 
+        statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>"
+                + "Session Name: " + feedbackSessionName + "<br>"
                 + "Course ID: " + courseId;
         
         data.bundle.hideUnmoderatableQuestions();

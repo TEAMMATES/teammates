@@ -20,7 +20,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
-public class HtmlHelper {
+public final class HtmlHelper {
     
     private static final String INDENTATION_STEP = "  ";
     
@@ -34,7 +34,9 @@ public class HtmlHelper {
     private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( UTC)?";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
     
-    private static final TestProperties TP = TestProperties.inst();
+    private HtmlHelper() {
+        // utility class
+    }
 
     /**
      * Verifies that two HTML files are logically equivalent, e.g. ignores
@@ -75,14 +77,14 @@ public class HtmlHelper {
 
         if (areSameHtmls(processedExpected, processedActual)) {
             return true;
-        } else {
-            // if it still fails, then it is a failure after all
-            if (isDifferenceToBeShown) {
-                assertEquals("<expected>\n" + processedExpected + "</expected>",
-                             "<actual>\n" + processedActual + "</actual>");
-            }
-            return false;
         }
+        
+        // if it still fails, then it is a failure after all
+        if (isDifferenceToBeShown) {
+            assertEquals("<expected>\n" + processedExpected + "</expected>",
+                         "<actual>\n" + processedActual + "</actual>");
+        }
+        return false;
     }
     
     private static boolean areSameHtmls(String expected, String actual) {
@@ -99,7 +101,7 @@ public class HtmlHelper {
     }
 
     /**
-     * Transform the HTML text to follow a standard format. 
+     * Transform the HTML text to follow a standard format.
      * Element attributes are reordered in alphabetical order.
      * Spacing and line breaks are standardized too.
      * @param rawHtml the raw HTML string to be converted
@@ -126,14 +128,14 @@ public class HtmlHelper {
     private static String convertToStandardHtmlRecursively(Node currentNode, String indentation,
                                                            boolean isPart) {
         switch (currentNode.getNodeType()) {
-            case Node.TEXT_NODE:
-                return generateNodeTextContent(currentNode, indentation);
-            case Node.DOCUMENT_TYPE_NODE:
-            case Node.COMMENT_NODE:
-                // ignore the doctype definition and all HTML comments
-                return ignoreNode();
-            default: // in HTML this can only be Node.ELEMENT_NODE
-                return convertElementNode(currentNode, indentation, isPart);
+        case Node.TEXT_NODE:
+            return generateNodeTextContent(currentNode, indentation);
+        case Node.DOCUMENT_TYPE_NODE:
+        case Node.COMMENT_NODE:
+            // ignore the doctype definition and all HTML comments
+            return ignoreNode();
+        default: // in HTML this can only be Node.ELEMENT_NODE
+            return convertElementNode(currentNode, indentation, isPart);
         }
     }
     
@@ -152,8 +154,8 @@ public class HtmlHelper {
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
                 if (isTooltipAttribute(attribute)
-                     || isPopoverAttribute(attribute)
-                     || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
+                        || isPopoverAttribute(attribute)
+                        || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
                     // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
                     return ignoreNode();
                 } else if (isMotdContainerAttribute(attribute)) {
@@ -250,9 +252,8 @@ public class HtmlHelper {
         if (attribute.getNodeName().equalsIgnoreCase(attrType)) {
             return "class".equals(attrType) ? isClassContainingValue(attrValue, attribute.getNodeValue())
                                             : attribute.getNodeValue().equals(attrValue);
-        } else {
-            return false;
         }
+        return false;
     }
     
     private static boolean isClassContainingValue(String expected, String actual) {
@@ -309,11 +310,11 @@ public class HtmlHelper {
      */
     public static String injectTestProperties(String content) {
         return content.replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
-                      .replace("${version}", TP.TEAMMATES_VERSION)
-                      .replace("${test.admin}", TP.TEST_ADMIN_ACCOUNT)
-                      .replace("${test.student1}", TP.TEST_STUDENT1_ACCOUNT)
-                      .replace("${test.student2}", TP.TEST_STUDENT2_ACCOUNT)
-                      .replace("${test.instructor}", TP.TEST_INSTRUCTOR_ACCOUNT);
+                      .replace("${version}", TestProperties.TEAMMATES_VERSION)
+                      .replace("${test.admin}", TestProperties.TEST_ADMIN_ACCOUNT)
+                      .replace("${test.student1}", TestProperties.TEST_STUDENT1_ACCOUNT)
+                      .replace("${test.student2}", TestProperties.TEST_STUDENT2_ACCOUNT)
+                      .replace("${test.instructor}", TestProperties.TEST_INSTRUCTOR_ACCOUNT);
     }
     
     /**
@@ -335,10 +336,14 @@ public class HtmlHelper {
     
     private static String suppressVariationsInInjectedValues(String content) {
         return content // replace truncated long accounts with their original counterparts
-                      .replace(StringHelper.truncateLongId(TP.TEST_STUDENT1_ACCOUNT), TP.TEST_STUDENT1_ACCOUNT)
-                      .replace(StringHelper.truncateLongId(TP.TEST_STUDENT2_ACCOUNT), TP.TEST_STUDENT2_ACCOUNT)
-                      .replace(StringHelper.truncateLongId(TP.TEST_INSTRUCTOR_ACCOUNT), TP.TEST_INSTRUCTOR_ACCOUNT)
-                      .replace(StringHelper.truncateLongId(TP.TEST_ADMIN_ACCOUNT), TP.TEST_ADMIN_ACCOUNT);
+                      .replace(StringHelper.truncateLongId(TestProperties.TEST_STUDENT1_ACCOUNT),
+                               TestProperties.TEST_STUDENT1_ACCOUNT)
+                      .replace(StringHelper.truncateLongId(TestProperties.TEST_STUDENT2_ACCOUNT),
+                               TestProperties.TEST_STUDENT2_ACCOUNT)
+                      .replace(StringHelper.truncateLongId(TestProperties.TEST_INSTRUCTOR_ACCOUNT),
+                               TestProperties.TEST_INSTRUCTOR_ACCOUNT)
+                      .replace(StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT),
+                               TestProperties.TEST_ADMIN_ACCOUNT);
     }
     
     /**
@@ -351,14 +356,14 @@ public class HtmlHelper {
         String dateTimeNow = sdf.format(now);
         String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
         return content // dev server admin absolute URLs (${teammates.url}/_ah/...)
-                      .replace("\"" + TP.TEAMMATES_URL + "/_ah", "\"/_ah")
+                      .replace("\"" + TestProperties.TEAMMATES_URL + "/_ah", "\"/_ah")
                       // logout URL generated by Google
                       .replaceAll("_ah/logout\\?continue=" + REGEX_CONTINUE_URL + "\"",
                                   "_ah/logout?continue=\\${continue\\.url}\"")
                       // student profile picture link
                       .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE
                                   + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=" + REGEX_ENCRYPTED_STUDENT_EMAIL
-                                  + "\\&amp;" + Const.ParamsNames.COURSE_ID + "=" + REGEX_ENCRYPTED_COURSE_ID, 
+                                  + "\\&amp;" + Const.ParamsNames.COURSE_ID + "=" + REGEX_ENCRYPTED_COURSE_ID,
                                   Const.ActionURIs.STUDENT_PROFILE_PICTURE
                                   + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=\\${student\\.email\\.enc}"
                                   + "\\&amp;" + Const.ParamsNames.COURSE_ID + "=\\${course\\.id\\.enc}")
@@ -399,9 +404,9 @@ public class HtmlHelper {
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
                       // jQuery js file
-                      .replace(Const.SystemParams.getjQueryFilePath(TP.isDevServer()), "${lib.path}/jquery.min.js")
+                      .replace(Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()), "${lib.path}/jquery.min.js")
                       // jQuery-ui js file
-                      .replace(Const.SystemParams.getjQueryUiFilePath(TP.isDevServer()), "${lib.path}/jquery-ui.min.js")
+                      .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()), "${lib.path}/jquery-ui.min.js")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -417,11 +422,11 @@ public class HtmlHelper {
     private static String replaceInjectedValuesWithPlaceholders(String content) {
         return content.replace("window.location.origin + '/" + Config.STUDENT_MOTD_URL + "';",
                                "window.location.origin + '/${studentmotd.url}';")
-                      .replace("V" + TP.TEAMMATES_VERSION, "V${version}")
-                      .replace(TP.TEST_STUDENT1_ACCOUNT, "${test.student1}")
-                      .replace(TP.TEST_STUDENT2_ACCOUNT, "${test.student2}")
-                      .replace(TP.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                      .replace(TP.TEST_ADMIN_ACCOUNT, "${test.admin}");
+                      .replace("V" + TestProperties.TEAMMATES_VERSION, "V${version}")
+                      .replace(TestProperties.TEST_STUDENT1_ACCOUNT, "${test.student1}")
+                      .replace(TestProperties.TEST_STUDENT2_ACCOUNT, "${test.student2}")
+                      .replace(TestProperties.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
+                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}");
     }
     
     /**
@@ -429,26 +434,26 @@ public class HtmlHelper {
      */
     public static String injectContextDependentValuesForTest(String content) {
         Date now = new Date();
-        return content.replace("<!-- test.url -->", TP.TEAMMATES_URL)
+        return content.replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
                       .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
-                      .replace("<!-- version -->", TP.TEAMMATES_VERSION)
-                      .replace("<!-- test.student1 -->", TP.TEST_STUDENT1_ACCOUNT)
+                      .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
+                      .replace("<!-- test.student1 -->", TestProperties.TEST_STUDENT1_ACCOUNT)
                       .replace("<!-- test.student1.truncated -->",
-                               StringHelper.truncateLongId(TP.TEST_STUDENT1_ACCOUNT))
-                      .replace("<!-- test.student2 -->", TP.TEST_STUDENT2_ACCOUNT)
+                               StringHelper.truncateLongId(TestProperties.TEST_STUDENT1_ACCOUNT))
+                      .replace("<!-- test.student2 -->", TestProperties.TEST_STUDENT2_ACCOUNT)
                       .replace("<!-- test.student2.truncated -->",
-                               StringHelper.truncateLongId(TP.TEST_STUDENT2_ACCOUNT))
-                      .replace("<!-- test.instructor -->", TP.TEST_INSTRUCTOR_ACCOUNT)
+                               StringHelper.truncateLongId(TestProperties.TEST_STUDENT2_ACCOUNT))
+                      .replace("<!-- test.instructor -->", TestProperties.TEST_INSTRUCTOR_ACCOUNT)
                       .replace("<!-- test.instructor.truncated -->",
-                               StringHelper.truncateLongId(TP.TEST_INSTRUCTOR_ACCOUNT))
-                      .replace("<!-- test.admin -->", TP.TEST_ADMIN_ACCOUNT)
+                               StringHelper.truncateLongId(TestProperties.TEST_INSTRUCTOR_ACCOUNT))
+                      .replace("<!-- test.admin -->", TestProperties.TEST_ADMIN_ACCOUNT)
                       .replace("<!-- test.admin.truncated -->",
-                               StringHelper.truncateLongId(TP.TEST_ADMIN_ACCOUNT))
+                               StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now))
-                      .replace("<!-- filepath.jquery -->", Const.SystemParams.getjQueryFilePath(TP.isDevServer()))
-                      .replace("<!-- filepath.jquery-ui -->", Const.SystemParams.getjQueryUiFilePath(TP.isDevServer()));
+                      .replace("<!-- filepath.jquery -->", Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()))
+                      .replace("<!-- filepath.jquery-ui -->", Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()));
     }
 
 }

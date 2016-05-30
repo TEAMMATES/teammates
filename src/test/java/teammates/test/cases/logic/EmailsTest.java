@@ -1,7 +1,6 @@
 package teammates.test.cases.logic;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -11,14 +10,11 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletException;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -27,8 +23,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
@@ -41,23 +37,23 @@ import teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TestProperties;
 
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+
 public class EmailsTest extends BaseComponentTestCase {
     
     private String from; // For MimeMessage testing
-    private String fromEmail; // For Sendgrid testing
-    private String fromName;  // For Sendgrid testing
     private String replyTo;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
 
     @BeforeMethod
-    public void caseSetUp() throws ServletException, IOException {
+    public void caseSetUp() throws IOException {
         /* For Sendgrid testing */
-        fromEmail = "Admin@" + Config.inst().getAppId() + ".appspotmail.com";
-        fromName = "TEAMMATES Admin";
+        String fromEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
+        String fromName = "TEAMMATES Admin";
         replyTo = "teammates@comp.nus.edu.sg";
         
         /* For MimeMessage testing */
@@ -97,8 +93,7 @@ public class EmailsTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGenerateFeedbackEmailBase() throws IOException,
-            MessagingException, GeneralSecurityException {
+    public void testGenerateFeedbackEmailBase() throws IOException, MessagingException {
 
         FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
         fsa.feedbackSessionName = "Feedback Session Name";
@@ -219,9 +214,9 @@ public class EmailsTest extends BaseComponentTestCase {
         AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
                 + "The email below has been sent to students of course: " + c.getId()
                 + "{*}" + c.getId() + "{*}" + c.getName()
-                + "{*}" + fsa.feedbackSessionName + "{*}" + deadline 
+                + "{*}" + fsa.feedbackSessionName + "{*}" + deadline
                 + "{*}{The student's unique submission url appears here}"
-                + "{*}{The student's unique submission url appears here}", 
+                + "{*}{The student's unique submission url appears here}",
                 emailBody);
 
         printEmail(email);
@@ -238,7 +233,7 @@ public class EmailsTest extends BaseComponentTestCase {
         AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
                 + "The email below has been sent to students of course: " + c.getId()
                 + "{*}is now open for viewing{*}" + c.getId() + "{*}" + c.getName()
-                + "{*}" + fsa.feedbackSessionName 
+                + "{*}" + fsa.feedbackSessionName
                 + "{*}{The student's unique results url appears here}"
                 + "{*}{The student's unique results url appears here}",
                 emailBody);
@@ -248,8 +243,7 @@ public class EmailsTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGenerateStudentCourseJoinEmail() throws IOException,
-            MessagingException, GeneralSecurityException {
+    public void testGenerateStudentCourseJoinEmail() throws IOException, MessagingException {
 
         CourseAttributes c = new CourseAttributes("course-id", "Course Name");
 
@@ -380,9 +374,9 @@ public class EmailsTest extends BaseComponentTestCase {
         
         AssertionError error = new AssertionError("invalid parameter");
         StackTraceElement s1 = new StackTraceElement(
-                SystemErrorEmailReportTest.class.getName(), 
-                "testSystemCrashReportEmailContent", 
-                "SystemErrorEmailReportTest.java", 
+                SystemErrorEmailReportTest.class.getName(),
+                "testSystemCrashReportEmailContent",
+                "SystemErrorEmailReportTest.java",
                 89);
         error.setStackTrace(new StackTraceElement[] {s1});
         String stackTrace = TeammatesException.toStringWithStackTrace(error);
@@ -395,7 +389,7 @@ public class EmailsTest extends BaseComponentTestCase {
         MimeMessage email = new Emails().generateSystemErrorEmail(
                                         error, requestMethod, requestUserAgent,
                                         requestPath, requestUrl, requestParam,
-                                        TestProperties.inst().TEAMMATES_VERSION);
+                                        TestProperties.TEAMMATES_VERSION);
 
         // check receiver
         String recipient = Config.SUPPORT_EMAIL;
@@ -410,11 +404,11 @@ public class EmailsTest extends BaseComponentTestCase {
         AssertHelper.assertContainsRegex(
                 "<b>Error Message</b><br/><pre><code>" + error.getMessage()
                 + "</code></pre>"
-                + "<br/><b>Actual user</b>" + "Not logged in" 
-                + "<br/><b>Request Method</b>" + requestMethod 
-                + "<br/><b>User Agent</b>" + requestUserAgent 
-                + "<br/><b>Request Url</b>" + requestUrl 
-                + "<br/><b>Request Path</b>" + requestPath 
+                + "<br/><b>Actual user</b>" + "Not logged in"
+                + "<br/><b>Request Method</b>" + requestMethod
+                + "<br/><b>User Agent</b>" + requestUserAgent
+                + "<br/><b>Request Url</b>" + requestUrl
+                + "<br/><b>Request Path</b>" + requestPath
                 + "<br/><b>Request Parameters</b>" + requestParam
                 + "<br/><b>Stack Trace</b><pre><code>" + stackTrace + "</code></pre>",
                 emailBody);
@@ -489,7 +483,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         email = new Emails().generateSystemErrorEmail(error, requestMethod, requestUserAgent,
                                                       requestPath, requestUrl, requestParam,
-                                                      TestProperties.inst().TEAMMATES_VERSION);
+                                                      TestProperties.TEAMMATES_VERSION);
         sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
 
         testEmailAttributes(email, sendgridEmail);
@@ -514,7 +508,7 @@ public class EmailsTest extends BaseComponentTestCase {
     }
 
     @AfterClass()
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

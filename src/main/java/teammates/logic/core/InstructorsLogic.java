@@ -17,14 +17,13 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
 
-
 /**
  * Handles  operations related to instructor roles.
  */
 public class InstructorsLogic {
     //The API of this class doesn't have header comments because it sits behind
     //  the API of the logic class. Those who use this class is expected to be
-    //  familiar with the its code and Logic's code. Hence, no need for header 
+    //  familiar with the its code and Logic's code. Hence, no need for header
     //  comments.
     
     private static final InstructorsDb instructorsDb = new InstructorsDb();
@@ -33,7 +32,7 @@ public class InstructorsLogic {
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     private static InstructorsLogic instance;
     
@@ -58,7 +57,7 @@ public class InstructorsLogic {
     }
     
     /**
-     * This method should be used by admin only since the searching does not restrict the 
+     * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      * @param queryString
@@ -67,7 +66,7 @@ public class InstructorsLogic {
      */
     public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString) {
         return instructorsDb.searchInstructorsInWholeSystem(queryString, cursorString);
-    } 
+    }
     
     /* ====================================
      * ====================================
@@ -82,9 +81,8 @@ public class InstructorsLogic {
         
         return instructorsDb.createInstructor(instructorToAdd);
     }
-    
-    
-    public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus) 
+
+    public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
            throws InvalidParametersException, EntityDoesNotExistException {
         
         InstructorAttributes instructor = instructorsDb.getInstructorForGoogleId(courseId, googleId);
@@ -140,12 +138,11 @@ public class InstructorsLogic {
     /**
      * @deprecated Not scalable. Use only for admin features.
      */
-    @Deprecated 
+    @Deprecated
     public List<InstructorAttributes> getAllInstructors() {
         
         return instructorsDb.getAllInstructors();
     }
-
 
     public boolean isGoogleIdOfInstructorOfCourse(String instructorId, String courseId) {
         
@@ -159,15 +156,8 @@ public class InstructorsLogic {
     
     public boolean isNewInstructor(String googleId) {
         List<InstructorAttributes> instructorList = getInstructorsForGoogleId(googleId);
-        
-        if (instructorList.isEmpty()) {
-            return true;
-        } else if (instructorList.size() == 1 
-                   && coursesLogic.isSampleCourse(instructorList.get(0).courseId)) {
-            return true;
-        } else {
-            return false;
-        }
+        return instructorList.isEmpty()
+               || instructorList.size() == 1 && coursesLogic.isSampleCourse(instructorList.get(0).courseId);
     }
     
     public void verifyInstructorExists(String instructorId)
@@ -193,9 +183,9 @@ public class InstructorsLogic {
      * @param googleId
      * @param instructor InstructorAttributes object containing the details to be updated
      * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException 
+     * @throws EntityDoesNotExistException
      */
-    public void updateInstructorByGoogleId(String googleId, InstructorAttributes instructor) 
+    public void updateInstructorByGoogleId(String googleId, InstructorAttributes instructor)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         // TODO: either refactor this to constant or just remove it. check not null should be in db
@@ -208,12 +198,12 @@ public class InstructorsLogic {
         instructorsDb.updateInstructorByGoogleId(instructor);
     }
     
-    private void checkForUpdatingRespondants(InstructorAttributes instructor) 
+    private void checkForUpdatingRespondants(InstructorAttributes instructor)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         InstructorAttributes currentInstructor = getInstructorForGoogleId(instructor.courseId, instructor.googleId);
         if (!currentInstructor.email.equals(instructor.email)) {
-            fsLogic.updateRespondantsForInstructor(currentInstructor.email, instructor.email, instructor.courseId);            
+            fsLogic.updateRespondantsForInstructor(currentInstructor.email, instructor.email, instructor.courseId);
         }
     }
 
@@ -237,14 +227,14 @@ public class InstructorsLogic {
      * @param email
      * @param instructor InstructorAttributes object containing the details to be updated
      * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException 
+     * @throws EntityDoesNotExistException
      */
-    public void updateInstructorByEmail(String email, InstructorAttributes instructor) 
+    public void updateInstructorByEmail(String email, InstructorAttributes instructor)
             throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull("Supplied parameter was null", instructor);
 
-        coursesLogic.verifyCourseIsPresent(instructor.courseId);        
+        coursesLogic.verifyCourseIsPresent(instructor.courseId);
         verifyIsEmailOfInstructorOfCourse(email, instructor.courseId);
         
         instructorsDb.updateInstructorByEmail(instructor);
@@ -254,7 +244,7 @@ public class InstructorsLogic {
      * Sends a registration email to the instructor
      * Vulnerable to eventual consistency
      */
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 
+    public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail)
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -287,9 +277,9 @@ public class InstructorsLogic {
      * @param courseId
      * @param instructor InstructorAttributes object containing the details of the instructor
      * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException 
+     * @throws EntityDoesNotExistException
      */
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor) 
+    public MimeMessage sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor)
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -311,8 +301,7 @@ public class InstructorsLogic {
     }
     
     @SuppressWarnings("deprecation")
-    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) 
-           throws EntityDoesNotExistException {
+    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) {
         
         String joinLink = "";
         Emails emailMgr = new Emails();
@@ -328,8 +317,7 @@ public class InstructorsLogic {
         
         return joinLink;
     }
-    
-    
+
     public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name, String institute, String email) {
         
         FieldValidator validator = new FieldValidator();
@@ -337,16 +325,24 @@ public class InstructorsLogic {
         String error;
         
         error = validator.getInvalidityInfoForPersonName(shortName);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfoForPersonName(name);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
-        if (!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForEmail(email);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfoForInstituteName(institute);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         //No validation for isInstructor and createdAt fields.
         return errors;

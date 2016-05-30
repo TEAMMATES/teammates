@@ -14,8 +14,7 @@ import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
 public class EntitiesDbTest extends BaseComponentTestCase {
-    
-    
+
     @Test
     public void testCreateEntity() throws EntityAlreadyExistsException, InvalidParametersException {
         //We are using CoursesDb to test EntititesDb here.
@@ -52,14 +51,14 @@ public class EntitiesDbTest extends BaseComponentTestCase {
             AssertHelper.assertContains(
                     String.format(COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(), REASON_INCORRECT_FORMAT),
                     e.getMessage());
-        } 
+        }
         
         ______TS("fails: null parameter");
         try {
             coursesDb.createEntity(null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
 

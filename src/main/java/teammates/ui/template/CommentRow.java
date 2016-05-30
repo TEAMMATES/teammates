@@ -2,11 +2,10 @@ package teammates.ui.template;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
-import static teammates.common.datatransfer.CommentParticipantType.*;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
-public class Comment {
+public class CommentRow {
 
     private CommentAttributes comment;
     private String giverDisplay;
@@ -28,7 +27,7 @@ public class Comment {
     private String studentEmail;
     private int numComments;
 
-    public Comment(CommentAttributes comment, String giverDisplay, String recipientDisplay) {
+    public CommentRow(CommentAttributes comment, String giverDisplay, String recipientDisplay) {
         this.comment = comment;
         this.giverDisplay = giverDisplay;
         this.recipientDisplay = recipientDisplay;
@@ -153,19 +152,19 @@ public class Comment {
     }
 
     public boolean isCommentForPerson() {
-        return comment.recipientType.equals(PERSON);
+        return comment.recipientType.equals(CommentParticipantType.PERSON);
     }
 
     public boolean isCommentForTeam() {
-        return comment.recipientType.equals(TEAM);
+        return comment.recipientType.equals(CommentParticipantType.TEAM);
     }
 
     public boolean isCommentForSection() {
-        return comment.recipientType.equals(SECTION);
+        return comment.recipientType.equals(CommentParticipantType.SECTION);
     }
 
     public boolean isCommentForCourse() {
-        return comment.recipientType.equals(COURSE);
+        return comment.recipientType.equals(CommentParticipantType.COURSE);
     }
 
     public String getShowCommentToString() {
@@ -181,59 +180,59 @@ public class Comment {
     }
 
     public boolean isShowCommentToRecipient() {
-        return comment.showCommentTo.contains(PERSON);
+        return comment.showCommentTo.contains(CommentParticipantType.PERSON);
     }
 
     public boolean isShowGiverNameToRecipient() {
-        return comment.showGiverNameTo.contains(PERSON);
+        return comment.showGiverNameTo.contains(CommentParticipantType.PERSON);
     }
 
     public boolean isShowCommentToRecipientTeam() {
-        return comment.showCommentTo.contains(TEAM);
+        return comment.showCommentTo.contains(CommentParticipantType.TEAM);
     }
 
     public boolean isShowGiverNameToRecipientTeam() {
-        return comment.showGiverNameTo.contains(TEAM);
+        return comment.showGiverNameTo.contains(CommentParticipantType.TEAM);
     }
 
     public boolean isShowRecipientNameToRecipientTeam() {
-        return comment.showRecipientNameTo.contains(TEAM);
+        return comment.showRecipientNameTo.contains(CommentParticipantType.TEAM);
     }
 
     public boolean isShowCommentToRecipientSection() {
-        return comment.showCommentTo.contains(SECTION);
+        return comment.showCommentTo.contains(CommentParticipantType.SECTION);
     }
 
     public boolean isShowGiverNameToRecipientSection() {
-        return comment.showGiverNameTo.contains(SECTION);
+        return comment.showGiverNameTo.contains(CommentParticipantType.SECTION);
     }
 
     public boolean isShowRecipientNameToRecipientSection() {
-        return comment.showRecipientNameTo.contains(SECTION);
+        return comment.showRecipientNameTo.contains(CommentParticipantType.SECTION);
     }
 
     public boolean isShowCommentToCourse() {
-        return comment.showCommentTo.contains(COURSE);
+        return comment.showCommentTo.contains(CommentParticipantType.COURSE);
     }
 
     public boolean isShowGiverNameToCourse() {
-        return comment.showGiverNameTo.contains(COURSE);
+        return comment.showGiverNameTo.contains(CommentParticipantType.COURSE);
     }
 
     public boolean isShowRecipientNameToCourse() {
-        return comment.showRecipientNameTo.contains(COURSE);
+        return comment.showRecipientNameTo.contains(CommentParticipantType.COURSE);
     }
 
     public boolean isShowCommentToInstructors() {
-        return comment.showCommentTo.contains(INSTRUCTOR);
+        return comment.showCommentTo.contains(CommentParticipantType.INSTRUCTOR);
     }
 
     public boolean isShowGiverNameToInstructors() {
-        return comment.showGiverNameTo.contains(INSTRUCTOR);
+        return comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR);
     }
 
     public boolean isShowRecipientNameToInstructors() {
-        return comment.showRecipientNameTo.contains(INSTRUCTOR);
+        return comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR);
     }
 
 }

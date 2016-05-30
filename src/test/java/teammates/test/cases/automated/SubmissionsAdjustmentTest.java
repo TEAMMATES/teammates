@@ -8,9 +8,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-import com.google.gson.Gson;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -18,16 +15,16 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
-import teammates.common.util.Const.ParamsNames;
 import teammates.logic.automated.FeedbackSubmissionAdjustmentAction;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -35,6 +32,9 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
+
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
+import com.google.gson.Gson;
 
 public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCase {
     
@@ -44,7 +44,6 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static DataBundle dataBundle = getTypicalDataBundle();
-    
     
     @SuppressWarnings("serial")
     public static class SubmissionsAdjustmentTaskQueueCallback extends BaseTaskQueueCallback {
@@ -79,13 +78,13 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
     
     @Test
     public void testEnrollStudentsWithScheduledSubmissionAdjustment() throws Exception {
-        CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");        
+        CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         
         ______TS("enrolling students to a non-existent course");
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
@@ -108,7 +107,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         //Verify no tasks sent to the task queue
         if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
-           assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0); 
+            assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
         ______TS("try to enroll with empty input enroll lines");
@@ -132,8 +131,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         ______TS("enroll new students to existing course(to check the cascade logic of the SUT)");
 
         //enroll string can also contain whitespace lines
-        enrollLines = "Section | Team | Name | Email | Comment" + Const.EOL;
-        enrollLines += newStudentLine + Const.EOL + "\t";
+        enrollLines = "Section | Team | Name | Email | Comment" + Const.EOL
+                    + newStudentLine + Const.EOL + "\t";
         
         int counter = 0;
         while (counter != 10) {
@@ -152,7 +151,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         }
         
         assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount,
-                    fsLogic.getFeedbackSessionsForCourse(course1.getId()).size());     
+                    fsLogic.getFeedbackSessionsForCourse(course1.getId()).size());
         
         
         ______TS("change an existing students email and verify update "
@@ -168,7 +167,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
 
         verifyPresentInDatastore(updatedAttributes);
 
-        //Verify no tasks sent to task queue 
+        //Verify no tasks sent to task queue
         if (!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)) {
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
@@ -185,8 +184,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         studentInTeam1.section = "Section 2";
         studentInTeam1.team = "Team 1.2";
-        enrollLines = "Section | Team | Name | Email | Comment";
-        enrollLines += studentInTeam1.toEnrollmentString();
+        enrollLines = "Section | Team | Name | Email | Comment" + studentInTeam1.toEnrollmentString();
         
         counter = 0;
         while (counter != 10) {
@@ -210,9 +208,9 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         //Reset task count in TaskQueue callback
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
         
-        String invalidEnrollLine = "Team | Name | Email | Comment" + Const.EOL;
         String invalidStudentId = "t1|n6|e6@g@";
-        invalidEnrollLine += invalidStudentId + Const.EOL;
+        String invalidEnrollLine = "Team | Name | Email | Comment" + Const.EOL
+                                 + invalidStudentId + Const.EOL;
         try {
             studentsInfo = studentsLogic
                     .enrollStudentsWithoutDocument(invalidEnrollLine, course1.getId());
@@ -242,7 +240,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         
         //Verify pre-existing submissions and responses
-        List<FeedbackResponseAttributes> oldResponsesForSession = 
+        List<FeedbackResponseAttributes> oldResponsesForSession =
                 getAllResponsesForStudentForSession(student, session.feedbackSessionName);
         assertFalse(oldResponsesForSession.isEmpty());
         
@@ -254,8 +252,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         student.section = newSection;
         
         
-        StudentEnrollDetails enrollDetails = 
-                new StudentEnrollDetails(UpdateStatus.MODIFIED, student.course, student.email, 
+        StudentEnrollDetails enrollDetails =
+                new StudentEnrollDetails(UpdateStatus.MODIFIED, student.course, student.email,
                                          oldTeam, newTeam, oldSection, newSection);
         ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);
@@ -272,9 +270,9 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         FeedbackSubmissionAdjustmentAction responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
         assertTrue(responseAdjustmentAction.execute());
         
-        int numberOfNewResponses = 
+        int numberOfNewResponses =
                 getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
-        assertEquals(0, numberOfNewResponses);        
+        assertEquals(0, numberOfNewResponses);
     }
 
     private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {
@@ -298,7 +296,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
             FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst()
                     .getFeedbackQuestion(response.feedbackQuestionId);
             if (question.giverType == FeedbackParticipantType.TEAMS
-                || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+                    || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
                 returnList.add(response);
             }
         }
@@ -324,7 +322,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     private void verifyResponsesDoNotExistForEmailInCourse(String email,
             String courseId) {
         List<FeedbackSessionAttributes> allSessions = fsLogic
-                .getFeedbackSessionsForCourse(courseId); 
+                .getFeedbackSessionsForCourse(courseId);
         
         for (FeedbackSessionAttributes eachSession : allSessions) {
             List<FeedbackResponseAttributes> allResponses = frLogic
@@ -332,8 +330,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
             
             for (FeedbackResponseAttributes eachResponse : allResponses) {
                 if (eachResponse.recipientEmail.equals(email) || eachResponse.giverEmail.equals(email)) {
-                    fail("Cause : Feedback response for "
-                         + email + " found on system");
+                    fail("Cause : Feedback response for " + email + " found on system");
                 }
             }
         }

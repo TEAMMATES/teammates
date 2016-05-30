@@ -12,9 +12,6 @@ import teammates.common.util.Assumption;
  * - {@link FeedbackSessionAttributes}
  */
 public interface SessionAttributes {
-    Date getSessionStartTime();
-    Date getSessionEndTime();
-    String getSessionName();
     
     /**
      * Comparator to sort SessionAttributes on ASCENDING order based on
@@ -103,4 +100,11 @@ public interface SessionAttributes {
             return result;
         }
     };
+
+    Date getSessionStartTime();
+    
+    Date getSessionEndTime();
+    
+    String getSessionName();
+
 }

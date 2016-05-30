@@ -2,7 +2,6 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
 
 import javax.jdo.PersistenceManager;
 
@@ -11,7 +10,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
@@ -40,12 +38,12 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         numberOfSanitizedEmail = 0;
         numberOfSanitizedGoogleId = 0;
         for (StudentAttributes student : allStudents) {
-            if (!isPreview) {
-                fixSanitizedDataForStudent(student);
-            } else {
+            if (isPreview) {
                 if (previewSanitizedDataForStudent(student)) {
                     numberOfAffectedStudents++;
                 }
+            } else {
+                fixSanitizedDataForStudent(student);
             }
         }
         if (isPreview) {
@@ -102,11 +100,13 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     }
 
     private boolean isSanitizedString(String s) {
-        if (s == null) return false;
-        if (s.indexOf('<') >= 0 || s.indexOf('>') >= 0 || s.indexOf('\"') >= 0 
-            || s.indexOf('/') >= 0 || s.indexOf('\'') >= 0) {
+        if (s == null) {
             return false;
-        } else if (s.indexOf("&lt;") >= 0 || s.indexOf("&gt;") >= 0 || s.indexOf("&quot;") >= 0 
+        }
+        if (s.indexOf('<') >= 0 || s.indexOf('>') >= 0 || s.indexOf('\"') >= 0
+                || s.indexOf('/') >= 0 || s.indexOf('\'') >= 0) {
+            return false;
+        } else if (s.indexOf("&lt;") >= 0 || s.indexOf("&gt;") >= 0 || s.indexOf("&quot;") >= 0
                    || s.indexOf("&#x2f;") >= 0 || s.indexOf("&#39;") >= 0 || s.indexOf("&amp;") >= 0) {
             return true;
         }
@@ -123,7 +123,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     private boolean checkStudentHasSanitizedData(StudentAttributes student) {
         return isSanitizedString(student.comments) || isSanitizedString(student.course)
                || isSanitizedString(student.email) || isSanitizedString(student.googleId)
-               || isSanitizedString(student.lastName) || isSanitizedString(student.name) 
+               || isSanitizedString(student.lastName) || isSanitizedString(student.name)
                || isSanitizedString(student.section) || isSanitizedString(student.team);
     }
     
@@ -146,15 +146,15 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
                 updateStudent(student.email, student);
             }
         } catch (InvalidParametersException e) {
-            Utils.getLogger().log(Level.INFO, "Student " + student.email + " invalid!");
+            System.out.println("Student " + student.email + " invalid!");
             e.printStackTrace();
         } catch (EntityDoesNotExistException e) {
-            Utils.getLogger().log(Level.INFO, "Student " + student.email + " does not exist!");
+            System.out.println("Student " + student.email + " does not exist!");
             e.printStackTrace();
         }
     }
 
-    protected PersistenceManager getPM() {
+    protected PersistenceManager getPm() {
         return Datastore.getPersistenceManager();
     }
 
@@ -174,6 +174,6 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
         
-        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments, true);    
+        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments, true);
     }
 }

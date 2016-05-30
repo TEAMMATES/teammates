@@ -11,9 +11,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
-import teammates.common.util.Const.ParamsNames;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
@@ -43,10 +43,10 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         Assumption.assertNotNull(enrollmentDetails);
     }
 
-    public FeedbackSubmissionAdjustmentAction(HashMap<String, String> paramMap) {    
+    public FeedbackSubmissionAdjustmentAction(HashMap<String, String> paramMap) {
         super(null);
         
-        this.courseId = paramMap.get(ParamsNames.COURSE_ID); 
+        this.courseId = paramMap.get(ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         
         this.sessionName = paramMap.get(ParamsNames.FEEDBACK_SESSION_NAME);
@@ -59,39 +59,40 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
     @Override
     public boolean execute() {
         
-        Gson gsonParser = Utils.getTeammatesGson();
-        ArrayList<StudentEnrollDetails> enrollmentList = gsonParser
-                .fromJson(enrollmentDetails, new TypeToken<ArrayList<StudentEnrollDetails>>(){}
-                .getType());
-        
-        log.info("Adjusting submissions for feedback session :" + sessionName 
+
+        log.info("Adjusting submissions for feedback session :" + sessionName
                  + "in course : " + courseId);
         
         FeedbackSessionAttributes feedbackSession = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(sessionName, courseId);
-        StudentsLogic stLogic = StudentsLogic.inst();
-        String errorString = "Error encountered while adjusting feedback session responses " 
-                           + "of %s in course : %s : %s\n%s";
         
-        if (feedbackSession != null) {
-            List<FeedbackResponseAttributes> allResponses = FeedbackResponsesLogic.inst()
-                    .getFeedbackResponsesForSession(feedbackSession.feedbackSessionName,
-                            feedbackSession.courseId);
-            
-            for (FeedbackResponseAttributes response : allResponses) {
-                try {
-                    stLogic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
-                } catch (Exception e) {
-                    log.severe(String.format(errorString, sessionName, courseId, e.getMessage(),
-                            ActivityLogEntry.generateServletActionFailureLogMessage(request, e)));
-                    return false;
-                }
-            } 
-            return true;
-        } else {
+        String errorString =
+                "Error encountered while adjusting feedback session responses of %s in course : %s : %s\n%s";
+        
+        if (feedbackSession == null) {
             log.severe(String.format(errorString, sessionName, courseId, "feedback session is null", ""));
             return false;
-        }    
+        }
+        
+        List<FeedbackResponseAttributes> allResponses =
+                                        FeedbackResponsesLogic.inst().getFeedbackResponsesForSession(
+                                                                        feedbackSession.feedbackSessionName,
+                                                                        feedbackSession.courseId);
+        Gson gsonParser = Utils.getTeammatesGson();
+        ArrayList<StudentEnrollDetails> enrollmentList = gsonParser
+                                                            .fromJson(enrollmentDetails, new TypeToken<ArrayList<StudentEnrollDetails>>(){}
+                                                            .getType());
+        for (FeedbackResponseAttributes response : allResponses) {
+            try {
+                StudentsLogic.inst().adjustFeedbackResponseForEnrollments(enrollmentList, response);
+            } catch (Exception e) {
+                log.severe(String.format(errorString, sessionName, courseId, e.getMessage(),
+                                                ActivityLogEntry.generateServletActionFailureLogMessage(request, e)));
+                return false;
+            }
+        }
+        return true;
+           
     }
 
 }

@@ -15,7 +15,7 @@ import teammates.test.cases.BaseTestCase;
 public class StudentAttributesFactoryTest extends BaseTestCase {
 
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
 
@@ -39,7 +39,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ":  <mark>Team</mark>",
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Team</mark>",
                          e.getMessage());
         }
 
@@ -49,7 +49,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ":  <mark>Name</mark>",
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Name</mark>",
                          e.getMessage());
         }
 
@@ -59,7 +59,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ":  <mark>Team</mark>",
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Team</mark>",
                          e.getMessage());
         }
 
@@ -69,7 +69,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ":  <mark>Email</mark>",
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ": <mark>Email</mark>",
                          e.getMessage());
         }
 
@@ -84,7 +84,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         
         // adding this for complete coverage
         ______TS("Failure case: repeated required columns");
-        headerRow = "name \t email \t team \t comments \t section \t email \t team \t comments \t section ";            
+        headerRow = "name \t email \t team \t comments \t section \t email \t team \t comments \t section ";
         try {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
@@ -236,8 +236,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
                                                                                 String.class);
         privateMethod.setAccessible(true);
 
-        int retVal = (Integer) privateMethod.invoke(new StudentAttributesFactory(), line);
-        return retVal;
+        return (Integer) privateMethod.invoke(new StudentAttributesFactory(), line);
     }
 
     private String[] invokeSplitLineIntoColumns(String line) throws Exception {
@@ -245,8 +244,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
                                                                                 String.class);
         privateMethod.setAccessible(true);
 
-        String[] strs = (String[]) privateMethod.invoke(new StudentAttributesFactory(), line);
-        return strs;
+        return (String[]) privateMethod.invoke(new StudentAttributesFactory(), line);
     }
 
     @AfterClass

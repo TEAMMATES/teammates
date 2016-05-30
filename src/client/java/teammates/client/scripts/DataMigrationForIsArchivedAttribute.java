@@ -18,7 +18,7 @@ import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
 
 /**
- * Script to set the isArchived attribute of instructors if the course's isArchived 
+ * Script to set the isArchived attribute of instructors if the course's isArchived
  * attribute is set.
  * 
  * If the course is not archived, the instructors of the course will not be modified
@@ -28,8 +28,8 @@ import teammates.storage.entity.Course;
  */
 public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
 
-    private Logic logic = new Logic();
-    private CoursesDb coursesDb = new CoursesDb();
+    private static final Logic logic = new Logic();
+    private static final CoursesDb coursesDb = new CoursesDb();
     private static final boolean isPreview = true;
     private static final boolean isModifyingOnlyArchivedCourses = true;
     
@@ -42,7 +42,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     protected void doOperation() {
         Datastore.initialize();
         
-        List<CourseAttributes> courses = isModifyingOnlyArchivedCourses ? getArchivedCourses() 
+        List<CourseAttributes> courses = isModifyingOnlyArchivedCourses ? getArchivedCourses()
                                                                         : getAllCourses();
         
         try {
@@ -54,14 +54,13 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
         }
     }
 
-    
     private void migrateCourse(CourseAttributes course) throws InvalidParametersException,
                                     EntityDoesNotExistException {
         if (course.isArchived) {
-            if (!isPreview) {
-                setInstructorsIsArchivedInCourse(course);
-            } else {
+            if (isPreview) {
                 previewInstructorsIsArchivedInCourse(course);
+            } else {
+                setInstructorsIsArchivedInCourse(course);
             }
         }
     }
@@ -88,8 +87,8 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     }
 
     /**
-     * For the given course, set the isArchived attribute of the instructors in the course 
-     * @throws EntityDoesNotExistException 
+     * For the given course, set the isArchived attribute of the instructors in the course
+     * @throws EntityDoesNotExistException
      * @throws InvalidParametersException
      */
     private void setInstructorsIsArchivedInCourse(CourseAttributes course) throws InvalidParametersException, EntityDoesNotExistException {
@@ -99,12 +98,12 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
         System.out.println("Updating instructors of old archived course: " + course.getId());
         
         List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(course.getId());
-        for (InstructorAttributes instructor: instructorsOfCourse) {
+        for (InstructorAttributes instructor : instructorsOfCourse) {
             
             // only update if migration had not been done for the instructor
             if (instructor.isArchived == null) {
                 instructor.isArchived = true;
-                logic.updateInstructorByEmail(instructor.email, instructor);    
+                logic.updateInstructorByEmail(instructor.email, instructor);
                 
                 System.out.println("Successfully updated instructor: [" + instructor.email + "] " + instructor.name);
             }
@@ -116,18 +115,16 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     }
     
     /**
-     * For preview mode, prints out the instructors of the course and their isArchived status 
-     * @throws EntityDoesNotExistException 
-     * @throws InvalidParametersException
+     * For preview mode, prints out the instructors of the course and their isArchived status
      */
-    private void previewInstructorsIsArchivedInCourse(CourseAttributes course) throws InvalidParametersException, EntityDoesNotExistException {
+    private void previewInstructorsIsArchivedInCourse(CourseAttributes course) {
         Assumption.assertEquals(true, isPreview);
         Assumption.assertTrue(course.isArchived);
         
         System.out.println("Previewing instructors of old archived course: " + course.getId());
         
         List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(course.getId());
-        for (InstructorAttributes instructor: instructorsOfCourse) {
+        for (InstructorAttributes instructor : instructorsOfCourse) {
             System.out.println("Instructor: " + instructor.googleId + " : " + instructor.isArchived);
             
             if (instructor.isArchived == null) {

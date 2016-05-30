@@ -10,9 +10,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Const.StatusMessages;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorHomePageAction extends Action {
@@ -57,7 +57,7 @@ public class InstructorHomePageAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME_AJAX_COURSE_TABLE, data);
     }
 
-    private ActionResult loadPage() throws EntityDoesNotExistException {
+    private ActionResult loadPage() {
         boolean omitArchived = true;
         HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
                                                                  account.googleId, omitArchived);
@@ -75,8 +75,7 @@ public class InstructorHomePageAction extends Action {
         }
         statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + courseList.size();
         
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
-        return response;
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
     }
 
     private String getSortCriteria() {
@@ -90,17 +89,17 @@ public class InstructorHomePageAction extends Action {
     
     private void sortCourse(ArrayList<CourseSummaryBundle> courseList, String sortCriteria) {
         switch (sortCriteria) {
-            case Const.SORT_BY_COURSE_ID:
-                CourseSummaryBundle.sortSummarizedCoursesByCourseId(courseList);
-                break;
-            case Const.SORT_BY_COURSE_NAME:
-                CourseSummaryBundle.sortSummarizedCoursesByCourseName(courseList);
-                break;
-            case Const.SORT_BY_COURSE_CREATION_DATE:
-                CourseSummaryBundle.sortSummarizedCoursesByCreationDate(courseList);
-                break;
-            default:
-                throw new RuntimeException("Invalid course sorting criteria.");
+        case Const.SORT_BY_COURSE_ID:
+            CourseSummaryBundle.sortSummarizedCoursesByCourseId(courseList);
+            break;
+        case Const.SORT_BY_COURSE_NAME:
+            CourseSummaryBundle.sortSummarizedCoursesByCourseName(courseList);
+            break;
+        case Const.SORT_BY_COURSE_CREATION_DATE:
+            CourseSummaryBundle.sortSummarizedCoursesByCreationDate(courseList);
+            break;
+        default:
+            throw new RuntimeException("Invalid course sorting criteria.");
         }
-    }    
+    }
 }

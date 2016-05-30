@@ -3,17 +3,18 @@ package teammates.client.scripts;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-import com.google.gson.Gson;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
+
+import com.google.gson.Gson;
 
 /**
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
@@ -25,8 +26,8 @@ import teammates.test.driver.TestProperties;
  * should not be set to too large as it may cause Deadline Exception (especially for evaluations)
  * 
  */
-public class ImportData {
-    //  
+public final class ImportData {
+    //
     // Data source file name (under src/test/resources/data folder) to import
     private static final String SOURCE_FILE_NAME = "ResultFileName.json";
     
@@ -38,24 +39,31 @@ public class ImportData {
     private static Gson gson = Utils.getTeammatesGson();
     private static String jsonString;
     
-    public static void main(String args[]) throws Exception {
+    private ImportData() {
+        // script, not meant to be instantiated
+    }
+
+    public static void main(String[] args) throws Exception {
         jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + SOURCE_FILE_NAME);
         data = gson.fromJson(jsonString, DataBundle.class);
         
         String status = "";
-        do
-        {
+        do {
             long start = System.currentTimeMillis();
+            boolean hasAccounts = !data.accounts.isEmpty();
+            boolean hasInstructors = !data.instructors.isEmpty();
+            boolean hasCourses = !data.courses.isEmpty();
+            boolean hasStudents = !data.students.isEmpty();
             
-            if (!data.accounts.isEmpty()) {
+            if (hasAccounts) {
                 status = persist(data.accounts); // Accounts
-            } else if (!data.instructors.isEmpty()) {            //Instructors
+            } else if (hasInstructors) {            //Instructors
                 status = persist(data.instructors);
-            } else if (!data.courses.isEmpty()) {    //Courses
+            } else if (hasCourses) {    //Courses
                 status = persist(data.courses);
-            } else if (!data.students.isEmpty()) {    //Students
+            } else if (hasStudents) {    //Students
                 status = persist(data.students);
-            } else {    
+            } else {
                 // No more data, break the loop
                 System.out.print("\n Finish!");
                 break;
@@ -71,14 +79,13 @@ public class ImportData {
     }
     
     /**
-     * This method will persist a number of entity and remove them from the source, return the 
+     * This method will persist a number of entity and remove them from the source, return the
      * status of the operation.
-     *  
+     * 
      * @param map - HashMap which has data to persist
      * @return status of the Backdoor operation
      */
-    private static String persist(@SuppressWarnings("rawtypes") HashMap map)
-    {
+    private static String persist(@SuppressWarnings("rawtypes") HashMap map) {
         DataBundle bundle = new DataBundle();
         int count = 0;
         @SuppressWarnings("unchecked")
@@ -87,39 +94,34 @@ public class ImportData {
         Iterator itr = set.iterator();
         
         String type = "";
-        while (itr.hasNext())
-        {
+        while (itr.hasNext()) {
             String key = (String) itr.next();
             Object obj = map.get(key);
             
-            if (obj instanceof AccountAttributes)
-            {
+            if (obj instanceof AccountAttributes) {
                 type = "AccountData";
                 AccountAttributes accountData = (AccountAttributes) obj;
                 bundle.accounts.put(key, accountData);
-            } else if (obj instanceof InstructorAttributes)
-            {
+            } else if (obj instanceof InstructorAttributes) {
                 type = "InstructorData";
                 InstructorAttributes instructorData = (InstructorAttributes) obj;
                 bundle.instructors.put(key, instructorData);
-            } else if (obj instanceof CourseAttributes)
-            {
+            } else if (obj instanceof CourseAttributes) {
                 type = "CourseData";
                 CourseAttributes courseData = (CourseAttributes) obj;
                 bundle.courses.put(key, courseData);
-            } else if (obj instanceof StudentAttributes)
-            {
+            } else if (obj instanceof StudentAttributes) {
                 type = "StudentData";
                 StudentAttributes studentData = (StudentAttributes) obj;
                 bundle.students.put(key, studentData);
-            } 
+            }
             count++;
             itr.remove();
             System.out.print(key + "\n");
-            if ("EvaluationData".equals(type) && count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST)
+            if ("EvaluationData".equals(type) && count >= MAX_NUMBER_OF_EVALUATION_PER_REQUEST
+                    || count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST) {
                 break;
-            if (count >= MAX_NUMBER_OF_ENTITY_PER_REQUEST)
-                break;
+            }
         }
         System.out.print(count + " entities of type " + type + " left " + map.size() + " \n");
         

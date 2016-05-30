@@ -22,9 +22,11 @@ public class BaseTestCase {
      * @param description
      *            of the logical section. This will be printed.
      */
+    // CHECKSTYLE.OFF:AbbreviationAsWordInName|MethodName the weird name is for easy spotting.
     public static void ______TS(String description) {
         print(" * " + description);
     }
+    // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
     public static void printTestCaseHeader() {
         print("[TestCase]---:" + Thread.currentThread().getStackTrace()[2].getMethodName());
@@ -51,11 +53,10 @@ public class BaseTestCase {
         return loadDataBundle("/typicalDataBundle.json");
     }
     
-    protected static DataBundle loadDataBundle(String pathToJsonFile) {
-        if (pathToJsonFile.startsWith("/")) {
-            pathToJsonFile = TestProperties.TEST_DATA_FOLDER + pathToJsonFile;
-        }
+    protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
         try {
+            String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
+                                  + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
         } catch (FileNotFoundException e) {
@@ -79,7 +80,7 @@ public class BaseTestCase {
         backDoorLogic.persistDataBundle(dataBundle);
     }
     
-    protected static void removeTypicalDataInDatastore() throws Exception {
+    protected static void removeTypicalDataInDatastore() {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = getTypicalDataBundle();
         backDoorLogic.deleteExistingData(dataBundle);
@@ -88,7 +89,7 @@ public class BaseTestCase {
     /**
      * Creates in the datastore a fresh copy of data in the given json file
      */
-    protected static  void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
+    protected static void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = loadDataBundle(pathToJsonFile);
         backDoorLogic.persistDataBundle(dataBundle);

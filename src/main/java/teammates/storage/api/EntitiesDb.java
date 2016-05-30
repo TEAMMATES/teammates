@@ -7,13 +7,6 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-import com.google.appengine.api.search.SearchQueryException;
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -26,6 +19,12 @@ import teammates.storage.datastore.Datastore;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SearchQueryException;
 
 public abstract class EntitiesDb {
 
@@ -41,13 +40,13 @@ public abstract class EntitiesDb {
     public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
     public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
 
-    private static final Logger log = Utils.getLogger();
+    protected static final Logger log = Utils.getLogger();
     
     /**
-     * Preconditions: 
+     * Preconditions:
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
-    public Object createEntity(EntityAttributes entityToAdd) 
+    public Object createEntity(EntityAttributes entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull(
@@ -59,7 +58,7 @@ public abstract class EntitiesDb {
             throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
         }
         
-        // TODO: Do we really need special identifiers? Can just use ToString()? 
+        // TODO: Do we really need special identifiers? Can just use ToString()?
         // Answer: Yes. We can use toString.
         Object existingEntity = getEntity(entityToAdd);
         if (existingEntity != null) {
@@ -70,8 +69,8 @@ public abstract class EntitiesDb {
         }
         
         Object entity = entityToAdd.toEntity();
-        getPM().makePersistent(entity);
-        getPM().flush();
+        getPm().makePersistent(entity);
+        getPm().flush();
 
         // Wait for the operation to persist
         int elapsedTime = 0;
@@ -104,7 +103,7 @@ public abstract class EntitiesDb {
                 Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
         
         List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
-        List<Object> entities = new ArrayList<Object>(); 
+        List<Object> entities = new ArrayList<Object>();
         
         for (EntityAttributes entityToAdd : entitiesToAdd) {
             entityToAdd.sanitizeForSaving();
@@ -113,17 +112,17 @@ public abstract class EntitiesDb {
                 throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
             }
             
-            if (getEntity(entityToAdd) != null) {
-                entitiesToUpdate.add(entityToAdd);
-            } else {
+            if (getEntity(entityToAdd) == null) {
                 entities.add(entityToAdd.toEntity());
+            } else {
+                entitiesToUpdate.add(entityToAdd);
             }
             
             log.info(entityToAdd.getBackupIdentifier());
         }
        
-        getPM().makePersistentAll(entities);
-        getPM().flush();
+        getPm().makePersistentAll(entities);
+        getPm().flush();
  
         return entitiesToUpdate;
 
@@ -135,7 +134,7 @@ public abstract class EntitiesDb {
                 Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
         
         List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
-        List<Object> entities = new ArrayList<Object>(); 
+        List<Object> entities = new ArrayList<Object>();
         
         for (EntityAttributes entityToAdd : entitiesToAdd) {
             entityToAdd.sanitizeForSaving();
@@ -144,17 +143,17 @@ public abstract class EntitiesDb {
                 throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
             }
             
-            if (getEntity(entityToAdd) != null) {
-                entitiesToUpdate.add(entityToAdd);
-            } else {
+            if (getEntity(entityToAdd) == null) {
                 entities.add(entityToAdd.toEntity());
+            } else {
+                entitiesToUpdate.add(entityToAdd);
             }
             
             log.info(entityToAdd.getBackupIdentifier());
         }
         
-        getPM().makePersistentAll(entities);
-        getPM().flush();
+        getPm().makePersistentAll(entities);
+        getPm().flush();
  
         return entities;
 
@@ -164,10 +163,10 @@ public abstract class EntitiesDb {
     /**
      * Warning: Do not use this method unless a previous update might cause
      * adding of the new entity to fail due to EntityAlreadyExists exception
-     * Preconditions: 
+     * Preconditions:
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
-    public Object createEntityWithoutExistenceCheck(EntityAttributes entityToAdd) 
+    public Object createEntityWithoutExistenceCheck(EntityAttributes entityToAdd)
             throws InvalidParametersException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
@@ -179,8 +178,8 @@ public abstract class EntitiesDb {
         }
         
         Object entity = entityToAdd.toEntity();
-        getPM().makePersistent(entity);
-        getPM().flush();
+        getPm().makePersistent(entity);
+        getPm().flush();
 
         // Wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -210,7 +209,7 @@ public abstract class EntitiesDb {
     /**
      * Note: This is a non-cascade delete.<br>
      *   <br> Fails silently if there is no such object.
-     * <br> Preconditions: 
+     * <br> Preconditions:
      * <br> * {@code courseId} is not null.
      */
     public void deleteEntity(EntityAttributes entityToDelete) {
@@ -222,8 +221,8 @@ public abstract class EntitiesDb {
             return;
         }
 
-        getPM().deletePersistent(entity);
-        getPM().flush();
+        getPm().deletePersistent(entity);
+        getPm().flush();
         
         // wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -259,21 +258,21 @@ public abstract class EntitiesDb {
             }
         }
         
-        getPM().deletePersistentAll(entities);
-        getPM().flush();
+        getPm().deletePersistentAll(entities);
+        getPm().flush();
     }
     
     public void commitOutstandingChanges() {
-        closePM();
+        closePm();
     }
     
-    protected void closePM() {
-        if (!getPM().isClosed()) {
-            getPM().close();
+    protected void closePm() {
+        if (!getPm().isClosed()) {
+            getPm().close();
         }
     }
     
-    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
+    public void deletePicture(BlobKey key) {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(key);
         } catch (Exception e) {
@@ -281,7 +280,7 @@ public abstract class EntitiesDb {
         }
     }
     
-    public void deletePictures(BlobKey[] keys) throws BlobstoreFailureException {
+    public void deletePictures(BlobKey[] keys) {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(keys);
         } catch (Exception e) {
@@ -293,12 +292,12 @@ public abstract class EntitiesDb {
      * NOTE: This method must be overriden for all subclasses such that it will return the Entity
      * matching the EntityAttributes in the parameter.
      * @return    the Entity which matches the given {@link EntityAttributes} {@code attributes}
-     *             based on the default key identifiers. Returns null if it 
-     *             does not already exist in the Datastore. 
+     *             based on the default key identifiers. Returns null if it
+     *             does not already exist in the Datastore.
      */
     protected abstract Object getEntity(EntityAttributes attributes);
     
-    protected PersistenceManager getPM() {
+    protected PersistenceManager getPm() {
         return Datastore.getPersistenceManager();
     }
     
@@ -319,9 +318,8 @@ public abstract class EntitiesDb {
         try {
             if (query.getFilterSize() > 0) {
                 return SearchManager.searchDocuments(indexName, query.toQuery());
-            } else {
-                return null;
             }
+            return null;
         } catch (SearchQueryException e) {
             log.info("Unsupported query for this query string: " + query.toString());
             return null;

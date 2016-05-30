@@ -7,7 +7,8 @@
 * [Deploying to a staging server](#deploying-to-a-staging-server)
 * [Running client scripts](#running-client-scripts)
 * [Troubleshooting](#troubleshooting)
-* [Tool stack](#toolStack)
+* [Tool stack](#tool-stack)
+* [Config points](#config-points)
 
 ## Setting Up the Developer Environment
 >If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
@@ -15,7 +16,7 @@
 These instructions work for Linux, OS X as well as for the Windows
 environment. The only difference for Windows environment is that the command `./gradlew` should be replaced by `gradlew.bat` everywhere.
 
-The full tool stack is given at the [end of this document](#toolStack).
+The full tool stack is given at the [end of this document](#tool-stack).
 
 ## Prerequisites
 Important: When a version is specified, please install that version instead of the latest version available.
@@ -56,8 +57,9 @@ Important: When a version is specified, please install that version instead of t
     to indent using 4 spaces instead of tabs.
     * HTML syntax: We prefer not to use the HTML syntax validator provided by Eclipse.
     To turn it off, go to `Window → Preferences → Validation → HTML Syntax Validator` (Mac: `Eclipse → Preferences → Validation → HTML Syntax Validator`) and uncheck the `Build` option.
-3. Run the command `./gradlew setUp`.<br>
+3. Run the command `./gradlew setup`.<br>
    This creates the main config files {These are not under revision control because their content vary from developer to developer}.
+   * `.project`<br>
    * `src/main/resources/build.properties`<br>
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
@@ -242,7 +244,7 @@ Client scripts are scripts that remotely manipulate data on GAE via its Remote A
 ## Troubleshooting
 Troubleshooting instructions are given [in this document](troubleshooting-guide.md)
 
-##<a name="toolStack"></a>Tool stack
+## Tool stack
 
 ####Deployment environment
 * **Google App Engine** (GAE)
@@ -305,7 +307,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 * **HttpUnit** [version 1.7]
     We use the ServletUnit component of HttpUnit to create HttpServletUnit objects used for testing.
 
-####Config points
+## Config points
 There are several files used to configure various aspects of the system.
 
 **main:**

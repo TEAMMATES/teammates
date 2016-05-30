@@ -9,8 +9,8 @@ import teammates.common.util.Config;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 
-import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
 import com.google.appengine.api.search.PutException;
 import com.google.appengine.api.search.PutResponse;
@@ -25,11 +25,15 @@ import com.google.appengine.api.search.StatusCode;
  * Codes reference:
  * https://developers.google.com/appengine/docs/java/search/
  */
-public class SearchManager {
+public final class SearchManager {
     private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE = "Failed to put document %s into search index %s due to non-transient backend issue.";
     private static final String ERROR_EXCEED_DURATION = "Operation did not succeed in time to put document %s into search index %s";
     private static final Logger log = Utils.getLogger();
     private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String, Index>>();
+    
+    private SearchManager() {
+        // utility class
+    }
     
     /*
      * Create or update the search document for the given document and index
@@ -61,7 +65,7 @@ public class SearchManager {
         } catch (PutException e) {
             //if it's a transient error in the server, it can be re-tried
             if (!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
-                log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName) 
+                log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName)
                         + " e:\n" + TeammatesException.toStringWithStackTrace(e));
             }
             return false;
@@ -100,7 +104,7 @@ public class SearchManager {
         Map<String, Index> indicesTable = getIndicesTable();
         Index index = indicesTable.get(indexName);
         if (index == null) {
-            IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build(); 
+            IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build();
             index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
             indicesTable.put(indexName, index);
         }

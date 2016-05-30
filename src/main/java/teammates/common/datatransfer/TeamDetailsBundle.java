@@ -5,7 +5,7 @@ import java.util.List;
 
 /** 
  * Represents details of students in a team.
- * <br> Contains: 
+ * <br> Contains:
  * <br> * The team name .
  * <br> * {@link StudentAttributes} objects for all students in the team.
  */

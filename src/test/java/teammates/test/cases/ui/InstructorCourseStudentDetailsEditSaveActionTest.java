@@ -16,13 +16,10 @@ import teammates.ui.controller.InstructorCourseStudentDetailsEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
-
-
 public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
@@ -58,7 +55,6 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         };
         verifyAssumptionFailure(invalidParams);
 
-        
         ______TS("Typical case, successful edit and save student detail");
         
         String[] submissionParams = new String[]{
@@ -70,29 +66,27 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 Const.ParamsNames.TEAM_NAME, newStudentTeam
         };
 
-        
         InstructorCourseStudentDetailsEditSaveAction a = getAction(submissionParams);
         RedirectResult r = getRedirectResult(a);
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE 
-                     + "?error=" + "false&user=idOfInstructor1OfCourse1&" 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
+                     + "?error=" + "false&user=idOfInstructor1OfCourse1&"
                      + "courseid=" + "idOfTypicalCourse1",
                      r.getDestinationWithParams());
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED, r.getStatusMessage());
         
-        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" 
-                                  + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" 
-                                  + "Student <span class=\"bold\">" + student1InCourse1.email 
-                                  + "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>" 
-                                  + "New Email: " + newStudentEmail 
-                                  + "<br>New Team: " + newStudentTeam 
-                                  + "<br>Comments: " + newStudentComments 
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
+                                  + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                  + "Student <span class=\"bold\">" + student1InCourse1.email
+                                  + "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"
+                                  + "New Email: " + newStudentEmail
+                                  + "<br>New Team: " + newStudentTeam
+                                  + "<br>Comments: " + newStudentComments
                                   + "|||/page/instructorCourseStudentDetailsEditSave";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
-        
-        
+
         ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
         
         String newStudentEmailToBeTrimmed = "  newemail@gmail.tmt   ";  // after trim, this is equal to newStudentEmail
@@ -111,25 +105,24 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         InstructorCourseStudentDetailsEditSaveAction aToBeTrimmed = getAction(submissionParamsToBeTrimmed);
         RedirectResult rToBeTrimmed = getRedirectResult(aToBeTrimmed);
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE 
-                     + "?error=" + "false&user=idOfInstructor1OfCourse1&" 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
+                     + "?error=" + "false&user=idOfInstructor1OfCourse1&"
                      + "courseid=" + "idOfTypicalCourse1",
                      rToBeTrimmed.getDestinationWithParams());
         
         assertFalse(rToBeTrimmed.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED, rToBeTrimmed.getStatusMessage());
         
-        String expectedLogMessageToBeTrimmed = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" 
-                                             + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" 
-                                             + "Student <span class=\"bold\">" + newStudentEmail 
-                                             + "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>" 
-                                             + "New Email: " + newStudentEmailToBeTrimmed.trim() 
-                                             + "<br>New Team: " + newStudentTeamToBeTrimmed.trim() 
-                                             + "<br>Comments: " + newStudentCommentsToBeTrimmed.trim() 
+        String expectedLogMessageToBeTrimmed = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
+                                             + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                             + "Student <span class=\"bold\">" + newStudentEmail
+                                             + "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"
+                                             + "New Email: " + newStudentEmailToBeTrimmed.trim()
+                                             + "<br>New Team: " + newStudentTeamToBeTrimmed.trim()
+                                             + "<br>Comments: " + newStudentCommentsToBeTrimmed.trim()
                                              + "|||/page/instructorCourseStudentDetailsEditSave";
         AssertHelper.assertLogMessageEquals(expectedLogMessageToBeTrimmed, aToBeTrimmed.getLogMessage());
-        
-        
+
         ______TS("Error case, invalid email parameter (email has too many characters)");
         
         String invalidStudentEmail = StringHelper.generateStringOfLength(255 - "@gmail.tmt".length()) + "@gmail.tmt";
@@ -148,19 +141,19 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         a = getAction(submissionParams);
         ShowPageResult result = getShowPageResult(a);
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT 
-                     + "?error=" + "true" 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT
+                     + "?error=" + "true"
                      + "&user=idOfInstructor1OfCourse1",
                      result.getDestinationWithParams());
         
         assertTrue(result.isError);
-        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG), 
+        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG),
                 result.getStatusMessage());
         
-        expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" 
-                           + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" 
-                           + "Servlet Action Failure : " 
-                           + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG) 
+        expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
+                           + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                           + "Servlet Action Failure : "
+                           + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG)
                            + "|||/page/instructorCourseStudentDetailsEditSave";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -183,19 +176,19 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         a = getAction(submissionParams);
         result = getShowPageResult(a);
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT 
-                + "?error=" + "true" 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT
+                + "?error=" + "true"
                 + "&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         
         assertTrue(result.isError);
-        assertEquals(String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, student2InCourse1.name,  takenStudentEmail), 
+        assertEquals(String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, student2InCourse1.name, takenStudentEmail),
                 result.getStatusMessage());
         
-        expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" 
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" 
-                + "Servlet Action Failure : " 
-                + String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, student2InCourse1.name,  takenStudentEmail) 
+        expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Servlet Action Failure : "
+                + String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, student2InCourse1.name, takenStudentEmail)
                 + "|||/page/instructorCourseStudentDetailsEditSave";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -203,8 +196,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         // deleting edited student
         AccountsLogic.inst().deleteAccountCascade(student2InCourse1.googleId);
         AccountsLogic.inst().deleteAccountCascade(student1InCourse1.googleId);
-        
-        
+
         ______TS("Error case, student does not exist");
         
         String nonExistentEmailForStudent = "notinuseemail@gmail.tmt";
@@ -222,24 +214,23 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         a = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(a);
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE 
-                + "?error=" + "true" 
-                + "&user=" + instructorId 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
+                + "?error=" + "true"
+                + "&user=" + instructorId
                 + "&courseid=" + instructor1OfCourse1.courseId,
                 redirectResult.getDestinationWithParams());
         
         assertTrue(redirectResult.isError);
         assertEquals(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT, redirectResult.getStatusMessage());
         
-        expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" 
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" 
-                + "Student <span class=\"bold\">" + nonExistentEmailForStudent + "</span> in " 
-                + "Course <span class=\"bold\">[" + instructor1OfCourse1.courseId + "]</span> not found." 
+        expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Student <span class=\"bold\">" + nonExistentEmailForStudent + "</span> in "
+                + "Course <span class=\"bold\">[" + instructor1OfCourse1.courseId + "]</span> not found."
                 + "|||/page/instructorCourseStudentDetailsEditSave";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
-        
-        
+
         ______TS("Unsuccessful case: test null student email parameter");
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
@@ -250,11 +241,10 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.STUDENT_EMAIL), e.getMessage());
         }
-                
-        
+
         ______TS("Unsuccessful case: test null course id parameter");
         submissionParams = new String[]{
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail
@@ -265,14 +255,13 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.COURSE_ID), e.getMessage());
         }
     }
     
-    private InstructorCourseStudentDetailsEditSaveAction getAction(String... params) throws Exception {
+    private InstructorCourseStudentDetailsEditSaveAction getAction(String... params) {
         return (InstructorCourseStudentDetailsEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
-    
 
 }

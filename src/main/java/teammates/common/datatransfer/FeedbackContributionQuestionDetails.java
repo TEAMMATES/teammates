@@ -2,11 +2,13 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Logger;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -15,8 +17,11 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
+    
+    private static final Logger log = Utils.getLogger();
     
     public boolean isNotSureAllowed;
     
@@ -112,8 +117,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String getNewQuestionSpecificEditFormHtml() {
         this.isNotSureAllowed = true;
         
-        return "<div id=\"contribForm\">" 
-                  + this.getQuestionSpecificEditFormHtml(-1) 
+        return "<div id=\"contribForm\">"
+                  + this.getQuestionSpecificEditFormHtml(-1)
              + "</div>";
     }
 
@@ -155,24 +160,24 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             String studentEmail,
             FeedbackSessionResultsBundle bundle) {
-    
-        if (responses.size() == 0) {
+
+        if (responses.isEmpty()) {
             return "";
         }
     
         String currentUserTeam = bundle.emailTeamNameTable.get(studentEmail);
         
-        responses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
 
         //List of teams with at least one response
-        List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
+        List<String> teamNames = getTeamsWithAtLeastOneResponse(actualResponses, bundle);
         
         //Each team's member(email) list
         Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
         
         //Each team's responses
         Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
-                responses, bundle, teamNames);
+                actualResponses, bundle, teamNames);
         
         //Get each team's submission array. -> int[teamSize][teamSize]
         //Where int[0][1] refers points from student 0 to student 1
@@ -182,12 +187,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         //Each team's contribution question results.
         Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
+
         TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
         if (currentUserTeamResults == null) {
             return "";
         }
 
-        String html = "";
         int currentUserIndex = teamMembersEmail.get(currentUserTeam).indexOf(studentEmail);
         int selfClaim = currentUserTeamResults.claimed[currentUserIndex][currentUserIndex];
         int teamClaim = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex][currentUserIndex];
@@ -200,26 +205,24 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${additionalInfoId}", "contributionInfo",
                 "${questionAdditionalInfo}", FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
         
-        html += FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT,
                 "${contribAdditionalInfo}", contribAdditionalInfo,
                 "${myViewOfMe}", getPointsAsColorizedHtml(selfClaim),
                 "${myViewOfOthers}", getNormalizedPointsListColorizedDescending(currentUserTeamResults.claimed[currentUserIndex], currentUserIndex),
                 "${teamViewOfMe}", getPointsAsColorizedHtml(teamClaim),
                 "${teamViewOfOthers}", getNormalizedPointsListColorizedDescending(currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex], currentUserIndex));
-
-        return html;
     }
     
     private String getQuestionResultsStatisticsHtmlQuestionView(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
     
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
     
-        responses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
         
         //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
@@ -229,7 +232,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         //Each team's responses
         Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
-                responses, bundle, teamNames);
+                actualResponses, bundle, teamNames);
         
         //Get each team's submission array. -> int[teamSize][teamSize]
         //Where int[0][1] refers points from student 0 to student 1
@@ -243,22 +246,19 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         //Each person's results summary
         Map<String, StudentResultSummary> studentResults = getStudentResults(
                 teamMembersEmail, teamResults);
-        
-        
+
         //Check visibility of recipient
         boolean hideRecipient = false;
         FeedbackParticipantType type = question.recipientType;
-        for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false 
-                && type != FeedbackParticipantType.SELF 
-                && type != FeedbackParticipantType.NONE) {
+        for (FeedbackResponseAttributes response : actualResponses) {
+            if (!bundle.visibilityTable.get(response.getId())[1]
+                    && type != FeedbackParticipantType.SELF
+                    && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
         
-
-        String html = "";
-        String contribFragments = "";
+        StringBuilder contribFragments = new StringBuilder();
         
         for (Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()) {
             StudentResultSummary summary = entry.getValue();
@@ -272,38 +272,34 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
             String displayName = name;
             String displayTeam = team;
-            if (hideRecipient == true) {
+            if (hideRecipient) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
-                displayName = type.toSingularFormString();
-                displayName = "Anonymous " + displayName + " " + hash;
+                displayName = "Anonymous " + type.toSingularFormString() + " " + hash;
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
             }
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
             for (int i = 0; i < incomingPoints.length; i++) {
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
-            contribFragments += FeedbackQuestionFormTemplates.populateTemplate(
+            contribFragments.append(FeedbackQuestionFormTemplates.populateTemplate(
                     FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
                     "${studentTeam}", Sanitizer.sanitizeForHtml(displayTeam),
-                    "${studentName}", Sanitizer.sanitizeForHtml(displayName),                    
+                    "${studentName}", Sanitizer.sanitizeForHtml(displayName),
                     "${CC}", getPointsAsColorizedHtml(summary.claimedToInstructor),
                     "${PC}", getPointsAsColorizedHtml(summary.perceivedToInstructor),
                     "${Diff}", getPointsDiffAsHtml(summary),
                     "${RR}", getNormalizedPointsListColorizedDescending(incomingPoints, studentIndx),
                     
-                    "${Const.ParamsNames.STUDENT_NAME}", Const.ParamsNames.STUDENT_NAME);
+                    "${Const.ParamsNames.STUDENT_NAME}", Const.ParamsNames.STUDENT_NAME));
         }
         
-        html += FeedbackQuestionFormTemplates.populateTemplate(
+        return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS,
-                "${contribFragments}", contribFragments,
+                "${contribFragments}", contribFragments.toString(),
                 "${Const.Tooltips.CLAIMED}", Sanitizer.sanitizeForHtml(Const.Tooltips.CLAIMED),
                 "${Const.Tooltips.PERCEIVED}", Const.Tooltips.PERCEIVED,
                 "${Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED}", Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
                 "${Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF}", Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF);
-
-        
-        return html;
     }
     
     @Override
@@ -312,12 +308,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
         
-        
-        if (responses.size() == 0) {
+        if (responses.isEmpty()) {
             return "";
         }
     
-        responses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
 
         //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
@@ -327,7 +322,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         //Each team's responses
         Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
-                responses, bundle, teamNames);
+                actualResponses, bundle, teamNames);
         
         //Get each team's submission array. -> int[teamSize][teamSize]
         //Where int[0][1] refers points from student 0 to student 1
@@ -346,16 +341,16 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         boolean hideRecipient = false;
         
         FeedbackParticipantType type = question.recipientType;
-        for (FeedbackResponseAttributes response : responses) {
-            if (bundle.visibilityTable.get(response.getId())[1] == false 
-                && type != FeedbackParticipantType.SELF
-                && type != FeedbackParticipantType.NONE) {
+        for (FeedbackResponseAttributes response : actualResponses) {
+            if (!bundle.visibilityTable.get(response.getId())[1]
+                    && type != FeedbackParticipantType.SELF
+                    && type != FeedbackParticipantType.NONE) {
                 hideRecipient = true;
             }
         }
         
-        
-        String contribFragments = "";
+        StringBuilder contribFragments = new StringBuilder();
+
         Map<String, String> sortedMap = new TreeMap<String, String>();
         
         for (Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()) {
@@ -368,15 +363,18 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             TeamEvalResult teamResult = teamResults.get(team);
             int studentIndx = teamEmails.indexOf(email);
             
-            String displayName = name;
-            String displayTeam = team;
-            String displayEmail = email;
-            if (hideRecipient == true) {
+            String displayName;
+            String displayTeam;
+            String displayEmail;
+            if (hideRecipient) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
-                displayName = type.toSingularFormString();
-                displayName = "Anonymous " + displayName + " " + hash;
+                displayName = "Anonymous " + type.toSingularFormString() + " " + hash;
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
                 displayEmail = Const.USER_NOBODY_TEXT;
+            } else {
+                displayName = name;
+                displayTeam = team;
+                displayEmail = email;
             }
             
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
@@ -402,21 +400,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
 
         for (Map.Entry<String, String> entry : sortedMap.entrySet()) {
-            contribFragments += entry.getValue();
+            contribFragments.append(entry.getValue());
         }
-        
-        String csv = "";
-        
-        //Header
-        csv += "In the points given below, an equal share is equal to 100 points. ";
-        csv += "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + Const.EOL;
-        csv += "Claimed Contribution (CC) = the contribution claimed by the student." + Const.EOL;
-        csv += "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members." + Const.EOL;
-        csv += "Team, Name, Email, CC, PC, Ratings Recieved" + Const.EOL;
-        //Data
-        csv += contribFragments + Const.EOL;
 
-        return csv;
+        String csvPointsExplanation =
+                "In the points given below, an equal share is equal to 100 points. "
+                + "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + Const.EOL
+                + "Claimed Contribution (CC) = the contribution claimed by the student." + Const.EOL
+                + "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members."
+                + Const.EOL
+                + "Team, Name, Email, CC, PC, Ratings Recieved" + Const.EOL;
+        return csvPointsExplanation + contribFragments + Const.EOL;
     }
     
     private List<String> getTeamNames(FeedbackSessionResultsBundle bundle) {
@@ -539,7 +533,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private Map<String, List<FeedbackResponseAttributes>> getTeamResponses(
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
-        Map<String, List<FeedbackResponseAttributes>> teamResponses = 
+        Map<String, List<FeedbackResponseAttributes>> teamResponses =
                 new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
         for (String teamName : teamNames) {
             teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>());
@@ -605,14 +599,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
         Collections.sort(result);
         Collections.reverse(result);
-        String resultString = "";
+
+        StringBuilder resultString = new StringBuilder();
         for (String s : result) {
-            if (!resultString.isEmpty()) {
-                resultString += ", ";
+            if (resultString.length() != 0) {
+                resultString.append(", ");
             }
-            resultString += s;
+            resultString.append(s);
         }
-        return resultString;
+        return resultString.toString();
     }
     
     private static String getNormalizedPointsListDescending(int[] subs, int index) {
@@ -628,14 +623,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
         Collections.sort(result);
         Collections.reverse(result);
-        String resultString = "";
+
+        StringBuilder resultString = new StringBuilder();
         for (String s : result) {
-            if (!resultString.isEmpty()) {
-                resultString += ", ";
+            if (resultString.length() != 0) {
+                resultString.append(", ");
             }
-            resultString += s;
+            resultString.append(s);
         }
-        return resultString;
+        return resultString.toString();
     }
     
     /**
@@ -652,7 +648,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     private static String getPointsAsColorizedHtml(int points) {
         if (points == Const.POINTS_NOT_SUBMITTED || points == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" 
+            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
                    + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE + "\">N/A</span>";
         } else if (points == Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
@@ -675,7 +671,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (perceived == Const.POINTS_NOT_SUBMITTED || perceived == Const.INT_UNINITIALIZED
                 || claimed == Const.POINTS_NOT_SUBMITTED || claimed == Const.INT_UNINITIALIZED) {
             return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
-                   + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE 
+                   + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE
                    + "\">N/A</span>";
         } else if (perceived == Const.POINTS_NOT_SURE || claimed == Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" "
@@ -697,13 +693,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"CONTRIB\">" + Const.FeedbackQuestionTypeNames.CONTRIB + "</option>";
+        return "<li data-questiontype = \"CONTRIB\"><a>" + Const.FeedbackQuestionTypeNames.CONTRIB + "</a></li>";
     }
 
     @Override
     public List<String> validateQuestionDetails() {
-        List<String> errors = new ArrayList<String>();
-        return errors;
+        return new ArrayList<String>();
     }
 
     @Override
@@ -724,7 +719,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             if (frd.getAnswer() == Const.POINTS_NOT_SURE || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
                 validAnswer = true;
             }
-            if (validAnswer == false) {
+            if (!validAnswer) {
                 errors.add(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_OPTION);
             }
         }
@@ -737,14 +732,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         // giver type can only be STUDENTS
         if (feedbackQuestionAttributes.giverType != FeedbackParticipantType.STUDENTS) {
-            Utils.getLogger().severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
+            log.severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
             feedbackQuestionAttributes.giverType = FeedbackParticipantType.STUDENTS;
             errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
         
         // recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF
         if (feedbackQuestionAttributes.recipientType != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
-            Utils.getLogger().severe("Unexpected recipientType for contribution question: " + feedbackQuestionAttributes.recipientType + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
+            log.severe("Unexpected recipientType for contribution question: " + feedbackQuestionAttributes.recipientType + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
             feedbackQuestionAttributes.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
             errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
@@ -752,13 +747,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         // restrictions on visibility options
         Assumption.assertTrue("Contrib Qn Invalid visibility options",
                 feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) 
+                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                 && feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                 == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS));
         
         return errorMsg;
     }
-    
 
     public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
         return "<span>&nbsp;&nbsp;["
@@ -778,9 +772,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String perceivedContributionHtml = FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
             
             return perceivedContributionHtml;
-        } else {
-            return "";
         }
+        return "";
     }
     
     private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
@@ -795,49 +788,52 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     @Override
     public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
-        String noResponseHtml = "<i>" + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + "</i>";
+        boolean isPerceivedContributionShown = giverEmail.equals(recipientEmail)
+                                               && hasPerceivedContribution(recipientEmail, question, bundle);
         
         // in the row for the student's self response,
         // show the perceived contribution if the student has one
-        if (giverEmail.equals(recipientEmail) && hasPerceivedContribution(recipientEmail, question, bundle)) {
-            noResponseHtml += getPerceivedContributionHtml(question, recipientEmail, bundle);
-        } 
-        return noResponseHtml;
+        return "<i>" + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + "</i>"
+               + (isPerceivedContributionShown ? getPerceivedContributionHtml(question, recipientEmail, bundle)
+                                               : "");
     }
-    
-    
+
     /*
      * The functions below are taken and modified from EvalSubmissionEditPageData.java
      * -------------------------------------------------------------------------------
      */
     
     /**
-     * Returns the options for contribution share in a team. 
+     * Returns the options for contribution share in a team.
      */
-    private String getContributionOptionsHtml(int points) {
+    private String getContributionOptionsHtml(int pointsParam) {
+        int points = pointsParam;
         if (points == Const.INT_UNINITIALIZED) {
             points = Const.POINTS_NOT_SUBMITTED;
         }
-        String result = "<option class=\""
-                + getContributionOptionsColor(Const.POINTS_NOT_SUBMITTED)
-                + "\" value=\"" + Const.POINTS_NOT_SUBMITTED + "\""
-                + (points == Const.POINTS_NOT_SUBMITTED ? " selected" : "") + ">"
-                + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>";
+
+        StringBuilder result = new StringBuilder(200);
+        result.append("<option class=\""
+                     + getContributionOptionsColor(Const.POINTS_NOT_SUBMITTED)
+                     + "\" value=\"" + Const.POINTS_NOT_SUBMITTED + "\""
+                     + (points == Const.POINTS_NOT_SUBMITTED ? " selected" : "") + ">"
+                     + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>");
         for (int i = 200; i >= 0; i -= 10) {
-            result += "<option class=\"" + getContributionOptionsColor(i) + "\" " 
-                    + "value=\"" + i + "\"" 
-                    + (i == points ? "selected" : "") 
-                    + ">" + convertToEqualShareFormat(i) 
-                    + "</option>\r\n";
+            result.append("<option class=\""
+                        + getContributionOptionsColor(i)
+                        + "\" value=\"" + i + "\""
+                        + (i == points ? "selected" : "")
+                        + ">" + convertToEqualShareFormat(i)
+                        + "</option>\r\n");
         }
         if (isNotSureAllowed) {
-            result += "<option class=\""
-                    + getContributionOptionsColor(Const.POINTS_NOT_SURE)
-                    + "\" value=\"" + Const.POINTS_NOT_SURE + "\""
-                    + (points == Const.POINTS_NOT_SURE ? " selected" : "") + ">"
-                    + "Not Sure</option>";
+            result.append("<option class=\""
+                          + getContributionOptionsColor(Const.POINTS_NOT_SURE)
+                          + "\" value=\"" + Const.POINTS_NOT_SURE + "\""
+                          + (points == Const.POINTS_NOT_SURE ? " selected" : "")
+                          + ">Not Sure</option>");
         }
-        return result;
+        return result.toString();
     }
     
     /**
@@ -864,20 +860,19 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @return points in text form "Equal Share..."
      */
     public static String convertToEqualShareFormat(int i) {
-        if (i > 100)
+        if (i > 100) {
             return "Equal share + " + (i - 100) + "%"; // Do more
-        else if (i == 100)
+        } else if (i == 100) {
             return "Equal share"; // Do same
-        else if (i > 0)
+        } else if (i > 0) {
             return "Equal share - " + (100 - i) + "%"; // Do less
-        else if (i == 0)
+        } else if (i == 0) {
             return "0%"; // Do none
-        else if (i == Const.POINTS_NOT_SURE)
+        } else if (i == Const.POINTS_NOT_SURE) {
             return "Not Sure";
-        else if (i == Const.POINTS_NOT_SUBMITTED)
+        } else {
             return "";
-        else
-            return "";
+        }
     }
    
     /**
@@ -886,24 +881,24 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @return points in text form "Equal Share..." with html formatting for colors.
      */
     public static String convertToEqualShareFormatHtml(int i) {
-        if (i == Const.INT_UNINITIALIZED)
+        if (i == Const.INT_UNINITIALIZED) {
             return "<span class=\"color_neutral\">N/A</span>";
-        else if (i == Const.POINTS_NOT_SUBMITTED)
+        } else if (i == Const.POINTS_NOT_SUBMITTED) {
             return "<span class=\"color_neutral\"></span>";
-        else if (i == Const.POINTS_NOT_SURE)
+        } else if (i == Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\">Not Sure</span>";
-        else if (i == 0)
+        } else if (i == 0) {
             return "<span class=\"color-negative\">0%</span>";
-        else if (i > 100)
+        } else if (i > 100) {
             return "<span class=\"color-positive\">Equal Share +" + (i - 100) + "%</span>";
-        else if (i < 100)
+        } else if (i < 100) {
             return "<span class=\"color-negative\">Equal Share -" + (100 - i) + "%</span>";
-        else if (i == 100)
+        } else {
             return "<span class=\"color_neutral\">Equal Share</span>";
-        else
-            return "";
+        }
     }
 
+    @Override
     public boolean isQuestionSkipped(String[] answer) {
         if (answer == null) {
             return true;
@@ -914,6 +909,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
         }
         return true;
+    }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
     }
 
 }

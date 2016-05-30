@@ -1,7 +1,7 @@
 package teammates.test.driver;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,19 +36,17 @@ import com.meterware.servletunit.ServletUnitClient;
  * test up to Servlets level.
  */
 public class GaeSimulation {
+
+    private static GaeSimulation instance = new GaeSimulation();
+
+    /** This is used only to generate an HttpServletRequest for given parameters */
+    protected ServletUnitClient sc;
     
+    protected LocalServiceTestHelper helper;
 
     public static GaeSimulation inst() {
         return instance;
     }
-
-    private static final GaeSimulation instance = new GaeSimulation();
-    
-    
-    /** This is used only to generate an HttpServletRequest for given parameters */
-    protected  ServletUnitClient sc;
-    
-    protected  LocalServiceTestHelper helper;
     
     public synchronized void setup() {
         System.out.println("Setting up GAE simulation");
@@ -61,7 +59,7 @@ public class GaeSimulation {
         LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
         LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
         localSearch.setPersistent(false);
-        helper = new LocalServiceTestHelper(localDatastore, localMail,    localUserServices, localTasks, localSearch);
+        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localTasks, localSearch);
         helper.setUp();
         
         Datastore.initialize();
@@ -83,15 +81,14 @@ public class GaeSimulation {
         LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
         LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
         localSearch.setPersistent(false);
-        helper = new LocalServiceTestHelper(localDatastore, localMail,    localUserServices, localTasks, localSearch);
+        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localTasks, localSearch);
         helper.setUp();
         
         Datastore.initialize();
         
         sc = new ServletRunner().newClient();
     }
-    
-    
+
     /**Logs in the user to the GAE simulation environment without admin rights.
      */
     public void loginUser(String userId) {
@@ -101,7 +98,7 @@ public class GaeSimulation {
         helper.setEnvIsAdmin(false);
     }
 
-    /**Logs the current user out of the GAE simulation environment. 
+    /**Logs the current user out of the GAE simulation environment.
      */
     public void logoutUser() {
         helper.setEnvIsLoggedIn(false);
@@ -116,7 +113,7 @@ public class GaeSimulation {
     }
 
     /**Logs in the user to the GAE simulation environment as an instructor
-     * (without admin rights). 
+     * (without admin rights).
      */
     public void loginAsInstructor(String userId) {
         loginUser(userId);
@@ -125,7 +122,7 @@ public class GaeSimulation {
         assertFalse(logic.getCurrentUser().isAdmin);
     }
 
-    /**Logs in the user to the GAE simulation environment as a student 
+    /**Logs in the user to the GAE simulation environment as a student
      * (without admin rights or instructor rights).
      */
     public void loginAsStudent(String userId) {
@@ -137,7 +134,7 @@ public class GaeSimulation {
     }
     
     /** 
-     * @param parameters Parameters that appear in a HttpServletRequest 
+     * @param parameters Parameters that appear in a HttpServletRequest
      * received by the app.
      * @return an {@link Action} object that matches the parameters given.
      */
@@ -165,7 +162,6 @@ public class GaeSimulation {
         }
     }
 
-
     private HttpServletRequest createWebRequest(String uri, String... parameters) {
         
         WebRequest request = new PostMethodWebRequest("http://localhost:8888" + uri);
@@ -186,12 +182,10 @@ public class GaeSimulation {
 
         try {
             InvocationContext ic = sc.newInvocation(request);
-            HttpServletRequest req = ic.getRequest();
-            return req;
+            return ic.getRequest();
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } 
+        }
     }
-
 
 }

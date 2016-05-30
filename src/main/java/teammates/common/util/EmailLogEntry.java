@@ -1,9 +1,11 @@
 package teammates.common.util;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.TimeZone;
 
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import teammates.logic.core.Sendgrid;
@@ -18,20 +20,20 @@ public class EmailLogEntry {
     private String content;
     private long time;
     
-    public String logInfoAsHtml;
+    @SuppressWarnings("unused") // used by js
+    private String logInfoAsHtml;
     
-    public EmailLogEntry(MimeMessage msg) throws Exception {
-        
-            this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
-            this.subject = msg.getSubject();
-            this.content = (String) msg.getContent(); 
+    public EmailLogEntry(MimeMessage msg) throws MessagingException, IOException {
+        this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
+        this.subject = msg.getSubject();
+        this.content = (String) msg.getContent();
     }
     
-    public EmailLogEntry(Sendgrid msg) throws Exception {
+    public EmailLogEntry(Sendgrid msg) {
         
         this.receiver = msg.getTos().get(0);
         this.subject = msg.getSubject();
-        this.content = msg.getHtml(); 
+        this.content = msg.getHtml();
     }
     
     public EmailLogEntry(AppLogLine appLog) {
@@ -126,17 +128,17 @@ public class EmailLogEntry {
         if (text == null) {
             return text;
         }
-        
+        String highlightedText = text;
         for (String stringToHighlight : keyStringsToHighlight) {
-            if (text.toLowerCase().contains(stringToHighlight.toLowerCase())) {
+            if (highlightedText.toLowerCase().contains(stringToHighlight.toLowerCase())) {
                 
-                int startIndex = text.toLowerCase().indexOf(stringToHighlight.toLowerCase());
-                int endIndex = startIndex + stringToHighlight.length();                         
-                String realStringToHighlight = text.substring(startIndex, endIndex);               
-                text = text.replace(realStringToHighlight, "<mark>" + realStringToHighlight + "</mark>");
+                int startIndex = highlightedText.toLowerCase().indexOf(stringToHighlight.toLowerCase());
+                int endIndex = startIndex + stringToHighlight.length();
+                String realStringToHighlight = highlightedText.substring(startIndex, endIndex);
+                highlightedText = highlightedText.replace(realStringToHighlight, "<mark>" + realStringToHighlight + "</mark>");
             }
         }
         
-        return text;
+        return highlightedText;
     }
 }

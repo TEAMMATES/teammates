@@ -65,9 +65,9 @@ public abstract class FeedbackQuestionDetails {
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
     public String getCsvDetailedResponsesHeader() {
         return "Team" + "," + "Giver's Full Name" + ","
-               + "Giver's Last Name" + "," + "Giver's Email" + "," 
+               + "Giver's Last Name" + "," + "Giver's Email" + ","
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
-               + "Recipient's Last Name" + "," + "Recipient's Email" + "," 
+               + "Recipient's Last Name" + "," + "Recipient's Email" + ","
                + this.getCsvHeader() + Const.EOL;
     }
 
@@ -86,7 +86,7 @@ public abstract class FeedbackQuestionDetails {
         String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
 
-        String detailedResponsesRow = Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
+        return Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName))
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
@@ -96,8 +96,6 @@ public abstract class FeedbackQuestionDetails {
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                                       + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
                                       + Const.EOL;
-
-        return detailedResponsesRow;
     }
     
     public String getQuestionText() {
@@ -117,13 +115,13 @@ public abstract class FeedbackQuestionDetails {
      * @return boolean indicating if individual responses are to be shown to students.
      */
     public boolean isIndividualResponsesShownToStudents() {
-       return true;
+        return true;
     }
 
     /**
      * Validates the question details
      *
-     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an 
+     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
      * empty list if question details are valid.
      */
     public abstract List<String> validateQuestionDetails();
@@ -132,7 +130,7 @@ public abstract class FeedbackQuestionDetails {
      * Validates {@code List<FeedbackResponseAttributes>} for the question based on the current {@code Feedback*QuestionDetails}.
      *
      * @param responses - The {@code List<FeedbackResponseAttributes>} for the question to be validated
-     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an 
+     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
      * empty list if question responses are valid.
      */
     public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses, int numRecipients);
@@ -146,10 +144,7 @@ public abstract class FeedbackQuestionDetails {
      * @param recipientType
      * @return error message detailing the error, or an empty string if valid.
      */
-    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        // All giver/recipient types and visibility options are valid by default, so return ""
-        return "";
-    }
+    public abstract String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes);
 
     /**
      * Extract question details and sets details accordingly
@@ -168,10 +163,7 @@ public abstract class FeedbackQuestionDetails {
         Assumption.assertNotNull("Null question text", questionText);
         Assumption.assertNotEmpty("Empty question text", questionText);
 
-        FeedbackQuestionDetails questionDetails = questionType.getFeedbackQuestionDetailsInstance(questionText,
-                                                                                                  requestParameters);
-
-        return questionDetails;
+        return questionType.getFeedbackQuestionDetailsInstance(questionText, requestParameters);
     }
 
     // The following function handle the display of rows between possible givers
@@ -184,22 +176,20 @@ public abstract class FeedbackQuestionDetails {
                + Sanitizer.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question))
                + "</i>";
     }
-
-    public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail,
-                                            FeedbackQuestionAttributes question) {
+    
+    /**
+     * @return true if 'No Response' is to be displayed in the Response rows.
+     */
+    public boolean shouldShowNoResponseText(FeedbackQuestionAttributes question) {
         // we do not show all possible responses
-        if (question.recipientType == FeedbackParticipantType.STUDENTS
-            || question.recipientType == FeedbackParticipantType.TEAMS) {
-            return false;
-        }
-
-        return true;
+        return question.recipientType != FeedbackParticipantType.STUDENTS
+            && question.recipientType != FeedbackParticipantType.TEAMS;
     }
 
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
                                          FeedbackSessionResultsBundle bundle,
                                          FeedbackQuestionAttributes question) {
-       return Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
+        return Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
     }
 
     /**
@@ -220,7 +210,9 @@ public abstract class FeedbackQuestionDetails {
 
     /** Checks if the question has been skipped. */
     public boolean isQuestionSkipped(String[] answer) {
-        if (answer == null) { return true; }
+        if (answer == null) {
+            return true;
+        }
 
         boolean allAnswersEmpty = true;
 
@@ -238,7 +230,5 @@ public abstract class FeedbackQuestionDetails {
         return getResponseRowsSortOrder() != null;
     }
 
-    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return null;
-    }
+    public abstract Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder();
 }

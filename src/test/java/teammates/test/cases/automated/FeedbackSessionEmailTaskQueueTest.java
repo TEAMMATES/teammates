@@ -6,22 +6,22 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackSessionsLogic;
 
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
+
 /**
  *  Tests feedback session reminder and publish emails.
  *  Tests the SystemParams.EMAIL_TASK_QUEUE, and SystemParams.SEND_EMAIL_TASK_QUEUE
- *  
+ * 
  */
 @Test(sequential = true)
 public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQueueTestCase {
@@ -34,7 +34,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     public static class FeedbackSessionsEmailTaskQueueCallback extends BaseTaskQueueCallback {
         
         @Override
-        public int execute(URLFetchRequest request) {            
+        public int execute(URLFetchRequest request) {
             HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
             
             assertTrue(paramMap.containsKey(ParamsNames.SUBMISSION_FEEDBACK));
@@ -65,10 +65,9 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
-    
 
     private void testFeedbackSessionsPublishEmail() throws Exception {
         
@@ -104,7 +103,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         try {
             feedbackSessionsLogic.publishFeedbackSession("non-existent-feedback-session", "non-existent-course");
         } catch (Exception e) {
-            assertEquals("Trying to publish a non-existant session.", 
+            assertEquals("Trying to publish a non-existant session.",
                     e.getMessage());
         }
         if (!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)) {
@@ -113,7 +112,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         
     }
     
-    private void testFeedbackSessionsRemindEmail() throws Exception {
+    private void testFeedbackSessionsRemindEmail() {
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
 
@@ -132,8 +131,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         }
 
         assertEquals(1, FeedbackSessionsEmailTaskQueueCallback.taskCount);
-      
-        
+
         ______TS("Try to send reminder for null feedback session");
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
@@ -141,8 +139,8 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         try {
             logic.sendReminderForFeedbackSession(fsa.courseId, null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals("The supplied parameter was null\n", a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals("The supplied parameter was null\n", ae.getMessage());
         }
         
         assertEquals(0, FeedbackSessionsEmailTaskQueueCallback.taskCount);
@@ -206,7 +204,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
 
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
         fsa.startTime = TimeHelper.getDateOffsetToCurrentTime(-3);
-        fsa.endTime = TimeHelper.getMsOffsetToCurrentTime((SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT 
+        fsa.endTime = TimeHelper.getMsOffsetToCurrentTime((SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT
                 + (int) fsa.timeZone) * 60 * 60 * 1000 - 60 * 1000);
         fsLogic.updateFeedbackSession(fsa);
         

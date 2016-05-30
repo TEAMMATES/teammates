@@ -4,14 +4,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.datatransfer.EntityAttributes;
@@ -21,11 +16,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.AdminEmail;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 public class AdminEmailsDb extends EntitiesDb {
-    private static final Logger log = Utils.getLogger();
     
     public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
         try {
@@ -35,7 +31,7 @@ public class AdminEmailsDb extends EntitiesDb {
             try {
                 updateAdminEmail(adminEmailToAdd);
                 return adminEmailToAdd.getCreateDate();
-            } catch (EntityDoesNotExistException e1) {
+            } catch (EntityDoesNotExistException ednee) {
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
                 return null;
             }
@@ -53,7 +49,7 @@ public class AdminEmailsDb extends EntitiesDb {
         if (adminEmailToUpdate == null) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT_ACCOUNT + ae.getSubject()
-                    + "/" + ae.getSendDate() 
+                    + "/" + ae.getSendDate()
                     + ThreadHelper.getCurrentThreadStack());
         }
         
@@ -67,30 +63,27 @@ public class AdminEmailsDb extends EntitiesDb {
         adminEmailToUpdate.setSendDate(ae.sendDate);
         
         log.info(ae.getBackupIdentifier());
-        closePM();
+        closePm();
         
     }
-    
-    
+
     /**
      * deletes files uploaded in admin email compose page
      * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
-     * @throws BlobstoreFailureException
      */
-    public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
+    public void deleteAdminEmailUploadedFile(BlobKey key) {
         try {
             BlobstoreServiceFactory.getBlobstoreService().delete(key);
         } catch (Exception e) {
             log.warning("tried to delete non-existent file");
         }
     }
-    
-    
+
     /**
-     * deletes all emails in trash bin, related group receiver text file will be removed from 
+     * deletes all emails in trash bin, related group receiver text file will be removed from
      * Google Cloud Storage
      */
-    public void deleteAllEmailsInTrashBin() throws BlobstoreFailureException {
+    public void deleteAllEmailsInTrashBin() {
         
         List<AdminEmailAttributes> emailsInTrashBin = getAdminEmailsInTrashBin();
         
@@ -127,13 +120,13 @@ public class AdminEmailsDb extends EntitiesDb {
         adminEmailToUpdate.setSendDate(newAdminEmail.sendDate);
         
         log.info(newAdminEmail.getBackupIdentifier());
-        closePM();
+        closePm();
         
     }
     
     /**
      * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database. 
+     * @return the list of all adminEmails in the database.
      */
     @Deprecated
     public List<AdminEmailAttributes> getAllAdminEmails() {
@@ -176,8 +169,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         return new AdminEmailAttributes(matched);
     }
-    
-    
+
     /**
      * Get all admin email drafts that have NOT been sent and NOT in trash bin
      * @return empty list if no email found
@@ -185,7 +177,7 @@ public class AdminEmailsDb extends EntitiesDb {
     public List<AdminEmailAttributes> getAdminEmailDrafts() {
         List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
         
-        Query q = getPM().newQuery(AdminEmail.class);
+        Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("boolean isInTrashBinParam");
         q.setFilter("isInTrashBin == isInTrashBinParam && sendDate == null");
         
@@ -207,10 +199,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         return list;
     }
-    
-    
-    
-    
+
     /**
      * Get all admin emails that have been sent and not in trash bin
      * @return empty list if no email found
@@ -218,7 +207,7 @@ public class AdminEmailsDb extends EntitiesDb {
     public List<AdminEmailAttributes> getSentAdminEmails() {
         List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
         
-        Query q = getPM().newQuery(AdminEmail.class);
+        Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("boolean isInTrashBinParam");
         q.setFilter("isInTrashBin == isInTrashBinParam && sendDate != null");
         
@@ -248,7 +237,7 @@ public class AdminEmailsDb extends EntitiesDb {
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin() {
         List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
         
-        Query q = getPM().newQuery(AdminEmail.class);
+        Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("boolean isInTrashBinParam");
         q.setFilter("isInTrashBin == isInTrashBinParam");
         
@@ -272,7 +261,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
     
     private List<AdminEmail> getAdminEmailEntities() {
-        Query q = getPM().newQuery(AdminEmail.class);
+        Query q = getPm().newQuery(AdminEmail.class);
         
         @SuppressWarnings("unchecked")
         List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute();
@@ -283,7 +272,7 @@ public class AdminEmailsDb extends EntitiesDb {
     private AdminEmail getAdminEmailEntity(String adminEmailId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, adminEmailId);
         
-        Query q = getPM().newQuery(AdminEmail.class);
+        Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("String adminEmailIdParam");
         q.setFilter("emailId == adminEmailIdParam");
         
@@ -297,9 +286,8 @@ public class AdminEmailsDb extends EntitiesDb {
     }
     
     private AdminEmail getAdminEmailEntity(String subject, Date createDate) {
-        
-        
-        Query q = getPM().newQuery(AdminEmail.class);
+
+        Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("String subjectParam, java.util.Date createDateParam");
         q.setFilter("subject == subjectParam && " + "createDate == createDateParam");
         
@@ -318,12 +306,10 @@ public class AdminEmailsDb extends EntitiesDb {
         
         if (adminEmailToGet.getEmailId() != null) {
             return getAdminEmailEntity(adminEmailToGet.getEmailId());
-        } else {
-            return getAdminEmailEntity(adminEmailToGet.getSubject(),
-                                       adminEmailToGet.getCreateDate());
         }
         
+        return getAdminEmailEntity(adminEmailToGet.getSubject(),
+                                   adminEmailToGet.getCreateDate());
     }
 
-    
 }

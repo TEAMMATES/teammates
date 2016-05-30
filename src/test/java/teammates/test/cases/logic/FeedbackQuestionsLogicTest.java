@@ -9,12 +9,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -24,6 +22,8 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.test.cases.BaseComponentTestCase;
+
+import com.google.appengine.api.datastore.Text;
 
 public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     
@@ -61,8 +61,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         ______TS("response to students, total 5");
         
         question = getQuestionFromDatastore("qn2InSession1InCourse1");
-        email = typicalBundle.students.get("student1InCourse1").email;        
-        recipients = fqLogic.getRecipientsForQuestion(question, email);        
+        email = typicalBundle.students.get("student1InCourse1").email;
+        recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 4); // 5 students minus giver himself
         
         email = typicalBundle.instructors.get("instructor1OfCourse1").email;
@@ -98,7 +98,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         email = typicalBundle.students.get("student1InCourse1").email;
         AccountsLogic.inst().makeAccountInstructor(typicalBundle.students.get("student1InCourse1").googleId);
         
-        recipients = fqLogic.getRecipientsForQuestion(question, email);    
+        recipients = fqLogic.getRecipientsForQuestion(question, email);
 
         assertEquals(recipients.size(), 1);
         
@@ -107,7 +107,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         email = typicalBundle.students.get("student1InCourse1").email;
         AccountsLogic.inst().makeAccountInstructor(typicalBundle.students.get("student1InCourse1").googleId);
         
-        recipients = fqLogic.getRecipientsForQuestion(question, email);    
+        recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
         assertEquals(recipients.size(), 1);
         
@@ -116,7 +116,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         email = typicalBundle.students.get("student1InCourse1").email;
         AccountsLogic.inst().makeAccountInstructor(typicalBundle.students.get("student1InCourse1").googleId);
         
-        recipients = fqLogic.getRecipientsForQuestion(question, email);    
+        recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.get(email), Const.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
 
@@ -233,8 +233,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         for (int i = 0; i < actualList.size(); i++) {
             assertEquals(actualList.get(i), expectedList.get(i));
         }
-                
-        
+
         ______TS("add new question to the front of the list");
         
         FeedbackQuestionAttributes q6 = getQuestionFromDatastore("qn4InSession1InCourse1");
@@ -312,7 +311,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
         questionToUpdate.questionMetaData = new Text("new question text");
         questionToUpdate.questionNumber = 3;
-        List<FeedbackParticipantType> newVisibility = 
+        List<FeedbackParticipantType> newVisibility =
                 new LinkedList<FeedbackParticipantType>();
         newVisibility.add(FeedbackParticipantType.INSTRUCTORS);
         questionToUpdate.showResponsesTo = newVisibility;
@@ -325,7 +324,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         questionToUpdate.courseId = originalCourseId;
 
         FeedbackQuestionAttributes updatedQuestion =
-                fqLogic.getFeedbackQuestion(questionToUpdate.getId());        
+                fqLogic.getFeedbackQuestion(questionToUpdate.getId());
         assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
         
         ______TS("cascading update, non-destructive changes, existing responses are preserved");
@@ -385,9 +384,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
                                                        questionToUpdate.giverType.toDisplayGiverName()));
         }
     }
-    
-    
-    public void testDeleteQuestion() throws Exception {
+
+    public void testDeleteQuestion() {
         //Success case already tested in update
         ______TS("question already does not exist, silently fail");
         
@@ -423,16 +421,17 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertNotNull(getQuestionFromDatastore("qn1InSession4InCourse1"));
     }
 
-    
     public void testGetFeedbackQuestionsForInstructor() throws Exception {
-        List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
+        List<FeedbackQuestionAttributes> expectedQuestions;
+        List<FeedbackQuestionAttributes> actualQuestions;
+        List<FeedbackQuestionAttributes> allQuestions;
         
         ______TS("Get questions created for instructors and self");
         
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
         expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
-        actualQuestions = 
+        actualQuestions =
                     fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1", "instructor1@course1.tmt");
         
         assertEquals(actualQuestions, expectedQuestions);
@@ -441,7 +440,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
         expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
-        actualQuestions = 
+        actualQuestions =
                     fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1", "instructor2@course1.tmt");
 
         assertEquals(actualQuestions, expectedQuestions);
@@ -450,23 +449,23 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
         expectedQuestions.add(getQuestionFromDatastore("qn1InSession2InCourse2"));
-        expectedQuestions.add(getQuestionFromDatastore("qn2InSession2InCourse2"));        
+        expectedQuestions.add(getQuestionFromDatastore("qn2InSession2InCourse2"));
         
-        actualQuestions = 
+        actualQuestions =
                     fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2", "instructor1@course2.tmt");
         
         assertEquals(actualQuestions, expectedQuestions);
         
         ______TS("Get questions for creator instructor, verifies that the two methods return the same questions");
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>(actualQuestions);
-        actualQuestions = 
+        actualQuestions =
                  fqLogic.getFeedbackQuestionsForCreatorInstructor("Instructor feedback session", "idOfTypicalCourse2");
                             
         assertEquals(actualQuestions, expectedQuestions);
         
         ______TS("Get questions created for instructors not by the creating instructor");
         
-        actualQuestions = 
+        actualQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2", "instructor2@course2.tmt");
     
         assertEquals(actualQuestions, expectedQuestions);
@@ -474,7 +473,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         ______TS("Get questions created for instructors by non-instructor of the course");
         
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
-        actualQuestions = 
+        actualQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2", "iwc@yahoo.tmt");
         
         assertEquals(actualQuestions, expectedQuestions);
@@ -488,9 +487,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
             assertEquals(e.getMessage(), "Trying to get questions for a feedback session that does not exist.");
         }
         
-        ______TS("Get questions created for self  from list of all questions");
-        
-        
+        ______TS("Get questions created for self from list of all questions");
+
         allQuestions = new ArrayList<FeedbackQuestionAttributes>();
         allQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
         allQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
@@ -503,17 +501,18 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         assertEquals(actualQuestions, expectedQuestions);
     }
-    
-    
-    public void testGetFeedbackQuestionsForStudents() throws Exception {
-        List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
+
+    public void testGetFeedbackQuestionsForStudents() {
+        List<FeedbackQuestionAttributes> expectedQuestions;
+        List<FeedbackQuestionAttributes> actualQuestions;
+        List<FeedbackQuestionAttributes> allQuestions;
         
         ______TS("Get questions created for students");
         
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
         expectedQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
-        actualQuestions = 
+        actualQuestions =
                     fqLogic.getFeedbackQuestionsForStudents("First feedback session", "idOfTypicalCourse1");
         
         assertEquals(actualQuestions, expectedQuestions);
@@ -523,7 +522,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
         expectedQuestions.add(getQuestionFromDatastore("team.feedback"));
         expectedQuestions.add(getQuestionFromDatastore("team.members.feedback"));
-        actualQuestions = 
+        actualQuestions =
                     fqLogic.getFeedbackQuestionsForStudents("Second feedback session", "idOfTypicalCourse1");
         
         assertEquals(actualQuestions, expectedQuestions);
@@ -557,10 +556,10 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         assertEquals(actualQuestions, expectedQuestions);
     }
-  
     
     public void testIsQuestionHasResponses() {
-        FeedbackQuestionAttributes questionWithResponse, questionWithoutResponse;
+        FeedbackQuestionAttributes questionWithResponse;
+        FeedbackQuestionAttributes questionWithoutResponse;
         
         ______TS("Check that a question has some responses");
         
@@ -587,9 +586,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         assertFalse(fqLogic.isQuestionFullyAnsweredByTeam(question, "Team 1.1"));
         
-    }  
-    
-    
+    }
 
     public void testAddQuestionNoIntegrityCheck() throws InvalidParametersException, EntityDoesNotExistException {
         
@@ -613,8 +610,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertEquals(actualList.get(initialNumQuestions), newQuestion);
         
     }
-    
-        
+
     private FeedbackQuestionAttributes getQuestionFromDatastore(String questionKey) {
         FeedbackQuestionAttributes question;
         question = typicalBundle.feedbackQuestions.get(questionKey);
@@ -624,7 +620,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 

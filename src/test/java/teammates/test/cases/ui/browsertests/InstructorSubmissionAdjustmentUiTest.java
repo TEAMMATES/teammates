@@ -30,20 +30,17 @@ import teammates.test.util.Priority;
 public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private InstructorCourseEnrollPage enrollPage;
-    
-    private static String enrollString = "";
-    private AppUrl enrollUrl;
+    private static InstructorCourseEnrollPage enrollPage;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorSubmissionAdjustmentUiTest.json");
         
         // use the instructor account injected for this test
         
-        testData.accounts.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-        testData.accounts.get("instructor1OfCourse1").email = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
+        testData.accounts.get("instructor1OfCourse1").googleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
+        testData.accounts.get("instructor1OfCourse1").email = TestProperties.TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
         
         removeAndRestoreTestDataOnServer(testData);
         
@@ -51,12 +48,12 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     
     @Test
-    public void testAdjustmentOfSubsmission() throws Exception {
+    public void testAdjustmentOfSubsmission() {
         
         //load the enrollPage
         loadEnrollmentPage();
@@ -70,8 +67,8 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         newStudent.name = "someName";
         newStudent.comments = "comments";
         
-        enrollString =  "Section | Team | Name | Email | Comment" + Const.EOL;
-        enrollString += newStudent.toEnrollmentString();
+        String enrollString = "Section | Team | Name | Email | Comment" + Const.EOL
+                            + newStudent.toEnrollmentString();
         
         enrollPage.enroll(enrollString);
         
@@ -86,28 +83,28 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         StudentAttributes student = testData.students.get("student1InCourse1");
         
         //Verify pre-existing submissions and responses
-        List<FeedbackResponseAttributes> oldResponsesForSession = 
+        List<FeedbackResponseAttributes> oldResponsesForSession =
                 getAllResponsesForStudentForSession(student, session.feedbackSessionName);
         assertFalse(oldResponsesForSession.isEmpty());
         
         String newTeam = "Team 1.2";
         student.team = newTeam;
         
-        enrollString =  "Section | Team | Name | Email | Comment" + Const.EOL;
-        enrollString += student.toEnrollmentString();
+        enrollString = "Section | Team | Name | Email | Comment" + Const.EOL
+                     + student.toEnrollmentString();
         enrollPage.enroll(enrollString);
         
         
-        int numberOfNewResponses = 
+        int numberOfNewResponses =
                 getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
         assertEquals(0, numberOfNewResponses);
         
     }
     
     private void loadEnrollmentPage() {
-        enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
-                .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
-                .withCourseId(testData.courses.get("typicalCourse1").getId());
+        AppUrl enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+                            .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
+                            .withCourseId(testData.courses.get("typicalCourse1").getId());
                 
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
     }
@@ -133,7 +130,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
             FeedbackQuestionAttributes question = BackDoor
                     .getFeedbackQuestion(response.feedbackQuestionId);
             if (question.giverType == FeedbackParticipantType.TEAMS
-                || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+                    || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
                 returnList.add(response);
             }
         }

@@ -26,7 +26,7 @@ import teammates.test.driver.AssertHelper;
 
 public class InstructorsLogicTest extends BaseComponentTestCase {
 
-    private static DataBundle dataBundle = getTypicalDataBundle();;
+    private static DataBundle dataBundle = getTypicalDataBundle();
 
     private static InstructorsLogic instructorsLogic = new InstructorsLogic();
     private static InstructorsDb instructorsDb = new InstructorsDb();
@@ -72,7 +72,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         String email = "ILT.instr@email.tmt";
         String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
-        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);      
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorAttributes instr = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         
         instructorsLogic.createInstructor(instr);
@@ -109,10 +109,10 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
-        }    
-    }   
+        }
+    }
     
-    public void testGetInstructorForEmail() throws Exception {
+    public void testGetInstructorForEmail() {
         
         ______TS("failure: instructor doesn't exist");
 
@@ -148,7 +148,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
     }
     
-    public void testGetInstructorForGoogleId() throws Exception {
+    public void testGetInstructorForGoogleId() {
         
         ______TS("failure: instructor doesn't exist");
 
@@ -184,7 +184,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
     }
     
-    public void testGetInstructorForRegistrationKey() throws Exception {
+    public void testGetInstructorForRegistrationKey() {
         
         ______TS("failure: instructor doesn't exist");
         String key = "non-existing-key";
@@ -255,7 +255,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testGetInstructorsForGoogleId() throws Exception {
+    public void testGetInstructorsForGoogleId() {
         
         ______TS("success: get all instructors for a google id");
 
@@ -287,7 +287,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testGetInstructorsForEmail() throws Exception {
+    public void testGetInstructorsForEmail() {
         
         ______TS("success: get all instructors for a google id");
 
@@ -296,7 +296,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForEmail(email);
         assertEquals(1, instructors.size());
         
-        InstructorAttributes instructor1 = instructorsDb.getInstructorForEmail("idOfTypicalCourse1", email); 
+        InstructorAttributes instructor1 = instructorsDb.getInstructorForEmail("idOfTypicalCourse1", email);
         verifySameInstructor(instructor1, instructors.get(0));
         
         ______TS("failure: non-exist email");
@@ -357,7 +357,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
 
     }
     
-    public void testIsGoogleIdOfInstructorOfCourse() throws Exception {
+    public void testIsGoogleIdOfInstructorOfCourse() {
         
         ______TS("success: is an instructor of a given course");
 
@@ -393,7 +393,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testIsEmailOfInstructorOfCourse() throws Exception {
+    public void testIsEmailOfInstructorOfCourse() {
         
         ______TS("success: is an instructor of a given course");
 
@@ -430,7 +430,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
 
     }
 
-    public void testVerifyInstructorExists() throws Exception  {
+    public void testVerifyInstructorExists() throws Exception {
         
         ______TS("success: instructor does exist");
         
@@ -458,7 +458,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testVerifyIsEmailOfInstructorOfCourse() throws Exception  {
+    public void testVerifyIsEmailOfInstructorOfCourse() throws Exception {
         
         ______TS("success: instructor belongs to course");
         
@@ -493,7 +493,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testIsNewInstructor() throws Exception {
+    public void testIsNewInstructor() {
         
         ______TS("success: instructor with only 1 sample course");
         
@@ -645,7 +645,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
 
         ______TS("typical case: delete a non-existent instructor");
 
-        instructorsLogic.deleteInstructorCascade(courseId, "non-existent@course1.tmt"); 
+        instructorsLogic.deleteInstructorCascade(courseId, "non-existent@course1.tmt");
 
         ______TS("failure: null parameter");
 
@@ -677,7 +677,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
         instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
         
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);      
+        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
         assertTrue(instructorList.isEmpty());
         verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
         verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
@@ -701,7 +701,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testDeleteInstructorsForCourse() throws Exception {
+    public void testDeleteInstructorsForCourse() {
         
         ______TS("typical case: delete all instructors of a given course");
         

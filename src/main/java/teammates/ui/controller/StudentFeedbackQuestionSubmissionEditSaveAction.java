@@ -58,7 +58,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends FeedbackQue
     protected void setStatusToAdmin() {
         statusToAdmin = "Save question feedback and show student feedback question submission edit page<br>"
                         + "Question ID: " + feedbackQuestionId + "<br>"
-                        + "Session Name: " + feedbackSessionName + "<br>" 
+                        + "Session Name: " + feedbackSessionName + "<br>"
                         + "Course ID: " + courseId;
     }
 
@@ -68,12 +68,11 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends FeedbackQue
     }
 
     protected StudentAttributes getStudent() {
-        if (student != null) {
-            // Not covered in tests as it is not easily producible but acts as a safety net
-            return student;
-        } else {
+        if (student == null) {
             return logic.getStudentForGoogleId(courseId, account.googleId);
         }
+        // Not covered in tests as it is not easily producible but acts as a safety net
+        return student;
     }
 
     @Override
@@ -88,5 +87,6 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends FeedbackQue
 
     @Override
     protected void checkAdditionalConstraints() {
+        // no additional constraints to check
     }
 }

@@ -9,19 +9,18 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackQuestionAddAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -39,35 +38,39 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         for (String error : questionDetailsErrors) {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
-
-        // if error is not empty not tested as extractFeedbackQuestionData method above uses Assumptions to cover it
+        
+        RedirectResult redirectResult =
+                createRedirectResult(new PageData(account).getInstructorFeedbackEditLink(courseId, feedbackSessionName));
+        
         if (!questionDetailsErrors.isEmpty()) {
             statusToUser.addAll(questionDetailsErrorsMessages);
             isError = true;
-        } else {
-            String err = validateQuestionGiverRecipientVisibility(feedbackQuestion);
-
-            if (!err.isEmpty()) {
-                statusToUser.add(new StatusMessage(err, StatusMessageColor.DANGER));
-                isError = true;
-            }
-
-            try {
-                logic.createFeedbackQuestion(feedbackQuestion);
-                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, StatusMessageColor.SUCCESS));
-                statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">("
-                                + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
-                                + feedbackQuestion.courseId + "]</span> created.<br>"
-                                + "<span class=\"bold\">"
-                                + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
-                                + ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
-            } catch (InvalidParametersException e) {
-                statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
-                statusToAdmin = e.getMessage();
-                isError = true;
-            }
+            
+            return redirectResult;
         }
-        return createRedirectResult(new PageData(account).getInstructorFeedbackEditLink(courseId, feedbackSessionName));
+        
+        String err = validateQuestionGiverRecipientVisibility(feedbackQuestion);
+
+        if (!err.isEmpty()) {
+            statusToUser.add(new StatusMessage(err, StatusMessageColor.DANGER));
+            isError = true;
+        }
+
+        try {
+            logic.createFeedbackQuestion(feedbackQuestion);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, StatusMessageColor.SUCCESS));
+            statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">("
+                          + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                          + feedbackQuestion.courseId + "]</span> created.<br>"
+                          + "<span class=\"bold\">"
+                          + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
+                          + ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
+        } catch (InvalidParametersException e) {
+            statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
+            statusToAdmin = e.getMessage();
+            isError = true;
+        }
+        return redirectResult;
     }
 
     private String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestion) {
@@ -108,8 +111,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);
 
         if ("custom".equals(numberOfEntityTypes)
-            && (newQuestion.recipientType == FeedbackParticipantType.STUDENTS
-                || newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
+                && (newQuestion.recipientType == FeedbackParticipantType.STUDENTS
+                        || newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
             String numberOfEntities = HttpRequestHelper.getValueFromParamMap(
                                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
             Assumption.assertNotNull("Null number of entities for custom entity number", numberOfEntities);

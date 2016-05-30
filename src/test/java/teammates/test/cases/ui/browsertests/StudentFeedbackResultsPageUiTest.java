@@ -24,10 +24,9 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private StudentFeedbackResultsPage resultsPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackResultsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -43,7 +42,8 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // Open Session
         StudentAttributes unreg = testData.students.get("DropOut");
-        resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentFeedbackResultsPage.class);
+        StudentFeedbackResultsPage resultsPage =
+                loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentFeedbackResultsPage.class);
         resultsPage.verifyHtmlMainContent("/unregisteredStudentFeedbackResultsPageOpen.html");
 
         // Mcq Session
@@ -121,14 +121,14 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student logged in as a student in another course: registered after logging out");
         
-        String student1Username = TestProperties.inst().TEST_STUDENT1_ACCOUNT; 
-        String student1Password = TestProperties.inst().TEST_STUDENT1_PASSWORD;
+        String student1Username = TestProperties.TEST_STUDENT1_ACCOUNT;
+        String student1Password = TestProperties.TEST_STUDENT1_PASSWORD;
         
         logout(browser);
         LoginPage loginPage = resultsPage.clickLoginAsStudentButton();
         loginPage.loginAsStudent(student1Username, student1Password);
 
-        StudentCourseJoinConfirmationPage confirmationPage = 
+        StudentCourseJoinConfirmationPage confirmationPage =
                 loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentCourseJoinConfirmationPage.class);
         confirmationPage.verifyHtmlMainContent("/studentCourseJoinConfirmationLoggedInHTML.html");
         loginPage = confirmationPage.clickCancelButton();
@@ -144,7 +144,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         loginPage = resultsPage.clickLoginAsStudentButton();
         loginPage.loginAsStudent(student1Username, student1Password);
 
-        confirmationPage = 
+        confirmationPage =
                 loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentCourseJoinConfirmationPage.class);
         confirmationPage.verifyHtmlMainContent("/studentCourseJoinConfirmationLoggedInHTML.html");
         resultsPage = confirmationPage.clickConfirmButton(StudentFeedbackResultsPage.class);
@@ -155,7 +155,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

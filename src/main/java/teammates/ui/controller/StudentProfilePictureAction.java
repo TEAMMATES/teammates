@@ -15,16 +15,23 @@ public class StudentProfilePictureAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        ActionResult result = null;
-        if (getRequestParamValue(Const.ParamsNames.BLOB_KEY) != null) {
-            result = handleRequestWithBlobKey();
-            statusToAdmin = "Requested Profile Picture by student directly";
-        } else if (getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL) != null) {
-            result = handleRequestWithEmailAndCourse();
-            statusToAdmin = "Requested Profile Picture by instructor/other students";
-        } else {
+        boolean isRequestFromStudent = getRequestParamValue(Const.ParamsNames.BLOB_KEY) != null;
+        boolean isRequestFromInstructorOrOtherStudent =
+                                        getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL) != null;
+        
+        if (!isRequestFromStudent && !isRequestFromInstructorOrOtherStudent) {
             Assumption.fail("expected blob-key, or student email with courseId");
         }
+        
+        ActionResult result = null;
+        if (isRequestFromStudent) {
+            result = handleRequestWithBlobKey();
+            statusToAdmin = "Requested Profile Picture by student directly";
+        } else if (isRequestFromInstructorOrOtherStudent) {
+            result = handleRequestWithEmailAndCourse();
+            statusToAdmin = "Requested Profile Picture by instructor/other students";
+        }
+        
         return result;
     }
 

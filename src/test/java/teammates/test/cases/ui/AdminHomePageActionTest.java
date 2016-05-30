@@ -13,7 +13,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
     // private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_HOME_PAGE;
         // removeAndRestoreTypicalDataInDatastore();
@@ -39,9 +39,8 @@ public class AdminHomePageActionTest extends BaseActionTest {
         
     }
     
-    private Action getAction(String... parameters) throws Exception {
+    private Action getAction(String... parameters) {
         return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
-
 
 }

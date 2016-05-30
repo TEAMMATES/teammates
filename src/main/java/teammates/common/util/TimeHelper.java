@@ -17,14 +17,14 @@ import teammates.common.util.Const.SystemParams;
 /** A helper class to hold time-related functions (e.g., converting dates to strings etc.).
  * Time zone is assumed as UTC unless specifically mentioned.
  */
-public class TimeHelper {
+public final class TimeHelper {
     
     private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<String, String>();
     private static final List<Double> TIME_ZONE_VALUES = new ArrayList<Double>();
     
     /*
      *This time zone - city map was created by selecting major cities from each time zone.
-     *reference: http://en.wikipedia.org/wiki/List_of_UTC_time_offsets 
+     *reference: http://en.wikipedia.org/wiki/List_of_UTC_time_offsets
      *The map was verified by comparing with world clock from http://www.timeanddate.com/worldclock/
      *Note: No DST is handled here.
      */
@@ -70,6 +70,10 @@ public class TimeHelper {
         map("13.0", "Phoenix Islands, Tokelau, Tonga");
         map("14.0", "Line Islands");
         
+    }
+    
+    private TimeHelper() {
+        // utility class
     }
         
     private static void map(String timeZone, String cities) {
@@ -162,7 +166,7 @@ public class TimeHelper {
      * hour just after midnight is converted to option 24 (i.e., 2359 as shown
      * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
      */
-    public static int convertToOptionValueInTimeDropDown(Date date) { 
+    public static int convertToOptionValueInTimeDropDown(Date date) {
         //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.setTime(date);
@@ -194,8 +198,9 @@ public class TimeHelper {
      * Formats a date in the format dd/MM/yyyy
      */
     public static String formatDate(Date date) {
-        if (date == null)
+        if (date == null) {
             return "";
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
@@ -206,8 +211,9 @@ public class TimeHelper {
      * 2:04 PM<br />
      */
     public static String formatTime12H(Date date) {
-        if (date == null)
+        if (date == null) {
             return "";
+        }
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
@@ -237,8 +243,9 @@ public class TimeHelper {
      * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
      */
     public static String formatDateTimeForInstructorHomePage(Date date) {
-        if (date == null)
+        if (date == null) {
             return "";
+        }
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -253,8 +260,9 @@ public class TimeHelper {
     }
 
     public static String calendarToString(Calendar c) {
-        if (c == null)
+        if (c == null) {
             return "";
+        }
         return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss SSS").format(c.getTime());
     }
 
@@ -273,8 +281,9 @@ public class TimeHelper {
 
     public static Calendar dateToCalendar(Date date) {
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        if (date == null)
+        if (date == null) {
             return c;
+        }
         c.setTime(date);
         return c;
     }
@@ -303,7 +312,7 @@ public class TimeHelper {
             return false;
         }
         
-        return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING) 
+        return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                || date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
                || date.equals(Const.TIME_REPRESENTS_LATER)
                || date.equals(Const.TIME_REPRESENTS_NEVER)
@@ -335,7 +344,7 @@ public class TimeHelper {
      * @param isEndInclusive true to allow time to fall on end time
      * @return true if the time falls between the start and end time
      */
-    public static boolean isTimeWithinPeriod(Date startTime, Date endTime, Date time, 
+    public static boolean isTimeWithinPeriod(Date startTime, Date endTime, Date time,
                                              boolean isStartInclusive, boolean isEndInclusive) {
         if (startTime == null || endTime == null || time == null) {
             return false;
@@ -386,10 +395,12 @@ public class TimeHelper {
     
     public static String convertToStandardDuration(Long timeInMilliseconds) {
      
-        return timeInMilliseconds != null ? String.format("%d:%d:%d",
-                                                         timeInMilliseconds / 60000,
-                                                         timeInMilliseconds / 1000,
-                                                         timeInMilliseconds % 1000) : "";
+        return timeInMilliseconds == null
+             ? ""
+             : String.format("%d:%d:%d",
+                             timeInMilliseconds / 60000,
+                             timeInMilliseconds / 1000,
+                             timeInMilliseconds % 1000);
     }
     
   
@@ -415,26 +426,19 @@ public class TimeHelper {
         final String OLD_FORMAT = "dd/MM/yyyy";
         final String NEW_FORMAT = "yyyy-MM-dd";
 
-        String oldDateString = date;
         SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-        Date d;
         try {
-            d = sdf.parse(oldDateString);
+            Date d = sdf.parse(date);
             sdf.applyPattern(NEW_FORMAT);
-            date = sdf.format(d);
+            int intHour = Integer.parseInt(hour);
+            String amOrPm = intHour >= 12 ? "PM" : "AM";
+            intHour = intHour >= 13 ? intHour - 12 : intHour;
+            return sdf.format(d) + " " + intHour + ":" + min + " " + amOrPm + " UTC";
         } catch (ParseException e) {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
         
-        int intHour = Integer.parseInt(hour);
-        
-        String amOrPm = intHour >= 12 ? "PM" : "AM";
-        intHour = intHour >= 13 ? intHour - 12 : intHour;
-        
-        String formatedStr = date + " " + intHour + ":" + min + " " + amOrPm + " UTC";
-
-        return formatedStr;
 
     }
 

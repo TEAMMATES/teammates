@@ -27,7 +27,6 @@ public class AdminEmailAttributes extends EntityAttributes {
     public Text content;
     public boolean isInTrashBin;
     
-    
     public AdminEmailAttributes(AdminEmail ae) {
         this.emailId = ae.getEmailId();
         this.addressReceiver = ae.getAddressReceiver();
@@ -39,7 +38,7 @@ public class AdminEmailAttributes extends EntityAttributes {
         this.isInTrashBin = ae.getIsInTrashBin();
     }
     
-    public AdminEmailAttributes(String subject, 
+    public AdminEmailAttributes(String subject,
                                 List<String> addressReceiver,
                                 List<String> groupReceiver,
                                 Text content,
@@ -59,10 +58,14 @@ public class AdminEmailAttributes extends EntityAttributes {
         String error;
         
         error = validator.getInvalidityInfo(FieldType.EMAIL_CONTENT, content);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldType.EMAIL_SUBJECT, subject);
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
        
         return errors;
     }

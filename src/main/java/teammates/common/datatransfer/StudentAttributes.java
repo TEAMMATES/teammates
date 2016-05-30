@@ -32,24 +32,24 @@ public class StudentAttributes extends EntityAttributes {
         public static final int STATUS_COUNT = 6;
         public final int numericRepresentation;
 
-        private UpdateStatus(int numericRepresentation) {
+        UpdateStatus(int numericRepresentation) {
             this.numericRepresentation = numericRepresentation;
         }
 
         public static UpdateStatus enumRepresentation(int numericRepresentation) {
             switch (numericRepresentation) {
-                case 0:
-                    return ERROR;
-                case 1:
-                    return NEW;
-                case 2:
-                    return MODIFIED;
-                case 3:
-                    return UNMODIFIED;
-                case 4:
-                    return NOT_IN_ENROLL_LIST;
-                default:
-                    return UNKNOWN;
+            case 0:
+                return ERROR;
+            case 1:
+                return NEW;
+            case 2:
+                return MODIFIED;
+            case 3:
+                return UNMODIFIED;
+            case 4:
+                return NOT_IN_ENROLL_LIST;
+            default:
+                return UNKNOWN;
             }
         }
     }
@@ -70,7 +70,7 @@ public class StudentAttributes extends EntityAttributes {
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
     /*
-     * Creation and update time stamps. 
+     * Creation and update time stamps.
      * Updated automatically in Student.java, jdoPreStore()
      */
     private transient Date createdAt;
@@ -83,7 +83,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public StudentAttributes() {
-
+        // attributes to be set after construction
     }
 
     public StudentAttributes(String section, String team, String name, String email, String comment,
@@ -124,16 +124,13 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public String toEnrollmentString() {
-        String enrollmentString = "";
         String enrollmentStringSeparator = "|";
 
-        enrollmentString = this.section + enrollmentStringSeparator;
-        enrollmentString += this.team + enrollmentStringSeparator;
-        enrollmentString += this.name + enrollmentStringSeparator;
-        enrollmentString += this.email + enrollmentStringSeparator;
-        enrollmentString += this.comments;
-
-        return enrollmentString;
+        return this.section + enrollmentStringSeparator
+             + this.team + enrollmentStringSeparator
+             + this.name + enrollmentStringSeparator
+             + this.email + enrollmentStringSeparator
+             + this.comments;
     }
 
     public boolean isRegistered() {
@@ -188,6 +185,7 @@ public class StudentAttributes extends EntityAttributes {
                && otherStudent.section.equals(this.section);
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
         // id is allowed to be null when the student is not registered
         Assumption.assertTrue(team != null);
@@ -198,7 +196,7 @@ public class StudentAttributes extends EntityAttributes {
         String error;
 
         if (isRegistered()) {
-            error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
+            error = validator.getInvalidityInfoForGoogleId(googleId);
 
             if (!error.isEmpty()) {
                 errors.add(error);
@@ -207,33 +205,46 @@ public class StudentAttributes extends EntityAttributes {
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, course);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+        error = validator.getInvalidityInfoForEmail(email);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
-        error = validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
+        error = validator.getInvalidityInfoForTeamName(team);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
-        error = validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
+        error = validator.getInvalidityInfoForSectionName(section);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
-        error = validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
+        error = validator.getInvalidityInfoForStudentRoleComments(comments);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         error = validator.getInvalidityInfoForPersonName(name);
 
-        if (!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
 
         return errors;
     }
 
     public static void sortBySectionName(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
+            @Override
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 String sect1 = student1.section;
                 String sect2 = student2.section;
@@ -254,6 +265,7 @@ public class StudentAttributes extends EntityAttributes {
 
     public static void sortByTeamName(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
+            @Override
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 String team1 = student1.team;
                 String team2 = student2.team;
@@ -270,6 +282,7 @@ public class StudentAttributes extends EntityAttributes {
 
     public static void sortByNameAndThenByEmail(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
+            @Override
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 int result = student1.name.compareTo(student2.name);
 
@@ -308,10 +321,12 @@ public class StudentAttributes extends EntityAttributes {
         }
     }
 
+    @Override
     public Student toEntity() {
         return new Student(email, name, googleId, comments, course, team, section);
     }
 
+    @Override
     public String toString() {
         return toString(0);
     }
@@ -358,9 +373,8 @@ public class StudentAttributes extends EntityAttributes {
     public String getStudentStatus() {
         if (isRegistered()) {
             return Const.STUDENT_COURSE_STATUS_JOINED;
-        } else {
-            return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
         }
+        return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
     }
     
     public Date getCreatedAt() {
@@ -374,14 +388,14 @@ public class StudentAttributes extends EntityAttributes {
     /**
      * Should only be used for testing
      **/
-    public void setCreated_NonProduction(Date createdAt) {
+    public void setCreated_nonProduction(Date createdAt) {
         this.createdAt = createdAt;
     }
 
     /**
      * Should only be used for testing
      **/
-    public void setUpdatedAt_NonProduction(Date updatedAt) {
+    public void setUpdatedAt_nonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 

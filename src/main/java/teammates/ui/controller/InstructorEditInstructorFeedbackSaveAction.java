@@ -10,13 +10,13 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
- * The {@code InstructorEditInstructorFeedbackSaveAction} class handles incoming requests to 
+ * The {@code InstructorEditInstructorFeedbackSaveAction} class handles incoming requests to
  * save the data after moderating the instructor.
  */
 public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
@@ -32,7 +32,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
 
         new GateKeeper().verifyAccessible(instructor,
                 session,
-                false, 
+                false,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
     }
     
@@ -79,7 +79,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
                 statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
                                                 + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
                 isError = true;
-                log.warning("Question not found in Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]." 
+                log.warning("Question not found in Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]."
                             + "(deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
                 continue;
             }
@@ -101,7 +101,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         if (!isResponseVisibleToInstructors || !isGiverVisibleToInstructors || !isRecipientVisibleToInstructors) {
             isError = true;
             throw new UnauthorizedAccessException(
-                    "Feedback session [" + feedbackSessionName 
+                    "Feedback session [" + feedbackSessionName
                     + "] question [" + questionAttributes.getId() + "] is not accessible to instructor [" + instructor.email + "]");
         }
     }
@@ -111,7 +111,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         try {
             logic.addInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Failed to append instructor respondant. " 
+            log.severe("Failed to append instructor respondant. "
                        + "Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]");
         }
     }
@@ -121,7 +121,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         try {
             logic.deleteInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Failed to append instructor respondant. " 
+            log.severe("Failed to append instructor respondant. "
                        + "Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]");
         }
     }
@@ -170,10 +170,10 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
      */
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Instructor moderated instructor session<br>" 
-                      + "Instructor: " + account.email + "<br>" 
-                      + "Moderated Instructor: " + moderatedInstructor + "<br>" 
-                      + "Session Name: " + feedbackSessionName + "<br>" 
+        statusToAdmin = "Instructor moderated instructor session<br>"
+                      + "Instructor: " + account.email + "<br>"
+                      + "Moderated Instructor: " + moderatedInstructor + "<br>"
+                      + "Session Name: " + feedbackSessionName + "<br>"
                       + "Course ID: " + courseId;
     }
 
@@ -185,7 +185,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
     @Override
     protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
         // Feedback session closing date does not matter. Instructors can moderate at any time
-        return true; 
+        return true;
     }
 
     /**

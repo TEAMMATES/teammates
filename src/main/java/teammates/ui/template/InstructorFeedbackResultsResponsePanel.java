@@ -16,20 +16,21 @@ public class InstructorFeedbackResultsResponsePanel {
     
     private String displayableResponse;
     
-    private List<FeedbackResponseComment> comments;
-    private FeedbackResponseComment frcForAdding;
+    private List<FeedbackResponseCommentRow> comments;
+    private FeedbackResponseCommentRow frcForAdding;
     private boolean isAllowedToAddComment;
     
-    // The indexes are used for the parameters of js functions for handling response comments 
+    // The indexes are used for the parameters of js functions for handling response comments
     private int recipientIndex;
     private int giverIndex;
     private int qnIndex; // TODO  investigate using question number instead of tracking an index
     
     public InstructorFeedbackResultsResponsePanel(FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
-                                                  String questionText, String additionalInfoText, 
-                                                  ElementTag rowAttributes, 
-                                                  String displayableResponse, 
-                                                  List<FeedbackResponseComment> comments, boolean isAllowedToAddComment) {
+                                                  String questionText, String additionalInfoText,
+                                                  ElementTag rowAttributes,
+                                                  String displayableResponse,
+                                                  List<FeedbackResponseCommentRow> comments,
+                                                  boolean isAllowedToAddComment) {
         this.question = question;
         this.response = response;
         this.questionText = questionText;
@@ -70,7 +71,7 @@ public class InstructorFeedbackResultsResponsePanel {
         return displayableResponse;
     }
     
-    public List<FeedbackResponseComment> getComments() {
+    public List<FeedbackResponseCommentRow> getComments() {
         return comments;
     }
 
@@ -78,7 +79,6 @@ public class InstructorFeedbackResultsResponsePanel {
         return isAllowedToAddComment;
     }
 
-    
     public int getRecipientIndex() {
         return recipientIndex;
     }
@@ -90,13 +90,12 @@ public class InstructorFeedbackResultsResponsePanel {
     public int getQnIndex() {
         return qnIndex;
     }
-    
 
-    public void setFrcForAdding(FeedbackResponseComment frcForAdding) {
+    public void setFrcForAdding(FeedbackResponseCommentRow frcForAdding) {
         this.frcForAdding = frcForAdding;
     }
 
-    public FeedbackResponseComment getFrcForAdding() {
+    public FeedbackResponseCommentRow getFrcForAdding() {
         return frcForAdding;
     }
     

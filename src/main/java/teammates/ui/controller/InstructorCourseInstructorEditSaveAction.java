@@ -12,9 +12,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseInstructorEditSaveAction extends Action {
@@ -37,10 +37,10 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
         
         try {
-            if (instructorId != null) {
-                logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
-            } else {
+            if (instructorId == null) {
                 logic.updateInstructorByEmail(instructorEmail, instructorToEdit);
+            } else {
+                logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
             }
             
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, instructorName), StatusMessageColor.SUCCESS));
@@ -67,10 +67,10 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
                 instrCanModifyInstructor = instructor;
             }
         }
-        boolean lastCanModifyInstructor = numOfInstrCanModifyInstructor <= 1 
-                                          && (instrCanModifyInstructor != null && instrCanModifyInstructor.googleId == null 
-                                             || instrCanModifyInstructor != null 
-                                                && instrCanModifyInstructor.googleId != null 
+        boolean lastCanModifyInstructor = numOfInstrCanModifyInstructor <= 1
+                                          && (instrCanModifyInstructor != null && instrCanModifyInstructor.googleId == null
+                                             || instrCanModifyInstructor != null
+                                                && instrCanModifyInstructor.googleId != null
                                                 && instrCanModifyInstructor.googleId.equals(instructorToEdit.googleId));
         if (lastCanModifyInstructor) {
             instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
@@ -82,9 +82,9 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         Assumption.assertNotNull(instructorRole);
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
-        displayedName = displayedName == null || displayedName.isEmpty() 
-                      ? InstructorAttributes.DEFAULT_DISPLAY_NAME 
-                      : displayedName;
+        if (displayedName == null || displayedName.isEmpty()) {
+            displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
+        }
         instructorRole = Sanitizer.sanitizeName(instructorRole);
         displayedName = Sanitizer.sanitizeName(displayedName);
         
@@ -137,10 +137,10 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
             String instructorId, String instructorName, String instructorEmail,
             String instructorRole, boolean isDisplayedToStudents, String displayedName) {
         InstructorAttributes instructorToEdit = null;
-        if (instructorId != null) {
-            instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
-        } else {
+        if (instructorId == null) {
             instructorToEdit = logic.getInstructorForEmail(courseId, instructorEmail);
+        } else {
+            instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
         }
         instructorToEdit.name = Sanitizer.sanitizeName(instructorName);
         instructorToEdit.email = Sanitizer.sanitizeEmail(instructorEmail);
@@ -240,7 +240,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
     private void updateInstructorPrivilegesForSectionInSessionLevel(String sectionParam,
             List<String> sectionNames, List<String> feedbackNames, InstructorAttributes instructorToEdit) {
         for (String feedbackName : feedbackNames) {
-            boolean isViewSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS 
+            boolean isViewSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
                     + sectionParam + "feedback" + feedbackName) != null;
             boolean isSubmitSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
                     + sectionParam + "feedback" + feedbackName) != null;

@@ -57,9 +57,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends Feedback
 
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Save question feedback and show instructor feedback question submission edit page<br>" 
-                      + "Question ID: " + feedbackQuestionId + "<br>" 
-                      + "Session Name: " + feedbackSessionName + "<br>" 
+        statusToAdmin = "Save question feedback and show instructor feedback question submission edit page<br>"
+                      + "Question ID: " + feedbackQuestionId + "<br>"
+                      + "Session Name: " + feedbackSessionName + "<br>"
                       + "Course ID: " + courseId;
     }
 
@@ -82,5 +82,6 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends Feedback
 
     @Override
     protected void checkAdditionalConstraints() {
+        // no additional constraints to check
     }
 }

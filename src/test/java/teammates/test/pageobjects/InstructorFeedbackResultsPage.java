@@ -1,7 +1,7 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
 
@@ -62,7 +62,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     /**
-     * Waits until the page structure is loaded. 
+     * Waits until the page structure is loaded.
      * Does not wait for all the content that are loaded by ajax to load.
      */
     public void waitForPageStructureToLoad() {
@@ -141,24 +141,24 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement button = browser.driver.findElement(By.linkText("[Edit]"));
         button.click();
         
-        InstructorFeedbackEditPage editPage = changePageType(InstructorFeedbackEditPage.class); 
+        InstructorFeedbackEditPage editPage = changePageType(InstructorFeedbackEditPage.class);
         editPage.waitForPageToLoad();
         return editPage;
     }
 
     public boolean clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {
         WebElement qnAdditionalInfoButton = browser.driver.findElement(By.id("questionAdditionalInfoButton-"
-                                                                             + qnNumber + "-" + additionalInfoId));    
+                                                                             + qnNumber + "-" + additionalInfoId));
         qnAdditionalInfoButton.click();
         // Check if links toggle properly.
         WebElement qnAdditionalInfo = browser.driver.findElement(By.id("questionAdditionalInfo-"
-                                                                       + qnNumber + "-" + additionalInfoId));    
+                                                                       + qnNumber + "-" + additionalInfoId));
         return qnAdditionalInfo.isDisplayed();
     }
 
     public String getQuestionAdditionalInfoButtonText(int qnNumber, String additionalInfoId) {
         WebElement qnAdditionalInfoButton = browser.driver.findElement(By.id("questionAdditionalInfoButton-"
-                                                                             + qnNumber + "-" + additionalInfoId));    
+                                                                             + qnNumber + "-" + additionalInfoId));
         return qnAdditionalInfoButton.getText();
     }
 
@@ -238,7 +238,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     
     /**
      * Waits for all the panels to collapse.
-     */    
+     */
     public void waitForPanelsToCollapse() {
         By panelCollapseSelector = By.cssSelector("div[id^='panelBodyCollapse-']");
         
@@ -321,7 +321,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         ajaxPanels.click();
     }
 
-    public void clickViewPhotoLink(int panelBodyIndex, String urlRegex) throws Exception {
+    public void clickViewPhotoLink(int panelBodyIndex, String urlRegex) {
         String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
         WebElement photoCell = browser.driver.findElement(By.id(idOfPanelBody))
                                              .findElements(By.cssSelector(".profile-pic-icon-click"))
@@ -341,7 +341,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         actions.moveByOffset(100, 100).click().perform();
     }
 
-    public void hoverClickAndViewStudentPhotoOnHeading(int panelHeadingIndex, String urlRegex) throws Exception {
+    public void hoverClickAndViewStudentPhotoOnHeading(int panelHeadingIndex, String urlRegex) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         String idOfPanelHeading = "panelHeading-" + panelHeadingIndex;
         WebElement photoDiv = browser.driver.findElement(By.id(idOfPanelHeading))
@@ -364,7 +364,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
     }
 
-    public void hoverAndViewStudentPhotoOnBody(int panelBodyIndex, String urlRegex) throws Exception {
+    public void hoverAndViewStudentPhotoOnBody(int panelBodyIndex, String urlRegex) {
         String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
         WebElement photoLink = browser.driver.findElements(By.cssSelector('#' + idOfPanelBody + "> .panel-body > .row"))
                                              .get(0)
@@ -384,7 +384,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                  int tableCol, String urlRegex) throws Exception {
+                                                  int tableCol, String urlRegex) {
         String idOfQuestionBody = "questionBody-" + questionBodyIndex;
 
         /*
@@ -393,15 +393,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
          */
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript(
-                "$(document.getElementById('" +  idOfQuestionBody + "')" 
-                + ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']" 
-                + ".querySelectorAll('td')['" + tableCol + "']" 
+                "$(document.getElementById('" + idOfQuestionBody + "')"
+                + ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']"
+                + ".querySelectorAll('td')['" + tableCol + "']"
                 + ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
         
         waitForElementPresence(By.cssSelector(".popover-content"));
         
         jsExecutor.executeScript(
-                "document.getElementsByClassName('popover-content')[0]" 
+                "document.getElementsByClassName('popover-content')[0]"
                 + ".getElementsByTagName('a')[0].click();");
 
         waitForElementPresence(By.cssSelector(".popover-content > img"));
@@ -414,12 +414,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                       String urlRegex) throws Exception {
+                                                       String urlRegex) {
         hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 1, urlRegex);
     }
 
     public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                           String urlRegex) throws Exception {
+                                                           String urlRegex) {
         hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 3, urlRegex);
     }
 
@@ -468,18 +468,18 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void changeFsNameInAjaxLoadResponsesForm(int indexOfForm, String newFsName) {
         
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('.ajax_submit:eq(" + indexOfForm 
-                         + ") [name=\"fsname\"]').val('" + newFsName + "')");     
+        js.executeScript("$('.ajax_submit:eq(" + indexOfForm
+                         + ") [name=\"fsname\"]').val('" + newFsName + "')");
     }
     
     public void changeFsNameInNoResponsePanelForm(String newFsName) {
         
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('.ajax_response_rate_submit [name=\"fsname\"]').val('" + newFsName + "')");     
+        js.executeScript("$('.ajax_response_rate_submit [name=\"fsname\"]').val('" + newFsName + "')");
     }
     
     public void waitForAjaxError(int indexOfForm) {
-        By ajaxErrorSelector = By.cssSelector(".ajax_submit:nth-of-type(" + indexOfForm 
+        By ajaxErrorSelector = By.cssSelector(".ajax_submit:nth-of-type(" + indexOfForm
                                         + ") .ajax-error");
         waitForElementPresence(ajaxErrorSelector);
         WebElement ajaxError = browser.driver.findElement(ajaxErrorSelector);

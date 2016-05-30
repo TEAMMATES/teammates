@@ -1,6 +1,8 @@
 package teammates.test.cases.common;
 
+// CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
 import static teammates.common.util.FieldValidator.*;
+// CHECKSTYLE.ON:AvoidStarImport
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -16,7 +18,7 @@ public class FieldValidatorTest extends BaseTestCase {
     public FieldValidator validator = new FieldValidator();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
@@ -30,55 +32,80 @@ public class FieldValidatorTest extends BaseTestCase {
             validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, null);
             signalFailureToDetectException("not expected to be null");
         } catch (AssertionError e) {
-            ignoreExpectedException(); 
+            ignoreExpectedException();
         }
         
         int maxLength = 50;
-        assertEquals("valid: typical value", 
+        assertEquals("valid: typical value",
                 "",
                 validator.getValidityInfoForSizeCappedNonEmptyString(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         "Dr. Amy-B s/o O'br, & 2nd \t \n (alias 'JB')"));
         
-        assertEquals("valid: max length", 
+        assertEquals("valid: max length",
                 "",
                 validator.getValidityInfoForSizeCappedNonEmptyString(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         StringHelper.generateStringOfLength(maxLength)));
         
         String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
-        assertEquals("invalid: too long", 
+        assertEquals("invalid: too long",
                 String.format(
-                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                        tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
+                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                        tooLongName, typicalFieldName, REASON_TOO_LONG, typicalFieldName, maxLength),
                 validator.getValidityInfoForSizeCappedNonEmptyString(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         tooLongName));
         
         
         String emptyValue = "";
-        assertEquals("invalid: empty", 
+        assertEquals("invalid: empty",
                 String.format(
-                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                        emptyValue, typicalFieldName,  REASON_EMPTY, typicalFieldName, maxLength),
+                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                        emptyValue, typicalFieldName, REASON_EMPTY, typicalFieldName, maxLength),
                 validator.getValidityInfoForSizeCappedNonEmptyString(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         emptyValue));
         
         String untrimmedValue = " abc ";
-        assertEquals("invalid: untrimmed", 
+        assertEquals("invalid: untrimmed",
                 String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, typicalFieldName),
                 validator.getValidityInfoForSizeCappedNonEmptyString(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         untrimmedValue));
+    }
+
+    @Test
+    public void testGetValidityInfoForNonHtmlField_cleanInput_returnEmptyString() {
+        String clean = "Valid clean input with no special HTML characters";
+        String testFieldName = "Inconsequential test field name";
+        String actual = validator.getValidityInfoForNonHtmlField(testFieldName, clean);
+        assertEquals("Valid clean input with no special HTML characters should return empty string", "",
+                     actual);
+    }
+
+    @Test
+    public void testGetValidityInfoForNonHtmlField_sanitizedInput_returnEmptyString() {
+        String sanitizedInput = "Valid sanitized input &lt; &gt; &quot; &#x2f; &#39; &amp;";
+        String testFieldName = "Inconsequential test field name";
+        String actual = validator.getValidityInfoForNonHtmlField(testFieldName, sanitizedInput);
+        assertEquals("Valid sanitized input should return empty string", "", actual);
     }
     
     @Test
+    public void testGetValidityInfoForNonHtmlField_unsanitizedInput_returnErrorString() {
+        String unsanitizedInput = "Invalid unsanitized input <>\\/'&";
+        String testFieldName = "Inconsequential test field name";
+        String actual = validator.getValidityInfoForNonHtmlField(testFieldName, unsanitizedInput);
+        assertEquals("Invalid unsanitized input should return error string",
+                     String.format(NON_HTML_FIELD_ERROR_MESSAGE, testFieldName), actual);
+    }
+
     public void testGetValidityInfoForSizeCappedPossiblyEmptyString() {
         
         String typicalFieldName = "my field";
@@ -88,49 +115,49 @@ public class FieldValidatorTest extends BaseTestCase {
             validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, null);
             signalFailureToDetectException("not expected to be null");
         } catch (AssertionError e) {
-            ignoreExpectedException(); 
+            ignoreExpectedException();
         }
         
         int maxLength = 50;
-        assertEquals("valid: typical value", 
+        assertEquals("valid: typical value",
                 "",
                 validator.getValidityInfoForSizeCappedPossiblyEmptyString(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         "Dr. Amy-B s/o O'br, & 2nd \t \n (alias 'JB')"));
         
-        assertEquals("valid: max length", 
+        assertEquals("valid: max length",
                 "",
                 validator.getValidityInfoForSizeCappedPossiblyEmptyString(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         StringHelper.generateStringOfLength(maxLength)));
         
         
         String emptyValue = "";
-        assertEquals("valid: empty", 
+        assertEquals("valid: empty",
                 "",
                 validator.getValidityInfoForSizeCappedPossiblyEmptyString(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         emptyValue));
         
         String untrimmedValue = " abc ";
-        assertEquals("invalid: untrimmed", 
+        assertEquals("invalid: untrimmed",
                 String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, typicalFieldName),
                 validator.getValidityInfoForSizeCappedPossiblyEmptyString(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         untrimmedValue));
         
         String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
-        assertEquals("invalid: too long", 
+        assertEquals("invalid: too long",
                 String.format(
-                        SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, 
-                        tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
+                        SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE,
+                        tooLongName, typicalFieldName, REASON_TOO_LONG, typicalFieldName, maxLength),
                 validator.getValidityInfoForSizeCappedPossiblyEmptyString(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         tooLongName));
     }
     
@@ -146,23 +173,23 @@ public class FieldValidatorTest extends BaseTestCase {
             validator.getValidityInfoForAllowedName(typicalFieldName, typicalLength, null);
             signalFailureToDetectException("not expected to be null");
         } catch (AssertionError e) {
-            ignoreExpectedException(); 
+            ignoreExpectedException();
         }
         
         ______TS("typical success case");
         
         int maxLength = 50;
-        assertEquals("valid: typical length with valid characters", 
+        assertEquals("valid: typical length with valid characters",
                 "",
                 validator.getValidityInfoForAllowedName(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         "Ýàn-B. s/o O'br, &2\t\n(~!@#$^*+_={}[]\\:;\"<>?)"));
         
         ______TS("failure: invalid characters");
         
         String nameContainInvalidChars = "Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
-        assertEquals("invalid: typical length with invalid characters", 
+        assertEquals("invalid: typical length with invalid characters",
                      String.format(INVALID_NAME_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(nameContainInvalidChars),
                                    typicalFieldName, REASON_CONTAINS_INVALID_CHAR, typicalFieldName),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
@@ -171,28 +198,28 @@ public class FieldValidatorTest extends BaseTestCase {
         ______TS("failure: starts with non-alphanumeric character");
         
         String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
-        assertEquals("invalid: typical length with invalid characters", 
+        assertEquals("invalid: typical length with invalid characters",
                      String.format(INVALID_NAME_ERROR_MESSAGE,
                                    Sanitizer.sanitizeForHtml(nameStartedWithNonAlphaNumChar),
                                    typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
-                     validator.getValidityInfoForAllowedName(typicalFieldName,  maxLength, 
+                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithNonAlphaNumChar));
         
         ______TS("failure: starts with curly braces but contains invalid char");
         
         String nameStartedWithBracesButHasInvalidChar = "{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
-        assertEquals("invalid: typical length with invalid characters", 
+        assertEquals("invalid: typical length with invalid characters",
                      String.format(INVALID_NAME_ERROR_MESSAGE,
                                    Sanitizer.sanitizeForHtml(nameStartedWithBracesButHasInvalidChar),
                                    typicalFieldName, REASON_CONTAINS_INVALID_CHAR, typicalFieldName),
-                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength, 
+                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithBracesButHasInvalidChar));
         
         ______TS("failure: starts with opening curly bracket but dose not have closing bracket");
         
         String nameStartedWithCurlyBracketButHasNoEnd = "{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)";
-        assertEquals("invalid: typical length started with non-alphanumeric character", 
-                     String.format(INVALID_NAME_ERROR_MESSAGE, 
+        assertEquals("invalid: typical length started with non-alphanumeric character",
+                     String.format(INVALID_NAME_ERROR_MESSAGE,
                                    Sanitizer.sanitizeForHtml(nameStartedWithCurlyBracketButHasNoEnd),
                                    typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
@@ -200,189 +227,131 @@ public class FieldValidatorTest extends BaseTestCase {
         
         ______TS("success: with opening and closing curly braces");
         
-        assertEquals("valid: max length", 
+        assertEquals("valid: max length",
                 "",
                 validator.getValidityInfoForAllowedName(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         "{last name} first name"));
         
         ______TS("success: max length");
         
-        assertEquals("valid: max length", 
+        assertEquals("valid: max length",
                 "",
                 validator.getValidityInfoForAllowedName(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         StringHelper.generateStringOfLength(maxLength)));
         
         ______TS("failure: too long");
         
         String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
-        assertEquals("invalid: too long", 
+        assertEquals("invalid: too long",
                 String.format(
-                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                        tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
+                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                        tooLongName, typicalFieldName, REASON_TOO_LONG, typicalFieldName, maxLength),
                 validator.getValidityInfoForAllowedName(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         tooLongName));
         
         ______TS("failure: empty string");
         
         String emptyValue = "";
-        assertEquals("invalid: empty", 
+        assertEquals("invalid: empty",
                 String.format(
-                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                        emptyValue, typicalFieldName,  REASON_EMPTY, typicalFieldName, maxLength),
+                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                        emptyValue, typicalFieldName, REASON_EMPTY, typicalFieldName, maxLength),
                 validator.getValidityInfoForAllowedName(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         emptyValue));
         
         ______TS("failure: untrimmed value");
         
         String untrimmedValue = " abc ";
-        assertEquals("invalid: untrimmed", 
+        assertEquals("invalid: untrimmed",
                 String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, typicalFieldName),
                 validator.getValidityInfoForAllowedName(
-                        typicalFieldName, 
-                        maxLength, 
+                        typicalFieldName,
+                        maxLength,
                         untrimmedValue));
     }
 
     @Test
-    public void testGetInvalidityInfoForSpecificFields() {
-        // behavior tests for the specific field validation methods
-        // - ensures correct underlying methods are called (e.g., methods checking for non-emptiness)
-        // - ensures error messages are correctly interpolated and returned
-        testGetInvalidityInfo_PersonName();
-        testGetInvalidityInfo_InstituteName();
-        testGetInvalidityInfo_Nationality();
-        testGetInvalidityInfo_CourseName();
-        testGetInvalidityInfo_FeedbackSessionName();
-        testGetInvalidityInfo_Gender();
+    public void testGetInvalidityInfoForPersonName_invalid_returnSpecificErrorString() {
+        String invalidPersonName = "";
+        String actual = validator.getInvalidityInfoForPersonName(invalidPersonName);
+        assertEquals("Invalid person name (empty) should return error message that is specific to person name",
+                     String.format(PERSON_NAME_ERROR_MESSAGE, invalidPersonName, REASON_EMPTY), actual);
     }
 
-    private void testGetInvalidityInfo_PersonName() {
-        invalidityInfoFor_validName_shouldReturnEmptyString();
-        invalidityInfoFor_emptyName_shouldReturnErrorString();
-    }
-
-    private void invalidityInfoFor_emptyName_shouldReturnErrorString() {
-        String emptyPersonName = "";
-        String actual = validator.getInvalidityInfoForPersonName(emptyPersonName);
-        assertEquals("Empty person name should return appropriate error message",
-                     String.format(PERSON_NAME_ERROR_MESSAGE, emptyPersonName,
-                                   REASON_EMPTY),
+    @Test
+    public void testGetInvalidityInfoForInstituteName_invalid_returnSpecificErrorString() {
+        String invalidInstituteName = StringHelper.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
+        String actual = validator.getInvalidityInfoForInstituteName(invalidInstituteName);
+        assertEquals("Invalid institute name (too long) should return error message that is specific to institute name",
+                     String.format(INSTITUTE_NAME_ERROR_MESSAGE, invalidInstituteName, REASON_TOO_LONG),
                      actual);
     }
 
-    private void invalidityInfoFor_validName_shouldReturnEmptyString() {
-        String validPersonName = "Mr Valid Name";
-        String actual = validator.getInvalidityInfoForPersonName(validPersonName);
-        assertEquals("Valid person name should return empty string", "", actual);
-    }
-
-    private void testGetInvalidityInfo_InstituteName() {
-        invalidityInfoFor_validInstituteName_shouldReturnEmptyString();
-        invalidityInfoFor_tooLongInstituteName_shouldReturnErrorString();
-    }
-
-    private void invalidityInfoFor_validInstituteName_shouldReturnEmptyString() {
-        String validInstituteName = "Institute of Valid Name";
-        String actual = validator.getInvalidityInfoForInstituteName(validInstituteName);
-        assertEquals("Valid institute name should return empty string", "", actual);
-    }
-
-    private void invalidityInfoFor_tooLongInstituteName_shouldReturnErrorString() {
-        String tooLongInstituteName = StringHelper.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
-        String actual = validator.getInvalidityInfoForInstituteName(tooLongInstituteName);
-        assertEquals("Too long institute name should return appropriate error message",
-                     String.format(INSTITUTE_NAME_ERROR_MESSAGE, tooLongInstituteName,
-                                   REASON_TOO_LONG),
-                     actual);
-    }
-
-    private void testGetInvalidityInfo_Nationality() {
-        invalidityInfoFor_validNationality_shouldReturnEmptyString();
-        invalidityInfoFor_invalidCharNationality_shouldReturnErrorString();
-    }
-
-    private void invalidityInfoFor_validNationality_shouldReturnEmptyString() {
-        String validNationality = "Martian";
-        String actual = validator.getInvalidityInfoForNationality(validNationality);
-        assertEquals("Valid nationality should return empty string", "", actual);
-    }
-
-    private void invalidityInfoFor_invalidCharNationality_shouldReturnErrorString() {
-        String invalidCharNationality = "{ Invalid Char Nationality";
-        String actual = validator.getInvalidityInfoForNationality(invalidCharNationality);
-        assertEquals("Nationality with invalid characters should return appropriate error string",
-                      String.format(INVALID_NAME_ERROR_MESSAGE,
-                                    invalidCharNationality,
-                                    NATIONALITY_FIELD_NAME,
-                                    REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                                    NATIONALITY_FIELD_NAME),
+    @Test
+    public void testGetInvalidityInfoForNationality_invalid_returnSpecificErrorString() {
+        String invalidNationality = "{ Invalid Char Nationality";
+        String actual = validator.getInvalidityInfoForNationality(invalidNationality);
+        assertEquals("Invalid nationality (invalid char) should return error string that is specific to nationality",
+                      String.format(INVALID_NAME_ERROR_MESSAGE, invalidNationality, NATIONALITY_FIELD_NAME,
+                                    REASON_START_WITH_NON_ALPHANUMERIC_CHAR, NATIONALITY_FIELD_NAME),
                       actual);
     }
 
-    private void testGetInvalidityInfo_CourseName() {
-        invalidityInfoFor_validCourseName_shouldbeEmptyString();
-        invalidityInfoFor_invalidCharCourseName_shouldReturnErrorString();
+    @Test
+    public void testGetInvalidityInfoForTeamName_invalid_returnSpecificErrorString() {
+        String invalidTeamName = "";
+        String actual = validator.getInvalidityInfoForTeamName(invalidTeamName);
+        assertEquals("Invalid team name (empty) should return error message that is specific to team name",
+                     String.format(TEAM_NAME_ERROR_MESSAGE, invalidTeamName, REASON_EMPTY), actual);
     }
 
-    private void invalidityInfoFor_validCourseName_shouldbeEmptyString() {
-        String validCourseName = "Introduction to Valid Course";
-        String actual = validator.getInvalidityInfoForCourseName(validCourseName);
-        assertEquals("Valid course name should return empty string", "", actual);
-    }
-
-    private void invalidityInfoFor_invalidCharCourseName_shouldReturnErrorString() {
-        String invalidCharCourseName = "Vertical Bar | Course";
-        String actual = validator.getInvalidityInfoForCourseName(invalidCharCourseName);
-        assertEquals("Course name with invalid character should return appropriate error string",
-                     String.format(INVALID_NAME_ERROR_MESSAGE,
-                                   invalidCharCourseName,
-                                   COURSE_NAME_FIELD_NAME,
-                                   REASON_CONTAINS_INVALID_CHAR,
-                                   COURSE_NAME_FIELD_NAME),
+    @Test
+    public void testGetInvalidityInfoForSectionName_invalid_returnSpecificErrorString() {
+        String invalidSectionName = "Percent Symbol % Section";
+        String actual = validator.getInvalidityInfoForSectionName(invalidSectionName);
+        assertEquals("Invalid section name (invalid char) should return error string that is specific to section name",
+                     String.format(INVALID_NAME_ERROR_MESSAGE, invalidSectionName, SECTION_NAME_FIELD_NAME,
+                                   REASON_CONTAINS_INVALID_CHAR, SECTION_NAME_FIELD_NAME),
                      actual);
     }
 
-    private void testGetInvalidityInfo_FeedbackSessionName() {
-        invalidityInfoFor_validFeedbackSessionName_shouldReturnEmptyString();
-        invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString();
+    @Test
+    public void testGetInvalidityInfoForCourseName_invalid_returnSpecificErrorString() {
+        String invalidCourseName = "Vertical Bar | Course";
+        String actual = validator.getInvalidityInfoForCourseName(invalidCourseName);
+        assertEquals("Invalid course name (invalid char) should return error string that is specific to course name",
+                     String.format(INVALID_NAME_ERROR_MESSAGE, invalidCourseName, COURSE_NAME_FIELD_NAME,
+                                   REASON_CONTAINS_INVALID_CHAR, COURSE_NAME_FIELD_NAME),
+                     actual);
     }
 
-    private void invalidityInfoFor_validFeedbackSessionName_shouldReturnEmptyString() {
-        String validFeedbackSessionName = "Valid feedback session name";
-        String actual = validator.getInvalidityInfoForFeedbackSessionName(validFeedbackSessionName);
-        assertEquals("Valid feedback session name should return empty string", "", actual);
-    }
-
-    private void invalidityInfoFor_tooLongFeedbackSessionName_shouldReturnErrorString() {
-        String tooLongFeedbackSessionName = StringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
-        String actual = validator.getInvalidityInfoForFeedbackSessionName(tooLongFeedbackSessionName);
-        assertEquals("Feedback session with too long name should return appropriate error message",
-                     String.format(FEEDBACK_SESSION_NAME_ERROR_MESSAGE,
-                                   tooLongFeedbackSessionName,
+    @Test
+    public void testGetInvalidityInfoForFeedbackSessionName_invalid_returnSpecificErrorString() {
+        String invalidSessionName = StringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
+        String actual = validator.getInvalidityInfoForFeedbackSessionName(invalidSessionName);
+        assertEquals("Invalid feedback session name (too long) should return error message specfic to feedback session name",
+                     String.format(FEEDBACK_SESSION_NAME_ERROR_MESSAGE, invalidSessionName,
                                    REASON_TOO_LONG),
                      actual);
     }
 
-    private void testGetInvalidityInfo_Gender() {
-        invalidityInfoFor_validGender_shouldReturnEmptyString();
-        invalidityInfoFor_invalidGender_shouldReturnErrorString();
-    }
-
-    private void invalidityInfoFor_validGender_shouldReturnEmptyString() {
+    @Test
+    public void invalidityInfoFor_validGender_returnEmptyString() {
         String validGender = "other";
         String actual = validator.getInvalidityInfoForGender(validGender);
         assertEquals("Valid gender should return empty string", "", actual);
     }
 
-    private void invalidityInfoFor_invalidGender_shouldReturnErrorString() {
+    @Test
+    public void invalidityInfoFor_invalidGender_returnErrorString() {
         String invalidGender = "alpha male";
         String actual = validator.getInvalidityInfoForGender(invalidGender);
         assertEquals("Invalid gender should return appropriate error stirng",
@@ -391,78 +360,87 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetValidityInfo_GOOGLE_ID() {
-        
-        verifyAssertError("null value", FieldType.GOOGLE_ID, null);
-        verifyAssertError("contains '@gmail.com'", FieldType.GOOGLE_ID, "abc@GMAIL.com");
-        
-        
-        testOnce("valid: typical value", 
-                FieldType.GOOGLE_ID, 
-                "valid9.Goo-gle.id_", 
-                "");
-        
-        testOnce("valid: minimal non-email id accepted", 
-                FieldType.GOOGLE_ID, 
-                "e", 
-                "");
-        
-        testOnce("valid: typical email address used as id", 
-                FieldType.GOOGLE_ID, 
-                "someone@yahoo.com", "");
-        
-        testOnce("valid: minimal email id accepted as id", 
-                FieldType.GOOGLE_ID, 
-                "e@y", 
-                "");
-        
-        String maxLengthValue = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH);
-        testOnce("valid: max length", 
-                FieldType.GOOGLE_ID, 
-                maxLengthValue, 
-                "");
-
-        String emptyValue = "";
-        testOnce("invalid: empty string", 
-                FieldType.GOOGLE_ID, 
-                emptyValue,
-                String.format(GOOGLE_ID_ERROR_MESSAGE, emptyValue,    REASON_EMPTY));
-        
-        String untrimmedValue = " e@email.com ";
-        testOnce("invalid: untrimmed", 
-                FieldType.GOOGLE_ID, 
-                untrimmedValue,
-                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID"));
-        
-        String whitespaceOnlyValue = "    ";
-        testOnce("invalid: whitespace only", 
-                FieldType.GOOGLE_ID, 
-                whitespaceOnlyValue,
-                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID"));
-        
-        String tooLongValue = maxLengthValue + "x";
-        testOnce("invalid: too long", 
-                FieldType.GOOGLE_ID, 
-                tooLongValue, 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
-        
-        String valueWithDisallowedChar = "man woman";
-        testOnce("invalid: disallowed char (space)", 
-                FieldType.GOOGLE_ID, 
-                valueWithDisallowedChar, 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
-        
-        valueWithDisallowedChar = "man/woman";
-        testOnce("invalid: disallowed char", 
-                FieldType.GOOGLE_ID, 
-                valueWithDisallowedChar, 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(valueWithDisallowedChar),
-                              REASON_INCORRECT_FORMAT));
-        
+    public void testGetInvalidityInfoForGoogleId_null_throwException() {
+        String errorMessageForNullGoogleId = "Did not throw the expected AssertionError for null value";
+        try {
+            validator.getInvalidityInfoForGoogleId(null);
+            signalFailureToDetectException(errorMessageForNullGoogleId);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
     }
-    
+
     @Test
-    public void TestGetValidityInfo_INSTRUCTOR_ROLE() {
+    public void testGetInvalidityInfoForGoogleId_untrimmedGmailDomain_throwException() {
+        String errorMessageForUntrimmedEmailDomain = "Did not throw the expected AssertionError for Google ID "
+                                                     + "with untrimmed GMail domain (i.e., @gmail.com)";
+        try {
+            validator.getInvalidityInfoForGoogleId("abc@GMAIL.com");
+            signalFailureToDetectException(errorMessageForUntrimmedEmailDomain);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+    }
+
+    @Test
+    public void testGetInvalidityInfoForGoogleId_valid_returnEmptyString() {
+        String typicalId = "valid9.Goo-gle.id_";
+        assertEquals("Valid Google ID (typical) should return empty string", "",
+                     validator.getInvalidityInfoForGoogleId(typicalId));
+
+        String shortId = "e";
+        assertEquals("Valid Google ID (short) should return empty string", "",
+                     validator.getInvalidityInfoForGoogleId(shortId));
+
+        String emailAsId = "someone@yahoo.com";
+        assertEquals("Valid Google ID (typical email) should return empty string", "",
+                     validator.getInvalidityInfoForGoogleId(emailAsId));
+    
+        String shortEmailAsId = "e@y";
+        assertEquals("Valid Google ID (short email) should return empty string", "",
+                     validator.getInvalidityInfoForGoogleId(shortEmailAsId));
+
+        String maxLengthId = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH);
+        assertEquals("Valid Google ID (max length) should return empty string", "",
+                     validator.getInvalidityInfoForGoogleId(maxLengthId));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForGoogleId_invalid_returnErrorString() {
+        String emptyId = "";
+        assertEquals("Invalid Google ID (empty) should return appropriate error message",
+                     validator.getInvalidityInfoForGoogleId(emptyId),
+                     String.format(GOOGLE_ID_ERROR_MESSAGE, emptyId, REASON_EMPTY));
+
+        String whitespaceId = "     ";
+        assertEquals("Invalid Google ID (contains whitespaces only) should return appropriate error message",
+                     validator.getInvalidityInfoForGoogleId(whitespaceId),
+                     String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, GOOGLE_ID_FIELD_NAME));
+
+        String untrimmedId = "  googleIdWithSpacesAround    ";
+        assertEquals("Invalid Google ID (leading/trailing whitespaces) should return appropriate error message",
+                     validator.getInvalidityInfoForGoogleId(untrimmedId),
+                     String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, GOOGLE_ID_FIELD_NAME));
+
+        String tooLongId = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH + 1);
+        assertEquals("Invalid Google ID (too long) should return appropriate error message",
+                     validator.getInvalidityInfoForGoogleId(tooLongId),
+                     String.format(GOOGLE_ID_ERROR_MESSAGE, tooLongId, REASON_TOO_LONG));
+
+        String idWithSpaces = "invalid google id with spaces";
+        assertEquals("Invalid Google ID (with spaces) should return appropriate error message",
+                     validator.getInvalidityInfoForGoogleId(idWithSpaces),
+                     String.format(GOOGLE_ID_ERROR_MESSAGE, idWithSpaces, REASON_INCORRECT_FORMAT));
+
+        String idWithInvalidHtmlChar = "invalid google id with HTML/< special characters";
+        assertEquals("Invalid Google ID (contains HTML characters) should return appropriate error message",
+                     validator.getInvalidityInfoForGoogleId(idWithInvalidHtmlChar),
+                     String.format(GOOGLE_ID_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(idWithInvalidHtmlChar),
+                                   REASON_INCORRECT_FORMAT));
+    }
+
+    @Test
+    public void testGetValidityInfoInstructorRole() {
         
         verifyAssertError("not null", FieldType.INTRUCTOR_ROLE, null);
         
@@ -479,138 +457,130 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void testGetValidityInfo_EMAIL() {
-        
-        verifyAssertError("null value", FieldType.EMAIL, null);
-        
-        
-        testOnce("valid: typical value, without field name", 
-                FieldType.EMAIL, 
-                "someone@yahoo.com", 
-                "");
-        
-        testOnce("valid: typical value, with field name", 
-                FieldType.EMAIL, 
-                "student email",
-                "someone@yahoo.com", 
-                "");
-        
-        testOnce("valid: minimal", 
-                FieldType.EMAIL, 
-                "e@y", 
-                "");
-        
-        String maxLengthValue = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH - 6) + "@c.gov";
-        testOnce("valid: max length", 
-                FieldType.EMAIL, 
-                maxLengthValue, 
-                "");
-
-        String emptyValue = "";
-        testOnce("invalid: empty string", 
-                FieldType.EMAIL, 
-                emptyValue, 
-                String.format(EMAIL_ERROR_MESSAGE, emptyValue,    REASON_EMPTY));
-        
-        String untrimmedValue = " e@email.com ";
-        testOnce("invalid: untrimmed", 
-                FieldType.EMAIL, 
-                untrimmedValue,
-                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email"));
-        
-        String whitespaceOnlyValue = "    ";
-        testOnce("invalid: whitespace only", 
-                FieldType.EMAIL, 
-                whitespaceOnlyValue,
-                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email"));
-        
-        String tooLongValue = maxLengthValue + "x";
-        testOnce("invalid: too long", 
-                FieldType.EMAIL, 
-                tooLongValue, 
-                String.format(EMAIL_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
-        
-        String valueWithDisallowedChar = "woMAN@com. sg";
-        testOnce("invalid: disallowed char (space) after @", 
-                FieldType.EMAIL, 
-                valueWithDisallowedChar, 
-                String.format(EMAIL_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
-        
-        valueWithDisallowedChar = "man woman@com.sg";
-        testOnce("invalid: disallowed char (space)", 
-                FieldType.EMAIL, 
-                valueWithDisallowedChar, 
-                String.format(EMAIL_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
-        
-        valueWithDisallowedChar = "man@woman@com.lk";
-        testOnce("invalid: multiple '@' signs", 
-                FieldType.EMAIL, 
-                valueWithDisallowedChar, 
-                String.format(EMAIL_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
-        
+    public void testGetInvalidityInfoForEmail_null_throwException() {
+        String errorMessage = "Did not throw the expected AssertionError for null email";
+        try {
+            validator.getInvalidityInfoForEmail(null);
+            signalFailureToDetectException(errorMessage);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
     }
-    
+
     @Test
-    public void testGetValidityInfo_COURSE_ID() {
+    public void testGetInvalidityInfoForEmail_valid_returnEmptyString() {
+        String typicalEmail = "someone@yahoo.com";
+        assertEquals("Valid email (typical) should return empty string", "",
+                     validator.getInvalidityInfoForEmail(typicalEmail));
+
+        String shortEmail = "e@y";
+        assertEquals("Valid email (short) should return empty string", "",
+                     validator.getInvalidityInfoForEmail(shortEmail));
+
+        String maxLengthEmail = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH - 6) + "@c.gov";
+        assertEquals("Valid email (max-length) should return empty string", "",
+                     validator.getInvalidityInfoForEmail(maxLengthEmail));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForEmail_invalid_returnErrorString() {
+        String emptyEmail = "";
+        assertEquals("Invalid email (empty) should return appropriate error string",
+                     String.format(EMAIL_ERROR_MESSAGE, emptyEmail, REASON_EMPTY),
+                     validator.getInvalidityInfoForEmail(emptyEmail));
+
+        String untrimmedEmail = "  untrimmed@email.com  ";
+        assertEquals("Invalid email (leading/trailing spaces) should return appropriate error string",
+                     String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, EMAIL_FIELD_NAME),
+                     validator.getInvalidityInfoForEmail(untrimmedEmail));
+
+        String whitespaceEmail = "    ";
+        assertEquals("Invalid email (only whitespaces) should return appropriate error string",
+                     String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, EMAIL_FIELD_NAME),
+                     validator.getInvalidityInfoForEmail(whitespaceEmail));
+
+        String tooLongEmail = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH + 1) + "@c.gov";
+        assertEquals("Invalid email (leading/trailing spaces) should return appropriate error string",
+                     String.format(EMAIL_ERROR_MESSAGE, tooLongEmail, REASON_TOO_LONG),
+                     validator.getInvalidityInfoForEmail(tooLongEmail));
+
+        String emailWithSpaceAfterAtSymbol = "woMAN@com. sg";
+        assertEquals("Invalid email (space character after '@') should return appropriate error string",
+                     String.format(EMAIL_ERROR_MESSAGE, emailWithSpaceAfterAtSymbol, REASON_INCORRECT_FORMAT),
+                     validator.getInvalidityInfoForEmail(emailWithSpaceAfterAtSymbol));
+
+        String emailWithSpaceBeforeAtSymbol = "man woman@com.sg";
+        assertEquals("Invalid email (space character before '@') should return appropriate error string",
+                     String.format(EMAIL_ERROR_MESSAGE, emailWithSpaceBeforeAtSymbol, REASON_INCORRECT_FORMAT),
+                     validator.getInvalidityInfoForEmail(emailWithSpaceBeforeAtSymbol));
+
+        String emailWithMultipleAtSymbol = "man@woman@com.lk";
+        assertEquals("Invalid email (multiple '@' characters) should return appropriate error string",
+                     String.format(EMAIL_ERROR_MESSAGE, emailWithMultipleAtSymbol, REASON_INCORRECT_FORMAT),
+                     validator.getInvalidityInfoForEmail(emailWithMultipleAtSymbol));
+    }
+
+    @Test
+    public void testGetValidityInfoCourseId() {
         
         verifyAssertError("null value", FieldType.COURSE_ID, null);
         
         
-        testOnce("valid: typical value", 
-                FieldType.COURSE_ID, 
-                "$cs1101-sem1.2_", 
+        testOnce("valid: typical value",
+                FieldType.COURSE_ID,
+                "$cs1101-sem1.2_",
                 "");
         
-        testOnce("valid: minimal", 
-                FieldType.COURSE_ID, 
-                "c", 
+        testOnce("valid: minimal",
+                FieldType.COURSE_ID,
+                "c",
                 "");
         
         String maxLengthValue = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH);
-        testOnce("valid: max length", 
-                FieldType.COURSE_ID, 
-                maxLengthValue, 
+        testOnce("valid: max length",
+                FieldType.COURSE_ID,
+                maxLengthValue,
                 "");
 
         String emptyValue = "";
-        testOnce("invalid: empty string", 
-                FieldType.COURSE_ID, 
-                emptyValue, 
-                String.format(COURSE_ID_ERROR_MESSAGE, emptyValue,    REASON_EMPTY));
+        testOnce("invalid: empty string",
+                FieldType.COURSE_ID,
+                emptyValue,
+                String.format(COURSE_ID_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
         
         String untrimmedValue = " $cs1101-sem1.2_ ";
-        testOnce("invalid: untrimmed", 
-                FieldType.COURSE_ID, 
+        testOnce("invalid: untrimmed",
+                FieldType.COURSE_ID,
                 untrimmedValue,
                 String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID"));
         
         String whitespaceOnlyValue = "    ";
-        testOnce("invalid: whitespace only", 
-                FieldType.COURSE_ID, 
+        testOnce("invalid: whitespace only",
+                FieldType.COURSE_ID,
                 whitespaceOnlyValue,
                 String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID"));
         
         String tooLongValue = maxLengthValue + "x";
-        testOnce("invalid: too long", 
-                FieldType.COURSE_ID, 
-                tooLongValue, 
+        testOnce("invalid: too long",
+                FieldType.COURSE_ID,
+                tooLongValue,
                 String.format(COURSE_ID_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
         
         String valueWithDisallowedChar = "my course id";
-        testOnce("invalid: disallowed char (space)", 
-                FieldType.COURSE_ID, 
-                valueWithDisallowedChar, 
+        testOnce("invalid: disallowed char (space)",
+                FieldType.COURSE_ID,
+                valueWithDisallowedChar,
                 String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
         
         valueWithDisallowedChar = "cour@s*hy#";
-        testOnce("invalid: multiple disallowed chars", 
-                FieldType.COURSE_ID, 
-                valueWithDisallowedChar, 
+        testOnce("invalid: multiple disallowed chars",
+                FieldType.COURSE_ID,
+                valueWithDisallowedChar,
                 String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
     }
     
     @Test
-    public void test_REGEX_NAME() throws Exception {
+    public void testRegexName() {
         ______TS("success: typical name");
         String name = "Benny Charlés";
         assertTrue(StringHelper.isMatching(name, REGEX_NAME));
@@ -629,7 +599,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_EMAIL() throws Exception {
+    public void testRegexEmail() {
         ______TS("success: typical email");
         String email = "john@email.com";
         assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
@@ -660,7 +630,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_COURSE_ID() throws Exception {
+    public void testRegexCourseId() {
         ______TS("success: typical course ID");
         String courseId = "CS101";
         assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
@@ -675,7 +645,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_SAMPLE_COURSE_ID() throws Exception {
+    public void testRegexSampleCourseId() {
         ______TS("success: typical sample course ID");
         String courseId = "CS101-demo3";
         assertTrue(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
@@ -686,7 +656,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_GOOGLE_ID_NON_EMAIL() throws Exception {
+    public void testRegexGoogleIdNonEmail() {
         ______TS("success: typical google id");
         String googleId = "teammates.instr";
         assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
@@ -705,16 +675,8 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     private void testOnce(String description, FieldType fieldType, String value, String expected) {
-        assertEquals(description, expected, 
+        assertEquals(description, expected,
                 validator.getInvalidityInfo(fieldType, value));
-    }
-    
-    private void testOnce(String description, FieldType fieldType, String fieldName, String value, String expected) {
-        if (!fieldName.isEmpty() && !expected.isEmpty()) {
-            expected = "Invalid " + fieldName + ": " + expected;
-        }
-        assertEquals(description, expected, 
-                validator.getInvalidityInfo(fieldType, fieldName, value));
     }
 
     private void verifyAssertError(String description, FieldType fieldType, String value) {

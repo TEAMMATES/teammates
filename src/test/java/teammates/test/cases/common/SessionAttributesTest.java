@@ -15,7 +15,7 @@ import teammates.test.cases.BaseTestCase;
 public class SessionAttributesTest extends BaseTestCase {
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
@@ -35,18 +35,23 @@ public class SessionAttributesTest extends BaseTestCase {
         cal.set(2014, 2, 1);
         Date time3 = cal.getTime();
         
-        SessionAttributes s1, s2, s3, s4, s5;
-        s1 = new miniFeedback(time1, time2, "Session 1");
-        s2 = new miniEval(time2, time3, "Session 2");
-        s3 = new miniFeedback(time1, time2, "Session 3");
-        s4 = new miniEval(time1, time3, "Session 4");
-        s5 = new miniFeedback(time2, time3, "Session 5");
+        SessionAttributes s1 = new MiniFeedback(time1, time2, "Session 1");
+        SessionAttributes s2 = new MiniEval(time2, time3, "Session 2");
+        SessionAttributes s3 = new MiniFeedback(time1, time2, "Session 3");
+        SessionAttributes s4 = new MiniEval(time1, time3, "Session 4");
+        SessionAttributes s5 = new MiniFeedback(time2, time3, "Session 5");
         
-        testList.add(s1); testList.add(s2); testList.add(s3);
-        testList.add(s4); testList.add(s5);
+        testList.add(s1);
+        testList.add(s2);
+        testList.add(s3);
+        testList.add(s4);
+        testList.add(s5);
         
-        expected.add(s1); expected.add(s3); expected.add(s4);
-        expected.add(s2); expected.add(s5);
+        expected.add(s1);
+        expected.add(s3);
+        expected.add(s4);
+        expected.add(s2);
+        expected.add(s5);
         
         Collections.sort(testList, SessionAttributes.ASCENDING_ORDER);
         for (int i = 0; i < testList.size(); i++) {
@@ -54,12 +59,18 @@ public class SessionAttributesTest extends BaseTestCase {
         }
         
         testList.clear();
-        testList.add(s1); testList.add(s2); testList.add(s3);
-        testList.add(s4); testList.add(s5);
+        testList.add(s1);
+        testList.add(s2);
+        testList.add(s3);
+        testList.add(s4);
+        testList.add(s5);
         
         expected.clear();
-        expected.add(s2); expected.add(s5); expected.add(s4);
-        expected.add(s1); expected.add(s3);
+        expected.add(s2);
+        expected.add(s5);
+        expected.add(s4);
+        expected.add(s1);
+        expected.add(s3);
         
         Collections.sort(testList, SessionAttributes.DESCENDING_ORDER);
         for (int i = 0; i < testList.size(); i++) {
@@ -68,15 +79,16 @@ public class SessionAttributesTest extends BaseTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
     
-    private class miniEval implements SessionAttributes {
-        public Date startTime, endTime;
+    private class MiniEval implements SessionAttributes {
+        public Date startTime;
+        public Date endTime;
         public String name;
         
-        public miniEval(Date startTime, Date endTime, String name) {
+        MiniEval(Date startTime, Date endTime, String name) {
             this.startTime = startTime;
             this.endTime = endTime;
             this.name = name;
@@ -99,12 +111,13 @@ public class SessionAttributesTest extends BaseTestCase {
         
     }
     
-    private class miniFeedback implements SessionAttributes {
+    private class MiniFeedback implements SessionAttributes {
         
-        public Date startTime, endTime;
+        public Date startTime;
+        public Date endTime;
         public String name;
         
-        public miniFeedback(Date startTime, Date endTime, String name) {
+        MiniFeedback(Date startTime, Date endTime, String name) {
             this.startTime = startTime;
             this.endTime = endTime;
             this.name = name;
