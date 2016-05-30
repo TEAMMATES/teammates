@@ -91,6 +91,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_submit_add")
     private WebElement addNewQuestionButton;
     
+    @FindBy(id = "button_done_editing")
+    private WebElement doneEditingLink;
+    
     @FindBy(id = "questiontext")
     private WebElement questionTextBox;
     
@@ -729,8 +732,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public InstructorFeedbacksPage clickDoneEditingLink() {
-        WebElement doneEditingLink = browser.driver.findElement(By.id("button_done_editing"));
-       
         doneEditingLink.click();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);
