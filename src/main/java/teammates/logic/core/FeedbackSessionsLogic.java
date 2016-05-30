@@ -67,8 +67,8 @@ public class FeedbackSessionsLogic {
     private static final String ACTION_UPDATE = "update a";
     private static final String ACTION_GET = "get a";
     private static final String ACTION_GET_MULTIPLE = "get";
-    private static final String ACTION_REMIND = "remind";
-    private static final String ACTION_VIEW = "view";
+    private static final String ACTION_REMIND = "remind a";
+    private static final String ACTION_VIEW = "view a";
     private static final String TARGET_GET_FOR_COURSE = "s for a course";
     private static final String TARGET_GET_FOR_STUDENT = " for student";
     private static final String KEY_FROM_SECTION = "fromSection";

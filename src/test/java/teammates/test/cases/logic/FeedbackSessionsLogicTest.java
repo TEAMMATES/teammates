@@ -1078,7 +1078,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.getFeedbackSessionResultsForInstructor("invalid session", session.courseId, instructor.email);
             signalFailureToDetectException("Did not detect that session does not exist.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to view non-existent feedback session.", e.getMessage());
+            assertEquals("Trying to view a feedback session that does not exist.", e.getMessage());
         }
         //TODO: check for cases where a person is both a student and an instructor
     }
@@ -1686,7 +1686,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.getFeedbackSessionResultsSummaryAsCsv("non.existent", "no course", instructor.email);
             signalFailureToDetectException("Failed to detect non-existent feedback session.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals(e.getMessage(), "Trying to view non-existent feedback session.");
+            assertEquals(e.getMessage(), "Trying to view a feedback session that does not exist.");
         }
     }
 
@@ -1987,7 +1987,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.sendReminderForFeedbackSession(fs.courseId, nonExistentFsName);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to remind non-existent feedback session "
+            assertEquals("Trying to remind a feedback session that does not exist: "
                             + fs.courseId + "/" + nonExistentFsName,
                          edne.getMessage());
         }
@@ -2057,7 +2057,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                     fs.courseId, nonExistentFsName, usersToRemind);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to remind non-existent feedback session "
+            assertEquals("Trying to remind a feedback session that does not exist: "
                             + fs.courseId + "/" + nonExistentFsName,
                          edne.getMessage());
         }
