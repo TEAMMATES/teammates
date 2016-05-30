@@ -69,12 +69,21 @@ function checkBrowserVersion() {
     if (!supported) {
         var message = document.getElementById('browserMessage');
         message.style.display = 'block';
-        message.innerHTML = 'You are currently using ' + browserName + ' v.' + majorVersion + '. This web browser is not officially supported by TEAMMATES. '
-                          + 'In case this web browser does not display the webpage correctly, you may wish to view it in the following supported browsers: <br>'
-                          + '<table><tr><td width="50%"> - ' + MICROSOFT_INTERNET_EXPLORER + ' ' + MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION + '+</td>'
-                          + '<td> - ' + CHROME + ' ' + CHROME_LOWEST_VERSION + '+</td></tr>'
-                          + '<tr><td> - ' + FIREFOX + ' ' + FIREFOX_LOWEST_VERSION + '+</td> '
-                          + '<td> - ' + SAFARI + ' ' + SAFARI_LOWEST_VERSION + '+</td></tr></table>';
+        message.innerHTML =
+            'You are currently using ' + browserName + ' v.' + majorVersion + '.'
+             + ' This web browser is not officially supported by TEAMMATES. '
+             + 'In case this web browser does not display the webpage correctly, '
+             + 'you may wish to view it in the following supported browsers: <br>'
+             + '<table>'
+                 + '<tr>'
+                     + '<td width="50%"> - ' + MICROSOFT_INTERNET_EXPLORER + ' ' + MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION + '+</td>'
+                     + '<td> - ' + CHROME + ' ' + CHROME_LOWEST_VERSION + '+</td>'
+                 + '</tr>'
+                 + '<tr>'
+                     + '<td> - ' + FIREFOX + ' ' + FIREFOX_LOWEST_VERSION + '+</td>'
+                     + '<td> - ' + SAFARI + ' ' + SAFARI_LOWEST_VERSION + '+</td>'
+                 + '</tr>'
+             + '</table>';
     }
     
 }

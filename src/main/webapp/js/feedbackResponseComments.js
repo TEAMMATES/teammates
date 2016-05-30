@@ -206,18 +206,30 @@ function registerResponseCommentCheckboxEvent() {
 }
 
 function updateVisibilityOptionsForResponseComment(formObject, data) {
-    formObject.find("input[class*='answerCheckbox'][value='GIVER']").prop('checked', data.comment.showCommentTo.indexOf('GIVER') !== -1);
-    formObject.find("input[class*='giverCheckbox'][value='GIVER']").prop('checked', data.comment.showGiverNameTo.indexOf('GIVER') !== -1);
-    formObject.find("input[class*='answerCheckbox'][value='RECEIVER']").prop('checked', data.comment.showCommentTo.indexOf('RECEIVER') !== -1);
-    formObject.find("input[class*='giverCheckbox'][value='RECEIVER']").prop('checked', data.comment.showGiverNameTo.indexOf('RECEIVER') !== -1);
-    formObject.find("input[class*='answerCheckbox'][value='OWN_TEAM_MEMBERS']").prop('checked', data.comment.showCommentTo.indexOf('OWN_TEAM_MEMBERS') !== -1);
-    formObject.find("input[class*='giverCheckbox'][value='OWN_TEAM_MEMBERS']").prop('checked', data.comment.showGiverNameTo.indexOf('OWN_TEAM_MEMBERS') !== -1);
-    formObject.find("input[class*='answerCheckbox'][value='RECEIVER_TEAM_MEMBERS']").prop('checked', data.comment.showCommentTo.indexOf('RECEIVER_TEAM_MEMBERS') !== -1);
-    formObject.find("input[class*='giverCheckbox'][value='RECEIVER_TEAM_MEMBERS']").prop('checked', data.comment.showGiverNameTo.indexOf('RECEIVER_TEAM_MEMBERS') !== -1);
-    formObject.find("input[class*='answerCheckbox'][value='STUDENTS']").prop('checked', data.comment.showCommentTo.indexOf('STUDENTS') !== -1);
-    formObject.find("input[class*='giverCheckbox'][value='STUDENTS']").prop('checked', data.comment.showGiverNameTo.indexOf('STUDENTS') !== -1);
-    formObject.find("input[class*='answerCheckbox'][value='INSTRUCTORS']").prop('checked', data.comment.showCommentTo.indexOf('INSTRUCTORS') !== -1);
-    formObject.find("input[class*='giverCheckbox'][value='INSTRUCTORS']").prop('checked', data.comment.showGiverNameTo.indexOf('INSTRUCTORS') !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='GIVER']")
+              .prop('checked', data.comment.showCommentTo.indexOf('GIVER') !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='GIVER']")
+              .prop('checked', data.comment.showGiverNameTo.indexOf('GIVER') !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='RECEIVER']")
+              .prop('checked', data.comment.showCommentTo.indexOf('RECEIVER') !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='RECEIVER']")
+              .prop('checked', data.comment.showGiverNameTo.indexOf('RECEIVER') !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='OWN_TEAM_MEMBERS']")
+              .prop('checked', data.comment.showCommentTo.indexOf('OWN_TEAM_MEMBERS') !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='OWN_TEAM_MEMBERS']")
+              .prop('checked', data.comment.showGiverNameTo.indexOf('OWN_TEAM_MEMBERS') !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='RECEIVER_TEAM_MEMBERS']")
+              .prop('checked', data.comment.showCommentTo.indexOf('RECEIVER_TEAM_MEMBERS') !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='RECEIVER_TEAM_MEMBERS']")
+              .prop('checked', data.comment.showGiverNameTo.indexOf('RECEIVER_TEAM_MEMBERS') !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='STUDENTS']")
+              .prop('checked', data.comment.showCommentTo.indexOf('STUDENTS') !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='STUDENTS']")
+              .prop('checked', data.comment.showGiverNameTo.indexOf('STUDENTS') !== -1);
+    formObject.find("input[class*='answerCheckbox'][value='INSTRUCTORS']")
+              .prop('checked', data.comment.showCommentTo.indexOf('INSTRUCTORS') !== -1);
+    formObject.find("input[class*='giverCheckbox'][value='INSTRUCTORS']")
+              .prop('checked', data.comment.showGiverNameTo.indexOf('INSTRUCTORS') !== -1);
 }
 
 function enableHoverToDisplayEditOptions() {
@@ -378,7 +390,8 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     var $collapsiblePanel = $clickedElement.siblings('.collapse');
     var panelBody = $clickedElement.parent().find('div[class^="panel-body"]');
     var fsNameForUrl = encodeURIComponent(fsName);
-    var url = '/page/instructorFeedbackResponseCommentsLoad?user=' + user + '&courseid=' + courseId + '&fsname=' + fsNameForUrl + '&fsindex=' + fsIndx;
+    var url = '/page/instructorFeedbackResponseCommentsLoad?user=' + user
+            + '&courseid=' + courseId + '&fsname=' + fsNameForUrl + '&fsindex=' + fsIndx;
     
     // If the content is already loaded, toggle the chevron and exit.
     if ($clickedElement.hasClass('loaded') && isClicked) {
@@ -426,7 +439,8 @@ function updateBadgeForPendingComments(numberOfPendingComments) {
         $('.badge').closest('.btn-group').show();
     }
     $('.badge').text(numberOfPendingComments);
-    $('.badge').parent().attr('data-original-title', 'Send email notification to ' + numberOfPendingComments + ' recipient(s) of comments pending notification');
+    $('.badge').parent().attr('data-original-title', 'Send email notification to ' + numberOfPendingComments
+                              + ' recipient(s) of comments pending notification');
 }
 
 function registerCheckboxEventForVisibilityOptions() {
