@@ -807,7 +807,9 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         frDb.updateFeedbackResponse(modifiedResponse);
         
         verifyPresentInDatastore(modifiedResponse);
-        modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId, modifiedResponse.giverEmail, modifiedResponse.recipientEmail);
+        modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId,
+                                                    modifiedResponse.giverEmail,
+                                                    modifiedResponse.recipientEmail);
         assertEquals("New answer text!", modifiedResponse.getResponseDetails().getAnswerString());
         
     }

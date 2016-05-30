@@ -203,11 +203,14 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         // Create a new student with valid attributes
         StudentAttributes s = createNewStudent();
-        studentsDb.updateStudentWithoutSearchability(s.course, s.email, "new-name", "new-team", "new-section", "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
+        studentsDb.updateStudentWithoutSearchability(s.course, s.email, "new-name", "new-team", "new-section",
+                                                     "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
         
         ______TS("non-existent case");
         try {
-            studentsDb.updateStudentWithoutSearchability("non-existent-course", "non@existent.email", "no-name", "non-existent-team", "non-existent-section", "non.existent.ID", "blah", "blah");
+            studentsDb.updateStudentWithoutSearchability("non-existent-course", "non@existent.email", "no-name",
+                                                         "non-existent-team", "non-existent-section", "non.existent.ID",
+                                                         "blah", "blah");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + "non-existent-course/non@existent.email", e.getMessage());
@@ -216,7 +219,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         // Only check first 2 params (course & email) which are used to identify the student entry. The rest are actually allowed to be null.
         ______TS("null course case");
         try {
-            studentsDb.updateStudentWithoutSearchability(null, s.email, "new-name", "new-team", "new-section", "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
+            studentsDb.updateStudentWithoutSearchability(null, s.email, "new-name", "new-team", "new-section",
+                                                         "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
@@ -224,7 +228,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         ______TS("null email case");
         try {
-            studentsDb.updateStudentWithoutSearchability(s.course, null, "new-name", "new-team", "new-section", "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
+            studentsDb.updateStudentWithoutSearchability(s.course, null, "new-name", "new-team", "new-section",
+                                                         "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
@@ -235,7 +240,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         // Create a second student with different email address
         StudentAttributes s2 = createNewStudent("valid2@email.com");
         try {
-            studentsDb.updateStudentWithoutSearchability(s.course, s.email, "new-name", "new-team", "new-section", s2.email, "new.google.id", "lorem ipsum dolor si amet");
+            studentsDb.updateStudentWithoutSearchability(s.course, s.email, "new-name", "new-team", "new-section",
+                                                         s2.email, "new.google.id", "lorem ipsum dolor si amet");
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(StudentsDb.ERROR_UPDATE_EMAIL_ALREADY_USED + s2.name + "/" + s2.email,

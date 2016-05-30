@@ -19,13 +19,16 @@ public class ActivityLogEntryTest extends BaseTestCase {
         ActivityLogEntry entry = new ActivityLogEntry("instructorHome", "Pageload", acc, "Message", "URL");
         AssertHelper.assertLogMessageEquals(logMessage, entry.generateLogMessage());
 
-        logMessage = "TEAMMATESLOG|||instructorHome|||Pageload|||true|||Instructor|||UserName|||UserId|||UserEmail|||Message|||URL|||UserId20151019143729608";
+        logMessage = "TEAMMATESLOG|||instructorHome|||Pageload|||true|||Instructor|||UserName|||UserId"
+                   + "|||UserEmail|||Message|||URL|||UserId20151019143729608";
         AppLogLine appLog = new AppLogLine();
         appLog.setLogMessage(logMessage);
         entry = new ActivityLogEntry(appLog);
         assertEquals(logMessage, entry.generateLogMessage());
         
-        logMessage = "TEAMMATESLOG|||instructorHome|||Unknown|||true|||Unknown|||Unknown|||Unknown|||Unknown|||<span class=\"text-danger\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>Message|||URL";
+        logMessage = "TEAMMATESLOG|||instructorHome|||Unknown|||true|||Unknown|||Unknown|||Unknown|||Unknown"
+                   + "|||<span class=\"text-danger\">Error. ActivityLogEntry object is not created for this servlet action.</span>"
+                   + "<br>Message|||URL";
         entry = new ActivityLogEntry("instructorHome", "Message", "URL");
         AssertHelper.assertLogMessageEquals(logMessage, entry.generateLogMessage());
 

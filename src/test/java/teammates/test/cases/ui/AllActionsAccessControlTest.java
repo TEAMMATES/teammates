@@ -864,7 +864,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT;
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
-        List<CommentAttributes> comments = CommentsLogic.inst().getCommentsForReceiver(instructor.courseId, CommentParticipantType.PERSON, student.email);
+        List<CommentAttributes> comments =
+                CommentsLogic.inst().getCommentsForReceiver(instructor.courseId, CommentParticipantType.PERSON, student.email);
         Iterator<CommentAttributes> iterator = comments.iterator();
         while (iterator.hasNext()) {
             CommentAttributes commentAttributes = iterator.next();

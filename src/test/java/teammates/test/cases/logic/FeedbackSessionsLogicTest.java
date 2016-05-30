@@ -270,7 +270,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.createFeedbackSession(fs);
             signalFailureToDetectException();
         } catch (Exception e) {
-            assertEquals("The provided feedback session name is not acceptable to TEAMMATES as it cannot contain the following special html characters in brackets: (&lt; &gt; \\ &#x2f; &#39; &amp;)", e.getMessage());
+            assertEquals("The provided feedback session name is not acceptable to TEAMMATES "
+                             + "as it cannot contain the following special html characters in brackets: "
+                             + "(&lt; &gt; \\ &#x2f; &#39; &amp;)",
+                         e.getMessage());
         }
 
         fs.feedbackSessionName = "test %| test";
@@ -278,7 +281,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.createFeedbackSession(fs);
             signalFailureToDetectException();
         } catch (Exception e) {
-            assertEquals("\"test %| test\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).", e.getMessage());
+            assertEquals("\"test %| test\" is not acceptable to TEAMMATES as feedback session name "
+                             + "because it contains invalid characters. All feedback session name "
+                             + "must start with an alphanumeric character, and cannot contain "
+                             + "any vertical bar (|) or percent sign (%).",
+                         e.getMessage());
         }
         
         ______TS("test delete");
@@ -320,8 +327,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         assertEquals("Copied Session", copiedSession.feedbackSessionName);
         assertEquals(typicalCourse2.getId(), copiedSession.courseId);
-        List<FeedbackQuestionAttributes> questions1 = fqLogic.getFeedbackQuestionsForSession(session1InCourse1.feedbackSessionName, session1InCourse1.courseId);
-        List<FeedbackQuestionAttributes> questions2 = fqLogic.getFeedbackQuestionsForSession(copiedSession.feedbackSessionName, copiedSession.courseId);
+        List<FeedbackQuestionAttributes> questions1 =
+                fqLogic.getFeedbackQuestionsForSession(session1InCourse1.feedbackSessionName, session1InCourse1.courseId);
+        List<FeedbackQuestionAttributes> questions2 =
+                fqLogic.getFeedbackQuestionsForSession(copiedSession.feedbackSessionName, copiedSession.courseId);
         
         assertEquals(questions1.size(), questions2.size());
         for (int i = 0; i < questions1.size(); i++) {
