@@ -1103,6 +1103,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.feedbackSessionName, session.courseId, instructor.email);
         
         String[] expected = {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.courseId + "\"",
                 "Session Name,\"" + session.feedbackSessionName + "\"",
                 "",
@@ -1174,6 +1175,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1189,6 +1191,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.feedbackSessionName, session.courseId, instructor.email);
         
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.courseId + "\"",
                 "Session Name,\"" + session.feedbackSessionName + "\"",
                 "",
@@ -1238,6 +1241,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1251,6 +1255,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.feedbackSessionName, session.courseId, instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.courseId + "\"",
                 "Session Name,\"" + session.feedbackSessionName + "\"",
                 "",
@@ -1304,6 +1309,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
        
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1317,6 +1323,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.feedbackSessionName, session.courseId, instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.courseId + "\"",
                 "Session Name,\"" + session.feedbackSessionName + "\"",
                 "",
@@ -1350,6 +1357,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
 
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1363,6 +1371,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.feedbackSessionName, session.courseId, instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.courseId + "\"",
                 "Session Name,\"" + session.feedbackSessionName + "\"",
                 "",
@@ -1416,6 +1425,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1428,6 +1438,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.feedbackSessionName, session.courseId, instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"FSQTT.idOfTypicalCourse1\"",
                 "Session Name,\"CONSTSUM Session\"",
                 "",
@@ -1453,6 +1464,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1466,6 +1478,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.feedbackSessionName, session.courseId, instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.courseId + "\"",
                 "Session Name,\"" + session.feedbackSessionName + "\"",
                 "",
@@ -1505,6 +1518,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1519,6 +1533,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.feedbackSessionName, session.courseId, instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.courseId + "\"",
                 "Session Name,\"" + session.feedbackSessionName + "\"",
                 "",
@@ -1546,6 +1561,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1558,6 +1574,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.feedbackSessionName, session.courseId, instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.courseId + "\"",
                 "Session Name,\"" + session.feedbackSessionName + "\"",
                 "",
@@ -1583,6 +1600,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1596,6 +1614,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.feedbackSessionName, session.courseId, instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.courseId + "\"",
                 "Session Name,\"" + session.feedbackSessionName + "\"",
                 "",
@@ -1632,6 +1651,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
 
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1645,6 +1665,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.feedbackSessionName, session.courseId, instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.courseId + "\"",
                 "Session Name,\"" + session.feedbackSessionName + "\"",
                 "",
@@ -1685,6 +1706,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);

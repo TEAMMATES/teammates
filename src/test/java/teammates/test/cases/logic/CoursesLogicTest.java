@@ -902,6 +902,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         String csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
         String expectedCsvString =
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course ID,\"idOfTypicalCourse1\"" + Const.EOL
                 + "Course Name,\"Typical Course 1 with 2 Evals\"" + Const.EOL
                 + Const.EOL + Const.EOL
@@ -911,6 +912,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                 + "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"" + Const.EOL
                 + "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"" + Const.EOL
                 + "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"" + Const.EOL;
+                // CHECKSTYLE.ON:LineLength
 
         assertEquals(expectedCsvString, csvString);
 
@@ -939,12 +941,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
         expectedCsvString =
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course ID,\"idOfUnregisteredCourse\"" + Const.EOL
                 + "Course Name,\"Unregistered Course\"" + Const.EOL
                 + Const.EOL + Const.EOL
                 + "Section,Team,Full Name,Last Name,Status,Email" + Const.EOL
                 + "\"Section 1\",\"Team 1\",\"student1 In unregisteredCourse\",\"unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.tmt\"" + Const.EOL
                 + "\"Section 2\",\"Team 2\",\"student2 In unregisteredCourse\",\"unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.tmt\"" + Const.EOL;
+                // CHECKSTYLE.ON:LineLength
 
         assertEquals(expectedCsvString, csvString);
 
