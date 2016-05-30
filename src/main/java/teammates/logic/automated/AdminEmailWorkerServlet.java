@@ -25,17 +25,19 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-
-
+        
+        
         String emailId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);
         Assumption.assertNotNull(emailId);
-
+        
         String receiverEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_RECEIVER);
         Assumption.assertNotNull(receiverEmail);
+        
 
+        
         String emailContent = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_CONTENT);
         String emailSubject = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_SUBJECT);
-
+        
         if (emailContent == null || emailSubject == null) {
             log.info("Sending large email. Going to retrieve email content and subject from datastore.");
             AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);
@@ -44,10 +46,10 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
             emailContent = adminEmail.getContent().getValue();
             emailSubject = adminEmail.getSubject();
         }
-
+        
         Assumption.assertNotNull(emailContent);
         Assumption.assertNotNull(emailSubject);
-
+        
         try {
             sendAdminEmail(emailContent, emailSubject, receiverEmail);
             log.info("email sent to " + receiverEmail);
@@ -56,14 +58,14 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         }
 
     }
-
+    
     private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws MessagingException, JSONException, IOException {
-
+        
         Emails emailsManager = new Emails();
-
+        
         MimeMessage email = emailsManager.generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent), subject, receiverEmail);
         emailsManager.sendEmailWithoutLogging(email);
-
+       
     }
 
 }
