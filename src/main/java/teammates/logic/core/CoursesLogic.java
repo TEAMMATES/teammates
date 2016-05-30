@@ -228,7 +228,7 @@ public class CoursesLogic {
     
     /**
      * @param courseId Course ID of the course
-     * @param hasCheckIsPresent Determine whether it is necessary to check if the course exists
+     * @param isCourseVerified Determine whether it is necessary to check if the course exists
      * @return a list of section names for a course with or without a need to
      *         check if the course is existent
      * @throws EntityDoesNotExistException
@@ -533,7 +533,7 @@ public class CoursesLogic {
     }
 
     /**
-     * @param courseAttributes
+     * @param course
      * @return the {@link CourseSummaryBundle course summary} using the {@link CourseAttributes}
      * @throws EntityDoesNotExistException
      */
@@ -590,7 +590,7 @@ public class CoursesLogic {
     
     /**
      * @param googleId The Google ID of the instructor
-     * @param omitArchived if {@code true},, omits all the archived courses from the return
+     * @param omitArchived if {@code true}, omits all the archived courses from the return
      * @return a list of {@link CourseAttributes} for courses a given instructor belongs to
      * @throws EntityDoesNotExistException
      */
