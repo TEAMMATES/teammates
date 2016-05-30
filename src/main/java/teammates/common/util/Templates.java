@@ -2,7 +2,7 @@ package teammates.common.util;
 
 public final class Templates {
     
-    public static final String INSTRUCTOR_SAMPLE_DATA = FileHelper.readResourseFile("InstructorSampleData.json");
+    public static final String INSTRUCTOR_SAMPLE_DATA = FileHelper.readResourceFile("InstructorSampleData.json");
     
     private Templates() {
         // utility class
@@ -27,173 +27,173 @@ public final class Templates {
     
     public static class EmailTemplates {
         public static final String USER_COURSE_JOIN =
-                FileHelper.readResourseFile("userEmailTemplate-courseJoin.html");
+                FileHelper.readResourceFile("userEmailTemplate-courseJoin.html");
         public static final String FRAGMENT_STUDENT_COURSE_JOIN =
-                FileHelper.readResourseFile("studentEmailFragment-courseJoin.html");
+                FileHelper.readResourceFile("studentEmailFragment-courseJoin.html");
         public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
-                FileHelper.readResourseFile("studentEmailFragment-googleIdReset.html");
+                FileHelper.readResourceFile("studentEmailFragment-googleIdReset.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_JOIN =
-                FileHelper.readResourseFile("instructorEmailFragment-courseJoin.html");
+                FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
         public static final String USER_FEEDBACK_SESSION =
-                FileHelper.readResourseFile("userEmailTemplate-feedbackSession.html");
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
         public static final String USER_FEEDBACK_SESSION_CLOSING =
-                FileHelper.readResourseFile("userEmailTemplate-feedbackSessionClosing.html");
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosing.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
-                FileHelper.readResourseFile("userEmailTemplate-feedbackSessionPublished.html");
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String USER_PENDING_COMMENTS_CLEARED =
-                FileHelper.readResourseFile("userEmailTemplate-pendingCommentsCleared.html");
+                FileHelper.readResourceFile("userEmailTemplate-pendingCommentsCleared.html");
         public static final String SYSTEM_ERROR =
-                FileHelper.readResourseFile("systemErrorEmailTemplate.html");
+                FileHelper.readResourceFile("systemErrorEmailTemplate.html");
         public static final String NEW_INSTRCUTOR_ACCOUNT_WELCOME =
-                FileHelper.readResourseFile("newInstructorAccountWelcome.html");
+                FileHelper.readResourceFile("newInstructorAccountWelcome.html");
     }
     
     public static class FeedbackQuestionFormTemplates {
         public static final String FEEDBACK_QUESTION_ADDITIONAL_INFO =
-                FileHelper.readResourseFile("feedbackQuestionAdditionalInfoTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionAdditionalInfoTemplate.html");
 
         public static final String TEXT_SUBMISSION_FORM =
-                FileHelper.readResourseFile("feedbackQuestionTextSubmissionFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionTextSubmissionFormTemplate.html");
         public static final String TEXT_RESULT_STATS =
-                FileHelper.readResourseFile("feedbackQuestionTextResultStatsTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionTextResultStatsTemplate.html");
         
         public static final String MCQ_SUBMISSION_FORM =
-                FileHelper.readResourseFile("feedbackQuestionMcqSubmissionFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionMcqSubmissionFormTemplate.html");
         public static final String MCQ_SUBMISSION_FORM_OPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionMcqSubmissionFormOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionMcqSubmissionFormOptionFragment.html");
         public static final String MCQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionMcqSubmissionFormOtherOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionMcqSubmissionFormOtherOptionFragment.html");
         public static final String MCQ_EDIT_FORM =
-                FileHelper.readResourseFile("feedbackQuestionMcqEditFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionMcqEditFormTemplate.html");
         public static final String MCQ_EDIT_FORM_OPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionMcqEditFormOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionMcqEditFormOptionFragment.html");
         public static final String MCQ_ADDITIONAL_INFO_FRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionMcqAdditionalInfoFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionMcqAdditionalInfoFragment.html");
         public static final String MCQ_ADDITIONAL_INFO =
-                FileHelper.readResourseFile("feedbackQuestionMcqAdditionalInfoTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionMcqAdditionalInfoTemplate.html");
         public static final String MCQ_RESULT_STATS =
-                FileHelper.readResourseFile("feedbackQuestionMcqResultStatsTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionMcqResultStatsTemplate.html");
         public static final String MCQ_RESULT_STATS_OPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionMcqResultStatsOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionMcqResultStatsOptionFragment.html");
         
         public static final String MSQ_SUBMISSION_FORM =
-                FileHelper.readResourseFile("feedbackQuestionMsqSubmissionFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionMsqSubmissionFormTemplate.html");
         public static final String MSQ_SUBMISSION_FORM_OPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionMsqSubmissionFormOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionMsqSubmissionFormOptionFragment.html");
         public static final String MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionMsqSubmissionFormOtherOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionMsqSubmissionFormOtherOptionFragment.html");
         public static final String MSQ_EDIT_FORM =
-                FileHelper.readResourseFile("feedbackQuestionMsqEditFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionMsqEditFormTemplate.html");
         public static final String MSQ_EDIT_FORM_OPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionMsqEditFormOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionMsqEditFormOptionFragment.html");
         public static final String MSQ_ADDITIONAL_INFO_FRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionMsqAdditionalInfoFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionMsqAdditionalInfoFragment.html");
         public static final String MSQ_ADDITIONAL_INFO =
-                FileHelper.readResourseFile("feedbackQuestionMsqAdditionalInfoTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionMsqAdditionalInfoTemplate.html");
         
         public static final String NUMSCALE_EDIT_FORM =
-                FileHelper.readResourseFile("feedbackQuestionNumScaleEditFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionNumScaleEditFormTemplate.html");
         public static final String NUMSCALE_SUBMISSION_FORM =
-                FileHelper.readResourseFile("feedbackQuestionNumScaleSubmissionFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionNumScaleSubmissionFormTemplate.html");
         public static final String NUMSCALE_RESULT_STATS =
-                FileHelper.readResourseFile("feedbackQuestionNumScaleResultStatsTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionNumScaleResultStatsTemplate.html");
         public static final String NUMSCALE_RESULTS_STATS_FRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionNumScaleResultsStatsFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionNumScaleResultsStatsFragment.html");
         public static final String NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE =
-                FileHelper.readResourseFile("feedbackQuestionNumScaleResultStatsTemplateWithSelfResponse.html");
+                FileHelper.readResourceFile("feedbackQuestionNumScaleResultStatsTemplateWithSelfResponse.html");
         public static final String NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE =
-                FileHelper.readResourseFile("feedbackQuestionNumScaleResultsStatsFragmentWithSelfResponse.html");
+                FileHelper.readResourceFile("feedbackQuestionNumScaleResultsStatsFragmentWithSelfResponse.html");
         
         public static final String CONSTSUM_SUBMISSION_FORM =
-                FileHelper.readResourseFile("feedbackQuestionConstSumSubmissionFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionConstSumSubmissionFormTemplate.html");
         public static final String CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionConstSumSubmissionFormOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionConstSumSubmissionFormOptionFragment.html");
         public static final String CONSTSUM_EDIT_FORM =
-                FileHelper.readResourseFile("feedbackQuestionConstSumEditFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionConstSumEditFormTemplate.html");
         public static final String CONSTSUM_EDIT_FORM_OPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionConstSumEditFormOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionConstSumEditFormOptionFragment.html");
         public static final String CONSTSUM_RESULT_OPTION_STATS =
-                FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionConstSumResultStatsTemplate.html");
         public static final String CONSTSUM_RESULT_STATS_OPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionConstSumResultStatsOptionFragment.html");
         public static final String CONSTSUM_RESULT_RECIPIENT_STATS =
-                FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsRecipientTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionConstSumResultStatsRecipientTemplate.html");
         public static final String CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsRecipientFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionConstSumResultStatsRecipientFragment.html");
         
         public static final String CONTRIB_ADDITIONAL_INFO =
-                FileHelper.readResourseFile("feedbackQuestionContribAdditionalInfoTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionContribAdditionalInfoTemplate.html");
         public static final String CONTRIB_EDIT_FORM =
-                FileHelper.readResourseFile("feedbackQuestionContribEditFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionContribEditFormTemplate.html");
         public static final String CONTRIB_SUBMISSION_FORM =
-                FileHelper.readResourseFile("feedbackQuestionContribSubmissionFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionContribSubmissionFormTemplate.html");
         public static final String CONTRIB_RESULT_STATS =
-                FileHelper.readResourseFile("feedbackQuestionContribResultStatsTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionContribResultStatsTemplate.html");
         public static final String CONTRIB_RESULT_STATS_FRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionContribResultStatsFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionContribResultStatsFragment.html");
         public static final String CONTRIB_RESULT_STATS_STUDENT =
-                FileHelper.readResourseFile("feedbackQuestionContribResultStatsStudentViewTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionContribResultStatsStudentViewTemplate.html");
         public static final String CONTRIB_RESULT_STATS_STUDENT_INFO =
-                FileHelper.readResourseFile("feedbackQuestionContribResultStatsStudentViewAdditionalInfo.html");
+                FileHelper.readResourceFile("feedbackQuestionContribResultStatsStudentViewAdditionalInfo.html");
         
         public static final String RUBRIC_SUBMISSION_FORM =
-                FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricSubmissionFormTemplate.html");
         public static final String RUBRIC_SUBMISSION_FORM_MOBILE_PANEL_FRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormMobilePanelFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricSubmissionFormMobilePanelFragment.html");
         public static final String RUBRIC_SUBMISSION_FORM_MOBILE_PANEL =
-                FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormMobilePanel.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricSubmissionFormMobilePanel.html");
         public static final String RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormHeaderFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricSubmissionFormHeaderFragment.html");
         public static final String RUBRIC_SUBMISSION_FORM_BODY_FRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormBodyFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricSubmissionFormBodyFragment.html");
         public static final String RUBRIC_SUBMISSION_FORM_BODY =
-                FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormBody.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricSubmissionFormBody.html");
         public static final String RUBRIC_EDIT_FORM =
-                FileHelper.readResourseFile("feedbackQuestionRubricEditFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricEditFormTemplate.html");
         public static final String RUBRIC_EDIT_FORM_HEADER_FRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionRubricEditFormHeaderFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricEditFormHeaderFragment.html");
         public static final String RUBRIC_EDIT_FORM_WEIGHT_FRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionRubricEditFormWeightFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricEditFormWeightFragment.html");
         public static final String RUBRIC_EDIT_FORM_BODY_FRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionRubricEditFormBodyFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricEditFormBodyFragment.html");
         public static final String RUBRIC_EDIT_FORM_BODY =
-                FileHelper.readResourseFile("feedbackQuestionRubricEditFormBody.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricEditFormBody.html");
         public static final String RUBRIC_RESULT_STATS =
-                FileHelper.readResourseFile("feedbackQuestionRubricResultStatsTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricResultStatsTemplate.html");
         public static final String RUBRIC_RESULT_STATS_HEADER_FRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionRubricResultStatsHeaderFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricResultStatsHeaderFragment.html");
         public static final String RUBRIC_RESULT_STATS_BODY_FRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionRubricResultStatsBodyFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricResultStatsBodyFragment.html");
         public static final String RUBRIC_RESULT_STATS_BODY =
-                FileHelper.readResourseFile("feedbackQuestionRubricResultStatsBody.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricResultStatsBody.html");
         public static final String RUBRIC_ADDITIONAL_INFO =
-                FileHelper.readResourseFile("feedbackQuestionRubricAdditionalInfoTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionRubricAdditionalInfoTemplate.html");
         
         public static final String RANK_SUBMISSION_FORM =
-                FileHelper.readResourseFile("feedbackQuestionRankSubmissionFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionRankSubmissionFormTemplate.html");
         public static final String RANK_SUBMISSION_FORM_OPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionRankSubmissionFormOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionRankSubmissionFormOptionFragment.html");
         public static final String RANK_EDIT_RECIPIENTS_FORM =
-                FileHelper.readResourseFile("feedbackQuestionRankRecipientsEditFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionRankRecipientsEditFormTemplate.html");
         public static final String RANK_EDIT_OPTIONS_FORM =
-                FileHelper.readResourseFile("feedbackQuestionRankOptionsEditFormTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionRankOptionsEditFormTemplate.html");
         public static final String RANK_EDIT_FORM_OPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionRankEditFormOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionRankEditFormOptionFragment.html");
         public static final String RANK_RESULT_OPTION_STATS =
-                FileHelper.readResourseFile("feedbackQuestionRankResultStatsTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionRankResultStatsTemplate.html");
         public static final String RANK_RESULT_STATS_OPTIONFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionRankResultStatsOptionFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionRankResultStatsOptionFragment.html");
         public static final String RANK_RESULT_RECIPIENT_STATS =
-                FileHelper.readResourseFile("feedbackQuestionRankResultStatsRecipientTemplate.html");
+                FileHelper.readResourceFile("feedbackQuestionRankResultStatsRecipientTemplate.html");
         public static final String RANK_RESULT_STATS_RECIPIENTFRAGMENT =
-                FileHelper.readResourseFile("feedbackQuestionRankResultStatsRecipientFragment.html");
+                FileHelper.readResourceFile("feedbackQuestionRankResultStatsRecipientFragment.html");
     }
     
     // TODO: Consider adding instructions for the feedback session into template?
     // TODO: Or simply use static strings here?
     public static class FeedbackSessionTemplates {
         public static final String TEAM_EVALUATION =
-                FileHelper.readResourseFile("feedbackSessionTeamEvaluationTemplate.json");
+                FileHelper.readResourceFile("feedbackSessionTeamEvaluationTemplate.json");
     }
     
 }
