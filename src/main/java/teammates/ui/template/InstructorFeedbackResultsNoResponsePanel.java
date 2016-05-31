@@ -21,7 +21,7 @@ public class InstructorFeedbackResultsNoResponsePanel {
         this.names = Collections.unmodifiableMap(responseStatus.emailNameTable);
         this.emails = getFilteredEmails(responseStatus.getStudentsWhoDidNotRespondToAnyQuestion());
         this.teams = getTeamsWithInstructorTeam(responseStatus.emailTeamNameTable,
-                                                "<i>" + Const.USER_TEAM_FOR_INSTRUCTOR + "</i>");
+                                                Const.USER_TEAM_FOR_INSTRUCTOR);
         this.moderationButtons = moderationButtons;
     }
 
