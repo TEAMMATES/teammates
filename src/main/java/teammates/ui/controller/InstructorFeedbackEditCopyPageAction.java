@@ -7,7 +7,6 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.Logic;
 
 public class InstructorFeedbackEditCopyPageAction extends Action {
 
