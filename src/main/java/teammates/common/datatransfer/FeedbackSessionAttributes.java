@@ -68,8 +68,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.isClosingEmailEnabled = fs.isClosingEmailEnabled();
         this.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
         this.respondingInstructorList = fs.getRespondingInstructorList() == null
-                                      ? new HashSet<String>()
-                                      : fs.getRespondingInstructorList();
+                                        ? new HashSet<String>()
+                                        : fs.getRespondingInstructorList();
         this.respondingStudentList = fs.getRespondingStudentList() == null ? new HashSet<String>()
                                                                            : fs.getRespondingStudentList();
     }

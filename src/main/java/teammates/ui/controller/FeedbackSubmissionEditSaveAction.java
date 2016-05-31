@@ -123,8 +123,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     saveResponse(response);
                 } else {
                     response.giverEmail = questionAttributes.giverType.isTeam()
-                                        ? userTeamForCourse
-                                        : userEmailForCourse;
+                                          ? userTeamForCourse
+                                          : userEmailForCourse;
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
                 }

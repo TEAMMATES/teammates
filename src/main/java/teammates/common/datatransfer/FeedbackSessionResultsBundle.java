@@ -309,11 +309,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             }
 
             String receiverTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty()
-                                 ? getNameForEmail(o1.recipientEmail)
-                                 : getTeamNameForEmail(o1.recipientEmail);
+                                   ? getNameForEmail(o1.recipientEmail)
+                                   : getTeamNameForEmail(o1.recipientEmail);
             String receiverTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty()
-                                 ? getNameForEmail(o2.recipientEmail)
-                                 : getTeamNameForEmail(o2.recipientEmail);
+                                   ? getNameForEmail(o2.recipientEmail)
+                                   : getTeamNameForEmail(o2.recipientEmail);
             order = receiverTeam1.compareTo(receiverTeam2);
             if (order != 0) {
                 return order;
@@ -379,11 +379,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             }
 
             String recipientTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty()
-                                  ? getNameForEmail(o1.recipientEmail)
-                                  : getTeamNameForEmail(o1.recipientEmail);
+                                    ? getNameForEmail(o1.recipientEmail)
+                                    : getTeamNameForEmail(o1.recipientEmail);
             String recipientTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty()
-                                  ? getNameForEmail(o2.recipientEmail)
-                                  : getTeamNameForEmail(o2.recipientEmail);
+                                    ? getNameForEmail(o2.recipientEmail)
+                                    : getTeamNameForEmail(o2.recipientEmail);
             order = recipientTeam1.compareTo(recipientTeam2);
             if (order != 0) {
                 return order;
@@ -423,11 +423,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         @Override
         public int compare(FeedbackResponseAttributes o1, FeedbackResponseAttributes o2) {
             String recipientTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty()
-                                  ? getNameForEmail(o1.recipientEmail)
-                                  : getTeamNameForEmail(o1.recipientEmail);
+                                    ? getNameForEmail(o1.recipientEmail)
+                                    : getTeamNameForEmail(o1.recipientEmail);
             String recipientTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty()
-                                  ? getNameForEmail(o2.recipientEmail)
-                                  : getTeamNameForEmail(o2.recipientEmail);
+                                    ? getNameForEmail(o2.recipientEmail)
+                                    : getTeamNameForEmail(o2.recipientEmail);
             int order = recipientTeam1.compareTo(recipientTeam2);
             if (order != 0) {
                 return order;
@@ -488,11 +488,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             }
 
             String receiverTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty()
-                                 ? getNameForEmail(o1.recipientEmail)
-                                 : getTeamNameForEmail(o1.recipientEmail);
+                                   ? getNameForEmail(o1.recipientEmail)
+                                   : getTeamNameForEmail(o1.recipientEmail);
             String receiverTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty()
-                                 ? getNameForEmail(o2.recipientEmail)
-                                 : getTeamNameForEmail(o2.recipientEmail);
+                                   ? getNameForEmail(o2.recipientEmail)
+                                   : getTeamNameForEmail(o2.recipientEmail);
             order = receiverTeam1.compareTo(receiverTeam2);
             if (order != 0) {
                 return order;

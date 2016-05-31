@@ -51,7 +51,7 @@ public class CourseEditSectionRow {
                 String name = privilege + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex
                               + "feedback" + feedbackName;
                 boolean isChecked = instructor != null
-                                 && instructor.isAllowedForPrivilege(sectionName, feedbackName, privilege);
+                                    && instructor.isAllowedForPrivilege(sectionName, feedbackName, privilege);
                 checkBoxList.add(createCheckBox(null, name, "true", isChecked));
             }
             
