@@ -149,8 +149,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
     private void testInviteInstructorAction() {
         ______TS("success: invite an uregistered instructor");
+        int unregisteredInsturctorIndex = 4;
         
-        courseEditPage.clickInviteInstructorLink(4);
+        courseEditPage.clickInviteInstructorLink(unregisteredInsturctorIndex);
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.tmt");
     }
 
@@ -192,27 +193,27 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private void testEditInstructorAction() throws Exception {
         
         ______TS("failure: ajax error on clicking edit button");
+        int editInstructorIndex = 1;
         
-        courseEditPage.changeCourseIdInForm(1, "InvalidCourse");
-        courseEditPage.getEditInstructorLink(1).click();
+        courseEditPage.changeCourseIdInForm(editInstructorIndex, "InvalidCourse");
+        courseEditPage.getEditInstructorLink(editInstructorIndex).click();
         courseEditPage.waitForAjaxLoaderGifToDisappear();
-        assertTrue(courseEditPage.getEditInstructorLink(1).getText().contains("Edit failed."));
+        assertTrue(courseEditPage.getEditInstructorLink(editInstructorIndex).getText().contains("Edit failed."));
         courseEditPage.reloadPage();
 
         ______TS("success: edit an instructor");
         
-        courseEditPage.editInstructor(1, "New name", "new_email@email.tmt",
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
         
         ______TS("success: edit an instructor (InsCrsEdit.coord)--viewing instructor permission details");
-        int instructorIndex = 1;
         
-        assertTrue(courseEditPage.clickEditInstructorLink(instructorIndex));
+        assertTrue(courseEditPage.clickEditInstructorLink(editInstructorIndex));
         
         ______TS("view details: manager");
         
-        courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 2);
+        courseEditPage.clickViewDetailsLinkForInstructor(editInstructorIndex, 2);
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
         assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
@@ -228,7 +229,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("view details: observer");
         
-        courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 3);
+        courseEditPage.clickViewDetailsLinkForInstructor(editInstructorIndex, 3);
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
@@ -244,7 +245,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("view details: tutor");
         
-        courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 4);
+        courseEditPage.clickViewDetailsLinkForInstructor(editInstructorIndex, 4);
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
@@ -260,161 +261,161 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("view details: co-owner");
         
-        courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 1);
+        courseEditPage.clickViewDetailsLinkForInstructor(editInstructorIndex, 1);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesModal.html");
         courseEditPage.closeModal();
         
         ______TS("verify that custom has no privileges by default");
         
-        int instrNum = 5;
-        courseEditPage.clickEditInstructorLink(instrNum);
-        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifycourse", instrNum));
-        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifyinstructor", instrNum));
-        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifysession", instrNum));
-        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifystudent", instrNum));
-        assertFalse(courseEditPage.isCustomCheckboxChecked("canviewstudentinsection", instrNum));
-        assertFalse(courseEditPage.isCustomCheckboxChecked("cangivecommentinsection", instrNum));
-        assertFalse(courseEditPage.isCustomCheckboxChecked("canviewcommentinsection", instrNum));
-        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifycommentinsection", instrNum));
-        assertFalse(courseEditPage.isCustomCheckboxChecked("cansubmitsessioninsection", instrNum));
-        assertFalse(courseEditPage.isCustomCheckboxChecked("canviewsessioninsection", instrNum));
-        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifysessioncommentinsection", instrNum));
-        courseEditPage.clickSaveInstructorButton(instrNum);
+        int customInstrNum = 5;
+        courseEditPage.clickEditInstructorLink(customInstrNum);
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifycourse", customInstrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifyinstructor", customInstrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifysession", customInstrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifystudent", customInstrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canviewstudentinsection", customInstrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("cangivecommentinsection", customInstrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canviewcommentinsection", customInstrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifycommentinsection", customInstrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("cansubmitsessioninsection", customInstrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canviewsessioninsection", customInstrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifysessioncommentinsection", customInstrNum));
+        courseEditPage.clickSaveInstructorButton(customInstrNum);
         
         ______TS("success: edit an instructor with privileges");
         
-        courseEditPage.clickEditInstructorLink(instructorIndex);
-        assertTrue(courseEditPage.displayedToStudentCheckBox(instructorIndex).isSelected());
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        assertTrue(courseEditPage.displayedToStudentCheckBox(editInstructorIndex).isSelected());
         // not displayed to students
-        courseEditPage.clickDisplayedToStudentCheckBox(instructorIndex);
+        courseEditPage.clickDisplayedToStudentCheckBox(editInstructorIndex);
         // select the role as Custom for instr1
-        courseEditPage.selectRoleForInstructor(instructorIndex, "Custom");
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Custom");
         
         // deselect some privileges from Co-owner default values
-        courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 1);
-        courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 2);
-        courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 8);
-        courseEditPage.clickAddSectionLevelPrivilegesLink(instructorIndex);
-        courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 1, 1);
-        courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 1, 2);
-        courseEditPage.clickViewStudentCheckBoxInSectionLevel(instructorIndex, 0);
-        courseEditPage.clickViewOthersCommentsCheckBoxInSectionLevel(instructorIndex, 0);
-        courseEditPage.clickViewSessionResultsCheckBoxInSectionLevel(instructorIndex, 0);
-        courseEditPage.clickSessionLevelInSectionLevel(instructorIndex, 0);
-        courseEditPage.clickAddSectionLevelPrivilegesLink(instructorIndex);
-        courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 2, 2);
-        courseEditPage.clickAddSectionLevelPrivilegesLink(instructorIndex);
-        courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 3, 2);
-        courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 3, 3);
-        courseEditPage.clickModifySessionResultCheckBoxInSectionLevel(instructorIndex, 2);
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 1);
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 2);
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 8);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(editInstructorIndex, 1, 1);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(editInstructorIndex, 1, 2);
+        courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 0);
+        courseEditPage.clickViewOthersCommentsCheckBoxInSectionLevel(editInstructorIndex, 0);
+        courseEditPage.clickViewSessionResultsCheckBoxInSectionLevel(editInstructorIndex, 0);
+        courseEditPage.clickSessionLevelInSectionLevel(editInstructorIndex, 0);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(editInstructorIndex, 2, 2);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(editInstructorIndex, 3, 2);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(editInstructorIndex, 3, 3);
+        courseEditPage.clickModifySessionResultCheckBoxInSectionLevel(editInstructorIndex, 2);
         // after 3 sections added, no more things to add
-        assertFalse(courseEditPage.addSectionLevelPrivilegesLink(instructorIndex).isDisplayed());
+        assertFalse(courseEditPage.addSectionLevelPrivilegesLink(editInstructorIndex).isDisplayed());
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesBeforeSubmit.html");
         
-        courseEditPage.clickSaveInstructorButton(instructorIndex);
+        courseEditPage.clickSaveInstructorButton(editInstructorIndex);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
-        assertTrue(courseEditPage.clickEditInstructorLink(instructorIndex));
+        assertTrue(courseEditPage.clickEditInstructorLink(editInstructorIndex));
         courseEditPage.verifyHtmlMainContent(
                             "/instructorCourseEditEditInstructorPrivilegesSuccessfulAndCheckEditAgain.html");
-        courseEditPage.clickSaveInstructorButton(instructorIndex);
+        courseEditPage.clickSaveInstructorButton(editInstructorIndex);
         
         ______TS("failure: edit failed due to invalid parameters");
         String invalidEmail = "InsCrsEdit.email.tmt";
         
-        courseEditPage.editInstructor(1, "New name", invalidEmail,
+        courseEditPage.editInstructor(editInstructorIndex, "New name", invalidEmail,
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
         
         String invalidName = "";
         
-        courseEditPage.editInstructor(1, invalidName, "teammates@email.tmt",
+        courseEditPage.editInstructor(editInstructorIndex, invalidName, "teammates@email.tmt",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
         
         ______TS("success: test Custom radio button getting other privileges' default values when selected");
-        instructorIndex = 2;
-        courseEditPage.clickEditInstructorLink(instructorIndex);
+        editInstructorIndex = 2;
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
         
         ______TS("tutor->custom");
         
-        courseEditPage.selectRoleForInstructor(instructorIndex, "Tutor");
-        courseEditPage.clickSaveInstructorButton(instructorIndex);
-        courseEditPage.clickEditInstructorLink(instructorIndex);
-        courseEditPage.selectRoleForInstructor(instructorIndex, "Custom");
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Tutor");
+        courseEditPage.clickSaveInstructorButton(editInstructorIndex);
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Custom");
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         ______TS("observer->custom");
         
-        courseEditPage.selectRoleForInstructor(instructorIndex, "Observer");
-        courseEditPage.clickSaveInstructorButton(instructorIndex);
-        courseEditPage.clickEditInstructorLink(instructorIndex);
-        courseEditPage.selectRoleForInstructor(instructorIndex, "Custom");
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Observer");
+        courseEditPage.clickSaveInstructorButton(editInstructorIndex);
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Custom");
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         ______TS("manager->custom");
         
-        courseEditPage.selectRoleForInstructor(instructorIndex, "Manager");
-        courseEditPage.clickSaveInstructorButton(instructorIndex);
-        courseEditPage.clickEditInstructorLink(instructorIndex);
-        courseEditPage.selectRoleForInstructor(instructorIndex, "Custom");
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Manager");
+        courseEditPage.clickSaveInstructorButton(editInstructorIndex);
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Custom");
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         ______TS("co-owner->custom");
         
-        courseEditPage.selectRoleForInstructor(instructorIndex, "Co-owner");
-        courseEditPage.clickSaveInstructorButton(instructorIndex);
-        courseEditPage.clickEditInstructorLink(instructorIndex);
-        courseEditPage.selectRoleForInstructor(instructorIndex, "Custom");
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Co-owner");
+        courseEditPage.clickSaveInstructorButton(editInstructorIndex);
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Custom");
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         ______TS("verify that session level checkboxes are accessible");
         
-        courseEditPage.clickAddSectionLevelPrivilegesLink(instructorIndex);
-        courseEditPage.clickSessionLevelInSectionLevel(instructorIndex, 0);
-        assertTrue(courseEditPage.isTuneSessionPermissionsDivVisible(instructorIndex, 0));
+        courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
+        courseEditPage.clickSessionLevelInSectionLevel(editInstructorIndex, 0);
+        assertTrue(courseEditPage.isTuneSessionPermissionsDivVisible(editInstructorIndex, 0));
         
         
-        courseEditPage.selectRoleForInstructor(instructorIndex, "Co-owner");
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Co-owner");
     }
     
     private void testDeleteInstructorAction() {
