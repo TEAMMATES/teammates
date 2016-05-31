@@ -26,21 +26,6 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "courseDeleteLink")
     private WebElement deleteCourseLink;
     
-    @FindBy(id = "instrEditLink1")
-    private WebElement editInstructorLink;
-    
-    @FindBy(id = "instrRemindLink4")
-    private WebElement inviteInstructorLink;
-    
-    @FindBy(id = "instructorname1")
-    private WebElement editInstructorNameTextBox;
-    
-    @FindBy(id = "instructoremail1")
-    private WebElement editInstructorEmailTextBox;
-    
-    @FindBy(id = "btnSaveInstructor1")
-    private WebElement saveInstructorButton;
-    
     @FindBy(id = "btnShowNewInstructorForm")
     private WebElement showNewInstructorFormButton;
     
@@ -81,14 +66,14 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void editInstructor(String id, String name, String email) {
-        clickEditInstructorLink(1);
+    public void editInstructor(int instrNum, String name, String email, String role) {
+        clickEditInstructorLink(instrNum);
         
-        editInstructorName(name);
-        editInstructorEmail(email);
-        selectRoleForInstructor(1, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        editInstructorName(instrNum, name);
+        editInstructorEmail(instrNum, email);
+        selectRoleForInstructor(instrNum, role);
         
-        saveInstructorButton.click();
+        saveEditInstructor(instrNum);
         waitForPageToLoad();
     }
     
@@ -98,14 +83,16 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
     
-    public String editInstructorName(String value) {
-        fillTextBox(editInstructorNameTextBox, value);
-        return getTextBoxValue(editInstructorNameTextBox);
+    public String editInstructorName(int instrNum, String value) {
+        WebElement editPanelNameTextBox = getNameField(instrNum);
+        fillTextBox(editPanelNameTextBox, value);
+        return getTextBoxValue(editPanelNameTextBox);
     }
     
-    public String editInstructorEmail(String value) {
-        fillTextBox(editInstructorEmailTextBox, value);
-        return getTextBoxValue(editInstructorEmailTextBox);
+    public String editInstructorEmail(int instrNum, String value) {
+        WebElement editPanelEmailTextBox = getEmailField(instrNum);
+        fillTextBox(editPanelEmailTextBox, value);
+        return getTextBoxValue(editPanelEmailTextBox);
     }
     
     public String fillInstructorName(String value) {
@@ -119,32 +106,31 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public boolean clickEditInstructorLink(int instrNum) {
-        boolean isEditable;
-        if (instrNum == 1) {
-            editInstructorLink.click();
-            waitForElementVisibility(saveInstructorButton);
-            isEditable = editInstructorNameTextBox.isEnabled()
-                        && editInstructorEmailTextBox.isEnabled()
-                        && saveInstructorButton.isDisplayed();
-        } else {
-            String instructorNum = String.valueOf(instrNum);
-            WebElement editLink = browser.driver.findElement(By.id("instrEditLink" + instructorNum));
-            editLink.click();
-            
-            WebElement saveButton = browser.driver.findElement(By.id("btnSaveInstructor" + instructorNum));
-            waitForElementVisibility(saveButton);
-            
-            WebElement editInstructorNameTextBox = browser.driver.findElement(By.id("instructorname"
-                                                                                    + instructorNum));
-            WebElement editInstructorEmailTextBox = browser.driver.findElement(By.id("instructoremail"
-                                                                                     + instructorNum));
-            
-            isEditable = editInstructorNameTextBox.isEnabled()
-                        && editInstructorEmailTextBox.isEnabled()
-                        && saveButton.isDisplayed();
-        }
+        getEditInstructorLink(instrNum).click();
+        
+        WebElement saveButton = browser.driver.findElement(By.id("btnSaveInstructor" + instrNum));
+        waitForElementVisibility(saveButton);
+        
+        WebElement editInstructorNameTextBox = browser.driver.findElement(By.id("instructorname"
+                                                                                + instrNum));
+        WebElement editInstructorEmailTextBox = browser.driver.findElement(By.id("instructoremail"
+                                                                                 + instrNum));
+        
+        boolean isEditable = editInstructorNameTextBox.isEnabled()
+                    && editInstructorEmailTextBox.isEnabled()
+                    && saveButton.isDisplayed();
         
         return isEditable;
+    }
+    
+    public WebElement getEditInstructorLink(int instrNum) {
+        String id = "instrEditLink" + instrNum;
+        return browser.driver.findElement(By.id(id));
+    }
+    
+    public void saveEditInstructor(int instrNum) {
+        String id = "btnSaveInstructor" + instrNum;
+        browser.driver.findElement(By.id(id)).click();
     }
     
     public WebElement displayedToStudentCheckBox(int instrNum) {
@@ -310,9 +296,14 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickInviteInstructorLink() {
-        inviteInstructorLink.click();
+    public void clickInviteInstructorLink(int instrNum) {
+        getInviteInstructorLink(instrNum).click();
         waitForPageToLoad();
+    }
+    
+    private WebElement getInviteInstructorLink(int instrNum) {
+        String id = "instrRemindLink" + instrNum;
+        return browser.driver.findElement(By.id(id));
     }
     
     /**
@@ -350,7 +341,7 @@ public class InstructorCourseEditPage extends AppPage {
      * @param instrNum is the position of the instructor (e.g. 1, 2, 3, ...)
      */
     public void clickDeleteInstructorLinkAndConfirm(int instrNum) {
-        WebElement deleteInstructorLink = browser.driver.findElement(By.id("instrDeleteLink" + instrNum));
+        WebElement deleteInstructorLink = getDeleteInstructorLink(instrNum);
         clickAndConfirm(deleteInstructorLink);
         waitForPageToLoad();
     }
@@ -360,8 +351,13 @@ public class InstructorCourseEditPage extends AppPage {
      * @param instrNum is the position of the instructor (e.g. 1, 2, 3, ...)
      */
     public void clickDeleteInstructorLinkAndCancel(int instrNum) {
-        WebElement deleteInstructorLink = browser.driver.findElement(By.id("instrDeleteLink" + instrNum));
+        WebElement deleteInstructorLink = getDeleteInstructorLink(instrNum);
         clickAndCancel(deleteInstructorLink);
+    }
+    
+    public WebElement getDeleteInstructorLink(int instrNum) {
+        String id = "instrDeleteLink" + instrNum;
+        return browser.driver.findElement(By.id(id));
     }
 
     public WebElement getNameField(int instrNum) {
@@ -391,10 +387,6 @@ public class InstructorCourseEditPage extends AppPage {
         String selector = "$('#edit-" + instrNum + " input[name=\"" + Const.ParamsNames.COURSE_ID + "\"]')";
         String action = ".val('" + newCourseId + "')";
         ((JavascriptExecutor) browser.driver).executeScript(selector + action);
-    }
-    
-    public WebElement getFirstEditInstructorLink() {
-        return editInstructorLink;
     }
 
 }

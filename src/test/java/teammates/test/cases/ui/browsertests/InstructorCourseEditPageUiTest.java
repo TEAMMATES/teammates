@@ -142,15 +142,15 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH),
                      courseEditPage.fillInstructorEmail(longEmail));
         // Edit instructor
-        assertEquals(maxLengthEmail, courseEditPage.editInstructorEmail(maxLengthEmail));
+        assertEquals(maxLengthEmail, courseEditPage.editInstructorEmail(1, maxLengthEmail));
         assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH),
-                     courseEditPage.editInstructorEmail(longEmail));
+                     courseEditPage.editInstructorEmail(1, longEmail));
     }
 
     private void testInviteInstructorAction() {
         ______TS("success: invite an uregistered instructor");
         
-        courseEditPage.clickInviteInstructorLink();
+        courseEditPage.clickInviteInstructorLink(4);
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.tmt");
     }
 
@@ -194,14 +194,15 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("failure: ajax error on clicking edit button");
         
         courseEditPage.changeCourseIdInForm(1, "InvalidCourse");
-        courseEditPage.getFirstEditInstructorLink().click();
+        courseEditPage.getEditInstructorLink(1).click();
         courseEditPage.waitForAjaxLoaderGifToDisappear();
-        assertTrue(courseEditPage.getFirstEditInstructorLink().getText().contains("Edit failed."));
+        assertTrue(courseEditPage.getEditInstructorLink(1).getText().contains("Edit failed."));
         courseEditPage.reloadPage();
 
         ______TS("success: edit an instructor");
         
-        courseEditPage.editInstructor(instructorId, "New name", "new_email@email.tmt");
+        courseEditPage.editInstructor(1, "New name", "new_email@email.tmt",
+                                      Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
         
         ______TS("success: edit an instructor (InsCrsEdit.coord)--viewing instructor permission details");
@@ -320,12 +321,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("failure: edit failed due to invalid parameters");
         String invalidEmail = "InsCrsEdit.email.tmt";
         
-        courseEditPage.editInstructor(instructorId, "New name", invalidEmail);
+        courseEditPage.editInstructor(1, "New name", invalidEmail,
+                                      Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
         
         String invalidName = "";
         
-        courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.tmt");
+        courseEditPage.editInstructor(1, invalidName, "teammates@email.tmt",
+                                      Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
         
         ______TS("success: test Custom radio button getting other privileges' default values when selected");
