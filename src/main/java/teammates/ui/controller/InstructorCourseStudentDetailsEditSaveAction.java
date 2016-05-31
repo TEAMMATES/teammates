@@ -66,7 +66,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
                 logic.validateTeams(Arrays.asList(student), courseId);
             }
             
-            if (isTeamChanged && isTeamChangedForWholeTeam) {
+            if (!isSectionChanged && isTeamChanged && isTeamChangedForWholeTeam) {
                 List<StudentAttributes> studentsInTeam =
                         logic.getStudentsForTeam(originalStudentAttribute.getTeam(), courseId);
                 for (StudentAttributes studentInTeam : studentsInTeam) {
