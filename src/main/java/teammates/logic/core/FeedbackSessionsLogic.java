@@ -1166,20 +1166,6 @@ public class FeedbackSessionsLogic {
     }
 
     /**
-     * Decrease the response rate of feedback session by 1 if the deleted response is the last response from
-     * the particular student in that feedback session; for use after deleting a student response
-     * @param studentEmail
-     * @param sessionName
-     * @param courseId
-     */
-    public void updateSessionResponseRateForDeletedStudentResponse(String studentEmail, String sessionName,
-            String courseId) throws InvalidParametersException, EntityDoesNotExistException {
-        if (!hasResponsesFromStudent(studentEmail, sessionName, courseId)) {
-            deleteStudentFromRespondentList(studentEmail, sessionName, courseId);
-        }
-    }
-
-    /**
      * Returns true if the feedback session identified by {@code sessionName} and {@code courseId} contains
      * any feedback response from student with email {@code studentEmail}
      * @param studentEmail

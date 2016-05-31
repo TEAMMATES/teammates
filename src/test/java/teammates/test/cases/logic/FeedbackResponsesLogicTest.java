@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
@@ -24,6 +25,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -34,6 +36,7 @@ import com.google.appengine.api.datastore.Text;
 
 public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
+    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
@@ -264,18 +267,42 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes questionToTeamMembersAndSelf = 
                                         getQuestionFromDatastore(questionTypeBundle, "qn1InContribSession2InCourse2");
         studentToUpdate = questionTypeBundle.students.get("student2InCourse2");
-        FeedbackResponseAttributes response = getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
+        FeedbackResponseAttributes responseToBeDeleted = getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
         StudentEnrollDetails studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
                                         studentToUpdate.course, studentToUpdate.email, studentToUpdate.team, studentToUpdate.team + "tmp", studentToUpdate.section, studentToUpdate.section + "tmp");
         
+        assertEquals(1, numResponsesFromGiverInSession(responseToBeDeleted.giverEmail,
+                                                       responseToBeDeleted.feedbackSessionName,
+                                                       responseToBeDeleted.courseId));
         assertNotNull(frLogic.getFeedbackResponse(questionToTeamMembersAndSelf.getId(),
-                                        response.giverEmail, 
-                                        response.recipientEmail));
-        assertTrue(frLogic.updateFeedbackResponseForChangingTeam(studentDetails1, response));
+                                                  responseToBeDeleted.giverEmail,
+                                                  responseToBeDeleted.recipientEmail));
+        int originalResponseRate = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                   responseToBeDeleted.courseId);
+        assertTrue(frLogic.updateFeedbackResponseForChangingTeam(studentDetails1, responseToBeDeleted));
         assertNull(frLogic.getFeedbackResponse(questionToTeamMembersAndSelf.getId(),
-                                        response.giverEmail, 
-                                        response.recipientEmail));
+                                               responseToBeDeleted.giverEmail,
+                                               responseToBeDeleted.recipientEmail));
+        int responseRateAfterDeletion = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                        responseToBeDeleted.courseId);
+        assertEquals(originalResponseRate - 1, responseRateAfterDeletion);
+    }
 
+    private int numResponsesFromGiverInSession(String studentEmail, String sessionName, String courseId) {
+        int numResponses = 0;
+        for (FeedbackResponseAttributes response : questionTypeBundle.feedbackResponses.values()) {
+            if (response.giverEmail.equals(studentEmail) && response.feedbackSessionName.equals(sessionName)
+                && response.courseId.equals(courseId)) {
+                numResponses++;
+            }
+        }
+        return numResponses;
+    }
+
+    private int getResponseRate(String sessionName, String courseId) {
+        FeedbackSessionAttributes sessionFromDataStore = fsLogic.getFeedbackSession(sessionName, courseId);
+        return sessionFromDataStore.respondingInstructorList.size()
+                + sessionFromDataStore.respondingStudentList.size();
     }
     
     public void testUpdateFeedbackResponsesForChangingEmail() throws Exception {

@@ -552,12 +552,19 @@ public class FeedbackResponsesLogic {
                 || shouldDeleteByChangeOfRecipient;
 
         if (shouldDeleteResponse) {
-            fsLogic.updateSessionResponseRateForDeletedStudentResponse(enrollment.email,
-                                                             response.feedbackSessionName, enrollment.course);
             frDb.deleteEntity(response);
+            updateSessionResponseRateForDeletingStudentResponse(enrollment.email,
+                    response.feedbackSessionName, enrollment.course);
         }
         
         return shouldDeleteResponse;
+    }
+
+    private void updateSessionResponseRateForDeletingStudentResponse(String studentEmail, String sessionName,
+            String courseId) throws InvalidParametersException, EntityDoesNotExistException {
+        if (!fsLogic.hasResponsesFromStudent(studentEmail, sessionName, courseId)) {
+            fsLogic.deleteStudentFromRespondentList(studentEmail, sessionName, courseId);
+        }
     }
 
     private boolean isRecipientTypeTeamMembers(FeedbackQuestionAttributes question) {
