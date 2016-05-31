@@ -193,22 +193,22 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void clickViewStudentCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex) {
         this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex,
-                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS).click();
+                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS).click();
     }
     
     public void clickViewOthersCommentsCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex) {
         this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex,
-                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS).click();
+                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS).click();
     }
     
     public void clickViewSessionResultsCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex) {
         this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex,
-                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS).click();
+                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS).click();
     }
     
     public void clickModifySessionResultCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex) {
         this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex,
-                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS).click();
+                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS).click();
     }
     
     public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelIndex) {
@@ -217,8 +217,9 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public boolean isTuneSessionPermissionsDivVisible(int instrNum, int sectionLevelIndex) {
-        By sessionPermissionsDiv = By.id("tuneSessionPermissionsDiv" + sectionLevelIndex + "ForInstructor" + instrNum);
-        return isElementVisible(sessionPermissionsDiv);
+        String sessionPermissionsDivId = "tuneSessionPermissionsDiv" + sectionLevelIndex
+                                         + "ForInstructor" + instrNum;
+        return isElementVisible(By.id(sessionPermissionsDivId));
     }
     
     public boolean clickShowNewInstructorFormButton() {
