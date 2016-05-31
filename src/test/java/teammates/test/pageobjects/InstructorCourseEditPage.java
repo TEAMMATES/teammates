@@ -117,20 +117,18 @@ public class InstructorCourseEditPage extends AppPage {
                                                                                  + instrNum));
         
         boolean isEditable = editInstructorNameTextBox.isEnabled()
-                    && editInstructorEmailTextBox.isEnabled()
-                    && saveButton.isDisplayed();
+                             && editInstructorEmailTextBox.isEnabled()
+                             && saveButton.isDisplayed();
         
         return isEditable;
     }
     
     public WebElement getEditInstructorLink(int instrNum) {
-        String id = "instrEditLink" + instrNum;
-        return browser.driver.findElement(By.id(id));
+        return browser.driver.findElement(By.id("instrEditLink" + instrNum));
     }
     
     public void saveEditInstructor(int instrNum) {
-        String id = "btnSaveInstructor" + instrNum;
-        browser.driver.findElement(By.id(id)).click();
+        browser.driver.findElement(By.id("btnSaveInstructor" + instrNum)).click();
     }
     
     public WebElement displayedToStudentCheckBox(int instrNum) {
@@ -302,8 +300,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     private WebElement getInviteInstructorLink(int instrNum) {
-        String id = "instrRemindLink" + instrNum;
-        return browser.driver.findElement(By.id(id));
+        return browser.driver.findElement(By.id("instrRemindLink" + instrNum));
     }
     
     /**
