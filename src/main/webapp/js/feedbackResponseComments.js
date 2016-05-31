@@ -391,7 +391,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     var panelBody = $clickedElement.parent().find('div[class^="panel-body"]');
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = '/page/instructorFeedbackResponseCommentsLoad?user=' + user
-            + '&courseid=' + courseId + '&fsname=' + fsNameForUrl + '&fsindex=' + fsIndx;
+              + '&courseid=' + courseId + '&fsname=' + fsNameForUrl + '&fsindex=' + fsIndx;
     
     // If the content is already loaded, toggle the chevron and exit.
     if ($clickedElement.hasClass('loaded') && isClicked) {

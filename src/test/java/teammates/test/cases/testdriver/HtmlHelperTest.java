@@ -23,7 +23,7 @@ public class HtmlHelperTest extends BaseTestCase {
         HtmlHelper.assertSameHtml(expected, actual, false);
         
         expected = "<HTML><HEAD><SCRIPT language=\"JavaScript\" src=\"a.js\" ></SCRIPT></HEAD>"
-                 + "<BODY id=\"5\"><P>abc</P><DIV id=\"frameBottom\"><DIV></DIV></DIV></BODY></HTML>";
+                   + "<BODY id=\"5\"><P>abc</P><DIV id=\"frameBottom\"><DIV></DIV></DIV></BODY></HTML>";
         actual = expected.replace("<HEAD>", "    <HEAD>    \t" + EOL);
         HtmlHelper.assertSameHtml(expected, actual, false);
         

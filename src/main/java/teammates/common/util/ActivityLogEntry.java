@@ -364,11 +364,11 @@ public class ActivityLogEntry {
         
         if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())) {
             message = message.replace(Const.ACTION_RESULT_FAILURE, "<span class=\"text-danger\"><strong>"
-                    + Const.ACTION_RESULT_FAILURE + "</strong><br>");
+                      + Const.ACTION_RESULT_FAILURE + "</strong><br>");
             message = message + "</span><br>";
         } else if (message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())) {
             message = message.replace(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, "<span class=\"text-danger\"><strong>"
-                    + Const.ACTION_RESULT_SYSTEM_ERROR_REPORT + "</strong><br>");
+                      + Const.ACTION_RESULT_SYSTEM_ERROR_REPORT + "</strong><br>");
             message = message + "</span><br>";
         }
                 

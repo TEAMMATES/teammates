@@ -153,7 +153,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
 
         enrollString = "Section | Team | Name | Email | Comments\n"
-                     + "Different Section | Team 1</option></td></div>'\" | Alice Betsy | alice.b.tmms@gmail.tmt |\n";
+                       + "Different Section | Team 1</option></td></div>'\" | Alice Betsy | alice.b.tmms@gmail.tmt |\n";
 
         enrollPage.enrollUnsuccessfully(enrollString);
         enrollPage.verifyStatus("The team \"Team 1</option></td></div>'\"\" is in multiple sections. "
@@ -209,7 +209,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         // Enroll a student with a script in the name
         String xssScript = "<script>alert(\"was here\");</script>";
         enrollString = "Team | Name | Email | Comments\n"
-                     + "Team GreyHats | Mallory " + xssScript + " | mallory.tmms@gmail.tmt |\n";
+                       + "Team GreyHats | Mallory " + xssScript + " | mallory.tmms@gmail.tmt |\n";
 
         // Check that the script does not appear on the InstructorCourseEnrollResult page
         resultsPage = enrollPage.enroll(enrollString);
