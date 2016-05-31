@@ -39,7 +39,8 @@
                 <div class="col-sm-offset-1 col-sm-11">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="<%=Const.ParamsNames.TEAM_CHANGED_FOR_WHOLE_TEAM%>"> Change for whole team?
+                            <input type="checkbox" name="<%=Const.ParamsNames.TEAM_CHANGED_FOR_WHOLE_TEAM%>"
+                                   id="<%=Const.ParamsNames.TEAM_CHANGED_FOR_WHOLE_TEAM%>"> Change for whole team?
                         </label>
                     </div>
                 </div>

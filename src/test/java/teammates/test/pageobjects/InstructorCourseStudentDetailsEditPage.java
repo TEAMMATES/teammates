@@ -14,6 +14,9 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     @FindBy (id = "teamname")
     private WebElement teamNameTextbox;
     
+    @FindBy (id = "isteamchangedforwholeteam")
+    private WebElement teamNameCheckbox;
+    
     @FindBy (id = "newstudentemail")
     private WebElement studentEmailTextbox;
     
@@ -40,7 +43,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * relevent input filed.
      */
     public InstructorCourseDetailsPage submitSuccessfully(String studentName, String teamName, String studentEmail, String comments) {
-        fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
+        fillStudentDetailsForm(studentName, teamName, true, studentEmail, comments);
         return changePageType(InstructorCourseDetailsPage.class);
     }
     
@@ -49,20 +52,24 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * relevent input field.
      */
     public InstructorCourseStudentDetailsEditPage submitUnsuccessfully(String studentName, String teamName, String studentEmail, String comments) {
-        fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
+        fillStudentDetailsForm(studentName, teamName, false, studentEmail, comments);
         return this;
     }
 
     /**
      * If the parameter value is not null, the value will be filled into the
      * relevant input field.
+     * @param isTeamChangedForWholeTeam TODO
      */
-    private void fillStudentDetailsForm(String studentName, String teamName, String studentEmail, String comments) {
+    private void fillStudentDetailsForm(String studentName, String teamName, boolean isTeamChangedForWholeTeam, String studentEmail, String comments) {
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
         }
         if (teamName != null) {
             fillTextBox(teamNameTextbox, teamName);
+        }
+        if (isTeamChangedForWholeTeam) {
+            markCheckBoxAsChecked(teamNameCheckbox);
         }
         if (studentEmail != null) {
             fillTextBox(studentEmailTextbox, studentEmail);
