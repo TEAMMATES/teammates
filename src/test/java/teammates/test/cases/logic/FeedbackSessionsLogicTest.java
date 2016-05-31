@@ -95,7 +95,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         testDeleteFeedbackSessionsForCourse();
     }
     
-    public void testGetFeedbackSessionsListForInstructor() {        
+    public void testGetFeedbackSessionsListForInstructor() {
         List<FeedbackSessionAttributes> finalFsa = new ArrayList<FeedbackSessionAttributes>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
         

@@ -292,7 +292,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         int numResponses = 0;
         for (FeedbackResponseAttributes response : questionTypeBundle.feedbackResponses.values()) {
             if (response.giverEmail.equals(studentEmail) && response.feedbackSessionName.equals(sessionName)
-                && response.courseId.equals(courseId)) {
+                    && response.courseId.equals(courseId)) {
                 numResponses++;
             }
         }
