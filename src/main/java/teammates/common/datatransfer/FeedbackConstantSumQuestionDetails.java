@@ -311,8 +311,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         StringBuilder additionalInfo = new StringBuilder();
 
-        if (this.distributeToRecipients) {
-            additionalInfo.append(this.getQuestionTypeDisplayName()).append("<br>");
+        if (distributeToRecipients) {
+            additionalInfo.append(getQuestionTypeDisplayName()).append("<br>");
         } else if (numOfConstSumOptions > 0) {
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
             for (int i = 0; i < numOfConstSumOptions; i++) {
@@ -325,7 +325,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             optionListHtml.append("</ul>");
             additionalInfo.append(FeedbackQuestionFormTemplates.populateTemplate(
                     FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO,
-                    "${questionTypeName}", this.getQuestionTypeDisplayName(),
+                    "${questionTypeName}", getQuestionTypeDisplayName(),
                     "${msqAdditionalInfoFragments}", optionListHtml.toString()));
         
         }

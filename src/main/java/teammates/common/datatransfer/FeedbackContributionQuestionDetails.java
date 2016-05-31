@@ -27,12 +27,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     public FeedbackContributionQuestionDetails() {
         super(FeedbackQuestionType.CONTRIB);
-        this.isNotSureAllowed = true;
+        isNotSureAllowed = true;
     }
 
     public FeedbackContributionQuestionDetails(String questionText) {
         super(FeedbackQuestionType.CONTRIB, questionText);
-        this.isNotSureAllowed = true;
+        isNotSureAllowed = true;
     }
     
     private void setContributionQuestionDetails(boolean isNotSureAllowed) {
@@ -115,10 +115,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
-        this.isNotSureAllowed = true;
+        isNotSureAllowed = true;
         
         return "<div id=\"contribForm\">"
-                  + this.getQuestionSpecificEditFormHtml(-1)
+                  + getQuestionSpecificEditFormHtml(-1)
              + "</div>";
     }
 

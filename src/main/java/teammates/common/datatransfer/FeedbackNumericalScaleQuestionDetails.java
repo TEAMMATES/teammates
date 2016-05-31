@@ -47,7 +47,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         Assumption.assertNotNull("Null step", stepString);
         Double step = Double.parseDouble(stepString);
 
-        this.setNumericalScaleQuestionDetails(minScale, maxScale, step);
+        setNumericalScaleQuestionDetails(minScale, maxScale, step);
         
         return true;
     }
@@ -125,9 +125,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         // Set default values
-        this.minScale = 1;
-        this.maxScale = 5;
-        this.step = 1;
+        minScale = 1;
+        maxScale = 5;
+        step = 1;
         
         return "<div id=\"numScaleForm\">"
                   + this.getQuestionSpecificEditFormHtml(-1)
