@@ -373,8 +373,8 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public boolean isCustomCheckboxChecked(String privilege, int instrNum) {
-        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instrNum + " input[type='checkbox'][name='"
-                                     + privilege + "']");
+        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instrNum
+                                     + " input[type='checkbox'][name='" + privilege + "']");
         WebElement checkbox = browser.driver.findElement(selector);
         return checkbox.isSelected();
     }
@@ -388,7 +388,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public void changeCourseIdInForm(int instrNum, String newCourseId) {
-        String selector = "$('#edit-" + instrNum + "').find('[name=\"" + Const.ParamsNames.COURSE_ID + "\"]')";
+        String selector = "$('#edit-" + instrNum + " input[name=\"" + Const.ParamsNames.COURSE_ID + "\"]')";
         String action = ".val('" + newCourseId + "')";
         ((JavascriptExecutor) browser.driver).executeScript(selector + action);
     }
