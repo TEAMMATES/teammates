@@ -43,7 +43,7 @@ public class InstructorStudentListAjaxPageAction extends Action {
             for (TeamDetailsBundle teamDetails : sectionDetails.teams) {
                 for (StudentAttributes student : teamDetails.students) {
                     String studentPhotoUrl = student.getPublicProfilePictureUrl();
-                    studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl, 
+                    studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl,
                                                     Const.ParamsNames.USER_ID, account.googleId);
                     emailPhotoUrlMapping.put(student.email, studentPhotoUrl);
                 }

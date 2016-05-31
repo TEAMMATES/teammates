@@ -40,7 +40,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
                                                                instructor, session, response);
         
-        InstructorFeedbackResponseCommentAjaxPageData data = 
+        InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
         
         //Edit comment text
@@ -80,7 +80,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         }
         
         try {
-            FeedbackResponseCommentAttributes updatedComment = 
+            FeedbackResponseCommentAttributes updatedComment =
                     logic.updateFeedbackResponseComment(feedbackResponseComment);
             //TODO: move putDocument to task queue
             logic.putDocument(updatedComment);
@@ -93,7 +93,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         if (!data.isError) {
             statusToAdmin += "InstructorFeedbackResponseCommentEditAction:<br>"
                            + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
-                           + "in course/feedback session: " + feedbackResponseComment.courseId + "/" 
+                           + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                            + feedbackResponseComment.feedbackSessionName + "<br>"
                            + "by: " + feedbackResponseComment.giverEmail + "<br>"
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
@@ -123,9 +123,9 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
             return;
         }
-        new GateKeeper().verifyAccessible(instructor, session, false, response.giverSection, 
+        new GateKeeper().verifyAccessible(instructor, session, false, response.giverSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        new GateKeeper().verifyAccessible(instructor, session, false, response.recipientSection, 
+        new GateKeeper().verifyAccessible(instructor, session, false, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 }

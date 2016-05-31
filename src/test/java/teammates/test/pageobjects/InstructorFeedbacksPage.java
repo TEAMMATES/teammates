@@ -225,7 +225,7 @@ public class InstructorFeedbacksPage extends AppPage {
         
         selectDropdownByVisibleValue(courseIdDropdown, courseId);
         
-        // fill in time values        
+        // fill in time values
         fillStartTime(startTime);
         fillEndTime(endTime);
         fillVisibleTime(visibleTime);
@@ -247,20 +247,20 @@ public class InstructorFeedbacksPage extends AppPage {
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
         String copyButtonId = "button_copy";
         this.waitForTextContainedInElementPresence(
-                By.id(copyButtonId), "Copy from previous feedback sessions");     
-        clickCopyButton();        
-        this.waitForElementVisibility(copiedFsNameTextBox);        
-        fillTextBox(copiedFsNameTextBox, feedbackSessionName);       
+                By.id(copyButtonId), "Copy from previous feedback sessions");
+        clickCopyButton();
+        this.waitForElementVisibility(copiedFsNameTextBox);
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
-        clickCopyTableAtRow(0);       
+        clickCopyTableAtRow(0);
         clickCopySubmitButton();
     }
     
-    public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {       
-        clickCopyButton();       
-        this.waitForElementVisibility(copiedFsNameTextBox);       
-        fillTextBox(copiedFsNameTextBox, feedbackSessionName);        
+    public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {
+        clickCopyButton();
+        this.waitForElementVisibility(copiedFsNameTextBox);
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
     }
 

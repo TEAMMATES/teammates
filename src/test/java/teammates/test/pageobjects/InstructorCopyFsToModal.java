@@ -43,7 +43,7 @@ public class InstructorCopyFsToModal extends AppPage {
     }
     
     /**
-     * Populates the fields of the form by using the provided name, and selecting every course. 
+     * Populates the fields of the form by using the provided name, and selecting every course.
      * @param newFsName feedback session name of the new session
      */
     public void fillFormWithAllCoursesSelected(String newFsName) {

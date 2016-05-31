@@ -13,7 +13,7 @@ public class AdminEmailComposePageData extends AdminEmailPageData {
     
     public AdminEmailAttributes emailToEdit;
     
-    public AdminEmailComposePageData(AccountAttributes account) {     
+    public AdminEmailComposePageData(AccountAttributes account) {
         super(account);
         state = AdminEmailPageState.COMPOSE;
     }

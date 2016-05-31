@@ -36,9 +36,9 @@
         <ul class="list-group" id="responseCommentTable-${responsePanel.recipientIndex}-${responsePanel.giverIndex}-${responsePanel.qnIndex}"
             style="${not empty responsePanel.comments ? 'margin-top:15px;': 'display:none'}">
             <c:forEach items="${responsePanel.comments}" var="responseComment" varStatus="status">
-                <shared:feedbackResponseComment frc="${responseComment}" firstIndex="${firstIndex}" 
-                                                secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" 
-                                                frcIndex="${status.count}"/>
+                <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${firstIndex}" 
+                                                   secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" 
+                                                   frcIndex="${status.count}"/>
             </c:forEach>
             <shared:feedbackResponseCommentAdd frc="${responsePanel.frcForAdding}" firstIndex="${firstIndex}" 
                                                secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" />

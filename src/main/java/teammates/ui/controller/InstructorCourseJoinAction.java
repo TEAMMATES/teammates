@@ -8,11 +8,11 @@ import teammates.logic.api.GateKeeper;
 
 /**
  * This action handles instructors that attempts to join a course.
- * It asks the instructor for confirmation that the logged in account 
- * belongs to him before redirecting him to the actual join action, 
+ * It asks the instructor for confirmation that the logged in account
+ * belongs to him before redirecting him to the actual join action,
  * {@link InstructorCourseJoinAuthenticatedAction}.
  * <br/><br/>
- * This is done to prevent instructor from accidentally linking 
+ * This is done to prevent instructor from accidentally linking
  * his registration key with another instructor's google account.
  */
 public class InstructorCourseJoinAction extends Action {
@@ -38,21 +38,21 @@ public class InstructorCourseJoinAction extends Action {
             String redirectUrl = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED,
                                                    Const.ParamsNames.REGKEY, regkey);
             
-            //for the link of instructor added by admin, an additional parameter institute is needed  
+            //for the link of instructor added by admin, an additional parameter institute is needed
             //so it must be passed to instructorCourseJoinAuthenticated action
             if (institute != null) {
                 redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
             }
             
             return createRedirectResult(redirectUrl);
-        } 
+        }
         
         //1.For instructors added by admin, institute is passed from the join link and should be passed
         //to the confirmation page and later to authenticated action for account creation
-        //2.For instructors added by other instructors, institute is not passed from the link so the value 
+        //2.For instructors added by other instructors, institute is not passed from the link so the value
         //will be null
         
-        InstructorCourseJoinConfirmationPageData pageData = 
+        InstructorCourseJoinConfirmationPageData pageData =
                                         new InstructorCourseJoinConfirmationPageData(account, regkey, institute);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION, pageData);

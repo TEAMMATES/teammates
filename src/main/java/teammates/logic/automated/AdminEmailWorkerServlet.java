@@ -18,7 +18,7 @@ import teammates.logic.core.Emails;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 /**
- * Retrieves admin email content and subject by email id and sends email to the receiver 
+ * Retrieves admin email content and subject by email id and sends email to the receiver
  */
 @SuppressWarnings("serial")
 public class AdminEmailWorkerServlet extends WorkerServlet {
@@ -27,10 +27,10 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         
         
-        String emailId =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);        
+        String emailId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);
         Assumption.assertNotNull(emailId);
         
-        String receiverEmail =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_RECEVIER);       
+        String receiverEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_RECEIVER);
         Assumption.assertNotNull(receiverEmail);
         
 
@@ -48,7 +48,7 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         }
         
         Assumption.assertNotNull(emailContent);
-        Assumption.assertNotNull(emailSubject); 
+        Assumption.assertNotNull(emailSubject);
         
         try {
             sendAdminEmail(emailContent, emailSubject, receiverEmail);

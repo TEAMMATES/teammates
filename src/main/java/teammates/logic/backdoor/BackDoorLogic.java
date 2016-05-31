@@ -1,5 +1,6 @@
 package teammates.logic.backdoor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -177,7 +178,7 @@ public class BackDoorLogic extends Logic {
         HashMap<String, CommentAttributes> comments = dataBundle.comments;
         commentsDb.createComments(comments.values());
         
-        // any Db can be used to commit the changes. 
+        // any Db can be used to commit the changes.
         // accountsDb is used as it is already used in the file
         accountsDb.commitOutstandingChanges();
 
@@ -312,31 +313,31 @@ public class BackDoorLogic extends Logic {
     }
     
     public String getFeedbackQuestionAsJson(String feedbackSessionName, String courseId, int qnNumber) {
-        FeedbackQuestionAttributes fq = 
+        FeedbackQuestionAttributes fq =
                 feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
         return Utils.getTeammatesGson().toJson(fq);
     }
     
     public String getFeedbackQuestionForIdAsJson(String questionId) {
-        FeedbackQuestionAttributes fq = 
+        FeedbackQuestionAttributes fq =
                 feedbackQuestionsLogic.getFeedbackQuestion(questionId);
         return Utils.getTeammatesGson().toJson(fq);
     }
 
     public String getFeedbackResponseAsJson(String feedbackQuestionId, String giverEmail, String recipient) {
-        FeedbackResponseAttributes fq = 
+        FeedbackResponseAttributes fq =
                 feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
         return Utils.getTeammatesGson().toJson(fq);
     }
     
     public String getFeedbackResponsesForGiverAsJson(String courseId, String giverEmail) {
-        List<FeedbackResponseAttributes> responseList = 
+        List<FeedbackResponseAttributes> responseList =
                 feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
         return Utils.getTeammatesGson().toJson(responseList);
     }
     
     public String getFeedbackResponsesForReceiverAsJson(String courseId, String recipient) {
-        List<FeedbackResponseAttributes> responseList = 
+        List<FeedbackResponseAttributes> responseList =
                 feedbackResponsesLogic.getFeedbackResponsesForReceiverForCourse(courseId, recipient);
         return Utils.getTeammatesGson().toJson(responseList);
     }
@@ -389,10 +390,10 @@ public class BackDoorLogic extends Logic {
     * question the response is for.<br />
     * Normally, the ID is already generated on creation,
     * but the json file does not contain the actual response ID. <br />
-    * Therefore the question number corresponding to the created response 
+    * Therefore the question number corresponding to the created response
     * should be inserted in the json file in place of the actual response ID.<br />
     * This method will then generate the correct ID and replace the field.
-     * @throws EntityDoesNotExistException 
+     * @throws EntityDoesNotExistException
     **/
     private FeedbackResponseAttributes injectRealIds(FeedbackResponseAttributes response) throws EntityDoesNotExistException {
         try {
@@ -405,7 +406,7 @@ public class BackDoorLogic extends Logic {
             }
             response.feedbackQuestionId = question.getId();
             
-        } catch (NumberFormatException e) { // NOPMD
+        } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
         
@@ -413,15 +414,15 @@ public class BackDoorLogic extends Logic {
     }
     
     /**
-    * This method is necessary to generate the feedbackQuestionId 
+    * This method is necessary to generate the feedbackQuestionId
     * and feedbackResponseId of the question and response the comment is for.<br />
     * Normally, the ID is already generated on creation,
     * but the json file does not contain the actual response ID. <br />
     * Therefore the question number and questionNumber%giverEmail%recipient
-    * corresponding to the created comment should be inserted in the json 
+    * corresponding to the created comment should be inserted in the json
     * file in place of the actual ID.<br />
     * This method will then generate the correct ID and replace the field.
-     * @throws EntityDoesNotExistException 
+     * @throws EntityDoesNotExistException
     **/
     private FeedbackResponseCommentAttributes injectRealIds(FeedbackResponseCommentAttributes responseComment) {
         try {
@@ -432,13 +433,13 @@ public class BackDoorLogic extends Logic {
                             responseComment.feedbackSessionName,
                             responseComment.courseId,
                             qnNumber).getId();
-        } catch (NumberFormatException e) { // NOPMD
+        } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
         
         String[] responseIdParam = responseComment.feedbackResponseId.split("%");
         
-        responseComment.feedbackResponseId = 
+        responseComment.feedbackResponseId =
                 responseComment.feedbackQuestionId
                 + "%" + responseIdParam[1] + "%" + responseIdParam[2];
         
@@ -450,7 +451,7 @@ public class BackDoorLogic extends Logic {
      * Creates a COURSE without an INSTRUCTOR relation
      * Used in persisting DataBundles for Test cases
      */
-    public void createCourseWithArchiveStatus(CourseAttributes course) 
+    public void createCourseWithArchiveStatus(CourseAttributes course)
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
         try {
@@ -477,7 +478,7 @@ public class BackDoorLogic extends Logic {
         //waitUntilDeletePersists(dataBundle);
     }
 
-    private void deleteCourses(Collection<CourseAttributes> courses) {  
+    private void deleteCourses(Collection<CourseAttributes> courses) {
         List<String> courseIds = new ArrayList<String>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.getId());
@@ -498,7 +499,7 @@ public class BackDoorLogic extends Logic {
     @SuppressWarnings("unused")
     private void waitUntilDeletePersists(DataBundle dataBundle) {
         
-        //TODO: this method has too much duplication. 
+        //TODO: this method has too much duplication.
         for (AccountAttributes a : dataBundle.accounts.values()) {
             Object retreived = null;
             int retryCount = 0;
@@ -597,7 +598,7 @@ public class BackDoorLogic extends Logic {
     }
 
     public void uploadAndUpdateStudentProfilePicture(String googleId,
-            byte[] pictureData) throws Exception {
+            byte[] pictureData) throws EntityDoesNotExistException, IOException {
         String pictureKey = GoogleCloudStorageHelper.writeDataToGcs(googleId, pictureData, "");
         updateStudentProfilePicture(googleId, pictureKey);
     }

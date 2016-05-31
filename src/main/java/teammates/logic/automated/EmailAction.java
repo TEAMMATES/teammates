@@ -60,14 +60,14 @@ public abstract class EmailAction {
                 
         } catch (Exception e) {
             isError = true;
-            logActivityFailure(req, e);    
+            logActivityFailure(req, e);
             log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
         } finally {
             if (isError) {
                 try {
                     doPostProcessingForUnsuccesfulSend();
                 } catch (EntityDoesNotExistException e) {
-                    logActivityFailure(req, e);    
+                    logActivityFailure(req, e);
                     log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
                 }
             }
@@ -95,8 +95,8 @@ public abstract class EmailAction {
     
     protected abstract List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException;
     
-    protected void logActivitySuccess(HttpServletRequest req, ArrayList<MimeMessage> emails) {        
-        String url = HttpRequestHelper.getRequestedURL(req);
+    protected void logActivitySuccess(HttpServletRequest req, ArrayList<MimeMessage> emails) {
+        String url = HttpRequestHelper.getRequestedUrl(req);
         String message;
         
         try {
@@ -112,7 +112,7 @@ public abstract class EmailAction {
 
     protected void logActivityFailure(HttpServletRequest req, Throwable e) {
                 
-        String url = HttpRequestHelper.getRequestedURL(req);
+        String url = HttpRequestHelper.getRequestedUrl(req);
     
         String message = "<span class=\"color_red\">Servlet Action failure in " + actionName + "<br>"
                        + e.getMessage() + "</span>";
@@ -122,11 +122,11 @@ public abstract class EmailAction {
         log.severe(e.getMessage());
     }
 
-    private String generateLogMessage(List<MimeMessage> emailsSent) throws Exception {
+    private String generateLogMessage(List<MimeMessage> emailsSent) throws MessagingException, IOException {
         StringBuilder logMessage = new StringBuilder(100);
         logMessage.append("Emails sent to:<br/>");
         
-        Iterator<Entry<String, EmailData>> extractedEmailIterator = 
+        Iterator<Entry<String, EmailData>> extractedEmailIterator =
                 extractEmailDataForLogging(emailsSent).entrySet().iterator();
         
         while (extractedEmailIterator.hasNext()) {
@@ -144,7 +144,8 @@ public abstract class EmailAction {
         return logMessage.toString();
     }
     
-    private Map<String, EmailData> extractEmailDataForLogging(List<MimeMessage> emails) throws Exception {
+    private Map<String, EmailData> extractEmailDataForLogging(List<MimeMessage> emails)
+            throws MessagingException, IOException {
         Map<String, EmailData> logData = new TreeMap<String, EmailData>();
         
         for (MimeMessage email : emails) {
@@ -176,7 +177,7 @@ public abstract class EmailAction {
         String userName;
         String regKey;
         
-        public EmailData(String studentName, String regKey) {
+        EmailData(String studentName, String regKey) {
             this.userName = studentName;
             this.regKey = regKey;
         }

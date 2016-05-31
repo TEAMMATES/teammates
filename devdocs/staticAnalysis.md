@@ -26,14 +26,21 @@ The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/
 
 #####Suppressing Checkstyle warnings
 
-To introduce code that violates Checkstyle rules, wrap the violating code with `//CHECKSTYLE:OFF` and re-enable it afterwards with `//CHECKSTYLE:ON`. Checkstyle also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://checkstyle.sourceforge.net/config_filters.html).
+To introduce code that violates Checkstyle rules, wrap the violating code with `// CHECKSTYLE.OFF:RuleName` and re-enable it afterwards with `// CHECKSTYLE.ON:RuleName` (note the absence of space around `.` and `:`). Checkstyle also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://checkstyle.sourceforge.net/config_filters.html).
 The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
 An example for suppressing the `Avoid star imports` rule is as follows:
-```
-//CHECKSTYLE:OFF as there would be many (>100) import lines added if we were to import all of the ActionURIs
+```java
+// CHECKSTYLE.OFF:AvoidStarImports as there would be many (>100) import lines added if we were to import all of the ActionURIs
 import static teammates.common.util.Const.ActionURIs.*;
-//CHECKSTYLE:ON
+// CHECKSTYLE.ON:AvoidStarImports
+```
+
+To suppress multiple violations at once, separate the rules with vertical bar `|`:
+```java
+// CHECKSTYLE.OFF:AbbreviationAsWordInName|MemberName the database uses ID
+private String ID;
+// CHECKSTYLE.ON:AbbreviationAsWordInName|MemberName
 ```
 
 ### PMD
@@ -52,9 +59,8 @@ The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/
 
 
 #####Suppressing PMD warnings
-To introduce code that violates PMD rules, PMD provides several methods of [suppressing](http://pmd.sourceforge.net/snapshot/usage/suppressing.html) rule violations, such as 
-the `SuppressWarnings` annotation or the `NOPMD` marker, which can be used to tell PMD to ignore specific parts of the code.
-The suppression should be as specific as possible, and the reason for violating the rule should be explained.      
+To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://pmd.sourceforge.net/snapshot/usage/suppressing.html).
+The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
 ### FindBugs
 
@@ -114,24 +120,24 @@ The analysis results are immediately reported in Eclipse and you can traverse to
 
 To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin, right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`. The report can be found in the `Markers` window in Eclipse.
 
-To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`. The report can be viewed in the PMD Perspective view under `Violations Overview`. Note that currently, the Eclipse plugin uses a different PMD version from what `travis.gradle` is using. 
+To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`. The report can be viewed in the PMD Perspective view under `Violations Overview`. Note that currently, the Eclipse plugin uses a different PMD version from what `build.gradle` is using. 
 
 Alternatively, run the tools via Gradle:
 ```
-./gradlew -b travis.gradle {toolType}{sourceCodeType}
+./gradlew {toolType}{sourceCodeType}
 ```
 where `{toolType}` = checkstyle, pmd, findbugs (lowercase), and `{sourceCodeType}` = Main, Test (Pascal Case).
 The reports can be found in the `build/reports/{toolType}/` directory.
 
 To run ESLint analysis on all JavaScript source files, run the following command:
 ```
-./gradlew -b travis.gradle eslint
+./gradlew eslint
 ```
 The violations caught, if any, will be printed to the console itself.
 
 To run all static analysis tasks in one sitting, run the following command:
 ```
-./gradlew -b travis.gradle staticAnalysis --continue
+./gradlew staticAnalysis --continue
 ```
 
 ## Running code coverage session
@@ -148,8 +154,8 @@ The coverage will be reported in Eclipse after the test run is over.
 
 Alternatively, use Gradle to run the tests, and obtain the coverage data with `jacocoTestReport` task, i.e:
 ```
-./gradlew -b travis.gradle travisTests
-./gradlew -b travis.gradle jacocoTestReport
+./gradlew travisTests
+./gradlew jacocoTestReport
 ```
 The report can be found in the `build/reports/jacoco/test/` directory.
 

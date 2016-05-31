@@ -1427,63 +1427,74 @@
   <br>
   <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('')" role="form">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
-      <div class="row margin-bottom-15px">
+      <div class="row">
         <div class="col-sm-12 row">
-          <div class="col-sm-3">
-            <label class="mobile-no-pull pull-right control-label padding-right-10px" for="questionTypeChoice">
-              Question Type
-            </label>
-          </div>
-          <div class="col-sm-9">
-            <select class="form-control questionType" id="questionTypeChoice" name="questiontype">
-              <option value="TEXT">
-                Essay question
-              </option>
-              <option value="MCQ">
-                Multiple-choice (single answer) question
-              </option>
-              <option value="MSQ">
-                Multiple-choice (multiple answers) question
-              </option>
-              <option value="NUMSCALE">
-                Numerical-scale question
-              </option>
-              <option value="CONSTSUM_OPTION">
-                Distribute points (among options) question
-              </option>
-              <option value="CONSTSUM_RECIPIENT">
-                Distribute points (among recipients) question
-              </option>
-              <option value="CONTRIB">
-                Team contribution question
-              </option>
-              <option value="RUBRIC">
-                Rubric question
-              </option>
-              <option value="RANK_OPTIONS">
-                Rank (options) question
-              </option>
-              <option value="RANK_RECIPIENTS">
-                Rank (recipients) question
-              </option>
-            </select>
+          <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary margin-bottom-7px dropdown-toggle" data-toggle="dropdown" id="button_openframe" type="button">
+              Add New Question
+              <span class="caret">
+              </span>
+            </button>
+            <ul class="dropdown-menu">
+              <li data-questiontype="TEXT">
+                <a>
+                  Essay question
+                </a>
+              </li>
+              <li data-questiontype="MCQ">
+                <a>
+                  Multiple-choice (single answer) question
+                </a>
+              </li>
+              <li data-questiontype="MSQ">
+                <a>
+                  Multiple-choice (multiple answers) question
+                </a>
+              </li>
+              <li data-questiontype="NUMSCALE">
+                <a>
+                  Numerical-scale question
+                </a>
+              </li>
+              <li data-questiontype="CONSTSUM_OPTION">
+                <a>
+                  Distribute points (among options) question
+                </a>
+              </li>
+              <li data-questiontype="CONSTSUM_RECIPIENT">
+                <a>
+                  Distribute points (among recipients) question
+                </a>
+              </li>
+              <li data-questiontype="CONTRIB">
+                <a>
+                  Team contribution question
+                </a>
+              </li>
+              <li data-questiontype="RUBRIC">
+                <a>
+                  Rubric question
+                </a>
+              </li>
+              <li data-questiontype="RANK_OPTIONS">
+                <a>
+                  Rank (options) question
+                </a>
+              </li>
+              <li data-questiontype="RANK_RECIPIENTS">
+                <a>
+                  Rank (recipients) question
+                </a>
+              </li>
+            </ul>
             <a href="/instructorHelp.html#fbQuestionTypes" target="_blank">
               <i class="glyphicon glyphicon-info-sign">
               </i>
             </a>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12 row">
-          <div class="col-sm-offset-3 col-sm-9">
-            <a class="btn btn-primary margin-bottom-7px" id="button_openframe" onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
-              Add New Question
-            </a>
             <a class="btn btn-primary margin-bottom-7px" id="button_copy">
               Copy Question
             </a>
-            <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=FRankUiT.instructor&courseid=FRankUiT.CS4221&fsname=Edit+Session">
+            <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=FRankUiT.instructor&courseid=FRankUiT.CS4221&fsname=Edit+Session" id="button_done_editing">
               Done Editing
             </a>
           </div>
@@ -2259,6 +2270,7 @@
       </div>
     </div>
     <input name="questionnum" type="hidden" value="3">
+    <input id="questiontype" name="questiontype" type="hidden">
     <input name="fsname" type="hidden" value="Edit Session">
     <input name="courseid" type="hidden" value="FRankUiT.CS4221">
     <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS">
@@ -2808,4 +2820,22 @@
   </div>
   <br>
   <br>
+  <div aria-hidden="true" aria-labelledby="confirmation-modal" class="modal fade" id="confirmation-modal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header alert-warning">
+          <div class="modal-title text-bold" id="confirmation-modal-title">
+          </div>
+        </div>
+        <div class="modal-body" id="confirmation-modal-body">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal" id="confirmation-modal-cancel" type="button">
+          </button>
+          <button class="btn btn-danger" id="confirmation-modal-ok" type="button">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

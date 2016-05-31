@@ -34,8 +34,8 @@ public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
         assertEquals(institute, pageData.getInstitute());
         
         assertNotNull(pageData.getConfirmationLink());
-        String confirmationLink = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey 
-                                  + "&" + Const.ParamsNames.INSTRUCTOR_INSTITUTION + "=" 
+        String confirmationLink = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey
+                                  + "&" + Const.ParamsNames.INSTRUCTOR_INSTITUTION + "="
                                   + Sanitizer.sanitizeForUri(institute);
         assertEquals(confirmationLink, pageData.getConfirmationLink());
         
