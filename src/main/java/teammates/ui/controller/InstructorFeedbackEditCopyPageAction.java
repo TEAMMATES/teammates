@@ -32,9 +32,8 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
             
             boolean isAllowedToMakeSession =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-            boolean isArchived = Logic.isCourseArchived(course.getId(), account.googleId);
 
-            if (!isArchived && isAllowedToMakeSession) {
+            if (!instructor.isArchived && isAllowedToMakeSession) {
                 coursesToAddToData.add(course);
             }
         }

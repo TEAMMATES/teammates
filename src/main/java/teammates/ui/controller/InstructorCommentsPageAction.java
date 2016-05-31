@@ -114,12 +114,14 @@ public class InstructorCommentsPageAction extends Action {
         java.util.Collections.sort(courses);
         for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
+            InstructorAttributes instructorOfCourse =
+                    logic.getInstructorForGoogleId(course.getId(), account.googleId);
             if (isDisplayArchivedCourse
-                    || !isCourseArchived(course, account.googleId)
+                    || !instructorOfCourse.isArchived
                     || course.getId().equals(courseId)) {
                 if (courseId.isEmpty()) {
                     courseId = course.getId();
-                    instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+                    instructor = instructorOfCourse;
                 }
                 coursePaginationList.add(course.getId());
             }
@@ -188,10 +190,6 @@ public class InstructorCommentsPageAction extends Action {
 
     private List<FeedbackSessionAttributes> getFeedbackSessions() {
         return logic.getFeedbackSessionsForCourse(courseId);
-    }
-    
-    private boolean isCourseArchived(CourseAttributes course, String googleId) {
-        return Logic.isCourseArchived(course.getId(), googleId);
     }
     
     private boolean isInstructorAllowedToModifyCommentInSection(CommentAttributes comment) {
