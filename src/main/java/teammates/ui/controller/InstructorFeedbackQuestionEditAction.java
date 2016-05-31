@@ -73,8 +73,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                         + updatedQuestion.courseId + "]</span> deleted.<br>";
     }
 
-    private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException,
-                                                                                 EntityDoesNotExistException {
+    private void editQuestion(FeedbackQuestionAttributes updatedQuestion)
+            throws InvalidParametersException, EntityDoesNotExistException {
         String err = validateQuestionGiverRecipientVisibility(updatedQuestion);
         
         if (!err.isEmpty()) {

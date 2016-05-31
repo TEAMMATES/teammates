@@ -29,8 +29,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                                           logic.getFeedbackSession(feedbackSessionName, courseId),
                                           false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters,
-                                                                                  instructorDetailForCourse.email);
+        FeedbackQuestionAttributes feedbackQuestion =
+                extractFeedbackQuestionData(requestParameters, instructorDetailForCourse.email);
         List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();
         
         List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();

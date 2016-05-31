@@ -162,8 +162,8 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         return studentsLogic.getAllStudents();
     }
     
-    public void updateStudent(String originalEmail, StudentAttributes student) throws InvalidParametersException,
-                                                                                      EntityDoesNotExistException {
+    public void updateStudent(String originalEmail, StudentAttributes student)
+            throws InvalidParametersException, EntityDoesNotExistException {
         studentsDb.verifyStudentExists(student.course, originalEmail);
         StudentAttributes originalStudent = studentsLogic.getStudentForEmail(student.course, originalEmail);
         

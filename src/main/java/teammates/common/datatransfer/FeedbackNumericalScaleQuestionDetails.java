@@ -310,14 +310,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
                                                             numResponses, currentUserIdentifier, hiddenRecipients),
                             isRecipientGeneral, bundle.getNameForEmail(recipient), currentUserTeam);
             
-            recipientTeam = getDisplayableRecipientTeam(isHiddenRecipient,
-                                                        isRecipientCurrentUser,
-                                                        hasAtLeastTwoResponses(numResponses, currentUserIdentifier),
-                                                        isRecipientTypeStudent,
-                                                        hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses,
-                                                                                                   currentUserIdentifier,
-                                                                                                   hiddenRecipients),
-                                                        bundle.getTeamNameForEmail(recipient), currentUserTeam);
+            recipientTeam = getDisplayableRecipientTeam(
+                    isHiddenRecipient, isRecipientCurrentUser,
+                    hasAtLeastTwoResponses(numResponses, currentUserIdentifier), isRecipientTypeStudent,
+                    hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients),
+                    bundle.getTeamNameForEmail(recipient), currentUserTeam);
 
             Double minScore = null;
             Double maxScore = null;

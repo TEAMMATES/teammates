@@ -192,9 +192,9 @@ public class InstructorFeedbacksPageData extends PageData {
                 ++displayedStatsCount;
             }
             
-            InstructorFeedbackSessionActions actions = getInstructorFeedbackSessionActions(session,
-                                                                                           Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
-                                                                                           instructors.get(courseId));
+            InstructorFeedbackSessionActions actions =
+                    getInstructorFeedbackSessionActions(session, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
+                                                        instructors.get(courseId));
             
             ElementTag elementAttributes;
             if (session.courseId.equals(courseIdForNewSession) && session.feedbackSessionName.equals(feedbackSessionNameForSessionList)) {

@@ -57,10 +57,12 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         StatsBundle statsBundle = generateStatsPerInstitute(allStudents, allInstructors);
         List<InstituteStats> statsPerInstituteList = statsBundle.instituteStatsList;
         
-        String statsForUniqueStudentEmail = generateUniqueStudentEmailStatsInWholeSystem(statsBundle.numOfAllStudentEmails,
-                                                                                         statsBundle.numOfUniqueStudentEmails);
-        String statsForUniqueInstructorEmail = generateUniqueInstructorEmailStatsInWholeSystem(statsBundle.numOfAllInstructorEmail,
-                                                                                               statsBundle.numOfUniqueInstructorEmails);
+        String statsForUniqueStudentEmail =
+                generateUniqueStudentEmailStatsInWholeSystem(statsBundle.numOfAllStudentEmails,
+                                                             statsBundle.numOfUniqueStudentEmails);
+        String statsForUniqueInstructorEmail =
+                generateUniqueInstructorEmailStatsInWholeSystem(statsBundle.numOfAllInstructorEmail,
+                                                                statsBundle.numOfUniqueInstructorEmails);
         
         print(statsPerInstituteList);
         System.out.println("\n\n" + "***************************************************" + "\n\n");

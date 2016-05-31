@@ -89,8 +89,8 @@ public class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
     }
     
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String courseId,
-                                                                                        String feedbackSessionName) {
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(
+            String courseId, String feedbackSessionName) {
         return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
     }
 
@@ -172,8 +172,8 @@ public class FeedbackResponseCommentsLogic {
         frcDb.putDocument(comment);
     }
     
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(String courseId,
-                                                                                       String giverEmail) {
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(
+            String courseId, String giverEmail) {
         return frcDb.getFeedbackResponseCommentForGiver(courseId, giverEmail);
     }
     

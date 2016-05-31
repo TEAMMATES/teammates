@@ -273,8 +273,8 @@ public class CommentsLogic {
            throws EntityDoesNotExistException {
         verifyIsCoursePresent(student.course, "get");
         List<StudentAttributes> teammates = studentsLogic.getStudentsForTeam(student.team, student.course);
-        List<StudentAttributes> studentsInTheSameSection = studentsLogic.getStudentsForSection(student.section,
-                                                                                               student.course);
+        List<StudentAttributes> studentsInTheSameSection =
+                studentsLogic.getStudentsForSection(student.section, student.course);
         List<String> teammatesEmails = getTeammatesEmails(teammates);
         List<String> sectionStudentsEmails = getSectionStudentsEmails(studentsInTheSameSection);
         List<String> teamsInThisSection = getTeamsForSection(studentsInTheSameSection);
@@ -294,15 +294,15 @@ public class CommentsLogic {
         removeNonVisibleCommentsForTeam(commentsForTeam, student, teammatesEmails, commentsVisitedSet, comments);
         
         //Get comments visible to the given student's section
-        List<CommentAttributes> commentsForSection = getCommentsForCommentViewer(student.course,
-                                                                                 CommentParticipantType.SECTION);
+        List<CommentAttributes> commentsForSection =
+                getCommentsForCommentViewer(student.course, CommentParticipantType.SECTION);
         removeNonVisibleCommentsForSection(commentsForSection, student, teammatesEmails,
                                            sectionStudentsEmails, teamsInThisSection,
                                            commentsVisitedSet, comments);
         
         //Get comments visible to the whole course
-        List<CommentAttributes> commentsForCourse = getCommentsForCommentViewer(student.course,
-                                                                                CommentParticipantType.COURSE);
+        List<CommentAttributes> commentsForCourse =
+                getCommentsForCommentViewer(student.course, CommentParticipantType.COURSE);
         removeNonVisibleCommentsForCourse(commentsForCourse, student, teammatesEmails,
                                           sectionStudentsEmails, teamsInThisSection,
                                           commentsVisitedSet, comments);

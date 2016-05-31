@@ -186,8 +186,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         ThreadHelper.waitFor(500);
-        InstructorCourseStudentDetailsViewPage studentDetailsPage = viewPage.clickViewStudent(student1.course,
-                                                                                              student1.name);
+        InstructorCourseStudentDetailsViewPage studentDetailsPage =
+                viewPage.clickViewStudent(student1.course, student1.name);
         studentDetailsPage.verifyIsCorrectPage(student1.email);
         studentDetailsPage.closeCurrentWindowAndSwitchToParentWindow();
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
@@ -198,8 +198,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         ThreadHelper.waitFor(500);
-        InstructorCourseStudentDetailsEditPage studentEditPage = viewPage.clickEditStudent(student2.course,
-                                                                                           student2.name);
+        InstructorCourseStudentDetailsEditPage studentEditPage =
+                viewPage.clickEditStudent(student2.course, student2.name);
         studentEditPage.verifyIsCorrectPage(student2.email);
         studentEditPage.submitButtonClicked();
         studentEditPage.closeCurrentWindowAndSwitchToParentWindow();
@@ -210,8 +210,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         ThreadHelper.waitFor(500);
-        InstructorStudentRecordsPage studentRecordsPage = viewPage.clickViewRecordsStudent(student2.course,
-                                                                                           student2.name);
+        InstructorStudentRecordsPage studentRecordsPage =
+                viewPage.clickViewRecordsStudent(student2.course, student2.name);
         studentRecordsPage.verifyIsCorrectPage(student2.name);
         studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);

@@ -300,9 +300,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         ______TS("archive action success");
         String courseId = "CCAddUiTest.CS1101";
         
-        InstructorAttributes instructorWithNullArchiveStatus = BackDoor.getInstructorByGoogleId(instructor1CS1101.googleId,
-                                                                                                instructor1CS1101.courseId);
-                                                                                                         
+        InstructorAttributes instructorWithNullArchiveStatus =
+                BackDoor.getInstructorByGoogleId(instructor1CS1101.googleId, instructor1CS1101.courseId);
+        
         //this is a old instructor whose archive status has no value
         assertNull(instructorWithNullArchiveStatus.isArchived);
         

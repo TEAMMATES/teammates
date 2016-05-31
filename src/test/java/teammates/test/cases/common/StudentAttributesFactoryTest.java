@@ -232,16 +232,16 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
     }
 
     private int invokeLocateColumnIndexes(String line) throws Exception {
-        Method privateMethod = StudentAttributesFactory.class.getDeclaredMethod("locateColumnIndexes",
-                                                                                String.class);
+        Method privateMethod =
+                StudentAttributesFactory.class.getDeclaredMethod("locateColumnIndexes", String.class);
         privateMethod.setAccessible(true);
 
         return (Integer) privateMethod.invoke(new StudentAttributesFactory(), line);
     }
 
     private String[] invokeSplitLineIntoColumns(String line) throws Exception {
-        Method privateMethod = StudentAttributesFactory.class.getDeclaredMethod("splitLineIntoColumns",
-                                                                                String.class);
+        Method privateMethod =
+                StudentAttributesFactory.class.getDeclaredMethod("splitLineIntoColumns", String.class);
         privateMethod.setAccessible(true);
 
         return (String[]) privateMethod.invoke(new StudentAttributesFactory(), line);

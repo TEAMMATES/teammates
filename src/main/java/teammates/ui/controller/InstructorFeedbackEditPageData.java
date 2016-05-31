@@ -91,8 +91,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     private void buildCopyQnForm(FeedbackSessionAttributes feedbackSession,
                                     List<FeedbackQuestionAttributes> copiableQuestions,
                                     InstructorAttributes instructor) {
-        List<FeedbackQuestionTableRow> copyQuestionRows = buildCopyQuestionsModalRows(copiableQuestions,
-                                                                                      instructor);
+        List<FeedbackQuestionTableRow> copyQuestionRows = buildCopyQuestionsModalRows(copiableQuestions, instructor);
         copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.courseId, feedbackSession.feedbackSessionName,
                                                    copyQuestionRows);
     }

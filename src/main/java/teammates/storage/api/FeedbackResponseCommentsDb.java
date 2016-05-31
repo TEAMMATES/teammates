@@ -561,8 +561,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return feedbackResponseCommentList.get(0);
     }
     
-    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForGiverInCourse(String courseId,
-                                                                                             String giverEmail) {
+    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForGiverInCourse(
+            String courseId, String giverEmail) {
         Query q = getPm().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
@@ -586,8 +586,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
     }
     
-    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSession(String courseId,
-                                                                                       String feedbackSessionName) {
+    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSession(
+            String courseId, String feedbackSessionName) {
         
         Query q = getPm().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String feedbackSessionNameParam");

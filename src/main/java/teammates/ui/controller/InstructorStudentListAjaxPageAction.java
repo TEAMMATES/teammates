@@ -61,10 +61,9 @@ public class InstructorStudentListAjaxPageAction extends Action {
             sectionPrivileges.put(sectionDetails.name, sectionPrivilege);
         }
         
-        InstructorStudentListAjaxPageData data = new InstructorStudentListAjaxPageData(account, courseId, courseIndex,
-                                                                                       hasSection, courseSectionDetails,
-                                                                                       sectionPrivileges,
-                                                                                       emailPhotoUrlMapping);
+        InstructorStudentListAjaxPageData data =
+                new InstructorStudentListAjaxPageData(account, courseId, courseIndex, hasSection, courseSectionDetails,
+                                                      sectionPrivileges, emailPhotoUrlMapping);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST_AJAX, data);
     }

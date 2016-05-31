@@ -54,11 +54,9 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         feedbackSessionNames.add("Empty session");
         feedbackSessionNames.add("non visible session");
         
-        InstructorCourseEditPageData pageData = new InstructorCourseEditPageData(account, course,
-                                                                                 instructorList,
-                                                                                 currentInstructor,
-                                                                                 offset, sectionNames,
-                                                                                 feedbackSessionNames);
+        InstructorCourseEditPageData pageData =
+                new InstructorCourseEditPageData(account, course, instructorList, currentInstructor,
+                                                 offset, sectionNames, feedbackSessionNames);
         
         assertEquals("idOfTypicalCourse1", pageData.getCourse().getId());
         assertEquals(-1, pageData.getInstructorToShowIndex());
@@ -140,8 +138,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
                                                     offset, sectionNames, feedbackSessionNames);
         assertNotNull(pageData.getAddInstructorPanel());
         panel = pageData.getInstructorPanelList().get(0);
-        assertEquals("display: none;", panel.getAddSectionLevelForInstructorButton().getAttributes()
-                                                                                        .get("style"));
+        assertEquals("display: none;", panel.getAddSectionLevelForInstructorButton().getAttributes().get("style"));
         
     }
 }
