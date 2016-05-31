@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +20,7 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
@@ -39,20 +33,20 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         InstructorAttributes curInstructor = dataBundle.instructors.get("instructor1OfCourse1");
         
         List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
-        for(InstructorAttributes instructor : dataBundle.instructors.values()) {
-            if (instructor.courseId.equals("idOfTypicalCourse1")) {
+        for (InstructorAttributes instructor : dataBundle.instructors.values()) {
+            if ("idOfTypicalCourse1".equals(instructor.courseId)) {
                 instructors.add(instructor);
             }
         }
         
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
-        for(StudentAttributes student : dataBundle.students.values()) {
-            if (student.course.equals("idOfTypicalCourse1")) {
+        for (StudentAttributes student : dataBundle.students.values()) {
+            if ("idOfTypicalCourse1".equals(student.course)) {
                 students.add(student);
             }
         }
         
-        StudentAttributes unregisteredStudent = new StudentAttributes("None", "Team 1.1", "Unregistered Student", 
+        StudentAttributes unregisteredStudent = new StudentAttributes("None", "Team 1.1", "Unregistered Student",
                                                                       "unregisteredStudentInCourse1@gmail.tmt", "No comment", "idOfTypicalCourse1");
         students.add(unregisteredStudent);
         

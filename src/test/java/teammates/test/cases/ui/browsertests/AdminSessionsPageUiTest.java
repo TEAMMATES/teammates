@@ -4,17 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AdminSessionsPage;
@@ -30,19 +24,19 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
     AdminSessionsPage sessionsPage;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
-        printTestClassHeader();      
+    public static void classSetup() {
+        printTestClassHeader();
         browser = BrowserPool.getBrowser();
         browser.driver.manage().deleteAllCookies();
     }
     
     @Test
-    public void testAll() throws InvalidParametersException, EntityDoesNotExistException, Exception {
+    public void testAll() {
         testContent();
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     
@@ -79,16 +73,15 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
     private boolean isSessionDataDisplayCorrect() {
         if (sessionsPage.isElementPresent(By.className("dataTable"))) {
             int numSessionDataTables = browser.driver.findElements(By.className("dataTable")).size();
-            for (int i = 0 ; i < numSessionDataTables ; i++) {
+            for (int i = 0; i < numSessionDataTables; i++) {
                 if (!isSessionTableHeaderCorrect(i)) {
                     return false;
                 }
             }
             return true;
-        } else {     
-            String statusMessage = sessionsPage.getStatus();
-            return statusMessage.equals("Currently No Ongoing Sessions");
         }
+        sessionsPage.verifyStatus("Currently No Ongoing Sessions");
+        return true;
         
     }
     
@@ -104,7 +97,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
                                                                "End Time ",
                                                                "Creator");
         List<String> actualSessionTableHeaders = new ArrayList<String>();
-        for (int i = 0 ; i < numColumns ; i++) {
+        for (int i = 0; i < numColumns; i++) {
             actualSessionTableHeaders.add(sessionsPage.getHeaderValueFromDataTable(tableNum, 0, i));
         }
         return actualSessionTableHeaders.equals(expectedSessionTableHeaders);

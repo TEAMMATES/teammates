@@ -1,17 +1,14 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -28,7 +25,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
     }
 
@@ -188,7 +185,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         // databundle time changed here because publishing sets resultsVisibleTime to now.
         dataBundle.feedbackSessions.get("session1InCourse1").resultsVisibleFromTime =
-                TimeHelper.now( dataBundle.feedbackSessions.get("session1InCourse1").timeZone).getTime();
+                TimeHelper.now(dataBundle.feedbackSessions.get("session1InCourse1").timeZone).getTime();
 
         /*
          * The above test can fail if the time elapsed between pageData... and dataBundle...
@@ -199,10 +196,10 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         long pageDataResultsVisibleFromTime = pageData.getBundle().feedbackSession.resultsVisibleFromTime.getTime();
         long dataBundleResultsVisibleFromTime = dataBundle.feedbackSessions.get("session1InCourse1")
                                                                            .resultsVisibleFromTime.getTime();
-        long TOLERANCE_TIME_IN_MILLISECONDS = 1000;
-        if (dataBundleResultsVisibleFromTime - pageDataResultsVisibleFromTime < TOLERANCE_TIME_IN_MILLISECONDS) {
+        long toleranceTimeInMs = 1000;
+        if (dataBundleResultsVisibleFromTime - pageDataResultsVisibleFromTime < toleranceTimeInMs) {
             // change to the value that will never make the test fail
-            dataBundle.feedbackSessions.get("session1InCourse1").resultsVisibleFromTime = 
+            dataBundle.feedbackSessions.get("session1InCourse1").resultsVisibleFromTime =
                                             pageData.getBundle().feedbackSession.resultsVisibleFromTime;
         }
 
@@ -216,7 +213,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals(student1InCourse1.getIdentificationString(), pageData.student.getIdentificationString());
     }
 
-    private StudentFeedbackResultsPageAction getAction(String... params) throws Exception {
+    private StudentFeedbackResultsPageAction getAction(String... params) {
         return (StudentFeedbackResultsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

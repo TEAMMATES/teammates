@@ -17,7 +17,6 @@ import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 public class FeedbackResponseAttributes extends EntityAttributes {
-    private String feedbackResponseId = null;
     public String feedbackSessionName;
     public String courseId;
     public String feedbackQuestionId;
@@ -26,19 +25,20 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public String giverSection;
     public String recipientEmail; // TODO rename back "recipient" as it may contain team name and "%GENERAL%"?
     public String recipientSection;
-    private transient Date createdAt;
-    private transient Date updatedAt;
     
     /** Contains the JSON formatted string that holds the information of the response details <br>
      * Don't use directly unless for storing/loading from data store <br>
-     * To get the answer text use {@code getResponseDetails().getAnswerString()} 
+     * To get the answer text use {@code getResponseDetails().getAnswerString()}
      * 
      * This is set to null to represent a missing response.
      */
     public Text responseMetaData;
+    private String feedbackResponseId;
+    private transient Date createdAt;
+    private transient Date updatedAt;
     
     public FeedbackResponseAttributes() {
-        
+        // attributes to be set after construction
     }
     
     public FeedbackResponseAttributes(String feedbackSessionName,
@@ -109,11 +109,15 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error= validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         return errors;
     }
@@ -175,7 +179,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * @param responseDetails
      */
     public void setResponseDetails(FeedbackResponseDetails responseDetails) {
-        Gson gson = teammates.common.util.Utils.getTeammatesGson();
+        Gson gson = Utils.getTeammatesGson();
         
         if (responseDetails == null) {
             // There was error extracting response data from http request
@@ -192,21 +196,21 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /** This method retrieves the Feedback*ResponseDetails object for this response
      * @return The Feedback*ResponseDetails object representing the response's details
      */
-    public FeedbackResponseDetails getResponseDetails(){
-        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
+    public FeedbackResponseDetails getResponseDetails() {
         
         if (isMissingResponse()) {
             return null;
         }
         
-        if(responseDetailsClass == FeedbackTextResponseDetails.class) {
+        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
+        
+        if (responseDetailsClass == FeedbackTextResponseDetails.class) {
             // For Text questions, the questionText simply contains the question, not a JSON
             // This is due to legacy data in the data store before there are multiple question types
             return new FeedbackTextResponseDetails(responseMetaData.getValue());
-        } else {
-            Gson gson = teammates.common.util.Utils.getTeammatesGson();
-            return gson.fromJson(responseMetaData.getValue(), responseDetailsClass);
         }
+        Gson gson = Utils.getTeammatesGson();
+        return gson.fromJson(responseMetaData.getValue(), responseDetailsClass);
     }
     
     /** This method gets the appropriate class type for the Feedback*ResponseDetails object
@@ -223,11 +227,12 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * It should only be used as a representation.
      */
     public boolean isMissingResponse() {
-       return responseMetaData == null; 
+        return responseMetaData == null;
     }
     
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
-        Collections.sort(frs, new Comparator<FeedbackResponseAttributes>(){
+        Collections.sort(frs, new Comparator<FeedbackResponseAttributes>() {
+            @Override
             public int compare(FeedbackResponseAttributes fr1, FeedbackResponseAttributes fr2) {
                 return fr1.getId().compareTo(fr2.getId());
             }
@@ -237,14 +242,14 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /**
      * Should only be used for testing
      */
-    public void setCreatedAt_NonProduction(Date createdAt) {
+    public void setCreatedAt_nonProduction(Date createdAt) {
         this.createdAt = createdAt;
     }
 
     /**
      * Should only be used for testing
      */
-    public void setUpdatedAt_NonProduction(Date updatedAt) {
+    public void setUpdatedAt_nonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
     

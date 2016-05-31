@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertNull;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -20,13 +18,13 @@ import teammates.test.util.Priority;
  * SUT: {@link AdminAccountDetailsPage}
  */
 @Priority(1)
-public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
+public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static AdminAccountDetailsPage detailsPage;
     private static DataBundle testData;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/AdminAccountDetailsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -45,13 +43,11 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
         ______TS("content: typical page");
         
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE)
-            .withInstructorId("AAMgtUiT.instr2");
+                .withInstructorId("AAMgtUiT.instr2");
         detailsPage = loginAdminToPageForAdminUiTests(browser, detailsPageUrl, AdminAccountDetailsPage.class);
         
         detailsPage.verifyHtml("/adminAccountDetails.html");
     }
-
-
 
     public void testRemoveFromCourseAction() throws Exception {
         
@@ -74,7 +70,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

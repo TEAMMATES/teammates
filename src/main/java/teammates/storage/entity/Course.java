@@ -9,14 +9,16 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Represents a course entity. 
+ * Represents a course entity.
  */
 @PersistenceCapable
 public class Course {
     @PrimaryKey
     @Persistent
     @SerializedName("id")
+    // CHECKSTYLE.OFF:AbbreviationAsWordInName|MemberName the database uses ID
     private String ID;
+    // CHECKSTYLE.ON:AbbreviationAsWordInName|MemberName
 
     @Persistent
     private String name;
@@ -27,14 +29,13 @@ public class Course {
     @Persistent
     private Boolean archiveStatus;
 
-
     public Course(String courseId, String courseName, Boolean archiveStatus, Date createdAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
         if (createdAt == null) {
             this.setCreatedAt(new Date());
         } else {
-            this.setCreatedAt(createdAt);            
+            this.setCreatedAt(createdAt);
         }
         this.setArchiveStatus(archiveStatus);
     }

@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -76,7 +73,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private StudentProfileCreateFormUrlAction getAction(String... params) throws Exception {
+    private StudentProfileCreateFormUrlAction getAction(String... params) {
         return (StudentProfileCreateFormUrlAction) (gaeSimulation.getActionObject(uri, params));
     }
 

@@ -21,10 +21,10 @@ import teammates.test.pageobjects.BrowserPool;
 public class MashupPageUiTest extends BaseUiTestCase {
     private static Browser browser;
 
-
     private static DataBundle testData;
+    
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/MashupPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -47,7 +47,7 @@ public class MashupPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         //We do not release the browser instance here because we want the tester
         //  to see the loaded page.
     }

@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -17,26 +15,25 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
-    String adminUserId = "admin.user";
+    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
+        String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
+        String adminUserId = "admin.user";
         String[] submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
         
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         
         ______TS("Typical case, 2 courses");
-        if (CoursesLogic.inst().isCoursePresent("new-course")){
+        if (CoursesLogic.inst().isCoursePresent("new-course")) {
             CoursesLogic.inst().deleteCourseCascade("new-course");
         }
         
@@ -47,7 +44,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
                      r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
         
         InstructorFeedbacksPageData pageData = (InstructorFeedbacksPageData) r.data;
@@ -62,8 +59,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
                 + "true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                 + "instr1@course1.tmt|||Number of feedback sessions: 6|||/page/instructorFeedbacksPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
-        
-        
+
         ______TS("0 sessions");
         
         FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourseCascade(instructor1ofCourse1.courseId);
@@ -73,10 +69,10 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, r.getStatusMessage());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         
         pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
@@ -108,7 +104,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
                      + "Go <a href=\"/page/instructorCoursesPage?user=idOfInstructor1OfCourse1\">here</a> "
                      + "to create or unarchive a course.",
                      r.getStatusMessage());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         
         pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
@@ -122,10 +118,9 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
                 + "instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
-    
-    
-    private InstructorFeedbacksPageAction getAction(String... params) throws Exception{
-            return (InstructorFeedbacksPageAction) (gaeSimulation.getActionObject(uri, params));
+
+    private InstructorFeedbacksPageAction getAction(String... params) {
+        return (InstructorFeedbacksPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 
 }

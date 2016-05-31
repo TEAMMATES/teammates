@@ -2,8 +2,6 @@ package teammates.test.cases.ui.browsertests;
 
 import java.lang.reflect.Constructor;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -29,13 +27,13 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     private static StudentCourseJoinConfirmationPage confirmationPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentCourseJoinConfirmationPageUiTest.json");
         
         // use the 1st student account injected for this test
         
-        String student1GoogleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+        String student1GoogleId = TestProperties.TEST_STUDENT1_ACCOUNT;
         String student1Email = student1GoogleId + "@gmail.com";
         testData.accounts.get("alice.tmms").googleId = student1GoogleId;
         testData.accounts.get("alice.tmms").email = student1Email;
@@ -59,8 +57,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         // TODO: remove this test by 21/09/2014
         testJoinConfirmation();
     }
-    
-    
+
     private void testJoinNewConfirmation() throws Exception {
         String expectedMsg;
         String homePageActionUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();
@@ -69,8 +66,8 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         ______TS("click join link, skips confirmation and asks for login");
 
-        String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").id;
-        String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").name;
+        String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").getId();
+        String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").getName();
         String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
         joinLink = createUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
@@ -80,19 +77,19 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         browser.driver.get(joinLink);
         studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
-                           .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-                                                  TestProperties.inst().TEST_STUDENT1_PASSWORD);
+                           .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
+                                                  TestProperties.TEST_STUDENT1_PASSWORD);
         
-        String expectedStatus = String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[" + courseId + "] " + courseName) + '\n' 
-                                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[" + courseId + "] " + courseName) + '\n'  
+        String expectedStatus = String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[" + courseId + "] " + courseName) + '\n'
+                                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[" + courseId + "] " + courseName) + '\n'
                                 + "Meanwhile, you can update your profile here.";
         
         studentHomePage.verifyStatus(expectedStatus);
         
         ______TS("test student confirmation page content");
         
-        courseId = testData.courses.get("SCJConfirmationUiT.CS2103").id;
-        courseName = testData.courses.get("SCJConfirmationUiT.CS2103").name;
+        courseId = testData.courses.get("SCJConfirmationUiT.CS2103").getId();
+        courseName = testData.courses.get("SCJConfirmationUiT.CS2103").getName();
         studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email;
         joinLink = createUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
@@ -100,7 +97,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
-        // this test uses accounts from test.properties. 
+        // this test uses accounts from test.properties.
         // NOTE: the logout link at the bottom of the page has to be changed to {*}
         //       since the link is different in dev and staging servers
 
@@ -113,14 +110,14 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         ______TS("Confirming goes to home page");
         browser.driver.get(homePageActionUrl);
         studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
-                            .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-                                       TestProperties.inst().TEST_STUDENT1_PASSWORD);
+                            .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
+                                       TestProperties.TEST_STUDENT1_PASSWORD);
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
         confirmationPage.clickConfirmButton();
         studentHomePage = createNewPage(browser, StudentHomePage.class);
-        expectedStatus = String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[" + courseId + "] " + courseName) + '\n' 
-                         + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[" + courseId + "] " + courseName) + '\n' 
+        expectedStatus = String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[" + courseId + "] " + courseName) + '\n'
+                         + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[" + courseId + "] " + courseName) + '\n'
                          + "Meanwhile, you can update your profile here.";
         
         studentHomePage.verifyStatus(
@@ -133,22 +130,20 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         confirmationPage.clickConfirmButton();
         
         studentHomePage = createNewPage(browser, StudentHomePage.class);
-        expectedMsg = "You (" + TestProperties.inst().TEST_STUDENT1_ACCOUNT + ") have already joined this course";
+        expectedMsg = "You (" + TestProperties.TEST_STUDENT1_ACCOUNT + ") have already joined this course";
         studentHomePage.verifyStatus(expectedMsg);
 
         assertTrue(browser.driver.getCurrentUrl().contains(Const.ParamsNames.ERROR + "=true"));
         studentHomePage.logout();
     }
 
-
-    private void testContent(){
+    private void testContent() {
         
-        /*covered in testJoinConfirmation() 
+        /*covered in testJoinConfirmation()
          *case: click join link then confirm: success: valid key
          */
     }
-     
-    
+
     private void testJoinConfirmation() throws Exception {
         logout(browser);
         removeAndRestoreTestDataOnServer(testData);
@@ -159,8 +154,8 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         ______TS("click join link, skips confirmation and asks for login");
 
-        String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").id;
-        String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").name;
+        String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").getId();
+        String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").getName();
         String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
         joinLink = createUrl(Const.ActionURIs.STUDENT_COURSE_JOIN)
                                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
@@ -168,19 +163,18 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         browser.driver.get(joinLink);
         studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
-                           .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-                                                  TestProperties.inst().TEST_STUDENT1_PASSWORD);
+                           .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
+                                                  TestProperties.TEST_STUDENT1_PASSWORD);
         String expectedStatus = String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[" + courseId + "] " + courseName) + '\n'
                                 + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[" + courseId + "] " + courseName) + '\n'
                                 + "Meanwhile, you can update your profile here.";
         
         studentHomePage.verifyStatus(expectedStatus);
-        
-        
+
         ______TS("test student confirmation page content");
         
-        courseId = testData.courses.get("SCJConfirmationUiT.CS2103").id;
-        courseName = testData.courses.get("SCJConfirmationUiT.CS2103").name;
+        courseId = testData.courses.get("SCJConfirmationUiT.CS2103").getId();
+        courseName = testData.courses.get("SCJConfirmationUiT.CS2103").getName();
         studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email;
         joinLink = createUrl(Const.ActionURIs.STUDENT_COURSE_JOIN)
                                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
@@ -200,8 +194,8 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         ______TS("Confirming goes to home page");
         browser.driver.get(homePageActionUrl);
         studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
-                            .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-                                       TestProperties.inst().TEST_STUDENT1_PASSWORD);
+                            .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
+                                       TestProperties.TEST_STUDENT1_PASSWORD);
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
         confirmationPage.clickConfirmButton();
@@ -218,14 +212,14 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         confirmationPage.clickConfirmButton();
         
         studentHomePage = createNewPage(browser, StudentHomePage.class);
-        expectedMsg = "You (" + TestProperties.inst().TEST_STUDENT1_ACCOUNT + ") have already joined this course";
+        expectedMsg = "You (" + TestProperties.TEST_STUDENT1_ACCOUNT + ") have already joined this course";
         studentHomePage.verifyStatus(expectedMsg);
 
         assertTrue(browser.driver.getCurrentUrl().contains(Const.ParamsNames.ERROR + "=true"));
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
     }
@@ -254,11 +248,11 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
     // continuously ask BackDoor to get the key until a legit key is returned
     private String getKeyFromBackDoor(String courseId, String studentEmail) {
-        int NUMBER_OF_REMAINING_RETRIES = 10;
+        int numberOfRemainingRetries = 10;
         String key = "[BACKDOOR_STATUS_FAILURE]";
-        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && NUMBER_OF_REMAINING_RETRIES > 0) {
+        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && numberOfRemainingRetries > 0) {
             key = BackDoor.getKeyForStudent(courseId, studentEmail);
-            NUMBER_OF_REMAINING_RETRIES--;
+            numberOfRemainingRetries--;
             ThreadHelper.waitFor(100);
         }
         return key;

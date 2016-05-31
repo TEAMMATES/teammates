@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -76,7 +73,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
         try {
             r = (ShowPageResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Trying to access a question not meant for the user." , e.getMessage());
+            assertEquals("Trying to access a question not meant for the user.", e.getMessage());
         }
 
         ______TS("masquerade mode");
@@ -141,7 +138,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
         assertFalse(r.isError);
     }
 
-    private InstructorFeedbackQuestionSubmissionEditPageAction getAction(String... params) throws Exception {
+    private InstructorFeedbackQuestionSubmissionEditPageAction getAction(String... params) {
         return (InstructorFeedbackQuestionSubmissionEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

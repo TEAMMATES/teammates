@@ -916,7 +916,7 @@
         <br>
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
           <div class="col-sm-12 padding-0 margin-bottom-7px">
-            <b>
+            <b class="feedback-path-title">
               Feedback Path
             </b>
             (Who is giving feedback about whom?)
@@ -1000,7 +1000,7 @@
         <br>
         <div class="col-sm-12 padding-15px background-color-light-green">
           <div class="col-sm-12 padding-0 margin-bottom-7px">
-            <b>
+            <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
@@ -1157,63 +1157,74 @@
   <br>
   <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('')" role="form">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
-      <div class="row margin-bottom-15px">
+      <div class="row">
         <div class="col-sm-12 row">
-          <div class="col-sm-3">
-            <label class="mobile-no-pull pull-right control-label padding-right-10px" for="questionTypeChoice">
-              Question Type
-            </label>
-          </div>
-          <div class="col-sm-9">
-            <select class="form-control questionType" id="questionTypeChoice" name="questiontype">
-              <option value="TEXT">
-                Essay question
-              </option>
-              <option value="MCQ">
-                Multiple-choice (single answer) question
-              </option>
-              <option value="MSQ">
-                Multiple-choice (multiple answers) question
-              </option>
-              <option value="NUMSCALE">
-                Numerical-scale question
-              </option>
-              <option value="CONSTSUM_OPTION">
-                Distribute points (among options) question
-              </option>
-              <option value="CONSTSUM_RECIPIENT">
-                Distribute points (among recipients) question
-              </option>
-              <option value="CONTRIB">
-                Team contribution question
-              </option>
-              <option value="RUBRIC">
-                Rubric question
-              </option>
-              <option value="RANK_OPTIONS">
-                Rank (options) question
-              </option>
-              <option value="RANK_RECIPIENTS">
-                Rank (recipients) question
-              </option>
-            </select>
+          <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary margin-bottom-7px dropdown-toggle" data-toggle="dropdown" id="button_openframe" type="button">
+              Add New Question
+              <span class="caret">
+              </span>
+            </button>
+            <ul class="dropdown-menu">
+              <li data-questiontype="TEXT">
+                <a>
+                  Essay question
+                </a>
+              </li>
+              <li data-questiontype="MCQ">
+                <a>
+                  Multiple-choice (single answer) question
+                </a>
+              </li>
+              <li data-questiontype="MSQ">
+                <a>
+                  Multiple-choice (multiple answers) question
+                </a>
+              </li>
+              <li data-questiontype="NUMSCALE">
+                <a>
+                  Numerical-scale question
+                </a>
+              </li>
+              <li data-questiontype="CONSTSUM_OPTION">
+                <a>
+                  Distribute points (among options) question
+                </a>
+              </li>
+              <li data-questiontype="CONSTSUM_RECIPIENT">
+                <a>
+                  Distribute points (among recipients) question
+                </a>
+              </li>
+              <li data-questiontype="CONTRIB">
+                <a>
+                  Team contribution question
+                </a>
+              </li>
+              <li data-questiontype="RUBRIC">
+                <a>
+                  Rubric question
+                </a>
+              </li>
+              <li data-questiontype="RANK_OPTIONS">
+                <a>
+                  Rank (options) question
+                </a>
+              </li>
+              <li data-questiontype="RANK_RECIPIENTS">
+                <a>
+                  Rank (recipients) question
+                </a>
+              </li>
+            </ul>
             <a href="/instructorHelp.html#fbQuestionTypes" target="_blank">
               <i class="glyphicon glyphicon-info-sign">
               </i>
             </a>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12 row">
-          <div class="col-sm-offset-3 col-sm-9">
-            <a class="btn btn-primary margin-bottom-7px" id="button_openframe" onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
-              Add New Question
-            </a>
             <a class="btn btn-primary margin-bottom-7px" id="button_copy">
               Copy Question
             </a>
-            <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=FMcqQnUiT.instructor&courseid=FMcqQnUiT.CS2104&fsname=First+Session">
+            <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=FMcqQnUiT.instructor&courseid=FMcqQnUiT.CS2104&fsname=First+Session" id="button_done_editing">
               Done Editing
             </a>
           </div>
@@ -1548,7 +1559,13 @@
                 <table class="table table-bordered margin-0" id="rubricEditTable--1">
                   <thead>
                     <tr>
-                      <th>
+                      <th style="text-align:center; vertical-align:middle;">
+                        <input class="nonDestructive" id="rubricAssignWeights--1" name="rubricAssignWeights" type="checkbox">
+                        <span data-original-title="Assign weights to the columns for calculating statistics." data-placement="top" data-toggle="tooltip">
+                          Weights
+                        </span>
+                        <span class="glyphicon glyphicon-arrow-right">
+                        </span>
                       </th>
                       <th class="rubricCol--1-0">
                         <div class="col-sm-12 input-group">
@@ -1585,6 +1602,22 @@
                             </span>
                           </span>
                         </div>
+                      </th>
+                    </tr>
+                    <tr id="rubricWeights--1">
+                      <th style="text-align:center; vertical-align:middle;">
+                      </th>
+                      <th class="rubricCol--1-0">
+                        <input class="form-control nonDestructive" id="rubricWeight--1-0" name="rubricWeight-0" step="0.01" type="number" value="0">
+                      </th>
+                      <th class="rubricCol--1-1">
+                        <input class="form-control nonDestructive" id="rubricWeight--1-1" name="rubricWeight-1" step="0.01" type="number" value="0">
+                      </th>
+                      <th class="rubricCol--1-2">
+                        <input class="form-control nonDestructive" id="rubricWeight--1-2" name="rubricWeight-2" step="0.01" type="number" value="0">
+                      </th>
+                      <th class="rubricCol--1-3">
+                        <input class="form-control nonDestructive" id="rubricWeight--1-3" name="rubricWeight-3" step="0.01" type="number" value="0">
                       </th>
                     </tr>
                   </thead>
@@ -1744,7 +1777,7 @@
         <br>
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
           <div class="col-sm-12 padding-0 margin-bottom-7px">
-            <b>
+            <b class="feedback-path-title">
               Feedback Path
             </b>
             (Who is giving feedback about whom?)
@@ -1827,7 +1860,7 @@
         <br>
         <div class="col-sm-12 padding-15px background-color-light-green">
           <div class="col-sm-12 padding-0 margin-bottom-7px">
-            <b>
+            <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
@@ -1964,6 +1997,7 @@
       </div>
     </div>
     <input name="questionnum" type="hidden" value="2">
+    <input id="questiontype" name="questiontype" type="hidden">
     <input name="fsname" type="hidden" value="First Session">
     <input name="courseid" type="hidden" value="FMcqQnUiT.CS2104">
     <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS">
@@ -2099,4 +2133,22 @@
   </div>
   <br>
   <br>
+  <div aria-hidden="true" aria-labelledby="confirmation-modal" class="modal fade" id="confirmation-modal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header alert-warning">
+          <div class="modal-title text-bold" id="confirmation-modal-title">
+          </div>
+        </div>
+        <div class="modal-body" id="confirmation-modal-body">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal" id="confirmation-modal-cancel" type="button">
+          </button>
+          <button class="btn btn-danger" id="confirmation-modal-ok" type="button">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

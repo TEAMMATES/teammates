@@ -11,6 +11,7 @@ import com.google.apphosting.api.DeadlineExceededException;
 public class AdminExceptionTestAction extends Action {
 
     @Override
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
     protected ActionResult execute() throws EntityDoesNotExistException {
 
         new GateKeeper().verifyAdminPrivileges(account);

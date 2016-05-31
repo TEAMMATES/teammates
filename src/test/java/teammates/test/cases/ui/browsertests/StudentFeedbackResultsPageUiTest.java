@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -26,10 +24,9 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
-    private StudentFeedbackResultsPage resultsPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackResultsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -45,7 +42,8 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // Open Session
         StudentAttributes unreg = testData.students.get("DropOut");
-        resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentFeedbackResultsPage.class);
+        StudentFeedbackResultsPage resultsPage =
+                loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentFeedbackResultsPage.class);
         resultsPage.verifyHtmlMainContent("/unregisteredStudentFeedbackResultsPageOpen.html");
 
         // Mcq Session
@@ -77,15 +75,15 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageMCQ.html");
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(4, ""));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(4, ""));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(4, ""));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(4, ""));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(5, ""));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(5, ""));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(5, ""));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(5, ""));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
 
         ______TS("MSQ session results");
@@ -94,15 +92,15 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageMSQ.html");
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(4, ""));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(4, ""));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(4, ""));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(4, ""));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4, ""));
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(5, ""));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(5, ""));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(5, ""));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(5, ""));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5, ""));
 
         ______TS("NUMSCALE session results");
@@ -123,14 +121,14 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student logged in as a student in another course: registered after logging out");
         
-        String student1Username = TestProperties.inst().TEST_STUDENT1_ACCOUNT; 
-        String student1Password = TestProperties.inst().TEST_STUDENT1_PASSWORD;
+        String student1Username = TestProperties.TEST_STUDENT1_ACCOUNT;
+        String student1Password = TestProperties.TEST_STUDENT1_PASSWORD;
         
         logout(browser);
         LoginPage loginPage = resultsPage.clickLoginAsStudentButton();
         loginPage.loginAsStudent(student1Username, student1Password);
 
-        StudentCourseJoinConfirmationPage confirmationPage = 
+        StudentCourseJoinConfirmationPage confirmationPage =
                 loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentCourseJoinConfirmationPage.class);
         confirmationPage.verifyHtmlMainContent("/studentCourseJoinConfirmationLoggedInHTML.html");
         loginPage = confirmationPage.clickCancelButton();
@@ -146,7 +144,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         loginPage = resultsPage.clickLoginAsStudentButton();
         loginPage.loginAsStudent(student1Username, student1Password);
 
-        confirmationPage = 
+        confirmationPage =
                 loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentCourseJoinConfirmationPage.class);
         confirmationPage.verifyHtmlMainContent("/studentCourseJoinConfirmationLoggedInHTML.html");
         resultsPage = confirmationPage.clickConfirmButton(StudentFeedbackResultsPage.class);
@@ -157,7 +155,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 
@@ -166,7 +164,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
-        return loginAdminToPage(browser, editUrl,StudentFeedbackResultsPage.class);
+        return loginAdminToPage(browser, editUrl, StudentFeedbackResultsPage.class);
     }
 
     private <T extends AppPage> T loginToStudentFeedbackResultsPage(StudentAttributes s, String fsDataId,

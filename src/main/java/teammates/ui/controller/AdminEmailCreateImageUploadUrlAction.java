@@ -1,18 +1,17 @@
 package teammates.ui.controller;
 
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.appengine.api.blobstore.UploadOptions;
-
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.blobstore.UploadOptions;
+
 public class AdminEmailCreateImageUploadUrlAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         new GateKeeper().verifyAdminPrivileges(account);
         
@@ -20,12 +19,12 @@ public class AdminEmailCreateImageUploadUrlAction extends Action {
         
         data.nextUploadUrl = getNewUploadUrl();
         
-        if(data.nextUploadUrl == null){
+        if (data.nextUploadUrl == null) {
             data.nextUploadUrl = getNewUploadUrl();
         }
         
         //re-try creating upload url
-        if(data.nextUploadUrl == null){
+        if (data.nextUploadUrl == null) {
             isError = true;
             data.ajaxStatus = "An error occurred when creating upload URL, please try again";
         } else {
@@ -36,14 +35,13 @@ public class AdminEmailCreateImageUploadUrlAction extends Action {
         return createAjaxResult(data);
         
     }
-    
-    
-    public String getNewUploadUrl() throws EntityDoesNotExistException {     
+
+    public String getNewUploadUrl() {
         try {
             return generateNewUploadUrl();
-        } catch(BlobstoreFailureException e) {
+        } catch (BlobstoreFailureException e) {
             return null;
-        } 
+        }
     }
 
     private String generateNewUploadUrl() {

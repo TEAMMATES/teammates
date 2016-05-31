@@ -3,11 +3,12 @@ package teammates.ui.template;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.ui.controller.PageData;
 
 public class InstructorFeedbackSessionActions {
     
+    private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
+
     private boolean privateSession;
 
     private String courseId;
@@ -28,8 +29,6 @@ public class InstructorFeedbackSessionActions {
 
     private FeedbackSessionPublishButton publishButton;
 
-    private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
-
     public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                             InstructorAttributes instructor) {
         String courseId = session.courseId;
@@ -37,8 +36,8 @@ public class InstructorFeedbackSessionActions {
 
         this.privateSession = session.isPrivateSession();
 
-        this.courseId = Sanitizer.sanitizeForJs(courseId);
-        this.fsName = Sanitizer.sanitizeForJs(feedbackSessionName);
+        this.courseId = courseId;
+        this.fsName = feedbackSessionName;
 
         this.resultsLink = data.getInstructorFeedbackResultsLink(courseId, feedbackSessionName);
         this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName);
@@ -59,7 +58,7 @@ public class InstructorFeedbackSessionActions {
         this.allowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
         this.allowedToRemind = session.isOpened() && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             
-        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor, 
+        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
                                                               PUBLISH_BUTTON_TYPE);
     }
 

@@ -24,23 +24,23 @@ import com.google.gson.annotations.SerializedName;
 public class Student implements StoreCallback {
     // TODO: some of the serialized names are not correct.
     
+    /**
+     * Setting this to true prevents changes to the lastUpdate time stamp.
+     * Set to true when using scripts to update entities when you want to
+     * preserve the lastUpdate time stamp.
+     **/
+    @NotPersistent
+    public boolean keepUpdateTimestamp;
+    
     @Persistent
     private Date createdAt;
     
     @Persistent
     private Date updatedAt;
     
-    /**
-     * Setting this to true prevents changes to the lastUpdate time stamp.
-     * Set to true when using scripts to update entities when you want to 
-     * preserve the lastUpdate time stamp.
-     **/
-    @NotPersistent
-    public boolean keepUpdateTimestamp = false;
-    
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private transient Long registrationKey = null;
+    private transient Long registrationKey;
 
     /**
      * The student's Google ID. Used as the foreign key for the Account object.
@@ -48,7 +48,9 @@ public class Student implements StoreCallback {
      */
     @Persistent
     @SerializedName("google_id")
-    private String ID = null;
+    // CHECKSTYLE.OFF:AbbreviationAsWordInName|MemberName the database uses ID
+    private String ID;
+    // CHECKSTYLE.ON:AbbreviationAsWordInName|MemberName
 
     /**
      * The email used to contact the student regarding this course.
@@ -63,29 +65,31 @@ public class Student implements StoreCallback {
      */
     @Persistent
     @SerializedName("coursename")
+    // CHECKSTYLE.OFF:AbbreviationAsWordInName the database uses courseID
     private String courseID;
+    // CHECKSTYLE.ON:AbbreviationAsWordInName
 
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     @SerializedName("name")
-    private String name = null;
+    private String name;
 
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     @SerializedName("lastName")
-    private String lastName = null;
+    private String lastName;
 
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
-    private String comments = null;
+    private String comments;
 
     @Persistent
     @SerializedName("teamname")
-    private String teamName = null;
+    private String teamName;
 
     @Persistent
     @SerializedName("sectionname")
-    private String sectionName = null;
+    private String sectionName;
 
     /**
      * 
@@ -148,7 +152,7 @@ public class Student implements StoreCallback {
     }
 
     public void setGoogleId(String googleId) {
-        this.ID = (googleId == null ? null : googleId.trim());
+        this.ID = googleId == null ? null : googleId.trim();
     }
 
     public String getName() {
@@ -156,10 +160,10 @@ public class Student implements StoreCallback {
     }
 
     public void setName(String name) {
-        name = name.trim();
-        String processedFullName = StringHelper.splitName(name)[2];
+        String trimmedName = name.trim();
+        String processedFullName = StringHelper.splitName(trimmedName)[2];
         this.name = processedFullName.trim();
-        this.setLastName(StringHelper.splitName(name)[1]);
+        this.setLastName(StringHelper.splitName(trimmedName)[1]);
     }
 
     public void setLastName(String lastName) {
@@ -180,7 +184,7 @@ public class Student implements StoreCallback {
 
     // null comment setting are not tested
     public void setComments(String comments) {
-        this.comments = (comments == null ? null : comments.trim());
+        this.comments = comments == null ? null : comments.trim();
     }
 
     public Long getRegistrationKey() {
@@ -201,7 +205,7 @@ public class Student implements StoreCallback {
 
     // null team name setting are not tested
     public void setTeamName(String teamName) {
-        this.teamName = (teamName == null ? null : teamName.trim());
+        this.teamName = teamName == null ? null : teamName.trim();
     }
 
     public String getSectionName() {
@@ -209,7 +213,7 @@ public class Student implements StoreCallback {
     }
 
     public void setSectionName(String sectionName) {
-        this.sectionName = (sectionName == null ? null : sectionName.trim());
+        this.sectionName = sectionName == null ? null : sectionName.trim();
     }
 
     // not tested as this is part of client script
@@ -225,6 +229,7 @@ public class Student implements StoreCallback {
     /**
      * Called by jdo before storing takes place.
      */
+    @Override
     public void jdoPreStore() {
         this.setLastUpdate(new Date());
     }

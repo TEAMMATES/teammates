@@ -9,17 +9,17 @@ import teammates.test.driver.AssertHelper;
 
 /** Represents the "Courses" page for Instructors. */
 public class InstructorCoursesPage extends AppPage {
-    /* Explanation: This class follows the 'Page Objects Pattern' and as 
+    /* Explanation: This class follows the 'Page Objects Pattern' and as
      * explained in https://code.google.com/p/selenium/wiki/PageObjects
-     * This class represents an abstraction for the the 'Courses' page as 
+     * This class represents an abstraction for the the 'Courses' page as
      * shown in the Browser. The test class interact with this object when it
      * wants to perform an action on the web page (e.g., click a button).
      */
     
     /* Explanation: These are the elements in the page that we want to interact
-     * with. The @FindBy annotation tells the PageFactory class 
-     * (see https://code.google.com/p/selenium/wiki/PageFactory) how to find 
-     * the element. 
+     * with. The @FindBy annotation tells the PageFactory class
+     * (see https://code.google.com/p/selenium/wiki/PageFactory) how to find
+     * the element.
      */
     @FindBy (id = "button_sortcoursename")
     private WebElement sortByCourseNameIcon;
@@ -36,7 +36,7 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "btnAddCourse")
     private WebElement submitButton;
 
-    public InstructorCoursesPage(Browser browser){
+    public InstructorCoursesPage(Browser browser) {
         super(browser);
     }
 
@@ -70,12 +70,12 @@ public class InstructorCoursesPage extends AppPage {
         return this;
     }
     
-    public String fillCourseIdTextBox(String value){
+    public String fillCourseIdTextBox(String value) {
         fillTextBox(courseIdTextBox, value);
         return getTextBoxValue(courseIdTextBox);
     }
     
-    public String fillCourseNameTextBox(String value){
+    public String fillCourseNameTextBox(String value) {
         fillTextBox(courseNameTextBox, value);
         return getTextBoxValue(courseNameTextBox);
     }
@@ -118,7 +118,7 @@ public class InstructorCoursesPage extends AppPage {
     public InstructorCourseEnrollPage loadEnrollLink(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return goToLinkInRow(
-                By.className("t_course_enroll" + courseRowNumber), 
+                By.className("t_course_enroll" + courseRowNumber),
                 InstructorCourseEnrollPage.class);
     }
 
@@ -192,21 +192,21 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     private WebElement getDeleteLinkInRow(int rowId) {
-        By deleteLink =  By.className("t_course_delete" + rowId);
+        By deleteLink = By.className("t_course_delete" + rowId);
         return browser.driver.findElement(deleteLink);
     }
     
     private WebElement getArchiveLinkInRow(int rowId) {
-        By archiveLink =  By.className("t_course_archive" + rowId);
+        By archiveLink = By.className("t_course_archive" + rowId);
         return browser.driver.findElement(archiveLink);
     }
     
     private WebElement getUnarchiveLinkInRow(int rowId) {
-        By archiveLink =  By.id("t_course_unarchive" + rowId);
+        By archiveLink = By.id("t_course_unarchive" + rowId);
         return browser.driver.findElement(archiveLink);
     }
 
-    private <T extends AppPage>T goToLinkInRow(By locator, Class<T> destinationPageType) {
+    private <T extends AppPage> T goToLinkInRow(By locator, Class<T> destinationPageType) {
         browser.driver.findElement(locator).click();
         waitForPageToLoad();
         return changePageType(destinationPageType);

@@ -10,10 +10,10 @@ import java.util.List;
 public class CommentsForStudentsTable {
     private String giverDetails;
     private String extraClass = "";
-    private List<Comment> rows;
+    private List<CommentRow> rows;
     private boolean instructorAllowedToGiveComment;
     
-    public CommentsForStudentsTable(String giverDetails, List<Comment> rows) {
+    public CommentsForStudentsTable(String giverDetails, List<CommentRow> rows) {
         this.giverDetails = giverDetails;
         this.rows = rows;
     }
@@ -22,7 +22,7 @@ public class CommentsForStudentsTable {
         return giverDetails;
     }
     
-    public List<Comment> getRows() {
+    public List<CommentRow> getRows() {
         return rows;
     }
     

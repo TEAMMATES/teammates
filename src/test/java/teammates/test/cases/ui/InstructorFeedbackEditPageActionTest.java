@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -26,7 +24,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         
@@ -50,12 +48,12 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         showPageResult = (ShowPageResult) instructorFeedbackEditPageAction.executeAndPostProcess();
         
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT
-                         + "?error=false&user=" + instructor1OfCourse1.googleId; 
+                         + "?error=false&user=" + instructor1OfCourse1.googleId;
         assertEquals(expectedString, showPageResult.getDestinationWithParams());
         
         assertEquals("", showPageResult.getStatusMessage());
         
-        expectedString = 
+        expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditPage|||instructorFeedbackEditPage|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                 + "instr1@course1.tmt|||instructorFeedbackEdit "
@@ -76,13 +74,13 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         try {
             showPageResult = (ShowPageResult) instructorFeedbackEditPageAction.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch(UnauthorizedAccessException uae) {
+        } catch (UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
                          uae.getMessage());
         }
     }
     
-    private InstructorFeedbackEditPageAction getAction (String... params) throws Exception {
+    private InstructorFeedbackEditPageAction getAction(String... params) {
         return (InstructorFeedbackEditPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

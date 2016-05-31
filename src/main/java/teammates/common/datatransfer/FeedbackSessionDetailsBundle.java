@@ -7,7 +7,7 @@ import java.util.List;
 import teammates.common.util.Const;
 
 /**
- * Represents details of a feedback session 
+ * Represents details of a feedback session
  * Contains:
  * <br> * The basic info of the feedback session (as a {@link FeedbackSessionAttributes} object).
  * <br> * Feedback response statistics (as a {@link FeedbackSessionStats} object).
@@ -32,6 +32,7 @@ public class FeedbackSessionDetailsBundle {
      */
     public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionDetailsBundle> sessions) {
         Collections.sort(sessions, new Comparator<FeedbackSessionDetailsBundle>() {
+            @Override
             public int compare(FeedbackSessionDetailsBundle fsd1, FeedbackSessionDetailsBundle fsd2) {
                 FeedbackSessionAttributes session1 = fsd1.feedbackSession;
                 FeedbackSessionAttributes session2 = fsd2.feedbackSession;
@@ -41,15 +42,15 @@ public class FeedbackSessionDetailsBundle {
                 }
                 if (result == 0) {
                     result = session1.createdTime.after(session2.createdTime) ? 1
-                            : (session1.createdTime.before(session2.createdTime) ? -1 : 0);
+                            : session1.createdTime.before(session2.createdTime) ? -1 : 0;
                 }
                 if (result == 0) {
                     result = session1.endTime.after(session2.endTime) ? 1
-                            : (session1.endTime.before(session2.endTime) ? -1 : 0);
+                            : session1.endTime.before(session2.endTime) ? -1 : 0;
                 }
                 if (result == 0) {
                     result = session1.startTime.after(session2.startTime) ? 1
-                            : (session1.startTime.before(session2.startTime) ? -1 : 0);
+                            : session1.startTime.before(session2.startTime) ? -1 : 0;
                 }
                 if (result == 0) {
                     result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
@@ -59,11 +60,9 @@ public class FeedbackSessionDetailsBundle {
         });
     }
 
+    @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("course:" + feedbackSession.courseId + ", name:" + feedbackSession.feedbackSessionName
-                + Const.EOL);
-        sb.append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
-        return sb.toString();
+        return "course:" + feedbackSession.courseId + ", name:" + feedbackSession.feedbackSessionName + Const.EOL
+               + "submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal;
     }
 }

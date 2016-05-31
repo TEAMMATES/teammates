@@ -44,10 +44,10 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     
     private CourseTable createCourseTable(CourseAttributes course, InstructorAttributes instructor,
             List<FeedbackSessionAttributes> feedbackSessions, int pendingCommentsCount) {
-        String courseId = course.id;
+        String courseId = course.getId();
         return new CourseTable(course,
                                createCourseTableLinks(instructor, courseId, pendingCommentsCount),
-                               createSessionRows(feedbackSessions, instructor, courseId));
+                               createSessionRows(feedbackSessions, instructor));
     }
     
     private ElementTag createButton(String text, String className, String href, String tooltip) {
@@ -124,7 +124,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     }
     
     private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,
-            InstructorAttributes instructor, String courseId) {
+            InstructorAttributes instructor) {
         List<HomeFeedbackSessionRow> rows = new ArrayList<>();
         
         int statsToDisplayLeft = MAX_CLOSED_SESSION_STATS;

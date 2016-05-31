@@ -1,4 +1,5 @@
 *.classpath
+.project
 .DS_Store
 .settings
 *.orig
@@ -38,3 +39,7 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+.checkstyle
+.pmd
+.ruleset

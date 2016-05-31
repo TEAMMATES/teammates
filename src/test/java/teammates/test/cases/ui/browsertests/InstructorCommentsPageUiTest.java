@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -20,15 +18,15 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCommentsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser(true);
     }
     
-    @Test 
-    public void allTests() throws Exception{
+    @Test
+    public void allTests() throws Exception {
         testContent();
         testScripts();
         testPanelsCollapseExpand();
@@ -41,7 +39,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         ______TS("content: no course");
         
         AppUrl commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
-            .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
+                .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
         
@@ -90,8 +88,8 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     }
 
     private void removePreExistComments() {
-        if(commentsPage.getPageSource().contains("added response comment")
-                || commentsPage.getPageSource().contains("edited response comment")){
+        if (commentsPage.getPageSource().contains("added response comment")
+                || commentsPage.getPageSource().contains("edited response comment")) {
             commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
             commentsPage.clickCommentsPageLinkInHeader();
         }
@@ -104,12 +102,12 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyContains("comments.idOfArchivedCourse");
         
         commentsPage.clickNextCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl() ,browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
-                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
+        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE
+                   + "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
         
         commentsPage.clickPreviousCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
-                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
+        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE
+                   + "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
         
         commentsPage.clickIsIncludeArchivedCoursesCheckbox();
         
@@ -176,6 +174,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.clickStudentCommentEditForRow(1);
         commentsPage.clickStudentCommentVisibilityEdit(1);
         commentsPage.clickAllCheckboxes(1);
+        commentsPage.clickAllGiverCheckboxes(1);
         commentsPage.fillTextareaToEditStudentCommentForRow(1, "");
         commentsPage.saveEditStudentCommentForRow(1);
         commentsPage.verifyStatus("Please enter a valid comment. The comment can't be empty.");
@@ -183,6 +182,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.saveEditStudentCommentForRow(1);
         commentsPage.verifyContains("edited student comment\n<br />a new line");
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_EDITED);
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageAddSc.html");
 
         ______TS("action: edit anonymous comment");
         commentsPage.clickStudentCommentEditForRow(10);
@@ -258,7 +258,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

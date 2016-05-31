@@ -1,12 +1,24 @@
-#Setting Up the Developer Environment
+#Table of Contents
+* [Setting Up the Developer Environment](#setting-up-the-developer-environment)
+* [Prerequisites](#prerequisites)
+* [Setting up the dev server](#setting-up-the-dev-server)
+* [Setting up static analysis tools](#setting-up-static-analysis-tools)
+* [Running the test suite](#running-the-test-suite)
+* [Deploying to a staging server](#deploying-to-a-staging-server)
+* [Running client scripts](#running-client-scripts)
+* [Troubleshooting](#troubleshooting)
+* [Tool stack](#tool-stack)
+* [Config points](#config-points)
+
+## Setting Up the Developer Environment
 >If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
 These instructions work for Linux, OS X as well as for the Windows
 environment. The only difference for Windows environment is that the command `./gradlew` should be replaced by `gradlew.bat` everywhere.
 
-The full tool stack is given at the [end of this document](#toolStack).
+The full tool stack is given at the [end of this document](#tool-stack).
 
-##Prerequisites
+## Prerequisites
 Important: When a version is specified, please install that version instead of the latest version available.
 
 1. Install GitHub for Windows/Mac (recommended), or at least, Git.
@@ -25,7 +37,7 @@ Important: When a version is specified, please install that version instead of t
    Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
 6. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
 
-##Setting up the dev server
+## Setting up the dev server
 `Dev server` means running the server in your own computer.
 
 1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
@@ -45,8 +57,9 @@ Important: When a version is specified, please install that version instead of t
     to indent using 4 spaces instead of tabs.
     * HTML syntax: We prefer not to use the HTML syntax validator provided by Eclipse.
     To turn it off, go to `Window → Preferences → Validation → HTML Syntax Validator` (Mac: `Eclipse → Preferences → Validation → HTML Syntax Validator`) and uncheck the `Build` option.
-3. Run the command `./gradlew setUp`.<br>
+3. Run the command `./gradlew setup`.<br>
    This creates the main config files {These are not under revision control because their content vary from developer to developer}.
+   * `.project`<br>
    * `src/main/resources/build.properties`<br>
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
@@ -90,14 +103,22 @@ Important: When a version is specified, please install that version instead of t
    (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link)<br>   
    Alternative : Run the test cases, they create several student accounts in the datastore. Use one of them to log in.<br>
 
-##Running the test suite
+## Setting up static analysis tools
+
+TEAMMATES uses a number of static analysis tools in order to maintain code quality and measure code coverage.
+It is highly encouraged to set up these tools in your local development environment.
+Refer to [this document](staticAnalysis.md) for details on the tools used, how to set them up, and how to run them locally.
+
+## Running the test suite
 
 
 
-1. TEAMMATES automated testing requires Firefox (works on Windows and OS-X) 
-    or Chrome (Windows only). The default browser used for testing is Firefox 
-    because it is faster than Chrome and it can be run in the background.
-    Firefox 38.0.5 (latest release as at 7th June 2015) is supported.
+1. TEAMMATES automated testing requires Firefox (works on Windows and OS-X).
+   Only Firefox between versions 38.0.5 and 42.0 are supported, although the primary support is for 38.0.5.
+   To downgrade your Firefox version, obtain the executable from [here](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/).
+   If you want to use a different path for this version, choose `custom setup` during install.
+   After installation, specify the Firefox path in `test.properties` by modifying the `test.firefox.path` property.
+   Remember to disable the auto-updates (`Options → Advanced tab → Update`).
    
 2. Before running the test suite, both the server and the test environment 
    should be using the UTC time zone.
@@ -143,7 +164,7 @@ Important: When a version is specified, please install that version instead of t
 
 To change the browser that is used in the UI tests, go to the `test.properties` 
 file and change the `test.selenium.browser` value to the browser you want to test. 
-Possible values are `firefox` or `chrome`. 
+Currently only `firefox` is accepted.
 In addition, you need to configure the browser you have selected so that 
 it works with the test suite. 
 
@@ -155,17 +176,6 @@ it works with the test suite.
 * If you have installed a separate Firefox version, you can choose which 
   Firefox binary to use. You can specify the custom path in `test.firefox.path` 
   value inside the `test.properties` file.
-
-####Chrome
-* If you are planning to test changes to JavaScript code, disable 
-  javascript caching for Chrome : 
-    * Press ctrl-shift-j to bring up the Web Console. 
-    * At the bottom-right corner, there is a settings button. Click on that. 
-    * Under the General tab, check 'Disable Cache'
-* The chromedriver process started by the test suite will not automatically 
-  get killed after the tests have finished executing. 
-  You will need to manually kill these processes after the tests are done. 
-  On Windows, you can do this using the Task Manager or `tskill` DOS command. 
 
 ###Running the test suite outside Eclipse
 Typically, we run the test suite within Eclipse. But core developers may prefer
@@ -191,7 +201,7 @@ this section.
   `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates -testnames component-tests,sequential-ui-tests,parallel-ui-tests`<br>
   (**Mac**: `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES -testnames component-tests,sequential-ui-tests,parallel-ui-tests`)
   
-##Deploying to a staging server
+## Deploying to a staging server
 `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.
 
 1. Create your own app on GAE.
@@ -221,7 +231,7 @@ this section.
     Note that GAE daily quota will be exhausted after 2-3 runs of the full test suite.
 
 
-##Running client scripts
+## Running client scripts
 Client scripts are scripts that remotely manipulate data on GAE via its Remote API. Most of developers may not need to write and/or run client scripts but if you are to do so, additional steps are required:
 
 1. Download and install Google Cloud SDK at https://cloud.google.com/sdk/downloads.
@@ -231,10 +241,10 @@ Client scripts are scripts that remotely manipulate data on GAE via its Remote A
 3. Now you can run your scripts.
 
 
-##Troubleshooting
+## Troubleshooting
 Troubleshooting instructions are given [in this document](troubleshooting-guide.md)
 
-##<a name="toolStack"></a>Tool stack
+## Tool stack
 
 ####Deployment environment
 * **Google App Engine** (GAE)
@@ -247,6 +257,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 * **Google App Engine SDK** [version 1.9.27]
 * **GitHub** : Used to host the repo and code reviewing.
 * **Gradle** : Build and dependency management tool.
+* **CheckStyle, PMD, FindBugs, ESLint** [all latest stable versions]: Static analysis tools for code quality check. The details of these tools can be found in [this document](staticAnalysis.md).
 * [**PowerPointLabs**](http://PowerPointLabs.info) [Sister project]: Used for creating demo videos.
 * Optional: [**HubTurbo**](https://github.com/HubTurbo/HubTurbo/wiki/Getting-Started) [Sister project]: 
   Can be used as a client for accessing the GitHub issue tracker.
@@ -277,12 +288,14 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 
 * **Selenium** [version 2.46.0]
     Selenium automates browsers. We use it for automating our UI tests.
-    We require Selenium standalone server, Chrome driver, IE driver, and Java language bindings.
+    We require Selenium standalone server and Java language bindings.
 * **JavaMail** [version 1.4.5]
     The JavaMail API provides a platform-independent and protocol-independent framework to build mail and messaging applications.
     Usage: For accessing test users' email accounts to examine emails sent from TEAMMATES.
 * **TestNG** [latest stable]
     TestNG is a Java test automation framework.
+* **EclEmma/JaCoCo** [latest stable]
+    JaCoCo is a Java code coverage library. EclEmma is its plugin and integration for Eclipse.
 * **QUnit** [version 1.22.0]
     QUnit is a JavaScript unit test suite.
 * **Blanket.js** [version 1.2.1]
@@ -294,7 +307,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 * **HttpUnit** [version 1.7]
     We use the ServletUnit component of HttpUnit to create HttpServletUnit objects used for testing.
 
-####Config points
+## Config points
 There are several files used to configure various aspects of the system.
 
 **main:**

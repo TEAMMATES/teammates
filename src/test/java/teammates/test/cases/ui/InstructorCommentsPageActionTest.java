@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.ArrayList;
 
 import org.testng.annotations.BeforeClass;
@@ -25,7 +23,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
     }
 
@@ -42,14 +40,14 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorCommentsPage|||instructorCommentsPage|||true|||Instructor"
                 + "|||Instructor Without Courses|||instructorWithoutCourses|||iwc@yahoo.tmt|||"
                 + "instructorComments Page Load<br>Viewing <span class=\"bold\">instructorWithoutCourses's"
-                + "</span> comment records for Course <span class=\"bold\">[]</span>|||/page/instructorCommentsPage", 
+                + "</span> comment records for Course <span class=\"bold\">[]</span>|||/page/instructorCommentsPage",
                 action.getLogMessage());
 
         InstructorCommentsPageData data = (InstructorCommentsPageData) result.data;
         assertEquals("", data.getCourseName());
         CoursePagination actualCoursePagination = data.getCoursePagination();
         assertEquals("javascript:;", actualCoursePagination.getPreviousPageLink());
-        assertEquals("javascript:;", 
+        assertEquals("javascript:;",
                      actualCoursePagination.getNextPageLink());
         assertEquals(new ArrayList<String>(), actualCoursePagination.getCoursePaginationList());
         assertEquals("", actualCoursePagination.getActiveCourse());
@@ -66,7 +64,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorCommentsPage|||instructorCommentsPage|||true|||Instructor"
                 + "|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "instructorComments Page Load<br>Viewing <span class=\"bold\">idOfInstructor1OfCourse1's"
-                + "</span> comment records for Course <span class=\"bold\">[idOfTypicalCourse1]</span>|||/page/instructorCommentsPage", 
+                + "</span> comment records for Course <span class=\"bold\">[idOfTypicalCourse1]</span>|||/page/instructorCommentsPage",
                 action.getLogMessage());
         
         data = (InstructorCommentsPageData) result.data;
@@ -91,7 +89,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorCommentsPage|||instructorCommentsPage|||true|||Instructor"
                 + "|||Instructor 2 of Course 1|||idOfInstructor2OfCourse1|||instr2@course1.tmt|||"
                 + "instructorComments Page Load<br>Viewing <span class=\"bold\">idOfInstructor2OfCourse1's"
-                + "</span> comment records for Course <span class=\"bold\">[idOfTypicalCourse1]</span>|||/page/instructorCommentsPage", 
+                + "</span> comment records for Course <span class=\"bold\">[idOfTypicalCourse1]</span>|||/page/instructorCommentsPage",
                 action.getLogMessage());
         
         data = (InstructorCommentsPageData) result.data;
@@ -106,7 +104,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         assertEquals(0, data.getCommentsForStudentsTables().size());
     }
     
-    private InstructorCommentsPageAction getAction(String... params) throws Exception{
+    private InstructorCommentsPageAction getAction(String... params) {
         return (InstructorCommentsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

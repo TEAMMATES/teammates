@@ -1,16 +1,16 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class InstructorCourseStudentDetailsViewPage extends AppPage {
     
-    @FindBy (id="studentemail")
+    @FindBy (id = "studentemail")
     WebElement studentEmail;
     
-
     public InstructorCourseStudentDetailsViewPage(Browser browser) {
         super(browser);
     }

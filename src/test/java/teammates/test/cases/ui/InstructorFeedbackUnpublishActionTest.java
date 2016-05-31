@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.Date;
 
 import org.testng.annotations.BeforeClass;
@@ -25,7 +21,7 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
     }
 
@@ -65,8 +61,8 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
 
         try {
             unpublishAction.executeAndPostProcess();
-        } catch (Throwable e) {
-            assertTrue(e instanceof AssertionError);
+            signalFailureToDetectException("AssertionError expected");
+        } catch (AssertionError e) {
             errorMessage = e.getMessage();
         }
 
@@ -79,8 +75,8 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
 
         try {
             unpublishAction.executeAndPostProcess();
-        } catch (Throwable e) {
-            assertTrue(e instanceof AssertionError);
+            signalFailureToDetectException("AssertionError expected");
+        } catch (AssertionError e) {
             errorMessage = e.getMessage();
         }
 

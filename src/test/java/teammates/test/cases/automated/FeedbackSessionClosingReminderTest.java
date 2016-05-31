@@ -1,9 +1,5 @@
 package teammates.test.cases.automated;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,19 +9,19 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.ParamsNames;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionClosingMailAction;
 import teammates.logic.core.Emails;
 import teammates.logic.core.Emails.EmailType;
 import teammates.logic.core.FeedbackSessionsLogic;
+
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQueueTestCase {
 
@@ -66,17 +62,17 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
     
     @Test
-    public void testAdditionOfTaskToTaskQueue() throws Exception {        
+    public void testAdditionOfTaskToTaskQueue() throws Exception {
         FeedbackSessionClosingCallback.resetTaskCount();
         
         ______TS("typical case, 0 sessions closing soon");
         fsLogic.scheduleFeedbackSessionClosingEmails();
-        if(!FeedbackSessionClosingCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionClosingCallback.verifyTaskCount(0)) {
             assertEquals(FeedbackSessionClosingCallback.taskCount, 0);
         }
         
@@ -116,22 +112,22 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         verifyPresentInDatastore(session3);
         
         int counter = 0;
-        while(counter != 10){
+        while (counter != 10) {
             FeedbackSessionClosingCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionClosingEmails();
             //There are only 2 sessions closing reminder to be sent
-            if(FeedbackSessionClosingCallback.verifyTaskCount(2)){
+            if (FeedbackSessionClosingCallback.verifyTaskCount(2)) {
                 break;
             }
             counter++;
         }
-        if(counter == 10){
+        if (counter == 10) {
             assertEquals(FeedbackSessionClosingCallback.taskCount, 2);
         }
     }
 
     @Test
-    public void testFeedbackSessionClosingMailAction() throws Exception{
+    public void testFeedbackSessionClosingMailAction() throws Exception {
         
         ______TS("typical case, testing mime messages");
         // Modify session to close in 24 hours.
@@ -144,7 +140,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         HashMap<String, String> paramMap = createParamMapForAction(session1);
         
         EmailAction fsClosingAction = new FeedbackSessionClosingMailAction(paramMap);
-        int course1StudentCount = 5-2; // 2 students have already completed the session 
+        int course1StudentCount = 5 - 2; // 2 students have already completed the session
         int course1InstructorCount = 5;
         
         List<MimeMessage> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();

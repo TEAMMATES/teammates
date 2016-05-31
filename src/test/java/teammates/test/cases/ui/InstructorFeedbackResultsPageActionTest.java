@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -87,13 +84,13 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
                 Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1"
         };
-        String[] paramsSectionOneByGRQ = {
+        String[] paramsSectionOneByGrq = {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "giver-recipient-question",
                 Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1"
         };
-        String[] paramsSectionOneByRGQ = {
+        String[] paramsSectionOneByRgq = {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-giver-question",
@@ -238,7 +235,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertFalse(result.isError);
         
         ______TS("Typical case: view section 1 sortType GRQ");
-        action = getAction(paramsSectionOneByGRQ);
+        action = getAction(paramsSectionOneByGrq);
         result = action.executeAndPostProcess();
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION
@@ -248,7 +245,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertFalse(result.isError);
         
         ______TS("Typical case: view section 1 sortType RGQ");
-        action = getAction(paramsSectionOneByRGQ);
+        action = getAction(paramsSectionOneByRgq);
         result = action.executeAndPostProcess();
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION
@@ -281,7 +278,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         result = action.executeAndPostProcess();
         ShowPageResult pageResult = (ShowPageResult) result;
         InstructorFeedbackResultsPageData pageData = (InstructorFeedbackResultsPageData) pageResult.data;
-        assertEquals(true, pageData.getBundle().responses.isEmpty());
+        assertTrue(pageData.getBundle().responses.isEmpty());
         
     }
 

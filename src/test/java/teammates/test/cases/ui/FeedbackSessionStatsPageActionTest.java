@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -20,7 +18,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
     }
     
@@ -41,12 +39,12 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         };
         
         FeedbackSessionStatsPageAction a = getAction(addUserIdToParams(instructorId, submissionParams));
-        AjaxResult r = (AjaxResult)a.executeAndPostProcess();
+        AjaxResult r = (AjaxResult) a.executeAndPostProcess();
         FeedbackSessionStatsPageData data = (FeedbackSessionStatsPageData) r.data;
        
         assertEquals("?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-        assertEquals(10,data.sessionDetails.stats.expectedTotal);
-        assertEquals(4,data.sessionDetails.stats.submittedTotal);
+        assertEquals(10, data.sessionDetails.stats.expectedTotal);
+        assertEquals(4, data.sessionDetails.stats.submittedTotal);
         assertEquals("", r.getStatusMessage());
         
         ______TS("fail: instructor accesses stats of non-existent feedback session");
@@ -63,18 +61,18 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         
         try {
-            r = (AjaxResult)a.executeAndPostProcess();
+            r = (AjaxResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             doesThrowUnauthorizedAccessException = true;
             exceptionMessage = e.getMessage();
         }
         
-        assertEquals(true, doesThrowUnauthorizedAccessException);
+        assertTrue(doesThrowUnauthorizedAccessException);
         assertEquals("Trying to access system using a non-existent feedback session entity", exceptionMessage);
         assertEquals("", r.getStatusMessage());
     }
     
-    private FeedbackSessionStatsPageAction getAction(String... params) throws Exception {
+    private FeedbackSessionStatsPageAction getAction(String... params) {
         return (FeedbackSessionStatsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

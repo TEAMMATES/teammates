@@ -1,10 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -28,7 +23,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE;
     }
     
@@ -84,7 +79,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         InstructorFeedbackResponseCommentDeleteAction action = getAction(submissionParams);
         AjaxResult result = (AjaxResult) action.executeAndPostProcess();
         
-        InstructorFeedbackResponseCommentAjaxPageData data = 
+        InstructorFeedbackResponseCommentAjaxPageData data =
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         
         assertFalse(data.isError);
@@ -147,7 +142,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         assertEquals("", result.getStatusMessage());
     }
     
-    private InstructorFeedbackResponseCommentDeleteAction getAction(String... params) throws Exception {
+    private InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
         return (InstructorFeedbackResponseCommentDeleteAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

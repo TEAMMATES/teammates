@@ -1,12 +1,6 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,10 +16,8 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbacksPageData;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
@@ -33,24 +25,18 @@ import teammates.ui.template.FeedbackSessionsForm;
 import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsTableRow;
 
-import com.google.gson.Gson;
-
 public class InstructorFeedbacksPageDataTest extends BaseTestCase {
-
-    private static Gson gson = Utils.getTeammatesGson();
     
     private static DataBundle dataBundle = getTypicalDataBundle();
-    
-    
-    private final int NUMBER_OF_HOURS_IN_DAY= 24;
+    private static final int NUMBER_OF_HOURS_IN_DAY = 24;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
     @Test
-    public void testInitWithoutDefaultFormValues() throws Exception {
+    public void testInitWithoutDefaultFormValues() {
 
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
         
@@ -124,17 +110,14 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(firstFsName, fsRows.get(0).getName());
         String lastFsName = "First feedback session";
         assertEquals(lastFsName, fsRows.get(fsRows.size() - 1).getName());
-        
-        
+
         ______TS("typical success case: copy modal");
         FeedbackSessionsCopyFromModal copyModalModel = data.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
-        assertEquals("" , copyModalModel.getFsName());
+        assertEquals("", copyModalModel.getFsName());
         assertEquals(6, copyModalModel.getExistingFeedbackSessions().size());
-        
-        
-        
+
         ______TS("case with instructor with only archived course");
         AccountAttributes instructorOfArchivedCourseAccount = dataBundle.accounts.get("instructorOfArchivedCourse");
         InstructorFeedbacksPageData instructorArchivedCourseData = new InstructorFeedbacksPageData(instructorOfArchivedCourseAccount);
@@ -157,13 +140,11 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_ACTIVE_COURSES, 
+        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_ACTIVE_COURSES,
                      formModel.getCoursesSelectField().get(0).getContent());
         
         assertTrue(formModel.isSubmitButtonDisabled());
-        
-        
-        
+
         ______TS("case with instructor with restricted permissions");
         AccountAttributes helperAccount = dataBundle.accounts.get("helperOfCourse1");
         
@@ -188,7 +169,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS, 
+        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS,
                      formModel.getCoursesSelectField().get(0).getContent());
         
         assertTrue(formModel.isSubmitButtonDisabled());
@@ -203,10 +184,9 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         copyModalModel = helperData.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
-        assertEquals("" , copyModalModel.getFsName());
+        assertEquals("", copyModalModel.getFsName());
         assertEquals(0, copyModalModel.getExistingFeedbackSessions().size());
-        
-        
+
         ______TS("case with highlighted session in session table");
         
         instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
@@ -230,7 +210,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         boolean isFirstFeedbackSessionHighlighted = false;
         boolean isOtherFeedbackSessionHighlighted = false;
         for (FeedbackSessionsTableRow row : sessionRows) {
-            if (row.getName().equals("First feedback session")) {
+            if ("First feedback session".equals(row.getName())) {
                 isFirstFeedbackSessionHighlighted = row.getRowAttributes().getAttributes().get("class").matches(".*\\bwarning\\b.*");
             } else {
                 if (row.getRowAttributes().getAttributes().get("class").matches(".*\\bwarning\\b.*")) {
@@ -242,10 +222,9 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertFalse(isOtherFeedbackSessionHighlighted);
         
     }
-    
-    
+
     @Test
-    public void testInit() throws Exception {
+    public void testInit() {
 
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
         
@@ -319,18 +298,17 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(firstFsName, fsRows.get(0).getName());
         String lastFsName = "First feedback session";
         assertEquals(lastFsName, fsRows.get(fsRows.size() - 1).getName());
-        
-        
+
         ______TS("typical success case with existing fs passed in: copy modal");
         FeedbackSessionsCopyFromModal copyModalModel = data.getCopyFromModal();
         
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
-        assertEquals("First feedback session" , copyModalModel.getFsName());
+        assertEquals("First feedback session", copyModalModel.getFsName());
         assertEquals(6, copyModalModel.getExistingFeedbackSessions().size());
     }
     
     @Test
-    public void testInitWithoutHighlighting() throws Exception{
+    public void testInitWithoutHighlighting() {
 
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor2OfCourse1");
         
@@ -366,8 +344,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals("First feedback session", modal.getFsName());
         
     }
-    
-    
+
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean isOmitArchived) {
         List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>(dataBundle.instructors.values());
         
@@ -375,11 +352,11 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         while (iter.hasNext()) {
             InstructorAttributes instructor = iter.next();
 
-            boolean isGoogleIdSame = instructor.googleId != null 
+            boolean isGoogleIdSame = instructor.googleId != null
                                      && instructor.googleId.equals(googleId);
-            boolean isOmittedDueToArchiveStatus = isOmitArchived 
-                                                  && (instructor.isArchived != null 
-                                                      && instructor.isArchived);
+            boolean isOmittedDueToArchiveStatus = isOmitArchived
+                                                  && instructor.isArchived != null
+                                                  && instructor.isArchived;
             if (!isGoogleIdSame || isOmittedDueToArchiveStatus) {
                 iter.remove();
             }
@@ -396,7 +373,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         Iterator<CourseAttributes> iter = courses.iterator();
         while (iter.hasNext()) {
             CourseAttributes course = iter.next();
-            if (!courseIdsOfUser.contains(course.id)) {
+            if (!courseIdsOfUser.contains(course.getId())) {
                 iter.remove();
             }
         }

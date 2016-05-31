@@ -22,8 +22,9 @@ public class AdminFeedbackSessionRow {
         this.instructorHomePageViewLink = instructorHomePageViewLink;
         this.creatorEmail = creatorEmail;
         this.courseId = courseId;
-        this.feedbackSessionName= feedbackSessionName;
+        this.feedbackSessionName = feedbackSessionName;
     }
+    
     public String getSessionStatusForShow() {
         return sessionStatusForShow;
     }

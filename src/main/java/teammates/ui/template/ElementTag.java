@@ -72,7 +72,7 @@ public class ElementTag {
         
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, String> attribute : attributes.entrySet()) {
-            sb.append(" " + attribute.getKey());
+            sb.append(' ').append(attribute.getKey());
             if (attribute.getValue() != null) {
                 sb.append("=\"" + attribute.getValue() + "\"");
             }

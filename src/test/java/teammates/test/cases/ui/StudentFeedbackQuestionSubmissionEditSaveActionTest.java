@@ -1,11 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -28,7 +22,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
     }
 
@@ -277,7 +271,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 //        gaeSimulation.loginAsStudent(student4InCourse1.googleId);
 //
 //        FeedbackSessionAttributes gracePeriodSession = dataBundle.feedbackSessions.get("gracePeriodSession");
-//        
+//
 //        gracePeriodSession.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
 //        feedbackSessionDb.updateFeedbackSession(gracePeriodSession);
 //
@@ -285,7 +279,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 //                .getFeedbackQuestion(gracePeriodSession.feedbackSessionName, gracePeriodSession.courseId, 2);
 //
 //        feedbackResponse = feedbackResponsesDb
-//                .getFeedbackResponse(feedbackQuestion.getId(), student4InCourse1.email, 
+//                .getFeedbackResponse(feedbackQuestion.getId(), student4InCourse1.email,
 //                                     "Team 1.2");
 //
 //        submissionParams = new String[]{
@@ -312,7 +306,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 //        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, pageResult.getStatusMessage());
     }
 
-    private StudentFeedbackQuestionSubmissionEditSaveAction getAction(String... params) throws Exception {
+    private StudentFeedbackQuestionSubmissionEditSaveAction getAction(String... params) {
         return (StudentFeedbackQuestionSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

@@ -21,9 +21,9 @@ public abstract class BaseTaskQueueCallback implements LocalTaskQueueCallback {
     }
     
     public static boolean verifyTaskCount(int expectedCount) {
-        for (int i = 0 ; i <= expectedCount ; i ++) {
+        for (int i = 0; i <= expectedCount; i++) {
             waitForTaskQueueExecution(1, 0);
-            if(expectedCount == BaseTaskQueueCallback.taskCount){
+            if (expectedCount == BaseTaskQueueCallback.taskCount) {
                 return true;
             }
         }

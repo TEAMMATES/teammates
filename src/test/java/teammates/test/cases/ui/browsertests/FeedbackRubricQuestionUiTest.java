@@ -1,11 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -29,7 +23,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private static InstructorFeedbackEditPage feedbackEditPage;
     private static FeedbackSubmitPage submitPage;
     private static InstructorFeedbackResultsPage instructorResultsPage;
-    private StudentFeedbackResultsPage studentResultsPage;
     private static DataBundle testData;
 
     private static String courseId;
@@ -37,22 +30,21 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackRubricQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
         
         instructorId = testData.accounts.get("instructor1").googleId;
-        courseId = testData.courses.get("course").id;
+        courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
         feedbackEditPage = getFeedbackEditPage();
 
     }
-    
-    
+
     @Test
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testEditPage();
         testInstructorSubmitPage();
         testStudentSubmitPage();
@@ -64,7 +56,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private void testStudentResultsPage() throws Exception {
         ______TS("test rubric question student results page");
 
-        studentResultsPage = loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
+        StudentFeedbackResultsPage studentResultsPage =
+                                        loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
         studentResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRubric.html");
     }
     
@@ -76,8 +69,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage.waitForPanelsToExpand();
         
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
-        
-        
+
         // Giver Recipient Question View
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "giver-recipient-question");
         instructorResultsPage.waitForPanelsToExpand();
@@ -108,8 +100,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         int qnNumber = 1;
         int responseNumber = 0;
         int rowNumber = 0;
-        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnNumber+"-"+responseNumber+"-"+rowNumber));
-        
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
 
         ______TS("test rubric question submission");
         // Done in testStudentSubmitPage
@@ -124,12 +115,12 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         int qnNumber = 1;
         int responseNumber = 0;
         int rowNumber = 0;
-        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnNumber+"-"+responseNumber+"-"+rowNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
 
         ______TS("test rubric question submission");
         
         submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
-        assertTrue(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnNumber+"-"+responseNumber+"-"+rowNumber));
+        assertTrue(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
         
         // Select radio input
         submitPage.clickRubricRadio(1, 0, 0, 0);
@@ -149,7 +140,17 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
         submitPage.waitForCellHoverToDisappear();
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageRubricSuccess.html");
-        
+
+        // Submit another feedback response using another student's account
+        submitPage = loginToStudentFeedbackSubmitPage("benny.tmms@FRubricQnUiT.CS2104", "openSession2");
+
+        submitPage.clickRubricCell(1, 0, 0, 0);
+        submitPage.clickRubricCell(1, 0, 1, 1);
+
+        submitPage.clickRubricCell(1, 1, 0, 0);
+        submitPage.clickRubricCell(1, 1, 1, 0);
+
+        submitPage.clickSubmitButton();
     }
     
     private void testStudentQuestionSubmitPage() {
@@ -183,34 +184,47 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
         testInputJsValidationForRubricQuestion();
     }
-    
-    
 
+    @Override
     public void testNewQuestionFrame() {
         ______TS("RUBRIC: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
         assertTrue(feedbackEditPage.verifyNewRubricQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
         
         ______TS("empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
+
+        ______TS("empty weight test");
+
+        feedbackEditPage.fillQuestionBox("empty weight test");
+        feedbackEditPage.clickAssignWeightsCheckbox(-1);
+        feedbackEditPage.fillRubricWeightBox("", -1, 3);
+        feedbackEditPage.clickAddQuestionButton();
+
+        assertEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT, feedbackEditPage.getStatus());
     }
     
+    @Override
     public void testCustomizeOptions() {
         
         // TODO somebody do this?
         
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("RUBRIC: add question action success");
         
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
         feedbackEditPage.fillQuestionBox("RUBRIC qn");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
@@ -219,11 +233,12 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("RUBRIC: edit question success");
         
         // Click edit button
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         // Check that fields are editable
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEdit.html");
@@ -236,7 +251,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditSuccess.html");
         
         ______TS("RUBRIC: edit sub-questions success");
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         // Edit sub-question for row 1
         feedbackEditPage.fillRubricSubQuestionBox("New(0) sub-question text", 1, 0);
@@ -262,7 +277,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditSubQuestionSuccess.html");
 
         ______TS("RUBRIC: edit choices success");
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         // Edit choice for col 1
         feedbackEditPage.fillRubricChoiceBox("New(0) choice", 1, 0);
@@ -286,8 +301,18 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditChoiceSuccess.html");
 
+        ______TS("RUBRIC: edit weight success");
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+
+        // Edit the weight of the first choice
+        feedbackEditPage.clickAssignWeightsCheckbox(1);
+        feedbackEditPage.fillRubricWeightBox("2.25", 1, 0);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditWeightSuccess.html");
+
         ______TS("RUBRIC: edit descriptions success");
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         // Edit description for 0-0
         feedbackEditPage.fillRubricDescriptionBox("New(0) description", 1, 0, 0);
@@ -305,6 +330,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditDescriptionSuccess.html");
     }
     
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("RUBRIC: qn delete then cancel");
 
@@ -315,7 +341,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     private void testInputJsValidationForRubricQuestion() {
@@ -324,14 +350,14 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("JS validation test");
 
         // add a new question
-        feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
         
         // start editing it
         feedbackEditPage.fillQuestionBox("RUBRIC qn JS validation test");
         feedbackEditPage.clickAddQuestionButton();
         
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         // try to remove everything
         feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
@@ -354,8 +380,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     private InstructorFeedbackEditPage getFeedbackEditPage() {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE).
-                withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
+        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+                .withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
     
@@ -394,19 +420,18 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                     .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                     .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         
-        if(needAjax){
+        if (needAjax) {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, String.valueOf(needAjax));
         }
         
-        if(viewType != null){
+        if (viewType != null) {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
         
         return loginAdminToPage(browser, editUrl,
                 InstructorFeedbackResultsPage.class);
     }
-    
-    
+
     private FeedbackQuestionSubmitPage loginToStudentFeedbackQuestionSubmitPage(
             String studentName, String fsName, String questionId) {
         StudentAttributes s = testData.students.get(studentName);
@@ -416,11 +441,11 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
                 .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         
-        return loginAdminToPage(browser, editUrl,FeedbackQuestionSubmitPage.class);
+        return loginAdminToPage(browser, editUrl, FeedbackQuestionSubmitPage.class);
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

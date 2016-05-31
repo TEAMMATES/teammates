@@ -1,9 +1,5 @@
 package teammates.test.cases.automated;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,19 +10,19 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.ParamsNames;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionOpeningMailAction;
 import teammates.logic.core.Emails;
-import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
+import teammates.logic.core.FeedbackSessionsLogic;
+
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQueueTestCase {
 
@@ -66,7 +62,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
     
@@ -77,7 +73,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         
         ______TS("3 sessions opened and emails sent, 1 awaiting");
         fsLogic.scheduleFeedbackSessionOpeningEmails();
-        if(!FeedbackSessionOpeningCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionOpeningCallback.verifyTaskCount(0)) {
             assertEquals(FeedbackSessionOpeningCallback.taskCount, 0);
         }
         
@@ -110,7 +106,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         
         int counter = 0;
 
-        while(counter != 10){
+        while (counter != 10) {
             FeedbackSessionOpeningCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionOpeningEmails();
             if (FeedbackSessionOpeningCallback.verifyTaskCount(2)) {
@@ -122,7 +118,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     }
 
     @Test
-    public void testFeedbackSessionOpeningMailAction() throws Exception{
+    public void testFeedbackSessionOpeningMailAction() throws Exception {
         
         ______TS("MimeMessage Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "
                 + "1 session opened without emails sent with sending open email disabled");
@@ -149,7 +145,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
         fsLogic.updateFeedbackSession(session2);
         
-        int course1StudentCount = 5; 
+        int course1StudentCount = 5;
         int course1InstructorCount = 5;
         
         prepareAndSendOpeningMailForSession(session1, course1StudentCount, course1InstructorCount);
@@ -164,7 +160,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         ______TS("testing whether no more mails are sent");
         FeedbackSessionOpeningCallback.resetTaskCount();
         fsLogic.scheduleFeedbackSessionOpeningEmails();
-        if(!FeedbackSessionOpeningCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionOpeningCallback.verifyTaskCount(0)) {
             assertEquals(FeedbackSessionOpeningCallback.taskCount, 0);
         }
     }

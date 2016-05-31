@@ -1,13 +1,14 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.StringHelper;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     
@@ -86,8 +87,8 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         
-        @SuppressWarnings("unused")
         String html = "";
+        /*
         int averageLength = 0;
         int minLength = Integer.MAX_VALUE;
         int maxLength = Integer.MIN_VALUE;
@@ -109,11 +110,10 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                         "${averageLength}", Integer.toString(averageLength),
                         "${minLength}", (minLength == Integer.MAX_VALUE)? "-" : Integer.toString(minLength),
                         "${maxLength}", (maxLength == Integer.MIN_VALUE)? "-" : Integer.toString(maxLength));
-        
+        */
         //TODO: evaluate what statistics are needed for text questions later.
-        return "";
+        return html;
     }
-    
 
     @Override
     public String getQuestionResultStatisticsCsv(
@@ -130,21 +130,29 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"TEXT\">"+Const.FeedbackQuestionTypeNames.TEXT+"</option>";
+        return "<li data-questiontype = \"TEXT\"><a>" + Const.FeedbackQuestionTypeNames.TEXT + "</a></li>";
     }
 
     @Override
     public List<String> validateQuestionDetails() {
-        List<String> errors = new ArrayList<String>();
-        return errors;
+        return new ArrayList<String>();
     }
 
     @Override
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
-        List<String> errors = new ArrayList<String>();
-        return errors;
+        return new ArrayList<String>();
+    }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
     }
 
 }

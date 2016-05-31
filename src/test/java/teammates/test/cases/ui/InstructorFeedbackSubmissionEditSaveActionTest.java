@@ -1,11 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -39,7 +33,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         new BackDoorLogic().removeDataBundle(dataBundle);
     }
 
@@ -113,7 +107,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 
@@ -589,7 +583,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
     }
 
-    private InstructorFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception {
+    private InstructorFeedbackSubmissionEditSaveAction getAction(String... params) {
         return (InstructorFeedbackSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

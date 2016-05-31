@@ -1,7 +1,5 @@
 package teammates.test.cases.testdriver;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
@@ -13,7 +11,7 @@ import teammates.test.cases.BaseTestCase;
 public class DataBundleTest extends BaseTestCase {
     
     @Test
-    public void testDataBundle() throws Exception {
+    public void testDataBundle() {
 
         
         DataBundle data = getTypicalDataBundle();
@@ -49,12 +47,12 @@ public class DataBundleTest extends BaseTestCase {
         
         // COURSES
         CourseAttributes course1 = data.courses.get("typicalCourse1");
-        assertEquals("idOfTypicalCourse1", course1.id);
-        assertEquals("Typical Course 1 with 2 Evals", course1.name);
+        assertEquals("idOfTypicalCourse1", course1.getId());
+        assertEquals("Typical Course 1 with 2 Evals", course1.getName());
         
         CourseAttributes course2 = data.courses.get("typicalCourse2");
-        assertEquals("idOfTypicalCourse2", course2.id);
-        assertEquals("Typical Course 2 with 1 Evals", course2.name);
+        assertEquals("idOfTypicalCourse2", course2.getId());
+        assertEquals("Typical Course 2 with 1 Evals", course2.getName());
 
         // STUDENTS
         StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");

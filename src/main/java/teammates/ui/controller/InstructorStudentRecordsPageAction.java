@@ -20,22 +20,17 @@ import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentRecordsPageAction extends Action {
 
-    private InstructorStudentRecordsPageData data;
-
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
 
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+        
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         Assumption.assertNotNull(studentEmail);
-
-        String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
-
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
 
@@ -44,6 +39,8 @@ public class InstructorStudentRecordsPageAction extends Action {
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
+        
+        String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
 
         List<CommentAttributes> comments = logic.getCommentsForReceiver(courseId, instructor.email,
                                                                         CommentParticipantType.PERSON, studentEmail);
@@ -65,17 +62,21 @@ public class InstructorStudentRecordsPageAction extends Action {
         
         StudentProfileAttributes studentProfile = null;
 
-        if (student.googleId == "") {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS, StatusMessageColor.WARNING));
-        } else if (!instructor.isAllowedForPrivilege(student.section,
-                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR, StatusMessageColor.WARNING));
-        } else {
+        boolean isInstructorAllowedToViewStudent = instructor.isAllowedForPrivilege(student.section,
+                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
+        boolean isStudentWithProfile = !student.googleId.isEmpty();
+        if (isInstructorAllowedToViewStudent && isStudentWithProfile) {
             studentProfile = logic.getStudentProfile(student.googleId);
             Assumption.assertNotNull(studentProfile);
+        } else {
+            if (student.googleId.isEmpty()) {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS, StatusMessageColor.WARNING));
+            } else if (!isInstructorAllowedToViewStudent) {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR, StatusMessageColor.WARNING));
+            }
         }
 
-        if (sessions.size() == 0 && comments.size() == 0) {
+        if (sessions.isEmpty() && comments.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS, StatusMessageColor.WARNING));
         }
 
@@ -84,8 +85,10 @@ public class InstructorStudentRecordsPageAction extends Action {
             sessionNames.add(fsa.feedbackSessionName);
         }
         
-        data = new InstructorStudentRecordsPageData(account, student, courseId, showCommentBox, studentProfile,
-                                                    comments, sessionNames, instructor);
+        InstructorStudentRecordsPageData data =
+                                        new InstructorStudentRecordsPageData(account, student, courseId,
+                                                                             showCommentBox, studentProfile,
+                                                                             comments, sessionNames, instructor);
 
         statusToAdmin = "instructorStudentRecords Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
@@ -103,8 +106,8 @@ public class InstructorStudentRecordsPageAction extends Action {
         while (iterFs.hasNext()) {
             FeedbackSessionAttributes tempFs = iterFs.next();
             if (!tempFs.courseId.equals(courseId)
-                || !instructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
-                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
+                    || !instructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
+                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                 iterFs.remove();
             }
         }
