@@ -11,10 +11,10 @@ import teammates.common.util.Const;
 
 public class InstructorCourseEditPage extends AppPage {
     
-    @FindBy(id = Const.ParamsNames.COURSE_ID)
+    @FindBy(id = "courseid")
     private WebElement courseIdTextBox;
     
-    @FindBy(id = Const.ParamsNames.COURSE_NAME)
+    @FindBy(id = "coursename")
     private WebElement courseNameTextBox;
     
     @FindBy(id = "btnSaveCourse")
@@ -32,10 +32,10 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "instrRemindLink4")
     private WebElement inviteInstructorLink;
     
-    @FindBy(id = Const.ParamsNames.INSTRUCTOR_NAME + "1")
+    @FindBy(id = "instructorname1")
     private WebElement editInstructorNameTextBox;
     
-    @FindBy(id = Const.ParamsNames.INSTRUCTOR_EMAIL + "1")
+    @FindBy(id = "instructoremail1")
     private WebElement editInstructorEmailTextBox;
     
     @FindBy(id = "btnSaveInstructor1")
@@ -44,10 +44,10 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "btnShowNewInstructorForm")
     private WebElement showNewInstructorFormButton;
     
-    @FindBy(id = Const.ParamsNames.INSTRUCTOR_NAME)
+    @FindBy(id = "instructorname")
     private WebElement instructorNameTextBox;
     
-    @FindBy(id = Const.ParamsNames.INSTRUCTOR_EMAIL)
+    @FindBy(id = "instructoremail")
     private WebElement instructorEmailTextBox;
     
     @FindBy(id = "btnAddInstructor")
@@ -63,7 +63,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public String getCourseId() {
-        return browser.driver.findElement(By.id(Const.ParamsNames.COURSE_ID)).getAttribute("value");
+        return courseIdTextBox.getAttribute("value");
     }
 
     public InstructorCourseEditPage verifyIsCorrectPage(String courseId) {
@@ -134,9 +134,9 @@ public class InstructorCourseEditPage extends AppPage {
             WebElement saveButton = browser.driver.findElement(By.id("btnSaveInstructor" + instructorNum));
             waitForElementVisibility(saveButton);
             
-            WebElement editInstructorNameTextBox = browser.driver.findElement(By.id(Const.ParamsNames.INSTRUCTOR_NAME
+            WebElement editInstructorNameTextBox = browser.driver.findElement(By.id("instructorname"
                                                                                     + instructorNum));
-            WebElement editInstructorEmailTextBox = browser.driver.findElement(By.id(Const.ParamsNames.INSTRUCTOR_EMAIL
+            WebElement editInstructorEmailTextBox = browser.driver.findElement(By.id("instructoremail"
                                                                                      + instructorNum));
             
             isEditable = editInstructorNameTextBox.isEnabled()
@@ -365,11 +365,11 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public WebElement getNameField(int instrNum) {
-        return browser.driver.findElement(By.id(Const.ParamsNames.INSTRUCTOR_NAME + instrNum));
+        return browser.driver.findElement(By.id("instructorname" + instrNum));
     }
     
     public WebElement getEmailField(int instrNum) {
-        return browser.driver.findElement(By.id(Const.ParamsNames.INSTRUCTOR_EMAIL + instrNum));
+        return browser.driver.findElement(By.id("instructoremail" + instrNum));
     }
 
     public boolean isCustomCheckboxChecked(String privilege, int instrNum) {
