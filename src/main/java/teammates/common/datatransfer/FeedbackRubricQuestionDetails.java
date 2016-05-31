@@ -313,7 +313,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${respIndex}", responseNumberString,
                             "${row}", Integer.toString(i),
                             "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
-                                                    + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)),
+                                              + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)),
                             "${rubricRowBodyFragments}", tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
@@ -345,7 +345,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String panel = FeedbackQuestionFormTemplates.populateTemplate(mobilePanelTemplate,
                     "${panelBody}", panelBody.toString(),
                     "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
-                                            + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)));
+                                      + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)));
             mobileHtml.append(panel).append(Const.EOL);
         }
         return mobileHtml.toString();
@@ -584,7 +584,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String tableRow =
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
                             "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j + 1) + ") "
-                                                    + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
+                                              + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}", tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }

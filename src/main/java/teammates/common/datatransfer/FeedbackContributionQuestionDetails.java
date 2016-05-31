@@ -212,8 +212,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${myViewOfOthers}", getNormalizedPointsListColorizedDescending(currentUserTeamResults.claimed[currentUserIndex], currentUserIndex),
                 "${teamViewOfMe}", getPointsAsColorizedHtml(teamClaim),
                 "${teamViewOfOthers}", getNormalizedPointsListColorizedDescending(
-                                           currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex],
-                                           currentUserIndex));
+                                               currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex],
+                                               currentUserIndex));
     }
     
     private String getQuestionResultsStatisticsHtmlQuestionView(List<FeedbackResponseAttributes> responses,
