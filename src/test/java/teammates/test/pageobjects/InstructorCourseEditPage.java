@@ -365,9 +365,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public WebElement addSectionLevelPrivilegesLink(int instrNum) {
-        String idStr = "addSectionLevelForInstructor" + instrNum;
-        
-        return browser.driver.findElement(By.id(idStr));
+        return browser.driver.findElement(By.id("addSectionLevelForInstructor" + instrNum));
     }
     
     public WebElement sectionLevelPanel(int instrNum, int sectionLevelIndex) {
