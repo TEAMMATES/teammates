@@ -45,7 +45,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
         student.section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
         student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);
         boolean hasSection = logic.hasIndicatedSections(courseId);
-        boolean isTeamChangedForWholeTeam = 
+        boolean isTeamChangedForWholeTeam =
                 "on".equals(getRequestParamValue(Const.ParamsNames.TEAM_CHANGED_FOR_WHOLE_TEAM));
         
         student.name = Sanitizer.sanitizeName(student.name);
@@ -67,7 +67,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             }
             
             if (isTeamChanged && isTeamChangedForWholeTeam) {
-                List<StudentAttributes> studentsInTeam = 
+                List<StudentAttributes> studentsInTeam =
                         logic.getStudentsForTeam(originalStudentAttribute.getTeam(), courseId);
                 for (StudentAttributes studentInTeam : studentsInTeam) {
                     if (studentInTeam.getEmail().equals(studentEmail)) {
