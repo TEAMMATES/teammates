@@ -510,7 +510,7 @@ public class Emails {
         messageToUser.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT + " " + shortName));
         String joinUrl = generateNewInstructorAccountJoinLink(instructor, institute);
         
-        String emailBody = Templates.populateTemplate(EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME,
+        String emailBody = Templates.populateTemplate(EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME,
                 "${userName}", shortName,
                 "${joinUrl}", joinUrl);
         messageToUser.setContent(emailBody, "text/html");

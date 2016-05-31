@@ -44,7 +44,7 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-pendingCommentsCleared.html");
         public static final String SYSTEM_ERROR =
                 FileHelper.readResourceFile("systemErrorEmailTemplate.html");
-        public static final String NEW_INSTRCUTOR_ACCOUNT_WELCOME =
+        public static final String NEW_INSTRUCTOR_ACCOUNT_WELCOME =
                 FileHelper.readResourceFile("newInstructorAccountWelcome.html");
     }
     

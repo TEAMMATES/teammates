@@ -359,10 +359,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         String templateToUse = showAvgExcludingSelf
                              ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
                              : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
-        return Templates.populateTemplate(
-                                                templateToUse,
-                                                "${summaryTitle}", statsTitle,
-                                                "${statsFragments}", fragmentHtml.toString());
+        return Templates.populateTemplate(templateToUse,
+                "${summaryTitle}", statsTitle,
+                "${statsFragments}", fragmentHtml.toString());
     }
 
     private String getDisplayableRecipientName(boolean isHiddenRecipient,
