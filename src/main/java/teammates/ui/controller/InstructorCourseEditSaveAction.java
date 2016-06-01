@@ -6,8 +6,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseEditSaveAction extends Action {
@@ -37,6 +37,6 @@ public class InstructorCourseEditSaveAction extends Action {
                                         
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
-        return result;                                
+        return result;
     }
 }

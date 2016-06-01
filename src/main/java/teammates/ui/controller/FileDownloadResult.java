@@ -22,7 +22,7 @@ public class FileDownloadResult extends ActionResult {
     
     public FileDownloadResult(
             String destination, AccountAttributes account,
-            List<StatusMessage> status, 
+            List<StatusMessage> status,
             String fileName, String fileContent) {
         super(destination, account, status);
         this.fileName = fileName;

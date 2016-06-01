@@ -15,10 +15,7 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
-    String adminUserId = "admin.user";
+    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -29,6 +26,8 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
+        String adminUserId = "admin.user";
         String[] submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
         
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -70,7 +69,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, r.getStatusMessage());
         assertFalse(r.isError);
@@ -120,7 +119,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
 
-    private InstructorFeedbacksPageAction getAction(String... params) throws Exception {
+    private InstructorFeedbacksPageAction getAction(String... params) {
         return (InstructorFeedbacksPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

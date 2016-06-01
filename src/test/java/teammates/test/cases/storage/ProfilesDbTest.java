@@ -11,12 +11,12 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.common.util.GoogleCloudStorageHelper;
 
 public class ProfilesDbTest extends BaseComponentTestCase {
     
@@ -24,12 +24,12 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     private AccountsDb accountsDb = new AccountsDb();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
-    @Test 
-    public void testGetStudentProfile() throws Exception {
+    @Test
+    public void testGetStudentProfile() {
         
         ______TS("success case");
         // implicitly tested in update
@@ -87,8 +87,8 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             signalFailureToDetectException(" - EntityDoesNotExistException");
         } catch (EntityDoesNotExistException edne) {
             AssertHelper.assertContains(
-                EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId, 
-                edne.getMessage());
+                    EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId,
+                    edne.getMessage());
             a.studentProfile.googleId = a.googleId;
         }
     }
@@ -183,7 +183,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             AssertHelper.assertContains("GoogleId is empty", ae.getMessage());
         }
         
-        // picture key        
+        // picture key
         try {
             profilesDb.updateStudentProfilePicture(a.googleId, "");
             signalFailureToDetectException();
@@ -199,7 +199,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             profilesDb.updateStudentProfilePicture("non-eXisTEnt", "random");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            AssertHelper.assertContains(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + "non-eXisTEnt", 
+            AssertHelper.assertContains(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + "non-eXisTEnt",
                     edne.getMessage());
         }
     }

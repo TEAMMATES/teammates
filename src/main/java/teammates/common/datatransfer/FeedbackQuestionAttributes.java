@@ -15,7 +15,6 @@ import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
-    private String feedbackQuestionId;
     public String feedbackSessionName;
     public String courseId;
     public String creatorEmail;
@@ -33,6 +32,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
+    private String feedbackQuestionId;
     private transient Date createdAt;
     private transient Date updatedAt;
 
@@ -78,6 +78,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.feedbackQuestionId = id;
     }
 
+    @Override
     public FeedbackQuestion toEntity() {
         return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
                                     questionMetaData, questionNumber, questionType, giverType,
@@ -120,6 +121,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return Utils.getTeammatesGson().toJson(this, FeedbackQuestionAttributes.class);
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
@@ -135,9 +137,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, "creator's email", creatorEmail);
+        error = validator.getInvalidityInfoForEmail(creatorEmail);
         if (!error.isEmpty()) {
-            errors.add(error);
+            errors.add("Invalid creator's email: " + error);
         }
 
         errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
@@ -159,7 +161,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
             // Exceptional case: self feedback
             if (participant == FeedbackParticipantType.RECEIVER
-                && recipientType == FeedbackParticipantType.SELF) {
+                    && recipientType == FeedbackParticipantType.SELF) {
                 message.add("You can see your own feedback in the results page later on.");
                 continue;
             }
@@ -183,7 +185,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             // Visibility fragment: e.g. can see your name, but not...
             if (showRecipientNameTo.contains(participant)) {
                 if (participant != FeedbackParticipantType.RECEIVER
-                    && recipientType != FeedbackParticipantType.NONE) {
+                        && recipientType != FeedbackParticipantType.NONE) {
                     line.append(", the name of the recipient");
                 }
 
@@ -209,7 +211,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                     }
                 }
 
-            } 
+            }
 
             line.append('.');
             message.add(line.toString());
@@ -257,14 +259,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * @return
      */
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionAttributes newAttributes) {
-        if (!newAttributes.giverType.equals(this.giverType) 
-            || !newAttributes.recipientType.equals(this.recipientType)) {
+        if (!newAttributes.giverType.equals(this.giverType)
+                || !newAttributes.recipientType.equals(this.recipientType)) {
             return true;
         }
 
         if (!this.showResponsesTo.containsAll(newAttributes.showResponsesTo)
-            || !this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo)
-            || !this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo)) {
+                || !this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo)
+                || !this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo)) {
             return true;
         }
 
@@ -282,10 +284,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         /**
          * Although question numbers ought to be unique in a feedback session,
-         * eventual consistency can result in duplicate questions numbers. 
+         * eventual consistency can result in duplicate questions numbers.
          * Therefore, to ensure that the question order is always consistent to the user,
          * compare feedbackQuestionId, which is guaranteed to be unique,
-         * when the questionNumbers are the same. 
+         * when the questionNumbers are the same.
          */
         return this.feedbackQuestionId.compareTo(o.feedbackQuestionId);
     }
@@ -603,14 +605,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     /**
      * Should only be used for testing
      */
-    public void setCreatedAt_NonProduction(Date createdAt) {
+    public void setCreatedAt_nonProduction(Date createdAt) {
         this.createdAt = createdAt;
     }
     
     /**
      * Should only be used for testing
      */
-    public void setUpdatedAt_NonProduction(Date updatedAt) {
+    public void setUpdatedAt_nonProduction(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
     

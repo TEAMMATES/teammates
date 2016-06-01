@@ -12,7 +12,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
     protected boolean isSpecificUserJoinedCourse() {
         if (student == null) {
             return isJoinedCourse(courseId);
-        } 
+        }
         return student.course.equals(courseId);
     }
 
@@ -28,7 +28,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
             // called before this, calling getStudent() and making student not null in any case
             // This still acts as a safety net, however, and should stay
             return getStudent().email;
-        } 
+        }
         return student.email;
     }
 

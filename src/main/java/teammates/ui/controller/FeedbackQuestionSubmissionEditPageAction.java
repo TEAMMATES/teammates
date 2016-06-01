@@ -5,8 +5,8 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 
 public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
     protected String courseId;
@@ -29,12 +29,12 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
             return createPleaseJoinCourseResponse(courseId);
         }
         
-        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);      
+        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         
         verifyAccesibleForSpecificUser();
         
-        String userEmailForCourse = getUserEmailForCourse();        
+        String userEmailForCourse = getUserEmailForCourse();
         data = new FeedbackSubmissionEditPageData(account, student);
         data.setShowRealQuestionNumber(true);
         data.setHeaderHidden(true);

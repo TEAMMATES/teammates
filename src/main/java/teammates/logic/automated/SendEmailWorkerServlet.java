@@ -12,16 +12,17 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.labs.repackaged.org.json.JSONException;
-
 import teammates.common.util.Assumption;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.HttpRequestHelper;
 import teammates.logic.core.Emails;
+
+import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 @SuppressWarnings("serial")
 public class SendEmailWorkerServlet extends WorkerServlet {
     
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         //Sets an arbitrary retry code outside of the range 200-299 so GAE will automatically retry upon failure
         int responseCodeForRetry = 100;

@@ -48,12 +48,12 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         showPageResult = (ShowPageResult) instructorFeedbackEditPageAction.executeAndPostProcess();
         
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT
-                         + "?error=false&user=" + instructor1OfCourse1.googleId; 
+                         + "?error=false&user=" + instructor1OfCourse1.googleId;
         assertEquals(expectedString, showPageResult.getDestinationWithParams());
         
         assertEquals("", showPageResult.getStatusMessage());
         
-        expectedString = 
+        expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditPage|||instructorFeedbackEditPage|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                 + "instr1@course1.tmt|||instructorFeedbackEdit "
@@ -80,7 +80,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         }
     }
     
-    private InstructorFeedbackEditPageAction getAction(String... params) throws Exception {
+    private InstructorFeedbackEditPageAction getAction(String... params) {
         return (InstructorFeedbackEditPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }

@@ -34,11 +34,11 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         StudentAttributes student = testData.students.get("student2InCourse1");
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
         String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
-        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]", 
+        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]",
                 BackDoor.uploadAndUpdateStudentProfilePicture(student.googleId, pictureData));
     }
     
-    @Test 
+    @Test
     public void allTests() throws Exception {
         
         testContent();
@@ -114,7 +114,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.clickAndHoverPicture("studentphoto-c0.1");
-        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentsForStudent2.html");        
+        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentsForStudent2.html");
     }
 
     private InstructorSearchPage getInstructorSearchPage(String instructorId) {
@@ -125,7 +125,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

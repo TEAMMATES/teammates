@@ -73,7 +73,7 @@ public class InstructorStudentRecordsPageAction extends Action {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS, StatusMessageColor.WARNING));
             } else if (!isInstructorAllowedToViewStudent) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR, StatusMessageColor.WARNING));
-            } 
+            }
         }
 
         if (sessions.isEmpty() && comments.isEmpty()) {
@@ -85,8 +85,8 @@ public class InstructorStudentRecordsPageAction extends Action {
             sessionNames.add(fsa.feedbackSessionName);
         }
         
-        InstructorStudentRecordsPageData data = 
-                                        new InstructorStudentRecordsPageData(account, student, courseId, 
+        InstructorStudentRecordsPageData data =
+                                        new InstructorStudentRecordsPageData(account, student, courseId,
                                                                              showCommentBox, studentProfile,
                                                                              comments, sessionNames, instructor);
 
@@ -106,8 +106,8 @@ public class InstructorStudentRecordsPageAction extends Action {
         while (iterFs.hasNext()) {
             FeedbackSessionAttributes tempFs = iterFs.next();
             if (!tempFs.courseId.equals(courseId)
-                || !instructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
-                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
+                    || !instructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
+                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                 iterFs.remove();
             }
         }

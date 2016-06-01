@@ -27,7 +27,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -118,7 +118,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(17, 0, 1, "10");
 
         // Just check that some of the responses persisted.
-        FeedbackQuestionAttributes fq = 
+        FeedbackQuestionAttributes fq =
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 2);
         FeedbackQuestionAttributes fqPartial =
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 6);
@@ -184,7 +184,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(6, 2, "UI");
 
         // Click on "None of the above", the option will be deselected when another option is clicked
-        submitPage.toggleMsqOption(7, 0, ""); 
+        submitPage.toggleMsqOption(7, 0, "");
         submitPage.toggleMsqOption(7, 0, "UI");
         submitPage.toggleMsqOption(7, 0, "Algo");
         submitPage.toggleMsqOption(7, 0, "Design");
@@ -267,7 +267,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         FeedbackMsqResponseDetails frMsq =
                 (FeedbackMsqResponseDetails) BackDoor.getFeedbackResponse(
-                        fqMsq.getId(), "IFSubmitUiT.instr@gmail.tmt", 
+                        fqMsq.getId(), "IFSubmitUiT.instr@gmail.tmt",
                         "IFSubmitUiT.instr2@gmail.tmt").getResponseDetails();
 
         assertFalse(frMsq.contains("UI"));
@@ -479,7 +479,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "");
         assertEquals("70 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "");
-        assertEquals("Please distribute 100 points among the above options.", 
+        assertEquals("Please distribute 100 points among the above options.",
                      submitPage.getConstSumMessage(qnNumber, 0));
 
         // Test error message when submitting
@@ -610,7 +610,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

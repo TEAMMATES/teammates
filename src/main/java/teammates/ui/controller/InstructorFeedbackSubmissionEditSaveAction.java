@@ -17,10 +17,10 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean creatorOnly = false;
         new GateKeeper().verifyAccessible(instructor, session, creatorOnly);
-        boolean shouldEnableSubmit = 
+        boolean shouldEnableSubmit =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
-        if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.feedbackSessionName, 
+        if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.feedbackSessionName,
                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
             shouldEnableSubmit = true;
         }
@@ -89,7 +89,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
     }
 
     @Override
-    protected void setAdditionalParameters() throws EntityDoesNotExistException {
+    protected void setAdditionalParameters() {
         // no additional parameters to set for the standard instructor submit page
     }
 

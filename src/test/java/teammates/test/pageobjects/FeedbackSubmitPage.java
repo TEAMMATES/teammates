@@ -67,8 +67,8 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void selectResponseTextDropdown(int qnNumber, int responseNumber, int responseSubNumber, String text) {
         WebElement element = browser.driver.findElement(
-                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" 
-                      + qnNumber + "-" + responseNumber 
+                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-"
+                      + qnNumber + "-" + responseNumber
                       + "-" + responseSubNumber));
         Select dropdown = new Select(element);
         dropdown.selectByVisibleText(text);
@@ -138,10 +138,13 @@ public class FeedbackSubmitPage extends AppPage {
     }
     
     public void clickSubmitButton() {
-        WebElement button = browser.driver.findElement(By.id("response_submit_button"));
-        button.click();
+        getSubmitButton().click();
     }
 
+    public WebElement getSubmitButton() {
+        return browser.driver.findElement(By.id("response_submit_button"));
+    }
+    
     public void linkOnHomeLink() {
         studentHomeTab.click();
         AppPage.getNewPageInstance(browser, StudentHomePage.class);

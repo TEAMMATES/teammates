@@ -10,19 +10,19 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.ParamsNames;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionOpeningMailAction;
 import teammates.logic.core.Emails;
-import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
+import teammates.logic.core.FeedbackSessionsLogic;
+
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQueueTestCase {
 
@@ -62,7 +62,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
     
@@ -145,7 +145,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
         fsLogic.updateFeedbackSession(session2);
         
-        int course1StudentCount = 5; 
+        int course1StudentCount = 5;
         int course1InstructorCount = 5;
         
         prepareAndSendOpeningMailForSession(session1, course1StudentCount, course1InstructorCount);

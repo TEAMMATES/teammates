@@ -16,8 +16,8 @@ public class CourseEditSectionRow {
     private List<CourseEditFeedbackSessionRow> feedbackSessions;
     private List<List<ElementTag>> specialSections;
     
-    public CourseEditSectionRow(String sectionName, List<String> sectionNames, int sectionIndex, 
-                                InstructorAttributes instructor, int instructorIndex, 
+    public CourseEditSectionRow(String sectionName, List<String> sectionNames, int sectionIndex,
+                                InstructorAttributes instructor, int instructorIndex,
                                 List<String> feedbackNames) {
         this.sectionName = sectionName;
         this.sectionIndex = sectionIndex;
@@ -48,15 +48,15 @@ public class CourseEditSectionRow {
         for (String feedbackName : feedbackNames) {
             List<ElementTag> checkBoxList = new ArrayList<ElementTag>();
             for (String privilege : privileges) {
-                String name = privilege + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex 
+                String name = privilege + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex
                               + "feedback" + feedbackName;
-                boolean isChecked = instructor != null && instructor.isAllowedForPrivilege(sectionName, 
+                boolean isChecked = instructor != null && instructor.isAllowedForPrivilege(sectionName,
                                                                                              feedbackName,
                                                                                              privilege);
                 checkBoxList.add(createCheckBox(null, name, "true", isChecked));
             }
             
-            CourseEditFeedbackSessionRow feedbackSessionRow = new CourseEditFeedbackSessionRow(feedbackName, 
+            CourseEditFeedbackSessionRow feedbackSessionRow = new CourseEditFeedbackSessionRow(feedbackName,
                                                                                                checkBoxList);
             feedbackSessions.add(feedbackSessionRow);
         }
@@ -114,7 +114,7 @@ public class CourseEditSectionRow {
                  
         int index = 0;
         for (String privilege : privileges) {
-            boolean isChecked = instructor != null && instructor.isAllowedForPrivilege(sectionName, 
+            boolean isChecked = instructor != null && instructor.isAllowedForPrivilege(sectionName,
                                                                                        privilege);
             String name = privilege + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex;
             permissionInputGroup.add(createCheckBox(checkboxContent[index], name, "true", isChecked));
@@ -139,7 +139,7 @@ public class CourseEditSectionRow {
         
         int index = 0;
         for (String privilege : privileges) {
-            boolean isChecked = instructor != null && instructor.isAllowedForPrivilege(sectionName, 
+            boolean isChecked = instructor != null && instructor.isAllowedForPrivilege(sectionName,
                                                                                        privilege);
             String name = privilege + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex;
             permissionInputGroup.add(createCheckBox(checkboxContent[index], name, "true", isChecked));
@@ -153,12 +153,12 @@ public class CourseEditSectionRow {
      * Creates a row of selections elements (checkboxes), each representing a single section
      *   and automatically checks a single checkbox if special privileges have been assigned to
      *   the section it corresponds to.
-     *   
+     * 
      * @param sectionNames the list of sections in the course
      * @param sectionIndex the index of the section which will be checked for special privileges
      * @return             a list of checkboxes, separated into rows and columns
      */
-    private List<List<ElementTag>> createSpecialSectionsForSectionRow(List<String> sectionNames, 
+    private List<List<ElementTag>> createSpecialSectionsForSectionRow(List<String> sectionNames,
                                                                       int sectionIndex) {
         List<List<ElementTag>> specialSections = new ArrayList<List<ElementTag>>();
         // i represents the row (vertical alignment) of the checkbox

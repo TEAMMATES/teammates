@@ -22,7 +22,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackMsqQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -52,15 +52,17 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
     }
 
+    @Override
     public void testNewQuestionFrame() {
 
         ______TS("MSQ: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
 
         ______TS("empty question text");
@@ -76,8 +78,8 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("remove when 1 left");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
         feedbackEditPage.fillQuestionBox("Test question text");
 
         feedbackEditPage.clickRemoveMsqOptionLink(1, -1);
@@ -92,8 +94,8 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("select Add Other Option");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
         feedbackEditPage.fillQuestionBox("Msq with other option");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
         
@@ -103,10 +105,11 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
     }
 
+    @Override
     public void testCustomizeOptions() {
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
         
         feedbackEditPage.fillMsqOption(0, "Choice 1");
         feedbackEditPage.fillMsqOption(1, "Choice 2");
@@ -133,6 +136,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-4--1"));
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
 
         ______TS("MSQ: add question action success");
@@ -146,6 +150,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
 
         ______TS("MSQ: edit question success");
@@ -205,6 +210,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
     }
     
+    @Override
     public void testDeleteQuestionAction() {
 
         ______TS("MSQ: qn delete then cancel");
@@ -220,7 +226,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

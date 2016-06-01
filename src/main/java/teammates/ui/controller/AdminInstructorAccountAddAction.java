@@ -11,21 +11,20 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.FileHelper;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StringHelper;
+import teammates.common.util.Templates;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
 
@@ -33,10 +32,8 @@ import com.google.gson.Gson;
 
 public class AdminInstructorAccountAddAction extends Action {
     
-    private static int PERSISTENCE_WAITING_DURATION = 4000;
-    
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
 
         new GateKeeper().verifyAdminPrivileges(account);
 
@@ -68,8 +65,8 @@ public class AdminInstructorAccountAddAction extends Action {
                 data.instructorName = instructorInfo[0];
                 data.instructorEmail = instructorInfo[1];
                 data.instructorInstitution = instructorInfo[2];
-            } catch (InvalidParametersException e1) {
-                data.statusForAjax = e1.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
+            } catch (InvalidParametersException e) {
+                data.statusForAjax = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
                 data.instructorAddingResultForAjax = false;
                 statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
                 return createAjaxResult(data);
@@ -83,18 +80,18 @@ public class AdminInstructorAccountAddAction extends Action {
         
         try {
             logic.verifyInputForAdminHomePage(data.instructorShortName, data.instructorName, data.instructorInstitution, data.instructorEmail);
-        } catch (InvalidParametersException e1) {
-            data.statusForAjax = e1.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
+        } catch (InvalidParametersException e) {
+            data.statusForAjax = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
             data.instructorAddingResultForAjax = false;
             statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
             return createAjaxResult(data);
         }
             
-        String courseId = null;    
+        String courseId = null;
        
         try {
-            courseId = importDemoData(data);             
-        } catch (Exception e) {  
+            courseId = importDemoData(data);
+        } catch (Exception e) {
             
             String retryUrl = Url.addParamToUrl(Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD, Const.ParamsNames.INSTRUCTOR_SHORT_NAME, data.instructorShortName);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_NAME, data.instructorName);
@@ -102,7 +99,8 @@ public class AdminInstructorAccountAddAction extends Action {
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
                        
             StringBuilder errorMessage = new StringBuilder(100);
-            errorMessage.append("<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>"); // NOPMD
+            String retryLink = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";
+            errorMessage.append(retryLink);
             
             statusToUser.add(new StatusMessage(errorMessage.toString(), StatusMessageColor.DANGER));
             
@@ -137,7 +135,7 @@ public class AdminInstructorAccountAddAction extends Action {
 
     /**
      * Extracts instructor's info from a string then store them in an array of string.
-     * @param instructorDetails This string is in the format INSTRUCTOR_NAME | INSTRUCTOR_EMAIL | INSTRUCTOR_INSTITUTION 
+     * @param instructorDetails This string is in the format INSTRUCTOR_NAME | INSTRUCTOR_EMAIL | INSTRUCTOR_INSTITUTION
      * or INSTRUCTOR_NAME \t INSTRUCTOR_EMAIL \t INSTRUCTOR_INSTITUTION
      * @return A String array of size 3
      * @throws InvalidParametersException
@@ -145,7 +143,7 @@ public class AdminInstructorAccountAddAction extends Action {
     private String[] extractInstructorInfo(String instructorDetails) throws InvalidParametersException {
         String[] result = instructorDetails.trim().replace('|', '\t').split("\t");
         if (result.length != Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION) {
-            throw new InvalidParametersException(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, 
+            throw new InvalidParametersException(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID,
                                                                Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION));
         }
         return result;
@@ -155,30 +153,12 @@ public class AdminInstructorAccountAddAction extends Action {
      * Imports Demo course to new instructor.
      * @param pageData data from AdminHomePageData
      * @return the ID of Demo course
-     * @throws EntityAlreadyExistsException
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    private String importDemoData(AdminHomePageData pageData)
-            throws EntityAlreadyExistsException,
-            InvalidParametersException, EntityDoesNotExistException {
+    private String importDemoData(AdminHomePageData pageData) throws InvalidParametersException, EntityDoesNotExistException {
 
-        String jsonString;
-        String courseId = generateDemoCourseId(pageData.instructorEmail); 
-
-        jsonString = FileHelper.readStream(Config.class.getClassLoader()
-                    .getResourceAsStream("InstructorSampleData.json"));
-
-        // replace email
-        jsonString = jsonString.replaceAll(
-                "teammates.demo.instructor@demo.course",
-                pageData.instructorEmail);
-        // replace name
-        jsonString = jsonString.replaceAll("Demo_Instructor",
-                pageData.instructorName);
-        // replace course
-        jsonString = jsonString.replaceAll("demo.course", courseId);
-        // update feedback session time
+        String courseId = generateDemoCourseId(pageData.instructorEmail);
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.set(Calendar.AM_PM, Calendar.PM);
         c.set(Calendar.HOUR, 11);
@@ -186,8 +166,15 @@ public class AdminInstructorAccountAddAction extends Action {
         c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z");
 
-        jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
-                formatter.format(c.getTime()));
+        String jsonString = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
+                // replace email
+                "teammates.demo.instructor@demo.course", pageData.instructorEmail,
+                // replace name
+                "Demo_Instructor", pageData.instructorName,
+                // replace course
+                "demo.course", courseId,
+                // update feedback session time
+                "2013-04-01 11:59 PM UTC", formatter.format(c.getTime()));
 
         Gson gson = Utils.getTeammatesGson();
         DataBundle data = gson.fromJson(jsonString, DataBundle.class);
@@ -195,20 +182,18 @@ public class AdminInstructorAccountAddAction extends Action {
         BackDoorLogic backdoor = new BackDoorLogic();
         
         try {
-            backdoor.persistDataBundle(data);        
+            backdoor.persistDataBundle(data);
         } catch (EntityDoesNotExistException e) {
             int elapsedTime = 0;
-            if (PERSISTENCE_WAITING_DURATION > 0) {
-                while (elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
-                    ThreadHelper.waitBriefly();
-                    elapsedTime += ThreadHelper.WAIT_DURATION;
-                }
-                
-                backdoor.persistDataBundle(data);   
-                log.warning("Data Persistence was Checked Twice in This Request");
+            
+            while (elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
+                ThreadHelper.waitBriefly();
+                elapsedTime += ThreadHelper.WAIT_DURATION;
             }
+            
+            backdoor.persistDataBundle(data);
+            log.warning("Data Persistence was Checked Twice in This Request");
         }
-        
         
         //produce searchable documents
         List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, pageData.instructorEmail);
@@ -240,7 +225,7 @@ public class AdminInstructorAccountAddAction extends Action {
     *         replace email host with their first 3 chars. eg, gmail.com -> gma
     *         append "-demo"
     *       to sum up: lebron@gmail.com -> lebron.gma-demo
-    *       
+    * 
     *   b.  if the generated courseId already exists, create another one by appending a integer to the previous courseId.
     *       if the newly generate id still exists, increment the id, until we find a feasible one
     *       eg.
@@ -250,19 +235,19 @@ public class AdminInstructorAccountAddAction extends Action {
     *       ...
     *       lebron@gmail.com -> lebron.gma-demo99 // already exists!
     *       lebron@gmail.com -> lebron.gma-demo100 // found! a feasible id
-    *   
-    *   c.  in any cases(a or b), if generated Id is longer than FieldValidator.COURSE_ID_MAX_LENGTH, shorten the part 
+    * 
+    *   c.  in any cases(a or b), if generated Id is longer than FieldValidator.COURSE_ID_MAX_LENGTH, shorten the part
     *       before "@" of the intial input email, by continuously remove its last character
-    *    
-    *    @see #generateDemoCourseId(String)  
+    * 
+    *    @see #generateDemoCourseId(String)
     *    @see #generateNextDemoCourseId(String, int)
     */
     
-    /**    
+    /** 
     * Generate a course ID for demo course, and if the generated id already exists, try another one
-    *       
+    * 
     * @param instructorEmail is the instructor email.
-    * @return generated course id 
+    * @return generated course id
     */
     private String generateDemoCourseId(String instructorEmail) {
         String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
@@ -272,9 +257,9 @@ public class AdminInstructorAccountAddAction extends Action {
         return proposedCourseId;
     }
     
-    /**    
+    /** 
     * Generate a course ID for demo course from a given email
-    *       
+    * 
     * @param instructorEmail is the instructor email.
     * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
     */
@@ -286,14 +271,14 @@ public class AdminInstructorAccountAddAction extends Action {
                 + "-demo";
     }
     
-    /**    
+    /** 
     * Generate a course ID for demo course from a given email or a generated course Id
     * here we check the input string is a email or course Id and handle them accordingly
     * check the resulting course id, and if bigger than maximumIdLength, cut it so that it equals maximumIdLength
     * 
     * @param instructorEmailOrProposedCourseId is the instructor email or a proposed course id that already exists.
-    * @param maximumIdLength is the maximum resulting id length allowed, above which we will cut the part before "@" 
-    * @return the proposed course id. 
+    * @param maximumIdLength is the maximum resulting id length allowed, above which we will cut the part before "@"
+    * @return the proposed course id.
     *     eg.
     *         lebron@gmail.com -> lebron.gma-demo
     *         lebron.gma-demo -> lebron.gma-demo0
@@ -307,7 +292,7 @@ public class AdminInstructorAccountAddAction extends Action {
                                              maximumIdLength);
         }
         
-        final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
+        final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo");
         if (isFirstTimeDuplicate) {
             return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0",
                                              maximumIdLength);

@@ -15,12 +15,12 @@ import teammates.common.util.Utils;
 public class TeamEvalResult {
     
     /** submitted value is uninitialized */
-    public static int NA = Const.INT_UNINITIALIZED;
+    public static final int NA = Const.INT_UNINITIALIZED;
     /** submitted 'Not SUre' */
-    public static int NSU = Const.POINTS_NOT_SURE;
+    public static final int NSU = Const.POINTS_NOT_SURE;
     /** did Not SuBmit */
-    public static int NSB = Const.POINTS_NOT_SUBMITTED;
-    private static Logger log = Utils.getLogger();
+    public static final int NSB = Const.POINTS_NOT_SUBMITTED;
+    private static final Logger log = Utils.getLogger();
 
     /** submission values originally from students of the team */
     public int[][] claimed;
@@ -40,7 +40,7 @@ public class TeamEvalResult {
     public List<String> studentEmails;
 
     public TeamEvalResult(int[][] submissionValues) {
-        /*This is the only method that should be public. However, many of the 
+        /*This is the only method that should be public. However, many of the
          * other methods are set as public for the ease of testing.
          */
 
@@ -203,7 +203,7 @@ public class TeamEvalResult {
             if (isSpecialValue((int) value)) {
                 output[j] = value;
             } else {
-                output[j] = (factor == 0 ? value : value * factor);
+                output[j] = factor == 0 ? value : value * factor;
             }
         }
         return output;
@@ -216,7 +216,7 @@ public class TeamEvalResult {
             int filterValue = (int) filterArray[i];
             boolean isSpecialValue = !isSanitized(filterValue)
                     || filterValue == NA;
-            returnValue[i] = (isSpecialValue ? NA : valueArray[i]);
+            returnValue[i] = isSpecialValue ? NA : valueArray[i];
         }
         return returnValue;
     }
@@ -234,7 +234,7 @@ public class TeamEvalResult {
 
             double value = input[i];
             if (value != NA) {
-                sum = (sum == NA ? value : sum + value);
+                sum = sum == NA ? value : sum + value;
             }
         }
         return sum;
@@ -249,7 +249,7 @@ public class TeamEvalResult {
         double[][] output = new double[input.length][input.length];
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[i].length; j++) {
-                output[i][j] = ((i == j) ? NA : input[i][j]);
+                output[i][j] = i == j ? NA : input[i][j];
             }
         }
         return output;
@@ -296,12 +296,10 @@ public class TeamEvalResult {
         return factor;
     }
 
-    // Suppress PMD.AvoidArrayLoops since the arrays are of different types
-    @SuppressWarnings("PMD.AvoidArrayLoops")
     private static double[] intToDouble(int[] input) {
         double[] converted = new double[input.length];
         for (int i = 0; i < input.length; i++) {
-            converted[i] = input[i];  
+            converted[i] = (double) input[i];
         }
         return converted;
     }
@@ -387,8 +385,7 @@ public class TeamEvalResult {
             if (isSquareArray) {
                 continue;
             }
-            if (i == firstDividerLocation || i == secondDividerLocation
-                || i == thirdDividerLocation) {
+            if (i == firstDividerLocation || i == secondDividerLocation || i == thirdDividerLocation) {
                 returnValue.append("=======================")
                            .append(Const.EOL);
             }
@@ -405,6 +402,7 @@ public class TeamEvalResult {
                           .replace(NSU + ".0", "NSU");
     }
 
+    @Override
     public String toString() {
         return toString(0);
     }

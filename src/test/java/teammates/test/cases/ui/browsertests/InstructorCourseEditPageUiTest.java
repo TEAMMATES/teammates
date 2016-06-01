@@ -12,7 +12,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -33,7 +32,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private static String courseId;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseEditPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -127,11 +126,11 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         // Add instructor
         assertEquals(maxLengthInstructorName, courseEditPage.fillInstructorName(maxLengthInstructorName));
-        assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH), 
+        assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH),
                      courseEditPage.fillInstructorName(longInstructorName));
         // Edit instructor
         assertEquals(maxLengthInstructorName, courseEditPage.fillInstructorName(maxLengthInstructorName));
-        assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH), 
+        assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH),
                      courseEditPage.fillInstructorName(longInstructorName));
         
 
@@ -140,11 +139,11 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         // Add instructor
         assertEquals(maxLengthEmail, courseEditPage.fillInstructorEmail(maxLengthEmail));
-        assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH), 
+        assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH),
                      courseEditPage.fillInstructorEmail(longEmail));
         // Edit instructor
         assertEquals(maxLengthEmail, courseEditPage.editInstructorEmail(maxLengthEmail));
-        assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH), 
+        assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH),
                      courseEditPage.editInstructorEmail(longEmail));
     }
 
@@ -201,7 +200,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
 
         String invalidName = "";
         
@@ -341,7 +340,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.editInstructor(instructorId, "New name", invalidEmail);
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
         
         String invalidName = "";
         
@@ -461,7 +460,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         // Create an registered instructor with all privileges except modifying instructors
         InstructorPrivileges privilege = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         privilege.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, false);
-        InstructorAttributes instructor = new InstructorAttributes("InsCrsEdit.reg", courseId, "Teammates Reg", "InsCrsEdit.reg@gmail.tmt", 
+        InstructorAttributes instructor = new InstructorAttributes("InsCrsEdit.reg", courseId, "Teammates Reg", "InsCrsEdit.reg@gmail.tmt",
                                         Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, "Teammates Reg", privilege);
         BackDoor.createInstructor(instructor);
         
@@ -519,7 +518,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.editCourseName("");
         courseEditPage.clickSaveCourseButton();
         courseEditPage.changePageType(InstructorCourseEditPage.class);
-        assertEquals(String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY), 
+        assertEquals(String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY),
                      courseEditPage.getStatus());
     }
     
@@ -553,7 +552,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.getNameField(unregInstrNum).isEnabled());
     }
     
-    private InstructorCourseEditPage getCourseEditPage() {        
+    private InstructorCourseEditPage getCourseEditPage() {
         AppUrl courseEditPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId);
@@ -562,7 +561,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

@@ -11,10 +11,10 @@ import java.util.Set;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Comment;
 
 import com.google.appengine.api.datastore.Text;
@@ -22,10 +22,8 @@ import com.google.appengine.api.datastore.Text;
 /**
  * A data transfer object for {@link Comment} entities.
  */
-public class CommentAttributes extends EntityAttributes 
-    implements Comparable<CommentAttributes> {
+public class CommentAttributes extends EntityAttributes implements Comparable<CommentAttributes> {
 
-    private Long commentId;
     public String courseId;
     public String giverEmail;
     public CommentParticipantType recipientType = CommentParticipantType.PERSON;
@@ -39,6 +37,7 @@ public class CommentAttributes extends EntityAttributes
     public Date createdAt;
     public String lastEditorEmail;
     public Date lastEditedAt;
+    private Long commentId;
 
     public CommentAttributes() {
         // attributes to be set after construction
@@ -69,7 +68,7 @@ public class CommentAttributes extends EntityAttributes
         this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
-        this.lastEditorEmail = comment.getLastEditorEmail() == null 
+        this.lastEditorEmail = comment.getLastEditorEmail() == null
                              ? comment.getGiverEmail()
                              : comment.getLastEditorEmail();
         this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt();
@@ -100,6 +99,7 @@ public class CommentAttributes extends EntityAttributes
         this.commentId = commentId;
     }
 
+    @Override
     public List<String> getInvalidityInfo() {
 
         FieldValidator validator = new FieldValidator();
@@ -111,7 +111,7 @@ public class CommentAttributes extends EntityAttributes
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        error = validator.getInvalidityInfoForEmail(giverEmail);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -120,7 +120,7 @@ public class CommentAttributes extends EntityAttributes
             switch (recipientType) {
             case PERSON :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
+                    error = validator.getInvalidityInfoForEmail(recipientId);
                     if (!error.isEmpty()) {
                         errors.add(error);
                     }
@@ -128,7 +128,7 @@ public class CommentAttributes extends EntityAttributes
                 break;
             case TEAM :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
+                    error = validator.getInvalidityInfoForTeamName(recipientId);
                     if (!error.isEmpty()) {
                         errors.add(error);
                     }
@@ -136,7 +136,7 @@ public class CommentAttributes extends EntityAttributes
                 break;
             case SECTION :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
+                    error = validator.getInvalidityInfoForSectionName(recipientId);
                     if (!error.isEmpty()) {
                         errors.add(error);
                     }
@@ -158,6 +158,7 @@ public class CommentAttributes extends EntityAttributes
         return errors;
     }
 
+    @Override
     public Comment toEntity() {
         return new Comment(courseId, giverEmail, recipientType, recipients, status, sendingState, showCommentTo,
                 showGiverNameTo, showRecipientNameTo, commentText, createdAt, lastEditorEmail, lastEditedAt);
@@ -172,18 +173,18 @@ public class CommentAttributes extends EntityAttributes
 
     @Override
     public String toString() {
-        return "CommentAttributes [commentId = " + commentId 
-               + ", courseId = " + courseId 
-               + ", giverEmail = " + giverEmail 
-               + ", recipientType = " + recipientType 
-               + ", recipient = " + recipients 
-               + ", status = " + status 
-               + ", showCommentTo = " + showCommentTo 
-               + ", showGiverNameTo = " + showGiverNameTo 
-               + ", showRecipientNameTo = " + showRecipientNameTo 
-               + ", commentText = " + commentText.getValue() 
-               + ", createdAt = " + createdAt 
-               + ", lastEditorEmail = " + lastEditorEmail 
+        return "CommentAttributes [commentId = " + commentId
+               + ", courseId = " + courseId
+               + ", giverEmail = " + giverEmail
+               + ", recipientType = " + recipientType
+               + ", recipient = " + recipients
+               + ", status = " + status
+               + ", showCommentTo = " + showCommentTo
+               + ", showGiverNameTo = " + showGiverNameTo
+               + ", showRecipientNameTo = " + showRecipientNameTo
+               + ", commentText = " + commentText.getValue()
+               + ", createdAt = " + createdAt
+               + ", lastEditorEmail = " + lastEditorEmail
                + ", lastEditedAt = " + lastEditedAt + "]";
     }
 
@@ -218,7 +219,7 @@ public class CommentAttributes extends EntityAttributes
             HashSet<String> sanitizedRecipients = new HashSet<String>();
             for (String recipientId : recipients) {
                 sanitizedRecipients.add(Sanitizer.sanitizeForHtml(recipientId));
-            }     
+            }
             recipients = sanitizedRecipients;
         }
         
@@ -285,7 +286,7 @@ public class CommentAttributes extends EntityAttributes
         removeCommentRecipientTypeIn(showRecipientNameTo, typeToRemove);
     }
     
-    private void removeCommentRecipientTypeIn(List<CommentParticipantType> visibilityOptions, 
+    private void removeCommentRecipientTypeIn(List<CommentParticipantType> visibilityOptions,
             CommentParticipantType typeToRemove) {
         if (visibilityOptions == null) {
             return;
@@ -302,6 +303,7 @@ public class CommentAttributes extends EntityAttributes
 
     public static void sortCommentsByCreationTime(List<CommentAttributes> comments) {
         Collections.sort(comments, new Comparator<CommentAttributes>() {
+            @Override
             public int compare(CommentAttributes comment1, CommentAttributes comment2) {
                 return comment1.createdAt.compareTo(comment2.createdAt);
             }
@@ -310,6 +312,7 @@ public class CommentAttributes extends EntityAttributes
 
     public static void sortCommentsByCreationTimeDescending(List<CommentAttributes> comments) {
         Collections.sort(comments, new Comparator<CommentAttributes>() {
+            @Override
             public int compare(CommentAttributes comment1, CommentAttributes comment2) {
                 return comment2.createdAt.compareTo(comment1.createdAt);
             }
@@ -329,8 +332,8 @@ public class CommentAttributes extends EntityAttributes
             return "";
         }
         String displayTimeAs = TimeHelper.formatDateTimeForComments(this.lastEditedAt);
-        return "(last edited " 
-             + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") 
+        return "(last edited "
+             + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
              + "at " + displayTimeAs + ")";
         
     }

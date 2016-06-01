@@ -75,9 +75,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" 
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" 
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse" 
+        assertEquals("/page/instructorEditStudentFeedbackPage"
+                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
+                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
                      + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
@@ -101,9 +101,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" 
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" 
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse" 
+        assertEquals("/page/instructorEditStudentFeedbackPage"
+                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
+                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
                      + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
@@ -126,9 +126,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" 
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" 
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse" 
+        assertEquals("/page/instructorEditStudentFeedbackPage"
+                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
+                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
                      + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
@@ -142,7 +142,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "New " + fr.getResponseDetails().getAnswerString(), 
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "New " + fr.getResponseDetails().getAnswerString(),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
@@ -151,9 +151,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" 
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" 
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse" 
+        assertEquals("/page/instructorEditStudentFeedbackPage"
+                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
+                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
                      + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
@@ -187,14 +187,14 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
                 
         ______TS("Unsuccessful case: test empty course id parameter");
         
         submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, dataBundle.feedbackResponses.get("response1ForQ1").feedbackSessionName, 
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, dataBundle.feedbackResponses.get("response1ForQ1").feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
@@ -203,7 +203,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.COURSE_ID), e.getMessage());
         }
         
@@ -225,7 +225,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON), e.getMessage());
         }
         
@@ -267,7 +267,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             a = getAction(submissionParams);
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" 
+            assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                          + instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]",
                          e.getMessage());
         }
@@ -293,7 +293,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             a = getAction(submissionParams);
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" 
+            assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                          + instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]",
                          e.getMessage());
         }
@@ -326,9 +326,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" 
-                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt" 
-                     + "&user=IESFPTCoursehelper1&courseid=IESFPTCourse" 
+        assertEquals("/page/instructorEditStudentFeedbackPage"
+                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt"
+                     + "&user=IESFPTCoursehelper1&courseid=IESFPTCourse"
                      + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
@@ -360,7 +360,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             a = getAction(submissionParams);
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" 
+            assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                          + instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 2]", e.getMessage());
         }
         
@@ -390,9 +390,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" 
-                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt" 
-                     + "&user=IESFPTCoursehelper2&courseid=IESFPTCourse" 
+        assertEquals("/page/instructorEditStudentFeedbackPage"
+                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt"
+                     + "&user=IESFPTCoursehelper2&courseid=IESFPTCourse"
                      + "&fsname=Another+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
@@ -427,8 +427,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" 
-                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt" 
+        assertEquals("/page/instructorEditStudentFeedbackPage"
+                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt"
                      + "&user=IESFPTCoursehelper3&courseid=IESFPTCourse"
                      + "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
@@ -503,7 +503,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" 
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor ["
                          + instructor.email + "]", e.getMessage());
         }
 
@@ -531,7 +531,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" 
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor ["
                          + instructor.email + "]", e.getMessage());
         }
         
@@ -559,7 +559,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" 
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor ["
                          + instructor.email + "]", e.getMessage());
         }
     }
@@ -596,15 +596,15 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage" 
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" 
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse" 
+        assertEquals("/page/instructorEditStudentFeedbackPage"
+                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
+                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
                      + "&fsname=Closed+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
     }
     
-    private InstructorEditStudentFeedbackSaveAction getAction(String... params) throws Exception {
+    private InstructorEditStudentFeedbackSaveAction getAction(String... params) {
         return (InstructorEditStudentFeedbackSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }
