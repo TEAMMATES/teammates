@@ -605,7 +605,7 @@ public class CoursesLogic {
                 feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(instructorId, omitArchived);
         
         for (FeedbackSessionDetailsBundle fsb : feedbackSessionList) {
-            CourseDetailsBundle courseSummary = courseList.get(fsb.feedbackSession.courseId);
+            CourseDetailsBundle courseSummary = courseList.get(fsb.feedbackSession.getCourseId());
             if (courseSummary != null) {
                 courseSummary.feedbackSessions.add(fsb);
             }
