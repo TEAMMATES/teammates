@@ -23,8 +23,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.EmailTemplates;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
@@ -52,7 +52,7 @@ public class EmailsTest extends BaseComponentTestCase {
     @BeforeMethod
     public void caseSetUp() throws IOException {
         /* For Sendgrid testing */
-        String fromEmail = "Admin@" + Config.inst().getAppId() + ".appspotmail.com";
+        String fromEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
         String fromName = "TEAMMATES Admin";
         replyTo = "teammates@comp.nus.edu.sg";
         
@@ -389,7 +389,7 @@ public class EmailsTest extends BaseComponentTestCase {
         MimeMessage email = new Emails().generateSystemErrorEmail(
                                         error, requestMethod, requestUserAgent,
                                         requestPath, requestUrl, requestParam,
-                                        TestProperties.inst().TEAMMATES_VERSION);
+                                        TestProperties.TEAMMATES_VERSION);
 
         // check receiver
         String recipient = Config.SUPPORT_EMAIL;
@@ -483,7 +483,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         email = new Emails().generateSystemErrorEmail(error, requestMethod, requestUserAgent,
                                                       requestPath, requestUrl, requestParam,
-                                                      TestProperties.inst().TEAMMATES_VERSION);
+                                                      TestProperties.TEAMMATES_VERSION);
         sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
 
         testEmailAttributes(email, sendgridEmail);

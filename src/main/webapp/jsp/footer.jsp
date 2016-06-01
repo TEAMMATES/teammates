@@ -4,7 +4,7 @@
 
 <%
     PageData data = (PageData)request.getAttribute("data");
-    String version = Config.inst().getAppVersion();
+    String version = Config.getAppVersion();
     String institute = "";
 
     /** Set institute only if both helper and account are available.

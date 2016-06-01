@@ -143,7 +143,7 @@ public final class Const {
          * in the FieldValidator class.
          */
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
-        public static final double ADMIN_TIMZE_ZONE_DOUBLE = 8.0;
+        public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
         
         public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
         public static final String ADMIN_EMAIL_TASK_QUEUE = "admin-send-email-queue";
@@ -443,6 +443,14 @@ public final class Const {
         public static final String RUBRIC = "Rubric question";
     }
     
+    public class FeedbackSessionResults {
+        public static final String QUESTION_SORT_TYPE = "question";
+        public static final String GRQ_SORT_TYPE = "giver-recipient-question";
+        public static final String RGQ_SORT_TYPE = "recipient-giver-question";
+        public static final String GQR_SORT_TYPE = "giver-question-recipient";
+        public static final String RQG_SORT_TYPE = "recipient-question-giver";
+    }
+
     public class InstructorPermissionRoleNames {
         public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
         public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
@@ -514,8 +522,8 @@ public final class Const {
         
         public static final String ADMIN_EMAIL_CONTENT = "emailcontent";
         public static final String ADMIN_EMAIL_SUBJECT = "emailsubject";
-        public static final String ADMIN_EMAIL_RECEVIER = "emailreceiver";
-        public static final String ADMIN_EMAIL_ADDRESS_RECEVIERS = "adminemailaddressreceivers";
+        public static final String ADMIN_EMAIL_RECEIVER = "emailreceiver";
+        public static final String ADMIN_EMAIL_ADDRESS_RECEIVERS = "adminemailaddressreceivers";
         public static final String ADMIN_EMAIL_TASK_QUEUE_MODE = "adminemailtaskqueuemode";
         public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY = "adminemailgroupreceiverlistfilekey";
         public static final String ADMIN_EMAIL_IMAGE_TO_UPLOAD = "emailimagetoupload";
@@ -898,7 +906,7 @@ public final class Const {
     
     public class AutomatedActionNames {
         //real servlet names to be logged for automated actions, not for url pattern recognition
-        public static final String AUTOMATED_LOG_COMILATION = "logCompilation";
+        public static final String AUTOMATED_LOG_COMPILATION = "logCompilation";
         public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";

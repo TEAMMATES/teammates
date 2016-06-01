@@ -155,10 +155,10 @@ public class AdminActivityLogPageAction extends Action {
                 targetTimeZone = getLocalTimeZoneForUnregisteredUserRequest(courseId);
             }
         } else {
-            targetTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
+            targetTimeZone = Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
         }
         
-        double adminTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
+        double adminTimeZone = Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
         String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
         String timeInUserTimeZone = computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
 
@@ -277,7 +277,7 @@ public class AdminActivityLogPageAction extends Action {
     private double getLocalTimeZoneForRequest(String userGoogleId, String userRole) {
         
         if (userRole != null && (userRole.contentEquals("Admin") || userRole.contains("(M)"))) {
-            return Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
+            return Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
         }
         
         Logic logic = new Logic();
