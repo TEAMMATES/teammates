@@ -170,7 +170,7 @@ public class FeedbackQuestionsLogic {
             List<FeedbackSessionAttributes> sessions = fsLogic.getFeedbackSessionsForCourse(course.getId());
             for (FeedbackSessionAttributes session : sessions) {
                 List<FeedbackQuestionAttributes> questions =
-                        getFeedbackQuestionsForSession(session.feedbackSessionName, course.getId());
+                        getFeedbackQuestionsForSession(session.getFeedbackSessionName(), course.getId());
                 copiableQuestions.addAll(questions);
             }
         }
@@ -259,8 +259,8 @@ public class FeedbackQuestionsLogic {
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
         
-        String feedbackSessionName = fsa.feedbackSessionName;
-        String courseId = fsa.courseId;
+        String feedbackSessionName = fsa.getFeedbackSessionName();
+        String courseId = fsa.getCourseId();
         
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
                                        feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));

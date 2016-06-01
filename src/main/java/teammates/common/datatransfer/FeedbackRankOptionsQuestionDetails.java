@@ -12,9 +12,10 @@ import java.util.Set;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Templates;
+import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
 import teammates.ui.controller.PageData;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
@@ -82,7 +83,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
      
         for (int i = 0; i < options.size(); i++) {
             String optionFragment =
-                    FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                    Templates.populateTemplate(optionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
                             "${optionIdx}", Integer.toString(i),
@@ -95,7 +96,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             
         }
         
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                 "${qnIdx}", Integer.toString(qnIdx),
@@ -121,7 +122,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         
         for (int i = 0; i < options.size(); i++) {
             String optionFragment =
-                    FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                    Templates.populateTemplate(optionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
                             "${optionIdx}", Integer.toString(i),
@@ -133,7 +134,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
 
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                             "${qnIdx}", Integer.toString(qnIdx),
@@ -176,7 +177,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         
         for (int i = 0; i < options.size(); i++) {
             String optionFragment =
-                    FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                    Templates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
                             "${rankOptionValue}", Sanitizer.sanitizeForHtml(options.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION);
@@ -184,7 +185,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_EDIT_OPTIONS_FORM,
                 "${rankEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
@@ -217,19 +218,19 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
         for (String option : options) {
             String optionFragment =
-                    FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                    Templates.populateTemplate(optionFragmentTemplate,
                             "${msqChoiceValue}", option);
             
             optionListHtml.append(optionFragment);
         }
         
         optionListHtml.append("</ul>");
-        additionalInfo = FeedbackQuestionFormTemplates.populateTemplate(
+        additionalInfo = Templates.populateTemplate(
             FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO,
             "${questionTypeName}", this.getQuestionTypeDisplayName(),
             "${msqAdditionalInfoFragments}", optionListHtml.toString());
 
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
@@ -266,14 +267,14 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
             String option = entry.getKey();
             
-            fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
+            fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
                                                                         "${rankOptionValue}", Sanitizer.sanitizeForHtml(option),
                                                                         "${ranksReceived}", ranksReceived,
                                                                         "${averageRank}", df.format(average)));
         
         }
  
-        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_OPTION_STATS,
+        return Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_OPTION_STATS,
                                                              "${optionRecipientDisplayName}", "Option",
                                                              "${fragments}", fragments.toString());
     }

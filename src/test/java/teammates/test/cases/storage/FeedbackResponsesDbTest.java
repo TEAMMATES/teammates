@@ -1,6 +1,5 @@
 package teammates.test.cases.storage;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -41,30 +40,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         for (String i : keys) {
             frDb.createEntity(dataBundle.feedbackResponses.get(i));
         }
-    }
-    
-    @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
-        
-        // remove possibly conflicting entity from the database
-        frDb.deleteEntity(fra);
-        
-        frDb.createEntity(fra);
-        verifyPresentInDatastore(fra, true);
-        
-        fra.setCreatedAt_nonProduction(null);
-        fra.setUpdatedAt_nonProduction(null);
-        
-        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        
-        ______TS("success : defaultTimeStamp for createdAt date");
-        
-        assertEquals(defaultTimeStamp, fra.getCreatedAt());
-        
-        ______TS("success : defaultTimeStamp for updatedAt date");
-        
-        assertEquals(defaultTimeStamp, fra.getUpdatedAt());
     }
     
     @Test

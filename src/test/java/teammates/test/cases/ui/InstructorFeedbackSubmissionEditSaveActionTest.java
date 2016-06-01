@@ -534,13 +534,13 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
         };
 
         ______TS("opened");
 
-        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertTrue(fs.isOpened());
@@ -556,7 +556,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         ______TS("during grace period");
 
-        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertFalse(fs.isOpened());
@@ -571,7 +571,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         ______TS("after grace period");
 
-        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(-10);
+        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-10));
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertFalse(fs.isOpened());

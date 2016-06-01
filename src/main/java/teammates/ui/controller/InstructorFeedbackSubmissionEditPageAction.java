@@ -24,13 +24,13 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
         boolean shouldEnableSubmit =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
-        if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.feedbackSessionName,
+        if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
             shouldEnableSubmit = true;
         }
         
         if (!shouldEnableSubmit) {
-            throw new UnauthorizedAccessException("Feedback session [" + session.feedbackSessionName
+            throw new UnauthorizedAccessException("Feedback session [" + session.getFeedbackSessionName()
                                                   + "] is not accessible to instructor ["
                                                   + instructor.email + "] for this purpose");
         }
