@@ -178,7 +178,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     private List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
         List<FeedbackSessionAttributes> feedbackSessionsInCourse = new ArrayList<FeedbackSessionAttributes>();
         for (FeedbackSessionAttributes feedbackSession : dataBundle.feedbackSessions.values()) {
-            if (feedbackSession.courseId.equals(courseId)) {
+            if (feedbackSession.getCourseId().equals(courseId)) {
                 feedbackSessionsInCourse.add(feedbackSession);
             }
         }
