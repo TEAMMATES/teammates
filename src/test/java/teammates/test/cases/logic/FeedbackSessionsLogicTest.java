@@ -134,7 +134,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("session does not contain students");
         
-        assertFalse(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithoutStudents.getFeedbackSessionName(), sessionWithoutStudents.getCourseId()));
+        assertFalse(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithoutStudents.getFeedbackSessionName(),
+                                                                    sessionWithoutStudents.getCourseId()));
     }
     
     public void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
@@ -1800,7 +1801,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         sessionUnderTest.setSentPublishedEmail(true);
 
         // Set real time of publishing
-        FeedbackSessionAttributes sessionPublished = fsLogic.getFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
+        FeedbackSessionAttributes sessionPublished =
+                fsLogic.getFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
         sessionUnderTest.setResultsVisibleFromTime(sessionPublished.getResultsVisibleFromTime());
         
         assertEquals(sessionUnderTest.toString(), sessionPublished.toString());
