@@ -125,22 +125,22 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String longInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         
         // Add instructor
-        assertEquals(maxLengthInstructorName, courseEditPage.fillInstructorName(maxLengthInstructorName));
+        assertEquals(maxLengthInstructorName, courseEditPage.fillNewInstructorName(maxLengthInstructorName));
         assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH),
-                     courseEditPage.fillInstructorName(longInstructorName));
+                     courseEditPage.fillNewInstructorName(longInstructorName));
         // Edit instructor
-        assertEquals(maxLengthInstructorName, courseEditPage.fillInstructorName(maxLengthInstructorName));
+        assertEquals(maxLengthInstructorName, courseEditPage.fillNewInstructorName(maxLengthInstructorName));
         assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH),
-                     courseEditPage.fillInstructorName(longInstructorName));
+                     courseEditPage.fillNewInstructorName(longInstructorName));
         
 
         String maxLengthEmail = StringHelper.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH);
         String longEmail = StringHelper.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH + 1);
         
         // Add instructor
-        assertEquals(maxLengthEmail, courseEditPage.fillInstructorEmail(maxLengthEmail));
+        assertEquals(maxLengthEmail, courseEditPage.fillNewInstructorEmail(maxLengthEmail));
         assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH),
-                     courseEditPage.fillInstructorEmail(longEmail));
+                     courseEditPage.fillNewInstructorEmail(longEmail));
         // Edit instructor
         assertEquals(maxLengthEmail, courseEditPage.editInstructorEmail(1, maxLengthEmail));
         assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH),

@@ -30,10 +30,10 @@ public class InstructorCourseEditPage extends AppPage {
     private WebElement showNewInstructorFormButton;
     
     @FindBy(id = "instructorname")
-    private WebElement instructorNameTextBox;
+    private WebElement newInstructorNameTextBox;
     
     @FindBy(id = "instructoremail")
-    private WebElement instructorEmailTextBox;
+    private WebElement newInstructorEmailTextBox;
     
     @FindBy(id = "btnAddInstructor")
     private WebElement addInstructorButton;
@@ -59,8 +59,8 @@ public class InstructorCourseEditPage extends AppPage {
     public void addNewInstructor(String name, String email) {
         clickShowNewInstructorFormButton();
         
-        fillInstructorName(name);
-        fillInstructorEmail(email);
+        fillNewInstructorName(name);
+        fillNewInstructorEmail(email);
         
         addInstructorButton.click();
         waitForPageToLoad();
@@ -95,14 +95,14 @@ public class InstructorCourseEditPage extends AppPage {
         return getTextBoxValue(editPanelEmailTextBox);
     }
     
-    public String fillInstructorName(String value) {
-        fillTextBox(instructorNameTextBox, value);
-        return getTextBoxValue(instructorNameTextBox);
+    public String fillNewInstructorName(String value) {
+        fillTextBox(newInstructorNameTextBox, value);
+        return getTextBoxValue(newInstructorNameTextBox);
     }
     
-    public String fillInstructorEmail(String value) {
-        fillTextBox(instructorEmailTextBox, value);
-        return getTextBoxValue(instructorEmailTextBox);
+    public String fillNewInstructorEmail(String value) {
+        fillTextBox(newInstructorEmailTextBox, value);
+        return getTextBoxValue(newInstructorEmailTextBox);
     }
     
     public boolean clickEditInstructorLink(int instrNum) {
@@ -225,8 +225,8 @@ public class InstructorCourseEditPage extends AppPage {
     public boolean clickShowNewInstructorFormButton() {
         showNewInstructorFormButton.click();
         
-        boolean isFormShownCorrectly = instructorNameTextBox.isEnabled()
-                && instructorEmailTextBox.isEnabled()
+        boolean isFormShownCorrectly = newInstructorNameTextBox.isEnabled()
+                && newInstructorEmailTextBox.isEnabled()
                 && addInstructorButton.isDisplayed();
 
         return isFormShownCorrectly;
