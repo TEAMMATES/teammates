@@ -225,7 +225,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         String tableHeaderFragmentHtml = getSubmissionFormTableHeaderFragmentHtml(questionNumberString, responseNumberString);
         String tableBodyHtml = getSubmissionFormTableBodyHtml(questionNumberString, responseNumberString, sessionIsOpen, true, questionIsCompulsory, frd);
-        String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, true, frd);
+        String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, true, questionIsCompulsory, frd);
 
         // Create submission form
         String html = Templates.populateTemplate(
@@ -251,7 +251,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         String tableHeaderFragmentHtml = getSubmissionFormTableHeaderFragmentHtml(questionNumberString, responseNumberString);
         String tableBodyHtml = getSubmissionFormTableBodyHtml(questionNumberString, responseNumberString, sessionIsOpen, false, questionIsCompulsory, null);
-        String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, false, null);
+        String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, false, questionIsCompulsory, null);
 
         // Create submission form
         String html = Templates.populateTemplate(
@@ -322,7 +322,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private String getSubmissionFormMobileHtml(String questionNumberString, String responseNumberString,
-            boolean sessionIsOpen, boolean isExistingResponse, FeedbackRubricResponseDetails frd) {
+            boolean sessionIsOpen, boolean isExistingResponse, boolean questionIsCompulsory,FeedbackRubricResponseDetails frd) {
         StringBuilder mobileHtml = new StringBuilder();
         String mobilePanelTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL;
         String mobilePanelFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL_FRAGMENT;
@@ -333,6 +333,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String panelBodyFragment = Templates.populateTemplate(mobilePanelFragmentTemplate,
                         "${qnIndex}", questionNumberString,
                         "${respIndex}", responseNumberString,
+                        "${questionIsCompulsory}", questionIsCompulsory ? "required" : "",
                         "${col}", Integer.toString(j),
                         "${row}", Integer.toString(i),
                         "${disabled}", sessionIsOpen ? "" : "disabled",
