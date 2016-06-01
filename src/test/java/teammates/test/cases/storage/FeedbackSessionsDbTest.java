@@ -86,7 +86,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         ______TS("invalid params");
         
         try {
-            fsa.startTime = new Date();
+            fsa.setStartTime(new Date());
             fsDb.createEntity(fsa);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
@@ -199,7 +199,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
         assertEquals(2, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
-            assertFalse(fsa.sentOpenEmail);
+            assertFalse(fsa.isSentOpenEmail());
         }
         
     }
@@ -212,7 +212,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
         assertEquals(8, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
-            assertFalse(fsa.sentPublishedEmail);
+            assertFalse(fsa.isSentPublishedEmail());
         }
         
     }
@@ -231,10 +231,10 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         FeedbackSessionAttributes invalidFs = getNewFeedbackSession();
         fsDb.deleteEntity(invalidFs);
         fsDb.createEntity(invalidFs);
-        Calendar calendar = TimeHelper.dateToCalendar(invalidFs.endTime);
+        Calendar calendar = TimeHelper.dateToCalendar(invalidFs.getEndTime());
         calendar.add(Calendar.MONTH, 1);
-        invalidFs.startTime = calendar.getTime();
-        invalidFs.resultsVisibleFromTime = calendar.getTime();
+        invalidFs.setStartTime(calendar.getTime());
+        invalidFs.setResultsVisibleFromTime(calendar.getTime());
         try {
             fsDb.updateFeedbackSession(invalidFs);
             signalFailureToDetectException();
@@ -246,8 +246,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         }
         ______TS("feedback session does not exist");
         FeedbackSessionAttributes nonexistantFs = getNewFeedbackSession();
-        nonexistantFs.feedbackSessionName = "non existant fs";
-        nonexistantFs.courseId = "non.existant.course";
+        nonexistantFs.setFeedbackSessionName("non existant fs");
+        nonexistantFs.setCourseId("non.existant.course");
         try {
             fsDb.updateFeedbackSession(nonexistantFs);
             signalFailureToDetectException();
@@ -259,28 +259,28 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         fsDb.deleteEntity(modifiedSession);
         fsDb.createEntity(modifiedSession);
         verifyPresentInDatastore(modifiedSession);
-        modifiedSession.instructions = new Text("new instructions");
-        modifiedSession.gracePeriod = 0;
-        modifiedSession.sentOpenEmail = false;
+        modifiedSession.setInstructions(new Text("new instructions"));
+        modifiedSession.setGracePeriod(0);
+        modifiedSession.setSentOpenEmail(false);
         fsDb.updateFeedbackSession(modifiedSession);
         verifyPresentInDatastore(modifiedSession);
     }
     
     private FeedbackSessionAttributes getNewFeedbackSession() {
         FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
-        fsa.feedbackSessionType = FeedbackSessionType.STANDARD;
-        fsa.feedbackSessionName = "fsTest1";
-        fsa.courseId = "testCourse";
-        fsa.creatorEmail = "valid@email.com";
-        fsa.createdTime = new Date();
-        fsa.startTime = new Date();
-        fsa.endTime = new Date();
-        fsa.sessionVisibleFromTime = new Date();
-        fsa.resultsVisibleFromTime = new Date();
-        fsa.gracePeriod = 5;
-        fsa.sentOpenEmail = true;
-        fsa.sentPublishedEmail = true;
-        fsa.instructions = new Text("Give feedback.");
+        fsa.setFeedbackSessionType(FeedbackSessionType.STANDARD);
+        fsa.setFeedbackSessionName("fsTest1");
+        fsa.setCourseId("testCourse");
+        fsa.setCreatorEmail("valid@email.com");
+        fsa.setCreatedTime(new Date());
+        fsa.setStartTime(new Date());
+        fsa.setEndTime(new Date());
+        fsa.setSessionVisibleFromTime(new Date());
+        fsa.setResultsVisibleFromTime(new Date());
+        fsa.setGracePeriod(5);
+        fsa.setSentOpenEmail(true);
+        fsa.setSentPublishedEmail(true);
+        fsa.setInstructions(new Text("Give feedback."));
         return fsa;
     }
     
