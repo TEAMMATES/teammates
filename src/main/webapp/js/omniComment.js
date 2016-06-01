@@ -224,13 +224,9 @@ $(document).ready(function() {
             studentCommentPanelBody.show();
         } else { // to show feedback question + feedback session panel
             var commentListRegionForFeedbackResponse = commentToShow.closest('tr');
-            // a fbResponse in instructorCommentsPage consists of the 4 table rows from the
-            // comment list region row to the giver recipient row
-            // The following statement shows the rows between comment list region row and giver recipient row
-            // including the comment list region row and giver recipient row.
-            // See stackoverflow post: http://stackoverflow.com/questions/2770588/jquery-prevuntil-include-start-selector-and-end-selecter
-            commentListRegionForFeedbackResponse.prevUntil('.feedback-response-giver-recipient-row')
-                    .addBack().prev('.feedback-response-giver-recipient-row').addBack().show();
+            var rowsToShowClassName = commentListRegionForFeedbackResponse.attr('class');
+            $('.' + rowsToShowClassName).show();
+            
             var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
             feedbackQuestion.show();
                     
@@ -263,13 +259,8 @@ $(document).ready(function() {
                     === commentToHide.parent().find('li').length;
             if (allCommentsForFeedbackResponseAreHidden) {
                 var commentListRegionForFeedbackResponse = commentToHide.closest('tr');
-                // a fbResponse in instructorCommentsPage consists of the 4 table rows from the
-                // comment list region row to the giver recipient row
-                // The following statement hides the rows between comment list region row and giver recipient row
-                // including the comment list region row and giver recipient row.
-                // See stackoverflow post: http://stackoverflow.com/questions/2770588/jquery-prevuntil-include-start-selector-and-end-selecter
-                commentListRegionForFeedbackResponse.prevUntil('.feedback-response-giver-recipient-row')
-                        .addBack().prev('.feedback-response-giver-recipient-row').addBack().hide();
+                var rowsToHideClassName = commentListRegionForFeedbackResponse.attr('class');
+                $('.' + rowsToHideClassName).hide();
                 
                 var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 var allFeedbackResponsesForFeedbackQuestionAreHidden =
