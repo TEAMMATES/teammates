@@ -37,6 +37,23 @@ $(document).ready(function() {
         reenableFieldsForSubmission();
     });
     
+    $('table').each(function(){
+    	var is_marked = false;
+        $(this).find(' input:checked').each(function(){
+            //do your stuff, you can use $(this) to get current cell
+        	
+        	if(this.is(':checked'))
+        		is_marked=true;
+        	
+        	 if($('#cb1').is(':checked') || $('#cb2').is(':checked') || $('#cb3').is(':checked'))
+        	        $(".myCB").attr("required", false);
+        	    else
+        	        $(".myCB").attr("required", true);
+        	
+        	
+        })
+    })
+    
     // validates the compulsory questions to be filled before submitting
     $('#response_submit_button').click(function(e)
     		{
@@ -728,6 +745,16 @@ function validateNumScaleAnswer(qnIdx, responseIdx) {
     } else if (answer > max) {
         $answerBox.val($answerBox.attr('max'));
     }
+}
+
+// updates 'required' attributes of MSQ choices whenever a choice is clicked
+function updateMSQRequiredTag(qnName) {
+	 if( $("input[name="+qnName+"]:checked").length == 0){
+	        $("input[name="+qnName+"]:first").attr("required", "required");
+	    }else{
+	        $("input[name="+qnName+"]").removeAttr("required");
+	    }       
+	
 }
 
 function isAnswerBlank(question, response) {
