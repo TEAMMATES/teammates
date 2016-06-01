@@ -155,6 +155,15 @@ task createConfigs {
     dependsOn copyTemplateConfigs, populateProjectDir
 }
 
+task copyDepsToWebInfLib(type: Copy) {
+    from configurations.runtime
+    into "src/main/webapp/WEB-INF/lib/"
+    rename("datanucleus-appengine-1.0.10.jar", "datanucleus-appengine-1.0.10.final.jar")
+    rename("appengine-endpoints-deps-1.9.27.jar", "appengine-endpoints-deps.jar")
+    rename("appengine-endpoints-1.9.27.jar", "appengine-endpoints.jar")
+    rename("appengine-api-labs-1.9.27.jar", "appengine-api-labs.jar")
+}
+
 task downloadLibs {
     onlyIf {
         !(new File(libsPath)).exists()
