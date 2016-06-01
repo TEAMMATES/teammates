@@ -20,7 +20,6 @@ public class FieldValidator {
         SESSION_VISIBLE_TIME,
         RESULTS_VISIBLE_TIME,
         FEEDBACK_SESSION_TIME_FRAME,
-        EMAIL_CONTENT
     }
     
     // ////////////////////////////////////////////////////////////////////////
@@ -331,45 +330,17 @@ public class FieldValidator {
             "The provided %s is not acceptable to TEAMMATES as it cannot be empty.";
     
     /**
-     * 
-     * @param fieldType
-     *            The field type. e.g., FieldType.E_MAIL
-     * @param value
-     *            The value of the field. e.g., "david@yahoo.com"
-     * @return A string explaining reasons why the value is not acceptable and
-     *         what are the acceptable values. Returns an empty string "" if the
-     *         value is acceptable
+     * Checks if {@code emailContent} is not null and not empty
+     * @param emailContent
+     * @return An explanation of why the {@code emailContent} is not acceptable.
+     *         Returns an empty string if the {@code emailContent} is acceptable.
      */
-    public String getInvalidityInfo(FieldType fieldType, Object value) {
-        return getInvalidityInfo(fieldType, "", value);
-    }
-    
-    /**
-     * Similar to {@link #getInvalidityInfo(FieldType, Object)} except this takes
-     * an extra parameter fieldName
-     * 
-     * @param fieldType
-     * @param fieldName
-     *            A descriptive name of the field. e.g. "Instructor's name".
-     *            This will be used to make the return value more descriptive.
-     * @param value
-     * @return
-     */
-    public String getInvalidityInfo(FieldType fieldType, String fieldName, Object value) {
-        //TODO: should be break this into individual methods? We already have some methods like that in this class.
-        String returnValue = "";
-        switch (fieldType) {
-        case EMAIL_CONTENT:
-            returnValue = this.getValidityInfoForEmailContent((Text) value);
-            break;
-        default:
-            throw new AssertionError("Unrecognized field type : " + fieldType);
+    public String getInvalidityInfoForEmailContent(Text emailContent) {
+        Assumption.assertTrue("Non-null value expected", emailContent != null);
+        if (emailContent.getValue().isEmpty()) {
+            return EMAIL_CONTENT_ERROR_MESSAGE;
         }
-        
-        if (fieldName.isEmpty() || returnValue.isEmpty()) {
-            return returnValue;
-        }
-        return "Invalid " + fieldName + ": " + returnValue;
+        return "";
     }
 
     /**
@@ -839,16 +810,6 @@ public class FieldValidator {
     
     public String getValidityInfoForNonNullField(String fieldName, Object value) {
         return (value == null) ? String.format(NON_NULL_FIELD_ERROR_MESSAGE, fieldName) : "";
-    }
-
-    private String getValidityInfoForEmailContent(Text value) {
-        Assumption.assertTrue("Non-null value expected", value != null);
-        
-        if (value.getValue().isEmpty()) {
-            return EMAIL_CONTENT_ERROR_MESSAGE;
-        }
-        
-        return "";
     }
 
     private boolean isUntrimmed(String value) {

@@ -8,6 +8,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -509,6 +511,33 @@ public class FieldValidatorTest extends BaseTestCase {
                      String.format(EMAIL_ERROR_MESSAGE, emailWithMultipleAtSymbol, REASON_INCORRECT_FORMAT),
                      validator.getInvalidityInfoForEmail(emailWithMultipleAtSymbol));
     }
+
+    @Test
+    public void testGetInvalidityInfoForEmailContent_null_throwException() {
+        String errorMessage = "Did not throw the expected AssertionError for null Email Content";
+        try {
+            validator.getInvalidityInfoForEmailContent(null);
+            signalFailureToDetectException(errorMessage);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+    }
+
+    @Test
+    public void testGetInvalidityInfoForEmailContent_invalid_returnEmptyString() {
+        Text emptyEmailContent = new Text("");
+        assertEquals("Valid Email Content should return empty string",
+                     EMAIL_CONTENT_ERROR_MESSAGE,
+                     validator.getInvalidityInfoForEmailContent(emptyEmailContent));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForEmailContent_valid_returnEmptyString() {
+        Text validEmailContent = new Text("Hello! I'm a Email Content.");
+        assertEquals("Valid Email Content should return empty string", "",
+                     validator.getInvalidityInfoForEmailContent(validEmailContent));
+    }
+
     @Test
     public void testGetInvalidityInfoForCourseId_null_throwException() {
         String errorMessage = "Did not throw the expected AssertionError for null Course ID";
