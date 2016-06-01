@@ -152,7 +152,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         StringBuilder searchableTextBuilder = new StringBuilder("");
         searchableTextBuilder.append(comment.courseId).append(delim)
                              .append(course == null ? "" : course.getName()).append(delim)
-                             .append(relatedSession.feedbackSessionName).append(delim)
+                             .append(relatedSession.getFeedbackSessionName()).append(delim)
                              .append("question ").append(relatedQuestion.questionNumber).append(delim)
                              .append(relatedQuestion.getQuestionDetails().questionText).append(delim)
                              .append(relatedResponse.getResponseDetails().getAnswerString()).append(delim)
