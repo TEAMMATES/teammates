@@ -19,6 +19,8 @@ buildscript {
 
 configurations {
     enhancer
+    exclude
+    testExclude
 }
 
 configurations.all {
@@ -40,7 +42,7 @@ dependencies {
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:1.9.2"
 
-    runtime         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
+    exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints:${appengineVersion}",
                     "com.google.appengine:appengine-jsr107cache:${appengineVersion}",
@@ -52,6 +54,8 @@ dependencies {
                     "org.datanucleus:datanucleus-core:1.1.5",
                     "org.datanucleus:datanucleus-jpa:1.1.5",
                     "xerces:xercesImpl:2.9.1"
+
+    runtime         configurations.exclude
 
     enhancer        "javax.jdo:jdo2-api:2.3-eb",
                     "com.google.appengine.orm:datanucleus-appengine:1.0.10",
@@ -66,7 +70,9 @@ dependencies {
                     "org.seleniumhq.selenium:selenium-java:2.46.0",
                     "org.testng:testng:6.8.7"
 
-    testRuntime     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
+    testExclude     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
+
+    testRuntime     configurations.testExclude
 
 }
 
@@ -102,6 +108,8 @@ sourceSets {
 
 // SETUP TASKS
 
+import org.gradle.plugins.ide.eclipse.model.SourceFolder
+
 eclipse {
     project {
         natures "org.eclipse.jdt.core.javanature", "com.google.appengine.eclipse.core.gaeNature", "org.eclipse.wst.jsdt.core.jsNature"
@@ -111,11 +119,30 @@ eclipse {
         buildCommand "com.google.appengine.eclipse.core.projectValidator"
         buildCommand "org.eclipse.wst.validation.validationbuilder"
     }
+    classpath {
+        containers "com.google.appengine.eclipse.core.GAE_CONTAINER"
+        defaultOutputDir = file("src/main/webapp/WEB-INF/classes")
+        sourceSets = [sourceSets.main, sourceSets.test]
+        minusConfigurations = [configurations.exclude, configurations.testExclude]
+        file {
+            whenMerged { cp ->
+                cp.entries.findAll {
+                    it instanceof SourceFolder && !it.path.startsWith("src/main/")
+                }*.output = "target/test-classes"
+            }
+        }
+    }
 }
 
 eclipseProject {
     onlyIf {
         !(new File(".project")).exists()
+    }
+}
+
+eclipseClasspath {
+    onlyIf {
+        !(new File(".classpath")).exists()
     }
 }
 
@@ -164,7 +191,7 @@ task copyDepsToWebInfLib(type: Copy) {
 task setup {
     description "Sets up the project by obtaining necessary files and configurations points."
     group "Setup"
-    dependsOn eclipseProject, copyDepsToWebInfLib, createConfigs
+    dependsOn eclipseProject, eclipseClasspath, copyDepsToWebInfLib, createConfigs
 }
 
 // RUN SERVER TASKS
