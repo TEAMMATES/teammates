@@ -15,7 +15,6 @@ import com.google.appengine.api.datastore.Text;
 public class FieldValidator {
         
     public enum FieldType {
-        INTRUCTOR_ROLE,
         START_TIME,
         END_TIME,
         SESSION_VISIBLE_TIME,
@@ -361,9 +360,6 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case INTRUCTOR_ROLE:
-            returnValue = getValidityInfoForInstructorRole((String) value);
-            break;
         case EMAIL_SUBJECT:
             returnValue = this.getValidityInfoForAllowedName(EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, (String) value);
             break;
@@ -838,25 +834,6 @@ public class FieldValidator {
         return (value == null) ? String.format(NON_NULL_FIELD_ERROR_MESSAGE, fieldName) : "";
     }
 
-    private String getValidityInfoForInstructorRole(String value) {
-        
-        Assumption.assertTrue("Non-null value expected", value != null);
-        
-        if (value.isEmpty()) {
-            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, REASON_EMPTY);
-        }
-        if (!(value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
-                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)
-                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER)
-                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR)
-                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM))) {
-            String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, sanitizedValue, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING);
-        }
-        
-        return "";
-    }
-    
     private String getValidityInfoForEmailContent(Text value) {
         Assumption.assertTrue("Non-null value expected", value != null);
         

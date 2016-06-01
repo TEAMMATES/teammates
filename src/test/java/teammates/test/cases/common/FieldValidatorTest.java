@@ -8,7 +8,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -438,23 +437,6 @@ public class FieldValidatorTest extends BaseTestCase {
                      String.format(GOOGLE_ID_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(idWithInvalidHtmlChar),
                                    REASON_INCORRECT_FORMAT));
     }
-
-    @Test
-    public void testGetValidityInfoInstructorRole() {
-        
-        verifyAssertError("not null", FieldType.INTRUCTOR_ROLE, null);
-        
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, "");
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER, "");
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR, "");
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, "");
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, "");
-        String emptyValue = "";
-        testOnce("empty value", FieldType.INTRUCTOR_ROLE, emptyValue, String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
-        String invalidValue = "invalid value";
-        testOnce(invalidValue, FieldType.INTRUCTOR_ROLE, invalidValue, String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE,
-                invalidValue, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING));
-    }
     
     @Test
     public void testGetInvalidityInfoForEmail_null_throwException() {
@@ -671,21 +653,6 @@ public class FieldValidatorTest extends BaseTestCase {
         ______TS("failure: contains invalid character");
         googleId = "teammates.$instr";
         assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
-    }
-
-    private void testOnce(String description, FieldType fieldType, String value, String expected) {
-        assertEquals(description, expected,
-                validator.getInvalidityInfo(fieldType, value));
-    }
-
-    private void verifyAssertError(String description, FieldType fieldType, String value) {
-        String errorMessage = "Did not throw the expected AssertionError for " + description;
-        try {
-            validator.getInvalidityInfo(fieldType, value);
-            signalFailureToDetectException(errorMessage);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
     }
     
     @AfterClass
