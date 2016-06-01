@@ -68,7 +68,6 @@ Important: When a version is specified, please install that version instead of t
    Append a unique id (e.g. your name) to **each** of the default accounts found at the bottom of this file. 
    e.g. change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`<br>
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
-   * `.settings/com.google.gdt.eclipse.core.prefs`<br>
    Additionally, this command downloads the dependencies required by TEAMMATES and places them in the appropriate directories.<br>
    This command can be run again whenever the dependencies need to be updated.
    Sometimes, the changes from this command might not show up in Eclipse immediately. "Refreshing" the project or restarting Eclipse

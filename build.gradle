@@ -146,7 +146,7 @@ eclipseClasspath {
     }
 }
 
-task copyTemplateConfigs << {
+task createConfigs {
     def templatesToCopy = [
         "src/main/resources/build.template.properties",
         "src/test/resources/test.template.properties",
@@ -162,21 +162,6 @@ task copyTemplateConfigs << {
             rename '(.*).template(.*)', '$1$2'
         }
     }
-}
-
-task populateProjectDir << {
-    def filesToPopulate = [
-        ".settings/com.google.gdt.eclipse.core.template.prefs"
-    ]
-    filesToPopulate.each { filename ->
-        filename = filename.replace(".template", "")
-        def filecontents = new File(filename).getText('UTF-8')
-        new File(filename).text = filecontents.replaceAll(/\*/, projectDir.canonicalPath)
-    }
-}
-
-task createConfigs {
-    dependsOn copyTemplateConfigs, populateProjectDir
 }
 
 task copyDepsToWebInfLib(type: Copy) {
