@@ -143,7 +143,6 @@ public class FeedbackQuestionEditForm {
         return questionText;
     }
     
-
     public boolean getIsCompulsory() {
         return isCompulsory;
     }
