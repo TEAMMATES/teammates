@@ -13,15 +13,6 @@ import com.google.appengine.api.datastore.Text;
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
  */
 public class FieldValidator {
-        
-    public enum FieldType {
-        START_TIME,
-        END_TIME,
-        SESSION_VISIBLE_TIME,
-        RESULTS_VISIBLE_TIME,
-        FEEDBACK_SESSION_TIME_FRAME,
-    }
-    
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Generic types ///////////////////////////////////////
     // ////////////////////////////////////////////////////////////////////////
@@ -654,67 +645,48 @@ public class FieldValidator {
         return "";
     }
     
-    public String getValidityInfoForTimeFrame(FieldType mainFieldType, FieldType earlierFieldType,
-            FieldType laterFieldType, Date earlierTime, Date laterTime) {
-        
-        Assumption.assertTrue("Non-null value expected", laterFieldType != null);
-        Assumption.assertTrue("Non-null value expected", earlierTime != null);
-        Assumption.assertTrue("Non-null value expected", laterTime != null);
-        
-        if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
-            return "";
+    /**
+     * Checks if Session Start Time is before Session End Time
+     * @return Error string if {@code sessionStart} is before {@code sessionEnd}
+     *         Empty string if {@code sessionStart} is after {@code sessionEnd}
+     */
+    public String getInvalidityInfoForTimeForSessionStartAndEnd(Date sessionStart, Date sessionEnd) {
+        Assumption.assertTrue("Non-null value expected", sessionStart != null);
+        Assumption.assertTrue("Non-null value expected", sessionEnd != null);
+        if (sessionEnd.before(sessionStart)) {
+            return String.format(TIME_FRAME_ERROR_MESSAGE, END_TIME_FIELD_NAME, FEEDBACK_SESSION_NAME,
+                                 START_TIME_FIELD_NAME);
         }
+        return "";
+    }
 
-        String mainFieldName;
-        
-        if (mainFieldType.equals(FieldType.FEEDBACK_SESSION_TIME_FRAME)) {
-            mainFieldName = FEEDBACK_SESSION_NAME;
-        } else {
-            throw new AssertionError("Unrecognized field type for time frame validity check : " + mainFieldType);
+    /**
+     * Checks if Session Visibility Start Time is before Session Start Time
+     * @return Error string if {@code visibilityStart} is before {@code sessionStart}
+     *         Empty string if {@code visibilityStart} is after {@code sessionStart}
+     */
+    public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(Date visibilityStart, Date sessionStart) {
+        Assumption.assertTrue("Non-null value expected", visibilityStart != null);
+        Assumption.assertTrue("Non-null value expected", sessionStart != null);
+        if (sessionStart.before(visibilityStart)) {
+            return String.format(TIME_FRAME_ERROR_MESSAGE, START_TIME_FIELD_NAME,
+                                 FEEDBACK_SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME);
         }
-        
-        String earlierFieldName;
-        
-        switch (earlierFieldType) {
-        case START_TIME:
-            earlierFieldName = START_TIME_FIELD_NAME;
-            break;
-        case END_TIME:
-            earlierFieldName = END_TIME_FIELD_NAME;
-            break;
-        case SESSION_VISIBLE_TIME:
-            earlierFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
-            break;
-        case RESULTS_VISIBLE_TIME:
-            earlierFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME;
-            break;
-        default:
-            throw new AssertionError("Unrecognized field type for time frame validity check : " + earlierFieldType);
+        return "";
+    }
+
+    /**
+     * Checks if Visibility Start Time is before Results Publish Time
+     * @return Error string if {@code visibilityStart} is before {@code resultsPublish}
+     *         Empty string if {@code visibilityStart} is after {@code resultsPublish}
+     */
+    public String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(Date visibilityStart, Date resultsPublish) {
+        Assumption.assertTrue("Non-null value expected", visibilityStart != null);
+        Assumption.assertTrue("Non-null value expected", resultsPublish != null);
+        if (resultsPublish.before(visibilityStart)) {
+            return String.format(TIME_FRAME_ERROR_MESSAGE, RESULTS_VISIBLE_TIME_FIELD_NAME,
+                                 FEEDBACK_SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME);
         }
-        
-        String laterFieldName;
-        
-        switch (laterFieldType) {
-        case START_TIME:
-            laterFieldName = START_TIME_FIELD_NAME;
-            break;
-        case END_TIME:
-            laterFieldName = END_TIME_FIELD_NAME;
-            break;
-        case SESSION_VISIBLE_TIME:
-            laterFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
-            break;
-        case RESULTS_VISIBLE_TIME:
-            laterFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME;
-            break;
-        default:
-            throw new AssertionError("Unrecognized field type for time frame validity check : " + laterFieldType);
-        }
-        
-        if (laterTime.before(earlierTime)) {
-            return String.format(TIME_FRAME_ERROR_MESSAGE, laterFieldName, mainFieldName, earlierFieldName);
-        }
-        
         return "";
     }
     
