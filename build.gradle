@@ -53,6 +53,7 @@ dependencies {
                     "javax.jdo:jdo2-api:2.3-eb",
                     "org.apache.geronimo.specs:geronimo-jpa_3.0_spec:1.1.1",
                     "org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1",
+                    "org.jsoup:jsoup:1.9.2"
                     "org.datanucleus:datanucleus-core:1.1.5",
                     "org.datanucleus:datanucleus-jpa:1.1.5",
                     "xerces:xercesImpl:2.9.1"
