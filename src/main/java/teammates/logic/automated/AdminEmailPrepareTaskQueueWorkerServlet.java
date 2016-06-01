@@ -62,7 +62,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             emailId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);
             Assumption.assertNotNull(emailId);
             
-            addressReceiverListString = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ADDRESS_RECEVIERS);
+            addressReceiverListString = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
             Assumption.assertNotNull(addressReceiverListString);
             
             addAdminEmailToTaskQueue(emailId);
@@ -237,7 +237,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         for (String emailAddress : addressList) {
             HashMap<String, String> paramMap = new HashMap<String, String>();
             paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-            paramMap.put(ParamsNames.ADMIN_EMAIL_RECEVIER, emailAddress);
+            paramMap.put(ParamsNames.ADMIN_EMAIL_RECEIVER, emailAddress);
             paramMap.put(ParamsNames.ADMIN_EMAIL_SUBJECT, adminEmail.getSubject());
             paramMap.put(ParamsNames.ADMIN_EMAIL_CONTENT, adminEmail.getContent().getValue());
             
@@ -279,7 +279,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                 
                 HashMap<String, String> paramMap = new HashMap<String, String>();
                 paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-                paramMap.put(ParamsNames.ADMIN_EMAIL_RECEVIER, receiverEmail);
+                paramMap.put(ParamsNames.ADMIN_EMAIL_RECEIVER, receiverEmail);
                 paramMap.put(ParamsNames.ADMIN_EMAIL_SUBJECT, adminEmail.getSubject());
                 paramMap.put(ParamsNames.ADMIN_EMAIL_CONTENT, adminEmail.getContent().getValue());
                 
