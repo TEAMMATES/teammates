@@ -603,9 +603,7 @@
             "gracePeriod":10,
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
-            "sentPublishedEmail":false,
-            "respondingInstructorList": ["instructor1@course1.tmt"],
-            "respondingStudentList": ["student1InCourse1@gmail.tmt", "student2InCourse1@gmail.tmt", "student3InCourse1@gmail.tmt"]
+            "sentPublishedEmail":false
         },
         "session2InCourse1":{
             "feedbackSessionName":"Second feedback session",
@@ -623,9 +621,7 @@
             "gracePeriod":5,
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
-            "sentPublishedEmail":false,
-            "respondingInstructorList": [],
-            "respondingStudentList": ["student1InCourse1@gmail.tmt", "student4InCourse1@gmail.tmt"]
+            "sentPublishedEmail":false
         },
         "gracePeriodSession":{
             "feedbackSessionName":"Grace Period Session",

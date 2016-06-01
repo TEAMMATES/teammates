@@ -67,6 +67,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     
     @Test
     public void testAll() throws Exception {
+        
         testGetFeedbackSessionsForCourse();
         testGetFeedbackSessionsListForInstructor();
         testGetFeedbackSessionsClosingWithinTimeLimit();
