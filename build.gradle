@@ -222,6 +222,15 @@ appengineRun {
     }
 }
 
+task removeDuplicateLibs(type: Delete) {
+    delete  "${buildDir}/exploded-app/WEB-INF/lib/datanucleus-appengine-1.0.10.final.jar",
+            "${buildDir}/exploded-app/WEB-INF/lib/appengine-endpoints-deps.jar",
+            "${buildDir}/exploded-app/WEB-INF/lib/appengine-endpoints.jar",
+            "${buildDir}/exploded-app/WEB-INF/lib/appengine-api-labs.jar"
+}
+
+appengineExplodeApp.finalizedBy removeDuplicateLibs
+
 task enhancerRun << {
     def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-${appengineVersion}/lib/appengine-tools-api.jar"
     ant.taskdef(name: "enhance", classpath: path, classname: "com.google.appengine.tools.enhancer.EnhancerTask")
