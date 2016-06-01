@@ -103,8 +103,8 @@ public class Emails {
             EmailType typeOfEmail) {
         
         HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedback.feedbackSessionName);
-        paramMap.put(ParamsNames.EMAIL_COURSE, feedback.courseId);
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedback.getFeedbackSessionName());
+        paramMap.put(ParamsNames.EMAIL_COURSE, feedback.getCourseId());
         paramMap.put(ParamsNames.EMAIL_TYPE, typeOfEmail.toString());
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
@@ -133,13 +133,13 @@ public class Emails {
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         
         CourseAttributes course = coursesLogic
-                .getCourse(session.courseId);
+                .getCourse(session.getCourseId());
         List<InstructorAttributes> instructors = instructorsLogic
-                .getInstructorsForCourse(session.courseId);
+                .getInstructorsForCourse(session.getCourseId());
         List<StudentAttributes> students;
         
         if (fsLogic.isFeedbackSessionForStudentsToAnswer(session)) {
-            students = studentsLogic.getStudentsForCourse(session.courseId);
+            students = studentsLogic.getStudentsForCourse(session.getCourseId());
         } else {
             students = new ArrayList<StudentAttributes>();
         }
@@ -197,17 +197,17 @@ public class Emails {
         List<MimeMessage> emails = null;
         
         CourseAttributes course = coursesLogic
-                .getCourse(session.courseId);
+                .getCourse(session.getCourseId());
         List<InstructorAttributes> instructors = instructorsLogic
-                .getInstructorsForCourse(session.courseId);
+                .getInstructorsForCourse(session.getCourseId());
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
 
         if (fsLogic.isFeedbackSessionForStudentsToAnswer(session)) {
-            List<StudentAttributes> allStudents = studentsLogic.getStudentsForCourse(session.courseId);
+            List<StudentAttributes> allStudents = studentsLogic.getStudentsForCourse(session.getCourseId());
 
             for (StudentAttributes student : allStudents) {
                 if (!fsLogic.isFeedbackSessionFullyCompletedByStudent(
-                        session.feedbackSessionName, session.courseId,
+                        session.getFeedbackSessionName(), session.getCourseId(),
                         student.email)) {
                     students.add(student);
                 }
@@ -290,13 +290,13 @@ public class Emails {
         List<MimeMessage> emails = null;
 
         CourseAttributes course = coursesLogic
-                .getCourse(session.courseId);
+                .getCourse(session.getCourseId());
         List<StudentAttributes> students;
         List<InstructorAttributes> instructors = instructorsLogic
-                .getInstructorsForCourse(session.courseId);
+                .getInstructorsForCourse(session.getCourseId());
         
         if (fsLogic.isFeedbackSessionViewableToStudents(session)) {
-            students = studentsLogic.getStudentsForCourse(session.courseId);
+            students = studentsLogic.getStudentsForCourse(session.getCourseId());
         } else {
             students = new ArrayList<StudentAttributes>();
         }
@@ -356,18 +356,18 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                        c.getName(), fs.feedbackSessionName));
+                        c.getName(), fs.getFeedbackSessionName()));
 
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                             .withCourseId(c.getId())
-                            .withSessionName(fs.feedbackSessionName)
+                            .withSessionName(fs.getFeedbackSessionName())
                             .withRegistrationKey(StringHelper.encrypt(s.key))
                             .withStudentEmail(s.email)
                             .toAbsoluteString();
 
         String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                             .withCourseId(c.getId())
-                            .withSessionName(fs.feedbackSessionName)
+                            .withSessionName(fs.getFeedbackSessionName())
                             .withRegistrationKey(StringHelper.encrypt(s.key))
                             .withStudentEmail(s.email)
                             .toAbsoluteString();
@@ -376,8 +376,8 @@ public class Emails {
                 "${userName}", s.name,
                 "${courseName}", c.getName(),
                 "${courseId}", c.getId(),
-                "${feedbackSessionName}", fs.feedbackSessionName,
-                "${deadline}", TimeHelper.formatTime12H(fs.endTime),
+                "${feedbackSessionName}", fs.getFeedbackSessionName(),
+                "${deadline}", TimeHelper.formatTime12H(fs.getEndTime()),
                 "${instructorFragment}", "",
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl);
@@ -398,7 +398,7 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                        c.getName(), fs.feedbackSessionName));
+                        c.getName(), fs.getFeedbackSessionName()));
 
         String submitUrl = "{The student's unique submission url appears here}";
         
@@ -408,8 +408,8 @@ public class Emails {
                 "${userName}", i.name,
                 "${courseName}", c.getName(),
                 "${courseId}", c.getId(),
-                "${feedbackSessionName}", fs.feedbackSessionName,
-                "${deadline}", TimeHelper.formatTime12H(fs.endTime),
+                "${feedbackSessionName}", fs.getFeedbackSessionName(),
+                "${deadline}", TimeHelper.formatTime12H(fs.getEndTime()),
                 "${instructorFragment}",
                         "The email below has been sent to students of course: " + c.getId() + ".<p/><br/>",
                 "${submitUrl}", submitUrl,
@@ -431,24 +431,24 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                        c.getName(), fs.feedbackSessionName));
+                        c.getName(), fs.getFeedbackSessionName()));
 
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withCourseId(c.getId())
-                                        .withSessionName(fs.feedbackSessionName)
+                                        .withSessionName(fs.getFeedbackSessionName())
                                         .toAbsoluteString();
 
         String reportUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                                         .withCourseId(c.getId())
-                                        .withSessionName(fs.feedbackSessionName)
+                                        .withSessionName(fs.getFeedbackSessionName())
                                         .toAbsoluteString();
         
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", i.name,
                 "${courseName}", c.getName(),
                 "${courseId}", c.getId(),
-                "${feedbackSessionName}", fs.feedbackSessionName,
-                "${deadline}", TimeHelper.formatTime12H(fs.endTime),
+                "${feedbackSessionName}", fs.getFeedbackSessionName(),
+                "${deadline}", TimeHelper.formatTime12H(fs.getEndTime()),
                 "${instructorFragment}", "",
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl);
