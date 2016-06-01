@@ -15,7 +15,6 @@ import com.google.appengine.api.datastore.Text;
 public class FieldValidator {
         
     public enum FieldType {
-        COURSE_ID,
         INTRUCTOR_ROLE,
         START_TIME,
         END_TIME,
@@ -362,9 +361,6 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case COURSE_ID:
-            returnValue = getValidityInfoForCourseId((String) value);
-            break;
         case INTRUCTOR_ROLE:
             returnValue = getValidityInfoForInstructorRole((String) value);
             break;
@@ -434,6 +430,33 @@ public class FieldValidator {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
+        }
+        return "";
+    }
+
+    /**
+     * Checks if {@code courseId} is not null, not empty, has no surrounding whitespaces, not longer than
+     * {@code COURSE_ID_MAX_LENGTH}, is sanitized for HTML, and match the REGEX {@code REGEX_COURSE_ID}
+     * @param courseId
+     * @return An explanation of why the {@code courseId} is not acceptable.
+     *         Returns an empty string if the {@code courseId} is acceptable.
+     */
+    public String getInvalidityInfoForCourseId(String courseId) {
+
+        Assumption.assertTrue("Non-null value expected", courseId != null);
+
+        if (courseId.isEmpty()) {
+            return String.format(COURSE_ID_ERROR_MESSAGE, courseId, REASON_EMPTY);
+        }
+        if (isUntrimmed(courseId)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, COURSE_NAME_FIELD_NAME);
+        }
+        String sanitizedValue = Sanitizer.sanitizeForHtml(courseId);
+        if (courseId.length() > COURSE_ID_MAX_LENGTH) {
+            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
+        }
+        if (!StringHelper.isMatching(courseId, REGEX_COURSE_ID)) {
+            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
     }
@@ -815,26 +838,6 @@ public class FieldValidator {
         return (value == null) ? String.format(NON_NULL_FIELD_ERROR_MESSAGE, fieldName) : "";
     }
 
-    private String getValidityInfoForCourseId(String value) {
-        
-        Assumption.assertTrue("Non-null value expected", value != null);
-        
-        if (value.isEmpty()) {
-            return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
-        }
-        if (isUntrimmed(value)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
-        }
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-        if (value.length() > COURSE_ID_MAX_LENGTH) {
-            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        }
-        if (!StringHelper.isMatching(value, REGEX_COURSE_ID)) {
-            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
-        }
-        return "";
-    }
-    
     private String getValidityInfoForInstructorRole(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);

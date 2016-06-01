@@ -212,7 +212,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        error = validator.getInvalidityInfoForCourseId(courseId);
         if (!error.isEmpty()) {
             errors.add(error);
         }

@@ -519,66 +519,65 @@ public class FieldValidatorTest extends BaseTestCase {
                      String.format(EMAIL_ERROR_MESSAGE, emailWithMultipleAtSymbol, REASON_INCORRECT_FORMAT),
                      validator.getInvalidityInfoForEmail(emailWithMultipleAtSymbol));
     }
+    @Test
+    public void testGetInvalidityInfoForCourseId_null_throwException() {
+        String errorMessage = "Did not throw the expected AssertionError for null Course ID";
+        try {
+            validator.getInvalidityInfoForCourseId(null);
+            signalFailureToDetectException(errorMessage);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+    }
 
     @Test
-    public void testGetValidityInfoCourseId() {
+    public void testGetInvalidityInfoForCourseId_valid_returnEmptyString() {
+        String typicalCourseId = "cs1101-sem1.2_";
+        assertEquals("Valid Course ID (typical) should return empty string", "",
+                     validator.getInvalidityInfoForCourseId(typicalCourseId));
         
-        verifyAssertError("null value", FieldType.COURSE_ID, null);
-        
-        
-        testOnce("valid: typical value",
-                FieldType.COURSE_ID,
-                "$cs1101-sem1.2_",
-                "");
-        
-        testOnce("valid: minimal",
-                FieldType.COURSE_ID,
-                "c",
-                "");
-        
-        String maxLengthValue = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH);
-        testOnce("valid: max length",
-                FieldType.COURSE_ID,
-                maxLengthValue,
-                "");
+        String shortCourseId  = "c";
+        assertEquals("Valid Course ID (short) should return empty string", "",
+                     validator.getInvalidityInfoForCourseId(shortCourseId));
 
-        String emptyValue = "";
-        testOnce("invalid: empty string",
-                FieldType.COURSE_ID,
-                emptyValue,
-                String.format(COURSE_ID_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
-        
-        String untrimmedValue = " $cs1101-sem1.2_ ";
-        testOnce("invalid: untrimmed",
-                FieldType.COURSE_ID,
-                untrimmedValue,
-                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID"));
-        
-        String whitespaceOnlyValue = "    ";
-        testOnce("invalid: whitespace only",
-                FieldType.COURSE_ID,
-                whitespaceOnlyValue,
-                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID"));
-        
-        String tooLongValue = maxLengthValue + "x";
-        testOnce("invalid: too long",
-                FieldType.COURSE_ID,
-                tooLongValue,
-                String.format(COURSE_ID_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
-        
-        String valueWithDisallowedChar = "my course id";
-        testOnce("invalid: disallowed char (space)",
-                FieldType.COURSE_ID,
-                valueWithDisallowedChar,
-                String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
-        
-        valueWithDisallowedChar = "cour@s*hy#";
-        testOnce("invalid: multiple disallowed chars",
-                FieldType.COURSE_ID,
-                valueWithDisallowedChar,
-                String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
+        String maxLengthCourseId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH);
+        assertEquals("Valid Course ID (max length) should return empty string", "",
+                     validator.getInvalidityInfoForCourseId(maxLengthCourseId));
     }
     
+    @Test
+    public void testGetInvalidityInfoForCourseId_invalid_returnErrorString() {
+        String emptyCourseId = "";
+        assertEquals("Invalid Course ID (empty) should return appropriate error string",
+                     String.format(COURSE_ID_ERROR_MESSAGE, emptyCourseId, REASON_EMPTY),
+                     validator.getInvalidityInfoForCourseId(emptyCourseId));
+
+        String untrimmedCourseId = " $cs1101-sem1.2_ ";
+        assertEquals("Invalid Course ID (untrimmed) should return appropriate error string",
+                     String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, COURSE_NAME_FIELD_NAME),
+                     validator.getInvalidityInfoForCourseId(untrimmedCourseId));
+
+        String whitespaceOnlyCourseId = "    ";
+        assertEquals("Invalid Course ID (whitespace only) should return appropriate error string",
+                     String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, COURSE_NAME_FIELD_NAME),
+                     validator.getInvalidityInfoForCourseId(whitespaceOnlyCourseId));
+
+        String tooLongCourseId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);
+        assertEquals("Invalid Course ID (too long) should return appropriate error string",
+                     String.format(COURSE_ID_ERROR_MESSAGE, tooLongCourseId, REASON_TOO_LONG),
+                     validator.getInvalidityInfoForCourseId(tooLongCourseId));
+
+        String courseIdWithSpaces = "my course id with spaces";
+        assertEquals("Invalid Course ID (contains spaces) should return appropriate error string",
+                     String.format(COURSE_ID_ERROR_MESSAGE, courseIdWithSpaces, REASON_INCORRECT_FORMAT),
+                     validator.getInvalidityInfoForCourseId(courseIdWithSpaces));
+
+        String courseIdWithInvalidChar = "cour@s*hy#";
+        assertEquals("Invalid Course ID (invalid char) should return appropriate error string",
+                     String.format(COURSE_ID_ERROR_MESSAGE, courseIdWithInvalidChar, REASON_INCORRECT_FORMAT),
+                     validator.getInvalidityInfoForCourseId(courseIdWithInvalidChar));
+    }
+
     @Test
     public void testRegexName() {
         ______TS("success: typical name");
