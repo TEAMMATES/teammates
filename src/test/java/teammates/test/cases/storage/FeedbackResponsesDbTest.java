@@ -1,6 +1,5 @@
 package teammates.test.cases.storage;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -29,18 +28,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private static HashMap<String, FeedbackResponseAttributes> fras;
     
-    private class FeedbackResponseAttributesWithModifiableTimestamp extends FeedbackResponseAttributes {
-        
-        private void setCreatedAt(Date createdAt) {
-            this.createdAt = createdAt;
-        }
-        
-        private void setUpdatedAt(Date updatedAt) {
-            this.updatedAt = updatedAt;
-        }
-        
-    }
-    
     @BeforeClass
     public void classSetUp() throws Exception {
         printTestClassHeader();
@@ -53,25 +40,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         for (String i : keys) {
             frDb.createEntity(dataBundle.feedbackResponses.get(i));
         }
-    }
-    
-    @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackResponseAttributesWithModifiableTimestamp fra =
-                new FeedbackResponseAttributesWithModifiableTimestamp();
-        
-        fra.setCreatedAt(null);
-        fra.setUpdatedAt(null);
-        
-        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        
-        ______TS("success : defaultTimeStamp for createdAt date");
-        
-        assertEquals(defaultTimeStamp, fra.getCreatedAt());
-        
-        ______TS("success : defaultTimeStamp for updatedAt date");
-        
-        assertEquals(defaultTimeStamp, fra.getUpdatedAt());
     }
     
     @Test

@@ -1,7 +1,6 @@
 package teammates.test.cases.storage;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -24,43 +23,11 @@ import teammates.test.driver.AssertHelper;
 public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
-    private class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
-        
-        private void setCreatedAt(Date createdAt) {
-            this.createdAt = createdAt;
-        }
-        
-        private void setUpdatedAt(Date updatedAt) {
-            this.updatedAt = updatedAt;
-        }
-        
-    }
-    
     @BeforeClass
     public static void classSetUp() {
         printTestClassHeader();
     }
     
-    @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
-        
-        FeedbackQuestionAttributesWithModifiableTimestamp fq =
-                new FeedbackQuestionAttributesWithModifiableTimestamp();
-        
-        fq.setCreatedAt(null);
-        fq.setUpdatedAt(null);
-        
-        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        
-        ______TS("success : defaultTimeStamp for createdAt date");
-
-        assertEquals(defaultTimeStamp, fq.getCreatedAt());
-
-        ______TS("success : defaultTimeStamp for updatedAt date");
-
-        assertEquals(defaultTimeStamp, fq.getUpdatedAt());
-    }
-
     @Test
     public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
                                        EntityDoesNotExistException {
