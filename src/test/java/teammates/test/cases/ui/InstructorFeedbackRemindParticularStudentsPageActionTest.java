@@ -47,7 +47,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
-        InstructorFeedbackRemindParticularStudentsPageData pageData = 
+        InstructorFeedbackRemindParticularStudentsPageData pageData =
                 (InstructorFeedbackRemindParticularStudentsPageData) r.data;
         assertEquals(6, pageData.getResponseStatus().noResponse.size());
         
@@ -65,8 +65,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         assertTrue(pageData.getResponseStatus().noResponse.contains("helper@course1.tmt"));
     }
     
-    private InstructorFeedbackRemindParticularStudentsPageAction getAction(String... params)
-            throws Exception {
+    private InstructorFeedbackRemindParticularStudentsPageAction getAction(String... params) {
 
         return (InstructorFeedbackRemindParticularStudentsPageAction) (gaeSimulation
                 .getActionObject(uri, params));

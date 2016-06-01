@@ -8,7 +8,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
@@ -18,7 +17,7 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    InstructorsLogic instructorsLogic = InstructorsLogic.inst();;
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -31,7 +30,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructorToEdit = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructorToEdit.googleId;
-        String courseId = instructorToEdit.courseId;    
+        String courseId = instructorToEdit.courseId;
         
         String adminUserId = "admin.user";
         
@@ -97,7 +96,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
-        String expectedErrorMessage = new FieldValidator().getInvalidityInfo(FieldType.EMAIL, invalidEmail);
+        String expectedErrorMessage = new FieldValidator().getInvalidityInfoForEmail(invalidEmail);
         assertEquals(expectedErrorMessage, redirectResult.getStatusMessage());
         
         AssertHelper.assertContains(expectedErrorMessage, saveAction.getLogMessage());
@@ -159,9 +158,9 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         
         try {
             saveAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();        
+            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.COURSE_ID), e.getMessage());
         }
         
@@ -181,9 +180,9 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         
         try {
             saveAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();        
+            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.INSTRUCTOR_NAME), e.getMessage());
         }
         
@@ -203,14 +202,14 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         
         try {
             saveAction = getAction(submissionParams);
-            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();        
+            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
         } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail), e.getMessage());
         }
     }
     
-    private Action getAction(String... parameters) throws Exception {
+    private Action getAction(String... parameters) {
         return gaeSimulation.getActionObject(uri, parameters);
     }
 }

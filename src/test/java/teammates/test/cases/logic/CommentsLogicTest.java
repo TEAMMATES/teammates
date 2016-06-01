@@ -8,8 +8,6 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentStatus;
@@ -23,9 +21,11 @@ import teammates.logic.core.CommentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+import com.google.appengine.api.datastore.Text;
+
 public class CommentsLogicTest extends BaseComponentTestCase {
 
-    private CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
@@ -47,7 +47,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.recipients = existingComment1.recipients;
         c.commentText = existingComment1.commentText;
 
-        verifyExceptionThrownFromCreateFrComment(c, 
+        verifyExceptionThrownFromCreateFrComment(c,
                 "Trying to create comments for a course that does not exist.");
         
         ______TS("fail: giver is not instructor");
@@ -56,7 +56,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.commentText = new Text("Invalid comment from student to student");
         
         verifyExceptionThrownFromCreateFrComment(c,
-                "User " + c.giverEmail + " is not a registered instructor for course " 
+                "User " + c.giverEmail + " is not a registered instructor for course "
                 + c.courseId + ".");
         
         ______TS("fail: giver is not an instructor for the course");
@@ -64,7 +64,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.commentText = new Text("Invalid Comment from instructor1Course2 to student1Course1");
 
         verifyExceptionThrownFromCreateFrComment(c,
-                "User " + c.giverEmail + " is not a registered instructor for course " 
+                "User " + c.giverEmail + " is not a registered instructor for course "
                 + c.courseId + ".");
         
         ______TS("typical case");
@@ -348,13 +348,13 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.createdAt = existingComment.createdAt;
         c.commentText = existingComment.commentText;
         
-        verifyExceptionThrownFromUpdateComment(c, 
+        verifyExceptionThrownFromUpdateComment(c,
                 "Trying to update comments for a course that does not exist.");
         
         ______TS("fail: non existent entity");
         c.courseId = "no-such-course";
         
-        verifyExceptionThrownFromUpdateComment(c, 
+        verifyExceptionThrownFromUpdateComment(c,
                 "Trying to update comments for a course that does not exist.");
         
         ______TS("typical success case");
@@ -369,7 +369,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testDeleteComment() throws Exception {
+    public void testDeleteComment() {
         CommentAttributes existingComment1 = dataBundle.comments.get("comment1FromI1C1toS1C1");
         
         ______TS("silent fail nothing to delete");
@@ -394,31 +394,31 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     // TODO: add tests for those one level down api call if test coverage is considered
     
     private void verifyCommentsGiverNameVisible(List<CommentAttributes> comments) {
-        for (CommentAttributes c: comments) {
+        for (CommentAttributes c : comments) {
             assertFalse("Anonymouse".equals(c.giverEmail));
         }
     }
     
     private void verifyCommentsGiverNameHidden(List<CommentAttributes> comments) {
-        for (CommentAttributes c: comments) {
+        for (CommentAttributes c : comments) {
             assertEquals("Anonymous", c.giverEmail);
         }
     }
     
     private void verifyCommentsRecipientNameHidden(List<CommentAttributes> comments) {
-        for (CommentAttributes c: comments) {
+        for (CommentAttributes c : comments) {
             assertEquals("Anonymous", c.recipients.iterator().next());
         }
     }
     
     private void verifyCommentsRecipientNameVisible(List<CommentAttributes> comments) {
-        for (CommentAttributes c: comments) {
+        for (CommentAttributes c : comments) {
             assertFalse("Anonymous".equals(c.recipients.iterator().next()));
         }
     }
     
     private void verifyExceptionThrownFromCreateFrComment(
-            CommentAttributes comment, String message) 
+            CommentAttributes comment, String message)
             throws InvalidParametersException, EntityAlreadyExistsException {
         try {
             commentsLogic.createComment(comment);
@@ -448,8 +448,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message)
-            throws EntityDoesNotExistException {
+    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message) {
         try {
             commentsLogic.updateComment(c);
         } catch (InvalidParametersException e) {

@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,14 +17,12 @@ import teammates.logic.api.Logic;
 public class LogoutServlet extends HttpServlet {
 
     @Override
-    public final void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    public final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         this.doPost(req, resp);
     }
 
     @Override
-    public final void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
+    public final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String nextUrl = req.getParameter(Const.ParamsNames.NEXT_URL);
         if (nextUrl == null) {
             nextUrl = "/index.html";

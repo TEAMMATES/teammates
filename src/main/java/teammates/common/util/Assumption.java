@@ -169,7 +169,7 @@ public final class Assumption {
      * is thrown with the given message.
      */
     public static void assertEquals(String message, long expected, long actual) {
-        assertEquals(message, new Long(expected), new Long(actual));
+        assertEquals(message, Long.valueOf(expected), Long.valueOf(actual));
     }
 
     /**
@@ -201,7 +201,7 @@ public final class Assumption {
      * is thrown with the given message.
      */
     public static void assertEquals(String message, byte expected, byte actual) {
-        assertEquals(message, new Byte(expected), new Byte(actual));
+        assertEquals(message, Byte.valueOf(expected), Byte.valueOf(actual));
     }
 
     /**
@@ -231,7 +231,7 @@ public final class Assumption {
      * AssertionFailedError is thrown with the given message.
      */
     public static void assertEquals(String message, short expected, short actual) {
-        assertEquals(message, new Short(expected), new Short(actual));
+        assertEquals(message, Short.valueOf(expected), Short.valueOf(actual));
     }
 
     /**
@@ -246,7 +246,7 @@ public final class Assumption {
      * is thrown with the given message.
      */
     public static void assertEquals(String message, int expected, int actual) {
-        assertEquals(message, new Integer(expected), new Integer(actual));
+        assertEquals(message, Integer.valueOf(expected), Integer.valueOf(actual));
     }
 
     /**
@@ -291,8 +291,8 @@ public final class Assumption {
      * AssertionFailedError is thrown with the given message.
      */
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
-    // PMD.CompareObjectsWithEquals is suppressed as assertSame are checking if 
-    // the expected and actual are the same objects (not just equal to each other) 
+    // PMD.CompareObjectsWithEquals is suppressed as assertSame are checking if
+    // the expected and actual are the same objects (not just equal to each other)
     public static void assertSame(String message, Object expected, Object actual) {
         if (expected == actual) {
             return;
@@ -306,8 +306,8 @@ public final class Assumption {
      * same an AssertionFailedError is thrown.
      */
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
-    // PMD.CompareObjectsWithEquals is suppressed as assertSame are checking if 
-    // the expected and actual are the same objects (not just equal to each other) 
+    // PMD.CompareObjectsWithEquals is suppressed as assertSame are checking if
+    // the expected and actual are the same objects (not just equal to each other)
     public static void assertSame(Object expected, Object actual) {
         assertSame(null, expected, actual);
     }
@@ -318,8 +318,8 @@ public final class Assumption {
      * message.
      */
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
-    // PMD.CompareObjectsWithEquals is suppressed as assertNotSame is checking if 
-    // the expected and actual are the different objects (not just equal to each other) 
+    // PMD.CompareObjectsWithEquals is suppressed as assertNotSame is checking if
+    // the expected and actual are the different objects (not just equal to each other)
     public static void assertNotSame(String message, Object expected,
             Object actual) {
         if (expected == actual) {
@@ -367,7 +367,7 @@ public final class Assumption {
 
     public static void assertPostParamNotNull(String parameterName, String postParameter) {
         if (postParameter == null) {
-            throw new NullPostParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+            throw new NullPostParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     parameterName));
         }
     }

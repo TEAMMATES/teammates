@@ -49,7 +49,7 @@
             <div class="well well-plain" id="more-options">
               <form class="form-horizontal" role="form">
                 <div class="row">
-                  <div class="col-sm-4">
+                  <div class="col-sm-4 filter-options">
                     <div class="text-color-primary">
                       <strong>
                         Show comments for:
@@ -78,7 +78,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-sm-4 filter-options">
                     <div class="text-color-primary">
                       <strong>
                         Show comments from:
@@ -107,7 +107,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-sm-4 filter-options">
                     <div class="text-color-primary">
                       <strong>
                         Show comments with status:
@@ -197,7 +197,7 @@
     </div>
     <div id="panel_display-1">
       <br>
-      <div class="panel panel-primary">
+      <div class="panel panel-primary student-comments-panel">
         <div class="panel-heading cursor-pointer" data-target="#panelBodyCollapse" data-toggle="collapse" onclick="toggleChevron(this)">
           <div class="display-icon pull-right">
             <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -370,7 +370,7 @@
     </div>
     <div id="panel_display-2">
       <br>
-      <div class="panel panel-primary">
+      <div class="panel panel-primary feedback-session-panel">
         <div class="panel-heading loaded" onclick="loadFeedbackResponseComments('comments.idOfInstructorOfCourseWithUriChars','comments.idOfUriCharsCourse','comments.Session with name ,?:@=+$#', '1', this, true);" style="cursor: pointer;">
           <strong>
             Comments in session: comments.Session with name ,?:@=+$#
@@ -386,7 +386,7 @@
         </div>
         <div class="panel-collapse collapse in" style="height: auto;">
           <div class="panel-body">
-            <div class="panel panel-info">
+            <div class="panel panel-info feedback-question-panel">
               <div class="panel-heading">
                 <b>
                   Question 1
@@ -614,8 +614,8 @@
                             <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse">
                             <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#">
                             <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER,INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER,INSTRUCTORS">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
                           </form>
                         </li>
                       </ul>

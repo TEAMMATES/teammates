@@ -8,7 +8,7 @@ import teammates.common.exception.TeammatesException;
 
 public final class ThreadHelper {
     public static final int WAIT_DURATION = 20;
-    private static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     private ThreadHelper() {
         // utility class
@@ -23,7 +23,7 @@ public final class ThreadHelper {
     }
 
     /**
-     * Makes the thread sleep for the specified time. 
+     * Makes the thread sleep for the specified time.
      */
     public static void waitFor(int timeInMilliSeconds) {
         try {

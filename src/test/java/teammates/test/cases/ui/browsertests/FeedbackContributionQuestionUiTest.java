@@ -21,7 +21,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackContributionQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -52,14 +52,16 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         testAddContributionQuestionAsSecondQuestion();
     }
 
+    @Override
     public void testNewQuestionFrame() {
         ______TS("CONTRIB: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Team contribution question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONTRIB");
         assertTrue(feedbackEditPage.verifyNewContributionQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
         
         ______TS("empty question text");
@@ -69,6 +71,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         
     }
 
+    @Override
     public void testCustomizeOptions() {
 
         //no question specific options to test
@@ -82,6 +85,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("CONTRIB: add question action success");
         
@@ -93,6 +97,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("CONTRIB: edit question success");
 
@@ -110,6 +115,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEditSuccess.html");
     }
     
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("CONTRIB: qn delete then cancel");
 
@@ -120,7 +126,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     /**
@@ -131,14 +137,14 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     private void testAddContributionQuestionAsSecondQuestion() {
         ______TS("CONTRIB: add as second question");
 
-        feedbackEditPage.selectNewQuestionType("Essay question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.fillQuestionBox("q1, essay qn");
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
-           
-        feedbackEditPage.selectNewQuestionType("Team contribution question");
+
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONTRIB");
         feedbackEditPage.fillQuestionBox("q2, contribution qn");
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
@@ -146,7 +152,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

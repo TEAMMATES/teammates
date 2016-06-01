@@ -14,7 +14,7 @@ public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
@@ -34,8 +34,8 @@ public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
         assertEquals(institute, pageData.getInstitute());
         
         assertNotNull(pageData.getConfirmationLink());
-        String confirmationLink = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey 
-                                  + "&" + Const.ParamsNames.INSTRUCTOR_INSTITUTION + "=" 
+        String confirmationLink = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey
+                                  + "&" + Const.ParamsNames.INSTRUCTOR_INSTITUTION + "="
                                   + Sanitizer.sanitizeForUri(institute);
         assertEquals(confirmationLink, pageData.getConfirmationLink());
         

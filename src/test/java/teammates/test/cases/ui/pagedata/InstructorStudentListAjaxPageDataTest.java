@@ -21,7 +21,6 @@ import teammates.ui.template.StudentListStudentData;
 import teammates.ui.template.StudentListTeamData;
 
 public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
-
     
     private AccountAttributes acct;
     private SectionDetailsBundle sampleSection;

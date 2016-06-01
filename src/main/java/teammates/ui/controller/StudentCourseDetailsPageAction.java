@@ -21,15 +21,15 @@ public class StudentCourseDetailsPageAction extends Action {
         new GateKeeper().verifyAccessible(logic.getStudentForGoogleId(courseId, account.googleId),
                                           logic.getCourse(courseId));
 
-        StudentCourseDetailsPageData data = 
+        StudentCourseDetailsPageData data =
                                         new StudentCourseDetailsPageData(account);
         
         data.init(logic.getCourseDetails(courseId), logic.getInstructorsForCourse(courseId),
-                      logic.getStudentForGoogleId(courseId, account.googleId), 
+                      logic.getStudentForGoogleId(courseId, account.googleId),
                       logic.getTeamDetailsForStudent(logic.getStudentForGoogleId(courseId, account.googleId)));
 
-        statusToAdmin = "studentCourseDetails Page Load<br>" 
-                        + "Viewing team details for <span class=\"bold\">[" + courseId + "] " 
+        statusToAdmin = "studentCourseDetails Page Load<br>"
+                        + "Viewing team details for <span class=\"bold\">[" + courseId + "] "
                         + data.getStudentCourseDetailsPanel().getCourseName() + "</span>";
 
         return createShowPageResult(Const.ViewURIs.STUDENT_COURSE_DETAILS, data);

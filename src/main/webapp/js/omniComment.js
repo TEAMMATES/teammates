@@ -85,17 +85,17 @@ $(document).ready(function() {
         if ($("input[id^='panel_check']:checked").length === 0) {
             $('#no-comment-panel').show();
             // if all is checked, show giver and status for better user experience
-            if (!$('#panel_all').prop('checked')) {
-                $('#giver_all').parent().parent().hide();
-                $('#status_all').parent().parent().hide();
+            if ($('#panel_all').prop('checked')) {
+                $('#giver_all').closest('.filter-options').show();
+                $('#status_all').closest('.filter-options').show();
             } else {
-                $('#giver_all').parent().parent().show();
-                $('#status_all').parent().parent().show();
+                $('#giver_all').closest('.filter-options').hide();
+                $('#status_all').closest('.filter-options').hide();
             }
         } else {
             $('#no-comment-panel').hide();
-            $('#giver_all').parent().parent().show();
-            $('#status_all').parent().parent().show();
+            $('#giver_all').closest('.filter-options').show();
+            $('#status_all').closest('.filter-options').show();
         }
         
         // hide the panel accordingly based on panel_check checkbox
@@ -223,19 +223,19 @@ $(document).ready(function() {
         // if not all list elements are hidden within fbResponse, then show fbResponse
         if ($(comment).prop('class').toString().includes(classNameForCommentsInFeedbackResponse)) {
             if ($(comment).parent().find('li[style*="display: none"]').length !== $(comment).parent().find('li').length) {
-                var commentListRegionForFeedbackResponse = $(comment).parent().parent().parent();
+                var commentListRegionForFeedbackResponse = $(comment).closest('tr');
                 // a fbResponse in instructorCommentsPage (html) is made up of 4 rows as the followings
                 commentListRegionForFeedbackResponse.show();
                 commentListRegionForFeedbackResponse.prev().show();
                 commentListRegionForFeedbackResponse.prev().prev().show();
                 commentListRegionForFeedbackResponse.prev().prev().prev().show();
                 
-                var feedbackQuestion = commentListRegionForFeedbackResponse.parent().parent().parent();
+                var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 if (feedbackQuestion.find('tr[style*="display: none"]').length !== feedbackQuestion.find('tr').length) {
                     // if not all responses are hidden within fbQuestion, then show the fbQuestion
                     feedbackQuestion.show();
                     
-                    var feedbackSessionPanel = feedbackQuestion.parent().parent().parent();
+                    var feedbackSessionPanel = feedbackQuestion.closest('.feedback-session-panel');
                     var feedbackSessionPanelBody = feedbackQuestion.parent();
                     if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length !== feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
                         // if not all questions are hidden within fbSession, then show the fbsession's body
@@ -246,7 +246,7 @@ $(document).ready(function() {
         }
         // to show student comments (only works for Giver filter)
         if ($(comment).prop('class').toString().includes(classNameForCommentsInStudentRecords)) {
-            var studentCommentPanel = $(comment).parent().parent().parent();
+            var studentCommentPanel = $(comment).closest('.student-comments-panel');
             var studentCommentPanelBody = $(comment).parent();
             // if not all student comments are hidden, then show the student comments panel
             if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length !== studentCommentPanel.find('div[class*="giver_display-by"]').length) {
@@ -265,19 +265,19 @@ $(document).ready(function() {
         // if all list elements are hidden within fbResponse, then hide fbResponse
         if ($(comment).prop('class').toString().includes(classNameForCommentsInFeedbackResponse)) {
             if ($(comment).parent().find('li[style*="display: none"]').length === $(comment).parent().find('li').length) {
-                var commentListRegionForFeedbackResponse = $(comment).parent().parent().parent();
+                var commentListRegionForFeedbackResponse = $(comment).closest('tr');
                 // a fbResponse in instructorCommentsPage (html) is made up of 4 rows as the followings
                 commentListRegionForFeedbackResponse.hide();
                 commentListRegionForFeedbackResponse.prev().hide();
                 commentListRegionForFeedbackResponse.prev().prev().hide();
                 commentListRegionForFeedbackResponse.prev().prev().prev().hide();
                 
-                var feedbackQuestion = commentListRegionForFeedbackResponse.parent().parent().parent();
+                var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 if (feedbackQuestion.find('tr[style*="display: none"]').length === feedbackQuestion.find('tr').length) {
                     // if all responses are hidden within fbQuestion, then hide the fbQuestion
                     feedbackQuestion.hide();
                     
-                    var feedbackSessionPanel = feedbackQuestion.parent().parent().parent();
+                    var feedbackSessionPanel = feedbackQuestion.closest('.feedback-session-panel');
                     var feedbackSessionPanelBody = feedbackQuestion.parent();
                     if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length === feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
                         // if all questions are hidden within fbSession, then hide the fbsession's body
@@ -288,7 +288,7 @@ $(document).ready(function() {
         }
         // to hide student comments
         if ($(comment).prop('class').toString().includes(classNameForCommentsInStudentRecords)) {
-            var studentCommentPanel = $(comment).parent().parent().parent();
+            var studentCommentPanel = $(comment).closest('.student-comments-panel');
             var studentCommentPanelBody = $(comment).parent();
             // if all student comments are hidden, then hide the student comments panel
             if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length === studentCommentPanel.find('div[class*="giver_display-by"]').length) {
@@ -349,36 +349,37 @@ $(document).ready(function() {
     });
     
     $('input[type=checkbox]').click(function(e) {
-        var table = $(this).parent().parent().parent().parent();
-        var form = table.parent().parent().parent();
+        var table = $(this).closest('table');
+        var form = table.closest('form');
         var visibilityOptions = [];
         var target = $(e.target);
+        var visibilityOptionsRow = target.closest('tr');
         
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            target.parent().parent().find('input[class*=giverCheckbox]').prop('checked', false);
-            target.parent().parent().find('input[class*=recipientCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
         }
         if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
                 && target.prop('checked')) {
-            target.parent().parent().find('input[class*=answerCheckbox]').prop('checked', true);
+            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
         table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find("input[name='showcommentsto']").val(visibilityOptions.toString());
+        form.find("input[name='showcommentsto']").val(visibilityOptions.join(', '));
         
         visibilityOptions = [];
         table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find("input[name='showgiverto']").val(visibilityOptions.toString());
+        form.find("input[name='showgiverto']").val(visibilityOptions.join(', '));
         
         visibilityOptions = [];
         table.find('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find("input[name='showrecipientto']").val(visibilityOptions.toString());
+        form.find("input[name='showrecipientto']").val(visibilityOptions.join(', '));
     });
 });
 

@@ -32,22 +32,28 @@ public final class FileHelper {
         stream.read(buffer);
         stream.close();
         
-        return buffer;        
+        return buffer;
     }
 
     /**
-     * Reads the contents of an {@link InputStream} as a String.
+     * Reads the contents of a file in the {@code resources} folder
+     * as an {@link InputStream}.
+     * @param file The file name, which must be in the {@code resources} folder.
      */
-    public static String readStream(InputStream stream) {
-        Scanner scanner = new Scanner(stream, "UTF-8");
+    public static InputStream getResourceAsStream(String file) {
+        return Config.class.getClassLoader().getResourceAsStream(file);
+    }
+
+    /**
+     * Reads the contents of a file in the {@code resources} folder.
+     * @param file The file name, which must be in the {@code resources} folder.
+     */
+    public static String readResourceFile(String file) {
+        InputStream is = getResourceAsStream(file);
+        Scanner scanner = new Scanner(is, Const.SystemParams.ENCODING);
         String content = scanner.useDelimiter("\\Z").next();
         scanner.close();
         return content;
-    }
-
-    public static String readResourseFile(String file) {
-        return readStream(Config.class.getClassLoader()
-                .getResourceAsStream(file));
     }
 
 }

@@ -8,14 +8,13 @@ import java.util.Map;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -25,7 +24,7 @@ public class InstructorCourseAddAction extends Action {
     private InstructorCoursesPageData data;
 
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
+    public ActionResult execute() {
         String newCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(newCourseId);
         String newCourseName = getRequestParamValue(Const.ParamsNames.COURSE_NAME);
@@ -44,7 +43,7 @@ public class InstructorCourseAddAction extends Action {
         List<CourseAttributes> activeCourses = new ArrayList<CourseAttributes>();
         List<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
         
-        // Get list of InstructorAttributes that belong to the user.        
+        // Get list of InstructorAttributes that belong to the user.
         List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
         for (InstructorAttributes instructor : instructorList) {
             instructorsForCourses.put(instructor.courseId, instructor);
@@ -66,12 +65,12 @@ public class InstructorCourseAddAction extends Action {
         CourseAttributes.sortById(activeCourses);
         CourseAttributes.sortById(archivedCourses);
         
-        String CourseIdToShowParam = "";
-        String CourseNameToShowParam = "";
+        String courseIdToShowParam = "";
+        String courseNameToShowParam = "";
         
         if (isError) { // there is error in adding the course
-            CourseIdToShowParam = Sanitizer.sanitizeForHtml(newCourse.getId());
-            CourseNameToShowParam = Sanitizer.sanitizeForHtml(newCourse.getName());
+            courseIdToShowParam = Sanitizer.sanitizeForHtml(newCourse.getId());
+            courseNameToShowParam = Sanitizer.sanitizeForHtml(newCourse.getName());
             
             List<String> statusMessageTexts = new ArrayList<String>();
             
@@ -85,7 +84,7 @@ public class InstructorCourseAddAction extends Action {
             statusToAdmin += "<br>Total courses: " + allCourses.size();
         }
         
-        data.init(activeCourses, archivedCourses, instructorsForCourses, CourseIdToShowParam, CourseNameToShowParam);
+        data.init(activeCourses, archivedCourses, instructorsForCourses, courseIdToShowParam, courseNameToShowParam);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
     }

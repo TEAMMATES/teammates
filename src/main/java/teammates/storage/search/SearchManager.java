@@ -9,8 +9,8 @@ import teammates.common.util.Config;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 
-import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
 import com.google.appengine.api.search.PutException;
 import com.google.appengine.api.search.PutResponse;
@@ -65,7 +65,7 @@ public final class SearchManager {
         } catch (PutException e) {
             //if it's a transient error in the server, it can be re-tried
             if (!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
-                log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName) 
+                log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName)
                         + " e:\n" + TeammatesException.toStringWithStackTrace(e));
             }
             return false;
@@ -104,7 +104,7 @@ public final class SearchManager {
         Map<String, Index> indicesTable = getIndicesTable();
         Index index = indicesTable.get(indexName);
         if (index == null) {
-            IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build(); 
+            IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build();
             index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
             indicesTable.put(indexName, index);
         }

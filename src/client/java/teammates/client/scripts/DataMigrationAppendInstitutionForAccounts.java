@@ -17,7 +17,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
     private static final boolean isTrial = true;
     
     // TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
-    protected static final PersistenceManager pm = JDOHelper
+    private static final PersistenceManager pm = JDOHelper
             .getPersistenceManagerFactory("transactions-optional")
             .getPersistenceManager();
     
@@ -26,6 +26,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
         migrator.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         appendInstitutionForAccounts();
     }
@@ -86,7 +87,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
         // Only the following loop does the appending
         // *******************************************************************
         //======================================================================
-        // Student Accounts append Institute from Student-Institute pair        
+        // Student Accounts append Institute from Student-Institute pair
         int count = 0;
         for (String id : studentInstitutions.keySet()) {
             query = "select from " + Account.class.getName()

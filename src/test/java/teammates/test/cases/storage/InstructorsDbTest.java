@@ -47,7 +47,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testCreateInstructor() 
+    public void testCreateInstructor()
             throws EntityAlreadyExistsException, InvalidParametersException {
         
         ______TS("Success: create an instructor");
@@ -110,7 +110,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorForEmail() throws InvalidParametersException {
+    public void testGetInstructorForEmail() {
         
         InstructorAttributes i = dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -135,7 +135,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorForGoogleId() throws InvalidParametersException {
+    public void testGetInstructorForGoogleId() {
         
         InstructorAttributes i = dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -160,7 +160,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorForRegistrationKey() throws InvalidParametersException {
+    public void testGetInstructorForRegistrationKey() {
         
         InstructorAttributes i = dataBundle.instructors.get("instructorNotYetJoinCourse");
         
@@ -190,7 +190,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetInstructorsForEmail() throws Exception {
+    public void testGetInstructorsForEmail() {
         
         ______TS("Success: get instructors with specific email");
         
@@ -258,7 +258,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorsForCourse() throws Exception {
+    public void testGetInstructorsForCourse() {
         
         ______TS("Success: get instructors of a specific course");
         
@@ -318,7 +318,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                        String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, FieldValidator.REASON_EMPTY) + Const.EOL 
+                        String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, FieldValidator.REASON_EMPTY) + Const.EOL
                         + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email, FieldValidator.REASON_INCORRECT_FORMAT),
                         e.getMessage());
         }
@@ -402,7 +402,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDeleteInstructor() throws InvalidParametersException {
+    public void testDeleteInstructor() {
         InstructorAttributes i = dataBundle.instructors.get("instructorWithOnlyOneSampleCourse");
         
         ______TS("Success: delete an instructor");
@@ -427,7 +427,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDeleteInstructorsForGoogleId() throws Exception {
+    public void testDeleteInstructorsForGoogleId() {
         
         ______TS("Success: delete instructors with specific googleId");
         
@@ -452,7 +452,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDeleteInstructorsForCourse() throws Exception {
+    public void testDeleteInstructorsForCourse() {
         
         ______TS("Success: delete instructors of a specific course");
         
@@ -477,12 +477,12 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public void classTearDown() throws Exception {
+    public void classTearDown() {
         deleteInstructorsFromDb();
         printTestClassFooter();
     }
     
-    private static void deleteInstructorsFromDb() throws Exception {
+    private static void deleteInstructorsFromDb() {
         Set<String> keys = dataBundle.instructors.keySet();
         for (String i : keys) {
             instructorsDb.deleteEntity(dataBundle.instructors.get(i));

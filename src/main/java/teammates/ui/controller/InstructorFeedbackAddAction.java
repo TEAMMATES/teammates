@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -12,32 +13,35 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.FeedbackSessionTemplates;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.Templates;
+import teammates.common.util.Templates.FeedbackSessionTemplates;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.Emails.EmailType;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertNotEmpty(courseId);
         
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId); 
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         new GateKeeper().verifyAccessible(
                 instructor,
@@ -70,15 +74,15 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADDED, StatusMessageColor.SUCCESS));
             statusToAdmin =
-                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course " 
-                    + "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" 
-                    + "<span class=\"bold\">From:</span> " + fs.startTime 
-                    + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" 
-                    + "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" 
-                    + "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" 
+                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course "
+                    + "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>"
+                    + "<span class=\"bold\">From:</span> " + fs.startTime
+                    + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>"
+                    + "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>"
+                    + "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>"
                     + "<span class=\"bold\">Instructions:</span> " + fs.instructions;
             
-            //TODO: add a condition to include the status due to inconsistency problem of database 
+            //TODO: add a condition to include the status due to inconsistency problem of database
             //      (similar to the one below)
             return createRedirectResult(
                     new PageData(account).getInstructorFeedbackEditLink(
@@ -103,7 +107,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         }
         
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
-        data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs, 
+        data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs,
                                        feedbackSessionType);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
@@ -115,14 +119,35 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             return;
         }
         
-        List<FeedbackQuestionAttributes> questions = 
-                FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(
-                        feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
+        List<FeedbackQuestionAttributes> questions =
+                getFeedbackSessionTemplateQuestions(feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
+        
         int questionNumber = 1;
         for (FeedbackQuestionAttributes fqa : questions) {
             logic.createFeedbackQuestionForTemplate(fqa, questionNumber);
             questionNumber++;
         }
+    }
+    
+    /** 
+     * Get the list of questions for the specified feedback session template
+     */
+    private static List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(
+            String templateType, String courseId, String feedbackSessionName, String creatorEmail) {
+        Assumption.assertNotNull(templateType);
+        
+        if ("TEAMEVALUATION".equals(templateType)) {
+            String jsonString = Templates.populateTemplate(FeedbackSessionTemplates.TEAM_EVALUATION,
+                    "${courseId}", courseId,
+                    "${feedbackSessionName}", feedbackSessionName,
+                    "${creatorEmail}", creatorEmail);
+            
+            Gson gson = Utils.getTeammatesGson();
+            Type listType = new TypeToken<ArrayList<FeedbackQuestionAttributes>>(){}.getType();
+            return gson.fromJson(jsonString, listType);
+        }
+        
+        return new ArrayList<FeedbackQuestionAttributes>();
     }
 
     private FeedbackSessionAttributes extractFeedbackSessionData() {
@@ -140,7 +165,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
         newSession.endTime = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));        
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
             newSession.timeZone = Double.parseDouble(paramTimeZone);
@@ -158,44 +183,44 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
-            case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-                newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
-                break;
-            case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
-                newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
-                break;
-            case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
-                newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
-                break;
-            case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
-                newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-                break;
-            default:
-                log.severe("Invalid resultsVisibleFrom setting in creating" + newSession.getIdentificationString());
-                break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
+            newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
+            newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
+            newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
+            newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+            break;
+        default:
+            log.severe("Invalid resultsVisibleFrom setting in creating" + newSession.getIdentificationString());
+            break;
         }
         
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
-            case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-                newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
-                break;
-            case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
-                newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
-                break;
-            case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
-                newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-                // overwrite if private
-                newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-                newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
-                break;
-            default:
-                log.severe("Invalid sessionVisibleFrom setting in creating " + newSession.getIdentificationString());
-                break;
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
+            newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
+            newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
+            newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+            // overwrite if private
+            newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+            newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
+            break;
+        default:
+            log.severe("Invalid sessionVisibleFrom setting in creating " + newSession.getIdentificationString());
+            break;
         }
         
         String[] sendReminderEmailsArray =

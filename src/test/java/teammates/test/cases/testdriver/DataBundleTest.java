@@ -11,7 +11,7 @@ import teammates.test.cases.BaseTestCase;
 public class DataBundleTest extends BaseTestCase {
     
     @Test
-    public void testDataBundle() throws Exception {
+    public void testDataBundle() {
 
         
         DataBundle data = getTypicalDataBundle();

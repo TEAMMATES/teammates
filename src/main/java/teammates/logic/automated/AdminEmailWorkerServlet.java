@@ -7,18 +7,18 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.labs.repackaged.org.json.JSONException;
-
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.util.Assumption;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.Emails;
 
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+
 /**
- * Retrieves admin email content and subject by email id and sends email to the receiver 
+ * Retrieves admin email content and subject by email id and sends email to the receiver
  */
 @SuppressWarnings("serial")
 public class AdminEmailWorkerServlet extends WorkerServlet {
@@ -27,10 +27,10 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         
         
-        String emailId =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);        
+        String emailId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);
         Assumption.assertNotNull(emailId);
         
-        String receiverEmail =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_RECEVIER);       
+        String receiverEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_RECEIVER);
         Assumption.assertNotNull(receiverEmail);
         
 
@@ -39,16 +39,16 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         String emailSubject = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_SUBJECT);
         
         if (emailContent == null || emailSubject == null) {
-          log.info("Sending large email. Going to retrieve email content and subject from datastore.");
-          AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);      
-          Assumption.assertNotNull(adminEmail);
-          
-          emailContent = adminEmail.getContent().getValue();
-          emailSubject = adminEmail.getSubject();
+            log.info("Sending large email. Going to retrieve email content and subject from datastore.");
+            AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);
+            Assumption.assertNotNull(adminEmail);
+
+            emailContent = adminEmail.getContent().getValue();
+            emailSubject = adminEmail.getSubject();
         }
         
         Assumption.assertNotNull(emailContent);
-        Assumption.assertNotNull(emailSubject); 
+        Assumption.assertNotNull(emailSubject);
         
         try {
             sendAdminEmail(emailContent, emailSubject, receiverEmail);

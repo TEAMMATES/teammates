@@ -7,8 +7,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackCopyAction extends Action {
@@ -26,10 +26,10 @@ public class InstructorFeedbackCopyAction extends Action {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
         
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId); 
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         new GateKeeper().verifyAccessible(
-                instructor, 
+                instructor,
                 logic.getCourse(courseId),
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
@@ -43,15 +43,15 @@ public class InstructorFeedbackCopyAction extends Action {
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPIED, StatusMessageColor.SUCCESS));
             statusToAdmin =
-                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> " 
-                    + "for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" 
-                    + "<span class=\"bold\">From:</span> " + fs.startTime 
-                    + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" 
-                    + "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" 
-                    + "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" 
+                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> "
+                    + "for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>"
+                    + "<span class=\"bold\">From:</span> " + fs.startTime
+                    + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>"
+                    + "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>"
+                    + "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>"
                     + "<span class=\"bold\">Instructions:</span> " + fs.instructions;
             
-            //TODO: add a condition to include the status due to inconsistency problem of database 
+            //TODO: add a condition to include the status due to inconsistency problem of database
             //      (similar to the one below)
             return createRedirectResult(
                     new PageData(account).getInstructorFeedbackEditLink(

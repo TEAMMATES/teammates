@@ -59,14 +59,14 @@ public class AdminActivityLogPage extends AppPage {
     public void clickSearchSubmitButton() {
         
         WebElement button = browser.driver.findElement(By.name("search_submit"));
-        button.click();      
+        button.click();
     }
     
     public boolean isLogsTableVisible() {
         WebElement table = getLogsTable();
         if (table == null) {
             return false;
-        } 
+        }
         return table.isDisplayed();
     }
     
@@ -83,9 +83,8 @@ public class AdminActivityLogPage extends AppPage {
         if (isLogsTableVisible()) {
             List<WebElement> headerList = browser.driver.findElements(By.cssSelector("#logsTable > thead > tr > th"));
             return headerList.size();
-        } else {
-            return 0;
         }
+        return 0;
     }
     
     public String getQueryMessage() {

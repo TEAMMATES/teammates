@@ -39,7 +39,7 @@ public class AdminSearchPageData extends PageData {
     
     /*
      * Data related to searched instructors
-     */   
+     */
     public InstructorSearchResultBundle instructorResultBundle = new InstructorSearchResultBundle();
     public HashMap<String, String> instructorInstituteMap = new HashMap<String, String>();
     public HashMap<String, String> instructorHomaPageLinkMap = new HashMap<String, String>();
@@ -89,7 +89,7 @@ public class AdminSearchPageData extends PageData {
     private AdminSearchInstructorTable createInstructorTable() {
         List<AdminSearchInstructorRow> rows = new ArrayList<AdminSearchInstructorRow>();
         
-        for (InstructorAttributes instructor: instructorResultBundle.instructorList) {
+        for (InstructorAttributes instructor : instructorResultBundle.instructorList) {
             rows.add(createInstructorRow(instructor));
         }
         
@@ -108,7 +108,7 @@ public class AdminSearchPageData extends PageData {
         String email = instructor.email;
         String courseJoinLink = instructorCourseJoinLinkMap.get(instructor.getIdentificationString());
         
-        return new AdminSearchInstructorRow(id, name, courseName, courseId, googleId, googleIdLink, 
+        return new AdminSearchInstructorRow(id, name, courseName, courseId, googleId, googleIdLink,
                                             institute, viewRecentActionsId, email, courseJoinLink);
     }
 
@@ -162,16 +162,16 @@ public class AdminSearchPageData extends PageData {
         
         AdminSearchStudentLinks links = createStudentLinks(student);
         
-        List<AdminSearchStudentFeedbackSession> openFeedbackSessions = 
+        List<AdminSearchStudentFeedbackSession> openFeedbackSessions =
                                         createFeedbackSessionsList(student, FeedbackSessionState.OPEN);
-        List<AdminSearchStudentFeedbackSession> closedFeedbackSessions = 
+        List<AdminSearchStudentFeedbackSession> closedFeedbackSessions =
                                         createFeedbackSessionsList(student, FeedbackSessionState.CLOSED);
-        List<AdminSearchStudentFeedbackSession> publishedFeedbackSessions = 
+        List<AdminSearchStudentFeedbackSession> publishedFeedbackSessions =
                                         createFeedbackSessionsList(student, FeedbackSessionState.PUBLISHED);
         
-        return new AdminSearchStudentRow(id, name, institute, courseName, courseId, section, 
-                                         team, googleId, email, comments, viewRecentActionsId, 
-                                         links, openFeedbackSessions, closedFeedbackSessions, 
+        return new AdminSearchStudentRow(id, name, institute, courseName, courseId, section,
+                                         team, googleId, email, comments, viewRecentActionsId,
+                                         links, openFeedbackSessions, closedFeedbackSessions,
                                          publishedFeedbackSessions);
     }
 
@@ -213,18 +213,18 @@ public class AdminSearchPageData extends PageData {
         List<String> links = new ArrayList<String>();
         
         switch (fsState) {
-            case OPEN:
-                links = studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString());
-                break;
-            case CLOSED:
-                links = studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString());
-                break;
-            case PUBLISHED:
-                links = studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString());
-                break;
-            default:
-                Assumption.fail();
-                break;
+        case OPEN:
+            links = studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString());
+            break;
+        case CLOSED:
+            links = studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString());
+            break;
+        case PUBLISHED:
+            links = studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString());
+            break;
+        default:
+            Assumption.fail();
+            break;
         }
         
         if (links != null) {

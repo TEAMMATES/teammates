@@ -44,16 +44,16 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         ______TS("Error: Invalid parameter for Course ID");
         
-        String invalidCourseID = "ticac,tpa1,id";
-        Action addAction = getAction(Const.ParamsNames.COURSE_ID, invalidCourseID,
+        String invalidCourseId = "ticac,tpa1,id";
+        Action addAction = getAction(Const.ParamsNames.COURSE_ID, invalidCourseId,
                                      Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
         ShowPageResult pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
 
         assertTrue(pageResult.isError);
-        assertEquals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseID,
+        assertEquals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseId,
                                         FieldValidator.REASON_INCORRECT_FORMAT), pageResult.getStatusMessage());
 
         InstructorCoursesPageData pageData = (InstructorCoursesPageData) pageResult.data;
@@ -61,7 +61,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                                     + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                    + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseID,
+                                    + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseId,
                                     FieldValidator.REASON_INCORRECT_FORMAT)
                                     + "|||/page/instructorCourseAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
@@ -81,9 +81,9 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
         
         String expected = Const.StatusMessages.COURSE_ADDED
-                  .replace("${courseEnrollLink}", 
+                  .replace("${courseEnrollLink}",
                            "/page/instructorCourseEnrollPage?courseid=ticac.tpa1.id&user=idOfInstructor1OfCourse1")
-                  .replace("${courseEditLink}", 
+                  .replace("${courseEditLink}",
                            "/page/instructorCourseEditPage?courseid=ticac.tpa1.id&user=idOfInstructor1OfCourse1");
         assertEquals(expected, pageResult.getStatusMessage());
         
@@ -93,7 +93,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                               Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.COURSE_EXISTS, pageResult.getStatusMessage());
@@ -160,14 +160,14 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         
         expected = Const.StatusMessages.COURSE_ADDED
-                .replace("${courseEnrollLink}", 
+                .replace("${courseEnrollLink}",
                          "/page/instructorCourseEnrollPage?courseid=ticac.tpa2.id&user=idOfInstructorOfArchivedCourse")
-                .replace("${courseEditLink}", 
+                .replace("${courseEditLink}",
                          "/page/instructorCourseEditPage?courseid=ticac.tpa2.id&user=idOfInstructorOfArchivedCourse");
         assertEquals(expected, pageResult.getStatusMessage());
     }
     
-    private Action getAction(String... parameters) throws Exception {
+    private Action getAction(String... parameters) {
         return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
 }

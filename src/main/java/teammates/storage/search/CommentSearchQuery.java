@@ -30,7 +30,7 @@ public class CommentSearchQuery extends SearchQuery {
         StringBuilder courseIdLimit = new StringBuilder("(");
         StringBuilder giverEmailLimit = new StringBuilder("(");
         String delim = "";
-        for (InstructorAttributes ins:instructors) {
+        for (InstructorAttributes ins : instructors) {
             courseIdLimit.append(delim).append(ins.courseId);
             giverEmailLimit.append(delim).append(ins.email);
             delim = OR;
@@ -39,7 +39,7 @@ public class CommentSearchQuery extends SearchQuery {
         giverEmailLimit.append(')');
 
         visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":" + courseIdLimit.toString()
-                + AND + "(" + Const.SearchDocumentField.GIVER_EMAIL + ":" + giverEmailLimit.toString() 
+                + AND + "(" + Const.SearchDocumentField.GIVER_EMAIL + ":" + giverEmailLimit.toString()
                         + OR + Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR + ":true)";
     }
 }

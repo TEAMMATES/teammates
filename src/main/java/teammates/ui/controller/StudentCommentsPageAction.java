@@ -59,11 +59,11 @@ public class StudentCommentsPageAction extends Action {
         }
         verifyAccessible();
         
-        List<String> coursePaginationList = getCoursePaginationList(courses); 
+        List<String> coursePaginationList = getCoursePaginationList(courses);
         
         studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
         CourseRoster roster = null;
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = 
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles =
                 new HashMap<String, FeedbackSessionResultsBundle>();
         List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
         if (!coursePaginationList.isEmpty()) {
@@ -81,8 +81,8 @@ public class StudentCommentsPageAction extends Action {
         data.init(courseId, courseName, coursePaginationList, comments, roster,
                   studentEmail, feedbackResultBundles);
         
-        statusToAdmin = "studentComments Page Load<br>" 
-                + "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " 
+        statusToAdmin = "studentComments Page Load<br>"
+                + "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records "
                 + "for Course <span class=\"bold\">[" + courseId + "]</span>";
 
         return createShowPageResult(Const.ViewURIs.STUDENT_COMMENTS, data);
@@ -90,7 +90,7 @@ public class StudentCommentsPageAction extends Action {
     
     private void verifyBasicAccessibility() {
         new GateKeeper().verifyLoggedInUserPrivileges();
-        if (regkey != null) { 
+        if (regkey != null) {
             // unregistered users cannot view the page
             throw new UnauthorizedAccessException("User is not registered");
         }
@@ -102,8 +102,7 @@ public class StudentCommentsPageAction extends Action {
                 logic.getCourse(courseId));
     }
 
-    private List<String> getCoursePaginationList(List<CourseAttributes> sortedCourses) 
-            throws EntityDoesNotExistException {
+    private List<String> getCoursePaginationList(List<CourseAttributes> sortedCourses) {
         List<String> coursePaginationList = new ArrayList<>();
 
         for (CourseAttributes course : sortedCourses) {
@@ -128,7 +127,7 @@ public class StudentCommentsPageAction extends Action {
      */
     private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(CourseRoster roster)
             throws EntityDoesNotExistException {
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = 
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles =
                 new LinkedHashMap<String, FeedbackSessionResultsBundle>();
         List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
         Collections.sort(fsList, SessionAttributes.DESCENDING_ORDER);
@@ -137,7 +136,7 @@ public class StudentCommentsPageAction extends Action {
                 continue;
             }
             
-            FeedbackSessionResultsBundle bundle = 
+            FeedbackSessionResultsBundle bundle =
                     logic.getFeedbackSessionResultsForStudent(
                                   fs.feedbackSessionName, courseId, studentEmail, roster);
             if (bundle != null) {
@@ -151,17 +150,17 @@ public class StudentCommentsPageAction extends Action {
     }
 
     private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
-        List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment = 
+        List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment =
                 new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes fr: bundle.responses) {
+        for (FeedbackResponseAttributes fr : bundle.responses) {
             List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
             if (frComment != null && !frComment.isEmpty()) {
                 responsesWithFeedbackResponseComment.add(fr);
             }
         }
-        Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment = 
+        Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment =
                 new HashMap<String, FeedbackQuestionAttributes>();
-        for (FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment) {
+        for (FeedbackResponseAttributes fr : responsesWithFeedbackResponseComment) {
             FeedbackQuestionAttributes qn = bundle.questions.get(fr.feedbackQuestionId);
             if (questionsWithFeedbackResponseComment.get(qn.getId()) == null) {
                 questionsWithFeedbackResponseComment.put(qn.getId(), qn);

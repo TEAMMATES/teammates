@@ -32,13 +32,13 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     private StudentProfilePage profilePage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentProfilePageUiTest.json");
         
         // use the 2nd student account injected for this test
         
-        String student2GoogleId = TestProperties.inst().TEST_STUDENT2_ACCOUNT;
+        String student2GoogleId = TestProperties.TEST_STUDENT2_ACCOUNT;
         String student2Email = student2GoogleId + "@gmail.com";
         testData.accounts.get("studentWithExistingProfile").googleId = student2GoogleId;
         testData.accounts.get("studentWithExistingProfile").email = student2Email;
@@ -60,7 +60,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         testAjaxPictureUrl();
     }
 
-    private void testJsFunctions() throws Exception {
+    private void testJsFunctions() {
         ______TS("Test disabling and enabling of upload button");
         // initial disabled state
         profilePage.verifyUploadButtonState(false);
@@ -116,8 +116,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.closeEditPictureModal();
     }
 
-    private void testActions() throws Exception {
-        // assumes it is run after NavLinks Test 
+    private void testActions() {
+        // assumes it is run after NavLinks Test
         // (ie already logged in as studentWithExistingProfile
         String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
 
@@ -222,7 +222,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         verifyPictureIsPresent(currentPictureKey);
     }
 
-    private void testAjaxPictureUrl() throws Exception {
+    private void testAjaxPictureUrl() {
         String studentId = "studentWithExistingProfile";
         String instructorId = "SHomeUiT.instr";
         String helperId = "SHomeUiT.helper";
@@ -242,7 +242,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         ______TS("Failure case: invalid blob-key");
 
         String invalidKey = "random-StRing123";
-        if (TestProperties.inst().isDevServer()) {
+        if (TestProperties.isDevServer()) {
             getProfilePicturePage(studentId, invalidKey, NotFoundPage.class);
         } else {
             getProfilePicturePage(studentId, invalidKey, GenericAppPage.class);
@@ -289,7 +289,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

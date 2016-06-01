@@ -33,7 +33,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         super(account);
     }
     
-    public void init(InstructorAttributes currentInstructor, CourseDetailsBundle courseDetails, 
+    public void init(InstructorAttributes currentInstructor, CourseDetailsBundle courseDetails,
                      List<InstructorAttributes> instructors, List<StudentAttributes> students) {
         this.currentInstructor = currentInstructor;
         this.courseDetails = courseDetails;
@@ -43,24 +43,24 @@ public class InstructorCourseDetailsPageData extends PageData {
                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
         
         String content = "<span class=\"glyphicon glyphicon-comment glyphicon-primary\"></span>";
-        giveCommentButton = createButton(content, "btn btn-default btn-xs icon-button pull-right", 
+        giveCommentButton = createButton(content, "btn btn-default btn-xs icon-button pull-right",
                                          "button_add_comment", null, "", "tooltip", null, isDisabled);
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        String onClick = "if(toggleSendRegistrationKeysConfirmation('" 
+        String onClick = "if(toggleSendRegistrationKeysConfirmation('"
                           + sanitizeForJs(courseDetails.course.getId()) + "')) "
                           + "window.location.href='"
                           + sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId())) + "';";
-        courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null, 
+        courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null,
                                           Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
 
         this.sections = new ArrayList<StudentListSectionData>();
-        for (SectionDetailsBundle section: courseDetails.sections) {
+        for (SectionDetailsBundle section : courseDetails.sections) {
             Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
             for (TeamDetailsBundle teamDetails : section.teams) {
                 for (StudentAttributes student : teamDetails.students) {
                     String studentPhotoUrl = student.getPublicProfilePictureUrl();
-                    studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl, 
+                    studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl,
                                                     Const.ParamsNames.USER_ID, account.googleId);
                     emailPhotoUrlMapping.put(student.email, studentPhotoUrl);
                 }
@@ -119,7 +119,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         return hasSection;
     }
 
-    private ElementTag createButton(String content, String buttonClass, String id, String href, 
+    private ElementTag createButton(String content, String buttonClass, String id, String href,
                             String title, String dataToggle, String onClick, boolean isDisabled) {
         ElementTag button = new ElementTag(content);
         

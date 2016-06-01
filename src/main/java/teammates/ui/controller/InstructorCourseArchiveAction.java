@@ -2,8 +2,8 @@ package teammates.ui.controller;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseArchiveAction extends Action {
@@ -26,15 +26,15 @@ public class InstructorCourseArchiveAction extends Action {
             logic.setArchiveStatusOfInstructor(account.googleId, idOfCourseToArchive, isArchive);
             if (isArchive) {
                 if (isRedirectedToHomePage()) {
-                    statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, 
+                    statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE,
                                                                        idOfCourseToArchive), StatusMessageColor.SUCCESS));
                 } else {
-                    statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_ARCHIVED, 
+                    statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_ARCHIVED,
                                                                        idOfCourseToArchive), StatusMessageColor.SUCCESS));
                 }
                 statusToAdmin = "Course archived: " + idOfCourseToArchive;
-            } else {  
-                statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_UNARCHIVED, 
+            } else {
+                statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_UNARCHIVED,
                                                                        idOfCourseToArchive), StatusMessageColor.SUCCESS));
                 statusToAdmin = "Course unarchived: " + idOfCourseToArchive;
             }
@@ -44,9 +44,8 @@ public class InstructorCourseArchiveAction extends Action {
 
         if (isRedirectedToHomePage()) {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
-        } else {
-            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         }
+        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
     }
     
     /**
