@@ -343,6 +343,14 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
+    public void testGetInvalidityInfoForEmailSubject_invalid_returnSpecificErrorString() {
+        String invalidEmailSubject = "";
+        String actual = validator.getInvalidityInfoForEmailSubject(invalidEmailSubject);
+        assertEquals("Invalid email subject (empty) should return error message that is specific to email subject",
+                     String.format(EMAIL_SUBJECT_ERROR_MESSAGE, invalidEmailSubject, REASON_EMPTY), actual);
+    }
+
+    @Test
     public void invalidityInfoFor_validGender_returnEmptyString() {
         String validGender = "other";
         String actual = validator.getInvalidityInfoForGender(validGender);

@@ -20,7 +20,6 @@ public class FieldValidator {
         SESSION_VISIBLE_TIME,
         RESULTS_VISIBLE_TIME,
         FEEDBACK_SESSION_TIME_FRAME,
-        EMAIL_SUBJECT,
         EMAIL_CONTENT
     }
     
@@ -360,9 +359,6 @@ public class FieldValidator {
         //TODO: should be break this into individual methods? We already have some methods like that in this class.
         String returnValue = "";
         switch (fieldType) {
-        case EMAIL_SUBJECT:
-            returnValue = this.getValidityInfoForAllowedName(EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, (String) value);
-            break;
         case EMAIL_CONTENT:
             returnValue = this.getValidityInfoForEmailContent((Text) value);
             break;
@@ -374,6 +370,17 @@ public class FieldValidator {
             return returnValue;
         }
         return "Invalid " + fieldName + ": " + returnValue;
+    }
+
+    /**
+     * Checks if {@code emailSubject} is a non-null non-empty string no longer than the specified length
+     * {@code EMAIL_SUBJECT_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param emailSubject
+     * @return An explanation of why the {@code emailSubject} is not acceptable.
+     *         Returns an empty string if the {@code emailSubject} is acceptable.
+     */
+    public String getInvalidityInfoForEmailSubject(String emailSubject) {
+        return getValidityInfoForAllowedName(EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, emailSubject);
     }
 
     /**
