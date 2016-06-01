@@ -577,6 +577,15 @@ Apply to thead to make headers not bold.
     text-overflow: ellipsis;
 }
 
+.other-option-label {
+    vertical-align: top;
+}
+
+.other-option-input {
+    display: inline;
+    width: auto;
+}
+
 .profile-pic {
     width: 130px;
     height: 130px;
