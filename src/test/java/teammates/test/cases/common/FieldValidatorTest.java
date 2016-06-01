@@ -4,6 +4,8 @@ package teammates.test.cases.common;
 import static teammates.common.util.FieldValidator.*;
 // CHECKSTYLE.ON:AvoidStarImport
 
+import java.util.Date;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -595,6 +597,65 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Invalid Course ID (invalid char) should return appropriate error string",
                      String.format(COURSE_ID_ERROR_MESSAGE, courseIdWithInvalidChar, REASON_INCORRECT_FORMAT),
                      validator.getInvalidityInfoForCourseId(courseIdWithInvalidChar));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForSessionStartAndEnd_valid_returnEmptyString() {
+        Date date = new Date();
+        Date sessionStart = new Date(date.getTime() - 1000);
+        Date sessionEnd = new Date(date.getTime() + 1000);
+        assertEquals("", validator.getInvalidityInfoForTimeForSessionStartAndEnd(sessionStart, sessionEnd));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForSessionStartAndEnd_invalid_returnErrorString() {
+        Date date = new Date();
+        Date sessionStart = new Date(date.getTime() + 1000);
+        Date sessionEnd = new Date(date.getTime() - 1000);
+        assertEquals("The end time for this feedback session cannot be earlier than the start time.",
+                     validator.getInvalidityInfoForTimeForSessionStartAndEnd(sessionStart, sessionEnd));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForVisibilityStartAndSessionStart_valid_returnEmptyString() {
+        Date date = new Date();
+        Date visibilityStart = new Date(date.getTime() - 1000);
+        Date sessionStart = new Date(date.getTime() + 1000);
+        assertEquals("",
+                     validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                         visibilityStart, sessionStart));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForVisibilityStartAndSessionStart_invalid_returnErrorString() {
+        Date date = new Date();
+        Date visibilityStart = new Date(date.getTime() + 1000);
+        Date sessionStart = new Date(date.getTime() - 1000);
+        assertEquals("The start time for this feedback session cannot be earlier than the time when the "
+                         + "session will be visible.",
+                     validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                         visibilityStart, sessionStart));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForVisibilityStartAndResultsPublish_valid_returnEmptyString() {
+        Date date = new Date();
+        Date visibilityStart = new Date(date.getTime() - 1000);
+        Date resultsPublish = new Date(date.getTime() + 1000);
+        assertEquals("",
+                     validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+                         visibilityStart, resultsPublish));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForVisibilityStartAndResultsPublish_invalid_returnErrorString() {
+        Date date = new Date();
+        Date visibilityStart = new Date(date.getTime() + 1000);
+        Date resultsPublish = new Date(date.getTime() - 1000);
+        assertEquals("The time when the results will be visible for this feedback session cannot be "
+                         + "earlier than the time when the session will be visible.",
+                     validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+                         visibilityStart, resultsPublish));
     }
 
     @Test

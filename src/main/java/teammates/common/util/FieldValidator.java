@@ -651,13 +651,8 @@ public class FieldValidator {
      *         Empty string if {@code sessionStart} is after {@code sessionEnd}
      */
     public String getInvalidityInfoForTimeForSessionStartAndEnd(Date sessionStart, Date sessionEnd) {
-        Assumption.assertTrue("Non-null value expected", sessionStart != null);
-        Assumption.assertTrue("Non-null value expected", sessionEnd != null);
-        if (sessionEnd.before(sessionStart)) {
-            return String.format(TIME_FRAME_ERROR_MESSAGE, END_TIME_FIELD_NAME, FEEDBACK_SESSION_NAME,
-                                 START_TIME_FIELD_NAME);
-        }
-        return "";
+        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(sessionStart, sessionEnd,
+                START_TIME_FIELD_NAME, END_TIME_FIELD_NAME);
     }
 
     /**
@@ -666,13 +661,8 @@ public class FieldValidator {
      *         Empty string if {@code visibilityStart} is after {@code sessionStart}
      */
     public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(Date visibilityStart, Date sessionStart) {
-        Assumption.assertTrue("Non-null value expected", visibilityStart != null);
-        Assumption.assertTrue("Non-null value expected", sessionStart != null);
-        if (sessionStart.before(visibilityStart)) {
-            return String.format(TIME_FRAME_ERROR_MESSAGE, START_TIME_FIELD_NAME,
-                                 FEEDBACK_SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME);
-        }
-        return "";
+        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(visibilityStart, sessionStart,
+                SESSION_VISIBLE_TIME_FIELD_NAME, START_TIME_FIELD_NAME);
     }
 
     /**
@@ -680,12 +670,22 @@ public class FieldValidator {
      * @return Error string if {@code visibilityStart} is before {@code resultsPublish}
      *         Empty string if {@code visibilityStart} is after {@code resultsPublish}
      */
-    public String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(Date visibilityStart, Date resultsPublish) {
-        Assumption.assertTrue("Non-null value expected", visibilityStart != null);
-        Assumption.assertTrue("Non-null value expected", resultsPublish != null);
-        if (resultsPublish.before(visibilityStart)) {
-            return String.format(TIME_FRAME_ERROR_MESSAGE, RESULTS_VISIBLE_TIME_FIELD_NAME,
-                                 FEEDBACK_SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME);
+    public String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(Date visibilityStart,
+                                                                              Date resultsPublish) {
+        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
+                SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
+    }
+
+    private String getInvalidtyInfoForFirstTimeIsBeforeSecondTime(Date earlierTime, Date laterTime,
+            String earlierTimeFieldName, String laterTimeFieldName) {
+        Assumption.assertTrue("Non-null value expected", earlierTime != null);
+        Assumption.assertTrue("Non-null value expected", laterTime != null);
+        if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
+            return "";
+        }
+        if (laterTime.before(earlierTime)) {
+            return String.format(TIME_FRAME_ERROR_MESSAGE, laterTimeFieldName,
+                                 FEEDBACK_SESSION_NAME, earlierTimeFieldName);
         }
         return "";
     }
