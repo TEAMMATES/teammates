@@ -1,6 +1,7 @@
 package teammates.test.cases.common;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -18,11 +19,42 @@ import teammates.test.cases.BaseTestCase;
 
 public class StudentAttributesTest extends BaseTestCase {
 
+    private class StudentAttributesWithModifiableTimestamp extends StudentAttributes {
+        
+        private void setCreatedAt(Date createdAt) {
+            this.createdAt = createdAt;
+        }
+        
+        private void setUpdatedAt(Date updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+        
+    }
+    
     @BeforeClass
     public static void setupClass() {
         printTestClassHeader();
     }
 
+    @Test
+    public void testDefaultTimestamp() {
+        
+        StudentAttributesWithModifiableTimestamp s = new StudentAttributesWithModifiableTimestamp();
+        
+        s.setCreatedAt(null);
+        s.setUpdatedAt(null);
+        
+        Date defaultStudentCreationTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        
+        ______TS("success : defaultTimeStamp for createdAt date");
+        
+        assertEquals(defaultStudentCreationTimeStamp, s.getCreatedAt());
+        
+        ______TS("success : defaultTimeStamp for updatedAt date");
+        
+        assertEquals(defaultStudentCreationTimeStamp, s.getUpdatedAt());
+    }
+    
     @Test
     public void testUpdateStatusEnum() {
         assertEquals(UpdateStatus.ERROR, UpdateStatus.enumRepresentation(0));

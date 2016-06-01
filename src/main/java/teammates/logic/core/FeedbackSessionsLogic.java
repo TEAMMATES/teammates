@@ -103,12 +103,12 @@ public class FeedbackSessionsLogic {
             String newCourseId, String feedbackSessionName, String courseId, String instructorEmail)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         FeedbackSessionAttributes copiedFeedbackSession = getFeedbackSession(feedbackSessionName, courseId);
-        copiedFeedbackSession.creatorEmail = instructorEmail;
-        copiedFeedbackSession.feedbackSessionName = newFeedbackSessionName;
-        copiedFeedbackSession.courseId = newCourseId;
-        copiedFeedbackSession.createdTime = new Date();
-        copiedFeedbackSession.respondingInstructorList = new HashSet<String>();
-        copiedFeedbackSession.respondingStudentList = new HashSet<String>();
+        copiedFeedbackSession.setCreatorEmail(instructorEmail);
+        copiedFeedbackSession.setFeedbackSessionName(newFeedbackSessionName);
+        copiedFeedbackSession.setCourseId(newCourseId);
+        copiedFeedbackSession.setCreatedTime(new Date());
+        copiedFeedbackSession.setRespondingInstructorList(new HashSet<String>());
+        copiedFeedbackSession.setRespondingStudentList(new HashSet<String>());
         fsDb.createEntity(copiedFeedbackSession);
         
         List<FeedbackQuestionAttributes> feedbackQuestions =
@@ -339,7 +339,7 @@ public class FeedbackSessionsLogic {
                 Map.Entry<String, String> studentEntry = iter.next();
                 StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEntry.getKey());
                 if (!instructor.isAllowedForPrivilege(student.section,
-                        fsa.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                        fsa.getFeedbackSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
                     iter.remove();
                 }
             }
@@ -351,7 +351,7 @@ public class FeedbackSessionsLogic {
                 Map.Entry<String, String> teamEntry = iter.next();
                 String teamSection = studentsLogic.getSectionForTeam(courseId, teamEntry.getKey());
                 if (!instructor.isAllowedForPrivilege(teamSection,
-                        fsa.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                        fsa.getFeedbackSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
                     iter.remove();
                 }
             }
@@ -830,10 +830,10 @@ public class FeedbackSessionsLogic {
         
         StringBuilder exportBuilder = new StringBuilder(100);
 
-        exportBuilder.append(String.format("Course,%s", Sanitizer.sanitizeForCsv(results.feedbackSession.courseId)))
+        exportBuilder.append(String.format("Course,%s", Sanitizer.sanitizeForCsv(results.feedbackSession.getCourseId())))
                      .append(Const.EOL)
                      .append(String.format("Session Name,%s",
-                             Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName)))
+                             Sanitizer.sanitizeForCsv(results.feedbackSession.getFeedbackSessionName())))
                      .append(Const.EOL);
         
         if (section != null) {
@@ -1041,8 +1041,8 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackSessionAttributes session : sessions) {
             // automated emails are required only for custom publish times
-            if (session.isPublished() && session.isPublishedEmailEnabled
-                    && !TimeHelper.isSpecialTime(session.resultsVisibleFromTime)) {
+            if (session.isPublished() && session.isPublishedEmailEnabled()
+                    && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
@@ -1065,7 +1065,7 @@ public class FeedbackSessionsLogic {
 
     public boolean isCreatorOfSession(String feedbackSessionName, String courseId, String userEmail) {
         FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
-        return fs.creatorEmail.equals(userEmail);
+        return fs.getCreatorEmail().equals(userEmail);
     }
 
     public boolean isFeedbackSessionExists(String feedbackSessionName, String courseId) {
@@ -1090,12 +1090,12 @@ public class FeedbackSessionsLogic {
     public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa,
                                                        String userEmail) {
         Assumption.assertNotNull(fsa);
-        if (fsa.respondingStudentList.contains(userEmail)) {
+        if (fsa.getRespondingStudentList().contains(userEmail)) {
             return true;
         }
         
-        String feedbackSessionName = fsa.feedbackSessionName;
-        String courseId = fsa.courseId;
+        String feedbackSessionName = fsa.getFeedbackSessionName();
+        String courseId = fsa.getCourseId();
         List<FeedbackQuestionAttributes> allQuestions =
                 fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
         // if there is no question for students, session is complete
@@ -1113,7 +1113,7 @@ public class FeedbackSessionsLogic {
                     "Trying to check a feedback session that does not exist.");
         }
         
-        if (fsa.respondingInstructorList.contains(userEmail)) {
+        if (fsa.getRespondingInstructorList().contains(userEmail)) {
             return true;
         }
 
@@ -1131,8 +1131,8 @@ public class FeedbackSessionsLogic {
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newSession);
 
         FeedbackSessionAttributes oldSession =
-                fsDb.getFeedbackSession(newSession.courseId,
-                        newSession.feedbackSessionName);
+                fsDb.getFeedbackSession(newSession.getCourseId(),
+                        newSession.getFeedbackSessionName());
 
         if (oldSession == null) {
             throw new EntityDoesNotExistException(
@@ -1141,26 +1141,26 @@ public class FeedbackSessionsLogic {
 
         // These can't be changed anyway. Copy values to defensively avoid
         // invalid parameters.
-        newSession.creatorEmail = oldSession.creatorEmail;
-        newSession.createdTime = oldSession.createdTime;
+        newSession.setCreatorEmail(oldSession.getCreatorEmail());
+        newSession.setCreatedTime(oldSession.getCreatedTime());
 
-        if (newSession.instructions == null) {
-            newSession.instructions = oldSession.instructions;
+        if (newSession.getInstructions() == null) {
+            newSession.setInstructions(oldSession.getInstructions());
         }
-        if (newSession.startTime == null) {
-            newSession.startTime = oldSession.startTime;
+        if (newSession.getStartTime() == null) {
+            newSession.setStartTime(oldSession.getStartTime());
         }
-        if (newSession.endTime == null) {
-            newSession.endTime = oldSession.endTime;
+        if (newSession.getEndTime() == null) {
+            newSession.setEndTime(oldSession.getEndTime());
         }
-        if (newSession.feedbackSessionType == null) {
-            newSession.feedbackSessionType = oldSession.feedbackSessionType;
+        if (newSession.getFeedbackSessionType() == null) {
+            newSession.setFeedbackSessionType(oldSession.getFeedbackSessionType());
         }
-        if (newSession.sessionVisibleFromTime == null) {
-            newSession.sessionVisibleFromTime = oldSession.sessionVisibleFromTime;
+        if (newSession.getSessionVisibleFromTime() == null) {
+            newSession.setSessionVisibleFromTime(oldSession.getSessionVisibleFromTime());
         }
-        if (newSession.resultsVisibleFromTime == null) {
-            newSession.resultsVisibleFromTime = oldSession.resultsVisibleFromTime;
+        if (newSession.getResultsVisibleFromTime() == null) {
+            newSession.setResultsVisibleFromTime(oldSession.getResultsVisibleFromTime());
         }
 
         makeEmailStateConsistent(oldSession, newSession);
@@ -1237,9 +1237,9 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackSessionAttributes session : sessionsToUpdate) {
             try {
-                deleteInstructorRespondant(instructor.email, session.feedbackSessionName, session.courseId);
+                deleteInstructorRespondant(instructor.email, session.getFeedbackSessionName(), session.getCourseId());
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                Assumption.fail("Fail to delete instructor respondant for " + session.feedbackSessionName);
+                Assumption.fail("Fail to delete instructor respondant for " + session.getFeedbackSessionName());
             }
         }
     }
@@ -1253,9 +1253,9 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackSessionAttributes session : sessionsToUpdate) {
             try {
-                deleteStudentRespondant(student.email, session.feedbackSessionName, session.courseId);
+                deleteStudentRespondant(student.email, session.getFeedbackSessionName(), session.getCourseId());
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                Assumption.fail("Fail to delete instructor respondant for " + session.feedbackSessionName);
+                Assumption.fail("Fail to delete instructor respondant for " + session.getFeedbackSessionName());
             }
         }
     }
@@ -1412,15 +1412,15 @@ public class FeedbackSessionsLogic {
                     "Session is already published.");
         }
 
-        sessionToPublish.resultsVisibleFromTime = currentDateTime(sessionToPublish);
+        sessionToPublish.setResultsVisibleFromTime(currentDateTime(sessionToPublish));
         updateFeedbackSession(sessionToPublish);
-        if (sessionToPublish.isPublishedEmailEnabled) {
+        if (sessionToPublish.isPublishedEmailEnabled()) {
             sendFeedbackSessionPublishedEmail(sessionToPublish);
         }
     }
 
     private Date currentDateTime(FeedbackSessionAttributes sessionToPublish) {
-        Calendar now = TimeHelper.now(sessionToPublish.timeZone);
+        Calendar now = TimeHelper.now(sessionToPublish.getTimeZone());
         return now.getTime();
     }
 
@@ -1451,7 +1451,7 @@ public class FeedbackSessionsLogic {
                     "Session is already unpublished.");
         }
 
-        sessionToUnpublish.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+        sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
 
         updateFeedbackSession(sessionToUnpublish);
     }
@@ -1483,7 +1483,7 @@ public class FeedbackSessionsLogic {
         List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
         for (InstructorAttributes instructor : instructorList) {
             if (!isFeedbackSessionCompletedByInstructor(
-                    session.feedbackSessionName, session.courseId,
+                    session.getFeedbackSessionName(), session.getCourseId(),
                     instructor.email)) {
                 instructorsToRemindList.add(instructor);
             }
@@ -1592,7 +1592,7 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
             if (session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
-                    && session.isClosingEmailEnabled) {
+                    && session.isClosingEmailEnabled()) {
                 requiredSessions.add(session);
             }
         }
@@ -1656,8 +1656,8 @@ public class FeedbackSessionsLogic {
         }
 
         FeedbackSessionAttributes sessionToDelete = new FeedbackSessionAttributes();
-        sessionToDelete.feedbackSessionName = feedbackSessionName;
-        sessionToDelete.courseId = courseId;
+        sessionToDelete.setFeedbackSessionName(feedbackSessionName);
+        sessionToDelete.setCourseId(courseId);
 
         fsDb.deleteEntity(sessionToDelete);
 
@@ -1672,12 +1672,12 @@ public class FeedbackSessionsLogic {
         details.stats.expectedTotal = 0;
         details.stats.submittedTotal = 0;
         
-        switch (fsa.feedbackSessionType) {
+        switch (fsa.getFeedbackSessionType()) {
         case STANDARD:
-            List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.courseId);
-            List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.courseId);
+            List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.getCourseId());
+            List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
             List<FeedbackQuestionAttributes> questions =
-                    fqLogic.getFeedbackQuestionsForSession(fsa.feedbackSessionName, fsa.courseId);
+                    fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
             List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
 
             if (!studentQns.isEmpty()) {
@@ -1692,20 +1692,24 @@ public class FeedbackSessionsLogic {
                 }
             }
             
-            details.stats.submittedTotal += fsa.respondingStudentList.size() + fsa.respondingInstructorList.size();
+            details.stats.submittedTotal += fsa.getRespondingStudentList().size() + fsa.getRespondingInstructorList().size();
 
             break;
 
         case PRIVATE:
             List<FeedbackQuestionAttributes> instuctorQuestions =
-                    fqLogic.getFeedbackQuestionsForInstructor(fsa.feedbackSessionName, fsa.courseId, fsa.creatorEmail);
+                    fqLogic.getFeedbackQuestionsForInstructor(fsa.getFeedbackSessionName(),
+                                                              fsa.getCourseId(),
+                                                              fsa.getCreatorEmail());
             List<FeedbackQuestionAttributes> validQuestions =
-                    fqLogic.getQuestionsWithRecipients(instuctorQuestions, fsa.creatorEmail);
+                    fqLogic.getQuestionsWithRecipients(instuctorQuestions, fsa.getCreatorEmail());
             if (validQuestions.isEmpty()) {
                 break;
             }
             details.stats.expectedTotal = 1;
-            if (this.isFeedbackSessionFullyCompletedByInstructor(fsa.feedbackSessionName, fsa.courseId, fsa.creatorEmail)) {
+            if (isFeedbackSessionFullyCompletedByInstructor(fsa.getFeedbackSessionName(),
+                                                            fsa.getCourseId(),
+                                                            fsa.getCreatorEmail())) {
                 details.stats.submittedTotal = 1;
             }
             break;
@@ -2381,7 +2385,7 @@ public class FeedbackSessionsLogic {
                 responseStatus.emailTeamNameTable.put(student.email, student.team);
             }
         }
-        studentNoResponses.removeAll(fsa.respondingStudentList);
+        studentNoResponses.removeAll(fsa.getRespondingStudentList());
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
@@ -2392,7 +2396,7 @@ public class FeedbackSessionsLogic {
                 responseStatus.emailNameTable.put(instructor.email, instructor.name);
             }
         }
-        instructorNoResponses.removeAll(fsa.respondingInstructorList);
+        instructorNoResponses.removeAll(fsa.getRespondingInstructorList());
 
         responseStatus.noResponse.addAll(studentNoResponses);
         responseStatus.noResponse.addAll(instructorNoResponses);
@@ -2515,8 +2519,8 @@ public class FeedbackSessionsLogic {
             boolean isInstructorOfCourse) {
 
         // If the session is a private session created by the same user, it is viewable to the user
-        if (session.feedbackSessionType == FeedbackSessionType.PRIVATE) {
-            return session.creatorEmail.equals(userEmail);
+        if (session.getFeedbackSessionType() == FeedbackSessionType.PRIVATE) {
+            return session.getCreatorEmail().equals(userEmail);
         }
         
         // Allow all instructors to view always
@@ -2533,7 +2537,7 @@ public class FeedbackSessionsLogic {
         // Allow students to view the feedback session if there are questions for them
         List<FeedbackQuestionAttributes> questionsToAnswer =
                 fqLogic.getFeedbackQuestionsForStudents(
-                        session.feedbackSessionName, session.courseId);
+                        session.getFeedbackSessionName(), session.getCourseId());
         
         if (session.isVisible() && !questionsToAnswer.isEmpty()) {
             return true;
@@ -2562,7 +2566,7 @@ public class FeedbackSessionsLogic {
         
         List<FeedbackQuestionAttributes> questionsToAnswer =
                 fqLogic.getFeedbackQuestionsForStudents(
-                        session.feedbackSessionName, session.courseId);
+                        session.getFeedbackSessionName(), session.getCourseId());
         
         return session.isVisible() && !questionsToAnswer.isEmpty();
     }
@@ -2582,20 +2586,20 @@ public class FeedbackSessionsLogic {
 
         // reset sentOpenEmail if the session has opened but is being closed
         // now.
-        if (oldSession.sentOpenEmail && !newSession.isOpened()) {
-            newSession.sentOpenEmail = false;
-        } else if (oldSession.sentOpenEmail) {
+        if (oldSession.isSentOpenEmail() && !newSession.isOpened()) {
+            newSession.setSentOpenEmail(false);
+        } else if (oldSession.isSentOpenEmail()) {
             // or else leave it as sent if so.
-            newSession.sentOpenEmail = true;
+            newSession.setSentOpenEmail(true);
         }
 
         // reset sentPublishedEmail if the session has been published but is
         // going to be unpublished now.
-        if (oldSession.sentPublishedEmail && !newSession.isPublished()) {
-            newSession.sentPublishedEmail = false;
-        } else if (oldSession.sentPublishedEmail) {
+        if (oldSession.isSentPublishedEmail() && !newSession.isPublished()) {
+            newSession.setSentPublishedEmail(false);
+        } else if (oldSession.isSentPublishedEmail()) {
             // or else leave it as sent if so.
-            newSession.sentPublishedEmail = true;
+            newSession.setSentPublishedEmail(true);
         }
     }
 

@@ -3,8 +3,6 @@ package teammates.test.cases.storage;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
-import java.util.Date;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -25,28 +23,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
     @BeforeClass
     public static void setupClass() {
         printTestClassHeader();
-    }
-    
-    @Test
-    public void testDefaultTimestamp() throws InvalidParametersException {
-        
-        StudentAttributes s = createNewStudent();
-        
-        StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
-        assertNotNull(student);
-        
-        student.setCreated_nonProduction(null);
-        student.setUpdatedAt_nonProduction(null);
-        
-        Date defaultStudentCreationTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        
-        ______TS("success : defaultTimeStamp for createdAt date");
-        
-        assertEquals(defaultStudentCreationTimeStamp, student.getCreatedAt());
-        
-        ______TS("success : defaultTimeStamp for updatedAt date");
-        
-        assertEquals(defaultStudentCreationTimeStamp, student.getUpdatedAt());
     }
     
     @Test

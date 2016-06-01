@@ -30,7 +30,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }

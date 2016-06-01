@@ -99,15 +99,15 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             if (giverIndex == -1) {
                 log.severe("getContributionQuestionResponseAnswerHtml - giverIndex is -1\n"
                         + "Cannot find giver: " + actualResponse.giverEmail + "\n"
-                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.courseId + "\n"
-                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.feedbackSessionName + "\n"
+                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
+                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
                         + "Response Id: " + actualResponse.getId());
             }
             if (recipientIndex == -1) {
                 log.severe("getContributionQuestionResponseAnswerHtml - recipientIndex is -1\n"
                         + "Cannot find recipient: " + actualResponse.recipientEmail + "\n"
-                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.courseId + "\n"
-                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.feedbackSessionName + "\n"
+                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
+                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
                         + "Response Id: " + actualResponse.getId());
             }
             
@@ -152,15 +152,15 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             if (giverIndex == -1) {
                 log.severe("getContributionQuestionResponseAnswerCsv - giverIndex is -1\n"
                         + "Cannot find giver: " + actualResponse.giverEmail + "\n"
-                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.courseId + "\n"
-                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.feedbackSessionName + "\n"
+                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
+                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
                         + "Response Id: " + actualResponse.getId());
             }
             if (recipientIndex == -1) {
                 log.severe("getContributionQuestionResponseAnswerCsv - recipientIndex is -1\n"
                         + "Cannot find recipient: " + actualResponse.recipientEmail + "\n"
-                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.courseId + "\n"
-                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.feedbackSessionName + "\n"
+                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
+                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
                         + "Response Id: " + actualResponse.getId());
             }
         } else {

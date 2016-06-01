@@ -28,19 +28,19 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         String[] paramsNormal = {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
         String[] paramsNormalWithinSection = {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1"
         };
         String[] paramsWithNullCourseId = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
         String[] paramsWithNullFeedbackSessionName = {
-                Const.ParamsNames.COURSE_ID, session.courseId
+                Const.ParamsNames.COURSE_ID, session.getCourseId()
         };
 
         ______TS("Typical case: results downloadable");
@@ -53,7 +53,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
 
-        String expectedFileName = session.courseId + "_" + session.feedbackSessionName;
+        String expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForSession1InCourse1(result.getFileContent(), session);
 
@@ -72,7 +72,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
 
-        expectedFileName = session.courseId + "_" + session.feedbackSessionName;
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForSession1InCourse1WithNewLastName(result.getFileContent(), session);
 
@@ -87,7 +87,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 
-        expectedFileName = session.courseId + "_" + session.feedbackSessionName + "_Section 1";
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1";
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForSession1InCourse1WithinSection1(result.getFileContent(), session);
 
@@ -124,8 +124,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.courseId + "\"",
-                "Session Name,\"" + session.feedbackSessionName + "\"",
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
                 "",
                 "Question 1,\"What is the best selling point of your product?\"",
@@ -149,8 +149,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.courseId + "\"",
-                "Session Name,\"" + session.feedbackSessionName + "\"",
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
                 "",
                 "Question 1,\"What is the best selling point of your product?\"",
@@ -174,8 +174,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.courseId + "\"",
-                "Session Name,\"" + session.feedbackSessionName + "\"",
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "Section Name,\"Section 1\"",
                 "",
                 "",

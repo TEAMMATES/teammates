@@ -31,8 +31,8 @@ public class InstructorFeedbackSessionActions {
 
     public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                             InstructorAttributes instructor) {
-        String courseId = session.courseId;
-        String feedbackSessionName = session.feedbackSessionName;
+        String courseId = session.getCourseId();
+        String feedbackSessionName = session.getFeedbackSessionName();
 
         this.privateSession = session.isPrivateSession();
 
@@ -53,7 +53,7 @@ public class InstructorFeedbackSessionActions {
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         if (!shouldEnableSubmitLink) {
             shouldEnableSubmitLink =
-                    instructor.isAllowedForPrivilegeAnySection(session.feedbackSessionName,
+                    instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
                             Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         }
         
