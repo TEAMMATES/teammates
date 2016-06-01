@@ -296,17 +296,17 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 2);
         courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 8);
         courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
-        courseEditPage.clickSectionCheckBoxInSectionLevel(editInstructorIndex, 1, 1);
-        courseEditPage.clickSectionCheckBoxInSectionLevel(editInstructorIndex, 1, 2);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 1);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 2);
         courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 0);
         courseEditPage.clickViewOthersCommentsCheckBoxInSectionLevel(editInstructorIndex, 0);
         courseEditPage.clickViewSessionResultsCheckBoxInSectionLevel(editInstructorIndex, 0);
         courseEditPage.clickSessionLevelInSectionLevel(editInstructorIndex, 0);
         courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
-        courseEditPage.clickSectionCheckBoxInSectionLevel(editInstructorIndex, 2, 2);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 2, 2);
         courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
-        courseEditPage.clickSectionCheckBoxInSectionLevel(editInstructorIndex, 3, 2);
-        courseEditPage.clickSectionCheckBoxInSectionLevel(editInstructorIndex, 3, 3);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 3, 2);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 3, 3);
         courseEditPage.clickModifySessionResultCheckBoxInSectionLevel(editInstructorIndex, 2);
         // after 3 sections added, no more things to add
         assertFalse(courseEditPage.addSectionLevelPrivilegesLink(editInstructorIndex).isDisplayed());

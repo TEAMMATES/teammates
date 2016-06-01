@@ -187,7 +187,7 @@ public class InstructorCourseEditPage extends AppPage {
         this.addSectionLevelPrivilegesLink(instrNum).click();
     }
     
-    public void clickSectionCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex, int sectionNum) {
+    public void clickSectionSelectionCheckBox(int instrNum, int sectionLevelIndex, int sectionNum) {
         this.sectionSelectionCheckBox(instrNum, sectionLevelIndex - 1, sectionNum - 1).click();
     }
     
