@@ -312,10 +312,6 @@ public class FieldValidator {
             "\"%s\" is not acceptable to TEAMMATES as %s because it %s. "
             + "The value of %s should be no longer than %d characters.";
     
-    public static final String ALPHANUMERIC_STRING_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as %s because it is non-alphanumeric. "
-            + "Please only use alphabets, numbers and whitespace in %s.";
-    
     public static final String INVALID_NAME_ERROR_MESSAGE =
             "\"%s\" is not acceptable to TEAMMATES as %s because it %s. "
             + "All %s must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
