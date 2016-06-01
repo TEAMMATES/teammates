@@ -19,9 +19,9 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FileHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Templates;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
@@ -158,22 +158,7 @@ public class AdminInstructorAccountAddAction extends Action {
      */
     private String importDemoData(AdminHomePageData pageData) throws InvalidParametersException, EntityDoesNotExistException {
 
-        String jsonString;
         String courseId = generateDemoCourseId(pageData.instructorEmail);
-
-        jsonString = FileHelper.readStream(Config.class.getClassLoader()
-                    .getResourceAsStream("InstructorSampleData.json"));
-
-        // replace email
-        jsonString = jsonString.replaceAll(
-                "teammates.demo.instructor@demo.course",
-                pageData.instructorEmail);
-        // replace name
-        jsonString = jsonString.replaceAll("Demo_Instructor",
-                pageData.instructorName);
-        // replace course
-        jsonString = jsonString.replaceAll("demo.course", courseId);
-        // update feedback session time
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.set(Calendar.AM_PM, Calendar.PM);
         c.set(Calendar.HOUR, 11);
@@ -181,8 +166,15 @@ public class AdminInstructorAccountAddAction extends Action {
         c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z");
 
-        jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
-                formatter.format(c.getTime()));
+        String jsonString = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
+                // replace email
+                "teammates.demo.instructor@demo.course", pageData.instructorEmail,
+                // replace name
+                "Demo_Instructor", pageData.instructorName,
+                // replace course
+                "demo.course", courseId,
+                // update feedback session time
+                "2013-04-01 11:59 PM UTC", formatter.format(c.getTime()));
 
         Gson gson = Utils.getTeammatesGson();
         DataBundle data = gson.fromJson(jsonString, DataBundle.class);

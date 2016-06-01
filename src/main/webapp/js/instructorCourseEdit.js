@@ -352,4 +352,6 @@ function editCourse() {
 
 $(document).ready(function() {
     $('#courseEditLink').click(editCourse);
+    var index = $('#new-instructor-index').val();
+    bindChangingRole(index);
 });

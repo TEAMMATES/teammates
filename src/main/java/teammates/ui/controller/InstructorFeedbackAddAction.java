@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -17,14 +18,18 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
-import teammates.common.util.FeedbackSessionTemplates;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.Templates;
+import teammates.common.util.Templates.FeedbackSessionTemplates;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.Emails.EmailType;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 
@@ -115,13 +120,34 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         }
         
         List<FeedbackQuestionAttributes> questions =
-                FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(
-                        feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
+                getFeedbackSessionTemplateQuestions(feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
+        
         int questionNumber = 1;
         for (FeedbackQuestionAttributes fqa : questions) {
             logic.createFeedbackQuestionForTemplate(fqa, questionNumber);
             questionNumber++;
         }
+    }
+    
+    /** 
+     * Get the list of questions for the specified feedback session template
+     */
+    private static List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(
+            String templateType, String courseId, String feedbackSessionName, String creatorEmail) {
+        Assumption.assertNotNull(templateType);
+        
+        if ("TEAMEVALUATION".equals(templateType)) {
+            String jsonString = Templates.populateTemplate(FeedbackSessionTemplates.TEAM_EVALUATION,
+                    "${courseId}", courseId,
+                    "${feedbackSessionName}", feedbackSessionName,
+                    "${creatorEmail}", creatorEmail);
+            
+            Gson gson = Utils.getTeammatesGson();
+            Type listType = new TypeToken<ArrayList<FeedbackQuestionAttributes>>(){}.getType();
+            return gson.fromJson(jsonString, listType);
+        }
+        
+        return new ArrayList<FeedbackQuestionAttributes>();
     }
 
     private FeedbackSessionAttributes extractFeedbackSessionData() {

@@ -156,9 +156,26 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
     private void testAddInstructorAction() throws Exception {
 
-        ______TS("success: add an instructor");
+        ______TS("success: add an instructor with privileges");
         
-        courseEditPage.addNewInstructor("Teammates Instructor", "InsCrsEdit.instructor@gmail.tmt");
+        courseEditPage.clickShowNewInstructorFormButton();
+        courseEditPage.fillInstructorName("Teammates Instructor");
+        courseEditPage.fillInstructorEmail("InsCrsEdit.instructor@gmail.tmt");
+        
+        int newInstructorIndex = 8;
+        
+        courseEditPage.selectRoleForInstructor(newInstructorIndex, "Custom");
+        courseEditPage.clickCourseLevelPrivilegesLink(newInstructorIndex, 1);
+        courseEditPage.clickCourseLevelPrivilegesLink(newInstructorIndex, 4);
+        courseEditPage.clickCourseLevelPrivilegesLink(newInstructorIndex, 8);
+        
+        courseEditPage.clickAddSectionLevelPrivilegesLink(newInstructorIndex);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(newInstructorIndex, 1, 1);
+        courseEditPage.clickViewStudentCheckBoxInSectionLevel(newInstructorIndex, 0);
+        courseEditPage.clickViewSessionResultsCheckBoxInSectionLevel(newInstructorIndex, 0);
+        
+        courseEditPage.clickAddInstructorButton();
+        
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, "Teammates Instructor",
                                                   "InsCrsEdit.instructor@gmail.tmt"));
         
@@ -170,6 +187,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                                                                 courseDetailsLink, InstructorCourseDetailsPage.class);
         courseDetailsPage.verifyHtmlPart(By.id("instructors"), "/instructorCourseDetailsAddInstructor.html");
         courseEditPage = getCourseEditPage();
+        courseEditPage.clickEditInstructorLink(3);
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditAddInstructor.html");
     
         ______TS("failure: add an existing instructor");
         
