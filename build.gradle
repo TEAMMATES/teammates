@@ -26,7 +26,7 @@ configurations {
 
 configurations.all {
     resolutionStrategy {
-        force "commons-codec:commons-codec:1.6"
+        force "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
     }
 }
 
@@ -37,53 +37,40 @@ repositories {
 dependencies {
     appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
 
-    compile         "com.fasterxml.jackson.core:jackson-core:2.1.3",
-                    "com.google.api-client:google-api-client-appengine:1.18.0-rc",
-                    "com.google.api-client:google-api-client:1.18.0-rc",
-                    "com.google.apis:google-api-services-storage:v1beta2-rev47-1.18.0-rc",
-                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
-                    "com.google.appengine.tools:appengine-gcs-client:0.3.13",
-                    "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
+    compile         "com.google.appengine.tools:appengine-gcs-client:0.3.13",
+                    "com.google.appengine:appengine-api-labs:${appengineVersion}",
+                    "com.google.code.gson:gson:2.2.2",
+                    "org.apache.taglibs:taglibs-standard-impl:1.2.5",
+                    "org.jsoup:jsoup:1.9.2"
+
+    runtime         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints:${appengineVersion}",
                     "com.google.appengine:appengine-jsr107cache:${appengineVersion}",
-                    "com.google.code.gson:gson:2.2.2",
-                    "com.google.guava:guava:15.0",
-                    "commons-fileupload:commons-fileupload:1.3.1",
+                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
                     "javax.jdo:jdo2-api:2.3-eb",
+                    "net.sf.jsr107cache:jsr107cache:1.1",
                     "org.apache.geronimo.specs:geronimo-jpa_3.0_spec:1.1.1",
                     "org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1",
-                    "org.jsoup:jsoup:1.9.2"
                     "org.datanucleus:datanucleus-core:1.1.5",
                     "org.datanucleus:datanucleus-jpa:1.1.5",
                     "xerces:xercesImpl:2.9.1"
 
     enhancer        "javax.jdo:jdo2-api:2.3-eb",
-                    "com.google.code.gson:gson:2.2.2",
                     "com.google.appengine.orm:datanucleus-appengine:1.0.10",
                     "org.datanucleus:datanucleus-core:1.1.5",
                     "org.datanucleus:datanucleus-jpa:1.1.5",
                     "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
 
-    providedCompile "com.google.appengine:appengine-api-labs:${appengineVersion}",
-                    "com.google.appengine:appengine-api-stubs:${appengineVersion}",
+    testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
                     "com.google.appengine:appengine-testing:${appengineVersion}",
                     "httpunit:httpunit:1.7",
-                    "javax.mail:mail:1.4.5",
+                    "org.seleniumhq.selenium:selenium-java:2.46.0",
                     "org.testng:testng:6.8.7"
 
-    testRuntime     "com.google.appengine:appengine-tools-sdk:${appengineVersion}",
-                    "org.seleniumhq.selenium:selenium-java:2.46.0"
+    testRuntime     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
 
-    // Hack to get selenium-server-standalone from URL
-    def f = file("libs/selenium-server-standalone-2.46.jar")
-    f.getParentFile().mkdirs()
-    if (!f.exists()) {
-        new URL("http://selenium-release.storage.googleapis.com/2.46/selenium-server-standalone-2.46.0.jar")
-            .withInputStream{i -> f.withOutputStream{ it << i }}
-    }
-    providedCompile fileTree(dir: "libs", include: ["*.jar"])
 }
 
 sourceSets {
