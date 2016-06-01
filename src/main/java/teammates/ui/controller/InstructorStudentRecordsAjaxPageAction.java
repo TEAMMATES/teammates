@@ -78,7 +78,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
         Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
         while (iterFs.hasNext()) {
             FeedbackSessionAttributes tempFs = iterFs.next();
-            if (!tempFs.courseId.equals(courseId)
+            if (!tempFs.getCourseId().equals(courseId)
                     || !currentInstructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                 iterFs.remove();

@@ -41,7 +41,7 @@ public final class Config {
     static {
         Properties properties = new Properties();
         try {
-            properties.load(Config.class.getClassLoader().getResourceAsStream("build.properties"));
+            properties.load(FileHelper.getResourceAsStream("build.properties"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

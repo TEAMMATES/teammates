@@ -34,9 +34,10 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailLogEntry;
-import teammates.common.util.EmailTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Templates;
+import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
@@ -102,8 +103,8 @@ public class Emails {
             EmailType typeOfEmail) {
         
         HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedback.feedbackSessionName);
-        paramMap.put(ParamsNames.EMAIL_COURSE, feedback.courseId);
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedback.getFeedbackSessionName());
+        paramMap.put(ParamsNames.EMAIL_COURSE, feedback.getCourseId());
         paramMap.put(ParamsNames.EMAIL_TYPE, typeOfEmail.toString());
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
@@ -132,13 +133,13 @@ public class Emails {
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         
         CourseAttributes course = coursesLogic
-                .getCourse(session.courseId);
+                .getCourse(session.getCourseId());
         List<InstructorAttributes> instructors = instructorsLogic
-                .getInstructorsForCourse(session.courseId);
+                .getInstructorsForCourse(session.getCourseId());
         List<StudentAttributes> students;
         
         if (fsLogic.isFeedbackSessionForStudentsToAnswer(session)) {
-            students = studentsLogic.getStudentsForCourse(session.courseId);
+            students = studentsLogic.getStudentsForCourse(session.getCourseId());
         } else {
             students = new ArrayList<StudentAttributes>();
         }
@@ -196,17 +197,17 @@ public class Emails {
         List<MimeMessage> emails = null;
         
         CourseAttributes course = coursesLogic
-                .getCourse(session.courseId);
+                .getCourse(session.getCourseId());
         List<InstructorAttributes> instructors = instructorsLogic
-                .getInstructorsForCourse(session.courseId);
+                .getInstructorsForCourse(session.getCourseId());
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
 
         if (fsLogic.isFeedbackSessionForStudentsToAnswer(session)) {
-            List<StudentAttributes> allStudents = studentsLogic.getStudentsForCourse(session.courseId);
+            List<StudentAttributes> allStudents = studentsLogic.getStudentsForCourse(session.getCourseId());
 
             for (StudentAttributes student : allStudents) {
                 if (!fsLogic.isFeedbackSessionFullyCompletedByStudent(
-                        session.feedbackSessionName, session.courseId,
+                        session.getFeedbackSessionName(), session.getCourseId(),
                         student.email)) {
                     students.add(student);
                 }
@@ -261,22 +262,17 @@ public class Emails {
                 .format("${subjectPrefix} [Course: %s]",
                         course.getId()));
 
-        String emailBody = template;
-
-        if (isYetToJoinCourse(student)) {
-            emailBody = fillUpStudentJoinFragment(student, emailBody);
-        } else {
-            emailBody = emailBody.replace("${joinFragment}", "");
-        }
-        
-        emailBody = emailBody.replace("${userName}", student.name);
-        emailBody = emailBody.replace("${courseName}", course.getName());
-        emailBody = emailBody.replace("${courseId}", course.getId());
-        
         String commentsPageUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
                                         .withCourseId(course.getId())
                                         .toAbsoluteString();
-        emailBody = emailBody.replace("${commentsPageUrl}", commentsPageUrl);
+        
+        String emailBody = Templates.populateTemplate(
+                isYetToJoinCourse(student) ? fillUpStudentJoinFragment(student, template)
+                                           : template.replace("${joinFragment}", ""),
+                "${userName}", student.name,
+                "${courseName}", course.getName(),
+                "${courseId}", course.getId(),
+                "${commentsPageUrl}", commentsPageUrl);
 
         message.setContent(emailBody, "text/html");
         return message;
@@ -294,13 +290,13 @@ public class Emails {
         List<MimeMessage> emails = null;
 
         CourseAttributes course = coursesLogic
-                .getCourse(session.courseId);
+                .getCourse(session.getCourseId());
         List<StudentAttributes> students;
         List<InstructorAttributes> instructors = instructorsLogic
-                .getInstructorsForCourse(session.courseId);
+                .getInstructorsForCourse(session.getCourseId());
         
         if (fsLogic.isFeedbackSessionViewableToStudents(session)) {
-            students = studentsLogic.getStudentsForCourse(session.courseId);
+            students = studentsLogic.getStudentsForCourse(session.getCourseId());
         } else {
             students = new ArrayList<StudentAttributes>();
         }
@@ -360,34 +356,32 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                        c.getName(), fs.feedbackSessionName));
+                        c.getName(), fs.getFeedbackSessionName()));
 
-        String emailBody = template;
-
-        emailBody = emailBody.replace("${userName}", s.name);
-        emailBody = emailBody.replace("${courseName}", c.getName());
-        emailBody = emailBody.replace("${courseId}", c.getId());
-        emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
-        emailBody = emailBody.replace("${deadline}",
-                TimeHelper.formatTime12H(fs.endTime));
-        emailBody = emailBody.replace("${instructorFragment}", "");
-        
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                             .withCourseId(c.getId())
-                            .withSessionName(fs.feedbackSessionName)
+                            .withSessionName(fs.getFeedbackSessionName())
                             .withRegistrationKey(StringHelper.encrypt(s.key))
                             .withStudentEmail(s.email)
                             .toAbsoluteString();
-        emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
         String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                             .withCourseId(c.getId())
-                            .withSessionName(fs.feedbackSessionName)
+                            .withSessionName(fs.getFeedbackSessionName())
                             .withRegistrationKey(StringHelper.encrypt(s.key))
                             .withStudentEmail(s.email)
                             .toAbsoluteString();
-        emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
+        String emailBody = Templates.populateTemplate(template,
+                "${userName}", s.name,
+                "${courseName}", c.getName(),
+                "${courseId}", c.getId(),
+                "${feedbackSessionName}", fs.getFeedbackSessionName(),
+                "${deadline}", TimeHelper.formatTime12H(fs.getEndTime()),
+                "${instructorFragment}", "",
+                "${submitUrl}", submitUrl,
+                "${reportUrl}", reportUrl);
+        
         message.setContent(emailBody, "text/html");
 
         return message;
@@ -404,25 +398,22 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                        c.getName(), fs.feedbackSessionName));
+                        c.getName(), fs.getFeedbackSessionName()));
 
-        String emailBody = template;
-
-        emailBody = emailBody.replace("${userName}", i.name);
-        emailBody = emailBody.replace("${courseName}", c.getName());
-        emailBody = emailBody.replace("${courseId}", c.getId());
-        emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
-        emailBody = emailBody.replace("${deadline}",
-                TimeHelper.formatTime12H(fs.endTime));
-        emailBody = emailBody.replace("${instructorFragment}",
-                                      "The email below has been sent to students of course: " + c.getId()
-                                      + ".<p/><br/>");
-        
         String submitUrl = "{The student's unique submission url appears here}";
-        emailBody = emailBody.replace("${submitUrl}", submitUrl);
-
+        
         String reportUrl = "{The student's unique results url appears here}";
-        emailBody = emailBody.replace("${reportUrl}", reportUrl);
+
+        String emailBody = Templates.populateTemplate(template,
+                "${userName}", i.name,
+                "${courseName}", c.getName(),
+                "${courseId}", c.getId(),
+                "${feedbackSessionName}", fs.getFeedbackSessionName(),
+                "${deadline}", TimeHelper.formatTime12H(fs.getEndTime()),
+                "${instructorFragment}",
+                        "The email below has been sent to students of course: " + c.getId() + ".<p/><br/>",
+                "${submitUrl}", submitUrl,
+                "${reportUrl}", reportUrl);
 
         message.setContent(emailBody, "text/html");
 
@@ -440,29 +431,27 @@ public class Emails {
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                        c.getName(), fs.feedbackSessionName));
+                        c.getName(), fs.getFeedbackSessionName()));
 
-        String emailBody = template;
-
-        emailBody = emailBody.replace("${userName}", i.name);
-        emailBody = emailBody.replace("${courseName}", c.getName());
-        emailBody = emailBody.replace("${courseId}", c.getId());
-        emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
-        emailBody = emailBody.replace("${deadline}",
-                TimeHelper.formatTime12H(fs.endTime));
-        emailBody = emailBody.replace("${instructorFragment}", "");
-        
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withCourseId(c.getId())
-                                        .withSessionName(fs.feedbackSessionName)
+                                        .withSessionName(fs.getFeedbackSessionName())
                                         .toAbsoluteString();
-        emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
         String reportUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                                         .withCourseId(c.getId())
-                                        .withSessionName(fs.feedbackSessionName)
+                                        .withSessionName(fs.getFeedbackSessionName())
                                         .toAbsoluteString();
-        emailBody = emailBody.replace("${reportUrl}", reportUrl);
+        
+        String emailBody = Templates.populateTemplate(template,
+                "${userName}", i.name,
+                "${courseName}", c.getName(),
+                "${courseId}", c.getId(),
+                "${feedbackSessionName}", fs.getFeedbackSessionName(),
+                "${deadline}", TimeHelper.formatTime12H(fs.getEndTime()),
+                "${instructorFragment}", "",
+                "${submitUrl}", submitUrl,
+                "${reportUrl}", reportUrl);
 
         message.setContent(emailBody, "text/html");
 
@@ -477,10 +466,10 @@ public class Emails {
         message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN
                 + " [%s][Course ID: %s]", course.getName(), course.getId()));
 
-        String emailBody = EmailTemplates.USER_COURSE_JOIN;
-        emailBody = fillUpStudentJoinFragment(student, emailBody);
-        emailBody = emailBody.replace("${userName}", student.name);
-        emailBody = emailBody.replace("${courseName}", course.getName());
+        String emailBody = Templates.populateTemplate(
+                fillUpStudentJoinFragment(student, EmailTemplates.USER_COURSE_JOIN),
+                "${userName}", student.name,
+                "${courseName}", course.getName());
 
         message.setContent(emailBody, "text/html");
         return message;
@@ -503,10 +492,10 @@ public class Emails {
         message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET
                 + " [%s][Course ID: %s]", course.getName(), course.getId()));
 
-        String emailBody = EmailTemplates.USER_COURSE_JOIN;
-        emailBody = fillUpStudentRejoinAfterGoogleIdResetFragment(student, emailBody);
-        emailBody = emailBody.replace("${userName}", student.name);
-        emailBody = emailBody.replace("${courseName}", course.getName());
+        String emailBody = Templates.populateTemplate(
+                fillUpStudentRejoinAfterGoogleIdResetFragment(student, EmailTemplates.USER_COURSE_JOIN),
+                "${userName}", student.name,
+                "${courseName}", course.getName());
 
         message.setContent(emailBody, "text/html");
         return message;
@@ -521,9 +510,9 @@ public class Emails {
         messageToUser.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT + " " + shortName));
         String joinUrl = generateNewInstructorAccountJoinLink(instructor, institute);
         
-        String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
-        emailBody = emailBody.replace("${userName}", shortName);
-        emailBody = emailBody.replace("${joinUrl}", joinUrl);
+        String emailBody = Templates.populateTemplate(EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME,
+                "${userName}", shortName,
+                "${joinUrl}", joinUrl);
         messageToUser.setContent(emailBody, "text/html");
 
         return messageToUser;
@@ -557,10 +546,10 @@ public class Emails {
         message.setSubject(String.format(SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN
                 + " [%s][Course ID: %s]", course.getName(), course.getId()));
 
-        String emailBody = EmailTemplates.USER_COURSE_JOIN;
-        emailBody = fillUpInstructorJoinFragment(instructor, emailBody);
-        emailBody = emailBody.replace("${userName}", instructor.name);
-        emailBody = emailBody.replace("${courseName}", course.getName());
+        String emailBody = Templates.populateTemplate(
+                fillUpInstructorJoinFragment(instructor, EmailTemplates.USER_COURSE_JOIN),
+                "${userName}", instructor.name,
+                "${courseName}", course.getName());
 
         message.setContent(emailBody, "text/html");
         return message;
@@ -601,22 +590,21 @@ public class Emails {
         message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR,
                 version, errorMessage));
     
-        String emailBody = EmailTemplates.SYSTEM_ERROR;
-        
         UserType userType = GateKeeper.inst().getCurrentUser();
         String actualUser = "Not logged in";
         if (userType != null && userType.id != null) {
             actualUser = userType.id;
         }
 
-        emailBody = emailBody.replace("${actualUser}", actualUser);
-        emailBody = emailBody.replace("${requestMethod}", requestMethod);
-        emailBody = emailBody.replace("${requestUserAgent}", requestUserAgent);
-        emailBody = emailBody.replace("${requestUrl}", requestUrl);
-        emailBody = emailBody.replace("${requestPath}", requestPath);
-        emailBody = emailBody.replace("${requestParameters}", requestParam);
-        emailBody = emailBody.replace("${errorMessage}", errorMessage);
-        emailBody = emailBody.replace("${stackTrace}", stackTrace);
+        String emailBody = Templates.populateTemplate(EmailTemplates.SYSTEM_ERROR,
+                "${actualUser}", actualUser,
+                "${requestMethod}", requestMethod,
+                "${requestUserAgent}", requestUserAgent,
+                "${requestUrl}", requestUrl,
+                "${requestPath}", requestPath,
+                "${requestParameters}", requestParam,
+                "${errorMessage}", errorMessage,
+                "${stackTrace}", stackTrace);
         message.setContent(emailBody, "text/html");
     
         return message;
@@ -820,8 +808,9 @@ public class Emails {
                        ? "{The join link unique for each student appears here}"
                        : Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
         
-        return emailBody.replace("${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN)
-                        .replace("${joinUrl}", joinUrl);
+        return Templates.populateTemplate(emailBody,
+                "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
+                "${joinUrl}", joinUrl);
     }
 
     private String fillUpStudentRejoinAfterGoogleIdResetFragment(StudentAttributes s, String emailBody) {
@@ -829,8 +818,9 @@ public class Emails {
                        ? "{The join link unique for each student appears here}"
                        : Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
         
-        return emailBody.replace("${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET)
-                        .replace("${joinUrl}", joinUrl);
+        return Templates.populateTemplate(emailBody,
+                "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
+                "${joinUrl}", joinUrl);
     }
 
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
@@ -840,8 +830,9 @@ public class Emails {
                                .withRegistrationKey(StringHelper.encrypt(instructor.key))
                                .toAbsoluteString();
 
-        return emailBody.replace("${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN)
-                        .replace("${joinUrl}", joinUrl);
+        return Templates.populateTemplate(emailBody,
+                "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN,
+                "${joinUrl}", joinUrl);
     }
 
     private MimeMessage getEmptyEmailAddressedToEmail(String email)
