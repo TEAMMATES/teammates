@@ -67,6 +67,7 @@ dependencies {
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
                     "com.google.appengine:appengine-testing:${appengineVersion}",
                     "httpunit:httpunit:1.7",
+                    "javax.mail:mail:1.4.5",
                     "org.seleniumhq.selenium:selenium-java:2.46.0",
                     "org.testng:testng:6.8.7"
 
@@ -129,6 +130,13 @@ eclipse {
                 cp.entries.findAll {
                     it instanceof SourceFolder && !it.path.startsWith("src/main/")
                 }*.output = "target/test-classes"
+
+                // Method to put mail.jar on top of the classpath
+                def nonMailEntries = cp.entries.findAll{ entry ->
+                    !entry.path.contains("mail-1.4.5")
+                }
+                cp.entries.removeAll(nonMailEntries)
+                cp.entries.addAll(nonMailEntries)
             }
         }
     }
