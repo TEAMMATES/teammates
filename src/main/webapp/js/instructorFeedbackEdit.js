@@ -194,7 +194,7 @@ function toggleVisibilityOptions(elem) {
 /**
  * Enables editing of question fields and enables the "save changes" button for
  * the given question number, while hiding the edit link. Does the opposite for all other questions.
- * @param number
+ * @param questionNum
  */
 function enableEdit(questionNum, maxQuestions) {
     var i = maxQuestions;
@@ -321,10 +321,10 @@ function enableNewQuestion() {
 /**
  * Disable question fields and "save changes" button for the given question number,
  * and shows the edit link.
- * @param number
+ * @param questionNum
  */
-function disableQuestion(number) {
-    var $currentQuestionTable = $('#questionTable' + number);
+function disableQuestion(questionNum) {
+    var $currentQuestionTable = $('#questionTable' + questionNum);
 
     $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
     
@@ -334,42 +334,42 @@ function disableQuestion(number) {
     
     /* Check whether generate options for students/instructors/teams is selected
        If so, hide 'add Other option' */
-    if ($currentQuestionTable.find('#generateOptionsCheckbox-' + number).prop('checked')) {
-        $currentQuestionTable.find('#mcqOtherOptionFlag-' + number).closest('.checkbox').hide();
-        $currentQuestionTable.find('#msqOtherOptionFlag-' + number).closest('.checkbox').hide();
+    if ($currentQuestionTable.find('#generateOptionsCheckbox-' + questionNum).prop('checked')) {
+        $currentQuestionTable.find('#mcqOtherOptionFlag-' + questionNum).closest('.checkbox').hide();
+        $currentQuestionTable.find('#msqOtherOptionFlag-' + questionNum).closest('.checkbox').hide();
     } else {
-        $currentQuestionTable.find('#mcqOtherOptionFlag-' + number).closest('.checkbox').show();
-        $currentQuestionTable.find('#msqOtherOptionFlag-' + number).closest('.checkbox').show();
+        $currentQuestionTable.find('#mcqOtherOptionFlag-' + questionNum).closest('.checkbox').show();
+        $currentQuestionTable.find('#msqOtherOptionFlag-' + questionNum).closest('.checkbox').show();
     }
 
-    $currentQuestionTable.find('#rubricAddChoiceLink-' + number).hide();
-    $currentQuestionTable.find('#rubricAddSubQuestionLink-' + number).hide();
-    $currentQuestionTable.find('.rubricRemoveChoiceLink-' + number).hide();
-    $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + number).hide();
+    $currentQuestionTable.find('#rubricAddChoiceLink-' + questionNum).hide();
+    $currentQuestionTable.find('#rubricAddSubQuestionLink-' + questionNum).hide();
+    $currentQuestionTable.find('.rubricRemoveChoiceLink-' + questionNum).hide();
+    $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + questionNum).hide();
     
     moveAssignWeightsCheckbox($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
 
-    if (!hasAssignedWeights(number)) {
-        $currentQuestionTable.find('#rubricWeights-' + number).hide();
+    if (!hasAssignedWeights(questionNum)) {
+        $currentQuestionTable.find('#rubricWeights-' + questionNum).hide();
     }
 
-    $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).show();
-    $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).hide();
-    $('#button_question_submit-' + number).hide();
+    $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).show();
+    $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
+    $('#button_question_submit-' + questionNum).hide();
 }
 
 /**
  * Pops up confirmation dialog whether to delete specified question
- * @param question number
+ * @param question questionNum
  * @returns
  */
-function deleteQuestion(number) {
-    if (number === NEW_QUESTION) {
+function deleteQuestion(questionNum) {
+    if (questionNum === NEW_QUESTION) {
         location.reload();
         return false;
     } else if (confirm('Are you sure you want to delete this question?')) {
-        $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('delete');
-        $('#form_editquestion-' + number).submit();
+        $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('delete');
+        $('#form_editquestion-' + questionNum).submit();
         return true;
     }
     return false;
@@ -887,9 +887,9 @@ var previousFormDataMap = {};
 function getVisibilityMessage(buttonElem) {
     var $form = $(buttonElem).closest('form');
     var questionNum = $form.find('[name=questionnum]').val();
-    var newQnNumber = $('input[name=questionnum]').last().val();
+    var newQuestionNum = $('input[name=questionnum]').last().val();
     
-    if (questionNum === newQnNumber) {
+    if (questionNum === newQuestionNum) {
         tallyCheckboxes('');
     } else {
         tallyCheckboxes(questionNum);
