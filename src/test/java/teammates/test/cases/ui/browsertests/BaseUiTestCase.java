@@ -15,9 +15,8 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.DevServerLoginPage;
-import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
+import teammates.test.pageobjects.LoginPage;
 
 public abstract class BaseUiTestCase extends BaseTestCase {
 
@@ -86,7 +85,6 @@ public abstract class BaseUiTestCase extends BaseTestCase {
         //  redirected to a dev-server/google login page
         logout(browser);
         browser.driver.get(url.toAbsoluteString());
-        String pageSource = browser.driver.getPageSource();
         
         String adminUsername = TestProperties.TEST_ADMIN_ACCOUNT;
         String adminPassword = TestProperties.TEST_ADMIN_PASSWORD;
@@ -98,17 +96,8 @@ public abstract class BaseUiTestCase extends BaseTestCase {
         }
         
         //login based on the login page type
-        if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
-            DevServerLoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
-            loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
-
-        } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
-            GoogleLoginPage loginPage = AppPage.getNewPageInstance(browser, GoogleLoginPage.class);
-            loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
-        
-        } else {
-            throw new IllegalStateException("Not a valid login page :" + pageSource);
-        }
+        LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
+        loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
         
         //After login, the browser should be redirected to the page requested originally.
         //  No need to reload. In fact, reloading might results in duplicate request to the server.

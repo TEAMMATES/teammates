@@ -190,6 +190,14 @@ public abstract class AppPage {
     }
 
     /**
+     * Gives a LoginPage instance based on the given Browser and test configuration.
+     */
+    public static LoginPage createCorrectLoginPageType(Browser browser) {
+        return createNewPage(browser, TestProperties.isDevServer() ? DevServerLoginPage.class
+                                                                   : GoogleLoginPage.class);
+    }
+    
+    /**
      * Waits until the page is fully loaded.
      */
     public void waitForPageToLoad() {

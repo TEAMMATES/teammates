@@ -15,9 +15,6 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.DevServerLoginPage;
-import teammates.test.pageobjects.GoogleLoginPage;
-import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentHomePage;
 
@@ -76,7 +73,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                         .toAbsoluteString();
         
         browser.driver.get(joinLink);
-        studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
+        studentHomePage = AppPage.createCorrectLoginPageType(browser)
                            .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
                                                   TestProperties.TEST_STUDENT1_PASSWORD);
         
@@ -105,11 +102,11 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         confirmationPage.verifyHtml("/studentCourseJoinConfirmationHTML.html");
         
         ______TS("Cancelling goes to login page");
-        createCorrectLoginPageType(confirmationPage.clickCancelButtonAndGetSourceOfDestination());
+        confirmationPage.clickCancelButton();
         
         ______TS("Confirming goes to home page");
         browser.driver.get(homePageActionUrl);
-        studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
+        studentHomePage = AppPage.createCorrectLoginPageType(browser)
                             .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
                                        TestProperties.TEST_STUDENT1_PASSWORD);
         browser.driver.get(joinLink);
@@ -162,7 +159,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                                         .toAbsoluteString();
         
         browser.driver.get(joinLink);
-        studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
+        studentHomePage = AppPage.createCorrectLoginPageType(browser)
                            .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
                                                   TestProperties.TEST_STUDENT1_PASSWORD);
         String expectedStatus = String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[" + courseId + "] " + courseName) + '\n'
@@ -189,11 +186,11 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         confirmationPage.verifyHtml("/studentCourseJoinConfirmationHTML.html");
         
         ______TS("Cancelling goes to login page");
-        createCorrectLoginPageType(confirmationPage.clickCancelButtonAndGetSourceOfDestination());
+        confirmationPage.clickCancelButton();
         
         ______TS("Confirming goes to home page");
         browser.driver.get(homePageActionUrl);
-        studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
+        studentHomePage = AppPage.createCorrectLoginPageType(browser)
                             .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
                                        TestProperties.TEST_STUDENT1_PASSWORD);
         browser.driver.get(joinLink);
@@ -222,16 +219,6 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     public static void classTearDown() {
         BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
-    }
-
-    private LoginPage createCorrectLoginPageType(String pageSource) {
-        if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
-            return (LoginPage) createNewPage(browser, DevServerLoginPage.class);
-        } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
-            return (LoginPage) createNewPage(browser, GoogleLoginPage.class);
-        } else {
-            throw new IllegalStateException("Not a valid login page :" + pageSource);
-        }
     }
 
     private <T extends AppPage> T createNewPage(Browser browser, Class<T> typeOfPage) {
