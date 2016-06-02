@@ -25,7 +25,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      */
     public Text questionMetaData;
     public int questionNumber;
-    public boolean questionIsCompulsory;
+    public boolean isQuestionCompulsory;
     public FeedbackQuestionType questionType;
     public FeedbackParticipantType giverType;
     public FeedbackParticipantType recipientType;
@@ -49,7 +49,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.questionMetaData = fq.getQuestionMetaData();
         this.questionNumber = fq.getQuestionNumber();
         this.questionType = fq.getQuestionType();
-        this.questionIsCompulsory = fq.isQuestionIsCompulsory();
+        this.isQuestionCompulsory = fq.isQuestionCompulsory();
         this.giverType = fq.getGiverType();
         this.recipientType = fq.getRecipientType();
         this.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
@@ -83,7 +83,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     @Override
     public FeedbackQuestion toEntity() {
         return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
-                                    questionMetaData, questionNumber, questionType, questionIsCompulsory, giverType,
+                                    questionMetaData, questionNumber, questionType, isQuestionCompulsory, giverType,
                                     recipientType, numberOfEntitiesToGiveFeedbackTo,
                                     showResponsesTo, showGiverNameTo, showRecipientNameTo);
     }
@@ -94,7 +94,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                + feedbackSessionName + ", courseId=" + courseId
                + ", creatorEmail=" + creatorEmail + ", questionText="
                + questionMetaData + ", questionNumber=" + questionNumber
-               + ", questionIsCompulsory=" + questionIsCompulsory
+               + ", questionIsCompulsory=" + isQuestionCompulsory
                + ", questionType=" + questionType + ", giverType=" + giverType
                + ", recipientType=" + recipientType
                + ", numberOfEntitiesToGiveFeedbackTo="
@@ -573,8 +573,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return questionNumber;
     }
 
-    public boolean isQuestionIsCompulsory() {
-        return questionIsCompulsory;
+    public boolean isQuestionCompulsory() {
+        return isQuestionCompulsory;
     }
     
     public FeedbackQuestionType getQuestionType() {

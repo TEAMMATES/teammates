@@ -12,7 +12,7 @@ public class FeedbackSubmissionEditQuestion {
     private int qnIndx; // If not showing real question number
     private String questionId;
     private String questionText;
-    private Boolean questionIsCompulsory;
+    private Boolean isQuestionCompulsory;
     private List<String> visibilityMessages;
     private FeedbackQuestionType questionType;
     private int numberOfEntitiesToGiveFeedbackTo;
@@ -27,7 +27,7 @@ public class FeedbackSubmissionEditQuestion {
         questionNumber = questionAttributes.questionNumber;
         this.qnIndx = qnIndx;
         questionId = questionAttributes.getId();
-        questionIsCompulsory  = questionAttributes.isQuestionIsCompulsory();
+        isQuestionCompulsory  = questionAttributes.isQuestionCompulsory();
         questionText = questionAttributes.getQuestionDetails().questionText;
         visibilityMessages = questionAttributes.getVisibilityMessage();
         questionType = questionAttributes.questionType;
@@ -37,8 +37,8 @@ public class FeedbackSubmissionEditQuestion {
         isTeamQuestion = questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS);
     }
 
-    public Boolean getQuestionIsCompulsory() {
-        return questionIsCompulsory;
+    public Boolean getisQuestionCompulsory() {
+        return isQuestionCompulsory;
     }
 
     public String getCourseId() {

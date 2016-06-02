@@ -70,7 +70,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, int totalNumRecipients, boolean questionIsCompulsory, FeedbackResponseDetails existingResponseDetails) {
+            int responseIdx, String courseId, int totalNumRecipients, boolean isQuestionCompulsory, FeedbackResponseDetails existingResponseDetails) {
 
         FeedbackContributionResponseDetails frd = (FeedbackContributionResponseDetails) existingResponseDetails;
         int points = frd.getAnswer();
@@ -80,7 +80,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
-                "${questionIsCompulsory}", questionIsCompulsory ? "required" : "",
+                "${questionIsCompulsory}", isQuestionCompulsory ? "required" : "",
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${contribSelectFragmentsHtml}", optionSelectFragmentsHtml);
@@ -90,7 +90,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, boolean questionIsCompulsory, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, boolean isQuestionCompulsory, int totalNumRecipients) {
 
         String optionSelectHtml = getContributionOptionsHtml(Const.INT_UNINITIALIZED);
         
@@ -98,7 +98,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
-                "${questionIsCompulsory}", questionIsCompulsory ? "required" : "",
+                "${questionIsCompulsory}", isQuestionCompulsory ? "required" : "",
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${contribSelectFragmentsHtml}", optionSelectHtml);

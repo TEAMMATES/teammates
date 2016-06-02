@@ -41,12 +41,12 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     @Override
     public abstract String getQuestionWithExistingResponseSubmissionFormHtml(
                         boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-                        int totalNumRecipients, boolean questionIsCompulsory,
+                        int totalNumRecipients, boolean isQuestionCompulsory,
                         FeedbackResponseDetails existingResponseDetails);
 
     @Override
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, boolean questionIsCompulsory, int totalNumRecipients);
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, boolean isQuestionCompulsory, int totalNumRecipients);
 
     @Override
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
