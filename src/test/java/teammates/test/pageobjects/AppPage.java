@@ -453,7 +453,7 @@ public abstract class AppPage {
      * before comparing the 'expected' with the 'actual.
      *  e.g., replace "V4.55" in the page footer by "V${version}".
      *  @param filePath If the full path is not given, it will be saved in the
-     *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
+     *  {@code TestProperties.TEST_PAGES_FOLDER} folder. In that case, the parameter
      *  value should start with "/". e.g., "/instructorHomePage.html".
      */
     public void saveCurrentPage(String filePath, String content) throws IOException {
@@ -774,16 +774,22 @@ public abstract class AppPage {
      * the content given in the file at {@code filePath}. <br>
      * The HTML is checked for logical equivalence, not text equivalence.
      * @param filePath If this starts with "/" (e.g., "/expected.html"), the
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}.
+     * folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtml(String filePath) throws IOException {
-        return verifyHtml(null, filePath);
+        return verifyHtmlPart(null, filePath);
     }
 
-    private AppPage verifyHtml(By by, String filePathParam) throws IOException {
-        // TODO: improve this method by insert header and footer
-        //       to the file specified by filePath
+    /**
+     * Verifies that element specified in currently loaded page has the same HTML content as
+     * the content given in the file at {@code filePath}. <br>
+     * The HTML is checked for logical equivalence, not text equivalence.
+     * @param filePathParam If this starts with "/" (e.g., "/expected.html"), the
+     * folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
+     * @return The page (for chaining method calls).
+     */
+    public AppPage verifyHtmlPart(By by, String filePathParam) throws IOException {
         String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
         boolean isPart = by != null;
         String actual = getPageSource(by);
@@ -840,24 +846,12 @@ public abstract class AppPage {
     }
     
     /**
-     * Verifies that element specified in currently loaded page has the same HTML content as
-     * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence.
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}.
-     * @return The page (for chaining method calls).
-     */
-    public AppPage verifyHtmlPart(By by, String filePath) throws IOException {
-        return verifyHtml(by, filePath);
-    }
-    
-    /**
      * Verifies that main content specified id "mainContent" in currently
      * loaded page has the same HTML content as
      * the content given in the file at {@code filePath}. <br>
      * The HTML is checked for logical equivalence, not text equivalence.
      * @param filePath If this starts with "/" (e.g., "/expected.html"), the
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}.
+     * folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlMainContent(String filePath) throws IOException {
