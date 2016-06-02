@@ -164,14 +164,6 @@ public abstract class AppPage {
     }
 
     /**
-     * Fails if the new page content does not match content expected in a page of
-     * the type indicated by the parameter {@code typeOfDestinationPage}.
-     */
-    public <T extends AppPage> T navigateTo(Url url, Class<T> typeOfDestinationPage) {
-        return getNewPageInstance(browser, url, typeOfDestinationPage);
-    }
-    
-    /**
      * Simply loads the given URL.
      */
     public AppPage navigateTo(Url url) {
