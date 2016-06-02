@@ -515,7 +515,7 @@ function prepareQuestionForm(type) {
         hideAllNewQuestionForms();
         break;
     case 'MCQ':
-        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
+        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MCQ);
         
         hideAllNewQuestionForms();
@@ -523,7 +523,7 @@ function prepareQuestionForm(type) {
         $('#mcqForm').show();
         break;
     case 'MSQ':
-        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
+        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MSQ);
         
         hideAllNewQuestionForms();
@@ -539,9 +539,9 @@ function prepareQuestionForm(type) {
         $('#' + FEEDBACK_QUESTION_TEXT).attr('placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
         break;
     case 'CONSTSUM_OPTION':
-        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
-        $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('false');
-        $('#constSumOption_Recipient--1').hide();
+        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
+        $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '-' + NEW_QUESTION).val('false');
+        $('#constSumOption_Recipient-' + NEW_QUESTION).hide();
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
         
         hideAllNewQuestionForms();
@@ -549,18 +549,18 @@ function prepareQuestionForm(type) {
         $('#constSumForm').show();
         break;
     case 'CONSTSUM_RECIPIENT':
-        $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('true');
-        $('#constSumOption_Option--1').hide();
+        $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '-' + NEW_QUESTION).val('true');
+        $('#constSumOption_Option-' + NEW_QUESTION).hide();
         hideConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
         
         hideAllNewQuestionForms();
         
         $('#constSumForm').show();
-        var optionText = $('#constSum_labelText--1').text();
-        $('#constSum_labelText--1').text(optionText.replace('option', 'recipient'));
-        var tooltipText = $('#constSum_tooltipText--1').attr('data-original-title');
-        $('#constSum_tooltipText--1').attr('data-original-title', tooltipText.replace('option', 'recipient'));
+        var optionText = $('#constSum_labelText-' + NEW_QUESTION).text();
+        $('#constSum_labelText-' + NEW_QUESTION).text(optionText.replace('option', 'recipient'));
+        var tooltipText = $('#constSum_tooltipText-' + NEW_QUESTION).attr('data-original-title');
+        $('#constSum_tooltipText-' + NEW_QUESTION).attr('data-original-title', tooltipText.replace('option', 'recipient'));
         break;
     case 'CONTRIB':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
@@ -580,9 +580,9 @@ function prepareQuestionForm(type) {
         $('#rubricForm').show();
         break;
     case 'RANK_OPTIONS':
-        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
-        $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('false');
-        $('#rankOption_Recipient--1').hide();
+        $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
+        $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '-' + NEW_QUESTION).val('false');
+        $('#rankOption_Recipient-' + NEW_QUESTION).hide();
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
         
         hideAllNewQuestionForms();
@@ -590,8 +590,8 @@ function prepareQuestionForm(type) {
         $('#rankOptionsForm').show();
         break;
     case 'RANK_RECIPIENTS':
-        $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('true');
-        $('#rankOption_Option--1').hide();
+        $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '-' + NEW_QUESTION).val('true');
+        $('#rankOption_Option-' + NEW_QUESTION).hide();
         hideRankOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
         
