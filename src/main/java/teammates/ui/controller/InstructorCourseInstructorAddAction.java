@@ -61,7 +61,7 @@ public class InstructorCourseInstructorAddAction extends Action {
     }
     
     /**
-     * Creates a new instructor with all information filled in.
+     * Creates a new instructor with all information filled in, using request parameters.
      * This includes basic information as well as custom privileges (if applicable).
      * 
      * @param courseId         Id of the course the instructor is being added to.
