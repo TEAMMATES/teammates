@@ -161,9 +161,9 @@ public class BackDoorServlet extends HttpServlet {
             String pictureKey = req.getParameter(PARAMETER_PICTURE_KEY);
             return backDoorLogic.isPicturePresentInGcs(pictureKey);
         } else if (action.equals(OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID)) {
-            String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
+            String instructorId = req.getParameter(PARAMETER_INSTRUCTOR_ID);
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
-            return backDoorLogic.getInstructorAsJsonById(instructorID, courseId);
+            return backDoorLogic.getInstructorAsJsonById(instructorId, courseId);
         } else if (action.equals(OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL)) {
             String instructorEmail = req.getParameter(PARAMETER_INSTRUCTOR_EMAIL);
             String courseId = req.getParameter(PARAMETER_COURSE_ID);

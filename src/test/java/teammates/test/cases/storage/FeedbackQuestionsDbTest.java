@@ -40,8 +40,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqDb.createEntity(fq);
         verifyPresentInDatastore(fq, true);
         
-        fq.setCreatedAt_NonProduction(null);
-        fq.setUpdatedAt_NonProduction(null);
+        fq.setCreatedAt_nonProduction(null);
+        fq.setUpdatedAt_nonProduction(null);
         
         Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         

@@ -12,9 +12,10 @@ import java.util.logging.Logger;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Templates;
+import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
@@ -75,7 +76,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         int points = frd.getAnswer();
         String optionSelectFragmentsHtml = getContributionOptionsHtml(points);
         
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                 Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
@@ -90,7 +91,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         String optionSelectHtml = getContributionOptionsHtml(Const.INT_UNINITIALIZED);
         
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                 Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
@@ -101,7 +102,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
                 Const.FeedbackQuestion.QUESTION_NUMBER, Integer.toString(questionNumber),
                 "${isNotSureAllowedChecked}", isNotSureAllowed ? "checked" : "",
@@ -122,7 +123,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         String additionalInfo = this.getQuestionTypeDisplayName();
         
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
@@ -192,7 +193,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         int selfClaim = currentUserTeamResults.claimed[currentUserIndex][currentUserIndex];
         int teamClaim = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex][currentUserIndex];
         
-        String contribAdditionalInfo = FeedbackQuestionFormTemplates.populateTemplate(
+        String contribAdditionalInfo = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_ADDITIONAL_INFO,
                 "${more}", "[how to interpret, etc..]",
                 "${less}", "[less]",
@@ -200,7 +201,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${additionalInfoId}", "contributionInfo",
                 "${questionAdditionalInfo}", FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
         
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT,
                 "${contribAdditionalInfo}", contribAdditionalInfo,
                 "${myViewOfMe}", getPointsAsColorizedHtml(selfClaim),
@@ -276,7 +277,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             for (int i = 0; i < incomingPoints.length; i++) {
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
-            contribFragments.append(FeedbackQuestionFormTemplates.populateTemplate(
+            contribFragments.append(Templates.populateTemplate(
                     FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
                     "${studentTeam}", Sanitizer.sanitizeForHtml(displayTeam),
                     "${studentName}", Sanitizer.sanitizeForHtml(displayName),
@@ -288,7 +289,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                     "${Const.ParamsNames.STUDENT_NAME}", Const.ParamsNames.STUDENT_NAME));
         }
         
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS,
                 "${contribFragments}", contribFragments.toString(),
                 "${Const.Tooltips.CLAIMED}", Sanitizer.sanitizeForHtml(Const.Tooltips.CLAIMED),
@@ -690,7 +691,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"CONTRIB\">" + Const.FeedbackQuestionTypeNames.CONTRIB + "</option>";
+        return "<li data-questiontype = \"CONTRIB\"><a>" + Const.FeedbackQuestionTypeNames.CONTRIB + "</a></li>";
     }
 
     @Override

@@ -13,10 +13,11 @@ import java.util.Set;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Templates;
+import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
@@ -141,7 +142,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         if (distributeToRecipients) {
             String optionFragment =
-                    FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                    Templates.populateTemplate(optionFragmentTemplate,
                             Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                             Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Const.FeedbackQuestion.OPTION_INDEX, "0",
@@ -154,7 +155,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         } else {
             for (int i = 0; i < constSumOptions.size(); i++) {
                 String optionFragment =
-                        FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                        Templates.populateTemplate(optionFragmentTemplate,
                                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                                 Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                                 Const.FeedbackQuestion.OPTION_INDEX, Integer.toString(i),
@@ -167,7 +168,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             }
         }
 
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -195,7 +196,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         if (distributeToRecipients) {
             String optionFragment =
-                    FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                    Templates.populateTemplate(optionFragmentTemplate,
                             Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                             Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Const.FeedbackQuestion.OPTION_INDEX, "0",
@@ -208,7 +209,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         } else {
             for (int i = 0; i < constSumOptions.size(); i++) {
                 String optionFragment =
-                        FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                        Templates.populateTemplate(optionFragmentTemplate,
                                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                                 Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                                 Const.FeedbackQuestion.OPTION_INDEX, Integer.toString(i),
@@ -221,7 +222,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             }
         }
 
-        return FeedbackQuestionFormTemplates.populateTemplate(
+SSS        String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -246,7 +247,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.CONSTSUM_EDIT_FORM_OPTIONFRAGMENT;
         for (int i = 0; i < numOfConstSumOptions; i++) {
             String optionFragment =
-                    FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                    Templates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
                             Const.FeedbackQuestion.CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
@@ -254,7 +255,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_EDIT_FORM,
                 "${constSumEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
@@ -298,13 +299,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
             for (int i = 0; i < numOfConstSumOptions; i++) {
                 String optionFragment =
-                        FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                        Templates.populateTemplate(optionFragmentTemplate,
                                 "${msqChoiceValue}", constSumOptions.get(i));
                 
                 optionListHtml.append(optionFragment);
             }
             optionListHtml.append("</ul>");
-            additionalInfo.append(FeedbackQuestionFormTemplates.populateTemplate(
+            additionalInfo.append(Templates.populateTemplate(
                     FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO,
                     "${questionTypeName}", this.getQuestionTypeDisplayName(),
                     "${msqAdditionalInfoFragments}", optionListHtml.toString()));
@@ -315,7 +316,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                               ? "Points per " + (distributeToRecipients ? "recipient" : "option") + ": " + points
                               : "Total points: " + points);
         
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
@@ -354,7 +355,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String name = bundle.getNameForEmail(participantIdentifier);
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 
-                fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
+                fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
                         Const.FeedbackQuestion.CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                         "${pointsReceived}", pointsReceived,
@@ -363,7 +364,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             } else {
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
-                fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
+                fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                                     Const.FeedbackQuestion.CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(option),
                                     "${pointsReceived}", pointsReceived,
                                     "${averagePoints}", df.format(average)));
@@ -371,11 +372,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
         
         if (distributeToRecipients) {
-            return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
+            return Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
                     Const.FeedbackQuestion.OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
                     "${fragments}", fragments.toString());
         }
-        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
+        return Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
                 Const.FeedbackQuestion.OPTION_RECIPIENT_DISPLAY_NAME, "Option",
                 "${fragments}", fragments.toString());
     }
@@ -532,10 +533,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public String getQuestionTypeChoiceOption() {
         // Constant sum has two options for user to select.
-        return "<option value=\"CONSTSUM_OPTION\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</option>"
-               + "<option value=\"CONSTSUM_RECIPIENT\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</option>";
+        return "<li data-questiontype = \"CONSTSUM_OPTION\"><a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</a></li>"
+               + "<li data-questiontype = \"CONSTSUM_RECIPIENT\"><a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</a></li>";
     }
-
+    
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();

@@ -11,8 +11,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import teammates.common.util.Const;
-import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Templates;
+import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
 import teammates.ui.controller.PageData;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
@@ -39,7 +40,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
         
         String optionFragment =
-                FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                Templates.populateTemplate(optionFragmentTemplate,
                         Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                         Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                         "${optionIdx}", "0",
@@ -50,7 +51,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Const.FeedbackQuestion.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -75,7 +76,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
         
         String optionFragment =
-                FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                Templates.populateTemplate(optionFragmentTemplate,
                         Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                         Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
                         "${optionIdx}", "0",
@@ -86,7 +87,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Const.FeedbackQuestion.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                             Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -124,7 +125,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_EDIT_RECIPIENTS_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${optionRecipientDisplayName}", "recipient",
@@ -146,7 +147,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String additionalInfoId) {
         String additionalInfo = this.getQuestionTypeDisplayName() + "<br>";
                 
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                         FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                         "${more}", "[more]",
                         "${less}", "[less]",
@@ -185,7 +186,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String name = bundle.getNameForEmail(participantIdentifier);
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             
-            fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
+            fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
                                                                         Const.FeedbackQuestion.RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
                                                                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                                                                         "${ranksReceived}", ranksReceived,
@@ -193,7 +194,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         }
      
-        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_RECIPIENT_STATS,
+        return Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_RECIPIENT_STATS,
                                                              "${optionRecipientDisplayName}", "Recipient",
                                                              "${fragments}", fragments.toString());
         
@@ -229,7 +230,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         return "Team, Recipient" + ", Average Rank" + Const.EOL + fragments + Const.EOL;
     }
-
+    
     /**
      * From the feedback responses, generate a mapping of the option to a list of
      * ranks received for that option.
@@ -295,8 +296,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value=\"" + FeedbackQuestionType.RANK_RECIPIENTS.name() + "\">"
-              + Const.FeedbackQuestionTypeNames.RANK_RECIPIENT + "</option>";
+        return "<li data-questiontype = \"" + FeedbackQuestionType.RANK_RECIPIENTS.name() + "\"><a>"
+              + Const.FeedbackQuestionTypeNames.RANK_RECIPIENT + "</a></li>";
     }
 
     @Override

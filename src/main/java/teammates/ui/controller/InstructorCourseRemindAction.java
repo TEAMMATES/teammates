@@ -143,7 +143,7 @@ public class InstructorCourseRemindAction extends Action {
         String userName;
         String regKey;
         
-        public JoinEmailData(String userName, String regKey) {
+        JoinEmailData(String userName, String regKey) {
             this.userName = userName;
             this.regKey = regKey;
         }

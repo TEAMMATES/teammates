@@ -65,10 +65,10 @@ public class Browser {
     private WebDriver createWebDriver() {
         System.out.print("Initializing Selenium: ");
 
-        String browser = TestProperties.inst().BROWSER;
+        String browser = TestProperties.BROWSER;
         if ("firefox".equals(browser)) {
             System.out.println("Using Firefox.");
-            String firefoxPath = TestProperties.inst().FIREFOX_PATH;
+            String firefoxPath = TestProperties.FIREFOX_PATH;
             if (!firefoxPath.isEmpty()) {
                 System.out.println("Custom path: " + firefoxPath);
                 System.setProperty("webdriver.firefox.bin", firefoxPath);

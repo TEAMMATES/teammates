@@ -11,10 +11,11 @@ import java.util.Set;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Templates;
+import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackNumericalScaleQuestionDetails extends
@@ -70,7 +71,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackNumericalScaleResponseDetails numscaleResponseDetails =
                 (FeedbackNumericalScaleResponseDetails) existingResponseDetails;
         
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                 Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
@@ -89,7 +90,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                 Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
@@ -107,7 +108,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_EDIT_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${minScale}", Integer.toString(minScale),
@@ -142,7 +143,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                               + ". Increment: " + step + ". Maximum value: "
                               + maxScale + '.';
         
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
@@ -207,7 +208,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             String recipientName = recipient.equals(Const.GENERAL_QUESTION) ? "General" : bundle.getNameForEmail(recipient);
             String recipientTeam = bundle.getTeamNameForEmail(recipient);
 
-            fragmentHtml.append(FeedbackQuestionFormTemplates.populateTemplate(
+            fragmentHtml.append(Templates.populateTemplate(
                                     fragmentTemplateToUse,
                                     "${recipientTeam}", Sanitizer.sanitizeForHtml(recipientTeam),
                                     "${recipientName}", Sanitizer.sanitizeForHtml(recipientName),
@@ -225,7 +226,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         String templateToUse = showAvgExcludingSelf
                              ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
                              : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                         templateToUse,
                         "${summaryTitle}", statsTitle,
                         "${statsFragments}", fragmentHtml.toString());
@@ -335,7 +336,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             
             String averageScoreExcludingSelfText = getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
             
-            String recipientFragmentHtml = FeedbackQuestionFormTemplates.populateTemplate(
+            String recipientFragmentHtml = Templates.populateTemplate(
                     fragmentTemplateToUse,
                     "${recipientTeam}", Sanitizer.sanitizeForHtml(recipientTeam),
                     "${recipientName}", Sanitizer.sanitizeForHtml(recipientName),
@@ -356,10 +357,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         String templateToUse = showAvgExcludingSelf
                              ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
                              : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
-        return FeedbackQuestionFormTemplates.populateTemplate(
-                                                templateToUse,
-                                                "${summaryTitle}", statsTitle,
-                                                "${statsFragments}", fragmentHtml.toString());
+        return Templates.populateTemplate(templateToUse,
+                "${summaryTitle}", statsTitle,
+                "${statsFragments}", fragmentHtml.toString());
     }
 
     private String getDisplayableRecipientName(boolean isHiddenRecipient,
@@ -665,9 +665,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"NUMSCALE\">" + Const.FeedbackQuestionTypeNames.NUMSCALE + "</option>";
+        return "<li data-questiontype = \"NUMSCALE\"><a>" + Const.FeedbackQuestionTypeNames.NUMSCALE + "</a></li>";
     }
-
+    
     private String getPossibleValuesStringEdit() {
         return "[Based on the above settings, acceptable responses are: " + getPossibleValuesString();
     }

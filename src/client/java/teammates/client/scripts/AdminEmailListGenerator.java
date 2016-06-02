@@ -37,9 +37,9 @@ import com.google.appengine.repackaged.org.joda.time.DateTime;
  */
 public class AdminEmailListGenerator extends RemoteApiClient {
     
-    private static enum StudentStatus { REG, UNREG, ALL }
+    private enum StudentStatus { REG, UNREG, ALL }
     
-    private static enum InstructorStatus { REG, UNREG, ALL }
+    private enum InstructorStatus { REG, UNREG, ALL }
     
     private static final PersistenceManager pm = JDOHelper
                                                    .getPersistenceManagerFactory("transactions-optional")
@@ -413,9 +413,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             
             return account;
             
-        } catch (IllegalArgumentException iae) {
-            return null;
-        } catch (JDOObjectNotFoundException je) {
+        } catch (IllegalArgumentException | JDOObjectNotFoundException e) {
             return null;
         }
     }
@@ -426,7 +424,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTime(now);
-        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         
         System.out.print(formatTime(cal.getTime()) + "\n");
         return formatTime(cal.getTime());

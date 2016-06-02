@@ -189,8 +189,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     public void testNewQuestionFrame() {
         ______TS("RUBRIC: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
         assertTrue(feedbackEditPage.verifyNewRubricQuestionFormIsDisplayed());
     }
     
@@ -223,8 +223,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     public void testAddQuestionAction() throws Exception {
         ______TS("RUBRIC: add question action success");
         
-        feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
         feedbackEditPage.fillQuestionBox("RUBRIC qn");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
@@ -350,8 +350,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("JS validation test");
 
         // add a new question
-        feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
         
         // start editing it
         feedbackEditPage.fillQuestionBox("RUBRIC qn JS validation test");

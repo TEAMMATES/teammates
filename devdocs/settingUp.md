@@ -57,8 +57,9 @@ Important: When a version is specified, please install that version instead of t
     to indent using 4 spaces instead of tabs.
     * HTML syntax: We prefer not to use the HTML syntax validator provided by Eclipse.
     To turn it off, go to `Window → Preferences → Validation → HTML Syntax Validator` (Mac: `Eclipse → Preferences → Validation → HTML Syntax Validator`) and uncheck the `Build` option.
-3. Run the command `./gradlew setUp`.<br>
+3. Run the command `./gradlew setup`.<br>
    This creates the main config files {These are not under revision control because their content vary from developer to developer}.
+   * `.project`<br>
    * `src/main/resources/build.properties`<br>
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`

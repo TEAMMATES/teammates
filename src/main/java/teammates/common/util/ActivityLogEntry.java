@@ -20,7 +20,7 @@ import com.google.appengine.api.log.AppLogLine;
 public class ActivityLogEntry {
     
     public static String[] automatedActions = {
-            Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION,
+            Const.AutomatedActionNames.AUTOMATED_LOG_COMPILATION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION,
             Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION,
@@ -510,7 +510,7 @@ public class ActivityLogEntry {
         if (actionTaken.length > 0) {
             action = actionTaken[actionTaken.length - 1]; //retrieve last segment in path
         }
-        String url = HttpRequestHelper.getRequestedURL(req);
+        String url = HttpRequestHelper.getRequestedUrl(req);
         
         String message = "<span class=\"text-danger\">Servlet Action failure in " + action + "<br>"
                        + e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br>"
@@ -530,7 +530,7 @@ public class ActivityLogEntry {
         if (actionTaken.length > 0) {
             action = actionTaken[actionTaken.length - 1]; //retrieve last segment in path
         }
-        String url = HttpRequestHelper.getRequestedURL(req);
+        String url = HttpRequestHelper.getRequestedUrl(req);
         
         String message;
         
