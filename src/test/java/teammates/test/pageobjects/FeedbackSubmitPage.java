@@ -88,12 +88,24 @@ public class FeedbackSubmitPage extends AppPage {
         element.click();
     }
     
+    public void fillMcqOtherOptionTextBox(int qnNumber, int responseNumber, String otherOptionText) {
+        String elementId = "otherOptionText-" + qnNumber + "-" + responseNumber;
+        WebElement otherOptionTextBox = browser.driver.findElement(By.id(elementId));
+        fillTextBox(otherOptionTextBox, otherOptionText);
+    }
+    
     public void toggleMsqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
         String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
         WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         element.click();
+    }
+    
+    public void fillMsqOtherOptionTextBox(int qnNumber, int responseNumber, String otherOptionText) {
+        String elementId = "msqOtherOptionText-" + qnNumber + "-" + responseNumber;
+        WebElement otherOptionTextBox = browser.driver.findElement(By.id(elementId));
+        fillTextBox(otherOptionTextBox, otherOptionText);
     }
     
     public void chooseContribOption(int qnNumber, int responseNumber, String choiceName) {

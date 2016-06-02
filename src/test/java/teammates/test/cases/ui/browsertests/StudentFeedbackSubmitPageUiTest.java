@@ -145,7 +145,19 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // Test partial response for question
         submitPage.fillResponseTextBox(4, 1, "Feedback to team 3");
+        
+        submitPage.verifyUnclickable("otherOptionText-6-0");
+        submitPage.chooseMcqOption(6, 0, "");
+        submitPage.waitForElementToBeClickable("otherOptionText-6-0");
+        submitPage.fillMcqOtherOptionTextBox(6, 0, "Features");
+        
         submitPage.chooseMcqOption(7, 0, "Algo");
+        
+        submitPage.verifyUnclickable("msqOtherOptionText-8-0");
+        submitPage.toggleMsqOption(8, 0, "");
+        submitPage.waitForElementToBeClickable("msqOtherOptionText-8-0");
+        submitPage.fillMsqOtherOptionTextBox(8, 0, "Features");
+        
         submitPage.toggleMsqOption(9, 0, "UI");
         submitPage.toggleMsqOption(9, 0, "Design");
 
