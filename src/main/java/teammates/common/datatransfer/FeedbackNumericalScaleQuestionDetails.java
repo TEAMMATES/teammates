@@ -724,7 +724,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         for (FeedbackResponseAttributes response : responses) {
             FeedbackNumericalScaleResponseDetails frd = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             if (frd.getAnswer() < minScale || frd.getAnswer() > maxScale) {
-                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.NUMSCALE_ERROR_OUT_OF_RANGE + "(min=" + minScale + ", max=" + maxScale + ")");
+                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.NUMSCALE_ERROR_OUT_OF_RANGE
+                           + "(min=" + minScale + ", max=" + maxScale + ")");
             }
             //TODO: strengthen check for step
         }

@@ -30,7 +30,7 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends BaseAct
 
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb
-                .getFeedbackQuestion(session1InCourse1.feedbackSessionName, session1InCourse1.courseId, 1);
+                .getFeedbackQuestion(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 1);
 
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
@@ -39,16 +39,16 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends BaseAct
         verifyAssumptionFailure();
 
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName
+                session1InCourse1.getFeedbackSessionName()
         };
 
         verifyAssumptionFailure(submissionParams);
 
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName,
+                session1InCourse1.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID,
                 feedbackQuestion.getId()
         };
@@ -56,7 +56,7 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends BaseAct
         verifyAssumptionFailure(submissionParams);
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID,
                 feedbackQuestion.getId()
         };
@@ -66,9 +66,9 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends BaseAct
         ______TS("redirect unregistered user to home ");
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName,
+                session1InCourse1.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID,
                 feedbackQuestion.getId()
         };
@@ -99,12 +99,12 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends BaseAct
         gaeSimulation.loginAsAdmin("admin.user");
 
         feedbackQuestion = feedbackQuestionsDb
-                .getFeedbackQuestion(session1InCourse1.feedbackSessionName, session1InCourse1.courseId, 1);
+                .getFeedbackQuestion(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 1);
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName,
+                session1InCourse1.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID,
                 feedbackQuestion.getId(),
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId

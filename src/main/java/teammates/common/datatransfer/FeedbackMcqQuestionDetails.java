@@ -163,7 +163,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${text-disabled}", sessionIsOpen && isOtherSelected ? "" : "disabled",
                             Templates.FeedbackQuestionDetailsConsts.CHECKED, isOtherSelected ? "checked" : "",
                             Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}",
                             Templates.FeedbackQuestionDetailsConsts.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
                             "${mcqOtherOptionAnswer}", isOtherSelected ? "1" : "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
@@ -203,7 +203,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${text-disabled}", "disabled",
                             Templates.FeedbackQuestionDetailsConsts.CHECKED, "",
                             Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}",
                             Templates.FeedbackQuestionDetailsConsts.MCQ_CHOICE_VALUE, "",
                             "${mcqOtherOptionAnswer}", "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);

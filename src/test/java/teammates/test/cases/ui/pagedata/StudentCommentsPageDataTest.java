@@ -73,7 +73,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         Map<String, FeedbackSessionResultsBundle> feedbackResultBundles =
                 new HashMap<String, FeedbackSessionResultsBundle>();
         FeedbackSessionResultsBundle bundle = getSingleFeedbackSessionResultsBundle(roster);
-        feedbackResultBundles.put(bundle.feedbackSession.feedbackSessionName, bundle);
+        feedbackResultBundles.put(bundle.feedbackSession.getFeedbackSessionName(), bundle);
         
         data.init(courseId, courseName, coursePaginationList, comments, roster, studentEmail, feedbackResultBundles);
         
@@ -154,7 +154,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         }
         
         FeedbackSessionRow sessionRow =
-                new FeedbackSessionRow(session.feedbackSessionName, session.courseId, questionTables);
+                new FeedbackSessionRow(session.getFeedbackSessionName(), session.getCourseId(), questionTables);
     
         return sessionRow;
     }
