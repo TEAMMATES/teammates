@@ -78,10 +78,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
-                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
-                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
+                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
+                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
                 "${contribSelectFragmentsHtml}", optionSelectFragmentsHtml);
     }
 
@@ -93,10 +93,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
-                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
-                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
+                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
+                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
                 "${contribSelectFragmentsHtml}", optionSelectHtml);
     }
 
@@ -104,7 +104,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
-                Const.FeedbackQuestion.QUESTION_NUMBER, Integer.toString(questionNumber),
+                Templates.FeedbackQuestionDetailsConsts.QUESTION_NUMBER, Integer.toString(questionNumber),
                 "${isNotSureAllowedChecked}", isNotSureAllowed ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
@@ -127,7 +127,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
-                Const.FeedbackQuestion.QUESTION_NUMBER, Integer.toString(questionNumber),
+                Templates.FeedbackQuestionDetailsConsts.QUESTION_NUMBER, Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
     }
@@ -197,7 +197,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 FeedbackQuestionFormTemplates.CONTRIB_ADDITIONAL_INFO,
                 "${more}", "[how to interpret, etc..]",
                 "${less}", "[less]",
-                Const.FeedbackQuestion.QUESTION_NUMBER, Integer.toString(question.questionNumber),
+                Templates.FeedbackQuestionDetailsConsts.QUESTION_NUMBER, Integer.toString(question.questionNumber),
                 "${additionalInfoId}", "contributionInfo",
                 "${questionAdditionalInfo}", FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
         

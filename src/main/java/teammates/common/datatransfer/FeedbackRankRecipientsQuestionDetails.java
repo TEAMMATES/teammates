@@ -41,22 +41,22 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         String optionFragment =
                 Templates.populateTemplate(optionFragmentTemplate,
-                        Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
-                        Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                        Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
                         "${optionIdx}", "0",
-                        Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
-                        Const.FeedbackQuestion.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
+                        Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
+                        Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, existingResponse.answer),
-                        Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        Const.FeedbackQuestion.RANK_OPTION_VALUE, "");
+                        Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
-                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
-                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Const.FeedbackQuestion.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
+                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
+                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                 "${rankToRecipientsValue}", "true",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
@@ -77,22 +77,22 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         String optionFragment =
                 Templates.populateTemplate(optionFragmentTemplate,
-                        Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
-                        Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                        Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
                         "${optionIdx}", "0",
-                        Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
-                        Const.FeedbackQuestion.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
+                        Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
+                        Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, Const.INT_UNINITIALIZED),
-                        Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        Const.FeedbackQuestion.RANK_OPTION_VALUE, "");
+                        Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         return Templates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
-                            Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Const.FeedbackQuestion.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
+                            Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                             "${rankToRecipientsValue}", "true",
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
@@ -187,7 +187,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             
             fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
-                                                                        Const.FeedbackQuestion.RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
+                                                                        Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
                                                                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                                                                         "${ranksReceived}", ranksReceived,
                                                                         "${averageRank}", df.format(average)));

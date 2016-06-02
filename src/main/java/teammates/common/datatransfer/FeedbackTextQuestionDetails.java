@@ -44,10 +44,10 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
-                Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
-                Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
-                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
+                Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
+                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
                 "${existingResponse}", Sanitizer.sanitizeForHtml(existingResponseDetails.getAnswerString()));
     }
 
@@ -56,10 +56,10 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
-                Const.FeedbackQuestion.DISABLED, sessionIsOpen ? "" : "disabled",
-                Const.FeedbackQuestion.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
-                Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
+                Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
+                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
                 "${existingResponse}", "");
     }
 
