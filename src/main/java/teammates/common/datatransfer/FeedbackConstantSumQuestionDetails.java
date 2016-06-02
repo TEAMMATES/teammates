@@ -171,7 +171,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                 Templates.FeedbackQuestionDetailsConsts.OPTION_INDEX, Integer.toString(i),
                                 Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
                                 Templates.FeedbackQuestionDetailsConsts.CONST_SUM_OPTION_VISIBILITY, "",
-                                Templates.FeedbackQuestionDetailsConsts.CONST_SUM_OPTION_POINT, Integer.toString(existingConstSumResponse.getAnswerList().get(i)),
+                                Templates.FeedbackQuestionDetailsConsts.CONST_SUM_OPTION_POINT, Integer
+                                        .toString(existingConstSumResponse.getAnswerList().get(i)),
                                 Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                                 Templates.FeedbackQuestionDetailsConsts.CONST_SUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
                 optionListHtml.append(optionFragment).append(Const.EOL);
@@ -280,7 +281,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Templates.FeedbackQuestionDetailsConsts.CONST_SUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Templates.FeedbackQuestionDetailsConsts.CONST_SUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Templates.FeedbackQuestionDetailsConsts.CONST_SUM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
-                Templates.FeedbackQuestionDetailsConsts.CONST_SUM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
+                Templates.FeedbackQuestionDetailsConsts.CONST_SUM_DISTRIBUTE_UNEVENLY,
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
 
     }
 

@@ -188,7 +188,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             
             fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
-                                                                        Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
+                                                                        Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VALUE,
+                                                                        Sanitizer.sanitizeForHtml(name),
                                                                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                                                                         "${ranksReceived}", ranksReceived,
                                                                         "${averageRank}", df.format(average)));

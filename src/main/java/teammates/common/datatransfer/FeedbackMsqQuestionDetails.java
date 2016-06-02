@@ -158,7 +158,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Templates.FeedbackQuestionDetailsConsts.CHECKED, isOtherSelected ? "checked" : "",
                             Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}",
-                            Templates.FeedbackQuestionDetailsConsts.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
+                            Templates.FeedbackQuestionDetailsConsts.MSQ_CHOICE_VALUE,
+                            Sanitizer.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
                             "${msqOtherOptionAnswer}", isOtherSelected ? "1" : "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
         }

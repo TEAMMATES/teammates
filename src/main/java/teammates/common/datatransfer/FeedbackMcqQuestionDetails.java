@@ -148,7 +148,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
                             Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Templates.FeedbackQuestionDetailsConsts.CHECKED, existingMcqResponse.getAnswerString().equals(choices.get(i)) ? "checked" : "",
+                            Templates.FeedbackQuestionDetailsConsts.CHECKED, existingMcqResponse
+                                    .getAnswerString().equals(choices.get(i)) ? "checked" : "",
                             Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Templates.FeedbackQuestionDetailsConsts.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -164,7 +165,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Templates.FeedbackQuestionDetailsConsts.CHECKED, isOtherSelected ? "checked" : "",
                             Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}",
-                            Templates.FeedbackQuestionDetailsConsts.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
+                            Templates.FeedbackQuestionDetailsConsts.MCQ_CHOICE_VALUE,
+                            Sanitizer.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
                             "${mcqOtherOptionAnswer}", isOtherSelected ? "1" : "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
         }
