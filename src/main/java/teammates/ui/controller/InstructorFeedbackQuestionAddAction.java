@@ -138,7 +138,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         questionType = FeedbackQuestionType.standardizeIfConstSum(questionType);
         newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
 
-        newQuestion.isQuestionCompulsory = Boolean.valueOf(HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_ISCOMPULSORY));
+        newQuestion.isQuestionCompulsory = Boolean.valueOf(HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_ISCOMPULSORY));
 
         FeedbackQuestionDetails questionDetails = FeedbackQuestionDetails.createQuestionDetails(
                 requestParameters, newQuestion.questionType);

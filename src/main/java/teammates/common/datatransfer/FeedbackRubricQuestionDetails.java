@@ -224,7 +224,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String responseNumberString = Integer.toString(responseIdx);
 
         String tableHeaderFragmentHtml = getSubmissionFormTableHeaderFragmentHtml(questionNumberString, responseNumberString);
-        String tableBodyHtml = getSubmissionFormTableBodyHtml(questionNumberString, responseNumberString, sessionIsOpen, true, isQuestionCompulsory, frd);
+        String tableBodyHtml = getSubmissionFormTableBodyHtml(questionNumberString, responseNumberString,
+                sessionIsOpen, true, isQuestionCompulsory, frd);
         String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, true, isQuestionCompulsory, frd);
 
         // Create submission form
@@ -250,7 +251,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String responseNumberString = Integer.toString(responseIdx);
 
         String tableHeaderFragmentHtml = getSubmissionFormTableHeaderFragmentHtml(questionNumberString, responseNumberString);
-        String tableBodyHtml = getSubmissionFormTableBodyHtml(questionNumberString, responseNumberString, sessionIsOpen, false, isQuestionCompulsory, null);
+        String tableBodyHtml = getSubmissionFormTableBodyHtml(questionNumberString, responseNumberString,
+                sessionIsOpen, false, isQuestionCompulsory, null);
         String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, false, isQuestionCompulsory, null);
 
         // Create submission form
