@@ -295,17 +295,6 @@ public abstract class AppPage {
     }
 
     /**
-     * Waits for the element to appear in the page, up to the timeout specified and can
-     * return early if the expected conditions has happened
-     * @param by
-     * @param timeToImplicitlyWaitInSeconds
-     */
-    public void waitForElementPresence(By by, int timeToImplicitlyWaitInSeconds) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, timeToImplicitlyWaitInSeconds);
-        wait.until(ExpectedConditions.presenceOfElementLocated(by));
-    }
-    
-    /**
      * Waits for text contained in the element to appear in the page, or timeout
      */
     public void waitForTextContainedInElementPresence(By by, String text) {
