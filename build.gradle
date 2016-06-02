@@ -154,7 +154,7 @@ eclipseClasspath {
     }
 }
 
-task createConfigs {
+task createConfigs << {
     def templatesToCopy = [
         "gradle.template.properties",
         "src/main/resources/build.template.properties",
@@ -166,7 +166,7 @@ task createConfigs {
     }.each {
         filename -> copy {
             from filename
-            into new File(filename).getParent()
+            into filename.startsWith("src/") ? new File(filename).getParent() : "${projectDir}"
             rename '(.*).template(.*)', '$1$2'
         }
     }
