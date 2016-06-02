@@ -124,9 +124,9 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         studentHomePage.clickViewTeam();
         
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
-                .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId)
-                .withCourseId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").course);
-        assertEquals(detailsPageUrl.toString(), browser.driver.getCurrentUrl());
+                .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS1101").googleId)
+                .withCourseId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS1101").course);
+        assertEquals(detailsPageUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
         studentHomePage.clickHomeTab();
         
         ______TS("link: link of published feedback");
