@@ -105,7 +105,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     
     private void loginToAdminAccountsManagementPage(String instructorIdToShow) {
         accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true&googleId=" + instructorIdToShow);
-        accountsPage = loginAdminToPageForAdminUiTests(browser, accountsPageUrl, AdminAccountManagementPage.class);
+        accountsPage = loginAdminToPage(browser, accountsPageUrl, AdminAccountManagementPage.class);
         // Extra 60 seconds of wait as it can take a longer time to load in non-dev environments
         accountsPage.waitForAdminAccountsManagementPageToFinishLoading();
         accountsPage.verifyIsCorrectPage();

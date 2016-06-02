@@ -65,8 +65,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         ______TS("content: typical page");
         
-        AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
-        homePage = loginAdminToPageForAdminUiTests(browser, homeUrl, AdminHomePage.class);
+        AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE).withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
+        homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
         
         homePage.verifyHtml("/adminHomePage.html");
     }
