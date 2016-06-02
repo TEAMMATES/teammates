@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import java.lang.reflect.Constructor;
-
-import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -95,7 +92,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                                         .toAbsoluteString();
         
         browser.driver.get(joinLink);
-        confirmationPage = createNewPage(browser, InstructorCourseJoinConfirmationPage.class);
+        confirmationPage = AppPage.getNewPageInstance(browser, InstructorCourseJoinConfirmationPage.class);
         
         // test content here to make test finish faster
         ______TS("test instructor confirmation page content");
@@ -109,7 +106,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         ______TS("Already joined, no confirmation page");
                 
         browser.driver.get(joinLink);
-        instructorHome = createNewPage(browser, InstructorHomePage.class);
+        instructorHome = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         instructorHome.verifyStatus(TestProperties.TEST_INSTRUCTOR_ACCOUNT + " has already joined this course");
     }
     
@@ -118,15 +115,4 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
     
-    private <T extends AppPage> T createNewPage(Browser browser, Class<T> typeOfPage) {
-        Constructor<T> constructor;
-        try {
-            constructor = typeOfPage.getConstructor(Browser.class);
-            T page = constructor.newInstance(browser);
-            PageFactory.initElements(browser.driver, page);
-            return page;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

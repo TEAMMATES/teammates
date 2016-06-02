@@ -147,7 +147,7 @@ public abstract class AppPage {
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
         currentBrowser.driver.get(url.toAbsoluteString());
-        return createNewPage(currentBrowser, typeOfPage);
+        return getNewPageInstance(currentBrowser, typeOfPage);
     }
 
     /**
@@ -155,7 +155,14 @@ public abstract class AppPage {
      * the type indicated by the parameter {@code typeOfPage}.
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage) {
-        return createNewPage(currentBrowser, typeOfPage);
+        try {
+            Constructor<T> constructor = typeOfPage.getConstructor(Browser.class);
+            T page = constructor.newInstance(currentBrowser);
+            PageFactory.initElements(currentBrowser.driver, page);
+            return page;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -186,15 +193,15 @@ public abstract class AppPage {
      * the type indicated by the parameter {@code newPageType}.
      */
     public <T extends AppPage> T changePageType(Class<T> newPageType) {
-        return createNewPage(browser, newPageType);
+        return getNewPageInstance(browser, newPageType);
     }
 
     /**
      * Gives a LoginPage instance based on the given Browser and test configuration.
      */
     public static LoginPage createCorrectLoginPageType(Browser browser) {
-        return createNewPage(browser, TestProperties.isDevServer() ? DevServerLoginPage.class
-                                                                   : GoogleLoginPage.class);
+        return getNewPageInstance(browser, TestProperties.isDevServer() ? DevServerLoginPage.class
+                                                                        : GoogleLoginPage.class);
     }
     
     /**
@@ -1016,18 +1023,6 @@ public abstract class AppPage {
         return this;
     }
     
-    private static <T extends AppPage> T createNewPage(Browser currentBrowser, Class<T> typeOfPage) {
-        Constructor<T> constructor;
-        try {
-            constructor = typeOfPage.getConstructor(Browser.class);
-            T page = constructor.newInstance(currentBrowser);
-            PageFactory.initElements(currentBrowser.driver, page);
-            return page;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
         elementToClick.click();
         waitForAlertPresence();
