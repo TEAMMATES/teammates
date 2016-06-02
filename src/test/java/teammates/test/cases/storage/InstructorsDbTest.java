@@ -305,7 +305,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.email = "InstrDbT.new-email@email.tmt";
         instructorsDb.updateInstructorByGoogleId(instructorToEdit);
         
-        InstructorAttributes instructorUpdated = instructorsDb.getInstructorForGoogleId(instructorToEdit.courseId, instructorToEdit.googleId);
+        InstructorAttributes instructorUpdated =
+                instructorsDb.getInstructorForGoogleId(instructorToEdit.courseId, instructorToEdit.googleId);
         assertEquals(instructorToEdit.name, instructorUpdated.name);
         assertEquals(instructorToEdit.email, instructorUpdated.email);
         
@@ -318,8 +319,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                        String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, FieldValidator.REASON_EMPTY) + Const.EOL
-                        + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email, FieldValidator.REASON_INCORRECT_FORMAT),
+                        String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name,
+                                      FieldValidator.REASON_EMPTY) + Const.EOL
+                        + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
+                                        FieldValidator.REASON_INCORRECT_FORMAT),
                         e.getMessage());
         }
 

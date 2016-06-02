@@ -113,14 +113,15 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         assertFalse(rToBeTrimmed.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED, rToBeTrimmed.getStatusMessage());
         
-        String expectedLogMessageToBeTrimmed = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
-                                             + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                             + "Student <span class=\"bold\">" + newStudentEmail
-                                             + "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"
-                                             + "New Email: " + newStudentEmailToBeTrimmed.trim()
-                                             + "<br>New Team: " + newStudentTeamToBeTrimmed.trim()
-                                             + "<br>Comments: " + newStudentCommentsToBeTrimmed.trim()
-                                             + "|||/page/instructorCourseStudentDetailsEditSave";
+        String expectedLogMessageToBeTrimmed =
+                "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Student <span class=\"bold\">" + newStudentEmail
+                + "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"
+                + "New Email: " + newStudentEmailToBeTrimmed.trim()
+                + "<br>New Team: " + newStudentTeamToBeTrimmed.trim()
+                + "<br>Comments: " + newStudentCommentsToBeTrimmed.trim()
+                + "|||/page/instructorCourseStudentDetailsEditSave";
         AssertHelper.assertLogMessageEquals(expectedLogMessageToBeTrimmed, aToBeTrimmed.getLogMessage());
 
         ______TS("Error case, invalid email parameter (email has too many characters)");

@@ -313,7 +313,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        ______TS("Failure case: submit response for question in session, but should not be editable by instructor (unable to see recipient)");
+        ______TS("Failure case: submit response for question in session, but should not be editable by instructor"
+                 + " (unable to see recipient)");
         fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 4);
         assertNotNull("Feedback question not found in database", fq);
         

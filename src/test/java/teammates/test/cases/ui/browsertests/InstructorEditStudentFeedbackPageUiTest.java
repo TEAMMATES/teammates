@@ -50,7 +50,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         
         assertEquals("Student 1 self feedback.", fr.getResponseDetails().getAnswerString());
      
-        submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt",
+                                                              "session1InIESFPTCourse");
 
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
         submitPage.verifyHtmlMainContent("/InstructorEditStudentFeedbackPageOpen.html");

@@ -1571,8 +1571,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private FeedbackResponseCommentRow buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
                         FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
                         String giverName, String recipientName) {
-        FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes(
-                                        question.courseId, question.feedbackSessionName, question.getFeedbackQuestionId(), response.getId());
+        FeedbackResponseCommentAttributes frca =
+                new FeedbackResponseCommentAttributes(question.courseId, question.feedbackSessionName,
+                                                      question.getFeedbackQuestionId(), response.getId());
                                 
         FeedbackParticipantType[] relevantTypes = {
                 FeedbackParticipantType.GIVER,
