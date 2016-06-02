@@ -87,7 +87,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Const.FeedbackQuestion.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                             Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),

@@ -173,7 +173,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         Const.FeedbackQuestion.MSQ_CHOICE_TEXT,  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
         
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
                 "${msqSubmissionFormOptionFragments}", optionListHtml.toString());
     }
@@ -227,7 +227,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         Const.FeedbackQuestion.MSQ_CHOICE_TEXT,  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
                 "${msqSubmissionFormOptionFragments}", optionListHtml.toString());
     }
@@ -296,7 +296,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_EDIT_FORM,
                 "${msqEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
@@ -364,7 +364,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 "${questionTypeName}", this.getQuestionTypeDisplayName(),
                 "${msqAdditionalInfoFragments}", optionListHtml.toString());
         
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",

@@ -76,7 +76,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         int points = frd.getAnswer();
         String optionSelectFragmentsHtml = getContributionOptionsHtml(points);
         
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                 Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
@@ -91,7 +91,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         String optionSelectHtml = getContributionOptionsHtml(Const.INT_UNINITIALIZED);
         
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
                 Const.FeedbackQuestion.RESPONSE_INDEX, Integer.toString(responseIdx),
@@ -123,7 +123,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         String additionalInfo = this.getQuestionTypeDisplayName();
         
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",

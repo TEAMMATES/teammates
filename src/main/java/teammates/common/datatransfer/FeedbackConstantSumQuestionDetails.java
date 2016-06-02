@@ -168,7 +168,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             }
         }
 
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -222,7 +222,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             }
         }
 
-SSS        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -255,7 +255,7 @@ SSS        String html = Templates.populateTemplate(
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_EDIT_FORM,
                 "${constSumEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),

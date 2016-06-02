@@ -90,7 +90,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             
         }
         
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                 Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -126,7 +126,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
 
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                             Const.FeedbackQuestion.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -220,7 +220,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             "${questionTypeName}", this.getQuestionTypeDisplayName(),
             "${msqAdditionalInfoFragments}", optionListHtml.toString());
 
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
