@@ -78,10 +78,10 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         }
         boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
                                                    && instrWithModifyInstructorPrivilege != null
-                                                   && (instrWithModifyInstructorPrivilege.googleId == null 
-                                                           ? true
-                                                               : instrWithModifyInstructorPrivilege.googleId
-                                                                         .equals(instructorToEdit.googleId));
+                                                   && (instrWithModifyInstructorPrivilege.isRegistered()
+                                                           ? instrWithModifyInstructorPrivilege.googleId
+                                                                     .equals(instructorToEdit.googleId)
+                                                               : true);
         if (isLastRegInstructorWithPrivilege) {
             instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
         }
@@ -98,7 +98,8 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
      * @param instructorEmail Email of the instructor.
      * @return The updated instructor with all relevant info filled in.
      */
-    private InstructorAttributes extractUpdatedInstructor(String courseId, String instructorId, String instructorName, String instructorEmail) {
+    private InstructorAttributes extractUpdatedInstructor(String courseId, String instructorId,
+                                                          String instructorName, String instructorEmail) {
         String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
         Assumption.assertNotNull(instructorRole);
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
@@ -109,8 +110,8 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         instructorRole = Sanitizer.sanitizeName(instructorRole);
         displayedName = Sanitizer.sanitizeName(displayedName);
         
-        InstructorAttributes instructorToEdit = updateBasicInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
-                instructorRole, isDisplayedToStudents, displayedName);
+        InstructorAttributes instructorToEdit = updateBasicInstructorAttributes(courseId, instructorId,
+                instructorName, instructorEmail, instructorRole, isDisplayedToStudents, displayedName);
         
         if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToEdit);
@@ -129,8 +130,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
      * @param instructorToEdit Instructor that will be edited.
      *                             This will be modified within the method.
      */
-    private void updateInstructorCourseLevelPrivileges(
-            InstructorAttributes instructorToEdit) {
+    private void updateInstructorCourseLevelPrivileges(InstructorAttributes instructorToEdit) {
         boolean isModifyCourseChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE) != null;
         boolean isModifyInstructorChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR) != null;
         boolean isModifySessionChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) != null;
@@ -305,7 +305,8 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
                 boolean isSectionParamValid = sectionNameFromParam != null
                                               && isSectionSpecialMappings.containsKey(sectionNameFromParam);
                 if (isSectionGroupSpecial && isSectionParamValid) {
-                    markSectionAsSpecial(isSectionSpecialMappings, specialSectionsInSectionGroups, i, sectionNameFromParam);
+                    markSectionAsSpecial(isSectionSpecialMappings, specialSectionsInSectionGroups,
+                                         i, sectionNameFromParam);
                 }
             }
         }
@@ -325,11 +326,11 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
             String sectionToMark) {
         // indicate that section group covers the section
         // and mark that this section is special
-        if (specialSectionsInSectionGroups.get(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionGroupIndex) == null) {
-            specialSectionsInSectionGroups.put(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionGroupIndex,
-                                new ArrayList<String>());
+        String sectionGroupParamName = Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionGroupIndex;
+        if (specialSectionsInSectionGroups.get(sectionGroupParamName) == null) {
+            specialSectionsInSectionGroups.put(sectionGroupParamName, new ArrayList<String>());
         }
-        specialSectionsInSectionGroups.get(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionGroupIndex).add(sectionToMark);
+        specialSectionsInSectionGroups.get(sectionGroupParamName).add(sectionToMark);
         isSectionSpecialMappings.put(sectionToMark, true);
     }
 

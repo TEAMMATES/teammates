@@ -64,9 +64,9 @@ public class InstructorCourseInstructorAddAction extends Action {
      * Creates a new instructor with all information filled in, using request parameters.
      * This includes basic information as well as custom privileges (if applicable).
      * 
-     * @param courseId         Id of the course the instructor is being added to.
-     * @param instructorName   Name of the instructor.
-     * @param instructorEmail  Email of the instructor.
+     * @param courseId        Id of the course the instructor is being added to.
+     * @param instructorName  Name of the instructor.
+     * @param instructorEmail Email of the instructor.
      * @return An instructor with all relevant info filled in.
      */
     private InstructorAttributes extractCompleteInstructor(String courseId, String instructorName, String instructorEmail) {
@@ -80,8 +80,8 @@ public class InstructorCourseInstructorAddAction extends Action {
         instructorRole = Sanitizer.sanitizeName(instructorRole);
         displayedName = Sanitizer.sanitizeName(displayedName);
         
-        InstructorAttributes instructorToAdd = updateBasicInstructorAttributes(courseId, instructorName, instructorEmail,
-                instructorRole, isDisplayedToStudents, displayedName);
+        InstructorAttributes instructorToAdd = updateBasicInstructorAttributes(courseId, instructorName,
+                instructorEmail, instructorRole, isDisplayedToStudents, displayedName);
         
         if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToAdd);
@@ -107,8 +107,9 @@ public class InstructorCourseInstructorAddAction extends Action {
      *                                  Should not be {@code null} even if {@code isDisplayedToStudents} is false.
      * @return An instructor with basic info, excluding custom privileges
      */
-    private InstructorAttributes updateBasicInstructorAttributes(String courseId, String instructorName, String instructorEmail,
-            String instructorRole, boolean isDisplayedToStudents, String displayedName) {
+    private InstructorAttributes updateBasicInstructorAttributes(String courseId, String instructorName,
+            String instructorEmail, String instructorRole,
+            boolean isDisplayedToStudents, String displayedName) {
         String instrName = Sanitizer.sanitizeName(instructorName);
         String instrEmail = Sanitizer.sanitizeEmail(instructorEmail);
         String instrRole = Sanitizer.sanitizeName(instructorRole);
@@ -127,8 +128,7 @@ public class InstructorCourseInstructorAddAction extends Action {
      * @param instructorToAdd Instructor that will be added.
      *                            This will be modified within the method.
      */
-    private void updateInstructorCourseLevelPrivileges(
-            InstructorAttributes instructorToAdd) {
+    private void updateInstructorCourseLevelPrivileges(InstructorAttributes instructorToAdd) {
         boolean isModifyCourseChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE) != null;
         boolean isModifyInstructorChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR) != null;
         boolean isModifySessionChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) != null;
@@ -270,7 +270,8 @@ public class InstructorCourseInstructorAddAction extends Action {
                 boolean isSectionParamValid = sectionNameFromParam != null
                                               && isSectionSpecialMappings.containsKey(sectionNameFromParam);
                 if (isSectionGroupSpecial && isSectionParamValid) {
-                    markSectionAsSpecial(isSectionSpecialMappings, specialSectionsInSectionGroups, i, sectionNameFromParam);
+                    markSectionAsSpecial(isSectionSpecialMappings, specialSectionsInSectionGroups,
+                                         i, sectionNameFromParam);
                 }
             }
         }
@@ -291,11 +292,11 @@ public class InstructorCourseInstructorAddAction extends Action {
             String sectionToMark) {
         // indicate that section group covers the section
         // and mark that this section is special
-        if (specialSectionsInSectionGroups.get(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionGroupIndex) == null) {
-            specialSectionsInSectionGroups.put(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionGroupIndex,
-                                new ArrayList<String>());
+        String sectionGroupParamName = Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionGroupIndex;
+        if (specialSectionsInSectionGroups.get(sectionGroupParamName) == null) {
+            specialSectionsInSectionGroups.put(sectionGroupParamName, new ArrayList<String>());
         }
-        specialSectionsInSectionGroups.get(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionGroupIndex).add(sectionToMark);
+        specialSectionsInSectionGroups.get(sectionGroupParamName).add(sectionToMark);
         isSectionSpecialMappings.put(sectionToMark, true);
     }
     
