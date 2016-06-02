@@ -72,7 +72,9 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor4",
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
-        assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY, pageResult.data.getInstructorCourseEnrollLink(instructor4.courseId)), pageResult.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY,
+                                   pageResult.data.getInstructorCourseEnrollLink(instructor4.courseId)),
+                     pageResult.getStatusMessage());
         
         pageData = (InstructorCourseDetailsPageData) pageResult.data;
         assertEquals(1, pageData.getInstructors().size());

@@ -265,8 +265,11 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                                         getQuestionFromDatastore(questionTypeBundle, "qn1InContribSession2InCourse2");
         studentToUpdate = questionTypeBundle.students.get("student2InCourse2");
         FeedbackResponseAttributes response = getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
-        StudentEnrollDetails studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
-                                        studentToUpdate.course, studentToUpdate.email, studentToUpdate.team, studentToUpdate.team + "tmp", studentToUpdate.section, studentToUpdate.section + "tmp");
+        StudentEnrollDetails studentDetails1 =
+                new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED, studentToUpdate.course,
+                                         studentToUpdate.email, studentToUpdate.team,
+                                         studentToUpdate.team + "tmp", studentToUpdate.section,
+                                         studentToUpdate.section + "tmp");
         
         assertNotNull(frLogic.getFeedbackResponse(questionToTeamMembersAndSelf.getId(),
                                         response.giverEmail,
@@ -343,7 +346,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1");
-        List<FeedbackResponseAttributes> responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, null);
+        List<FeedbackResponseAttributes> responses =
+                frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, null);
         
         assertEquals(responses.size(), 1);
         

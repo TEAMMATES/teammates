@@ -326,7 +326,9 @@ public class PerformanceProfiler extends Thread {
 
     @PerformanceTest(name = "Instructor course student detail page")
     public String instructorCourseStudentDetails() {
-        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0&studentemail=testingforteammates%40gmail.com");
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/instructorCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&studentemail=testingforteammates%40gmail.com");
         return "";
     }
     
@@ -361,13 +363,17 @@ public class PerformanceProfiler extends Thread {
     
     @PerformanceTest(name = "Instructor eval results")
     public String instructorEvalResults() {
-        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/instructorEvalResults?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
         return "";
     }
     
     @PerformanceTest(name = "Instructor view student eval ")
     public String instructorViewStuEval() {
-        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/instructorEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");
         return "";
     }
     
@@ -403,7 +409,9 @@ public class PerformanceProfiler extends Thread {
     
     @PerformanceTest(name = "Student edit submission page")
     public String stuEditSubmissionPage() {
-        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/studentEvalEdit?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/studentEvalEdit?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
         return "";
     }
     @PerformanceTest(name = "Student edit submission ")
@@ -413,7 +421,9 @@ public class PerformanceProfiler extends Thread {
     }
     @PerformanceTest(name = "Student eval result ")
     public String stuEvalResultPage() {
-        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/studentEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/studentEvalResults?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
         return "";
     }
     

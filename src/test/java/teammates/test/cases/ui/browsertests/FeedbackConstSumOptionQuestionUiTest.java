@@ -72,7 +72,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         
         feedbackEditPage.clickAddQuestionButton();
         
-        assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.",
+                     feedbackEditPage.getStatus());
         
         ______TS("remove when 1 left");
 
@@ -89,7 +90,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickRemoveConstSumOptionLink(0, -1);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.",
+                     feedbackEditPage.getStatus());
     }
 
     @Override

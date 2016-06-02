@@ -695,8 +695,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = (RedirectResult) a.executeAndPostProcess();
 
         assertTrue(r.isError);
-        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
-                                r.getDestinationWithParams());
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1"
+                        + "&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
+                     r.getDestinationWithParams());
         assertEquals(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, "1"), r.getStatusMessage());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -729,8 +730,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         assertTrue(r.isError);
 
-        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=MCQ+Session",
-                        r.getDestinationWithParams());
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1"
+                         + "&courseid=FSQTT.idOfTypicalCourse1&fsname=MCQ+Session",
+                     r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail));
         
         gaeSimulation.logoutUser();

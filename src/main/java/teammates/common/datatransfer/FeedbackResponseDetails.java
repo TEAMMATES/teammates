@@ -44,7 +44,8 @@ public abstract class FeedbackResponseDetails {
      * @param feedbackSessionResultsBundle
      * @return
      */
-    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
+                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getAnswerHtml(question.getQuestionDetails());
     }
     
