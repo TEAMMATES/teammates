@@ -79,10 +79,9 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         }
         boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
                                                    && instrWithModifyInstructorPrivilege != null
-                                                   && (instrWithModifyInstructorPrivilege.isRegistered()
-                                                           ? instrWithModifyInstructorPrivilege.googleId
-                                                                     .equals(instructorToEdit.googleId)
-                                                               : true);
+                                                   && !instrWithModifyInstructorPrivilege.isRegistered()
+                                                           || instrWithModifyInstructorPrivilege.googleId
+                                                                     .equals(instructorToEdit.googleId);
         if (isLastRegInstructorWithPrivilege) {
             instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
         }
@@ -316,6 +315,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
             }
         }
     }
+    
     /**
      * Marks {@code sectionToMark} as special in the associated mappings.
      * 
