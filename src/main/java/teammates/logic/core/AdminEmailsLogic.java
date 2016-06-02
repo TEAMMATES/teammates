@@ -120,7 +120,8 @@ public class AdminEmailsLogic {
         return adminEmailsDb.creatAdminEmail(newAdminEmail);
     }
 
-    public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId)
+            throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(emailId);
         Assumption.assertNotNull(newAdminEmail);
         

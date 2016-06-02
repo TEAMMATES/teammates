@@ -46,7 +46,9 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         super.extractQuestionDetails(requestParameters, questionType);
         List<String> options = new ArrayList<>();
       
-        String numOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+        String numOptionsCreatedString =
+                HttpRequestHelper.getValueFromParamMap(
+                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
         Assumption.assertNotNull("Null number of choice for Rank", numOptionsCreatedString);
         int numOptionsCreated = Integer.parseInt(numOptionsCreatedString);
         
@@ -144,7 +146,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                             "${rankNumOptionValue}", Integer.toString(options.size()),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
+                                    Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                             "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
                             );
         

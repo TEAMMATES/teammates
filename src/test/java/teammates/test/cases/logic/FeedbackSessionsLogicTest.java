@@ -134,7 +134,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("session does not contain students");
         
-        assertFalse(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithoutStudents.getFeedbackSessionName(), sessionWithoutStudents.getCourseId()));
+        assertFalse(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithoutStudents.getFeedbackSessionName(),
+                                                                    sessionWithoutStudents.getCourseId()));
     }
     
     public void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
@@ -270,7 +271,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.createFeedbackSession(fs);
             signalFailureToDetectException();
         } catch (Exception e) {
-            assertEquals("The provided feedback session name is not acceptable to TEAMMATES as it cannot contain the following special html characters in brackets: (&lt; &gt; \\ &#x2f; &#39; &amp;)", e.getMessage());
+            assertEquals("The provided feedback session name is not acceptable to TEAMMATES "
+                             + "as it cannot contain the following special html characters in brackets: "
+                             + "(&lt; &gt; \\ &#x2f; &#39; &amp;)",
+                         e.getMessage());
         }
 
         fs.setFeedbackSessionName("test %| test");
@@ -278,7 +282,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.createFeedbackSession(fs);
             signalFailureToDetectException();
         } catch (Exception e) {
-            assertEquals("\"test %| test\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).", e.getMessage());
+            assertEquals("\"test %| test\" is not acceptable to TEAMMATES as feedback session name "
+                             + "because it contains invalid characters. All feedback session name "
+                             + "must start with an alphanumeric character, and cannot contain "
+                             + "any vertical bar (|) or percent sign (%).",
+                         e.getMessage());
         }
         
         ______TS("test delete");
@@ -320,8 +328,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         assertEquals("Copied Session", copiedSession.getFeedbackSessionName());
         assertEquals(typicalCourse2.getId(), copiedSession.getCourseId());
-        List<FeedbackQuestionAttributes> questions1 = fqLogic.getFeedbackQuestionsForSession(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
-        List<FeedbackQuestionAttributes> questions2 = fqLogic.getFeedbackQuestionsForSession(copiedSession.getFeedbackSessionName(), copiedSession.getCourseId());
+        List<FeedbackQuestionAttributes> questions1 =
+                fqLogic.getFeedbackQuestionsForSession(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
+        List<FeedbackQuestionAttributes> questions2 =
+                fqLogic.getFeedbackQuestionsForSession(copiedSession.getFeedbackSessionName(), copiedSession.getCourseId());
         
         assertEquals(questions1.size(), questions2.size());
         for (int i = 0; i < questions1.size(); i++) {
@@ -1094,6 +1104,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
         
         String[] expected = {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
@@ -1165,6 +1176,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1180,6 +1192,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
         
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
@@ -1229,6 +1242,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1242,6 +1256,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
@@ -1295,6 +1310,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
        
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1308,6 +1324,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
@@ -1341,6 +1358,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
 
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1354,6 +1372,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
@@ -1407,6 +1426,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1419,6 +1439,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"FSQTT.idOfTypicalCourse1\"",
                 "Session Name,\"CONSTSUM Session\"",
                 "",
@@ -1444,6 +1465,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1457,6 +1479,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
@@ -1496,6 +1519,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1510,6 +1534,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
@@ -1537,6 +1562,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1549,6 +1575,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
@@ -1574,6 +1601,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1587,6 +1615,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
@@ -1623,6 +1652,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
 
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1636,6 +1666,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
@@ -1676,6 +1707,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "",
                 "",
                 ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1769,7 +1801,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         sessionUnderTest.setSentPublishedEmail(true);
 
         // Set real time of publishing
-        FeedbackSessionAttributes sessionPublished = fsLogic.getFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
+        FeedbackSessionAttributes sessionPublished =
+                fsLogic.getFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
         sessionUnderTest.setResultsVisibleFromTime(sessionPublished.getResultsVisibleFromTime());
         
         assertEquals(sessionUnderTest.toString(), sessionPublished.toString());
