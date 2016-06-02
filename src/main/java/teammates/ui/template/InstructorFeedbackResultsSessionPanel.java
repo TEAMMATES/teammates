@@ -19,11 +19,11 @@ public class InstructorFeedbackResultsSessionPanel {
                                                  String editLink,
                                                  FeedbackSessionPublishButton feedbackSessionPublishButton,
                                                  String selectedSection) {
-        this.courseId = Sanitizer.sanitizeForHtml(session.courseId);
-        this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.feedbackSessionName);
+        this.courseId = Sanitizer.sanitizeForHtml(session.getCourseId());
+        this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.getFeedbackSessionName());
         this.editLink = editLink;
-        this.startTime = TimeHelper.formatTime12H(session.startTime);
-        this.endTime = TimeHelper.formatTime12H(session.endTime);
+        this.startTime = TimeHelper.formatTime12H(session.getStartTime());
+        this.endTime = TimeHelper.formatTime12H(session.getEndTime());
         this.resultsVisibleFrom = getResultsVisibleFromText(session);
         this.feedbackSessionPublishButton = feedbackSessionPublishButton;
         this.selectedSection = selectedSection;
@@ -62,20 +62,20 @@ public class InstructorFeedbackResultsSessionPanel {
     }
     
     private String getResultsVisibleFromText(FeedbackSessionAttributes feedbackSession) {
-        if (feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
-            if (feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-                return TimeHelper.formatTime12H(feedbackSession.startTime);
-            } else if (feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) {
+        if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+            if (feedbackSession.getSessionVisibleFromTime().equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+                return TimeHelper.formatTime12H(feedbackSession.getStartTime());
+            } else if (feedbackSession.getSessionVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
                 return "Never";
             } else {
-                return TimeHelper.formatTime12H(feedbackSession.sessionVisibleFromTime);
+                return TimeHelper.formatTime12H(feedbackSession.getSessionVisibleFromTime());
             }
-        } else if (feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)) {
+        } else if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_LATER)) {
             return "I want to manually publish the results.";
-        } else if (feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) {
+        } else if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
             return "Never";
         } else {
-            return TimeHelper.formatTime12H(feedbackSession.resultsVisibleFromTime);
+            return TimeHelper.formatTime12H(feedbackSession.getResultsVisibleFromTime());
         }
     }
 }

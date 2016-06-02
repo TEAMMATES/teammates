@@ -170,8 +170,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         this.sections = getSectionsFromBundle();
         
-        displayableFsName = sanitizeForHtml(bundle.feedbackSession.feedbackSessionName);
-        displayableCourseId = sanitizeForHtml(bundle.feedbackSession.courseId);
+        displayableFsName = sanitizeForHtml(bundle.feedbackSession.getFeedbackSessionName());
+        displayableCourseId = sanitizeForHtml(bundle.feedbackSession.getCourseId());
     }
 
     private List<String> getSectionsFromBundle() {
@@ -922,7 +922,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                      InstructorFeedbackResultsSectionPanel sectionPanel,
                      Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam,
                      Set<String> teamsInSection) {
-        Map<String, List<InstructorFeedbackResultsQuestionTable>> teamToStatisticsTables = new HashMap<String, List<InstructorFeedbackResultsQuestionTable>>();
+        Map<String, List<InstructorFeedbackResultsQuestionTable>> teamToStatisticsTables =
+                new HashMap<String, List<InstructorFeedbackResultsQuestionTable>>();
         for (String team : teamsInSection) {
             // skip team if no responses,
             // or if the team is an anonymous student's team or an anonymous team, or is "-"
@@ -1484,10 +1485,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                         : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
         moderateFeedbackResponseLink = addUserIdToUrl(moderateFeedbackResponseLink);
 
-        InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
-                                                                            isDisabled, className,
-                                                                            giverIdentifier, getCourseId(),
-                                                                            getFeedbackSessionName(), question, buttonText, moderateFeedbackResponseLink);
+        InstructorFeedbackResultsModerationButton moderationButton =
+                new InstructorFeedbackResultsModerationButton(isDisabled, className, giverIdentifier, getCourseId(),
+                                                              getFeedbackSessionName(), question, buttonText,
+                                                              moderateFeedbackResponseLink);
         return moderationButton;
     }
 
@@ -1663,8 +1664,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
                                                                                 !isAllowedToModerate, "btn btn-default btn-xs",
                                                                                 giverIdentifier,
-                                                                                bundle.feedbackSession.courseId,
-                                                                                bundle.feedbackSession.feedbackSessionName,
+                                                                                bundle.feedbackSession.getCourseId(),
+                                                                                bundle.feedbackSession.getFeedbackSessionName(),
                                                                                 null, "Submit Responses", moderateFeedbackLink);
             moderationButtons.put(giverIdentifier, moderationButton);
             
@@ -1754,13 +1755,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private String getInstructorFeedbackSessionEditLink() {
         return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)
-               ? getInstructorFeedbackEditLink(bundle.feedbackSession.courseId,
-                                                      bundle.feedbackSession.feedbackSessionName)
+               ? getInstructorFeedbackEditLink(bundle.feedbackSession.getCourseId(),
+                                                      bundle.feedbackSession.getFeedbackSessionName())
                : null;
     }
     
     private String getInstructorFeedbackSessionResultsLink() {
-        return getInstructorFeedbackResultsLink(bundle.feedbackSession.courseId, bundle.feedbackSession.feedbackSessionName);
+        return getInstructorFeedbackResultsLink(bundle.feedbackSession.getCourseId(), bundle.feedbackSession.getFeedbackSessionName());
     }
     
     private boolean isAllowedToModerate(InstructorAttributes instructor, String sectionName, String feedbackSessionName) {
@@ -1808,8 +1809,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public boolean isLargeNumberOfRespondents() {
-        int numRespondents = bundle.feedbackSession.respondingInstructorList.size()
-                           + bundle.feedbackSession.respondingStudentList.size();
+        int numRespondents = bundle.feedbackSession.getRespondingInstructorList().size()
+                           + bundle.feedbackSession.getRespondingStudentList().size();
         return isLargeNumberOfRespondents
             || numRespondents > RESPONDENTS_LIMIT_FOR_AUTOLOADING;
     }

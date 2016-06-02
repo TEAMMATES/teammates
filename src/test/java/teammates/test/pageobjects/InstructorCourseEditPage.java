@@ -144,7 +144,8 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public WebElement displayedToStudentCheckBox(int instrNum) {
-        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " > div:nth-child(4) > label:nth-child(1) > input:nth-child(1)"));
+        return browser.driver.findElement(
+                By.cssSelector("#instructorTable" + instrNum + " > div:nth-child(4) > label:nth-child(1) > input:nth-child(1)"));
     }
     
     public void clickDisplayedToStudentCheckBox(int instrNum) {

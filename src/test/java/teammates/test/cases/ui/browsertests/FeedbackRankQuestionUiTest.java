@@ -42,7 +42,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         instructorId = testData.accounts.get("instructor1").googleId;
         instructorCourseId = testData.courses.get("course").getId();
-        instructorEditFSName = testData.feedbackSessions.get("edit").feedbackSessionName;
+        instructorEditFSName = testData.feedbackSessions.get("edit").getFeedbackSessionName();
 
     }
 
@@ -78,7 +78,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("Rank recipients: single question submission page");
         FeedbackQuestionAttributes singleRankRecipientsfq = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 3);
-        FeedbackQuestionSubmitPage rankRecipientsQuestionSubmitPage = loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRankUiT.CS4221", "student", singleRankRecipientsfq.getId());
+        FeedbackQuestionSubmitPage rankRecipientsQuestionSubmitPage =
+                loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRankUiT.CS4221", "student", singleRankRecipientsfq.getId());
         
         assertNull(BackDoor.getFeedbackResponse(singleRankRecipientsfq.getId(),
                                         "alice.b.tmms@gmail.tmt",
@@ -428,8 +429,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
             String instructorName, String fsName) {
         AppUrl submitPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                         .withUserId(testData.instructors.get(instructorName).googleId)
-                        .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                        .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, submitPageUrl, FeedbackSubmitPage.class);
     }
 
@@ -437,8 +438,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
             String studentName, String fsName) {
         AppUrl submitPageUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                         .withUserId(testData.students.get(studentName).googleId)
-                        .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                        .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, submitPageUrl, FeedbackSubmitPage.class);
     }
 
@@ -446,8 +447,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
             String studentName, String fsName) {
         AppUrl resultsPageUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                         .withUserId(testData.students.get(studentName).googleId)
-                        .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                        .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, resultsPageUrl,
                 StudentFeedbackResultsPage.class);
     }
@@ -456,8 +457,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
             String instructorName, String fsName, boolean needAjax, String viewType) {
         AppUrl resultsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                     .withUserId(testData.instructors.get(instructorName).googleId)
-                    .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                    .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                    .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                    .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         
         if (needAjax) {
             resultsPageUrl = resultsPageUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, String.valueOf(needAjax));
@@ -475,8 +476,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         StudentAttributes s = testData.students.get(studentName);
         AppUrl submitPageUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                             .withUserId(s.googleId)
-                            .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                            .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
+                            .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                            .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())
                             .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         
         return loginAdminToPage(browser, submitPageUrl, FeedbackQuestionSubmitPage.class);
