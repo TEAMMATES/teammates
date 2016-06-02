@@ -38,7 +38,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         ______TS("Typical case");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.feedbackSessionName
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName()
         };
         
         InstructorFeedbackRemindParticularStudentsPageAction a = getAction(submissionParams);

@@ -40,8 +40,8 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         feedbackSessionAttributes = dataBundle.feedbackSessions.get("session1InCourse1");
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName()
         };
         
         instructorFeedbackEditPageAction = getAction(submissionParams);
@@ -58,7 +58,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                 + "instr1@course1.tmt|||instructorFeedbackEdit "
                 + "Page Load<br>Editing information for Feedback Session "
-                + "<span class=\"bold\">[" + feedbackSessionAttributes.feedbackSessionName + "]</span>"
+                + "<span class=\"bold\">[" + feedbackSessionAttributes.getFeedbackSessionName() + "]</span>"
                 + "in Course: <span class=\"bold\">[idOfTypicalCourse1]</span>"
                 + "|||/page/instructorFeedbackEditPage";
         AssertHelper.assertLogMessageEquals(expectedString, instructorFeedbackEditPageAction.getLogMessage());
@@ -66,7 +66,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         ______TS("failure 1: non-existent feedback session");
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.courseId,
+                Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName for Session123"
         };
         

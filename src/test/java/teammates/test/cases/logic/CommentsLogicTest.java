@@ -363,7 +363,9 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         commentsLogic.updateComment(c);
         verifyPresentInDatastore(c);
         
-        List<CommentAttributes> actual = commentsLogic.getCommentsForReceiver(c.courseId, CommentParticipantType.PERSON, c.recipients.iterator().next());
+        List<CommentAttributes> actual =
+                commentsLogic.getCommentsForReceiver(c.courseId, CommentParticipantType.PERSON,
+                                                     c.recipients.iterator().next());
         assertEquals(1, actual.size());
         assertEquals(c.commentText, actual.get(0).commentText);
     }

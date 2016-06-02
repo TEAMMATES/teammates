@@ -81,8 +81,8 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS, redirectResult.getStatusMessage());
 
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
-                + "|||instr1@course1.tmt|||Servlet Action Failure : Trying to create a Instructor that exists: idOfTypicalCourse1/ICIAAT.newInstructor@email.tmt"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
+                + "|||Servlet Action Failure : Trying to create a Instructor that exists: idOfTypicalCourse1/ICIAAT.newInstructor@email.tmt"
                 + "|||/page/instructorCourseInstructorAdd";
         AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
         

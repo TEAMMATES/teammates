@@ -143,7 +143,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         questionToUpdate.questionNumber = 1;
         fqLogic.updateFeedbackQuestionNumber(questionToUpdate);
         
-        List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
+        List<FeedbackQuestionAttributes> actualList =
+                fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
         
         assertEquals(actualList.size(), expectedList.size());
         for (int i = 0; i < actualList.size(); i++) {
@@ -293,7 +294,9 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes question1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         question1 = fqLogic.getFeedbackQuestion(question1.feedbackSessionName, question1.courseId, question1.questionNumber);
         
-        FeedbackQuestionAttributes copiedQuestion = fqLogic.copyFeedbackQuestion(question1.getId(), question1.feedbackSessionName, question1.courseId, instructor2OfCourse1.email);
+        FeedbackQuestionAttributes copiedQuestion =
+                fqLogic.copyFeedbackQuestion(question1.getId(), question1.feedbackSessionName, question1.courseId,
+                                             instructor2OfCourse1.email);
         
         FeedbackQuestionDetails question1Details = question1.getQuestionDetails();
         FeedbackQuestionDetails copiedQuestionDetails = copiedQuestion.getQuestionDetails();

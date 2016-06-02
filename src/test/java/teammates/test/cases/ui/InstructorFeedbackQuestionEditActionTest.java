@@ -42,13 +42,13 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                                             .inst()
-                                            .getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
 
         ______TS("Typical Case");
 
         String[] typicalParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -74,8 +74,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Custom number of recipient");
 
         String[] customParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
@@ -102,8 +102,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Anonymous Team Session");
 
         String[] teamParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.TEAMS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
@@ -129,8 +129,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Self Feedback");
 
         String[] selfParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.SELF.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
@@ -156,8 +156,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Invalid edit type");
 
         String[] invalidEditTypeParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -176,8 +176,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Invalid questionNumber");
 
         String[] invalidQnNumParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.SELF.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
@@ -209,8 +209,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Invalid parameters");
 
         String[] invalidParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.TEAMS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.OWN_TEAM_MEMBERS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
@@ -235,8 +235,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Delete Feedback");
 
         String[] deleteParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "",
@@ -260,7 +260,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Unsuccessful case: test null course id parameter");
 
         String[] submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -286,7 +286,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Unsuccessful case: test null course id parameter");
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -322,7 +322,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("mcqSession");
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                                             .inst()
-                                            .getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) fq.getQuestionDetails();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
@@ -332,8 +332,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editTextParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -369,8 +369,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editOptionParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -408,8 +408,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Edit to generated");
 
         String[] editToGeneratedOptionParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -442,8 +442,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Delete Feedback");
 
         String[] deleteParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -485,7 +485,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("msqSession");
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                                             .inst()
-                                            .getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) fq.getQuestionDetails();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
@@ -495,8 +495,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
         
         String[] editTextParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -532,8 +532,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editOptionParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -571,8 +571,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Edit to generated options");
 
         String[] editToGeneratedOptionParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -605,8 +605,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Delete Feedback");
 
         String[] deleteParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -649,7 +649,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("numscaleSession");
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                                             .inst()
-                                            .getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         FeedbackNumericalScaleQuestionDetails numscaleDetails =
                 (FeedbackNumericalScaleQuestionDetails) fq.getQuestionDetails();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
@@ -660,8 +660,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editTextParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -694,8 +694,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Edit scales");
 
         String[] editScalesParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -737,7 +737,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("constSumSession");
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                                             .inst()
-                                            .getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
         ______TS("Edit text");
@@ -746,8 +746,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editTextParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -782,8 +782,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Edit points");
 
         String[] editPointsParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -828,7 +828,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("constSumSession");
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                                             .inst()
-                                            .getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 2);
+                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 2);
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         FeedbackConstantSumQuestionDetails fqd = (FeedbackConstantSumQuestionDetails) fq.getQuestionDetails();
 
@@ -838,8 +838,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editTextParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -873,8 +873,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Edit points per option");
 
         String[] editPointsParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -921,7 +921,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("contribSession");
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                                             .inst()
-                                            .getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         FeedbackContributionQuestionDetails fqd = (FeedbackContributionQuestionDetails) fq.getQuestionDetails();
 
@@ -931,8 +931,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editTextParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -963,8 +963,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Edit: Invalid recipient type");
 
         String[] editRecipientTypeParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -992,7 +992,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertTrue(r.isError);
 
         // delete session to clean database
-        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
     }
 
     @Test
@@ -1007,7 +1007,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("rubricSession");
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                                             .inst()
-                                            .getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) fq.getQuestionDetails();
 
@@ -1017,8 +1017,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editTextParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -1063,8 +1063,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editDescriptionParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -1109,8 +1109,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editWeightParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -1155,8 +1155,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editSubQnParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -1198,19 +1198,19 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         ______TS("Edit choices");
 
         // Restore responses
-        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
         removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
 
         fs = dataBundle.feedbackSessions.get("rubricSession");
-        fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         fqd = (FeedbackRubricQuestionDetails) fq.getQuestionDetails();
 
         // There are already responses for this question
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editChoicesParams = {
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
@@ -1250,7 +1250,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         // delete session to clean database
-        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
     }
 
     @Test
@@ -1273,14 +1273,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         ______TS("Check response rate before editing question 1");
 
-        fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
+        fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         FeedbackSessionDetailsBundle details = fsLogic.getFeedbackSessionDetails(fs);
         assertEquals(numStudentRespondents + numInstructorRespondents, details.stats.submittedTotal);
         assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
 
         ______TS("Change the feedback path of a question with no unique respondents");
 
-        FeedbackQuestionAttributes fq = fqLogic.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        FeedbackQuestionAttributes fq = fqLogic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         String[] params1 = {
                 Const.ParamsNames.COURSE_ID, fq.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fq.feedbackSessionName,
@@ -1301,14 +1301,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a.executeAndPostProcess();
 
         // Response rate should not change because other questions have the same respondents
-        fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
+        fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = fsLogic.getFeedbackSessionDetails(fs);
         assertEquals(numStudentRespondents + numInstructorRespondents, details.stats.submittedTotal);
         assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
 
         ______TS("Change the feedback path of a question with a unique instructor respondent");
 
-        fq = fqLogic.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
+        fq = fqLogic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
         String[] params3 = {
                 Const.ParamsNames.COURSE_ID, fq.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fq.feedbackSessionName,
@@ -1329,14 +1329,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a.executeAndPostProcess();
 
         // Response rate should decrease by 1 because the response of the unique instructor respondent is deleted
-        fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
+        fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = fsLogic.getFeedbackSessionDetails(fs);
         assertEquals(numStudentRespondents, details.stats.submittedTotal);
         assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
 
         ______TS("Change the feedback path of a question so that some possible respondents are removed");
 
-        fq = fqLogic.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 4);
+        fq = fqLogic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
         String[] params4 = {
                 Const.ParamsNames.COURSE_ID, fq.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fq.feedbackSessionName,
@@ -1358,7 +1358,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // Total possible respondents should decrease because instructors
         // (except session creator) are no longer possible respondents
-        fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
+        fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = fsLogic.getFeedbackSessionDetails(fs);
         assertEquals(numStudentRespondents, details.stats.submittedTotal);
         assertEquals(totalStudents + 1, details.stats.expectedTotal);

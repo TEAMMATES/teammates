@@ -147,7 +147,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes accessableFeedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
         
@@ -436,8 +436,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session2InCourse1");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
         
         verifyUnaccessibleWithoutLogin(submissionParams);
@@ -458,8 +458,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
         };
         
         verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
@@ -471,7 +471,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams =
-                createParamsForTypicalFeedbackSession(fs.courseId, fs.feedbackSessionName);
+                createParamsForTypicalFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
         
         verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
@@ -484,8 +484,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.PREVIEWAS, instructor.email
         };
         
@@ -499,8 +499,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.PREVIEWAS, student.email
         };
         
@@ -515,8 +515,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         makeFeedbackSessionUnpublished(session); //we have to revert to the closed state
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
         
         verifyUnaccessibleWithoutLogin(submissionParams);
@@ -538,14 +538,14 @@ public class AllActionsAccessControlTest extends BaseActionTest {
                 dataBundle.feedbackSessions.get("empty.session");
         
         String[] submissionParams =
-                createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+                createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
         // set question number to be the last
         submissionParams[9] = "5";
         verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
         
         // remove the session as removing questions is difficult
-        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
     }
     
     @Test
@@ -553,9 +553,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes fq =
-                FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 4);
+                FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
         
-        String[] submissionParams = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        String[] submissionParams = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
         submissionParams[9] = "4";
         
         submissionParams = addQuestionIdToParams(fq.getId(), submissionParams);
@@ -568,11 +568,11 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
-        FeedbackQuestionAttributes q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
+        FeedbackQuestionAttributes q = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId()
         };
         
@@ -584,11 +584,11 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
-        FeedbackQuestionAttributes q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
+        FeedbackQuestionAttributes q = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", q.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "0"
         };
@@ -602,8 +602,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
@@ -616,14 +616,14 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         int questionNumber = 1;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
-                fs.feedbackSessionName, fs.courseId, questionNumber);
+                fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
         String giverEmail = "student1InCourse1@gmail.tmt";
         String receiverEmail = "student1InCourse1@gmail.tmt";
         FeedbackResponseAttributes response = frDb.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
         FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes();
-        comment.courseId = fs.courseId;
-        comment.feedbackSessionName = fs.feedbackSessionName;
+        comment.courseId = fs.getCourseId();
+        comment.feedbackSessionName = fs.getFeedbackSessionName();
         comment.feedbackQuestionId = question.getId();
         comment.feedbackResponseId = response.getId();
         
@@ -658,14 +658,14 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ2S1C1");
         
         FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
-                fs.feedbackSessionName, fs.courseId, questionNumber);
+                fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
         response = frDb.getFeedbackResponse(question.getId(), response.giverEmail, response.recipientEmail);
         comment = frcDb.getFeedbackResponseComment(response.getId(), comment.giverEmail, comment.createdAt);
         comment.feedbackResponseId = response.getId();
 
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
@@ -701,8 +701,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponse.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "comment",
@@ -719,8 +719,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
@@ -732,8 +732,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
@@ -755,8 +755,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
         };
         verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
@@ -768,8 +768,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
         };
         verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
@@ -787,8 +787,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         assertFalse(fs.isClosed());
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
@@ -802,8 +802,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         makeFeedbackSessionPublished(session); //we have to revert to the closed state
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
         
         verifyUnaccessibleWithoutLogin(submissionParams);
@@ -863,7 +863,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT;
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
-        List<CommentAttributes> comments = CommentsLogic.inst().getCommentsForReceiver(instructor.courseId, CommentParticipantType.PERSON, student.email);
+        List<CommentAttributes> comments =
+                CommentsLogic.inst().getCommentsForReceiver(instructor.courseId, CommentParticipantType.PERSON, student.email);
         Iterator<CommentAttributes> iterator = comments.iterator();
         while (iterator.hasNext()) {
             CommentAttributes commentAttributes = iterator.next();
@@ -1012,13 +1013,13 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb
                 .getFeedbackQuestion(
-                        session1InCourse1.feedbackSessionName,
-                        session1InCourse1.courseId, 1);
+                        session1InCourse1.getFeedbackSessionName(),
+                        session1InCourse1.getCourseId(), 1);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName,
+                session1InCourse1.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID,
                 feedbackQuestion.getId()
         };
@@ -1028,13 +1029,13 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         // below: trying to access questions not meant for the user
 
         feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
-                session1InCourse1.feedbackSessionName,
-                session1InCourse1.courseId, 3);
+                session1InCourse1.getFeedbackSessionName(),
+                session1InCourse1.getCourseId(), 3);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName,
+                session1InCourse1.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID,
                 feedbackQuestion.getId()
         };
@@ -1049,13 +1050,13 @@ public class AllActionsAccessControlTest extends BaseActionTest {
                 .get("session1InCourse1");
 
         FeedbackQuestionAttributes feedbackQuestion = fqDb
-                .getFeedbackQuestion(session1InCourse1.feedbackSessionName,
-                        session1InCourse1.courseId, 1);
+                .getFeedbackQuestion(session1InCourse1.getFeedbackSessionName(),
+                        session1InCourse1.getCourseId(), 1);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName,
+                session1InCourse1.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "0"
@@ -1070,12 +1071,12 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
         FeedbackSessionsLogic.inst().publishFeedbackSession(
-                session1InCourse1.getSessionName(), session1InCourse1.courseId);
+                session1InCourse1.getSessionName(), session1InCourse1.getCourseId());
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName
+                session1InCourse1.getFeedbackSessionName()
         };
 
         verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
@@ -1091,9 +1092,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
                 .get("session1InCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName
+                session1InCourse1.getFeedbackSessionName()
         };
 
         verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
@@ -1119,7 +1120,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     
     private void testGracePeriodAccessControlForStudents() {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
-        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
         dataBundle.feedbackSessions.put("gracePeriodSession", fs);
         
         assertFalse(fs.isOpened());
@@ -1129,8 +1130,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1GracePeriodFeedback");
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
@@ -1189,16 +1190,16 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         Date endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         Date resultsVisibleFromTimeForPublishedSession = TimeHelper.getDateOffsetToCurrentTime(-1);
         
-        session.startTime = startTime;
-        session.endTime = endTime;
+        session.setStartTime(startTime);
+        session.setEndTime(endTime);
         if (isPublished) {
-            session.resultsVisibleFromTime = resultsVisibleFromTimeForPublishedSession;
+            session.setResultsVisibleFromTime(resultsVisibleFromTimeForPublishedSession);
             assertTrue(session.isPublished());
         } else {
-            session.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
             assertFalse(session.isPublished());
         }
-        session.sentPublishedEmail = true;
+        session.setSentPublishedEmail(true);
         fsDb.updateFeedbackSession(session);
     }
     
@@ -1211,7 +1212,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     private void closeSession(FeedbackSessionAttributes fs) throws Exception {
-        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
         fsDb.updateFeedbackSession(fs);
     }
     
