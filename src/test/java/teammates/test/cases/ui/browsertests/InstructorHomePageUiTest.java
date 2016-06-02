@@ -85,7 +85,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         removeAndRestoreTestDataOnServer(unloadedCourseTestData);
         loginAsInstructor("CHomeUiT.instructor.tmms.unloaded");
         
-        homePage.clickHomeTab();
+        homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/InstructorHomeHTMLWithUnloadedCourse.html");
         
         loginAsCommonInstructor();
@@ -142,22 +142,22 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("content: new instructor, with status message HINT_FOR_NEW_INSTRUCTOR");
         
         //already logged in
-        homePage.clickHomeTab();
+        homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/InstructorHomeNewInstructorWithoutSampleCourse.html");
         
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         removeAndRestoreTestDataOnServer(testData);
-        homePage.clickHomeTab();
+        homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/InstructorHomeNewInstructorWithSampleCourse.html");
         
         ______TS("content: multiple courses");
         
         loadFinalHomePageTestData();
-        homePage.clickHomeTab();
+        homePage.loadInstructorHomeTab();
         // Should not see private session
         homePage.verifyHtmlMainContent("/InstructorHomeHTMLWithHelperView.html");
         updateInstructorToCoownerPrivileges();
-        homePage.clickHomeTab();
+        homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/InstructorHomeHTML.html");
     }
 
@@ -173,7 +173,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("link: help page");
         
-        InstructorHelpPage helpPage = homePage.clickHelpLink();
+        InstructorHelpPage helpPage = homePage.loadInstructorHelpTab();
         helpPage.closeCurrentWindowAndSwitchToParentWindow();
         
     }
@@ -382,7 +382,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         removeAndRestoreTestDataOnServer(testData);
         loginAsCommonInstructor();
         homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS1101);
-        homePage.clickHomeTab();
+        homePage.loadInstructorHomeTab();
     }
     
     public void testCopyToFsAction() {
@@ -474,7 +474,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         courseId = testData.courses.get("CHomeUiT.CS1101").getId();
         BackDoor.deleteCourse(courseId);
         
-        homePage.clickHomeTab();
+        homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/InstructorHomeHTMLEmpty.html");
         
     }

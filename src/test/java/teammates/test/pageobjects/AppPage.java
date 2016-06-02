@@ -77,9 +77,6 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[2]/a")
     protected WebElement instructorCoursesTab;
     
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[3]/a")
-    protected WebElement instructorEvaluationsTab;
-    
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
     protected WebElement instructorStudentsTab;
     
@@ -88,9 +85,6 @@ public abstract class AppPage {
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[7]/a")
     protected WebElement instructorHelpTab;
-    
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
-    protected WebElement instructorLogoutLink;
     
     @FindBy(id = "studentHomeNavLink")
     protected WebElement studentHomeTab;
@@ -107,9 +101,6 @@ public abstract class AppPage {
     @FindBy(id = "btnLogout")
     protected WebElement logoutButton;
     
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
-    protected WebElement studentLogoutLink;
-
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
      * given {@code browser} object. Fails if the page content does not match
@@ -368,20 +359,20 @@ public abstract class AppPage {
      * Equivalent to clicking the 'Courses' tab on the top menu of the page.
      * @return the loaded page.
      */
-    public AppPage loadCoursesTab() {
+    public InstructorCoursesPage loadCoursesTab() {
         instructorCoursesTab.click();
         waitForPageToLoad();
-        return this;
+        return changePageType(InstructorCoursesPage.class);
     }
     
     /**
      * Equivalent to clicking the 'Students' tab on the top menu of the page.
      * @return the loaded page.
      */
-    public AppPage loadStudentsTab() {
+    public InstructorStudentListPage loadStudentsTab() {
         instructorStudentsTab.click();
         waitForPageToLoad();
-        return this;
+        return changePageType(InstructorStudentListPage.class);
     }
     
     
@@ -389,42 +380,33 @@ public abstract class AppPage {
      * Equivalent to clicking the 'Home' tab on the top menu of the page.
      * @return the loaded page.
      */
-    public AppPage loadInstructorHomeTab() {
+    public InstructorHomePage loadInstructorHomeTab() {
         instructorHomeTab.click();
         waitForPageToLoad();
-        return this;
+        return changePageType(InstructorHomePage.class);
     }
     
     /**
      * Equivalent to clicking the 'Help' tab on the top menu of the page.
      * @return the loaded page.
      */
-    public AppPage loadInstructorHelpTab() {
+    public InstructorHelpPage loadInstructorHelpTab() {
         instructorHelpTab.click();
         waitForPageToLoad();
-        return this;
+        switchToNewWindow();
+        return changePageType(InstructorHelpPage.class);
     }
     
     /**
      * Equivalent to clicking the 'Comments' tab on the top menu of the page.
      * @return the loaded page.
      */
-    public AppPage loadInstructorCommentsTab() {
+    public InstructorCommentsPage loadInstructorCommentsTab() {
         instructorCommentsTab.click();
         waitForPageToLoad();
-        return this;
+        return changePageType(InstructorCommentsPage.class);
     }
 
-    /**
-     * Equivalent to clicking the 'Evaluations' tab on the top menu of the page.
-     * @return the loaded page.
-     */
-    public AppPage loadEvaluationsTab() {
-        instructorEvaluationsTab.click();
-        waitForPageToLoad();
-        return this;
-    }
-    
     /**
      * Equivalent of clicking the 'Profile' tab on the top menu of the page.
      * @return the loaded page
@@ -455,6 +437,17 @@ public abstract class AppPage {
         return changePageType(StudentCommentsPage.class);
     }
 
+    /**
+     * Equivalent of clicking the 'Help' tab on the top menu of the page.
+     * @return the loaded page
+     */
+    public StudentHelpPage loadStudentHelpTab() {
+        studentHelpTab.click();
+        waitForPageToLoad();
+        switchToNewWindow();
+        return changePageType(StudentHelpPage.class);
+    }
+    
     /**
      * Click the 'logout' link in the top menu of the page.
      */
