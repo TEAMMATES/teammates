@@ -98,7 +98,8 @@ public class AdminEmailsDb extends EntitiesDb {
         deleteEntities(emailsInTrashBin);
     }
     
-    public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId)
+            throws InvalidParametersException, EntityDoesNotExistException {
         if (!newAdminEmail.isValid()) {
             throw new InvalidParametersException(newAdminEmail.getInvalidityInfo());
         }

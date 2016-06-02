@@ -79,7 +79,9 @@ public class FeedbackConstantSumResponseDetails extends
     private void setConstantSumResponseDetails(List<Integer> answers, List<String> constSumOptions, boolean distributeToRecipients) {
         this.answers = answers;
         if (!distributeToRecipients) {
-            Assumption.assertEquals("ConstSum num response does not match num of options. " + answers.size() + "/" + constSumOptions.size(), answers.size(), constSumOptions.size());
+            Assumption.assertEquals("ConstSum num response does not match num of options. "
+                                            + answers.size() + "/" + constSumOptions.size(),
+                                    answers.size(), constSumOptions.size());
         }
     }
 

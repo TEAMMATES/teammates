@@ -29,7 +29,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testAccessControl() throws Exception {
+    public void testAccessControl() {
         
         String[] params = new String[]{
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Copied Session",
@@ -43,7 +43,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String expectedString = "";
