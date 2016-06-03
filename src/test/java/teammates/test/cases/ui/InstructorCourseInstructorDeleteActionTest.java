@@ -24,7 +24,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes loginInstructor = dataBundle.instructors.get("instructor1OfCourse1");
         String loginInstructorId = loginInstructor.googleId;
         String courseId = loginInstructor.courseId;

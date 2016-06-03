@@ -23,7 +23,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         String instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1").googleId;
 
         gaeSimulation.loginAsInstructor(instructor1OfCourse1);
