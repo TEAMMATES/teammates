@@ -373,7 +373,7 @@ public class StudentsLogic {
         for (FeedbackSessionAttributes session : feedbackSessions) {
             //Schedule adjustment of submissions for feedback session in course
             scheduleSubmissionAdjustmentForFeedbackInCourse(enrollmentList, courseId,
-                    session.feedbackSessionName);
+                    session.getFeedbackSessionName());
         }
 
         // add to return list students not included in the enroll list.

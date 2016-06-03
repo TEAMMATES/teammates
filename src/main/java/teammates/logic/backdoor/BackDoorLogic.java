@@ -109,7 +109,8 @@ public class BackDoorLogic extends Logic {
             validateInstructorPrivileges(instructor);
 
             if (instructor.googleId != null && !instructor.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
+                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true,
+                                                                  instructor.email, "TEAMMATES Test Institute 1");
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
                     account.studentProfile.googleId = account.googleId;
@@ -378,9 +379,9 @@ public class BackDoorLogic extends Logic {
      * in the json file.
      */
     private FeedbackSessionAttributes cleanSessionData(FeedbackSessionAttributes session) {
-        if (session.feedbackSessionType.equals(FeedbackSessionType.PRIVATE)) {
-            session.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-            session.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+        if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
+            session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
         }
         return session;
     }
@@ -537,7 +538,7 @@ public class BackDoorLogic extends Logic {
             Object retreived = null;
             int retryCount = 0;
             while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getFeedbackSession(f.courseId, f.feedbackSessionName);
+                retreived = this.getFeedbackSession(f.getCourseId(), f.getFeedbackSessionName());
                 if (retreived == null) {
                     break;
                 }

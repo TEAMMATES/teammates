@@ -270,9 +270,13 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes questionToTeamMembersAndSelf =
                                         getQuestionFromDatastore(questionTypeBundle, "qn1InContribSession2InCourse2");
         studentToUpdate = questionTypeBundle.students.get("student2InCourse2");
-        FeedbackResponseAttributes responseToBeDeleted = getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
-        StudentEnrollDetails studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
-                                        studentToUpdate.course, studentToUpdate.email, studentToUpdate.team, studentToUpdate.team + "tmp", studentToUpdate.section, studentToUpdate.section + "tmp");
+        FeedbackResponseAttributes responseToBeDeleted =
+                getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
+        StudentEnrollDetails studentDetails1 =
+                new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED, studentToUpdate.course,
+                                         studentToUpdate.email, studentToUpdate.team,
+                                         studentToUpdate.team + "tmp", studentToUpdate.section,
+                                         studentToUpdate.section + "tmp");
 
         
         assertNotNull(frLogic.getFeedbackResponse(questionToTeamMembersAndSelf.getId(),
@@ -352,8 +356,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 
     private int getResponseRate(String sessionName, String courseId) {
         FeedbackSessionAttributes sessionFromDataStore = fsLogic.getFeedbackSession(sessionName, courseId);
-        return sessionFromDataStore.respondingInstructorList.size()
-                + sessionFromDataStore.respondingStudentList.size();
+        return sessionFromDataStore.getRespondingInstructorList().size()
+                + sessionFromDataStore.getRespondingStudentList().size();
     }
 
     private void restoreStudentFeedbackResponseToDatastore(FeedbackResponseAttributes response)
@@ -427,7 +431,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1");
-        List<FeedbackResponseAttributes> responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, null);
+        List<FeedbackResponseAttributes> responses =
+                frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, null);
         
         assertEquals(responses.size(), 1);
         

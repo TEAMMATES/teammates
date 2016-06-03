@@ -228,13 +228,16 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("remind action: AWAITING feedback session");
         
-        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionAwaiting.courseId, feedbackSessionAwaiting.feedbackSessionName));
-        homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionAwaiting.courseId, feedbackSessionAwaiting.feedbackSessionName));
+        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionAwaiting.getCourseId(), feedbackSessionAwaiting.getFeedbackSessionName()));
+        homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionAwaiting.getCourseId(),
+                                                                 feedbackSessionAwaiting.getFeedbackSessionName()));
         
         ______TS("remind action: OPEN feedback session - outer button");
         
-        homePage.clickAndCancel(homePage.getRemindLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName));
-        homePage.clickAndConfirm(homePage.getRemindLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName));
+        homePage.clickAndCancel(homePage.getRemindLink(feedbackSessionOpen.getCourseId(),
+                                                       feedbackSessionOpen.getFeedbackSessionName()));
+        homePage.clickAndConfirm(homePage.getRemindLink(feedbackSessionOpen.getCourseId(),
+                                                        feedbackSessionOpen.getFeedbackSessionName()));
         ThreadHelper.waitFor(1000);
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         
@@ -243,10 +246,12 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("remind action: OPEN feedback session - inner button");
         
-        homePage.clickRemindOptionsLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName);
-        homePage.clickAndCancel(homePage.getRemindInnerLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName));
-        homePage.clickRemindOptionsLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName);
-        homePage.clickAndConfirm(homePage.getRemindInnerLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName));
+        homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
+        homePage.clickAndCancel(homePage.getRemindInnerLink(feedbackSessionOpen.getCourseId(),
+                                                            feedbackSessionOpen.getFeedbackSessionName()));
+        homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
+        homePage.clickAndConfirm(homePage.getRemindInnerLink(feedbackSessionOpen.getCourseId(),
+                                                             feedbackSessionOpen.getFeedbackSessionName()));
         ThreadHelper.waitFor(1000);
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         
@@ -255,19 +260,19 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("remind particular users action: OPEN feedback session");
         
-        homePage.clickRemindOptionsLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName);
-        homePage.clickRemindParticularUsersLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName);
+        homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
+        homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.cancelRemindParticularUsersForm();
         
-        homePage.clickRemindOptionsLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName);
-        homePage.clickRemindParticularUsersLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName);
+        homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
+        homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.submitRemindParticularUsersForm();
         ThreadHelper.waitFor(1000);
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
         
-        homePage.clickRemindOptionsLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName);
-        homePage.clickRemindParticularUsersLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName);
+        homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
+        homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.fillRemindParticularUsersForm();
         homePage.submitRemindParticularUsersForm();
         ThreadHelper.waitFor(1000);
@@ -276,42 +281,51 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("remind action: CLOSED feedback session");
         
-        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionClosed.courseId, feedbackSessionClosed.feedbackSessionName));
-        homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionClosed.courseId, feedbackSessionClosed.feedbackSessionName));
+        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionClosed.getCourseId(),
+                                                          feedbackSessionClosed.getFeedbackSessionName()));
+        homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionClosed.getCourseId(),
+                                                                 feedbackSessionClosed.getFeedbackSessionName()));
         
         ______TS("remind action: PUBLISHED feedback session");
         
-        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionPublished.courseId, feedbackSessionPublished.feedbackSessionName));
-        homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionPublished.courseId, feedbackSessionPublished.feedbackSessionName));
+        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionPublished.getCourseId(),
+                                                          feedbackSessionPublished.getFeedbackSessionName()));
+        homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionPublished.getCourseId(),
+                                                                 feedbackSessionPublished.getFeedbackSessionName()));
 
     }
 
     public void testPublishUnpublishActions() {
         ______TS("publish action: AWAITING feedback session");
         
-        homePage.verifyUnclickable(homePage.getPublishLink(feedbackSessionAwaiting.courseId, feedbackSessionAwaiting.feedbackSessionName));
+        homePage.verifyUnclickable(homePage.getPublishLink(feedbackSessionAwaiting.getCourseId(),
+                                                           feedbackSessionAwaiting.getFeedbackSessionName()));
 
         ______TS("publish action: OPEN feedback session");
         
-        homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionOpen.courseId, feedbackSessionOpen.feedbackSessionName));
+        homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionOpen.getCourseId(),
+                                                        feedbackSessionOpen.getFeedbackSessionName()));
 
         ______TS("publish action: CLOSED feedback session");
         
-        homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionClosed.courseId, feedbackSessionClosed.feedbackSessionName));
+        homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionClosed.getCourseId(),
+                                                        feedbackSessionClosed.getFeedbackSessionName()));
         
         ______TS("unpublish action: PUBLISHED feedback session");
-        homePage.clickFeedbackSessionUnpublishLink(feedbackSessionPublished.courseId, feedbackSessionPublished.feedbackSessionName);
+        homePage.clickFeedbackSessionUnpublishLink(feedbackSessionPublished.getCourseId(),
+                                                   feedbackSessionPublished.getFeedbackSessionName());
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-        assertFalse(BackDoor.getFeedbackSession(feedbackSessionPublished.courseId,
-                                                feedbackSessionPublished.feedbackSessionName).isPublished());
+        assertFalse(BackDoor.getFeedbackSession(feedbackSessionPublished.getCourseId(),
+                                                feedbackSessionPublished.getFeedbackSessionName()).isPublished());
 
         ______TS("publish action: PUBLISHED feedback session");
-        homePage.clickFeedbackSessionPublishLink(feedbackSessionPublished.courseId, feedbackSessionPublished.feedbackSessionName);
+        homePage.clickFeedbackSessionPublishLink(feedbackSessionPublished.getCourseId(),
+                                                 feedbackSessionPublished.getFeedbackSessionName());
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
-        assertTrue(BackDoor.getFeedbackSession(feedbackSessionPublished.courseId,
-                                               feedbackSessionPublished.feedbackSessionName).isPublished());
+        assertTrue(BackDoor.getFeedbackSession(feedbackSessionPublished.getCourseId(),
+                                               feedbackSessionPublished.getFeedbackSessionName()).isPublished());
     }
     
     public void testArchiveCourseAction() throws Exception {

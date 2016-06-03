@@ -22,7 +22,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         
         ______TS("case: view instructor account details");
         
