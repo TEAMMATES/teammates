@@ -451,7 +451,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
         
         instructor = dataBundle.instructors.get("instructor4");
-        newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");
+        newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId",
+                                          "anInstructorWithoutGoogleId@gmail.com");
         
         instructorsLogic.createInstructor(newIns);
         

@@ -63,7 +63,8 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
             
             if (questionAttributes == null) {
                 statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
-                                                + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
+                                                       + "Please check your responses to make sure they are saved correctly.",
+                                                   StatusMessageColor.WARNING));
                 isError = true;
                 log.warning("Question not found. (deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
                 continue;
