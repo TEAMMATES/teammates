@@ -389,7 +389,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         Iterator<FeedbackSessionAttributes> iter = feedbackSessions.iterator();
         while (iter.hasNext()) {
             FeedbackSessionAttributes fs = iter.next();
-            if (!courseIdsOfUser.contains(fs.courseId)) {
+            if (!courseIdsOfUser.contains(fs.getCourseId())) {
                 iter.remove();
             }
         }

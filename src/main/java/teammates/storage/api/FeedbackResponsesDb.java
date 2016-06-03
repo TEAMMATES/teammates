@@ -493,7 +493,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * * All parameters are non-null.
      *  @return An empty list if no such responses are found.
      */
-    public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForSessionWithinRange(String giverEmail, String feedbackSessionName, String courseId, long range) {
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForSessionWithinRange(
+            String giverEmail, String feedbackSessionName, String courseId, long range) {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);

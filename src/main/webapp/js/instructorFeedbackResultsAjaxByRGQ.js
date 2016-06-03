@@ -33,12 +33,14 @@ $(document).ready(function() {
                 }
 
                 if (typeof data === 'undefined') {
-                    $(panelBody[0]).html('The results is too large to be viewed. Please choose to view the results by questions or download the results.');
+                    $(panelBody[0]).html('The results is too large to be viewed. Please choose to view '
+                                         + 'the results by questions or download the results.');
                 } else {
                     var appendedSection = $(data).find('#sectionBody-0').html();
                     $(data).remove();
                     if (typeof appendedSection === 'undefined') {
-                        $(panelBody[0]).html('There are no responses for this feedback session yet or you do not have access to the responses collected so far.');
+                        $(panelBody[0]).html('There are no responses for this feedback session yet or '
+                                             + 'you do not have access to the responses collected so far.');
                     } else {
                         $(panelBody[0]).html(appendedSection);
                     }
@@ -64,12 +66,14 @@ $(document).ready(function() {
                 $('a[id^="collapse-panels-button-section-"]').on('click', function() {
                     var isGroupByTeam = $('#frgroupbyteam').prop('checked');
                     var childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : 'div.panel.panel-primary';
-                    var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
+                    var panels = $(this).closest('.panel-success').children('.panel-collapse')
+                                        .find(childPanelType).children('.panel-collapse');
                     toggleCollapse(this, panels);
                 });
 
                 $('a[id^="collapse-panels-button-team-"]').on('click', function() {
-                    var panels = $(this).closest('.panel-warning').children('.panel-collapse').find('div.panel.panel-primary').children('.panel-collapse');
+                    var panels = $(this).closest('.panel-warning').children('.panel-collapse')
+                                        .find('div.panel.panel-primary').children('.panel-collapse');
                     toggleCollapse(this, panels);
                 });
 
