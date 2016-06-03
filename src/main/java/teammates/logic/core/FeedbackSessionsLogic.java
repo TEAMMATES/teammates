@@ -909,7 +909,8 @@ public class FeedbackSessionsLogic {
                 possibleRecipientsForGiver = fsrBundle.getPossibleRecipients(question, giverIdentifier);
             }
             
-            removeParticipantIdentifierFromList(question.recipientType, possibleRecipientsForGiver, response.recipientEmail, fsrBundle);
+            removeParticipantIdentifierFromList(question.recipientType, possibleRecipientsForGiver,
+                                                response.recipientEmail, fsrBundle);
             prevGiver = response.giverEmail;
             
             // Append row(s)

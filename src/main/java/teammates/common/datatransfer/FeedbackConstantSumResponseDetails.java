@@ -76,7 +76,8 @@ public class FeedbackConstantSumResponseDetails extends
         return csvBuilder.toString();
     }
 
-    private void setConstantSumResponseDetails(List<Integer> answers, List<String> constSumOptions, boolean distributeToRecipients) {
+    private void setConstantSumResponseDetails(List<Integer> answers, List<String> constSumOptions,
+                                               boolean distributeToRecipients) {
         this.answers = answers;
         if (!distributeToRecipients) {
             Assumption.assertEquals("ConstSum num response does not match num of options. "

@@ -31,7 +31,8 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId),
+                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
         InstructorAttributes instructorToEdit = extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
@@ -90,8 +91,9 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         instructorRole = Sanitizer.sanitizeName(instructorRole);
         displayedName = Sanitizer.sanitizeName(displayedName);
         
-        InstructorAttributes instructorToEdit = updateBasicInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
-                instructorRole, isDisplayedToStudents, displayedName);
+        InstructorAttributes instructorToEdit =
+                updateBasicInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
+                                                instructorRole, isDisplayedToStudents, displayedName);
         
         if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToEdit);
@@ -107,7 +109,8 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
     private void updateInstructorCourseLevelPrivileges(
             InstructorAttributes instructorToEdit) {
         boolean isModifyCourseChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE) != null;
-        boolean isModifyInstructorChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR) != null;
+        boolean isModifyInstructorChecked =
+                getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR) != null;
         boolean isModifySessionChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) != null;
         boolean isModifyStudentChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT) != null;
         
@@ -128,9 +131,12 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS) != null;
         
         instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, isModifyCourseChecked);
-        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, isModifyInstructorChecked);
-        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, isModifySessionChecked);
-        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, isModifyStudentChecked);
+        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR,
+                                                    isModifyInstructorChecked);
+        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION,
+                                                    isModifySessionChecked);
+        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT,
+                                                    isModifyStudentChecked);
         
         instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
                                                     isViewStudentInSectionsChecked);
@@ -192,7 +198,8 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
             String setSessionsStr = getRequestParamValue("is" + entry.getKey() + "sessionsset");
             boolean isSessionsSpecial = "true".equals(setSessionsStr);
             if (isSessionsSpecial) {
-                updateInstructorPrivilegesForSectionInSessionLevel(entry.getKey(), entry.getValue(), feedbackNames, instructorToEdit);
+                updateInstructorPrivilegesForSectionInSessionLevel(entry.getKey(), entry.getValue(),
+                                                                   feedbackNames, instructorToEdit);
             } else {
                 removeSessionLevelPrivileges(instructorToEdit, entry.getValue());
             }
@@ -221,7 +228,8 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
                     String valueForSectionName =
                             getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i
                                                  + Const.ParamsNames.INSTRUCTOR_SECTION + j);
-                    if (isSectionGroupSpecial && valueForSectionName != null && sectionNamesTable.containsKey(valueForSectionName)) {
+                    if (isSectionGroupSpecial && valueForSectionName != null
+                            && sectionNamesTable.containsKey(valueForSectionName)) {
                         if (sectionNamesMap.get(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i) == null) {
                             sectionNamesMap.put(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i, new ArrayList<String>());
                         }
@@ -250,21 +258,28 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         boolean isSubmitSessionInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS + sectionParam) != null;
         boolean isModifySessionInSectionsChecked =
-                getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS + sectionParam) != null;
+                getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+                                     + sectionParam) != null;
         
         for (String sectionName : sectionNames) {
             instructorToEdit.privileges.updatePrivilege(
-                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS, isViewStudentInSectionsChecked);
+                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
+                    isViewStudentInSectionsChecked);
             instructorToEdit.privileges.updatePrivilege(
-                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS, isViewCommentInSectionsChecked);
+                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS,
+                    isViewCommentInSectionsChecked);
             instructorToEdit.privileges.updatePrivilege(
-                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS, isGiveCommentInSectionsChecked);
+                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
+                    isGiveCommentInSectionsChecked);
             instructorToEdit.privileges.updatePrivilege(
-                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS, isModifyCommentInSectionsChecked);
+                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS,
+                    isModifyCommentInSectionsChecked);
             instructorToEdit.privileges.updatePrivilege(
-                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, isViewSessionInSectionsChecked);
+                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
+                    isViewSessionInSectionsChecked);
             instructorToEdit.privileges.updatePrivilege(
-                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, isSubmitSessionInSectionsChecked);
+                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                    isSubmitSessionInSectionsChecked);
             instructorToEdit.privileges.updatePrivilege(
                     sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                     isModifySessionInSectionsChecked);
@@ -290,7 +305,8 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
                 instructorToEdit.privileges.updatePrivilege(sectionName, feedbackName,
                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, isSubmitSessionInSectionsChecked);
                 instructorToEdit.privileges.updatePrivilege(sectionName, feedbackName,
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, isModifySessionInSectionsChecked);
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                        isModifySessionInSectionsChecked);
             }
         }
     }

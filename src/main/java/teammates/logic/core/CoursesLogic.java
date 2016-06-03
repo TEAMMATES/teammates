@@ -86,7 +86,8 @@ public class CoursesLogic {
         AccountAttributes courseCreator = accountsLogic.getAccount(instructorGoogleId);
         Assumption.assertNotNull("Trying to create a course for a non-existent instructor :" + instructorGoogleId,
                                  courseCreator);
-        Assumption.assertTrue("Trying to create a course for a person who doesn't have instructor privileges :" + instructorGoogleId,
+        Assumption.assertTrue("Trying to create a course for a person who doesn't have instructor privileges :"
+                                  + instructorGoogleId,
                               courseCreator.isInstructor);
         
         createCourse(courseId, courseName);
@@ -651,7 +652,8 @@ public class CoursesLogic {
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
      * Does not include details within the course, such as feedback sessions.
      */
-    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(List<InstructorAttributes> instructorAttributesList) {
+    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(
+            List<InstructorAttributes> instructorAttributesList) {
         
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
         List<String> courseIdList = new ArrayList<String>();
@@ -952,7 +954,8 @@ public class CoursesLogic {
      * @param instructorsForCourses
      * @return a list of courseIds for all archived courses for all instructors
      */
-    public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
+    public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,
+                                             Map<String, InstructorAttributes> instructorsForCourses) {
         List<String> archivedCourseIds = new ArrayList<String>();
         for (CourseAttributes course : allCourses) {
             InstructorAttributes instructor = instructorsForCourses.get(course.getId());
