@@ -648,7 +648,8 @@ public class FeedbackResponsesLogic {
         try {
             FeedbackQuestionAttributes question = fqLogic
                     .getFeedbackQuestion(feedbackQuestionId);
-            boolean isInstructor = question.giverType == FeedbackParticipantType.SELF || question.giverType == FeedbackParticipantType.INSTRUCTORS;
+            boolean isInstructor = question.giverType == FeedbackParticipantType.SELF
+                                   || question.giverType == FeedbackParticipantType.INSTRUCTORS;
             for (String email : emails) {
                 boolean hasResponses = hasGiverRespondedForSession(email, question.feedbackSessionName, question.courseId);
                 if (!hasResponses) {
@@ -755,7 +756,8 @@ public class FeedbackResponsesLogic {
             if (studentInTeam.email.equals(student.email)) {
                 continue;
             }
-            List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, studentInTeam.email);
+            List<FeedbackResponseAttributes> responses =
+                    frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, studentInTeam.email);
             teamResponses.addAll(responses);
         }
         

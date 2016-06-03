@@ -361,7 +361,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
-                         + instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 2]", e.getMessage());
+                             + instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection] "
+                             + "on section [Section 2]",
+                         e.getMessage());
         }
         
         ______TS("Successful case: sufficient for section, although insufficient for another session");
@@ -505,8 +507,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor ["
-                         + instructor.email + "]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] "
+                             + "is not accessible to instructor [" + instructor.email + "]",
+                         e.getMessage());
         }
 
         fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 4);
@@ -533,8 +536,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor ["
-                         + instructor.email + "]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] "
+                             + "is not accessible to instructor [" + instructor.email + "]",
+                         e.getMessage());
         }
         
         fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 5);
@@ -561,8 +565,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor ["
-                         + instructor.email + "]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] "
+                             + "is not accessible to instructor [" + instructor.email + "]",
+                         e.getMessage());
         }
     }
     

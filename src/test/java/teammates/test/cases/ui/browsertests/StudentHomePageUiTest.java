@@ -109,10 +109,10 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
     private void testLinks() {
         
-        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+        AppUrl homePageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                 .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
-        StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
+        StudentHomePage studentHomePage = loginAdminToPage(browser, homePageUrl, StudentHomePage.class);
 
         ______TS("link: help page");
         
@@ -123,7 +123,10 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         studentHomePage.clickViewTeam();
         
-        assertTrue(browser.driver.getCurrentUrl().contains("page/studentCourseDetailsPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS1101"));
+        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
+                .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS1101").googleId)
+                .withCourseId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS1101").course);
+        assertEquals(detailsPageUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
         studentHomePage.loadStudentHomeTab();
         
         ______TS("link: link of published feedback");

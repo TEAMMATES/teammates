@@ -409,7 +409,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("Typical case: ajax for view by giver > question > recipient");
         
-        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
+                                                                       "giver-question-recipient");
         
         resultsPage.clickAjaxLoadResponsesPanel(0);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGQR.html");
