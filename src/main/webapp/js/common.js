@@ -870,3 +870,66 @@ function hideSingleCollapse(e) {
     $(heading).find('a.btn').hide();
 }
 
+/**
+ * Wrapper for Bootbox.js (available at http://bootboxjs.com/)
+ * "Bootbox.js is a small JavaScript library which allows you to create programmatic dialog boxes using
+ *  Bootstrap modals"
+ */
+var BootboxWrapper = {
+
+    /**
+     * Custom alert dialog to replace default alert() function
+     * Required params: titleText and messegeText
+     */
+    showModalAlert: function(titleText, messageText, okButtonText, color) {
+        okButtonText = okButtonText || 'OK';
+        color = color || StatusType.INFO;
+
+        bootbox.dialog({
+            title: titleText,
+            message: messageText,
+            buttons: {
+                okay: {
+                    label: okButtonText,
+                    className: 'modal-btn-ok '
+                               + 'btn-' + color
+                }
+            }
+        })
+        // applies bootstrap color to title background
+        .find('.modal-header').addClass('alert-' + color);
+    },
+
+    /**
+     * Custom confirmation dialog to replace default confirm() function
+     * Required params: titleText, messegeText and okCallback
+     */
+    showModalConfirmation: function(titleText, messageText, okCallback, cancelCallback,
+                                    okButtonText, cancelButtonText, color) {
+        cancelCallback = cancelCallback || null;
+        okButtonText = okButtonText || 'OK';
+        cancelButtonText = cancelButtonText || 'Cancel';
+        color = color || StatusType.INFO
+
+        bootbox.dialog({
+            title: titleText,
+            message: messageText,
+            buttons: {
+                cancel: {
+                    label: cancelButtonText,
+                    className: 'modal-btn-cancel '
+                               + 'btn-default',
+                    callback: cancelCallback
+                },
+                ok: {
+                    label: okButtonText,
+                    className: 'modal-btn-ok '
+                               + 'btn-' + color,
+                    callback: okCallback
+                }
+            }
+        })
+        // applies bootstrap color to title background
+        .find('.modal-header').addClass('alert-' + color);
+    }
+}
