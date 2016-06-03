@@ -30,10 +30,10 @@ Important: When a version is specified, please install that version instead of t
    Instructions are at https://developers.google.com/eclipse/docs/install-eclipse-4.4 <br>
    Note: Sometimes the update site for the GAE plug-in does not work. In which case, 
    follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
-5. Install Google App Engine SDK version 1.9.27. <br>
-   Download link to the SDK is http://central.maven.org/maven2/com/google/appengine/appengine-java-sdk/1.9.27/appengine-java-sdk-1.9.27.zip.<br>
+5. Install Google App Engine SDK (version specified by Gradle). <br>
+   Run the command `./gradlew appengineDownloadSdk`.<br>
    Go to `Window → Preferences → Google → App Engine` (Mac: `Eclipse → Preferences → Google → App Engine`), click the `Add` button,
-   and point it to where you extracted the SDK zip file. <br>
+   and point it to where Gradle kept the SDK. This directory can be found by running the command `./gradlew printUserHomeDir`.<br>
    Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
 6. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
 
