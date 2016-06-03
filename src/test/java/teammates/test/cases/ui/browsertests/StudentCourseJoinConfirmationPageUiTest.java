@@ -80,8 +80,10 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                            .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
                                                   TestProperties.TEST_STUDENT1_PASSWORD);
         
-        String expectedStatus = String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[" + courseId + "] " + courseName) + '\n'
-                                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[" + courseId + "] " + courseName) + '\n'
+        String expectedStatus = String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
+                                              "[" + courseId + "] " + courseName) + '\n'
+                                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
+                                                "[" + courseId + "] " + courseName) + '\n'
                                 + "Meanwhile, you can update your profile here.";
         
         studentHomePage.verifyStatus(expectedStatus);
@@ -165,8 +167,10 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
                            .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
                                                   TestProperties.TEST_STUDENT1_PASSWORD);
-        String expectedStatus = String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[" + courseId + "] " + courseName) + '\n'
-                                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[" + courseId + "] " + courseName) + '\n'
+        String expectedStatus = String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
+                                              "[" + courseId + "] " + courseName) + '\n'
+                                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
+                                                "[" + courseId + "] " + courseName) + '\n'
                                 + "Meanwhile, you can update your profile here.";
         
         studentHomePage.verifyStatus(expectedStatus);

@@ -711,7 +711,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         responsesToAdd.add(fr);
         frDb.createFeedbackResponses(responsesToAdd);
         
-        otherFr = frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail); //necessary to get the correct responseId
+        // necessary to get the correct responseId
+        otherFr = frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail);
         assertNotNull("Feedback response not found in database", fr);
         
         submissionParams = new String[] {

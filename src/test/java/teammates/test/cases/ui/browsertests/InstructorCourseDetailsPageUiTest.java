@@ -129,9 +129,15 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         patternString = "Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
         detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
         
-        patternString = "Team 1</option><option value=\"dump\"></td><td>'\"{*}Team 1</option><option value=\"dump\"></td><td>'\"{*}Team 2{*}Team 2";
+        patternString = "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
+                        + "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
+                        + "Team 2{*}"
+                        + "Team 2";
         detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
-        patternString = "Team 2{*}Team 2{*}Team 1</option><option value=\"dump\"></td><td>'\"{*}Team 1</option><option value=\"dump\"></td><td>'\"";
+        patternString = "Team 2{*}"
+                        + "Team 2{*}"
+                        + "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
+                        + "Team 1</option><option value=\"dump\"></td><td>'\"";
         detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
     }
     

@@ -314,7 +314,8 @@ public class Logic {
         instructorsLogic.createInstructor(instructor);
     }
     
-    public InstructorAttributes createInstructor(InstructorAttributes instructor) throws InvalidParametersException, EntityAlreadyExistsException {
+    public InstructorAttributes createInstructor(InstructorAttributes instructor)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         return instructorsLogic.createInstructor(instructor);
     }
 
@@ -1659,7 +1660,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        feedbackSessionsLogic.deleteStudentRespondant(email, feedbackSessionName, courseId);
+        feedbackSessionsLogic.deleteStudentFromRespondentList(email, feedbackSessionName, courseId);
     }
     
     /**
