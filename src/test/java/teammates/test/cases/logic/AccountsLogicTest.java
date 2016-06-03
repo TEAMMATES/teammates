@@ -452,7 +452,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         instructor = dataBundle.instructors.get("instructor4");
         newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId",
-                                         "anInstructorWithoutGoogleId@gmail.com");
+                                          "anInstructorWithoutGoogleId@gmail.com");
         
         instructorsLogic.createInstructor(newIns);
         

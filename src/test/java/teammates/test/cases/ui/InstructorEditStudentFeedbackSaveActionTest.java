@@ -361,8 +361,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
-                             + instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection]"
-                             + " on section [Section 2]",
+                             + instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection] "
+                             + "on section [Section 2]",
                          e.getMessage());
         }
         

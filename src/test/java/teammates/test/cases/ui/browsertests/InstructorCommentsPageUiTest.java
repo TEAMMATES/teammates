@@ -102,14 +102,18 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyContains("comments.idOfArchivedCourse");
         
         commentsPage.clickNextCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl(),
-                   browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE
-                   + "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
+        
+        AppUrl commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+                .withUserId(testData.instructors.get("instructorOfArchivedCourse").googleId)
+                .withCourseId(testData.instructors.get("instructorOfArchivedCourse").courseId);
+        assertEquals(commentsPageUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
         
         commentsPage.clickPreviousCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl(),
-                   browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE
-                   + "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
+        
+        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+                .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
+                .withCourseId(testData.instructors.get("instructor1OfCourse1").courseId);
+        assertEquals(commentsPageUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
         
         commentsPage.clickIsIncludeArchivedCoursesCheckbox();
         

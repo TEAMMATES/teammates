@@ -319,11 +319,11 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                        String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name,
-                                      FieldValidator.REASON_EMPTY) + Const.EOL
+                    String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name,
+                                  FieldValidator.REASON_EMPTY) + Const.EOL
                         + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
                                         FieldValidator.REASON_INCORRECT_FORMAT),
-                        e.getMessage());
+                    e.getMessage());
         }
 
         ______TS("Failure: non-existent entity");
