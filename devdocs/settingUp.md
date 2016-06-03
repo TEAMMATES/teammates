@@ -33,7 +33,7 @@ Important: When a version is specified, please install that version instead of t
 5. Install Google App Engine SDK (version specified by Gradle). <br>
    Run the command `./gradlew appengineDownloadSdk`.<br>
    Go to `Window → Preferences → Google → App Engine` (Mac: `Eclipse → Preferences → Google → App Engine`), click the `Add` button,
-   and point it to where Gradle kept the SDK (the folder name will usually contain `.gradle/appengine-sdk`). <br>
+   and point it to where Gradle kept the SDK. This directory can be found by running the command `./gradlew printUserHomeDir`.<br>
    Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
 6. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
 
