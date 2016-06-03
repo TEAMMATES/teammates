@@ -41,22 +41,24 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
+            int responseIdx, String courseId, int totalNumRecipients, boolean isQuestionCompulsory, FeedbackResponseDetails existingResponseDetails) {
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
                 "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
+                "${questionIsCompulsory}", isQuestionCompulsory ? "required" : "",
                 "${existingResponse}", Sanitizer.sanitizeForHtml(existingResponseDetails.getAnswerString()));
     }
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, boolean isQuestionCompulsory, int totalNumRecipients) {
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
                 "${disabled}", sessionIsOpen ? "" : "disabled",
+                "${questionIsCompulsory}", isQuestionCompulsory ? "required" : "",
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),

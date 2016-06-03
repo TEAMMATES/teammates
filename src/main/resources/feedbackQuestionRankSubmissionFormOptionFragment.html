@@ -4,7 +4,7 @@
         <select class="form-control" ${disabled} 
         		id="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}-${optionIdx}"
         		name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
-        		onChange="updateRankMessageQn('${qnIdx}')">
+        		onChange="updateRankMessageQn('${qnIdx}')" ${questionIsCompulsory}>
             ${options}
         </select>
     </div>

@@ -158,6 +158,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
             int totalNumRecipients,
+            boolean isQuestionCompulsory,
             FeedbackResponseDetails existingResponseDetails) {
         
         FeedbackConstantSumResponseDetails existingConstSumResponse = (FeedbackConstantSumResponseDetails) existingResponseDetails;
@@ -170,6 +171,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
                             "${optionIdx}", "0",
+                            "${questionIsCompulsory}", isQuestionCompulsory ? "required" : "",
                             "${disabled}", sessionIsOpen ? "" : "disabled",
                             "${constSumOptionVisibility}", "style=\"display:none\"",
                             "${constSumOptionPoint}", existingConstSumResponse.getAnswerString(),
@@ -183,6 +185,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                 "${qnIdx}", Integer.toString(qnIdx),
                                 "${responseIdx}", Integer.toString(responseIdx),
                                 "${optionIdx}", Integer.toString(i),
+                                "${questionIsCompulsory}", isQuestionCompulsory ? "required" : "",
                                 "${disabled}", sessionIsOpen ? "" : "disabled",
                                 "${constSumOptionVisibility}", "",
                                 "${constSumOptionPoint}", Integer.toString(existingConstSumResponse.getAnswerList().get(i)),
@@ -215,7 +218,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, boolean isQuestionCompulsory, int totalNumRecipients) {
         
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;
@@ -225,6 +228,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     Templates.populateTemplate(optionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
+                            "${questionIsCompulsory}", isQuestionCompulsory ? "required" : "",
                             "${optionIdx}", "0",
                             "${disabled}", sessionIsOpen ? "" : "disabled",
                             "${constSumOptionVisibility}", "style=\"display:none\"",
@@ -238,6 +242,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Templates.populateTemplate(optionFragmentTemplate,
                                 "${qnIdx}", Integer.toString(qnIdx),
                                 "${responseIdx}", Integer.toString(responseIdx),
+                                "${questionIsCompulsory}", isQuestionCompulsory ? "required" : "",
                                 "${optionIdx}", Integer.toString(i),
                                 "${disabled}", sessionIsOpen ? "" : "disabled",
                                 "${constSumOptionVisibility}", "",

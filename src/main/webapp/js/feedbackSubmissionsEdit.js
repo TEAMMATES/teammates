@@ -36,6 +36,13 @@ $(document).ready(function() {
 
         reenableFieldsForSubmission();
     });
+    
+    // validates the compulsory questions to be filled before submitting
+    $('#response_submit_button').click(function(e) {
+        if (!$.validate()) {
+            e.preventDefault();
+        }
+    });
 
     formatRecipientLists();
 
@@ -720,6 +727,15 @@ function validateNumScaleAnswer(qnIdx, responseIdx) {
         $answerBox.val($answerBox.attr('min'));
     } else if (answer > max) {
         $answerBox.val($answerBox.attr('max'));
+    }
+}
+
+// updates 'required' attributes of MSQ choices whenever a choice is clicked
+function updateMSQRequiredTag(qnName) {
+    if ($('input[name=' + qnName + ']:checked').length === 0) {
+        $('input[name=' + qnName + ']:first').attr('required', 'required');
+    } else {
+        $('input[name=' + qnName + ']').removeAttr('required');
     }
 }
 

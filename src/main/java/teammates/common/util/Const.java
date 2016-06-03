@@ -613,6 +613,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
         public static final String FEEDBACK_QUESTION_TEXT = "questiontext";
         public static final String FEEDBACK_QUESTION_TYPE = "questiontype";
+        public static final String FEEDBACK_QUESTION_ISCOMPULSORY = "questionIsCompulsory";
         public static final String FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = "noofchoicecreated";
         public static final String FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";
         public static final String FEEDBACK_QUESTION_MCQOTHEROPTION = "mcqOtherOption";

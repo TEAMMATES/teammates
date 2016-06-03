@@ -22,6 +22,8 @@ public class FeedbackQuestionEditForm {
     
     private String questionNumberSuffix;
     private String questionText;
+    private boolean isCompulsory;
+
     private String questionTypeDisplayName;
     private FeedbackQuestionType questionType;
     private int questionIndex;
@@ -140,6 +142,10 @@ public class FeedbackQuestionEditForm {
     public String getQuestionText() {
         return questionText;
     }
+    
+    public boolean getIsCompulsory() {
+        return isCompulsory;
+    }
 
     public String getAction() {
         return actionLink;
@@ -235,6 +241,10 @@ public class FeedbackQuestionEditForm {
     
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
+    }
+    
+    public void setIsCompulsory(boolean isCompulsory) {
+        this.isCompulsory = isCompulsory;
     }
     
     public void setQuestionType(FeedbackQuestionType questionType) {

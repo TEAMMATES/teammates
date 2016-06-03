@@ -87,6 +87,13 @@
                         title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
                         tabindex="9" disabled></textarea>
                 </div>
+                <div class="checkbox">
+                    <label class="bold-label"> <input
+                        type="checkbox" id="questionIsCompulsory"
+                        name="questionIsCompulsory" value="true">
+                        Mark this question as compulsory
+                    </label>
+                </div>
                 ${fqForm.questionSpecificEditFormHtml}
             </div>
             <br>

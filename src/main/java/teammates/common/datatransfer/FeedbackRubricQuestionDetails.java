@@ -217,21 +217,23 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
+            int responseIdx, String courseId, int totalNumRecipients, boolean isQuestionCompulsory, FeedbackResponseDetails existingResponseDetails) {
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) existingResponseDetails;
 
         String questionNumberString = Integer.toString(qnIdx);
         String responseNumberString = Integer.toString(responseIdx);
 
         String tableHeaderFragmentHtml = getSubmissionFormTableHeaderFragmentHtml(questionNumberString, responseNumberString);
-        String tableBodyHtml = getSubmissionFormTableBodyHtml(questionNumberString, responseNumberString, sessionIsOpen, true, frd);
-        String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, true, frd);
+        String tableBodyHtml = getSubmissionFormTableBodyHtml(questionNumberString, responseNumberString,
+                sessionIsOpen, true, isQuestionCompulsory, frd);
+        String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, true, isQuestionCompulsory, frd);
 
         // Create submission form
         String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM,
                 "${qnIndex}", questionNumberString,
                 "${respIndex}", responseNumberString,
+                "${questionIsCompulsory}", isQuestionCompulsory ? "required" : "",
                 "${currRows}", Integer.toString(this.numOfRubricSubQuestions),
                 "${currCols}", Integer.toString(this.numOfRubricChoices),
                 "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml,
@@ -243,20 +245,22 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, boolean isQuestionCompulsory, int totalNumRecipients) {
 
         String questionNumberString = Integer.toString(qnIdx);
         String responseNumberString = Integer.toString(responseIdx);
 
         String tableHeaderFragmentHtml = getSubmissionFormTableHeaderFragmentHtml(questionNumberString, responseNumberString);
-        String tableBodyHtml = getSubmissionFormTableBodyHtml(questionNumberString, responseNumberString, sessionIsOpen, false, null);
-        String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, false, null);
+        String tableBodyHtml = getSubmissionFormTableBodyHtml(questionNumberString, responseNumberString,
+                sessionIsOpen, false, isQuestionCompulsory, null);
+        String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, false, isQuestionCompulsory, null);
 
         // Create submission form
         String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM,
                 "${qnIndex}", questionNumberString,
                 "${respIndex}", responseNumberString,
+                "${questionIsCompulsory}", isQuestionCompulsory ? "required" : "",
                 "${currRows}", Integer.toString(this.numOfRubricSubQuestions),
                 "${currCols}", Integer.toString(this.numOfRubricChoices),
                 "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml,
@@ -284,7 +288,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private String getSubmissionFormTableBodyHtml(String questionNumberString, String responseNumberString,
-                                                  boolean sessionIsOpen, boolean isExistingResponse,
+                                                  boolean sessionIsOpen, boolean isExistingResponse, boolean isQuestionCompulsory,
                                                   FeedbackRubricResponseDetails frd) {
         StringBuilder tableBodyHtml = new StringBuilder();
         String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_BODY_FRAGMENT;
@@ -297,6 +301,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                         Templates.populateTemplate(tableBodyFragmentTemplate,
                                 "${qnIndex}", questionNumberString,
                                 "${respIndex}", responseNumberString,
+                                "${questionIsCompulsory}", isQuestionCompulsory ? "required" : "",
                                 "${col}", Integer.toString(j),
                                 "${row}", Integer.toString(i),
                                 "${disabled}", sessionIsOpen ? "" : "disabled",
@@ -321,7 +326,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private String getSubmissionFormMobileHtml(String questionNumberString, String responseNumberString,
-            boolean sessionIsOpen, boolean isExistingResponse, FeedbackRubricResponseDetails frd) {
+            boolean sessionIsOpen, boolean isExistingResponse, boolean isQuestionCompulsory, FeedbackRubricResponseDetails frd) {
         StringBuilder mobileHtml = new StringBuilder();
         String mobilePanelTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL;
         String mobilePanelFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL_FRAGMENT;
@@ -332,6 +337,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String panelBodyFragment = Templates.populateTemplate(mobilePanelFragmentTemplate,
                         "${qnIndex}", questionNumberString,
                         "${respIndex}", responseNumberString,
+                        "${questionIsCompulsory}", isQuestionCompulsory ? "required" : "",
                         "${col}", Integer.toString(j),
                         "${row}", Integer.toString(i),
                         "${disabled}", sessionIsOpen ? "" : "disabled",

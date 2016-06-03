@@ -51,6 +51,9 @@ public class FeedbackQuestion implements StoreCallback {
     private int questionNumber;
     
     @Persistent
+    private Boolean isQuestionCompulsory;
+
+    @Persistent
     private FeedbackQuestionType questionType;
 
     @Persistent
@@ -83,6 +86,7 @@ public class FeedbackQuestion implements StoreCallback {
     public FeedbackQuestion(
             String feedbackSessionName, String courseId, String creatorEmail,
             Text questionText, int questionNumber, FeedbackQuestionType questionType,
+            boolean isQuestionCompulsory,
             FeedbackParticipantType giverType,
             FeedbackParticipantType recipientType,
             int numberOfEntitiesToGiveFeedbackTo,
@@ -96,6 +100,7 @@ public class FeedbackQuestion implements StoreCallback {
         this.creatorEmail = creatorEmail;
         this.questionText = questionText;
         this.questionNumber = questionNumber;
+        this.isQuestionCompulsory = isQuestionCompulsory;
         this.questionType = questionType;
         this.giverType = giverType;
         this.recipientType = recipientType;
@@ -172,6 +177,17 @@ public class FeedbackQuestion implements StoreCallback {
 
     public void setQuestionType(FeedbackQuestionType questionType) {
         this.questionType = questionType;
+    }
+    
+    public boolean isQuestionCompulsory() {
+        if (isQuestionCompulsory == null) {
+            return false;
+        }
+        return isQuestionCompulsory.booleanValue();
+    }
+
+    public void setIsQuestionCompulsory(boolean isQuestionCompulsory) {
+        this.isQuestionCompulsory = isQuestionCompulsory;
     }
 
     public int getQuestionNumber() {

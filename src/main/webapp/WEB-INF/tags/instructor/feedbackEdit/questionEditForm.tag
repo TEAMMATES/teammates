@@ -81,7 +81,15 @@
                         data-toggle="tooltip" data-placement="top"
                         title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS %>"
                         tabindex="9"
-                        disabled>${fqForm.questionText}</textarea>
+                        disabled>${fqForm.questionText}</textarea> 
+                </div>
+                <div class="checkbox">
+                    <label class="bold-label"> <input
+                        type="checkbox" id="questionIsCompulsory"
+                        name="questionIsCompulsory" value="true"
+                        <%=fqForm.getIsCompulsory() ? "checked" : ""%>>
+                        Mark this question as compulsory
+                    </label>
                 </div>
                 ${fqForm.questionSpecificEditFormHtml}
             </div>
