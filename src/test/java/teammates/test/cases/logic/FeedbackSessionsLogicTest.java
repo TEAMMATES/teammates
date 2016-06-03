@@ -80,7 +80,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         testGetFeedbackSessionResultsSummaryAsCsv();
         testIsFeedbackSessionViewableToStudents();
         
-        testCreateAndDeleteFeedbackSession();       
+        testCreateAndDeleteFeedbackSession();
         testCopyFeedbackSession();
         
         testUpdateFeedbackSession();
@@ -96,7 +96,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         testDeleteFeedbackSessionsForCourse();
     }
     
-    public void testGetFeedbackSessionsListForInstructor() {        
+    public void testGetFeedbackSessionsListForInstructor() {
         List<FeedbackSessionAttributes> finalFsa = new ArrayList<FeedbackSessionAttributes>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
         
@@ -104,7 +104,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         String instructorGoogleId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
         
         for (FeedbackSessionAttributes fsa : allFsa) {
-            if (fsa.courseId.equals(courseId)) {
+            if (fsa.getCourseId().equals(courseId)) {
                 finalFsa.add(fsa);
             }
         }
@@ -124,17 +124,19 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.isFeedbackSessionHasQuestionForStudents("nOnEXistEnT session", "someCourse");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to check a feedback session that does not exist.", 
+            assertEquals("Trying to check a feedback session that does not exist.",
                     edne.getMessage());
         }
         
         ______TS("session contains students");
         
-        assertTrue(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithStudents.feedbackSessionName, sessionWithStudents.courseId));
+        assertTrue(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithStudents.getFeedbackSessionName(),
+                                                                   sessionWithStudents.getCourseId()));
         
         ______TS("session does not contain students");
         
-        assertFalse(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithoutStudents.feedbackSessionName, sessionWithoutStudents.courseId));
+        assertFalse(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithoutStudents.getFeedbackSessionName(),
+                                                                    sessionWithoutStudents.getCourseId()));
     }
     
     public void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
@@ -147,11 +149,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("typical case : 1 non private session closing within time limit");
         FeedbackSessionAttributes session = getNewFeedbackSession();
-        session.timeZone = 0;
-        session.feedbackSessionType = FeedbackSessionType.STANDARD;
-        session.sessionVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        session.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        session.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+        session.setTimeZone(0);
+        session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
+        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
         ThreadHelper.waitBriefly(); // this one is correctly used
         fsLogic.createFeedbackSession(session);
         
@@ -159,11 +161,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 .getFeedbackSessionsClosingWithinTimeLimit();
         
         assertEquals(1, sessionList.size());
-        assertEquals(session.feedbackSessionName, 
-                sessionList.get(0).feedbackSessionName);
+        assertEquals(session.getFeedbackSessionName(),
+                sessionList.get(0).getFeedbackSessionName());
         
         ______TS("case : 1 private session closing within time limit");
-        session.feedbackSessionType = FeedbackSessionType.PRIVATE;
+        session.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
         fsLogic.updateFeedbackSession(session);
         
         sessionList = fsLogic
@@ -172,8 +174,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         //delete the newly added session as removeAndRestoreTypicalDataInDatastore()
                 //wont do it
-        fsLogic.deleteFeedbackSessionCascade(session.feedbackSessionName,
-                session.courseId);
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(),
+                session.getCourseId());
     }
     
     public void testGetFeedbackSessionsWhichNeedOpenMailsToBeSent() throws Exception {
@@ -186,22 +188,22 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("case : 1 open session with mail unsent");
         FeedbackSessionAttributes session = getNewFeedbackSession();
-        session.timeZone = 0;
-        session.feedbackSessionType = FeedbackSessionType.STANDARD;
-        session.sessionVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        session.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        session.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        session.sentOpenEmail = false;
-        fsLogic.createFeedbackSession(session);        
+        session.setTimeZone(0);
+        session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
+        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-2));
+        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
+        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session.setSentOpenEmail(false);
+        fsLogic.createFeedbackSession(session);
         
         sessionList = fsLogic
                 .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
         assertEquals(1, sessionList.size());
-        assertEquals(sessionList.get(0).feedbackSessionName,
-                session.feedbackSessionName);
+        assertEquals(sessionList.get(0).getFeedbackSessionName(),
+                session.getFeedbackSessionName());
         
         ______TS("typical case : 1 open session with mail sent");
-        session.sentOpenEmail = true;
+        session.setSentOpenEmail(true);
         fsLogic.updateFeedbackSession(session);
         
         sessionList = fsLogic
@@ -210,7 +212,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(0, sessionList.size());
         
         ______TS("case : 1 closed session with mail unsent");
-        session.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-1));
         fsLogic.updateFeedbackSession(session);
         
         sessionList = fsLogic
@@ -219,8 +221,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         //delete the newly added session as removeAndRestoreTypicalDataInDatastore()
         //wont do it
-        fsLogic.deleteFeedbackSessionCascade(session.feedbackSessionName,
-                session.courseId);
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(),
+                session.getCourseId());
     }
     
     public void testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent() throws Exception {
@@ -234,30 +236,30 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("case : 1 published session with mail unsent");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
-        session.timeZone = 0;
-        session.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        session.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        session.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        session.setTimeZone(0);
+        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
+        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
         
-        session.sentPublishedEmail = false;
+        session.setSentPublishedEmail(false);
         fsLogic.updateFeedbackSession(session);
         
         sessionList = fsLogic
                 .getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
         assertEquals(1, sessionList.size());
-        assertEquals(sessionList.get(0).feedbackSessionName,
-                session.feedbackSessionName);
+        assertEquals(sessionList.get(0).getFeedbackSessionName(),
+                session.getFeedbackSessionName());
         
         ______TS("case : 1 published session with mail sent");
-        session.sentPublishedEmail = true;
-        fsLogic.updateFeedbackSession(session);        
+        session.setSentPublishedEmail(true);
+        fsLogic.updateFeedbackSession(session);
         
         sessionList = fsLogic
                 .getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
         assertEquals(0, sessionList.size());
     }
     
-    public void testCreateAndDeleteFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {        
+    public void testCreateAndDeleteFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("test create");
         
         FeedbackSessionAttributes fs = getNewFeedbackSession();
@@ -265,30 +267,37 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         verifyPresentInDatastore(fs);
         
         ______TS("test create with invalid session name");
-        fs.feedbackSessionName = "test & test";
+        fs.setFeedbackSessionName("test & test");
         try {
             fsLogic.createFeedbackSession(fs);
             signalFailureToDetectException();
-        } catch (Exception a) {
-            assertEquals("The provided feedback session name is not acceptable to TEAMMATES as it cannot contain the following special html characters in brackets: (&lt; &gt; \\ &#x2f; &#39; &amp;)", a.getMessage());
+        } catch (Exception e) {
+            assertEquals("The provided feedback session name is not acceptable to TEAMMATES "
+                             + "as it cannot contain the following special html characters in brackets: "
+                             + "(&lt; &gt; \\ &#x2f; &#39; &amp;)",
+                         e.getMessage());
         }
 
-        fs.feedbackSessionName = "test %| test";
+        fs.setFeedbackSessionName("test %| test");
         try {
             fsLogic.createFeedbackSession(fs);
             signalFailureToDetectException();
-        } catch (Exception a) {
-            assertEquals("\"test %| test\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).", a.getMessage());
+        } catch (Exception e) {
+            assertEquals("\"test %| test\" is not acceptable to TEAMMATES as feedback session name "
+                             + "because it contains invalid characters. All feedback session name "
+                             + "must start with an alphanumeric character, and cannot contain "
+                             + "any vertical bar (|) or percent sign (%).",
+                         e.getMessage());
         }
         
         ______TS("test delete");
         fs = getNewFeedbackSession();
         // Create a question under the session to test for cascading during delete.
         FeedbackQuestionAttributes fq = new FeedbackQuestionAttributes();
-        fq.feedbackSessionName = fs.feedbackSessionName;
-        fq.courseId = fs.courseId;
+        fq.feedbackSessionName = fs.getFeedbackSessionName();
+        fq.courseId = fs.getCourseId();
         fq.questionNumber = 1;
-        fq.creatorEmail = fs.creatorEmail;
+        fq.creatorEmail = fs.getCreatorEmail();
         fq.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         fq.giverType = FeedbackParticipantType.STUDENTS;
         fq.recipientType = FeedbackParticipantType.TEAMS;
@@ -300,7 +309,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         fqLogic.createFeedbackQuestion(fq);
         
-        fsLogic.deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
+        fsLogic.deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
         verifyAbsentInDatastore(fs);
         verifyAbsentInDatastore(fq);
     }
@@ -314,14 +323,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
         FeedbackSessionAttributes copiedSession = fsLogic.copyFeedbackSession(
                 "Copied Session", typicalCourse2.getId(),
-                session1InCourse1.feedbackSessionName,
-                session1InCourse1.courseId, instructor2OfCourse1.email);
+                session1InCourse1.getFeedbackSessionName(),
+                session1InCourse1.getCourseId(), instructor2OfCourse1.email);
         verifyPresentInDatastore(copiedSession);
         
-        assertEquals("Copied Session", copiedSession.feedbackSessionName);
-        assertEquals(typicalCourse2.getId(), copiedSession.courseId);
-        List<FeedbackQuestionAttributes> questions1 = fqLogic.getFeedbackQuestionsForSession(session1InCourse1.feedbackSessionName, session1InCourse1.courseId);
-        List<FeedbackQuestionAttributes> questions2 = fqLogic.getFeedbackQuestionsForSession(copiedSession.feedbackSessionName, copiedSession.courseId);
+        assertEquals("Copied Session", copiedSession.getFeedbackSessionName());
+        assertEquals(typicalCourse2.getId(), copiedSession.getCourseId());
+        List<FeedbackQuestionAttributes> questions1 =
+                fqLogic.getFeedbackQuestionsForSession(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
+        List<FeedbackQuestionAttributes> questions2 =
+                fqLogic.getFeedbackQuestionsForSession(copiedSession.getFeedbackSessionName(), copiedSession.getCourseId());
         
         assertEquals(questions1.size(), questions2.size());
         for (int i = 0; i < questions1.size(); i++) {
@@ -336,22 +347,22 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             assertEquals(question1.questionType, question2.questionType);
             assertEquals(question1.numberOfEntitiesToGiveFeedbackTo, question2.numberOfEntitiesToGiveFeedbackTo);
         }
-        assertEquals(0, copiedSession.respondingInstructorList.size());
-        assertEquals(0, copiedSession.respondingStudentList.size());
+        assertEquals(0, copiedSession.getRespondingInstructorList().size());
+        assertEquals(0, copiedSession.getRespondingStudentList().size());
         
         ______TS("Failure case: duplicate session");
         
         try {
             fsLogic.copyFeedbackSession(
-                    session1InCourse1.feedbackSessionName, session1InCourse1.courseId,
-                    session1InCourse1.feedbackSessionName,
-                    session1InCourse1.courseId, instructor2OfCourse1.email);
+                    session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(),
+                    session1InCourse1.getFeedbackSessionName(),
+                    session1InCourse1.getCourseId(), instructor2OfCourse1.email);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
             ignoreExpectedException();
         }
         
-        fsLogic.deleteFeedbackSessionCascade(copiedSession.feedbackSessionName, copiedSession.courseId);
+        fsLogic.deleteFeedbackSessionCascade(copiedSession.getFeedbackSessionName(), copiedSession.getCourseId());
     }
 
     public void testGetFeedbackSessionDetailsForInstructor() throws Exception {
@@ -364,7 +375,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         Map<String, FeedbackSessionDetailsBundle> detailsMap =
                 new HashMap<String, FeedbackSessionDetailsBundle>();
         
-        List<FeedbackSessionDetailsBundle> detailsList = 
+        List<FeedbackSessionDetailsBundle> detailsList =
                 fsLogic.getFeedbackSessionDetailsForInstructor(newDataBundle.instructors.get("instructor1OfCourse1").googleId);
         
         List<String> expectedSessions = new ArrayList<String>();
@@ -377,7 +388,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (FeedbackSessionDetailsBundle details : detailsList) {
             actualSessionsBuilder.append(details.feedbackSession.toString());
             detailsMap.put(
-                    details.feedbackSession.feedbackSessionName + "%" + details.feedbackSession.courseId,
+                    details.feedbackSession.getFeedbackSessionName() + "%" + details.feedbackSession.getCourseId(),
                     details);
         }
         
@@ -388,8 +399,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         AssertHelper.assertContains(expectedSessions, actualSessions);
         
         FeedbackSessionStats stats =
-                detailsMap.get(newDataBundle.feedbackSessions.get("standard.session").feedbackSessionName + "%" 
-                               + newDataBundle.feedbackSessions.get("standard.session").courseId).stats;
+                detailsMap.get(newDataBundle.feedbackSessions.get("standard.session").getFeedbackSessionName() + "%"
+                               + newDataBundle.feedbackSessions.get("standard.session").getCourseId()).stats;
         
         // 2 instructors, 6 students = 8
         assertEquals(8, stats.expectedTotal);
@@ -397,8 +408,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(6, stats.submittedTotal);
 
         ______TS("No recipients session");
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("no.recipients.session").feedbackSessionName + "%" 
-                               + newDataBundle.feedbackSessions.get("no.recipients.session").courseId).stats;
+        stats = detailsMap.get(newDataBundle.feedbackSessions.get("no.recipients.session").getFeedbackSessionName() + "%"
+                               + newDataBundle.feedbackSessions.get("no.recipients.session").getCourseId()).stats;
         
         // 2 instructors, 6 students = 8
         assertEquals(8, stats.expectedTotal);
@@ -406,8 +417,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(1, stats.submittedTotal);
         
         ______TS("No responses session");
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("no.responses.session").feedbackSessionName + "%" 
-                               + newDataBundle.feedbackSessions.get("no.responses.session").courseId).stats;
+        stats = detailsMap.get(newDataBundle.feedbackSessions.get("no.responses.session").getFeedbackSessionName() + "%"
+                               + newDataBundle.feedbackSessions.get("no.responses.session").getCourseId()).stats;
         
         // 1 instructors, 1 students = 2
         assertEquals(2, stats.expectedTotal);
@@ -415,26 +426,26 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(0, stats.submittedTotal);
         
         ______TS("private session with questions");
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session").feedbackSessionName + "%" 
-                               + newDataBundle.feedbackSessions.get("private.session").courseId).stats;
+        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session").getFeedbackSessionName() + "%"
+                               + newDataBundle.feedbackSessions.get("private.session").getCourseId()).stats;
         assertEquals(1, stats.expectedTotal);
         // For private sessions, we mark as completed only when creator has finished all questions.
         assertEquals(0, stats.submittedTotal);
         
         ______TS("change private session to non-private");
-        FeedbackSessionAttributes privateSession = 
+        FeedbackSessionAttributes privateSession =
                 newDataBundle.feedbackSessions.get("private.session");
-        privateSession.sessionVisibleFromTime = privateSession.startTime;
-        privateSession.endTime = TimeHelper.convertToDate("2015-04-01 10:00 PM UTC");
-        privateSession.feedbackSessionType = FeedbackSessionType.STANDARD;
+        privateSession.setSessionVisibleFromTime(privateSession.getStartTime());
+        privateSession.setEndTime(TimeHelper.convertToDate("2015-04-01 10:00 PM UTC"));
+        privateSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         fsLogic.updateFeedbackSession(privateSession);
         
         // Re-read details
         detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
                 newDataBundle.instructors.get("instructor1OfCourse1").googleId);
         for (FeedbackSessionDetailsBundle details : detailsList) {
-            if (details.feedbackSession.feedbackSessionName.equals(
-                    newDataBundle.feedbackSessions.get("private.session").feedbackSessionName)) {
+            if (details.feedbackSession.getFeedbackSessionName().equals(
+                    newDataBundle.feedbackSessions.get("private.session").getFeedbackSessionName())) {
                 stats = details.stats;
                 break;
             }
@@ -458,23 +469,23 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (FeedbackSessionDetailsBundle details : detailsList) {
             actualSessionsBuilder.append(details.feedbackSession.toString());
             detailsMap.put(
-                    details.feedbackSession.feedbackSessionName + "%" + details.feedbackSession.courseId,
+                    details.feedbackSession.getFeedbackSessionName() + "%" + details.feedbackSession.getCourseId(),
                     details);
         }
         actualSessions = actualSessionsBuilder.toString();
         
-        AssertHelper.assertContains(expectedSessions, actualSessions);   
+        AssertHelper.assertContains(expectedSessions, actualSessions);
         
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.noquestions").feedbackSessionName + "%" 
-                + newDataBundle.feedbackSessions.get("private.session.noquestions").courseId).stats;
+        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.noquestions").getFeedbackSessionName() + "%"
+                + newDataBundle.feedbackSessions.get("private.session.noquestions").getCourseId()).stats;
         
         assertEquals(0, stats.expectedTotal);
         assertEquals(0, stats.submittedTotal);
         
         ______TS("completed private session");
         
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.done").feedbackSessionName + "%" 
-                + newDataBundle.feedbackSessions.get("private.session.done").courseId).stats;
+        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.done").getFeedbackSessionName() + "%"
+                + newDataBundle.feedbackSessions.get("private.session.done").getCourseId()).stats;
         
         assertEquals(1, stats.expectedTotal);
         assertEquals(1, stats.submittedTotal);
@@ -493,13 +504,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         for (FeedbackSessionDetailsBundle details : detailsList) {
             actualSessionsBuilder.append(details.feedbackSession.toString());
             detailsMap.put(
-                    details.feedbackSession.feedbackSessionName + "%" + details.feedbackSession.courseId,
+                    details.feedbackSession.getFeedbackSessionName() + "%" + details.feedbackSession.getCourseId(),
                     details);
         }
         actualSessions = actualSessionsBuilder.toString();
-        AssertHelper.assertContains(expectedSessions, actualSessions);  
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.norecipients").feedbackSessionName + "%" 
-                + newDataBundle.feedbackSessions.get("private.session.norecipients").courseId).stats;
+        AssertHelper.assertContains(expectedSessions, actualSessions);
+        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.norecipients").getFeedbackSessionName() + "%"
+                + newDataBundle.feedbackSessions.get("private.session.norecipients").getCourseId()).stats;
         
         assertEquals(0, stats.expectedTotal);
         assertEquals(0, stats.submittedTotal);
@@ -531,8 +542,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         // Student can see sessions 1 and 2. Session 3 has no questions. Session 4 is not yet visible for students.
         String expected =
-                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL 
+                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL
                 + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
         
         for (FeedbackSessionAttributes session : actualSessions) {
@@ -543,7 +554,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // Course 2 only has an instructor session and a private session.
         // The private session is not viewable to students,
         // but the instructor session has questions where responses are visible
-        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "student1InCourse2@gmail.tmt");        
+        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "student1InCourse2@gmail.tmt");
         assertEquals(1, actualSessions.size());
                 
         ______TS("Instructor viewing");
@@ -554,11 +565,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         // Instructors should be able to see all sessions for the course
         expected =
-                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL 
-                + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL 
+                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL
                 + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
         
         for (FeedbackSessionAttributes session : actualSessions) {
@@ -596,7 +607,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                         "First feedback session", "idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
         
         // We just test this once.
-        assertEquals(actual.feedbackSession.toString(), 
+        assertEquals(actual.feedbackSession.toString(),
                 dataBundle.feedbackSessions.get("session1InCourse1").toString());
         
         // There should be 3 questions for students to do in session 1.
@@ -604,12 +615,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(3, actual.questionResponseBundle.size());
         
         // Question 1
-        FeedbackQuestionAttributes expectedQuestion = 
+        FeedbackQuestionAttributes expectedQuestion =
                 getQuestionFromDatastore("qn1InSession1InCourse1");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
         
         String expectedResponsesString = getResponseFromDatastore("response1ForQ1S1C1", dataBundle).toString();
-        List<String> actualResponses = new ArrayList<String>();        
+        List<String> actualResponses = new ArrayList<String>();
         for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
             actualResponses.add(responsesForQn.toString());
         }
@@ -620,8 +631,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         expectedQuestion = getQuestionFromDatastore("qn2InSession1InCourse1");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
         
-        expectedResponsesString = getResponseFromDatastore("response2ForQ2S1C1", dataBundle).toString();    
-        actualResponses.clear();        
+        expectedResponsesString = getResponseFromDatastore("response2ForQ2S1C1", dataBundle).toString();
+        actualResponses.clear();
         for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
             actualResponses.add(responsesForQn.toString());
         }
@@ -697,7 +708,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                         "Instructor feedback session", "idOfTypicalCourse2", "instructor1@course2.tmt");
         
         // We just test this once.
-        assertEquals(dataBundle.feedbackSessions.get("session2InCourse2").toString(), 
+        assertEquals(dataBundle.feedbackSessions.get("session2InCourse2").toString(),
                 actual.feedbackSession.toString());
         
         // There should be 2 question for students to do in session 1.
@@ -705,12 +716,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(2, actual.questionResponseBundle.size());
         
         // Question 1
-        FeedbackQuestionAttributes expectedQuestion = 
+        FeedbackQuestionAttributes expectedQuestion =
                 getQuestionFromDatastore("qn1InSession2InCourse2");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
         
         String expectedResponsesString = getResponseFromDatastore("response1ForQ1S2C2", dataBundle).toString();
-        List<String> actualResponses = new ArrayList<String>();        
+        List<String> actualResponses = new ArrayList<String>();
         for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
             actualResponses.add(responsesForQn.toString());
         }
@@ -753,20 +764,20 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
         new BackDoorLogic().persistDataBundle(responseBundle);
         
-        ______TS("standard session with varied visibilities");        
+        ______TS("standard session with varied visibilities");
         
         FeedbackSessionAttributes session =
                 responseBundle.feedbackSessions.get("standard.session");
         
         /*** Test result bundle for student1 ***/
-        StudentAttributes student = 
-                responseBundle.students.get("student1InCourse1");        
+        StudentAttributes student =
+                responseBundle.students.get("student1InCourse1");
         FeedbackSessionResultsBundle results =
-                fsLogic.getFeedbackSessionResultsForStudent(session.feedbackSessionName, 
-                        session.courseId, student.email);
+                fsLogic.getFeedbackSessionResultsForStudent(session.getFeedbackSessionName(),
+                        session.getCourseId(), student.email);
     
         // We just check for correct session once
-        assertEquals(session.toString(), results.feedbackSession.toString());    
+        assertEquals(session.toString(), results.feedbackSession.toString());
         
         // Student can see responses: q1r1, q2r1,3, q3r1, qr4r2-3, q5r1, q7r1-2, q8r1-2
         // We don't check the actual IDs as this is also implicitly tested
@@ -865,7 +876,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 anonymousUserName);
         assertEquals(expectedStrings.toString(), actualStrings.toString());
         
-        // Test the generated response visibilityTable for userNames.        
+        // Test the generated response visibilityTable for userNames.
         mapString = tableToString(results.visibilityTable);
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
@@ -885,10 +896,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         /*** Test result bundle for instructor1 within a course ***/
         InstructorAttributes instructor =
-                responseBundle.instructors.get("instructor1OfCourse1");        
+                responseBundle.instructors.get("instructor1OfCourse1");
         results = fsLogic.getFeedbackSessionResultsForInstructor(
-                session.feedbackSessionName, 
-                session.courseId, instructor.email);
+                session.getFeedbackSessionName(),
+                session.getCourseId(), instructor.email);
         
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         assertEquals(10, results.responses.size());
@@ -945,7 +956,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(18, results.emailTeamNameTable.size());
 
-        // Test the generated response visibilityTable for userNames.        
+        // Test the generated response visibilityTable for userNames.
         mapString = tableToString(results.visibilityTable);
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
@@ -965,8 +976,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         /*** Test result bundle for instructor1 within a section ***/
         
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
-                session.feedbackSessionName, 
-                session.courseId, instructor.email, "Section A");
+                session.getFeedbackSessionName(),
+                session.getCourseId(), instructor.email, "Section A");
         
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         assertEquals(7, results.responses.size());
@@ -1001,7 +1012,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(13, results.emailTeamNameTable.size());
 
-        // Test the generated response visibilityTable for userNames.        
+        // Test the generated response visibilityTable for userNames.
         mapString = tableToString(results.visibilityTable);
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
@@ -1018,9 +1029,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         session = responseBundle.feedbackSessions.get("private.session");
         
         /*** Test result bundle for student1 ***/
-        student =  responseBundle.students.get("student1InCourse1");        
-        results = fsLogic.getFeedbackSessionResultsForStudent(session.feedbackSessionName, 
-                        session.courseId, student.email);
+        student = responseBundle.students.get("student1InCourse1");
+        results = fsLogic.getFeedbackSessionResultsForStudent(session.getFeedbackSessionName(),
+                        session.getCourseId(), student.email);
         
         assertEquals(0, results.questions.size());
         assertEquals(0, results.responses.size());
@@ -1031,10 +1042,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         /*** Test result bundle for instructor1 ***/
         
         instructor =
-                responseBundle.instructors.get("instructor1OfCourse1");        
+                responseBundle.instructors.get("instructor1OfCourse1");
         results = fsLogic.getFeedbackSessionResultsForInstructor(
-                session.feedbackSessionName, 
-                session.courseId, instructor.email);
+                session.getFeedbackSessionName(),
+                session.getCourseId(), instructor.email);
         
         // Can see all responses regardless of visibility settings.
         assertEquals(2, results.questions.size());
@@ -1075,8 +1086,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         ______TS("failure: no session");
                 
         try {
-            fsLogic.getFeedbackSessionResultsForInstructor("invalid session", 
-                session.courseId, instructor.email);
+            fsLogic.getFeedbackSessionResultsForInstructor("invalid session", session.getCourseId(), instructor.email);
             signalFailureToDetectException("Did not detect that session does not exist.");
         } catch (EntityDoesNotExistException e) {
             assertEquals("Trying to view non-existent feedback session.", e.getMessage());
@@ -1092,83 +1102,85 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         
         String export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.feedbackSessionName, session.courseId, instructor.email);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
         
         String[] expected = {
-            "Course,\"" + session.courseId + "\"",
-            "Session Name,\"" + session.feedbackSessionName + "\"",
-            "",
-            "",
-            "Question 1,\"What is the best selling point of your product?\"",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-            // checking single quotes inside cell
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
-            "",
-            "",
-            "Question 2,\"Rate 1 other student's product\"",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 1 to student 2.\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Response from student 2 to student 1.\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2.\r\nMultiline test.\"",
-            "",
-            "",
-            "Question 3,\"My comments on the class\"",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            // checking comma inside cell
-            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
-            "",
-            "",
-            "Question 4,\"Instructor comments on the class\"",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
-            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
-            "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
-            "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
-            "\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
-            "",
-            "",
-            "Question 5,\"Students' comments to the instructors\"",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Response from student 1 to instructor 1\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"No Response\"",
-            "",
-            "",
-            ""
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 1,\"What is the best selling point of your product?\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+                // checking single quotes inside cell
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+                "",
+                "",
+                "Question 2,\"Rate 1 other student's product\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 1 to student 2.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Response from student 2 to student 1.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2.\r\nMultiline test.\"",
+                "",
+                "",
+                "Question 3,\"My comments on the class\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                // checking comma inside cell
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
+                "",
+                "",
+                "Question 4,\"Instructor comments on the class\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
+                "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
+                "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
+                "\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
+                "",
+                "",
+                "Question 5,\"Students' comments to the instructors\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Response from student 1 to instructor 1\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"No Response\"",
+                "",
+                "",
+                ""
+                // CHECKSTYLE.ON:LineLength
         };
         
-        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+        assertEquals(StringUtils.join(expected, Const.EOL), export);
 
         ______TS("MCQ results");
         
@@ -1178,61 +1190,63 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.feedbackSessionName, session.courseId, instructor.email);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
         
         expected = new String[] {
-            "Course,\"" + session.courseId + "\"",
-            "Session Name,\"" + session.feedbackSessionName + "\"",
-            "",
-            "",
-            "Question 1,\"What do you like best about our product?\"",
-            "",
-            "Summary Statistics,",
-            "Choice, Response Count, Percentage",
-            "\"It's good\",1,50",
-            "\"It's perfect\",1,50",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"It's perfect\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
-            "",
-            "",
-            "Question 2,\"What do you like best about the class' product?\"",
-            "",
-            "Summary Statistics,",
-            "Choice, Response Count, Percentage",
-            "\"It's good\",1,50",
-            "\"It's perfect\",1,50",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"It's good\"",
-            "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"It's perfect\"",
-            "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
-            "",
-            "",
-            "Question 3,\"What can be improved for this class?\"",
-            "",
-            "Summary Statistics,",
-            "Choice, Response Count, Percentage",
-            "\"Content\",0,0",
-            "\"Teaching style\",0,0",
-            "\"Other\",1,100",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Lecture notes\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
-            "",
-            "",
-            ""
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 1,\"What do you like best about our product?\"",
+                "",
+                "Summary Statistics,",
+                "Choice, Response Count, Percentage",
+                "\"It's good\",1,50",
+                "\"It's perfect\",1,50",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"It's perfect\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+                "",
+                "",
+                "Question 2,\"What do you like best about the class' product?\"",
+                "",
+                "Summary Statistics,",
+                "Choice, Response Count, Percentage",
+                "\"It's good\",1,50",
+                "\"It's perfect\",1,50",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"It's good\"",
+                "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"It's perfect\"",
+                "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
+                "",
+                "",
+                "Question 3,\"What can be improved for this class?\"",
+                "",
+                "Summary Statistics,",
+                "Choice, Response Count, Percentage",
+                "\"Content\",0,0",
+                "\"Teaching style\",0,0",
+                "\"Other\",1,100",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Lecture notes\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+                "",
+                "",
+                ""
+                // CHECKSTYLE.ON:LineLength
         };
         
-        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+        assertEquals(StringUtils.join(expected, Const.EOL), export);
 
         ______TS("MSQ results");
         
@@ -1240,65 +1254,67 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.feedbackSessionName, session.courseId, instructor.email);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
-            "Course,\"" + session.courseId + "\"",
-            "Session Name,\"" + session.feedbackSessionName + "\"",
-            "",
-            "",
-            "Question 1,\"What do you like best about our product?\"",
-            "",
-            "Summary Statistics,",
-            "Choice, Response Count, Percentage",
-            "\"It's good\",2,66.67",
-            "\"It's perfect\",1,33.33",
-            "",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"It's good\",\"It's perfect\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",,\"It's good\",\"It's perfect\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",,\"It's good\",",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
-            "",
-            "",
-            "Question 2,\"What do you like best about the class' product?\"",
-            "",
-            "Summary Statistics,",
-            "Choice, Response Count, Percentage",
-            "\"It's good\",1,33.33",
-            "\"It's perfect\",2,66.67",
-            "",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"It's good\",\"It's perfect\"",
-            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",,\"It's good\",\"It's perfect\"",
-            "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",,,\"It's perfect\"",
-            "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",",
-            "",
-            "",
-            "Question 3,\"Choose all the food you like\"",
-            "",
-            "Summary Statistics,",
-            "Choice, Response Count, Percentage",
-            "\"Pizza\",1,16.67",
-            "\"Pasta\",2,33.33",
-            "\"Chicken rice\",1,16.67",
-            "\"Other\",2,33.33",
-            "",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Pizza\",\"Pasta\",\"Chicken rice\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",,\"Pizza\",\"Pasta\",\"Chicken rice\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",,,\"Pasta\",",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",,,,",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",                   
-            "",
-            "",
-            ""
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 1,\"What do you like best about our product?\"",
+                "",
+                "Summary Statistics,",
+                "Choice, Response Count, Percentage",
+                "\"It's good\",2,66.67",
+                "\"It's perfect\",1,33.33",
+                "",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"It's good\",\"It's perfect\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",,\"It's good\",\"It's perfect\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",,\"It's good\",",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+                "",
+                "",
+                "Question 2,\"What do you like best about the class' product?\"",
+                "",
+                "Summary Statistics,",
+                "Choice, Response Count, Percentage",
+                "\"It's good\",1,33.33",
+                "\"It's perfect\",2,66.67",
+                "",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"It's good\",\"It's perfect\"",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",,\"It's good\",\"It's perfect\"",
+                "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",,,\"It's perfect\"",
+                "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",",
+                "",
+                "",
+                "Question 3,\"Choose all the food you like\"",
+                "",
+                "Summary Statistics,",
+                "Choice, Response Count, Percentage",
+                "\"Pizza\",1,16.67",
+                "\"Pasta\",2,33.33",
+                "\"Chicken rice\",1,16.67",
+                "\"Other\",2,33.33",
+                "",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Pizza\",\"Pasta\",\"Chicken rice\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",,\"Pizza\",\"Pasta\",\"Chicken rice\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",,,\"Pasta\",",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",,,,",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+                "",
+                "",
+                ""
+                // CHECKSTYLE.ON:LineLength
         };
        
-        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+        assertEquals(StringUtils.join(expected, Const.EOL), export);
 
         ______TS("NUMSCALE results");
         
@@ -1306,45 +1322,47 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.feedbackSessionName, session.courseId, instructor.email);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
-            "Course,\"" + session.courseId + "\"",
-            "Session Name,\"" + session.feedbackSessionName + "\"",
-            "",
-            "",
-            "Question 1,\"Rate our product.\"",
-            "",
-            "Summary Statistics,",
-            "Team, Recipient, Average, Minimum, Maximum",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",2,2,2",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",3.5,3.5,3.5",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",3.5",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",2",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
-            "",
-            "",
-            "Question 2,\"Rate our product.\"",
-            "",
-            "Summary Statistics,",
-            "Team, Recipient, Average, Minimum, Maximum",
-            "\"Instructors\",\"Instructor1 Course1\",4.5,4.5,4.5",
-            "\"Instructors\",\"Instructor2 Course1\",1,1,1",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",4.5",
-            "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",1",
-            "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
-            "",
-            "",
-            ""
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 1,\"Rate our product.\"",
+                "",
+                "Summary Statistics,",
+                "Team, Recipient, Average, Minimum, Maximum",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",2,2,2",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",3.5,3.5,3.5",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",3.5",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",2",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+                "",
+                "",
+                "Question 2,\"Rate our product.\"",
+                "",
+                "Summary Statistics,",
+                "Team, Recipient, Average, Minimum, Maximum",
+                "\"Instructors\",\"Instructor1 Course1\",4.5,4.5,4.5",
+                "\"Instructors\",\"Instructor2 Course1\",1,1,1",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",4.5",
+                "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",1",
+                "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
+                "",
+                "",
+                ""
+                // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+        assertEquals(StringUtils.join(expected, Const.EOL), export);
 
         ______TS("CONSTSUM results");
         
@@ -1352,99 +1370,103 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.feedbackSessionName, session.courseId, instructor.email);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
-            "Course,\"" + session.courseId + "\"",
-            "Session Name,\"" + session.feedbackSessionName + "\"",
-            "",
-            "",
-            "Question 1,\"How important are the following factors to you? Give points accordingly.\"",
-            "",
-            "Summary Statistics,",
-            "Option, Average Points",
-            "\"Fun\",50.5",
-            "\"Grades\",49.5",
-            "",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Grades\",\"Fun\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",,19,81",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",,80,20",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
-            "",
-            "",
-            "Question 2,\"Split points among the teams\"",
-            "",
-            "Summary Statistics,",
-            "Team, Recipient, Average Points",
-            "\"\",\"Team 1.2\",20",
-            "\"\",\"Team 1.1</td></div>'\"\"\",80",
-            "",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",80",
-            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",20",
-            "",
-            "",
-            "Question 3,\"How much has each student worked?\"",
-            "",
-            "Summary Statistics,",
-            "Team, Recipient, Average Points",
-            "\"Team 1.2\",\"student5 In Course1\",10",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",10",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",20",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",30",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",30",
-            "",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",30",
-            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",20",
-            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",30",
-            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",10",
-            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",10",
-            "",
-            "",
-            ""
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 1,\"How important are the following factors to you? Give points accordingly.\"",
+                "",
+                "Summary Statistics,",
+                "Option, Average Points",
+                "\"Fun\",50.5",
+                "\"Grades\",49.5",
+                "",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Grades\",\"Fun\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",,19,81",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",,80,20",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+                "",
+                "",
+                "Question 2,\"Split points among the teams\"",
+                "",
+                "Summary Statistics,",
+                "Team, Recipient, Average Points",
+                "\"\",\"Team 1.2\",20",
+                "\"\",\"Team 1.1</td></div>'\"\"\",80",
+                "",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",80",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",20",
+                "",
+                "",
+                "Question 3,\"How much has each student worked?\"",
+                "",
+                "Summary Statistics,",
+                "Team, Recipient, Average Points",
+                "\"Team 1.2\",\"student5 In Course1\",10",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",10",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",20",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",30",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",30",
+                "",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",30",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",20",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",30",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",10",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",10",
+                "",
+                "",
+                ""
+                // CHECKSTYLE.ON:LineLength
         };
         
-        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+        assertEquals(StringUtils.join(expected, Const.EOL), export);
 
         ______TS("Instructor without privilege to view responses");
         
         instructor = newDataBundle.instructors.get("instructor2OfCourse1");
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.feedbackSessionName, session.courseId, instructor.email);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
-            "Course,\"FSQTT.idOfTypicalCourse1\"",
-            "Session Name,\"CONSTSUM Session\"",
-            "",
-            "",
-            "Question 1,\"How important are the following factors to you? Give points accordingly.\"",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Grades\",\"Fun\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
-            "",
-            "",
-            "Question 2,\"Split points among the teams\"",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "",
-            "",
-            "Question 3,\"How much has each student worked?\"",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "",
-            "",
-            ""                                
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"FSQTT.idOfTypicalCourse1\"",
+                "Session Name,\"CONSTSUM Session\"",
+                "",
+                "",
+                "Question 1,\"How important are the following factors to you? Give points accordingly.\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Grades\",\"Fun\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+                "",
+                "",
+                "Question 2,\"Split points among the teams\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "",
+                "",
+                "Question 3,\"How much has each student worked?\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "",
+                "",
+                ""
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
@@ -1455,51 +1477,53 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.feedbackSessionName, session.courseId, instructor.email);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
-            "Course,\"" + session.courseId + "\"",
-            "Session Name,\"" + session.feedbackSessionName + "\"",
-            "",
-            "",
-            "Question 1,\"How much has each team member including yourself, contributed to the project?\"",
-            "",
-            "Summary Statistics,",
-            "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".",
-            "Claimed Contribution (CC) = the contribution claimed by the student.",
-            "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
-            "Team, Name, Email, CC, PC, Ratings Recieved",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"95\",\"N/A\",\"N/A, N/A, N/A\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"student2InCourse1@gmail.tmt\",\"Not Submitted\",\"75\",\"75, N/A, N/A\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"student3InCourse1@gmail.tmt\",\"Not Submitted\",\"103\",\"103, N/A, N/A\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"student4InCourse1@gmail.tmt\",\"Not Submitted\",\"122\",\"122, N/A, N/A\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"student5InCourse1@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"",
-            "",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Equal share - 5%\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Equal share - 25%\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Equal share + 3%\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Equal share + 22%\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
-            "",
-            "",
-            ""
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 1,\"How much has each team member including yourself, contributed to the project?\"",
+                "",
+                "Summary Statistics,",
+                "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".",
+                "Claimed Contribution (CC) = the contribution claimed by the student.",
+                "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
+                "Team, Name, Email, CC, PC, Ratings Recieved",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"95\",\"N/A\",\"N/A, N/A, N/A\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"student2InCourse1@gmail.tmt\",\"Not Submitted\",\"75\",\"75, N/A, N/A\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"student3InCourse1@gmail.tmt\",\"Not Submitted\",\"103\",\"103, N/A, N/A\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"student4InCourse1@gmail.tmt\",\"Not Submitted\",\"122\",\"122, N/A, N/A\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"student5InCourse1@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"",
+                "",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Equal share - 5%\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Equal share - 25%\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Equal share + 3%\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Equal share + 22%\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+                "",
+                "",
+                ""
+                // CHECKSTYLE.ON:LineLength
         };
         
-        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+        assertEquals(StringUtils.join(expected, Const.EOL), export);
         
         ______TS("CONTRIB summary visibility variations");
         
@@ -1508,76 +1532,80 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.feedbackSessionName, session.courseId, instructor.email);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
-            "Course,\"" + session.courseId + "\"",
-            "Session Name,\"" + session.feedbackSessionName + "\"",
-            "",
-            "",
-            "Question 1,\"How much has each team member including yourself, contributed to the project?\"",
-            "",
-            "Summary Statistics,",
-            "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".",
-            "Claimed Contribution (CC) = the contribution claimed by the student.",
-            "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
-            "Team, Name, Email, CC, PC, Ratings Recieved",
-            "\"Anonymous student 1479876785's Team\",\"Anonymous student 1479876785\",\"-\",\"100\",\"N/A\",\"N/A, N/A, N/A\"",
-            "\"Anonymous student 412545508's Team\",\"Anonymous student 412545508\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
-            "\"Anonymous student 541628227's Team\",\"Anonymous student 541628227\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
-            "\"Anonymous student 670710946's Team\",\"Anonymous student 670710946\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
-            "\"Anonymous student 799793665's Team\",\"Anonymous student 799793665\",\"-\",\"Not Submitted\",\"N/A\",\"N/A\"",
-            "",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Anonymous student 1479876785's Team\",\"Anonymous student 1479876785\",\"Unknown user\",\"-\",\"\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-            "",
-            "",
-            ""
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 1,\"How much has each team member including yourself, contributed to the project?\"",
+                "",
+                "Summary Statistics,",
+                "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".",
+                "Claimed Contribution (CC) = the contribution claimed by the student.",
+                "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
+                "Team, Name, Email, CC, PC, Ratings Recieved",
+                "\"Anonymous student 1479876785's Team\",\"Anonymous student 1479876785\",\"-\",\"100\",\"N/A\",\"N/A, N/A, N/A\"",
+                "\"Anonymous student 412545508's Team\",\"Anonymous student 412545508\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
+                "\"Anonymous student 541628227's Team\",\"Anonymous student 541628227\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
+                "\"Anonymous student 670710946's Team\",\"Anonymous student 670710946\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
+                "\"Anonymous student 799793665's Team\",\"Anonymous student 799793665\",\"-\",\"Not Submitted\",\"N/A\",\"N/A\"",
+                "",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Anonymous student 1479876785's Team\",\"Anonymous student 1479876785\",\"Unknown user\",\"-\",\"\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "",
+                "",
+                ""
+                // CHECKSTYLE.ON:LineLength
         };
         
-        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+        assertEquals(StringUtils.join(expected, Const.EOL), export);
 
         // instructor not allowed to view student responses in section
         session = newDataBundle.feedbackSessions.get("contribSessionInstructorSectionRestricted");
         instructor = newDataBundle.instructors.get("instructor1OfCourseWithSections");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.feedbackSessionName, session.courseId, instructor.email);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
-            "Course,\"" + session.courseId + "\"",
-            "Session Name,\"" + session.feedbackSessionName + "\"",
-            "",
-            "",
-            "Question 1,\"How much has each team member including yourself, contributed to the project?\"",
-            "",
-            "Summary Statistics,",
-            "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".",
-            "Claimed Contribution (CC) = the contribution claimed by the student.",
-            "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
-            "Team, Name, Email, CC, PC, Ratings Recieved",
-            "\"Team 2\",\"student3 In Course With Sections\",\"student3InCourseWithSections@gmail.tmt\",\"100\",\"N/A\",\"N/A\"",
-            "\"Team 3\",\"student4 In Course With Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"",
-            "",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 2\",\"student3 In Course With Sections\",\"Sections\",\"student3InCourseWithSections@gmail.tmt\",\"Team 2\",\"student3 In Course With Sections\",\"Sections\",\"student3InCourseWithSections@gmail.tmt\",\"Equal share\"",
-            "\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"No Response\"",
-            "\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"No Response\"",
-            "\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"No Response\"",
-            "\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"No Response\"",
-            "\"Team 3\",\"student4 In Course With Sections\",\"Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Team 3\",\"student4 In Course With Sections\",\"Sections\",\"student4InCourseWithSections@gmail.tmt\",\"No Response\"",
-            "",
-            "",
-            ""
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 1,\"How much has each team member including yourself, contributed to the project?\"",
+                "",
+                "Summary Statistics,",
+                "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".",
+                "Claimed Contribution (CC) = the contribution claimed by the student.",
+                "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
+                "Team, Name, Email, CC, PC, Ratings Recieved",
+                "\"Team 2\",\"student3 In Course With Sections\",\"student3InCourseWithSections@gmail.tmt\",\"100\",\"N/A\",\"N/A\"",
+                "\"Team 3\",\"student4 In Course With Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"",
+                "",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 2\",\"student3 In Course With Sections\",\"Sections\",\"student3InCourseWithSections@gmail.tmt\",\"Team 2\",\"student3 In Course With Sections\",\"Sections\",\"student3InCourseWithSections@gmail.tmt\",\"Equal share\"",
+                "\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"No Response\"",
+                "\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"No Response\"",
+                "\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"No Response\"",
+                "\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"No Response\"",
+                "\"Team 3\",\"student4 In Course With Sections\",\"Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Team 3\",\"student4 In Course With Sections\",\"Sections\",\"student4InCourseWithSections@gmail.tmt\",\"No Response\"",
+                "",
+                "",
+                ""
+                // CHECKSTYLE.ON:LineLength
         };
         
-        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+        assertEquals(StringUtils.join(expected, Const.EOL), export);
         
         ______TS("RUBRIC results");
         
@@ -1585,48 +1613,50 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.feedbackSessionName, session.courseId, instructor.email);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
-            "Course,\"" + session.courseId + "\"",
-            "Session Name,\"" + session.feedbackSessionName + "\"",
-            "",
-            "",
-            "Question 1,\"Please choose the best choice for the following sub-questions.\"",
-            "",
-            "Summary Statistics,",
-            ",\"Yes (Weight: 1.25)\",\"No (Weight: -1.7)\",Average",
-            "\"a) This student has done a good job.\",67% (2),33% (1),0.27",
-            "\"b) This student has tried his/her best.\",75% (3),25% (1),0.51",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"b\",\"No\",\"2\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"a\",\"No\",\"2\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"a\",\"No Response\",\"\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
-            "",
-            "",
-            ""
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 1,\"Please choose the best choice for the following sub-questions.\"",
+                "",
+                "Summary Statistics,",
+                ",\"Yes (Weight: 1.25)\",\"No (Weight: -1.7)\",Average",
+                "\"a) This student has done a good job.\",67% (2),33% (1),0.27",
+                "\"b) This student has tried his/her best.\",75% (3),25% (1),0.51",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"b\",\"No\",\"2\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"a\",\"No\",\"2\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"a\",\"No Response\",\"\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+                "",
+                "",
+                ""
+                // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+        assertEquals(StringUtils.join(expected, Const.EOL), export);
         
         ______TS("RANK results");
         
@@ -1634,52 +1664,54 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.feedbackSessionName, session.courseId, instructor.email);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
 
         expected = new String[] {
-            "Course,\"" + session.courseId + "\"",
-            "Session Name,\"" + session.feedbackSessionName + "\"",
-            "",
-            "",
-            "Question 1,\"Rank the other students.\"",
-            "",
-            "Summary Statistics,",
-            "Team, Recipient, Average Rank",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",1",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",3",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",4",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",2",
-            "",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",4",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",3",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",2",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",1",
-            "",
-            "",
-            "Question 2,\"Rank the areas of improvement you think your team should make progress in.\"",
-            "",
-            "Summary Statistics,",
-            "Option, Average Rank",
-            "\"Teamwork and communication\",1.75",
-            "\"Time management\",2",
-            "\"Quality of progress reports\",2.5",
-            "\"Quality of work\",2.4",
-            "",
-            "",
-            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Rank 1,Rank 2,Rank 3,Rank 4",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Teamwork and communication\",\"Time management\",\"Quality of progress reports\",\"Quality of work\"",
-            "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Time management, Teamwork and communication\",\"Quality of work\",,",
-            "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Teamwork and communication\",\"Time management\",\"Quality of work\",",
-            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",\"Quality of work\",,,",
-            "",
-            "",
-            ""
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 1,\"Rank the other students.\"",
+                "",
+                "Summary Statistics,",
+                "Team, Recipient, Average Rank",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",1",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",3",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",4",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",2",
+                "",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",4",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",3",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",2",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",1",
+                "",
+                "",
+                "Question 2,\"Rank the areas of improvement you think your team should make progress in.\"",
+                "",
+                "Summary Statistics,",
+                "Option, Average Rank",
+                "\"Teamwork and communication\",1.75",
+                "\"Time management\",2",
+                "\"Quality of progress reports\",2.5",
+                "\"Quality of work\",2.4",
+                "",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Rank 1,Rank 2,Rank 3,Rank 4",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Teamwork and communication\",\"Time management\",\"Quality of progress reports\",\"Quality of work\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Time management, Teamwork and communication\",\"Quality of work\",,",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Teamwork and communication\",\"Time management\",\"Quality of work\",",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",\"Quality of work\",,,",
+                "",
+                "",
+                ""
+                // CHECKSTYLE.ON:LineLength
         };
         
-        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+        assertEquals(StringUtils.join(expected, Const.EOL), export);
        
         ______TS("Non-existent Course/Session");
         
@@ -1726,8 +1758,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("failure 2: non-existent session name");
         fsa = new FeedbackSessionAttributes();
-        fsa.feedbackSessionName = "asdf_randomName1423";
-        fsa.courseId = "idOfTypicalCourse1";
+        fsa.setFeedbackSessionName("asdf_randomName1423");
+        fsa.setCourseId("idOfTypicalCourse1");
         
         try {
             fsLogic.updateFeedbackSession(fsa);
@@ -1738,49 +1770,48 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("success 1: all changeable values sent are null");
         fsa = dataBundle.feedbackSessions.get("session1InCourse1");
-        fsa.instructions = null;
-        fsa.startTime = null;
-        fsa.endTime = null;
-        fsa.feedbackSessionType = null;
-        fsa.sessionVisibleFromTime = null;
-        fsa.resultsVisibleFromTime = null;
+        fsa.setInstructions(null);
+        fsa.setStartTime(null);
+        fsa.setEndTime(null);
+        fsa.setFeedbackSessionType(null);
+        fsa.setSessionVisibleFromTime(null);
+        fsa.setResultsVisibleFromTime(null);
         
         fsLogic.updateFeedbackSession(fsa);
         
-        assertEquals(fsa.toString(), fsLogic.getFeedbackSession(fsa.feedbackSessionName, fsa.courseId).toString());
+        assertEquals(fsa.toString(), fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).toString());
     }
     
     public void testPublishUnpublishFeedbackSession() throws Exception {
 
         ______TS("success: publish");
-        FeedbackSessionAttributes
-            sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse1");
         
         // set as manual publish
         
-        sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+        sessionUnderTest.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         fsLogic.updateFeedbackSession(sessionUnderTest);
         
         fsLogic.publishFeedbackSession(
-                sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+                sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
 
         HashMap<String, String> paramMap = createParamMapForAction(sessionUnderTest);
         EmailAction fsPublishedAction = new FeedbackSessionPublishedMailAction(paramMap);
         fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
         
-        sessionUnderTest.sentPublishedEmail = true;
+        sessionUnderTest.setSentPublishedEmail(true);
 
         // Set real time of publishing
-        FeedbackSessionAttributes sessionPublished = fsLogic.getFeedbackSession(sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
-        sessionUnderTest.resultsVisibleFromTime = sessionPublished.resultsVisibleFromTime;
+        FeedbackSessionAttributes sessionPublished =
+                fsLogic.getFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
+        sessionUnderTest.setResultsVisibleFromTime(sessionPublished.getResultsVisibleFromTime());
         
         assertEquals(sessionUnderTest.toString(), sessionPublished.toString());
 
         ______TS("failure: already published");
         
         try {
-            fsLogic.publishFeedbackSession(
-                sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+            fsLogic.publishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
             signalFailureToDetectException(
                     "Did not catch exception signalling that session is already published.");
         } catch (InvalidParametersException e) {
@@ -1790,21 +1821,20 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         ______TS("success: unpublish");
         
         fsLogic.unpublishFeedbackSession(
-                sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+                sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
         
-        sessionUnderTest.sentPublishedEmail = false;
-        sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+        sessionUnderTest.setSentPublishedEmail(false);
+        sessionUnderTest.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         
         assertEquals(
                 sessionUnderTest.toString(),
                 fsLogic.getFeedbackSession(
-                        sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId).toString());
+                        sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId()).toString());
         
         ______TS("failure: not published");
         
         try {
-            fsLogic.unpublishFeedbackSession(
-                sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+            fsLogic.unpublishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
             signalFailureToDetectException(
                     "Did not catch exception signalling that session is not published.");
         } catch (InvalidParametersException e) {
@@ -1816,20 +1846,18 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse2");
 
         try {
-            fsLogic.publishFeedbackSession(
-                sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+            fsLogic.publishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
             signalFailureToDetectException(
-                    "Did not catch exception signalling that private session can't " 
+                    "Did not catch exception signalling that private session can't "
                     + "be published.");
         } catch (InvalidParametersException e) {
             assertEquals("Private session can't be published.", e.getMessage());
         }
         
         try {
-            fsLogic.unpublishFeedbackSession(
-                sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+            fsLogic.unpublishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
             signalFailureToDetectException(
-                    "Did not catch exception signalling that private session should " 
+                    "Did not catch exception signalling that private session should "
                     + "not be published");
         } catch (InvalidParametersException e) {
             assertEquals("Private session can't be unpublished.", e.getMessage());
@@ -1837,11 +1865,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 
         ______TS("failure: session does not exist");
 
-        sessionUnderTest.feedbackSessionName = "non-existant session";
+        sessionUnderTest.setFeedbackSessionName("non-existant session");
         
         try {
-            fsLogic.publishFeedbackSession(
-                sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+            fsLogic.publishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
             signalFailureToDetectException(
                     "Did not catch exception signalling that session does not exist.");
         } catch (EntityDoesNotExistException e) {
@@ -1849,8 +1876,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         }
         
         try {
-            fsLogic.unpublishFeedbackSession(
-                    sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+            fsLogic.unpublishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
             signalFailureToDetectException(
                     "Did not catch exception signalling that session does not exist.");
         } catch (EntityDoesNotExistException e) {
@@ -1866,7 +1892,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         ______TS("failure: non-existent feedback session for instructor");
         
         try {
-            fsLogic.isFeedbackSessionCompletedByInstructor(fs.courseId, "nonExistentFSName", "random.instructor@email");
+            fsLogic.isFeedbackSessionCompletedByInstructor(fs.getCourseId(), "nonExistentFSName", "random.instructor@email");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
             assertEquals("Trying to check a feedback session that does not exist.",
@@ -1877,7 +1903,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         fs = dataBundle.feedbackSessions.get("empty.session");
         
-        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, instructor.email));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs.getFeedbackSessionName(), fs.getCourseId(), instructor.email));
         
     }
     
@@ -1902,7 +1928,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         ______TS("failure: non-existent feedback session for student");
         
         try {
-            fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.courseId, "nonExistentFSName", "random.student@email");
+            fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getCourseId(), "nonExistentFSName", "random.student@email");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
             assertEquals("Trying to check a feedback session that does not exist.",
@@ -1910,10 +1936,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         }
         
         ______TS("success case: fully done by student 1");
-        assertTrue(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.feedbackSessionName, fs.courseId, student1OfCourse1.email));
+        assertTrue(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
+                                                                    student1OfCourse1.email));
         
         ______TS("success case: partially done by student 3");
-        assertFalse(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.feedbackSessionName, fs.courseId, student3OfCourse1.email));
+        assertFalse(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
+                                                                     student3OfCourse1.email));
     }
     
     public void testScheduleFeedbackSessionOpeningEmails() {
@@ -1936,13 +1964,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        List<MimeMessage> emailsSent = 
-                fsLogic.sendReminderForFeedbackSession(fs.courseId, fs.feedbackSessionName);
+        List<MimeMessage> emailsSent =
+                fsLogic.sendReminderForFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
         assertEquals(11, emailsSent.size());
 
-        fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
+        fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
 
-        List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
+        List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.getCourseId());
         for (StudentAttributes s : studentList) {
             MimeMessage emailToStudent = getEmailToStudent(s, emailsSent);
             if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s.email)) {
@@ -1953,50 +1981,50 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 assertNotNull(errorMessage, emailToStudent);
                 AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
                         emailToStudent.getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailToStudent.getSubject());
+                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailToStudent.getSubject());
             }
         }
         
-        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
-        String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
+        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.getCourseId());
+        String notificationHeader = "The email below has been sent to students of course: " + fs.getCourseId();
         for (InstructorAttributes i : instructorList) {
             List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
-            if (fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, i.email)) {
+            if (fsLogic.isFeedbackSessionCompletedByInstructor(fs.getFeedbackSessionName(), fs.getCourseId(), i.email)) {
                 // Only send notification (no reminder) if instructor already completed the session
                 assertEquals(1, emailsToInstructor.size());
                 AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
                 AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
                         emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
+                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailsToInstructor.get(0).getSubject());
             } else {
                 // Send both notification and reminder if the instructor hasn't completed the session
                 assertEquals(2, emailsToInstructor.size());
                 
-                assertTrue(emailsToInstructor.get(0).getContent().toString().contains(notificationHeader) 
+                assertTrue(emailsToInstructor.get(0).getContent().toString().contains(notificationHeader)
                             || emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
-                assertTrue(!emailsToInstructor.get(0).getContent().toString().contains(notificationHeader) 
+                assertTrue(!emailsToInstructor.get(0).getContent().toString().contains(notificationHeader)
                             || !emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
                 AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
                         emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
+                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailsToInstructor.get(0).getSubject());
                 AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
                         emailsToInstructor.get(1).getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(1).getSubject());
+                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailsToInstructor.get(1).getSubject());
             }
 
         }
         
         ______TS("failure: non-existent Feedback session");
         
-        String nonExistentFSName = "non-ExIsTENT FsnaMe123";
+        String nonExistentFsName = "non-ExIsTENT FsnaMe123";
         
         try {
-            fsLogic.sendReminderForFeedbackSession(fs.courseId, nonExistentFSName);
+            fsLogic.sendReminderForFeedbackSession(fs.getCourseId(), nonExistentFsName);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to remind non-existent feedback session " 
-                            + fs.courseId + "/" + nonExistentFSName,
+            assertEquals("Trying to remind non-existent feedback session "
+                            + fs.getCourseId() + "/" + nonExistentFsName,
                          edne.getMessage());
         }
         
@@ -2016,7 +2044,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         List<MimeMessage> emailsSent =
                 fsLogic.sendReminderForFeedbackSessionParticularUsers(
-                        fs.courseId, fs.feedbackSessionName, usersToRemind);
+                        fs.getCourseId(), fs.getFeedbackSessionName(), usersToRemind);
         assertEquals(7, emailsSent.size());
 
         MimeMessage emailToStudent = getEmailToStudent(studentToRemind, emailsSent);
@@ -2025,10 +2053,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         AssertHelper.assertContains(
                 Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
                 emailToStudent.getSubject());
-        AssertHelper.assertContains(fs.feedbackSessionName, emailToStudent.getSubject());
+        AssertHelper.assertContains(fs.getFeedbackSessionName(), emailToStudent.getSubject());
 
-        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
-        String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
+        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.getCourseId());
+        String notificationHeader = "The email below has been sent to students of course: " + fs.getCourseId();
         for (InstructorAttributes i : instructorList) {
             List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
@@ -2036,37 +2064,37 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 // Send both notification and reminder if the instructor is selected
                 assertEquals(2, emailsToInstructor.size());
                 
-                assertTrue(emailsToInstructor.get(0).getContent().toString().contains(notificationHeader) 
+                assertTrue(emailsToInstructor.get(0).getContent().toString().contains(notificationHeader)
                             || emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
-                assertTrue(!emailsToInstructor.get(0).getContent().toString().contains(notificationHeader) 
+                assertTrue(!emailsToInstructor.get(0).getContent().toString().contains(notificationHeader)
                             || !emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
                 AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
                         emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
+                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailsToInstructor.get(0).getSubject());
                 AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
                         emailsToInstructor.get(1).getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(1).getSubject());
+                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailsToInstructor.get(1).getSubject());
             } else {
                 // Only send notification (no reminder) if instructor is not selected
                 assertEquals(1, emailsToInstructor.size());
                 AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
                 AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
                         emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
+                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailsToInstructor.get(0).getSubject());
             }
         }
         
         ______TS("failure: non-existent Feedback session");
         
-        String nonExistentFSName = "non-ExIsTENT FsnaMe123";
+        String nonExistentFsName = "non-ExIsTENT FsnaMe123";
         
         try {
             fsLogic.sendReminderForFeedbackSessionParticularUsers(
-                    fs.courseId, nonExistentFSName, usersToRemind);
+                    fs.getCourseId(), nonExistentFsName, usersToRemind);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to remind non-existent feedback session " 
-                            + fs.courseId + "/" + nonExistentFSName,
+            assertEquals("Trying to remind non-existent feedback session "
+                            + fs.getCourseId() + "/" + nonExistentFsName,
                          edne.getMessage());
         }
         
@@ -2074,25 +2102,25 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     
     private FeedbackSessionAttributes getNewFeedbackSession() {
         FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
-        fsa.feedbackSessionType = FeedbackSessionType.STANDARD;
-        fsa.feedbackSessionName = "fsTest1";
-        fsa.courseId = "testCourse";
-        fsa.creatorEmail = "valid@email.tmt";
-        fsa.createdTime = new Date();
-        fsa.startTime = new Date();
-        fsa.endTime = new Date();
-        fsa.sessionVisibleFromTime = new Date();
-        fsa.resultsVisibleFromTime = new Date();
-        fsa.gracePeriod = 5;
-        fsa.sentOpenEmail = true;
-        fsa.instructions = new Text("Give feedback.");
+        fsa.setFeedbackSessionType(FeedbackSessionType.STANDARD);
+        fsa.setFeedbackSessionName("fsTest1");
+        fsa.setCourseId("testCourse");
+        fsa.setCreatorEmail("valid@email.tmt");
+        fsa.setCreatedTime(new Date());
+        fsa.setStartTime(new Date());
+        fsa.setEndTime(new Date());
+        fsa.setSessionVisibleFromTime(new Date());
+        fsa.setResultsVisibleFromTime(new Date());
+        fsa.setGracePeriod(5);
+        fsa.setSentOpenEmail(true);
+        fsa.setInstructions(new Text("Give feedback."));
         return fsa;
     }
     
     private FeedbackQuestionAttributes getQuestionFromDatastore(String jsonId) {
         FeedbackQuestionAttributes questionToGet = dataBundle.feedbackQuestions.get(jsonId);
         questionToGet = fqLogic.getFeedbackQuestion(
-                questionToGet.feedbackSessionName, 
+                questionToGet.feedbackSessionName,
                 questionToGet.courseId,
                 questionToGet.questionNumber);
         
@@ -2107,9 +2135,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     private FeedbackResponseAttributes getResponseFromDatastore(String jsonId, DataBundle bundle) {
         FeedbackResponseAttributes response = bundle.feedbackResponses.get(jsonId);
         
-        String questionId = null;        
+        String questionId = null;
         try {
-            int qnNumber = Integer.parseInt(response.feedbackQuestionId);        
+            int qnNumber = Integer.parseInt(response.feedbackQuestionId);
             questionId = fqLogic.getFeedbackQuestion(
                         response.feedbackSessionName, response.courseId,
                         qnNumber).getId();
@@ -2117,14 +2145,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             questionId = response.feedbackQuestionId;
         }
         
-        return frLogic.getFeedbackResponse(questionId, 
+        return frLogic.getFeedbackResponse(questionId,
                 response.giverEmail, response.recipientEmail);
     }
     
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
             if (fs.isPublished()) {
-                fsLogic.unpublishFeedbackSession(fs.feedbackSessionName, fs.courseId);                
+                fsLogic.unpublishFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
             }
         }
     }
@@ -2161,8 +2189,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         HashMap<String, String> paramMap = new HashMap<String, String>();
 
         paramMap.put(ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_PUBLISHED.toString());
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.feedbackSessionName);
-        paramMap.put(ParamsNames.EMAIL_COURSE, fs.courseId);
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.getFeedbackSessionName());
+        paramMap.put(ParamsNames.EMAIL_COURSE, fs.getCourseId());
 
         return paramMap;
     }

@@ -16,8 +16,8 @@ public class StudentCourseDetailsPageData extends PageData {
         super(account);
     }
     
-    public void init(CourseDetailsBundle courseDetails, List<InstructorAttributes> instructors, 
-                         StudentAttributes student, TeamDetailsBundle team) { 
+    public void init(CourseDetailsBundle courseDetails, List<InstructorAttributes> instructors,
+                         StudentAttributes student, TeamDetailsBundle team) {
         this.student = student;
         studentCourseDetailsPanel = createStudentCourseDetailsPanel(
                                         courseDetails, instructors, student, team);
@@ -27,10 +27,10 @@ public class StudentCourseDetailsPageData extends PageData {
         return studentCourseDetailsPanel;
     }
 
-    private StudentCourseDetailsPanel createStudentCourseDetailsPanel(CourseDetailsBundle courseDetails, 
+    private StudentCourseDetailsPanel createStudentCourseDetailsPanel(CourseDetailsBundle courseDetails,
                                     List<InstructorAttributes> instructors, StudentAttributes student, TeamDetailsBundle team) {
         String courseId = courseDetails.course.getId();
-        String courseName = courseDetails.course.getName(); 
+        String courseName = courseDetails.course.getName();
         String studentTeam = student.team;
         String studentName = student.name;
         String studentEmail = student.email;

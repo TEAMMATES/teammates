@@ -26,7 +26,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
@@ -75,14 +75,14 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
         AssertHelper.assertContains(
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, 
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS, redirectResult.getStatusMessage());
 
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
-                + "|||instr1@course1.tmt|||Servlet Action Failure : Trying to create a Instructor that exists: idOfTypicalCourse1/ICIAAT.newInstructor@email.tmt"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
+                + "|||Servlet Action Failure : Trying to create a Instructor that exists: idOfTypicalCourse1/ICIAAT.newInstructor@email.tmt"
                 + "|||/page/instructorCourseInstructorAdd";
         AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
         
@@ -99,7 +99,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
         AssertHelper.assertContains(
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, 
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,

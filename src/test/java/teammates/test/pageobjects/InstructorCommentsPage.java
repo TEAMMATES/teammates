@@ -148,6 +148,15 @@ public class InstructorCommentsPage extends AppPage {
             checkbox.click();
         }
     }
+    
+    public void clickAllGiverCheckboxes(int row) {
+        List<WebElement> giverCheckboxes = browser.driver
+                                           .findElement(By.id("visibility-options" + row))
+                                           .findElements(By.className("giverCheckbox"));
+        for (WebElement checkbox : giverCheckboxes) {
+            checkbox.click();
+        }
+    }
 
     public void fillTextareaToEditStudentCommentForRow(int i, String text) {
         WebElement textarea = browser.driver.findElement(By.id("commentText" + i));
@@ -168,7 +177,8 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx, String text) {
-        WebElement textarea = browser.driver.findElement(By.id("responseCommentAddForm-" + sessionIdx + "-" + questionIdx + "-" + responseIdx));
+        WebElement textarea = browser.driver.findElement(
+                By.id("responseCommentAddForm-" + sessionIdx + "-" + questionIdx + "-" + responseIdx));
         textarea.click();
         textarea.clear();
         textarea.sendKeys(text);
@@ -196,7 +206,8 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public void saveResponseComment(int sessionIdx, int questionIdx, int responseIdx, int commentIdx) {
-        browser.driver.findElement(By.id("button_save_comment_for_edit-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx)).click();
+        browser.driver.findElement(
+                By.id("button_save_comment_for_edit-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx)).click();
         waitForPageToLoad();
     }
 
@@ -213,7 +224,7 @@ public class InstructorCommentsPage extends AppPage {
     public void clickCommentsForStudentsPanelHeading() {
         WebElement e = browser.driver.findElement(By.cssSelector("div[id='panel_display-1']"));
 
-        e.findElement(By.cssSelector(".panel-heading")).click();        
+        e.findElement(By.cssSelector(".panel-heading")).click();
     }
     
     /**

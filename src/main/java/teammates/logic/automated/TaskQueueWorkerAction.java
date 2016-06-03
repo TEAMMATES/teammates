@@ -15,7 +15,7 @@ public abstract class TaskQueueWorkerAction {
     }
     
     /**
-     * Method for executing the delegated task 
+     * Method for executing the delegated task
      * @return return 0 on successful execution
      *            and 1 on failed execution
      */

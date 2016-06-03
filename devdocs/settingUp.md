@@ -30,10 +30,10 @@ Important: When a version is specified, please install that version instead of t
    Instructions are at https://developers.google.com/eclipse/docs/install-eclipse-4.4 <br>
    Note: Sometimes the update site for the GAE plug-in does not work. In which case, 
    follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
-5. Install Google App Engine SDK version 1.9.27. <br>
-   Download link to the SDK is http://central.maven.org/maven2/com/google/appengine/appengine-java-sdk/1.9.27/appengine-java-sdk-1.9.27.zip.<br>
+5. Install Google App Engine SDK (version specified by Gradle). <br>
+   Run the command `./gradlew appengineDownloadSdk`.<br>
    Go to `Window → Preferences → Google → App Engine` (Mac: `Eclipse → Preferences → Google → App Engine`), click the `Add` button,
-   and point it to where you extracted the SDK zip file. <br>
+   and point it to where Gradle kept the SDK. This directory can be found by running the command `./gradlew printUserHomeDir`.<br>
    Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
 6. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
 
@@ -57,8 +57,9 @@ Important: When a version is specified, please install that version instead of t
     to indent using 4 spaces instead of tabs.
     * HTML syntax: We prefer not to use the HTML syntax validator provided by Eclipse.
     To turn it off, go to `Window → Preferences → Validation → HTML Syntax Validator` (Mac: `Eclipse → Preferences → Validation → HTML Syntax Validator`) and uncheck the `Build` option.
-3. Run the command `./gradlew setUp`.<br>
+3. Run the command `./gradlew setup`.<br>
    This creates the main config files {These are not under revision control because their content vary from developer to developer}.
+   * `.project`<br>
    * `src/main/resources/build.properties`<br>
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
@@ -184,21 +185,11 @@ this section.
 
 * Build the project in Eclipse (`Project -> Clean`).
 * Start the dev server in Eclipse.
-* Open a DOS window in the project folder and run the `runtests.bat` 
-  in the following manner.<br>
-  `runtests.bat  appengine_SDK_location  project_folder_location` <br>
-  e.g. `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates`<br>
+* Run the following command in the project root folder:<br>
+  `./gradlew travisTests`<br>
   This will run the full test suite once and retry the failed tests several times.<br>
-  (**Mac**: In Terminal, navigate to the project folder and run the `runtests.sh` in the following manner.<br>
-  `./runtests.sh GAE_SDK_Location Project_Folder_location`<br>
-  e.g. `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES`, if the path to GAE_SDK_Location is `/Users/someuser/appengine-java-sdk-1.9.27` and path to Project_Folder_location is `/Users/someuser/TEAMMATES`.<br>
-  It's recommended to use absolute path on Mac, and you could retrieve the absolute path by navigate to that folder and type `pwd` command.<br>
-  If the file is not an executable, change its permission by: `chmod +x runtests.sh`)
-* The final result can be viewed by opening `[project folder]/testrunner/test-output/index.html`.
-* To run only certain `<test>` segments of the `testng.xml`, add the `-testnames`
-  option followed by the names of the `<test>` segments you want to run.<br>e.g.
-  `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates -testnames component-tests,sequential-ui-tests,parallel-ui-tests`<br>
-  (**Mac**: `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES -testnames component-tests,sequential-ui-tests,parallel-ui-tests`)
+* The final result can be viewed by opening `{project folder}/build/test-try-{n}/index.html`,
+  where `{n}` is the sequence number of the test run.
   
 ## Deploying to a staging server
 `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.

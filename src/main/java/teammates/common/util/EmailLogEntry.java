@@ -33,7 +33,7 @@ public class EmailLogEntry {
         
         this.receiver = msg.getTos().get(0);
         this.subject = msg.getSubject();
-        this.content = msg.getHtml(); 
+        this.content = msg.getHtml();
     }
     
     public EmailLogEntry(AppLogLine appLog) {
@@ -100,7 +100,7 @@ public class EmailLogEntry {
     public String getTimeForDisplay() {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         appCal.setTimeInMillis(time);
-        appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         return TimeHelper.formatTime12H(appCal.getTime());
     }
     
@@ -133,8 +133,8 @@ public class EmailLogEntry {
             if (highlightedText.toLowerCase().contains(stringToHighlight.toLowerCase())) {
                 
                 int startIndex = highlightedText.toLowerCase().indexOf(stringToHighlight.toLowerCase());
-                int endIndex = startIndex + stringToHighlight.length();                         
-                String realStringToHighlight = highlightedText.substring(startIndex, endIndex);               
+                int endIndex = startIndex + stringToHighlight.length();
+                String realStringToHighlight = highlightedText.substring(startIndex, endIndex);
                 highlightedText = highlightedText.replace(realStringToHighlight, "<mark>" + realStringToHighlight + "</mark>");
             }
         }

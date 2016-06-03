@@ -21,7 +21,7 @@ public class AdminTrashEmailActions {
 
     private ElementTag createEditButton(String emailId) {
         String content = "<span class=\"glyphicon glyphicon-edit\"></span>";
-        String href = Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE 
+        String href = Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE
                     + "?" + Const.ParamsNames.ADMIN_EMAIL_ID + "=" + emailId;
         
         return new ElementTag(content, "target", "blank", "href", href);
@@ -29,7 +29,7 @@ public class AdminTrashEmailActions {
 
     private ElementTag createMoveOutOfTrashButton(String emailId) {
         String content = "<span class=\"glyphicon glyphicon-step-backward\"></span>";
-        String href = Const.ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH + "?" 
+        String href = Const.ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH + "?"
                           + Const.ParamsNames.ADMIN_EMAIL_ID + "=" + emailId;
         
         return new ElementTag(content, "target", "blank", "href", href);

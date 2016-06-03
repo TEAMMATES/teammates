@@ -29,7 +29,7 @@ public class AdminEmailsLogic {
 
     /**
      * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database. 
+     * @return the list of all adminEmails in the database.
      */
     @Deprecated
     public List<AdminEmailAttributes> getAllAdminEmails() {
@@ -96,7 +96,7 @@ public class AdminEmailsLogic {
      * Get all admin emails that have been sent and not in trash bin
      * @return empty list if no email found
      */
-    public List<AdminEmailAttributes> getSentAdminEmails() {      
+    public List<AdminEmailAttributes> getSentAdminEmails() {
         return adminEmailsDb.getSentAdminEmails();
     }
     
@@ -120,8 +120,9 @@ public class AdminEmailsLogic {
         return adminEmailsDb.creatAdminEmail(newAdminEmail);
     }
 
-    public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId) throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(emailId);    
+    public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(emailId);
         Assumption.assertNotNull(newAdminEmail);
         
         adminEmailsDb.updateAdminEmailById(newAdminEmail, emailId);

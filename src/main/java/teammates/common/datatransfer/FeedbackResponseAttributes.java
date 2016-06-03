@@ -28,14 +28,14 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     
     /** Contains the JSON formatted string that holds the information of the response details <br>
      * Don't use directly unless for storing/loading from data store <br>
-     * To get the answer text use {@code getResponseDetails().getAnswerString()} 
+     * To get the answer text use {@code getResponseDetails().getAnswerString()}
      * 
      * This is set to null to represent a missing response.
      */
     public Text responseMetaData;
+    protected transient Date createdAt;
+    protected transient Date updatedAt;
     private String feedbackResponseId;
-    private transient Date createdAt;
-    private transient Date updatedAt;
     
     public FeedbackResponseAttributes() {
         // attributes to be set after construction
@@ -227,7 +227,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * It should only be used as a representation.
      */
     public boolean isMissingResponse() {
-        return responseMetaData == null; 
+        return responseMetaData == null;
     }
     
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
@@ -237,20 +237,6 @@ public class FeedbackResponseAttributes extends EntityAttributes {
                 return fr1.getId().compareTo(fr2.getId());
             }
         });
-    }
-    
-    /**
-     * Should only be used for testing
-     */
-    public void setCreatedAt_NonProduction(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    /**
-     * Should only be used for testing
-     */
-    public void setUpdatedAt_NonProduction(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
     
 }

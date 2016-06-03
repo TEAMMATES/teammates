@@ -67,7 +67,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
                       + "for session <span class=\"bold\">[" + targetSessionName + "]</span> "
                       + "in course <span class=\"bold\">[" + courseId + "]</span>";
 
-        InstructorStudentRecordsAjaxPageData data = 
+        InstructorStudentRecordsAjaxPageData data =
                                         new InstructorStudentRecordsAjaxPageData(account, student, results);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);
@@ -78,8 +78,8 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
         Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
         while (iterFs.hasNext()) {
             FeedbackSessionAttributes tempFs = iterFs.next();
-            if (!tempFs.courseId.equals(courseId)
-                 || !currentInstructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
+            if (!tempFs.getCourseId().equals(courseId)
+                    || !currentInstructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                 iterFs.remove();
             }

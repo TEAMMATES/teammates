@@ -29,7 +29,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
@@ -55,8 +55,8 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     public void testNewQuestionFrame() {
         ______TS("CONSTSUM-recipient: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Distribute points (among recipients) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_RECIPIENT");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
     }
     
@@ -79,8 +79,8 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
 
     @Override
     public void testCustomizeOptions() {
-        feedbackEditPage.selectNewQuestionType("Distribute points (among recipients) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_RECIPIENT");
         
         ______TS("CONST SUM: set points options");
 
@@ -128,7 +128,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     @AfterClass

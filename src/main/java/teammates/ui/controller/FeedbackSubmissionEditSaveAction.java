@@ -46,7 +46,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String userEmailForCourse = getUserEmailForCourse();
         
         data = new FeedbackSubmissionEditPageData(account, student);
-        data.bundle = getDataBundle(userEmailForCourse);        
+        data.bundle = getDataBundle(userEmailForCourse);
         Assumption.assertNotNull("Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".", data.bundle);
         
         checkAdditionalConstraints();
@@ -72,12 +72,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             
             List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
             String questionId = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, 
+                    requestParameters,
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             if (questionAttributes == null) {
                 statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
-                                                + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
+                                                       + "Please check your responses to make sure they are saved correctly.",
+                                                   StatusMessageColor.WARNING));
                 isError = true;
                 log.warning("Question not found. (deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
                 continue;
@@ -85,7 +86,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             
             FeedbackQuestionDetails questionDetails = questionAttributes.getQuestionDetails();
             
-            int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);  
+            int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);
             String qnId = "";
                         
             Set<String> emailSet = data.bundle.getRecipientEmails(questionAttributes.getId());
@@ -96,7 +97,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             List<String> errors = new ArrayList<String>();
             
             for (int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
-                FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionAttributes);
+                FeedbackResponseAttributes response =
+                        extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionAttributes);
                 
                 if (response.feedbackQuestionType != questionAttributes.questionType) {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, questionIndx));
@@ -104,7 +106,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 
                 qnId = response.feedbackQuestionId;
                 
-                boolean isExistingResponse = response.getId() != null; 
+                boolean isExistingResponse = response.getId() != null;
                 // test that if editing an existing response, that the edited response's id
                 // came from the original set of existing responses loaded on the submission page
                 if (isExistingResponse && !isExistingResponseValid(response)) {
@@ -129,11 +131,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 }
             }
                     
-            List<String> questionSpecificErrors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());
+            List<String> questionSpecificErrors =
+                    questionDetails.validateResponseAttributes(responsesForQuestion,
+                                                               data.bundle.recipientList.get(qnId).size());
             errors.addAll(questionSpecificErrors);
             
             if (!emailSet.containsAll(responsesRecipients)) {
-                errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));                
+                errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));
             }
             
             if (errors.isEmpty()) {
@@ -167,10 +171,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     }
     
     /**
-     * If the {@code response} is an existing response, check that 
-     * the questionId and responseId that it has  
+     * If the {@code response} is an existing response, check that
+     * the questionId and responseId that it has
      * is in {@code data.bundle.questionResponseBundle}
-     * @param response  a response which has non-null id 
+     * @param response  a response which has non-null id
      */
     private boolean isExistingResponseValid(FeedbackResponseAttributes response) {
        
@@ -194,7 +198,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     private void saveResponse(FeedbackResponseAttributes response)
             throws EntityDoesNotExistException {
-        boolean isExistingResponse = response.getId() != null; 
+        boolean isExistingResponse = response.getId() != null;
         if (isExistingResponse) {
             // Delete away response if any empty fields
             if (response.responseMetaData.getValue().isEmpty() || response.recipientEmail.isEmpty()) {
@@ -227,32 +231,32 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         // This field can be null if the response is new
         response.setId(HttpRequestHelper.getValueFromParamMap(
-                requestParameters, 
+                requestParameters,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndx + "-" + responseIndx));
                 
         response.feedbackSessionName = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, 
+                requestParameters,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull("Null feedback session name", response.feedbackSessionName);
         
         response.courseId = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, 
+                requestParameters,
                 Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("Null feedback courseId", response.courseId);
         
         response.feedbackQuestionId = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, 
+                requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
         Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
         Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(), response.feedbackQuestionId);
         
         response.recipientEmail = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, 
+                requestParameters,
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-" + responseIndx);
         Assumption.assertNotNull("Null feedback recipientEmail", response.recipientEmail);
         
         String feedbackQuestionType = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, 
+                requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx);
         Assumption.assertNotNull("Null feedbackQuestionType", feedbackQuestionType);
         response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
@@ -271,13 +275,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         // This field can be null if the question is skipped
         String[] answer = HttpRequestHelper.getValuesFromParamMap(
-                                               requestParameters, 
+                                               requestParameters,
                                                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx);
         
         if (questionDetails.isQuestionSkipped(answer)) {
             response.responseMetaData = new Text("");
         } else {
-            FeedbackResponseDetails responseDetails = 
+            FeedbackResponseDetails responseDetails =
                                             FeedbackResponseDetails.createResponseDetails(
                                                                             answer,
                                                                             questionDetails.questionType,
@@ -289,23 +293,23 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     }
 
     /**
-     * To be used to set any extra parameters or attributes that 
+     * To be used to set any extra parameters or attributes that
      * a class inheriting FeedbackSubmissionEditSaveAction requires
      */
     protected abstract void setAdditionalParameters() throws EntityDoesNotExistException;
     
     /**
      * To be used to test any constraints that a class inheriting FeedbackSubmissionEditSaveAction
-     * needs. For example, this is used in moderations that check that instructors did not 
-     * respond to any question that they did not have access to during moderation. 
+     * needs. For example, this is used in moderations that check that instructors did not
+     * respond to any question that they did not have access to during moderation.
      * 
-     * Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters 
+     * Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters
      */
     protected abstract void checkAdditionalConstraints();
     
     /**
-     * Note that when overriding this method, this should not use {@code respondingStudentList} 
-     * or {@code respondingInstructorList} of {@code FeedbackSessionAttributes}, because this method 
+     * Note that when overriding this method, this should not use {@code respondingStudentList}
+     * or {@code respondingInstructorList} of {@code FeedbackSessionAttributes}, because this method
      * is used to update {@code respondingStudentList} and {@code respondingInstructorList}
      * 
      * @return true if user has responses in the feedback session
@@ -313,8 +317,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected boolean isUserRespondentOfSession() {
         // if there is no valid response on the form submission,
         // we need to use logic to check the database to handle cases where not all questions are displayed
-        // e.g. on FeedbackQuestionSubmissionEditSaveAction, 
-        // or if the submitter can submit both as a student and instructor 
+        // e.g. on FeedbackQuestionSubmissionEditSaveAction,
+        // or if the submitter can submit both as a student and instructor
         return hasValidResponse
             || logic.hasGiverRespondedForSession(getUserEmailForCourse(), feedbackSessionName, courseId);
     }

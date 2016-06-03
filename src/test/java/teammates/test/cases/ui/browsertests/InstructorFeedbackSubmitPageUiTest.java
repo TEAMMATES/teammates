@@ -118,7 +118,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(17, 0, 1, "10");
 
         // Just check that some of the responses persisted.
-        FeedbackQuestionAttributes fq = 
+        FeedbackQuestionAttributes fq =
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 2);
         FeedbackQuestionAttributes fqPartial =
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 6);
@@ -184,7 +184,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(6, 2, "UI");
 
         // Click on "None of the above", the option will be deselected when another option is clicked
-        submitPage.toggleMsqOption(7, 0, ""); 
+        submitPage.toggleMsqOption(7, 0, "");
         submitPage.toggleMsqOption(7, 0, "UI");
         submitPage.toggleMsqOption(7, 0, "Algo");
         submitPage.toggleMsqOption(7, 0, "Design");
@@ -267,7 +267,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         FeedbackMsqResponseDetails frMsq =
                 (FeedbackMsqResponseDetails) BackDoor.getFeedbackResponse(
-                        fqMsq.getId(), "IFSubmitUiT.instr@gmail.tmt", 
+                        fqMsq.getId(), "IFSubmitUiT.instr@gmail.tmt",
                         "IFSubmitUiT.instr2@gmail.tmt").getResponseDetails();
 
         assertFalse(frMsq.contains("UI"));
@@ -479,7 +479,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "");
         assertEquals("70 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "");
-        assertEquals("Please distribute 100 points among the above options.", 
+        assertEquals("Please distribute 100 points among the above options.",
                      submitPage.getConstSumMessage(qnNumber, 0));
 
         // Test error message when submitting
@@ -588,8 +588,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(String instructorName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                           .withUserId(testData.instructors.get(instructorName).googleId)
-                          .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                          .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                          .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                          .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
 
@@ -597,8 +597,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
             String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                           .withUserId(testData.students.get(studentName).googleId)
-                          .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                          .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                          .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                          .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
 

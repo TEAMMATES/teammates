@@ -14,7 +14,7 @@ import teammates.ui.controller.InstructorFeedbackCopyAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackCopyActionTest extends BaseActionTest {
-    DataBundle dataBundle;    
+    DataBundle dataBundle;
     
     @BeforeClass
     public static void classSetUp() {
@@ -29,7 +29,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testAccessControl() throws Exception {
+    public void testAccessControl() {
         
         String[] params = new String[]{
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Copied Session",
@@ -43,7 +43,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String expectedString = "";
@@ -136,12 +136,12 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                            .toString(),
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
-        assertEquals(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
+        assertEquals(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
                                    "",
                                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                                    FieldValidator.REASON_EMPTY,
                                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                   FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH), 
+                                   FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
                      pageResult.getStatusMessage());
         
         expectedString =

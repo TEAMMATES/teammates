@@ -18,7 +18,7 @@ public class InstructorCourseEditPageAction extends Action {
     
     //TODO: display privileges in the database properly
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException { 
+    public ActionResult execute() throws EntityDoesNotExistException {
                 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
@@ -33,13 +33,13 @@ public class InstructorCourseEditPageAction extends Action {
         /* Setup page data for 'Edit' page of a course for an instructor */
         List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
         
-        int instructorToShowIndex  = -1;    // -1 means showing all instructors
+        int instructorToShowIndex = -1; // -1 means showing all instructors
         
         if (instructorEmail == null) {
             instructorList = logic.getInstructorsForCourse(courseId);
         } else {
             instructorList.add(logic.getInstructorForEmail(courseId, instructorEmail));
-            instructorToShowIndex = Integer.parseInt(index);        
+            instructorToShowIndex = Integer.parseInt(index);
         }
         
         List<String> sectionNames = logic.getSectionNamesForCourse(courseId);
@@ -47,12 +47,12 @@ public class InstructorCourseEditPageAction extends Action {
         
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedback : feedbacks) {
-            feedbackNames.add(feedback.feedbackSessionName);
+            feedbackNames.add(feedback.getFeedbackSessionName());
         }
         
-        InstructorCourseEditPageData data = new InstructorCourseEditPageData(account, courseToEdit, 
-                                                                             instructorList, instructor, 
-                                                                             instructorToShowIndex, 
+        InstructorCourseEditPageData data = new InstructorCourseEditPageData(account, courseToEdit,
+                                                                             instructorList, instructor,
+                                                                             instructorToShowIndex,
                                                                              sectionNames, feedbackNames);
         
         statusToAdmin = "instructorCourseEdit Page Load<br>"

@@ -22,13 +22,13 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
     private InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
     /**
-     * This method should be used by admin only since the previous searching does not restrict the 
-     * visibility according to the logged-in user's google ID. Therefore,This fromResults method 
+     * This method should be used by admin only since the previous searching does not restrict the
+     * visibility according to the logged-in user's google ID. Therefore,This fromResults method
      * does not require a googleID as a parameter. Returned results bundle will contain information
      * related to matched instructors only.
      * @param results
      * @return studentResultBundle containing information related to matched students only.
-     */   
+     */
     public InstructorSearchResultBundle getInstructorsfromResults(Results<ScoredDocument> results) {
         if (results == null) {
             return this;
@@ -37,8 +37,9 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
         cursor = results.getCursor();
         
         for (ScoredDocument doc : results) {
-            InstructorAttributes instructor = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).getText(), 
-                                                                  InstructorAttributes.class);
+            InstructorAttributes instructor =
+                    new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).getText(),
+                                                         InstructorAttributes.class);
             
             if (instructorsLogic.getInstructorForRegistrationKey(StringHelper.encrypt(instructor.key)) == null) {
                 instructorsLogic.deleteDocument(instructor);
@@ -62,7 +63,7 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
                 int compareResult = ins1.courseId.compareTo(ins2.courseId);
                 if (compareResult != 0) {
                     return compareResult;
-                }               
+                }
                 
                 compareResult = ins1.role.compareTo(ins2.role);
                 if (compareResult != 0) {

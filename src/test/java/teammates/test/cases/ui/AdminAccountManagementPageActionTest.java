@@ -19,7 +19,7 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         
         ______TS("case: view admin acount management page");
         
@@ -33,9 +33,9 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
 
         assertEquals("", result.getStatusMessage());
-        assertEquals("/jsp/adminAccountManagement.jsp?error=false&user=admin.user", 
+        assertEquals("/jsp/adminAccountManagement.jsp?error=false&user=admin.user",
                      result.getDestinationWithParams());
-        assertFalse(result.isError);      
+        assertFalse(result.isError);
                 
     }
 

@@ -70,7 +70,7 @@ public class AdminHomePage extends AppPage {
     }
     
     public void clearInstructorDetailsSingleLineForm() {
-        fillTextBox(detailsSingleLineTextBox, "");        
+        fillTextBox(detailsSingleLineTextBox, "");
     }
     
     public String getMessageFromResultTable(int index) {

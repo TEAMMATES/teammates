@@ -47,7 +47,9 @@ public class AccountAttributesTest extends BaseTestCase {
         String expectedError = String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY) + EOL
                 + String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
                 + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
-                + String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", FieldValidator.REASON_TOO_LONG);
+                + String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE,
+                                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                                FieldValidator.REASON_TOO_LONG);
         assertFalse("all valid values", account.isValid());
         assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
         
@@ -164,7 +166,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
         
-        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail, 
+        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail,
                 profileInstitute, nationality, gender, moreInfo, pictureKey);
         
         return account;

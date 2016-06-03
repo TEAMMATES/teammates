@@ -39,7 +39,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
         int questionNumber = 1;
         FeedbackQuestionAttributes question = feedbackQuestionsDb.getFeedbackQuestion(
-                session.feedbackSessionName, session.courseId, questionNumber);
+                session.getFeedbackSessionName(), session.getCourseId(), questionNumber);
         
         String giverEmail = "student1InCourse1@gmail.tmt";
         String receiverEmail = "student1InCourse1@gmail.tmt";
@@ -54,8 +54,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         verifyAssumptionFailure();
         
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response"
         };
         
@@ -64,8 +64,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         ______TS("typical successful case for unpublished session");
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
@@ -76,7 +76,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
         InstructorFeedbackResponseCommentAddAction action = getAction(submissionParams);
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
-        InstructorFeedbackResponseCommentAjaxPageData data = 
+        InstructorFeedbackResponseCommentAjaxPageData data =
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
@@ -85,8 +85,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         ______TS("typical successful case for unpublished session empty giver permissions");
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Empty giver permissions",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
@@ -105,8 +105,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         ______TS("typical successful case for unpublished session shown to various recipients");
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Null comment permissions",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
@@ -122,8 +122,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         assertEquals(CommentSendingState.SENT, data.comment.sendingState);
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Empty comment permissions",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
@@ -140,8 +140,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         assertEquals(CommentSendingState.SENT, data.comment.sendingState);
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to giver",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
@@ -158,8 +158,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         assertEquals(CommentSendingState.SENT, data.comment.sendingState);
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to receiver",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
@@ -176,8 +176,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         assertEquals(CommentSendingState.SENT, data.comment.sendingState);
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to own team members",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
@@ -194,8 +194,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         assertEquals(CommentSendingState.SENT, data.comment.sendingState);
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to receiver team members",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
@@ -212,8 +212,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to students",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
@@ -231,10 +231,10 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
         ______TS("typical successful case for published session");
         
-        FeedbackSessionsLogic.inst().publishFeedbackSession(session.feedbackSessionName, session.courseId);
+        FeedbackSessionsLogic.inst().publishFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response, published session",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
@@ -254,8 +254,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         ______TS("Unsuccessful case: empty comment text");
         
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),

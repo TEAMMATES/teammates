@@ -110,9 +110,9 @@ public class AdminEmailLogPageData extends PageData {
         String[] tokens = query.replaceAll(" and ", "|")
                                .replaceAll(", ", ",")
                                .replaceAll(": ", ":")
-                               .split("\\|", -1); 
+                               .split("\\|", -1);
        
-        for (int i = 0; i < tokens.length; i++) {           
+        for (int i = 0; i < tokens.length; i++) {
             String[] pair = tokens[i].split(":", -1);
             
             if (pair.length != 2) {
@@ -194,7 +194,7 @@ public class AdminEmailLogPageData extends PageData {
      * The boolean variables determine if the specific label was within the query
      * The XXValue variables hold the data linked to the label in the query
      */
-    private class QueryParameters {        
+    private class QueryParameters {
         public boolean isToDateInQuery;
         public long toDateValue;
         
@@ -210,7 +210,7 @@ public class AdminEmailLogPageData extends PageData {
         public boolean isInfoInQuery;
         public String[] infoValues;
         
-        public QueryParameters() {
+        QueryParameters() {
             isToDateInQuery = false;
             isFromDateInQuery = false;
             isReceiverInQuery = false;
@@ -223,22 +223,22 @@ public class AdminEmailLogPageData extends PageData {
          */
         public void add(String label, String[] values) throws ParseException, InvalidParametersException {
             if ("after".equals(label)) {
-                isFromDateInQuery = true;                
+                isFromDateInQuery = true;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 0:00");                          
+                Date d = sdf.parse(values[0] + " 0:00");
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+                cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
                 fromDateValue = cal.getTime().getTime();
                 
             } else if ("before".equals(label)) {
                 isToDateInQuery = true;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 23:59");  
+                Date d = sdf.parse(values[0] + " 23:59");
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
-                toDateValue = cal.getTime().getTime();          
+                cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
+                toDateValue = cal.getTime().getTime();
             } else if ("receiver".equals(label)) {
                 isReceiverInQuery = true;
                 receiverValues = values;
@@ -252,5 +252,5 @@ public class AdminEmailLogPageData extends PageData {
                 throw new InvalidParametersException("Invalid label");
             }
         }
-    }   
+    }
 }

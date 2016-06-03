@@ -28,7 +28,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
                 
         new GateKeeper().verifyAccessible(instructor,
                 session,
-                false, moderatedStudent.section, 
+                false, moderatedStudent.section,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
     
@@ -51,7 +51,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
             String questionId = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, 
+                    requestParameters,
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             
             if (questionId == null) {
@@ -63,7 +63,8 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
             
             if (questionAttributes == null) {
                 statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
-                                                + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
+                                                       + "Please check your responses to make sure they are saved correctly.",
+                                                   StatusMessageColor.WARNING));
                 isError = true;
                 log.warning("Question not found. (deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
                 continue;
@@ -76,7 +77,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
             if (!isResponseVisibleToInstructors || !isGiverVisibleToInstructors || !isRecipientVisibleToInstructors) {
                 isError = true;
                 throw new UnauthorizedAccessException(
-                        "Feedback session [" + feedbackSessionName 
+                        "Feedback session [" + feedbackSessionName
                         + "] question [" + questionAttributes.getId() + "] is not accessible to instructor [" + instructor.email + "]");
             }
         }
@@ -124,17 +125,17 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
 
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Instructor moderated student session<br>" 
-                      + "Instructor: " + account.email + "<br>" 
-                      + "Moderated Student: " + moderatedStudent + "<br>" 
-                      + "Session Name: " + feedbackSessionName + "<br>" 
+        statusToAdmin = "Instructor moderated student session<br>"
+                      + "Instructor: " + account.email + "<br>"
+                      + "Moderated Student: " + moderatedStudent + "<br>"
+                      + "Session Name: " + feedbackSessionName + "<br>"
                       + "Course ID: " + courseId;
     }
 
     @Override
     protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
         // Feedback session closing date does not matter. Instructors can moderate at any time
-        return true; 
+        return true;
     }
 
     @Override

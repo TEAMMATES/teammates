@@ -36,11 +36,11 @@ import teammates.storage.api.CoursesDb;
  * Handles operations related to courses.
  */
 public class CoursesLogic {
-    /* Explanation: Most methods in the API of this class doesn't have header 
-     *  comments because it sits behind the API of the logic class. 
-     *  Those who use this class is expected to be familiar with the its code 
+    /* Explanation: Most methods in the API of this class doesn't have header
+     *  comments because it sits behind the API of the logic class.
+     *  Those who use this class is expected to be familiar with the its code
      *  and Logic's code. Hence, no need for header comments.
-     */ 
+     */
     
     //TODO: There's no need for this class to be a Singleton.
     private static CoursesLogic instance;
@@ -48,7 +48,7 @@ public class CoursesLogic {
     private static final Logger log = Utils.getLogger();
     
     /* Explanation: This class depends on CoursesDb class but no other *Db classes.
-     * That is because reading/writing entities from/to the datastore is the 
+     * That is because reading/writing entities from/to the datastore is the
      * responsibility of the matching *Logic class.
      * However, this class can talk to other *Logic classes. That is because
      * the logic related to one entity type can involve the logic related to
@@ -70,7 +70,7 @@ public class CoursesLogic {
         return instance;
     }
 
-    public void createCourse(String courseId, String courseName) throws InvalidParametersException, 
+    public void createCourse(String courseId, String courseName) throws InvalidParametersException,
                                                                         EntityAlreadyExistsException {
         
         CourseAttributes courseToAdd = new CourseAttributes(courseId, courseName);
@@ -80,13 +80,13 @@ public class CoursesLogic {
     /**
      * Creates a Course object and an Instructor object for the Course.
      */
-    public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName) 
+    public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName)
             throws InvalidParametersException, EntityAlreadyExistsException {
         
         AccountAttributes courseCreator = accountsLogic.getAccount(instructorGoogleId);
-        Assumption.assertNotNull("Trying to create a course for a non-existent instructor :" + instructorGoogleId, 
+        Assumption.assertNotNull("Trying to create a course for a non-existent instructor :" + instructorGoogleId,
                                  courseCreator);
-        Assumption.assertTrue("Trying to create a course for a person who doesn't have instructor privileges :" + instructorGoogleId, 
+        Assumption.assertTrue("Trying to create a course for a person who doesn't have instructor privileges :" + instructorGoogleId,
                               courseCreator.isInstructor);
         
         createCourse(courseId, courseName);
@@ -95,12 +95,12 @@ public class CoursesLogic {
         InstructorPrivileges privileges = new InstructorPrivileges(
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorAttributes instructor = new InstructorAttributes(
-                instructorGoogleId, 
-                courseId, 
-                courseCreator.name, 
-                courseCreator.email, 
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, 
-                true, 
+                instructorGoogleId,
+                courseId,
+                courseCreator.name,
+                courseCreator.email,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                true,
                 InstructorAttributes.DEFAULT_DISPLAY_NAME,
                 privileges);
         
@@ -109,26 +109,45 @@ public class CoursesLogic {
         } catch (EntityAlreadyExistsException | InvalidParametersException e) {
             //roll back the transaction
             coursesDb.deleteCourse(courseId);
-            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + Const.EOL 
+            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + Const.EOL
                                   + instructor.toString() + Const.EOL
                                   + TeammatesException.toStringWithStackTrace(e);
             Assumption.fail(errorMessage);
         }
     }
 
+    /**
+     * @param courseId
+     * @return {@link CourseAttributes} using the courseId
+     */
     public CourseAttributes getCourse(String courseId) {
         return coursesDb.getCourse(courseId);
     }
 
+    /**
+     * Checks whether course is present using courseId.
+     * @param courseId
+     * @return {@code true} if course is present
+     */
     public boolean isCoursePresent(String courseId) {
         return coursesDb.getCourse(courseId) != null;
     }
     
+    /**
+     * Checks whether the course is a sample course using the courseId.
+     * @param courseId
+     * @return {@code true} if course is a sample course
+     */
     public boolean isSampleCourse(String courseId) {
         Assumption.assertNotNull("Course ID is null", courseId);
         return StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID);
     }
 
+    /**
+     * Used to trigger an {@link EntityDoesNotExistException} if the course is not present.
+     * @param courseId
+     * @throws EntityDoesNotExistException
+     */
     public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException {
         if (!isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException("Course does not exist: " + courseId);
@@ -139,7 +158,13 @@ public class CoursesLogic {
         return getCourseSummary(courseId);
     }
 
-    public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId) 
+    /**
+     * @param googleId The Google ID of the student
+     * @return a list of {@link CourseDetailsBundle course details} for all
+     *         courses a given student is enrolled in
+     * @throws EntityDoesNotExistException
+     */
+    public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId)
                 throws EntityDoesNotExistException {
         
         List<CourseAttributes> courseList = getCoursesForStudentAccount(googleId);
@@ -153,22 +178,22 @@ public class CoursesLogic {
                 //TODO Remove excessive logging after the reason why s can be null is found
                 StringBuilder logMsg = new StringBuilder();
                 logMsg.append(
-                    "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)<br> Student Google ID: "
-                    + googleId + "<br> Course: " + c.getId()
-                    + "<br> All Courses Retrieved using the Google ID:");
+                        "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)<br> Student Google ID: "
+                        + googleId + "<br> Course: " + c.getId()
+                        + "<br> All Courses Retrieved using the Google ID:");
                 for (CourseAttributes course : courseList) {
                     logMsg.append("<br>").append(course.getId());
                 }
                 log.severe(logMsg.toString());
                 
-                //TODO Failing might not be the best course of action here. 
+                //TODO Failing might not be the best course of action here.
                 //Maybe throw a custom exception and tell user to wait due to eventual consistency?
                 Assumption.assertNotNull("Student should not be null at this point.", s);
             }
             
             // Skip the course existence check since the course ID is obtained from a
             // valid CourseAttributes resulting from query
-            List<FeedbackSessionAttributes> feedbackSessionList = 
+            List<FeedbackSessionAttributes> feedbackSessionList =
                     feedbackSessionsLogic.getFeedbackSessionsForUserInCourseSkipCheck(c.getId(), s.email);
 
             CourseDetailsBundle cdd = new CourseDetailsBundle(c);
@@ -182,26 +207,36 @@ public class CoursesLogic {
         return courseDetailsList;
     }
 
+    /**
+     * @param courseId
+     * @return a list of section names for a course using the courseId
+     * @throws EntityDoesNotExistException
+     */
     public List<String> getSectionsNameForCourse(String courseId) throws EntityDoesNotExistException {
-        return getSectionsNameForCourse(courseId, false);  
+        return getSectionsNameForCourse(courseId, false);
     }
 
+    /**
+     * @param course
+     * @return a list of section names for a course using the {@link CourseAttributes}
+     * @throws EntityDoesNotExistException
+     */
     public List<String> getSectionsNameForCourse(CourseAttributes course) throws EntityDoesNotExistException {
         Assumption.assertNotNull("Course is null", course);
         return getSectionsNameForCourse(course.getId(), true);
     }
     
     /**
-     * Get list of section names for a course with or without a need to check if the course is existent
      * @param courseId Course ID of the course
-     * @param hasCheckIsPresent Determine whether it is necessary to check if the course exists
-     * @return list of sections names from the specified course
+     * @param isCourseVerified Determine whether it is necessary to check if the course exists
+     * @return a list of section names for a course with or without a need to
+     *         check if the course is existent
      * @throws EntityDoesNotExistException
      */
-    private List<String> getSectionsNameForCourse(String courseId, boolean isCourseVerified) 
+    private List<String> getSectionsNameForCourse(String courseId, boolean isCourseVerified)
         throws EntityDoesNotExistException {
         if (!isCourseVerified) {
-            verifyCourseIsPresent(courseId);    
+            verifyCourseIsPresent(courseId);
         }
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
         
@@ -215,7 +250,7 @@ public class CoursesLogic {
         List<String> sectionNameList = new ArrayList<String>(sectionNameSet);
         Collections.sort(sectionNameList);
 
-        return sectionNameList;   
+        return sectionNameList;
     }
 
     public SectionDetailsBundle getSectionForCourse(String section, String courseId)
@@ -254,6 +289,12 @@ public class CoursesLogic {
         return sectionDetails;
     }
     
+    /**
+     * @param course {@link CourseAttributes}
+     * @param cdd {@link CourseDetailsBundle}
+     * @return a list of {@link SectionDetailsBundle section details} for a
+     *         given course using course attributes and course details bundle.
+     */
     public List<SectionDetailsBundle> getSectionsForCourse(CourseAttributes course, CourseDetailsBundle cdd) {
         Assumption.assertNotNull("Course is null", course);
         
@@ -316,7 +357,12 @@ public class CoursesLogic {
         return sections;
     }
     
-    public List<SectionDetailsBundle> getSectionsForCourseWithoutStats(String courseId) 
+    /**
+     * @param courseId
+     * @return a list of {@link SectionDetailsBundle section details} for a given course using courseId
+     * @throws EntityDoesNotExistException
+     */
+    public List<SectionDetailsBundle> getSectionsForCourseWithoutStats(String courseId)
             throws EntityDoesNotExistException {
         
         verifyCourseIsPresent(courseId);
@@ -367,11 +413,11 @@ public class CoursesLogic {
     }
 
     /**
-     * Returns Teams for a particular courseId.<br> 
+     * Returns Teams for a particular courseId.<br>
      * <b>Note:</b><br>
      * This method does not returns any Loner information presently,<br>
      * Loner information must be returned as we decide to support loners<br>in future.
-     *  
+     * 
      */
     public List<TeamDetailsBundle> getTeamsForCourse(String courseId) throws EntityDoesNotExistException {
 
@@ -382,7 +428,7 @@ public class CoursesLogic {
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
         StudentAttributes.sortByTeamName(students);
         
-        List<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>(); 
+        List<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
         
         TeamDetailsBundle team = null;
         
@@ -413,14 +459,14 @@ public class CoursesLogic {
         return teams;
     }
 
-    public int getNumberOfSections(String courseID) throws EntityDoesNotExistException {
-        List<String> sectionNameList = getSectionsNameForCourse(courseID);
+    public int getNumberOfSections(String courseId) throws EntityDoesNotExistException {
+        List<String> sectionNameList = getSectionsNameForCourse(courseId);
         return sectionNameList.size();
     }
 
-    public int getNumberOfTeams(String courseID) throws EntityDoesNotExistException {
-        verifyCourseIsPresent(courseID);
-        List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseID);
+    public int getNumberOfTeams(String courseId) throws EntityDoesNotExistException {
+        verifyCourseIsPresent(courseId);
+        List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
 
         List<String> teamNameList = new ArrayList<String>();
 
@@ -443,6 +489,11 @@ public class CoursesLogic {
         return studentsLogic.getUnregisteredStudentsForCourse(courseId).size();
     }
 
+    /**
+     * @param cd
+     * @return the {@link CourseDetailsBundle course details} for a course using {@link CourseAttributes}
+     * @throws EntityDoesNotExistException
+     */
     public CourseDetailsBundle getCourseSummary(CourseAttributes cd) {
         Assumption.assertNotNull("Supplied parameter was null\n", cd);
         
@@ -453,6 +504,11 @@ public class CoursesLogic {
     }
     
     // TODO: reduce calls to this function, use above function instead.
+    /**
+     * @param courseId
+     * @return the {@link CourseDetailsBundle course details} for a course using courseId.
+     * @throws EntityDoesNotExistException
+     */
     public CourseDetailsBundle getCourseSummary(String courseId) throws EntityDoesNotExistException {
         CourseAttributes cd = coursesDb.getCourse(courseId);
 
@@ -463,6 +519,12 @@ public class CoursesLogic {
         return getCourseSummary(cd);
     }
     
+    /**
+     * @param instructor
+     * @return the {@link CourseSummaryBundle course summary}, including
+     *         its feedback sessions using the given {@link InstructorAttributes}.
+     * @throws EntityDoesNotExistException
+     */
     public CourseSummaryBundle getCourseSummaryWithFeedbackSessionsForInstructor(
             InstructorAttributes instructor) throws EntityDoesNotExistException {
         CourseSummaryBundle courseSummary = getCourseSummaryWithoutStats(instructor.courseId);
@@ -470,12 +532,22 @@ public class CoursesLogic {
         return courseSummary;
     }
 
+    /**
+     * @param course
+     * @return the {@link CourseSummaryBundle course summary} using the {@link CourseAttributes}
+     * @throws EntityDoesNotExistException
+     */
     public CourseSummaryBundle getCourseSummaryWithoutStats(CourseAttributes course) {
         Assumption.assertNotNull("Supplied parameter was null\n", course);
 
         return new CourseSummaryBundle(course);
     }
     
+    /**
+     * @param courseId
+     * @return the {@link CourseSummaryBundle course summary} using the courseId
+     * @throws EntityDoesNotExistException
+     */
     public CourseSummaryBundle getCourseSummaryWithoutStats(String courseId) throws EntityDoesNotExistException {
         CourseAttributes cd = coursesDb.getCourse(courseId);
 
@@ -486,6 +558,11 @@ public class CoursesLogic {
         return getCourseSummaryWithoutStats(cd);
     }
     
+    /**
+     * @param googleId The Google ID of the student
+     * @return a list of {@link CourseAttributes} for all courses a given student is enrolled in
+     * @throws EntityDoesNotExistException
+     */
     public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
         
@@ -502,15 +579,31 @@ public class CoursesLogic {
         return courseList;
     }
 
+    /**
+     * @param googleId The Google ID of the instructor
+     * @return a list of {@link CourseAttributes} for all courses a given instructor belongs to
+     * @throws EntityDoesNotExistException
+     */
     public List<CourseAttributes> getCoursesForInstructor(String googleId) {
         return getCoursesForInstructor(googleId, false);
     }
     
+    /**
+     * @param googleId The Google ID of the instructor
+     * @param omitArchived if {@code true}, omits all the archived courses from the return
+     * @return a list of {@link CourseAttributes} for courses a given instructor belongs to
+     * @throws EntityDoesNotExistException
+     */
     public List<CourseAttributes> getCoursesForInstructor(String googleId, boolean omitArchived) {
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
         return getCoursesForInstructor(instructorList);
     }
     
+    /**
+     * @param instructorList
+     * @return a list of {@link CourseAttributes} for all courses for a given list of instructors
+     * @throws EntityDoesNotExistException
+     */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null\n", instructorList);
         List<String> courseIdList = new ArrayList<String>();
@@ -533,26 +626,26 @@ public class CoursesLogic {
     }
     
     /**
-     * Gets course summaries for instructor.<br>
+     * Returns course summaries for instructor.<br>
      * Omits archived courses if omitArchived == true<br>
      * 
-     * @param googleId
+     * @param googleId The Google ID of the instructor
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
      * Does not include details within the course, such as feedback sessions.
      */
-    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId, boolean omitArchived) 
+    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId, boolean omitArchived)
             throws EntityDoesNotExistException {
         
         instructorsLogic.verifyInstructorExists(googleId);
 
-        List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId, 
+        List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId,
                                                                                                          omitArchived);
         
         return getCourseSummariesForInstructor(instructorAttributesList);
     }
     
     /**
-     * Gets course summaries for instructors.<br>
+     * Returns course summaries for instructors.<br>
      * 
      * @param instructorAttributesList
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
@@ -585,27 +678,27 @@ public class CoursesLogic {
     }
  
     /**
-     * Gets course details list for instructor.<br>
+     * Returns course details list for instructor.<br>
      * Omits archived courses if omitArchived == true<br>
      * 
      * @param instructorId - Google Id of instructor
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
      **/
-    public HashMap<String, CourseDetailsBundle> getCoursesDetailsListForInstructor(String instructorId, 
-                                                                                   boolean omitArchived) 
+    public HashMap<String, CourseDetailsBundle> getCoursesDetailsListForInstructor(String instructorId,
+                                                                                   boolean omitArchived)
            throws EntityDoesNotExistException {
         
-        HashMap<String, CourseDetailsBundle> courseList = 
+        HashMap<String, CourseDetailsBundle> courseList =
                 getCourseSummariesForInstructor(instructorId, omitArchived);
         
         // TODO: remove need for lower level functions to make repeated db calls
         // getFeedbackSessionDetailsForInstructor
         // The above functions make repeated calls to get InstructorAttributes
-        List<FeedbackSessionDetailsBundle> feedbackSessionList = 
+        List<FeedbackSessionDetailsBundle> feedbackSessionList =
                 feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(instructorId, omitArchived);
         
         for (FeedbackSessionDetailsBundle fsb : feedbackSessionList) {
-            CourseDetailsBundle courseSummary = courseList.get(fsb.feedbackSession.courseId);
+            CourseDetailsBundle courseSummary = courseList.get(fsb.feedbackSession.getCourseId());
             if (courseSummary != null) {
                 courseSummary.feedbackSessions.add(fsb);
             }
@@ -613,15 +706,28 @@ public class CoursesLogic {
         return courseList;
     }
     
+    /**
+     * @param instructorId
+     * @param omitArchived if {@code true}, omits all the archived courses from the return
+     * @return a Map (CourseId, {@link CourseSummaryBundle course summary
+     *         excluding statistics}) for all courses mapped to a given
+     *         instructor
+     * @throws EntityDoesNotExistException
+     */
     public HashMap<String, CourseSummaryBundle> getCoursesSummaryWithoutStatsForInstructor(
             String instructorId, boolean omitArchived) {
         
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId, 
+        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId,
                                                                                                omitArchived);
         return getCourseSummaryWithoutStatsForInstructor(instructorList);
     }
     
     // TODO: batch retrieve courses?
+    /**
+     * @param googleId The Google ID of the instructor
+     * @return a list of {@link CourseAttributes} for all archived courses mapped to an instructor
+     * @throws EntityDoesNotExistException
+     */
     public List<CourseAttributes> getArchivedCoursesForInstructor(String googleId) {
         
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
@@ -632,7 +738,7 @@ public class CoursesLogic {
             CourseAttributes course = coursesDb.getCourse(instructor.courseId);
             
             if (course == null) {
-                log.warning("Course was deleted but the Instructor still exists: " + Const.EOL 
+                log.warning("Course was deleted but the Instructor still exists: " + Const.EOL
                             + instructor.toString());
             } else {
                 boolean isCourseArchived = isCourseArchived(instructor.courseId, instructor.googleId);
@@ -645,7 +751,14 @@ public class CoursesLogic {
         return courseList;
     }
     
-    public void setArchiveStatusOfCourse(String courseId, boolean archiveStatus) throws InvalidParametersException, 
+    /**
+     * Updates the 'archived' status of a course using the courseId.
+     * @param courseId
+     * @param archiveStatus if {@code true}, course is set to "archived".
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
+    public void setArchiveStatusOfCourse(String courseId, boolean archiveStatus) throws InvalidParametersException,
                                                                                         EntityDoesNotExistException {
         
         CourseAttributes courseToUpdate = getCourse(courseId);
@@ -662,7 +775,7 @@ public class CoursesLogic {
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public void updateCourse(CourseAttributes newCourse) throws InvalidParametersException, 
+    public void updateCourse(CourseAttributes newCourse) throws InvalidParametersException,
                                                                 EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newCourse);
         
@@ -678,7 +791,7 @@ public class CoursesLogic {
     /**
      * Delete a course from its given corresponding ID
      * This will also cascade the data in other databases which are related to this course
-     */ 
+     */
     public void deleteCourseCascade(String courseId) {
         studentsLogic.deleteStudentsForCourse(courseId);
         instructorsLogic.deleteInstructorsForCourse(courseId);
@@ -714,6 +827,12 @@ public class CoursesLogic {
         return courseSummaryList;
     }
     
+    /**
+     * @param courseId
+     * @param googleId
+     * @return a CSV for the details(name, email, status) of all students belonging to a given course
+     * @throws EntityDoesNotExistException
+     */
     public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
 
         HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId, false);
@@ -721,12 +840,12 @@ public class CoursesLogic {
         boolean hasSection = hasIndicatedSections(courseId);
         
         StringBuilder export = new StringBuilder(100);
-        String courseInfo = "Course ID," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL 
+        String courseInfo = "Course ID," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL
                       + "Course Name," + Sanitizer.sanitizeForCsv(course.course.getName()) + Const.EOL
                       + Const.EOL + Const.EOL;
         export.append(courseInfo);
         
-        String header = (hasSection ? "Section," : "") + "Team,Full Name,Last Name,Status,Email" + Const.EOL; 
+        String header = (hasSection ? "Section," : "") + "Team,Full Name,Last Name,Status,Email" + Const.EOL;
         export.append(header);
         
         for (SectionDetailsBundle section : course.sections) {
@@ -743,10 +862,10 @@ public class CoursesLogic {
                         export.append(Sanitizer.sanitizeForCsv(section.name)).append(',');
                     }
 
-                    export.append(Sanitizer.sanitizeForCsv(team.name) + ',' 
+                    export.append(Sanitizer.sanitizeForCsv(team.name) + ','
                             + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + ','
-                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ',' 
-                            + Sanitizer.sanitizeForCsv(studentStatus) + ',' 
+                            + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ','
+                            + Sanitizer.sanitizeForCsv(studentStatus) + ','
                             + Sanitizer.sanitizeForCsv(student.email) + Const.EOL);
                 }
             }
@@ -776,6 +895,12 @@ public class CoursesLogic {
         return instructor.isArchived == null ? course.isArchived : instructor.isArchived;
     }
     
+    /**
+     * Maps sections to relevant course id.
+     * @param courses
+     * @return a hash map containing a list of sections as the value and relevant courseId as the key.
+     * @throws EntityDoesNotExistException
+     */
     public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses)
                                     throws EntityDoesNotExistException {
         Map<String, List<String>> courseIdToSectionName = new HashMap<String, List<String>>();
@@ -790,6 +915,12 @@ public class CoursesLogic {
     // TODO: Optimize extractActiveCourses() and extractArchivedCourses() to reduce the number of repeated calls of
     // isCourseArchived(), which retrieves information from the database
     
+    /**
+     * @param courseBundles all courses
+     * @param googleId The Google ID of the instructor
+     * @return a list of {@link CourseDetailsBundle course details} for all
+     *         active courses mapped to a particular instructor
+     */
     public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
         List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
         for (CourseDetailsBundle courseBundle : courseBundles) {
@@ -800,6 +931,12 @@ public class CoursesLogic {
         return result;
     }
     
+    /**
+     * @param courseBundles all courses
+     * @param googleId The Google ID of the instructor
+     * @return a list of {@link CourseDetailsBundle course details} for all
+     *         archived courses mapped to a particular instructor
+     */
     public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
         List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
         for (CourseDetailsBundle courseBundle : courseBundles) {
@@ -810,6 +947,11 @@ public class CoursesLogic {
         return result;
     }
     
+    /**
+     * @param allCourses
+     * @param instructorsForCourses
+     * @return a list of courseIds for all archived courses for all instructors
+     */
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
         List<String> archivedCourseIds = new ArrayList<String>();
         for (CourseAttributes course : allCourses) {

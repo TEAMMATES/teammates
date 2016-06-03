@@ -28,7 +28,7 @@ public class InstructorFeedbackResultsResponseRow {
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
-                                        String displayableResponse, 
+                                        String displayableResponse,
                                         InstructorFeedbackResultsModerationButton moderationButton) {
         this(giverDisplayableIdentifier, giverTeam, recipientDisplayableIdentifier, recipientTeam,
              displayableResponse, moderationButton, false);
@@ -36,7 +36,7 @@ public class InstructorFeedbackResultsResponseRow {
     
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
-                                        String displayableResponse, 
+                                        String displayableResponse,
                                         InstructorFeedbackResultsModerationButton moderationButton, boolean isRowGrey) {
         this.giverDisplayableIdentifier = giverDisplayableIdentifier;
         this.giverTeam = giverTeam;

@@ -103,10 +103,10 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         if (s == null) {
             return false;
         }
-        if (s.indexOf('<') >= 0 || s.indexOf('>') >= 0 || s.indexOf('\"') >= 0 
-            || s.indexOf('/') >= 0 || s.indexOf('\'') >= 0) {
+        if (s.indexOf('<') >= 0 || s.indexOf('>') >= 0 || s.indexOf('\"') >= 0
+                || s.indexOf('/') >= 0 || s.indexOf('\'') >= 0) {
             return false;
-        } else if (s.indexOf("&lt;") >= 0 || s.indexOf("&gt;") >= 0 || s.indexOf("&quot;") >= 0 
+        } else if (s.indexOf("&lt;") >= 0 || s.indexOf("&gt;") >= 0 || s.indexOf("&quot;") >= 0
                    || s.indexOf("&#x2f;") >= 0 || s.indexOf("&#39;") >= 0 || s.indexOf("&amp;") >= 0) {
             return true;
         }
@@ -123,7 +123,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     private boolean checkStudentHasSanitizedData(StudentAttributes student) {
         return isSanitizedString(student.comments) || isSanitizedString(student.course)
                || isSanitizedString(student.email) || isSanitizedString(student.googleId)
-               || isSanitizedString(student.lastName) || isSanitizedString(student.name) 
+               || isSanitizedString(student.lastName) || isSanitizedString(student.name)
                || isSanitizedString(student.section) || isSanitizedString(student.team);
     }
     
@@ -154,7 +154,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         }
     }
 
-    protected PersistenceManager getPM() {
+    protected PersistenceManager getPm() {
         return Datastore.getPersistenceManager();
     }
 
@@ -174,6 +174,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
         
-        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments, true);    
+        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section,
+                                 student.email, student.googleId, student.comments, true);
     }
 }

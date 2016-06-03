@@ -25,7 +25,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     public FeedbackContributionResponseDetails(int answer) {
         super(FeedbackQuestionType.CONTRIB);
         this.answer = answer;
-    }    
+    }
     
     @Override
     public void extractResponseDetails(FeedbackQuestionType questionType,
@@ -65,12 +65,14 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     }
     
     @Override
-    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
+                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getContributionQuestionResponseAnswerHtml(response, question, feedbackSessionResultsBundle);
     }
 
     @Override
-    public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+    public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
+                               FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getContributionQuestionResponseAnswerCsv(response, question, feedbackSessionResultsBundle);
     }
 
@@ -97,15 +99,15 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             if (giverIndex == -1) {
                 log.severe("getContributionQuestionResponseAnswerHtml - giverIndex is -1\n"
                         + "Cannot find giver: " + actualResponse.giverEmail + "\n"
-                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.courseId + "\n"
-                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.feedbackSessionName + "\n"
+                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
+                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
                         + "Response Id: " + actualResponse.getId());
             }
             if (recipientIndex == -1) {
                 log.severe("getContributionQuestionResponseAnswerHtml - recipientIndex is -1\n"
                         + "Cannot find recipient: " + actualResponse.recipientEmail + "\n"
-                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.courseId + "\n"
-                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.feedbackSessionName + "\n"
+                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
+                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
                         + "Response Id: " + actualResponse.getId());
             }
             
@@ -121,7 +123,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             
             //For CONTRIB qns, We want to show PC if giver == recipient.
             int pc = studentResult.perceivedToInstructor;
-            return responseAnswerHtml 
+            return responseAnswerHtml
                  + FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
         }
         return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
@@ -150,15 +152,15 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             if (giverIndex == -1) {
                 log.severe("getContributionQuestionResponseAnswerCsv - giverIndex is -1\n"
                         + "Cannot find giver: " + actualResponse.giverEmail + "\n"
-                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.courseId + "\n"
-                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.feedbackSessionName + "\n"
+                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
+                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
                         + "Response Id: " + actualResponse.getId());
             }
             if (recipientIndex == -1) {
                 log.severe("getContributionQuestionResponseAnswerCsv - recipientIndex is -1\n"
                         + "Cannot find recipient: " + actualResponse.recipientEmail + "\n"
-                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.courseId + "\n"
-                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.feedbackSessionName + "\n"
+                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
+                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
                         + "Response Id: " + actualResponse.getId());
             }
         } else {
@@ -179,7 +181,8 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     // TODO: check if this can be made non-static
     public static Map<String, StudentResultSummary> getContribQnStudentResultSummary(FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        Map<String, StudentResultSummary> contribQnStats = feedbackSessionResultsBundle.contributionQuestionStudentResultSummary.get(question.getId());
+        Map<String, StudentResultSummary> contribQnStats =
+                feedbackSessionResultsBundle.contributionQuestionStudentResultSummary.get(question.getId());
         if (contribQnStats == null) {
             FeedbackContributionQuestionDetails fqcd = (FeedbackContributionQuestionDetails) question.getQuestionDetails();
             contribQnStats = fqcd.getStudentResults(feedbackSessionResultsBundle, question);

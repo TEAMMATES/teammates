@@ -42,7 +42,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         instructorId = testData.accounts.get("instructor1").googleId;
         instructorCourseId = testData.courses.get("course").getId();
-        instructorEditFSName = testData.feedbackSessions.get("edit").feedbackSessionName;
+        instructorEditFSName = testData.feedbackSessions.get("edit").getFeedbackSessionName();
 
     }
 
@@ -61,7 +61,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                                                 "alice.b.tmms@gmail.tmt",
                                                 "tmms.helper1@gmail.tmt"));
         FeedbackQuestionSubmitPage rankOptionsQuestionSubmitPage = loginToStudentFeedbackQuestionSubmitPage(
-                                                                        "alice.tmms@FRankUiT.CS4221", 
+                                                                        "alice.tmms@FRankUiT.CS4221",
                                                                         "student", singleRankOptionsFq.getId());
 
         rankOptionsQuestionSubmitPage.selectResponseTextDropdown(1, 0, 0, "2");
@@ -78,7 +78,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("Rank recipients: single question submission page");
         FeedbackQuestionAttributes singleRankRecipientsfq = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 3);
-        FeedbackQuestionSubmitPage rankRecipientsQuestionSubmitPage = loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRankUiT.CS4221", "student", singleRankRecipientsfq.getId());
+        FeedbackQuestionSubmitPage rankRecipientsQuestionSubmitPage =
+                loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRankUiT.CS4221", "student", singleRankRecipientsfq.getId());
         
         assertNull(BackDoor.getFeedbackResponse(singleRankRecipientsfq.getId(),
                                         "alice.b.tmms@gmail.tmt",
@@ -128,7 +129,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         // try to submit with error
         submitPage.clickSubmitButton();
-        assertEquals("Please fix the error(s) for rank question(s) 5. To skip a rank question, leave all the boxes blank.", submitPage.getStatus());
+        assertEquals("Please fix the error(s) for rank question(s) 5. To skip a rank question, leave all the boxes blank.",
+                     submitPage.getStatus());
         
         submitPage.selectResponseTextDropdown(5, 1, 0, "1");
         assertEquals("Please rank the above recipients.", submitPage.getRankMessage(5, 3));
@@ -205,7 +207,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         int qnNumber = 1;
         int responseNumber = 0;
         int rowNumber = 0;
-        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION + "-" 
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION + "-"
                                                      + qnNumber + "-" + responseNumber + "-" + rowNumber));
 
         ______TS("Rank submission: test submission page if some students are not visible to the instructor");
@@ -246,22 +248,26 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankQuestionView.html");
 
         ______TS("Rank instructor results : Giver > Recipient > Question");
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "giver-recipient-question");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "giver-recipient-question");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGRQView.html");
         
         ______TS("Rank instructor results : Giver > Question > Recipient");
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "giver-question-recipient");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "giver-question-recipient");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGQRView.html");
         
         ______TS("Rank instructor results : Recipient > Question > Giver ");
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "recipient-question-giver");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "recipient-question-giver");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRQGView.html");
         
         ______TS("Rank instructor results : Recipient > Giver > Question");
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "recipient-giver-question");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "recipient-giver-question");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRGQView.html");
     }
@@ -287,15 +293,15 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     private void testNewRankRecipientsQuestionFrame() {
         ______TS("Rank recipients: new question (frame)");
 
-        feedbackEditPage.selectNewQuestionType("Rank (recipients) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RANK_RECIPIENTS");
         assertTrue(feedbackEditPage.verifyNewRankRecipientsQuestionFormIsDisplayed());
     }
 
     private void testNewRankOptionsQuestionFrame() {
         ______TS("Rank options: new question (frame)");
-        feedbackEditPage.selectNewQuestionType("Rank (options) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
         assertTrue(feedbackEditPage.verifyNewRankOptionsQuestionFormIsDisplayed());
     }
 
@@ -325,12 +331,12 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
         // try to submit with insufficient non-blank option
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS 
-                     + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".", 
+        assertEquals(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
+                     + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".",
                      feedbackEditPage.getStatus());
 
-        feedbackEditPage.selectNewQuestionType("Rank (options) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
         
         feedbackEditPage.fillQuestionBox("Rank qn");
         
@@ -338,7 +344,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddMoreRankOptionLinkForNewQn();
         feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 1 <>");
         feedbackEditPage.fillRankOptionForNewQuestion(2, "  Option 2  ");
-        feedbackEditPage.clickAddMoreRankOptionLinkForNewQn(); 
+        feedbackEditPage.clickAddMoreRankOptionLinkForNewQn();
         assertEquals(4, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
         
         feedbackEditPage.tickDuplicatesAllowedCheckboxForNewQuestion();
@@ -350,8 +356,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals("Blank options should have been removed", 2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(1));
         
         ______TS("Rank edit: add rank recipient question action success");
-        feedbackEditPage.selectNewQuestionType("Rank (recipients) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RANK_RECIPIENTS");
         
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 2));
         
@@ -428,8 +434,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
             String instructorName, String fsName) {
         AppUrl submitPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                         .withUserId(testData.instructors.get(instructorName).googleId)
-                        .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                        .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, submitPageUrl, FeedbackSubmitPage.class);
     }
 
@@ -437,8 +443,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
             String studentName, String fsName) {
         AppUrl submitPageUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                         .withUserId(testData.students.get(studentName).googleId)
-                        .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                        .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, submitPageUrl, FeedbackSubmitPage.class);
     }
 
@@ -446,8 +452,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
             String studentName, String fsName) {
         AppUrl resultsPageUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                         .withUserId(testData.students.get(studentName).googleId)
-                        .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                        .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(browser, resultsPageUrl,
                 StudentFeedbackResultsPage.class);
     }
@@ -456,8 +462,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
             String instructorName, String fsName, boolean needAjax, String viewType) {
         AppUrl resultsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                     .withUserId(testData.instructors.get(instructorName).googleId)
-                    .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                    .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                    .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                    .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         
         if (needAjax) {
             resultsPageUrl = resultsPageUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, String.valueOf(needAjax));
@@ -475,8 +481,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         StudentAttributes s = testData.students.get(studentName);
         AppUrl submitPageUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                             .withUserId(s.googleId)
-                            .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                            .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
+                            .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                            .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())
                             .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         
         return loginAdminToPage(browser, submitPageUrl, FeedbackQuestionSubmitPage.class);

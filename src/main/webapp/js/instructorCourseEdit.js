@@ -97,23 +97,27 @@ function hideTunePermissionDiv(instrNum) {
 function showTuneSectionPermissionsDiv(instrNum, sectionNum) {
     $('#tuneSectionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum).show();
     var numberOfSections = $('select#section' + sectionNum + 'forinstructor' + instrNum + ' option').length;
-    var numOfVisibleSections = $('#tunePermissionsDivForInstructor' + 1 + " div[id^='tuneSectionPermissionsDiv']").filter(':visible').length;
+    var numOfVisibleSections = $('#tunePermissionsDivForInstructor' + 1
+                                 + " div[id^='tuneSectionPermissionsDiv']").filter(':visible').length;
     
     if (numOfVisibleSections === numberOfSections) {
         $('#addSectionLevelForInstructor' + instrNum).hide();
     }
-    $('#tuneSectionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum + " input[name='issectiongroup" + sectionNum + "set']").attr('value', 'true');
+    $('#tuneSectionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum
+        + " input[name='issectiongroup" + sectionNum + "set']").attr('value', 'true');
     setAddSectionLevelLink(instrNum);
 }
 
 function setAddSectionLevelLink(instrNum) {
     var foundNewLink = false;
-    var allSectionSelects = $('#tunePermissionsDivForInstructor' + instrNum + " div[id^='tuneSectionPermissionsDiv']").find('input[type=hidden]').not("[name*='sessions']");
+    var allSectionSelects = $('#tunePermissionsDivForInstructor' + instrNum
+                              + " div[id^='tuneSectionPermissionsDiv']").find('input[type=hidden]').not("[name*='sessions']");
     for (var idx = 0; idx < allSectionSelects.length; idx++) {
         var item = $(allSectionSelects[idx]);
         if (item.attr('value') === 'false') {
             var sectionNumStr = item.attr('name').substring(14).slice(0, -3);
-            $('#addSectionLevelForInstructor' + instrNum).attr('onclick', 'showTuneSectionPermissionsDiv(' + instrNum + ', ' + sectionNumStr + ')');
+            $('#addSectionLevelForInstructor' + instrNum)
+                .attr('onclick', 'showTuneSectionPermissionsDiv(' + instrNum + ', ' + sectionNumStr + ')');
             foundNewLink = true;
             break;
         }
@@ -127,7 +131,8 @@ function setAddSectionLevelLink(instrNum) {
 
 function hideTuneSectionPermissionsDiv(instrNum, sectionNum) {
     $('#tuneSectionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum).hide();
-    $('#tuneSectionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum + " input[name='issectiongroup" + sectionNum + "set']").attr('value', 'false');
+    $('#tuneSectionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum
+        + " input[name='issectiongroup" + sectionNum + "set']").attr('value', 'false');
     $('#addSectionLevelForInstructor' + instrNum).show();
     setAddSectionLevelLink(instrNum);
 }
@@ -135,15 +140,20 @@ function hideTuneSectionPermissionsDiv(instrNum, sectionNum) {
 function showTuneSessionnPermissionsDiv(instrNum, sectionNum) {
     $('#tuneSessionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum).show();
     $('#toggleSessionLevelInSection' + sectionNum + 'ForInstructor' + instrNum).html('Hide session-level permissions');
-    $('#toggleSessionLevelInSection' + sectionNum + 'ForInstructor' + instrNum).attr('onclick', 'hideTuneSessionnPermissionsDiv(' + instrNum + ', ' + sectionNum + ')');
-    $('#tuneSectionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum + " input[name='issectiongroup" + sectionNum + "sessionsset']").attr('value', 'true');
+    $('#toggleSessionLevelInSection' + sectionNum + 'ForInstructor' + instrNum)
+        .attr('onclick', 'hideTuneSessionnPermissionsDiv(' + instrNum + ', ' + sectionNum + ')');
+    $('#tuneSectionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum
+        + " input[name='issectiongroup" + sectionNum + "sessionsset']").attr('value', 'true');
 }
 
 function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {
     $('#tuneSessionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum).hide();
-    $('#toggleSessionLevelInSection' + sectionNum + 'ForInstructor' + instrNum).html('Give different permissions for sessions in this section');
-    $('#toggleSessionLevelInSection' + sectionNum + 'ForInstructor' + instrNum).attr('onclick', 'showTuneSessionnPermissionsDiv(' + instrNum + ', ' + sectionNum + ')');
-    $('#tuneSectionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum + " input[name='issectiongroup" + sectionNum + "sessionsset']").attr('value', 'false');
+    $('#toggleSessionLevelInSection' + sectionNum + 'ForInstructor' + instrNum)
+        .html('Give different permissions for sessions in this section');
+    $('#toggleSessionLevelInSection' + sectionNum + 'ForInstructor' + instrNum)
+        .attr('onclick', 'showTuneSessionnPermissionsDiv(' + instrNum + ', ' + sectionNum + ')');
+    $('#tuneSectionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum
+        + " input[name='issectiongroup" + sectionNum + "sessionsset']").attr('value', 'false');
 }
 
 function checkTheRoleThatApplies(instrNum) {
@@ -153,7 +163,8 @@ function checkTheRoleThatApplies(instrNum) {
         // Save original values of Custom Role
         instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum] = {};
         for (var i = 0; i < instructorPrivilegeValues.length; i++) {
-            var checkValue = $('#tunePermissionsDivForInstructor' + instrNum + " input[name='" + instructorPrivilegeValues[i] + "']").prop('checked');
+            var checkValue = $('#tunePermissionsDivForInstructor' + instrNum
+                               + " input[name='" + instructorPrivilegeValues[i] + "']").prop('checked');
             instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum][instructorPrivilegeValues[i]] = checkValue;
         }
         
@@ -405,4 +416,6 @@ function editCourse() {
 $(document).ready(function() {
     $('#courseEditLink').click(editCourse);
     bindCheckboxToggle();
+    var index = $('#new-instructor-index').val();
+    bindChangingRole(index);
 });

@@ -237,7 +237,8 @@ $(document).ready(function() {
                     
                     var feedbackSessionPanel = feedbackQuestion.closest('.feedback-session-panel');
                     var feedbackSessionPanelBody = feedbackQuestion.parent();
-                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length !== feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
+                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length
+                            !== feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
                         // if not all questions are hidden within fbSession, then show the fbsession's body
                         feedbackSessionPanelBody.show();
                     }
@@ -249,7 +250,8 @@ $(document).ready(function() {
             var studentCommentPanel = $(comment).closest('.student-comments-panel');
             var studentCommentPanelBody = $(comment).parent();
             // if not all student comments are hidden, then show the student comments panel
-            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length !== studentCommentPanel.find('div[class*="giver_display-by"]').length) {
+            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length
+                    !== studentCommentPanel.find('div[class*="giver_display-by"]').length) {
                 studentCommentPanelBody.show();
             }
         }
@@ -279,7 +281,8 @@ $(document).ready(function() {
                     
                     var feedbackSessionPanel = feedbackQuestion.closest('.feedback-session-panel');
                     var feedbackSessionPanelBody = feedbackQuestion.parent();
-                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length === feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
+                    if (feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length
+                            === feedbackSessionPanel.find('div[class="panel panel-info"]').length) {
                         // if all questions are hidden within fbSession, then hide the fbsession's body
                         feedbackSessionPanelBody.hide();
                     }
@@ -291,7 +294,8 @@ $(document).ready(function() {
             var studentCommentPanel = $(comment).closest('.student-comments-panel');
             var studentCommentPanelBody = $(comment).parent();
             // if all student comments are hidden, then hide the student comments panel
-            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length === studentCommentPanel.find('div[class*="giver_display-by"]').length) {
+            if (studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length
+                    === studentCommentPanel.find('div[class*="giver_display-by"]').length) {
                 studentCommentPanelBody.hide();
             }
         }
@@ -367,19 +371,19 @@ $(document).ready(function() {
         table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find("input[name='showcommentsto']").val(visibilityOptions.toString());
+        form.find("input[name='showcommentsto']").val(visibilityOptions.join(', '));
         
         visibilityOptions = [];
         table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find("input[name='showgiverto']").val(visibilityOptions.toString());
+        form.find("input[name='showgiverto']").val(visibilityOptions.join(', '));
         
         visibilityOptions = [];
         table.find('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find("input[name='showrecipientto']").val(visibilityOptions.toString());
+        form.find("input[name='showrecipientto']").val(visibilityOptions.join(', '));
     });
 });
 

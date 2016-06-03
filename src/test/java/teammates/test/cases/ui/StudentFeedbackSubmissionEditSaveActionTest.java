@@ -694,9 +694,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         a = getAction(submissionParams);
         r = (RedirectResult) a.executeAndPostProcess();
 
-        assertTrue(r.isError);  
-        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
-                                r.getDestinationWithParams());
+        assertTrue(r.isError);
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1"
+                        + "&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
+                     r.getDestinationWithParams());
         assertEquals(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, "1"), r.getStatusMessage());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -710,7 +711,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         responsesToAdd.add(fr);
         frDb.createFeedbackResponses(responsesToAdd);
         
-        otherFr = frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail); //necessary to get the correct responseId
+        // necessary to get the correct responseId
+        otherFr = frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail);
         assertNotNull("Feedback response not found in database", fr);
         
         submissionParams = new String[] {
@@ -727,10 +729,11 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         a = getAction(submissionParams);
         r = (RedirectResult) a.executeAndPostProcess();
         
-        assertTrue(r.isError);        
+        assertTrue(r.isError);
 
-        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=MCQ+Session",
-                        r.getDestinationWithParams());
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1"
+                         + "&courseid=FSQTT.idOfTypicalCourse1&fsname=MCQ+Session",
+                     r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail));
         
         gaeSimulation.logoutUser();
@@ -750,7 +753,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("unregisteredStudentSession");
-        fsa = fsDb.getFeedbackSession(unregisteredStudent.course, fsa.feedbackSessionName);
+        fsa = fsDb.getFeedbackSession(unregisteredStudent.course, fsa.getFeedbackSessionName());
         assertNotNull("Feedback session not found in database", fsa);
 
         // Setting uri for unregistered student which contains the key of the student
@@ -758,7 +761,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                                                                            unregisteredStudent.email);
         uri = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
                                           .withCourseId(unregisteredStudent.course)
-                                          .withSessionName(fsa.feedbackSessionName)
+                                          .withSessionName(fsa.getFeedbackSessionName())
                                           .withRegistrationKey(studentKey)
                                           .withStudentEmail(unregisteredStudent.email)
                                           .toString();
@@ -796,7 +799,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
         uri = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
                                           .withCourseId(unregisteredStudent.course)
-                                          .withSessionName(fsa.feedbackSessionName)
+                                          .withSessionName(fsa.getFeedbackSessionName())
                                           .withRegistrationKey(studentKey)
                                           .withStudentEmail(unregisteredStudent.email)
                                           .toString();
@@ -840,13 +843,13 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         gaeSimulation.loginAsStudent(studentInGracePeriod.googleId);
 
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
         };
 
         ______TS("opened");
 
-        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertTrue(fs.isOpened());
@@ -862,7 +865,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("during grace period");
 
-        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertFalse(fs.isOpened());
@@ -877,7 +880,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("after grace period");
 
-        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(-10);
+        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-10));
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertFalse(fs.isOpened());

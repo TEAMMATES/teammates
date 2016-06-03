@@ -17,13 +17,15 @@ public class FeedbackQuestionSubmitPage extends FeedbackSubmitPage {
     }
     
     public WebElement getTextArea(int questionNum, int responseNum) {
-        String textAreaName = "responsetext-" + questionNum + "-" + responseNum; 
+        String textAreaName = "responsetext-" + questionNum + "-" + responseNum;
         return browser.driver.findElement(By.name(textAreaName));
-    }   
+    }
     
     public void clickRubricCell(int respIndex, int row, int col) {
         int qnIndex = 1;
-        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
+        WebElement radio = browser.driver.findElement(
+                By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE
+                      + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         // Gets the parent element.
         WebElement cell = radio.findElement(By.xpath(".."));
         cell.click();
