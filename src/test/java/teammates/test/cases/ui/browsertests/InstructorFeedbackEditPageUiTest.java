@@ -293,7 +293,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         // use getAttribute("textContent") instead of getText
         // because of the row of Recipient's Team Members is not displayed
-        assertEquals("Recipient's Team Members", feedbackEditPage.getVisibilityOptionTableRow(2, 4).getAttribute("textContent").trim());
+        assertEquals("Recipient's Team Members",
+                     feedbackEditPage.getVisibilityOptionTableRow(2, 4).getAttribute("textContent").trim());
         assertFalse(feedbackEditPage.getVisibilityOptionTableRow(2, 4).isDisplayed());
                 
         ______TS("test visibility preview of question 2");

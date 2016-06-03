@@ -91,7 +91,8 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.clickAddQuestionButton();
         
-        assertEquals("Please enter valid options. The interval is not divisible by the specified increment.", feedbackEditPage.getStatus());
+        assertEquals("Please enter valid options. The interval is not divisible by the specified increment.",
+                     feedbackEditPage.getStatus());
         
         ______TS("possible floating point error");
         

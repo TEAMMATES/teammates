@@ -944,7 +944,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public WebElement getVisibilityOptionTableRow(int questionNumber, int optionRowNumber) {
-        return getVisibilityOptions(questionNumber).findElement(By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
+        return getVisibilityOptions(questionNumber).findElement(
+                By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
     }
 
     public WebElement getPreviewLabel(int questionNumber) {

@@ -233,10 +233,11 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 teamQuestion.getId(), studentToUpdate.email).size(), 1);
         
         // Add one more non-team response
-        FeedbackResponseAttributes responseToAdd = new FeedbackResponseAttributes("First feedback session",
-                                                        "idOfTypicalCourse1", getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
-                                                        FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
-                                                        studentToUpdate.email, "Section 1", new Text("New Response to self"));
+        FeedbackResponseAttributes responseToAdd =
+                new FeedbackResponseAttributes("First feedback session", "idOfTypicalCourse1",
+                                               getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
+                                               FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
+                                               studentToUpdate.email, "Section 1", new Text("New Response to self"));
         frLogic.createFeedbackResponse(responseToAdd);
         
         // All these responses should be gone after he changes teams
@@ -264,7 +265,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes questionToTeamMembersAndSelf =
                                         getQuestionFromDatastore(questionTypeBundle, "qn1InContribSession2InCourse2");
         studentToUpdate = questionTypeBundle.students.get("student2InCourse2");
-        FeedbackResponseAttributes response = getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
+        FeedbackResponseAttributes response =
+                getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
         StudentEnrollDetails studentDetails1 =
                 new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED, studentToUpdate.course,
                                          studentToUpdate.email, studentToUpdate.team,
@@ -354,11 +356,13 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         ______TS("success: GetViewableResponsesForQuestionInSection - instructor");
         
         fq = getQuestionFromDatastore("qn2InSession1InCourse1");
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, "Section 1");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                fq, instructor.email, UserType.Role.INSTRUCTOR, "Section 1");
         
         assertEquals(responses.size(), 3);
         
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, "Section 2");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                fq, instructor.email, UserType.Role.INSTRUCTOR, "Section 2");
         
         assertEquals(responses.size(), 0);
 
@@ -502,8 +506,10 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
         
         List<FeedbackResponseAttributes> remainingResponses = new ArrayList<FeedbackResponseAttributes>();
-        remainingResponses.addAll(frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
-        remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(
+                frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(
+                frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
         assertEquals(remainingResponses.size(), 0);
         
         List<FeedbackResponseCommentAttributes> remainingComments = new ArrayList<FeedbackResponseCommentAttributes>();
@@ -523,8 +529,10 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 
         frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
         
-        remainingResponses.addAll(frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
-        remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(
+                frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(
+                frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
         assertEquals(remainingResponses.size(), 0);
         
         ______TS("delete last person in team");
@@ -534,8 +542,10 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         studentToDelete = typicalBundle.students.get("student5InCourse1");
         
         frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
-        remainingResponses.addAll(frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
-        remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(
+                frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(
+                frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
         
         // check that team responses are gone too. already checked giver as it is stored by giver email not team id.
         remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, "Team 1.2"));

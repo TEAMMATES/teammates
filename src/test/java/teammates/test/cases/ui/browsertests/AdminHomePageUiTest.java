@@ -96,7 +96,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructorDetails);
-        assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION),
+        assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID,
+                                   Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION),
                      homePage.getMessageFromResultTable(1));
         
         String encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
@@ -207,8 +208,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         ______TS("new instructor can edit feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
-        InstructorFeedbackEditPage feedbackEditPage = instructorHomePage.clickFeedbackSessionEditLink("AHPUiT.instr1.gma-demo",
-                                                                                                      "Second team feedback session");
+        InstructorFeedbackEditPage feedbackEditPage =
+                instructorHomePage.clickFeedbackSessionEditLink("AHPUiT.instr1.gma-demo", "Second team feedback session");
         
         feedbackEditPage.clickEditSessionButton();
         

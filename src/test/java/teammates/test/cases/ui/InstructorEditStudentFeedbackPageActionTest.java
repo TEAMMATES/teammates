@@ -147,8 +147,12 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
             editPageAction = getAction(submissionParams);
             showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
-                    + instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]", e.getMessage());
+            assertEquals(
+                    "Feedback session [First feedback session] is not accessible to instructor ["
+                            + instructorHelper.email + "] for privilege ["
+                            + Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+                            + "] on section [Section 1]",
+                    e.getMessage());
         }
         
         gaeSimulation.loginAsInstructor(idOfInstructor);
