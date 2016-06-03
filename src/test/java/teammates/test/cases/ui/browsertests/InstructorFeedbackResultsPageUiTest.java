@@ -540,6 +540,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ThreadHelper.waitFor(1000);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionSearch.html");
 
+        ______TS("Verify that search works on RGQ view");
+        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.clickGroupByTeam();
+        resultsPage.fillSearchBox("team 2");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
+        
+        resultsPage.displayByQuestion();
     }
 
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.
