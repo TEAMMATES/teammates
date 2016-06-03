@@ -50,7 +50,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         
         assertEquals("Student 1 self feedback.", fr.getResponseDetails().getAnswerString());
      
-        submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt",
+                                                              "session1InIESFPTCourse");
 
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
         submitPage.verifyHtmlMainContent("/InstructorEditStudentFeedbackPageOpen.html");
@@ -112,8 +113,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
             String instructorName, String moderatedStudentEmail, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE)
                 .withUserId(testData.instructors.get(instructorName).googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
+                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail);
         
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);

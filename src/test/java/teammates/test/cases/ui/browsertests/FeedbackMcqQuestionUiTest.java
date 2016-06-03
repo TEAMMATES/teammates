@@ -30,7 +30,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
@@ -75,7 +75,8 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.fillQuestionBox("Test question text");
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.",
+                     feedbackEditPage.getStatus());
 
         ______TS("remove when 1 left");
 
@@ -92,7 +93,8 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMcqOptionLink(0, -1);
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.",
+                     feedbackEditPage.getStatus());
         
         ______TS("remove when 1 left and select Add Other Option");
 
@@ -107,7 +109,8 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.clickAddMcqOtherOptionCheckboxForNewQuestion();
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (single answer) question. "
+                                      + "Minimum number of options is: 2.");
     }
 
     @Override
