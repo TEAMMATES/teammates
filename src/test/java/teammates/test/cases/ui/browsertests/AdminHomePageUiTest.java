@@ -214,10 +214,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         FeedbackSessionAttributes feedbackSession = BackDoor.getFeedbackSession("AHPUiT.instr1.gma-demo",
                                                                                 "Second team feedback session");
-        feedbackEditPage.editFeedbackSession(feedbackSession.startTime,
-                                             feedbackSession.endTime,
+        feedbackEditPage.editFeedbackSession(feedbackSession.getStartTime(),
+                                             feedbackSession.getEndTime(),
                                              new Text("updated instructions"),
-                                             feedbackSession.gracePeriod);
+                                             feedbackSession.getGracePeriod());
         feedbackEditPage.reloadPage();
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionSuccessEdited.html");
 
