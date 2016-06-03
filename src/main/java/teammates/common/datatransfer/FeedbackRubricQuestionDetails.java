@@ -301,7 +301,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${row}", Integer.toString(i),
                                 "${disabled}", sessionIsOpen ? "" : "disabled",
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
-                                "${checked}", isExistingResponse && frd.getAnswer(i) == j ? "checked" : "", //Check if existing choice for sub-question == current choice
+                                // Check if existing choice for sub-question == current choice
+                                "${checked}", isExistingResponse && frd.getAnswer(i) == j ? "checked" : "",
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
             }
@@ -311,7 +312,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${row}", Integer.toString(i),
-                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)),
+                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
+                                              + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)),
                             "${rubricRowBodyFragments}", tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
@@ -334,14 +336,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                         "${row}", Integer.toString(i),
                         "${disabled}", sessionIsOpen ? "" : "disabled",
                         "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
-                        "${checked}", isExistingResponse && frd.getAnswer(i) == j ? "checked" : "", //Check if existing choice for sub-question == current choice
+                        // Check if existing choice for sub-question == current choice
+                        "${checked}", isExistingResponse && frd.getAnswer(i) == j ? "checked" : "",
                         "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
                         "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
             }
             String panel = Templates.populateTemplate(mobilePanelTemplate,
                     "${panelBody}", panelBody.toString(),
-                    "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)));
+                    "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
+                                      + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)));
             mobileHtml.append(panel).append(Const.EOL);
         }
         return mobileHtml.toString();
@@ -579,7 +583,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             // Get entire row
             String tableRow =
                     Templates.populateTemplate(tableBodyTemplate,
-                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
+                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j + 1) + ") "
+                                              + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}", tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }

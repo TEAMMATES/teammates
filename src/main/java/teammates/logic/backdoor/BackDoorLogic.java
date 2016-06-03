@@ -109,7 +109,8 @@ public class BackDoorLogic extends Logic {
             validateInstructorPrivileges(instructor);
 
             if (instructor.googleId != null && !instructor.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
+                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true,
+                                                                  instructor.email, "TEAMMATES Test Institute 1");
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
                     account.studentProfile.googleId = account.googleId;

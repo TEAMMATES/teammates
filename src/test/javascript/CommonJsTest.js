@@ -127,7 +127,8 @@ QUnit.test('setStatusMessage(message,status)', function(assert) {
     
     setStatusMessage(message, 'random');
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage', 'Message with random status (defaulted to info)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
+              'Message with random status (defaulted to info)');
 });
 
 QUnit.test('clearStatusMessages()', function(assert) {
