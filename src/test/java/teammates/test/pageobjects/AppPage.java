@@ -180,7 +180,8 @@ public abstract class AppPage {
     }
 
     /**
-     * Gives a LoginPage instance based on the given Browser and test configuration.
+     * Gives a {@link LoginPage} instance based on the given {@link Browser} and test configuration.
+     * Fails if the page content does not match the content of the expected login page.
      */
     public static LoginPage createCorrectLoginPageType(Browser browser) {
         return getNewPageInstance(browser, TestProperties.isDevServer() ? DevServerLoginPage.class
