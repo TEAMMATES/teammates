@@ -88,7 +88,7 @@
                         type="checkbox" id="questionIsCompulsory"
                         name="questionIsCompulsory" value="true"
                         <%=fqForm.getIsCompulsory() ? "checked" : ""%>>
-                        Mark this Question as compulsory
+                        Mark this question as compulsory
                     </label>
                 </div>
                 ${fqForm.questionSpecificEditFormHtml}

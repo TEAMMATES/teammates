@@ -91,7 +91,7 @@
                     <label class="bold-label"> <input
                         type="checkbox" id="questionIsCompulsory"
                         name="questionIsCompulsory" value="true">
-                        Mark this Question as compulsory
+                        Mark this question as compulsory
                     </label>
                 </div>
                 ${fqForm.questionSpecificEditFormHtml}
