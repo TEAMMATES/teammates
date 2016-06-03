@@ -59,7 +59,9 @@ public class ShowPageResult extends ActionResult {
      * @param req HttpServletRequest object
      */
     private void addStatusMessagesToPageData(HttpServletRequest req) {
-        List<StatusMessage> statusMessagesToUser = (List<StatusMessage>) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
+        @SuppressWarnings("unchecked")
+        List<StatusMessage> statusMessagesToUser =
+                (List<StatusMessage>) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
         
         // If the list of status messages can be found in the session and it is not empty,
         // means there are status messages to be shown to the user, add them to the page data.

@@ -130,7 +130,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         ______TS("session contains students");
         
-        assertTrue(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithStudents.getFeedbackSessionName(), sessionWithStudents.getCourseId()));
+        assertTrue(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithStudents.getFeedbackSessionName(),
+                                                                   sessionWithStudents.getCourseId()));
         
         ______TS("session does not contain students");
         
@@ -1935,10 +1936,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         }
         
         ______TS("success case: fully done by student 1");
-        assertTrue(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(), student1OfCourse1.email));
+        assertTrue(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
+                                                                    student1OfCourse1.email));
         
         ______TS("success case: partially done by student 3");
-        assertFalse(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(), student3OfCourse1.email));
+        assertFalse(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
+                                                                     student3OfCourse1.email));
     }
     
     public void testScheduleFeedbackSessionOpeningEmails() {

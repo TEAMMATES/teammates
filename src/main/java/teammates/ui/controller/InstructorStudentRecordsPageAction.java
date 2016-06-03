@@ -72,7 +72,8 @@ public class InstructorStudentRecordsPageAction extends Action {
             if (student.googleId.isEmpty()) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS, StatusMessageColor.WARNING));
             } else if (!isInstructorAllowedToViewStudent) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR, StatusMessageColor.WARNING));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR,
+                                                   StatusMessageColor.WARNING));
             }
         }
 

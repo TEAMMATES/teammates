@@ -738,7 +738,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
        
         Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam, String giverSectionParam, String receiverSectionParam");
-        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverSection == giverSectionParam && receiverSection == receiverSectionParam");
+        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam "
+                    + "&& giverSection == giverSectionParam "
+                    + "&& receiverSection == receiverSectionParam");
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> firstQueryResponses =

@@ -579,7 +579,8 @@ public class FeedbackSessionsLogic {
         params.put("toSection", "false");
         params.put("questionId", questionId);
         
-        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
+                                                          UserType.Role.INSTRUCTOR, roster, params);
     }
     
     /**
@@ -604,7 +605,8 @@ public class FeedbackSessionsLogic {
         params.put("questionId", questionId);
         params.put("section", selectedSection);
         
-        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
+                                                          UserType.Role.INSTRUCTOR, roster, params);
     }
 
     /**
@@ -615,7 +617,8 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
             throws EntityDoesNotExistException {
         
-        return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(feedbackSessionName, courseId, userEmail, null, range, viewType);
+        return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
+                feedbackSessionName, courseId, userEmail, null, range, viewType);
     }
 
     /**
@@ -640,7 +643,8 @@ public class FeedbackSessionsLogic {
         }
         params.put("viewType", viewType);
 
-        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
+                                                          UserType.Role.INSTRUCTOR, roster, params);
     }
 
     /**
@@ -663,7 +667,8 @@ public class FeedbackSessionsLogic {
         if (range > 0) {
             params.put("range", String.valueOf(range));
         }
-        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
+                                                          UserType.Role.INSTRUCTOR, roster, params);
     }
 
     /**
@@ -686,7 +691,8 @@ public class FeedbackSessionsLogic {
         if (range > 0) {
             params.put("range", String.valueOf(range));
         }
-        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
+                                                          UserType.Role.INSTRUCTOR, roster, params);
     }
     
     /**
@@ -1357,7 +1363,8 @@ public class FeedbackSessionsLogic {
         fsDb.addStudentRespondants(emails, sessionToUpdate);
     }
 
-    public void clearStudentRespondants(String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
+    public void clearStudentRespondants(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
@@ -1994,16 +2001,16 @@ public class FeedbackSessionsLogic {
                             }
                             if (isVisibleResponse && instructor != null) {
                                 boolean isGiverSectionRestricted =
-                                        !instructor.isAllowedForPrivilege(response.giverSection,
-                                                                          response.feedbackSessionName,
-                                                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                                        !instructor.isAllowedForPrivilege(
+                                                response.giverSection, response.feedbackSessionName,
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
                                 // If instructors are not restricted to view the giver's section,
                                 // they are allowed to view responses to GENERAL, subject to visibility options
                                 boolean isRecipientSectionRestricted =
                                         question.recipientType != FeedbackParticipantType.NONE
-                                        && !instructor.isAllowedForPrivilege(response.recipientSection,
-                                                                             response.feedbackSessionName,
-                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                                        && !instructor.isAllowedForPrivilege(
+                                                   response.recipientSection, response.feedbackSessionName,
+                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
                                 boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
                                 if (isNotAllowedForInstructor) {
                                     isVisibleResponse = false;

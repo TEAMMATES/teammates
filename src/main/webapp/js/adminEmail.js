@@ -228,7 +228,8 @@ function clearUploadFileInfo() {
 }
 
 function clearUploadGroupReceiverListInfo() {
-    $('#adminEmailGroupReceiverListInput').html('<input type="file" name="emailgroupreceiverlisttoupload" id="adminEmailGroupReceiverList">');
+    $('#adminEmailGroupReceiverListInput').html('<input type="file" name="emailgroupreceiverlisttoupload" '
+                                                     + 'id="adminEmailGroupReceiverList">');
     $('#adminEmailGroupReceiverList').on('change paste keyup', function() {
         createGroupReceiverListUploadUrl();
     });

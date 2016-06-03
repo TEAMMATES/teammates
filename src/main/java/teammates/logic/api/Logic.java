@@ -314,7 +314,8 @@ public class Logic {
         instructorsLogic.createInstructor(instructor);
     }
     
-    public InstructorAttributes createInstructor(InstructorAttributes instructor) throws InvalidParametersException, EntityAlreadyExistsException {
+    public InstructorAttributes createInstructor(InstructorAttributes instructor)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         return instructorsLogic.createInstructor(instructor);
     }
 

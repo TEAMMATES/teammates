@@ -65,7 +65,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("test rubric question instructor results page");
 
         // Question view
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "question");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "question");
         instructorResultsPage.waitForPanelsToExpand();
         
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");

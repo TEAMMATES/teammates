@@ -206,7 +206,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestion(fras.get("response1ForQ1S1C1").feedbackQuestionId);
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForQuestion(fras.get("response1ForQ1S1C1").feedbackQuestionId);
         assertEquals(7, responses.size());
         
         ______TS("null params");
@@ -612,7 +613,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String courseId = fras.get("response1ForQ1S1C1").courseId;
         String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, "Section 1");
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, "Section 1");
         
         assertEquals(5, responses.size());
         
@@ -649,7 +651,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String courseId = fras.get("response1ForQ1S1C1").courseId;
         String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, "Section 2");
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, "Section 2");
         
         assertEquals(0, responses.size());
         
@@ -690,7 +693,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String courseId = fras.get("response1ForQ1S1C1").courseId;
         String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, "Section 1");
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, "Section 1");
         
         assertEquals(5, responses.size());
         
