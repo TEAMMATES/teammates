@@ -78,7 +78,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("Rank recipients: single question submission page");
         FeedbackQuestionAttributes singleRankRecipientsfq = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 3);
-        FeedbackQuestionSubmitPage rankRecipientsQuestionSubmitPage = loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRankUiT.CS4221", "student", singleRankRecipientsfq.getId());
+        FeedbackQuestionSubmitPage rankRecipientsQuestionSubmitPage =
+                loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRankUiT.CS4221", "student", singleRankRecipientsfq.getId());
         
         assertNull(BackDoor.getFeedbackResponse(singleRankRecipientsfq.getId(),
                                         "alice.b.tmms@gmail.tmt",
@@ -128,7 +129,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         // try to submit with error
         submitPage.clickSubmitButton();
-        assertEquals("Please fix the error(s) for rank question(s) 5. To skip a rank question, leave all the boxes blank.", submitPage.getStatus());
+        assertEquals("Please fix the error(s) for rank question(s) 5. To skip a rank question, leave all the boxes blank.",
+                     submitPage.getStatus());
         
         submitPage.selectResponseTextDropdown(5, 1, 0, "1");
         assertEquals("Please rank the above recipients.", submitPage.getRankMessage(5, 3));
@@ -246,22 +248,26 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankQuestionView.html");
 
         ______TS("Rank instructor results : Giver > Recipient > Question");
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "giver-recipient-question");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "giver-recipient-question");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGRQView.html");
         
         ______TS("Rank instructor results : Giver > Question > Recipient");
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "giver-question-recipient");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "giver-question-recipient");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGQRView.html");
         
         ______TS("Rank instructor results : Recipient > Question > Giver ");
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "recipient-question-giver");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "recipient-question-giver");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRQGView.html");
         
         ______TS("Rank instructor results : Recipient > Giver > Question");
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "recipient-giver-question");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "recipient-giver-question");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRGQView.html");
     }

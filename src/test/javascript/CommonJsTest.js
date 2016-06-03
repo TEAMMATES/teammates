@@ -122,12 +122,14 @@ QUnit.test('setStatusMessage(message,status)', function(assert) {
     
     setStatusMessage('', StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), undefined, 'Empty message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === undefined, 'Empty message with status (any status will be the same)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === undefined,
+              'Empty message with status (any status will be the same)');
     clearStatusMessages();
     
     setStatusMessage(message, 'random');
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage', 'Message with random status (defaulted to info)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
+              'Message with random status (defaulted to info)');
 });
 
 QUnit.test('clearStatusMessages()', function(assert) {

@@ -695,8 +695,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = (RedirectResult) a.executeAndPostProcess();
 
         assertTrue(r.isError);
-        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
-                                r.getDestinationWithParams());
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1"
+                        + "&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
+                     r.getDestinationWithParams());
         assertEquals(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, "1"), r.getStatusMessage());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -710,7 +711,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         responsesToAdd.add(fr);
         frDb.createFeedbackResponses(responsesToAdd);
         
-        otherFr = frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail); //necessary to get the correct responseId
+        // necessary to get the correct responseId
+        otherFr = frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail);
         assertNotNull("Feedback response not found in database", fr);
         
         submissionParams = new String[] {
@@ -729,8 +731,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         assertTrue(r.isError);
 
-        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=MCQ+Session",
-                        r.getDestinationWithParams());
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1"
+                         + "&courseid=FSQTT.idOfTypicalCourse1&fsname=MCQ+Session",
+                     r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail));
         
         gaeSimulation.logoutUser();

@@ -46,20 +46,28 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         List<String> msqChoices = new LinkedList<String>();
         boolean msqOtherEnabled = false;
         
-        String otherOptionFlag = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG);
+        String otherOptionFlag =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG);
         
         if ("on".equals(otherOptionFlag)) {
             msqOtherEnabled = true;
         }
             
-        String generatedMsqOptions = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
+        String generatedMsqOptions =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
         if (generatedMsqOptions.equals(FeedbackParticipantType.NONE.toString())) {
-            String numMsqChoicesCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+            String numMsqChoicesCreatedString =
+                    HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                           Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
             Assumption.assertNotNull("Null number of choice for MSQ", numMsqChoicesCreatedString);
             int numMsqChoicesCreated = Integer.parseInt(numMsqChoicesCreatedString);
             
             for (int i = 0; i < numMsqChoicesCreated; i++) {
-                String msqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
+                String msqChoice =
+                        HttpRequestHelper.getValueFromParamMap(
+                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
                 if (msqChoice != null && !msqChoice.trim().isEmpty()) {
                     msqChoices.add(msqChoice);
                     numOfMsqChoices++;
@@ -155,7 +163,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${text-disabled}", sessionIsOpen && isOtherSelected ? "" : "disabled",
                             "${checked}", isOtherSelected ? "checked" : "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}",
+                                    Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
                             "${msqChoiceValue}", Sanitizer.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
                             "${msqOtherOptionAnswer}", isOtherSelected ? "1" : "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
@@ -211,7 +220,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${text-disabled}", "disabled",
                             "${checked}", "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}",
+                                    Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
                             "${msqChoiceValue}", "",
                             "${msqOtherOptionAnswer}", "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);

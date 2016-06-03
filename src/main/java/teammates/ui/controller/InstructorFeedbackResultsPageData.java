@@ -922,7 +922,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                      InstructorFeedbackResultsSectionPanel sectionPanel,
                      Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam,
                      Set<String> teamsInSection) {
-        Map<String, List<InstructorFeedbackResultsQuestionTable>> teamToStatisticsTables = new HashMap<String, List<InstructorFeedbackResultsQuestionTable>>();
+        Map<String, List<InstructorFeedbackResultsQuestionTable>> teamToStatisticsTables =
+                new HashMap<String, List<InstructorFeedbackResultsQuestionTable>>();
         for (String team : teamsInSection) {
             // skip team if no responses,
             // or if the team is an anonymous student's team or an anonymous team, or is "-"
@@ -1484,10 +1485,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                         : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
         moderateFeedbackResponseLink = addUserIdToUrl(moderateFeedbackResponseLink);
 
-        InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
-                                                                            isDisabled, className,
-                                                                            giverIdentifier, getCourseId(),
-                                                                            getFeedbackSessionName(), question, buttonText, moderateFeedbackResponseLink);
+        InstructorFeedbackResultsModerationButton moderationButton =
+                new InstructorFeedbackResultsModerationButton(isDisabled, className, giverIdentifier, getCourseId(),
+                                                              getFeedbackSessionName(), question, buttonText,
+                                                              moderateFeedbackResponseLink);
         return moderationButton;
     }
 
@@ -1570,8 +1571,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private FeedbackResponseCommentRow buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
                         FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
                         String giverName, String recipientName) {
-        FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes(
-                                        question.courseId, question.feedbackSessionName, question.getFeedbackQuestionId(), response.getId());
+        FeedbackResponseCommentAttributes frca =
+                new FeedbackResponseCommentAttributes(question.courseId, question.feedbackSessionName,
+                                                      question.getFeedbackQuestionId(), response.getId());
                                 
         FeedbackParticipantType[] relevantTypes = {
                 FeedbackParticipantType.GIVER,

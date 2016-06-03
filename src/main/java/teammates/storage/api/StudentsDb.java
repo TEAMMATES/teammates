@@ -100,7 +100,8 @@ public class StudentsDb extends EntitiesDb {
         for (EntityAttributes entity : studentsToUpdate) {
             StudentAttributes student = (StudentAttributes) entity;
             try {
-                updateStudentWithoutSearchability(student.course, student.email, student.name, student.team, student.section, student.email, student.googleId, student.comments);
+                updateStudentWithoutSearchability(student.course, student.email, student.name, student.team,
+                                                  student.section, student.email, student.googleId, student.comments);
             } catch (EntityDoesNotExistException e) {
              // This situation is not tested as replicating such a situation is
              // difficult during testing

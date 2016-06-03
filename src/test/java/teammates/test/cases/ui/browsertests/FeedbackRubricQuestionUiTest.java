@@ -65,28 +65,37 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("test rubric question instructor results page");
 
         // Question view
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "question");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "question");
         instructorResultsPage.waitForPanelsToExpand();
         
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
 
         // Giver Recipient Question View
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "giver-recipient-question");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
+                                                                 "giver-recipient-question");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGRQView.html");
         
         // Giver Question Recipient View
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "giver-question-recipient");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
+                                                                 "giver-question-recipient");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGQRView.html");
         
         // Recipient Giver Question View
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "recipient-question-giver");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
+                                                                 "recipient-question-giver");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRQGView.html");
         
         // Recipient Question Giver View
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "recipient-giver-question");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
+                                                                 "recipient-giver-question");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRGQView.html");
         
@@ -100,7 +109,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         int qnNumber = 1;
         int responseNumber = 0;
         int rowNumber = 0;
-        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE
+                                                     + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
 
         ______TS("test rubric question submission");
         // Done in testStudentSubmitPage
@@ -115,12 +125,14 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         int qnNumber = 1;
         int responseNumber = 0;
         int rowNumber = 0;
-        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE
+                                                     + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
 
         ______TS("test rubric question submission");
         
         submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
-        assertTrue(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
+        assertTrue(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE
+                                                    + "-" + qnNumber + "-" + responseNumber + "-" + rowNumber));
         
         // Select radio input
         submitPage.clickRubricRadio(1, 0, 0, 0);
@@ -158,7 +170,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("test rubric question input for FeedbackQuestionSubmissionEdit");
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("FRubricQnUiT.CS2104", "Third Session", 1);
         
-        FeedbackQuestionSubmitPage questionSubmitPage = loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession3", fq.getId());
+        FeedbackQuestionSubmitPage questionSubmitPage =
+                loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession3", fq.getId());
 
         // Select table cell
         questionSubmitPage.clickRubricCell(0, 0, 1);

@@ -228,7 +228,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("remind action: AWAITING feedback session");
         
-        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionAwaiting.getCourseId(), feedbackSessionAwaiting.getFeedbackSessionName()));
+        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionAwaiting.getCourseId(),
+                                                          feedbackSessionAwaiting.getFeedbackSessionName()));
         homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionAwaiting.getCourseId(),
                                                                  feedbackSessionAwaiting.getFeedbackSessionName()));
         

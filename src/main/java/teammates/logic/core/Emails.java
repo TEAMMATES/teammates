@@ -56,7 +56,8 @@ public class Emails {
     public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED = "TEAMMATES: Feedback session results published";
     public static final String SUBJECT_PREFIX_PENDING_COMMENTS_CLEARED = "TEAMMATES: You have new comments";
     public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
-    public static final String SUBJECT_PREFIX_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET = "TEAMMATES: Your account has been reset for course";
+    public static final String SUBJECT_PREFIX_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
+            "TEAMMATES: Your account has been reset for course";
     public static final String SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN = "TEAMMATES: Invitation to join course as an instructor";
     public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
     public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT = "TEAMMATES: Welcome to TEAMMATES!";
@@ -475,7 +476,8 @@ public class Emails {
         return message;
     }
     
-    public MimeMessage generateAdminEmail(String content, String subject, String sendTo) throws MessagingException, UnsupportedEncodingException {
+    public MimeMessage generateAdminEmail(String content, String subject, String sendTo)
+            throws MessagingException, UnsupportedEncodingException {
 
         MimeMessage message = getEmptyEmailAddressedToEmail(sendTo);
         message.setSubject(subject);

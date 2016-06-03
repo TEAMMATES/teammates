@@ -47,9 +47,11 @@ public class InstructorSearchDocument extends SearchDocument {
         
         Document doc = Document.newBuilder()
                        //searchableText is used to match the query string
-                       .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
+                       .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
+                                                   .setText(searchableTextBuilder.toString()))
                        //attribute field is used to convert a doc back to attribute
-                       .addField(Field.newBuilder().setName(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).setText(new Gson().toJson(instructor)))
+                       .addField(Field.newBuilder().setName(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE)
+                                                   .setText(new Gson().toJson(instructor)))
                        .setId(StringHelper.encrypt(instructor.key))
                        .build();
                 

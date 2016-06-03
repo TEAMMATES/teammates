@@ -268,7 +268,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals(newSession.toString(), savedSession.toString());
         
         
-        ______TS("success case: closed session, custom session visible time, publish follows visible, timezone -4.5, only open email, empty instructions");
+        ______TS("success case: closed session, custom session visible time, publish follows visible,"
+                 + " timezone -4.5, only open email, empty instructions");
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
@@ -306,7 +307,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals(newSession.toString(), savedSession.toString());
         
         
-        ______TS("success case: open session, session visible atopen, responses hidden, timezone -2, open and close emails, special char instructions");
+        ______TS("success case: open session, session visible atopen, responses hidden, timezone -2,"
+                 + " open and close emails, special char instructions");
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         

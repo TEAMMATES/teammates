@@ -82,11 +82,17 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         boolean forceUnevenDistribution = false;
         int points = 0;
         
-        distributeToRecipientsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
-        pointsPerOptionString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
+        distributeToRecipientsString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
+        pointsPerOptionString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
         pointsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
         Assumption.assertNotNull("Null points", pointsString);
-        forceUnevenDistributionString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
+        forceUnevenDistributionString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
         
         distributeToRecipients = "true".equals(distributeToRecipientsString);
         pointsPerOption = "true".equals(pointsPerOptionString);
@@ -96,12 +102,16 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         if (distributeToRecipients) {
             this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
         } else {
-            String numConstSumOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+            String numConstSumOptionsCreatedString =
+                    HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                           Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
             Assumption.assertNotNull("Null number of choice for ConstSum", numConstSumOptionsCreatedString);
             int numConstSumOptionsCreated = Integer.parseInt(numConstSumOptionsCreatedString);
             
             for (int i = 0; i < numConstSumOptionsCreated; i++) {
-                String constSumOption = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + i);
+                String constSumOption =
+                        HttpRequestHelper.getValueFromParamMap(
+                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + i);
                 if (constSumOption != null && !constSumOption.trim().isEmpty()) {
                     constSumOptions.add(constSumOption);
                     numOfConstSumOptions++;
@@ -194,10 +204,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${constSumPointsValue}", Integer.toString(points),
                 "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
                 );
         
         return html;
@@ -250,10 +262,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${constSumPointsValue}", Integer.toString(points),
                 "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
                 );
         
         return html;
@@ -286,9 +300,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${optionRecipientDisplayName}", distributeToRecipients ? "recipient" : "option",
                 "${distributeUnevenly}", forceUnevenDistribution ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
         
         return html;
     }
@@ -560,11 +576,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
         if (!distributeToRecipients && numOfConstSumOptions < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS) {
-            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS + ".");
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS
+                       + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS + ".");
         }
         
         if (points < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS) {
-            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_POINTS + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS + ".");
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_POINTS
+                       + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS + ".");
         }
         
         return errors;

@@ -30,7 +30,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testAccessControl() throws Exception {
+    public void testAccessControl() {
         String[] params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
@@ -41,7 +41,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("Not enough parameters");

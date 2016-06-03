@@ -354,8 +354,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
             return "";
         }
         
-        String statsTitle = getStatsTitle(isRecipientTypeGeneral, isRecipientTypeTeam,
-                                          hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients));
+        String statsTitle = getStatsTitle(
+                isRecipientTypeGeneral, isRecipientTypeTeam,
+                hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients));
         String templateToUse = showAvgExcludingSelf
                              ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
                              : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
@@ -586,7 +587,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 averageExcludingSelf.put(recipientEmail, null);
             }
             if (!isSelfResponse && totalExcludingSelf.get(recipientEmail) != null) {
-                double averageReceivedExcludingSelf = totalExcludingSelf.get(recipientEmail) / numResponsesExcludingSelf.get(recipientEmail);
+                double averageReceivedExcludingSelf =
+                        totalExcludingSelf.get(recipientEmail) / numResponsesExcludingSelf.get(recipientEmail);
                 averageExcludingSelf.put(recipientEmail, averageReceivedExcludingSelf);
             }
         }
@@ -726,7 +728,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         for (FeedbackResponseAttributes response : responses) {
             FeedbackNumericalScaleResponseDetails frd = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             if (frd.getAnswer() < minScale || frd.getAnswer() > maxScale) {
-                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.NUMSCALE_ERROR_OUT_OF_RANGE + "(min=" + minScale + ", max=" + maxScale + ")");
+                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.NUMSCALE_ERROR_OUT_OF_RANGE
+                           + "(min=" + minScale + ", max=" + maxScale + ")");
             }
             //TODO: strengthen check for step
         }
