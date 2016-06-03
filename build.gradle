@@ -240,6 +240,7 @@ task enhancerRun << {
     }
 }
 
+enhancerRun.dependsOn appengineDownloadSdk
 enhancerRun.dependsOn project.classes
 enhancerRun.shouldRunAfter project.testClasses
 war.dependsOn enhancerRun
