@@ -529,9 +529,8 @@ public class FeedbackResponsesLogic {
 
     }
 
-    public boolean updateFeedbackResponseForChangingTeam(
-            StudentEnrollDetails enrollment,
-            FeedbackResponseAttributes response) {
+    public boolean updateFeedbackResponseForChangingTeam(StudentEnrollDetails enrollment,
+            FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
 
         FeedbackQuestionAttributes question = fqLogic
                 .getFeedbackQuestion(response.feedbackQuestionId);
@@ -552,9 +551,18 @@ public class FeedbackResponsesLogic {
 
         if (shouldDeleteResponse) {
             frDb.deleteEntity(response);
+            updateSessionResponseRateForDeletingStudentResponse(enrollment.email,
+                    response.feedbackSessionName, enrollment.course);
         }
         
         return shouldDeleteResponse;
+    }
+
+    private void updateSessionResponseRateForDeletingStudentResponse(String studentEmail, String sessionName,
+            String courseId) throws InvalidParametersException, EntityDoesNotExistException {
+        if (!fsLogic.hasResponsesFromStudent(studentEmail, sessionName, courseId)) {
+            fsLogic.deleteStudentFromRespondentList(studentEmail, sessionName, courseId);
+        }
     }
 
     private boolean isRecipientTypeTeamMembers(FeedbackQuestionAttributes question) {
@@ -658,7 +666,7 @@ public class FeedbackResponsesLogic {
                                 question.feedbackSessionName,
                                 question.courseId);
                     } else {
-                        fsLogic.deleteStudentRespondant(email,
+                        fsLogic.deleteStudentFromRespondentList(email,
                                 question.feedbackSessionName,
                                 question.courseId);
                     }
