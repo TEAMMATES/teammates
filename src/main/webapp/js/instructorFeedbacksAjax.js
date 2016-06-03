@@ -15,7 +15,8 @@ var ajaxRequest = function(e) {
         url: $(this).attr('action') + '?' + formData,
         beforeSend: function() {
             isSessionsAjaxSending = true;
-            $('#sessionList').html('<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>');
+            $('#sessionList').html('<img height="75" width="75" class="margin-center-horizontal" '
+                                   + 'src="/images/ajax-preload.gif"/>');
         },
         error: function() {
             isSessionsAjaxSending = false;
