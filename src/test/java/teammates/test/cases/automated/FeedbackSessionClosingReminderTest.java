@@ -82,9 +82,9 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
 
-        session1.timeZone = 0;
-        session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        session1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+        session1.setTimeZone(0);
+        session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session1.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
         fsLogic.updateFeedbackSession(session1);
         verifyPresentInDatastore(session1);
         
@@ -93,9 +93,9 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
                 .get("session2InCourse2");
         
-        session2.timeZone = 0;
-        session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        session2.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+        session2.setTimeZone(0);
+        session2.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session2.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
         fsLogic.updateFeedbackSession(session2);
         verifyPresentInDatastore(session2);
         
@@ -104,10 +104,10 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         FeedbackSessionAttributes session3 = dataBundle.feedbackSessions
                 .get("session2InCourse1");
         
-        session3.timeZone = 0;
-        session3.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        session3.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        session3.isClosingEmailEnabled = false;
+        session3.setTimeZone(0);
+        session3.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session3.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session3.setClosingEmailEnabled(false);
         fsLogic.updateFeedbackSession(session3);
         verifyPresentInDatastore(session3);
         
@@ -133,9 +133,9 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         // Modify session to close in 24 hours.
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
-        session1.timeZone = 0;
-        session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        session1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+        session1.setTimeZone(0);
+        session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session1.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
         fsLogic.updateFeedbackSession(session1);
         HashMap<String, String> paramMap = createParamMapForAction(session1);
         
@@ -148,7 +148,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         
         for (MimeMessage m : preparedEmails) {
             String subject = m.getSubject();
-            assertTrue(subject.contains(session1.feedbackSessionName));
+            assertTrue(subject.contains(session1.getFeedbackSessionName()));
             assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
         }
         
@@ -156,9 +156,9 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         // closing in 24 hours.
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
                 .get("session2InCourse2");
-        session2.timeZone = 0;
-        session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        session2.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+        session2.setTimeZone(0);
+        session2.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session2.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
         fsLogic.updateFeedbackSession(session2);
         verifyPresentInDatastore(session2);
         
@@ -167,10 +167,10 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         FeedbackSessionAttributes session3 = dataBundle.feedbackSessions
                 .get("session2InCourse1");
         
-        session3.timeZone = 0;
-        session3.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        session3.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        session3.isClosingEmailEnabled = false;
+        session3.setTimeZone(0);
+        session3.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session3.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session3.setClosingEmailEnabled(false);
         fsLogic.updateFeedbackSession(session3);
         verifyPresentInDatastore(session3);
         
@@ -184,7 +184,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         
         for (MimeMessage m : preparedEmails) {
             String subject = m.getSubject();
-            assertTrue(subject.contains(session2.feedbackSessionName));
+            assertTrue(subject.contains(session2.getFeedbackSessionName()));
             assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
         }
     }
@@ -194,8 +194,8 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         HashMap<String, String> paramMap = new HashMap<String, String>();
         
         paramMap.put(ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_CLOSING.toString());
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.feedbackSessionName);
-        paramMap.put(ParamsNames.EMAIL_COURSE, fs.courseId);
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.getFeedbackSessionName());
+        paramMap.put(ParamsNames.EMAIL_COURSE, fs.getCourseId());
         
         return paramMap;
     }

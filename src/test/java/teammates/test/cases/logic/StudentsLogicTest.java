@@ -254,8 +254,9 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.validateSectionsAndTeams(studentList, courseId);
         } catch (EnrollException e) {
-            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, "Team 1.1</td></div>'\"") + "Please use the enroll page to edit multiple students",
-                    e.getMessage());
+            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, "Team 1.1</td></div>'\"")
+                             + "Please use the enroll page to edit multiple students",
+                         e.getMessage());
         }
     }
 
@@ -390,8 +391,11 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
-        StudentEnrollDetails studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
-                course1Id, student1InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp", student1InCourse1.section, student1InCourse1.section + "tmp");
+        StudentEnrollDetails studentDetails1 =
+                new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
+                                         course1Id, student1InCourse1.email, student1InCourse1.team,
+                                         student1InCourse1.team + "tmp", student1InCourse1.section,
+                                         student1InCourse1.section + "tmp");
         enrollmentList.add(studentDetails1);
         
         FeedbackResponseAttributes feedbackResponse1InBundle = dataBundle.feedbackResponses.get("response1ForQ2S2C1");
@@ -414,8 +418,11 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         ______TS("adjust feedback response: unmodified status");
         
         enrollmentList = new ArrayList<StudentEnrollDetails>();
-        studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.UNMODIFIED,
-                course1Id, student1InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp", student1InCourse1.section, student1InCourse1.section + "tmp");
+        studentDetails1 =
+                new StudentEnrollDetails(StudentAttributes.UpdateStatus.UNMODIFIED, course1Id,
+                                         student1InCourse1.email, student1InCourse1.team,
+                                         student1InCourse1.team + "tmp", student1InCourse1.section,
+                                         student1InCourse1.section + "tmp");
         enrollmentList.add(studentDetails1);
         
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
@@ -435,8 +442,11 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         // and the question's recipient's type is own team members
         ______TS("adjust feedback response: delete after adjustment");
         
-        studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
-                course1Id, student2InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp", student1InCourse1.section, student1InCourse1.section + "tmp");
+        studentDetails1 =
+                new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED, course1Id,
+                                         student2InCourse1.email, student1InCourse1.team,
+                                         student1InCourse1.team + "tmp", student1InCourse1.section,
+                                         student1InCourse1.section + "tmp");
         enrollmentList = new ArrayList<StudentEnrollDetails>();
         enrollmentList.add(studentDetails1);
         
@@ -585,7 +595,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         info = StringHelper.toString(Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamName, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamName, info));
-        info = StringHelper.toString(Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail, courseId).getInvalidityInfo()),
+        info = StringHelper.toString(Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail,
+                                                                               courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamNameAndStudentNameAndEmail, info));
         info = StringHelper.toString(Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithTeamNameEmpty, courseId).getInvalidityInfo()),
@@ -691,8 +702,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.enrollStudentsWithoutDocument("a|b|c|d", null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         
@@ -776,8 +787,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getStudentForEmail(null, "valid@email.tmt");
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         ______TS("non-exist student");
@@ -800,8 +811,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getStudentForRegistrationKey(null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
         
         
@@ -890,8 +901,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getStudentsForGoogleId(null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
 
@@ -925,8 +936,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getStudentForCourseIdAndGoogleId("valid.course", null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
 
@@ -953,8 +964,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getStudentsForCourse(null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     
         ______TS("non-existent course");
@@ -971,8 +982,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getKeyForStudent("valid.course.id", null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     
         
@@ -1006,8 +1017,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.getEncryptedKeyForStudent("valid.course.id", null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     
         
@@ -1149,8 +1160,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.sendRegistrationInviteForCourse(null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
     
@@ -1183,8 +1194,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         try {
             studentsLogic.deleteStudentCascadeWithoutDocument(null, "valid@email.tmt");
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
 
@@ -1198,12 +1209,12 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     }
     
     @SuppressWarnings("unchecked")
-    private static List<String> invokeGetInvalidityInfoInEnrollLines(String lines, String courseID)
+    private static List<String> invokeGetInvalidityInfoInEnrollLines(String lines, String courseId)
             throws Exception {
         Method privateMethod = StudentsLogic.class.getDeclaredMethod("getInvalidityInfoInEnrollLines",
                                     new Class[] { String.class, String.class });
         privateMethod.setAccessible(true);
-        Object[] params = new Object[] { lines, courseID };
+        Object[] params = new Object[] { lines, courseId };
         return (List<String>) privateMethod.invoke(StudentsLogic.inst(), params);
     }
         

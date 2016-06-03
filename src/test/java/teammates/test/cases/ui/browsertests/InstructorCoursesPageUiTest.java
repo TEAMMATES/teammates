@@ -248,18 +248,18 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         ______TS("add action fail: invalid course ID");
         
-        String invalidID = "Invalid ID";
+        String invalidId = "Invalid ID";
         
-        coursesPage.addCourse(invalidID, "random course name");
+        coursesPage.addCourse(invalidId, "random course name");
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddInvalidIdFailed.html");
 
         ______TS("add action fail: missing parameters");
         
-        String validID = "Valid.ID";
+        String validId = "Valid.ID";
         String missingCourseName = "";
 
-        coursesPage.addCourse(validID, missingCourseName);
+        coursesPage.addCourse(validId, missingCourseName);
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddMissingParamsFailed.html");
     }

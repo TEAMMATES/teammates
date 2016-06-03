@@ -53,7 +53,7 @@ public abstract class PublicResourcesServlet extends HttpServlet {
     }
     
     protected void logMessage(HttpServletRequest request, String message) {
-        String url = HttpRequestHelper.getRequestedURL(request);
+        String url = HttpRequestHelper.getRequestedUrl(request);
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(servletName, action, null, message, url);
         log.info(activityLogEntry.generateLogMessage());
     }

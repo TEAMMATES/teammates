@@ -30,7 +30,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
@@ -57,8 +57,8 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MSQ: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
     }
     
@@ -74,12 +74,13 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.fillQuestionBox("Test question text");
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.",
+                     feedbackEditPage.getStatus());
         
         ______TS("remove when 1 left");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
         feedbackEditPage.fillQuestionBox("Test question text");
 
         feedbackEditPage.clickRemoveMsqOptionLink(1, -1);
@@ -90,12 +91,13 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMsqOptionLink(0, -1);
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.",
+                     feedbackEditPage.getStatus());
         
         ______TS("select Add Other Option");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
         feedbackEditPage.fillQuestionBox("Msq with other option");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
         
@@ -108,8 +110,8 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
     @Override
     public void testCustomizeOptions() {
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
         
         feedbackEditPage.fillMsqOption(0, "Choice 1");
         feedbackEditPage.fillMsqOption(1, "Choice 2");

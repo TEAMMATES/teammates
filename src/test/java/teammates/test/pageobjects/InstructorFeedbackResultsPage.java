@@ -361,7 +361,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                                        .get(0)
                                                        .getAttribute("src"));
 
-        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
+        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
+                                 + "document.getElementsByClassName('popover')[0])");
     }
 
     public void hoverAndViewStudentPhotoOnBody(int panelBodyIndex, String urlRegex) {
@@ -380,7 +381,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                                                  .getAttribute("src"));
 
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
+        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
+                                 + "document.getElementsByClassName('popover')[0])");
     }
     
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
@@ -410,7 +412,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                                                  .get(0)
                                                                  .getAttribute("src"));
 
-        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
+        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
+                                 + "document.getElementsByClassName('popover')[0])");
     }
 
     public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,
@@ -425,7 +428,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void removeNavBar() {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementsByClassName('navbar-fixed-top')[0].parentNode.removeChild(document.getElementsByClassName('navbar-fixed-top')[0])");
+        jsExecutor.executeScript("document.getElementsByClassName('navbar-fixed-top')[0].parentNode.removeChild("
+                                 + "document.getElementsByClassName('navbar-fixed-top')[0])");
     }
 
     public void verifyModerateResponseButtonBelongsTo(WebElement btn, String email) {

@@ -49,15 +49,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         removeAndRestoreTestDataOnServer(testData);
 
         editedSession = testData.feedbackSessions.get("openSession");
-        editedSession.gracePeriod = 30;
-        editedSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
-        editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
-        editedSession.instructions = new Text("Please fill in the edited feedback session.");
-        editedSession.endTime = TimeHelper.convertToDate("2026-05-01 10:00 PM UTC");
+        editedSession.setGracePeriod(30);
+        editedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        editedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        editedSession.setInstructions(new Text("Please fill in the edited feedback session."));
+        editedSession.setEndTime(TimeHelper.convertToDate("2026-05-01 10:00 PM UTC"));
 
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
 
         browser = BrowserPool.getBrowser();
         feedbackEditPage = getFeedbackEditPage();
@@ -136,12 +136,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickManualPublishTimeButton();
         feedbackEditPage.clickDefaultVisibleTimeButton();
         
-        feedbackEditPage.editFeedbackSession(editedSession.startTime, editedSession.endTime,
-                editedSession.instructions, editedSession.gracePeriod);
+        feedbackEditPage.editFeedbackSession(editedSession.getStartTime(), editedSession.getEndTime(),
+                editedSession.getInstructions(), editedSession.getGracePeriod());
         
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(
-                editedSession.courseId, editedSession.feedbackSessionName);
+                editedSession.getCourseId(), editedSession.getFeedbackSessionName());
         assertEquals(editedSession.toString(), savedSession.toString());
         assertEquals("overflow-auto alert alert-success statusMessage",
                 feedbackEditPage.getStatusMessage().findElement(By.className("statusMessage")).getAttribute("class"));
@@ -153,7 +153,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("test edit page not changed after manual publish");
 
         // Do a backdoor 'manual' publish.
-        editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
+        editedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NOW);
         String status = BackDoor.editFeedbackSession(editedSession);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
@@ -171,9 +171,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("test end time earlier than start time");
         feedbackEditPage.clickEditSessionButton();
-        editedSession.instructions = new Text("Made some changes");
-        feedbackEditPage.editFeedbackSession(editedSession.endTime, editedSession.startTime,
-                                        editedSession.instructions, editedSession.gracePeriod);
+        editedSession.setInstructions(new Text("Made some changes"));
+        feedbackEditPage.editFeedbackSession(editedSession.getEndTime(), editedSession.getStartTime(),
+                                        editedSession.getInstructions(), editedSession.getGracePeriod());
         
         String expectedString = "The end time for this feedback session cannot be earlier than the start time.";
         feedbackEditPage.verifyFieldValue("instructions", "Made some changes");
@@ -184,6 +184,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("new question (frame) link");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
     }
 
@@ -262,6 +263,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.waitForElementVisibility(browser.driver.findElement(By.id("questionTableNew")));
         feedbackEditPage.clickVisibilityOptionsForNewQuestion();
         feedbackEditPage.clickResponseVisiblityCheckBoxForNewQuestion("RECEIVER_TEAM_MEMBERS");
@@ -338,10 +340,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     private void testCancelNewOrEditQuestion() {
         ______TS("Testing cancelling adding or editing questions");
-        
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
+
         feedbackEditPage.clickNewQuestionButton();
-        
+        feedbackEditPage.selectNewQuestionType("MCQ");
         
         ______TS("MCQ: click and cancel 'cancel new question'");
         
@@ -357,8 +358,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("MCQ: click and cancel 'editing question'");
         
         // Add question 2 first
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MCQ");
         feedbackEditPage.fillQuestionBox("mcq qn");
         feedbackEditPage.fillMcqOption(0, "Choice 1");
         feedbackEditPage.fillMcqOption(1, "Choice 2");
@@ -481,6 +482,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // Create a new question and save
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.fillQuestionBox("new question");
         feedbackEditPage.clickAddQuestionButton();
 
@@ -506,6 +508,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         // Create a new question and save
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.fillQuestionBox("new question");
         feedbackEditPage.clickAddQuestionButton();
 
@@ -534,7 +537,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
-        feedbackEditPage.clickAndConfirmSaveForQuestion1();
+        feedbackEditPage.clickAndConfirmSaveForQuestion1WithConfirmationModal();
         
         ______TS("check response rate after editing question");
 
@@ -560,6 +563,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // add questions for previewing
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillQuestionBox("question for me");
         feedbackEditPage.selectRecipientsToBeStudents();
@@ -567,18 +571,21 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
 
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillQuestionBox("question for students");
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillQuestionBox("question for instructors");
         feedbackEditPage.selectGiverToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillQuestionBox("question for students to instructors");
         feedbackEditPage.selectGiverToBeStudents();
