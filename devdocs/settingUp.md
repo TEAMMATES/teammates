@@ -62,7 +62,8 @@ Important: When a version is specified, please install that version instead of t
    * `.project`<br>
    * `.classpath`<br>
    * `gradle.properties`<br>
-   Update the value of `org.gradle.java.home` to a valid **JDK 1.7** directory in your local development environment.<br>
+   If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.<br>
+   This value must be a valid **JDK 1.7** directory.<br>
    * `src/main/resources/build.properties`<br>
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
