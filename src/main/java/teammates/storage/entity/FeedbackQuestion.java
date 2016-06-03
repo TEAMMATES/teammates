@@ -180,7 +180,10 @@ public class FeedbackQuestion implements StoreCallback {
     }
     
     public boolean isQuestionCompulsory() {
-        return isQuestionCompulsory;
+        if (isQuestionCompulsory == null) {
+            return false;
+        }
+        return isQuestionCompulsory.booleanValue();
     }
 
     public void setIsQuestionCompulsory(boolean isQuestionCompulsory) {
