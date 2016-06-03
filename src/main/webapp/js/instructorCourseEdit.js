@@ -97,7 +97,8 @@ function hideTunePermissionDiv(instrNum) {
 function showTuneSectionPermissionsDiv(instrNum, sectionNum) {
     $('#tuneSectionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum).show();
     var numberOfSections = $('select#section' + sectionNum + 'forinstructor' + instrNum + ' option').length;
-    var numOfVisibleSections = $('#tunePermissionsDivForInstructor' + 1 + " div[id^='tuneSectionPermissionsDiv']").filter(':visible').length;
+    var numOfVisibleSections = $('#tunePermissionsDivForInstructor' + 1
+                                 + " div[id^='tuneSectionPermissionsDiv']").filter(':visible').length;
     
     if (numOfVisibleSections === numberOfSections) {
         $('#addSectionLevelForInstructor' + instrNum).hide();
@@ -147,7 +148,8 @@ function showTuneSessionnPermissionsDiv(instrNum, sectionNum) {
 
 function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {
     $('#tuneSessionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum).hide();
-    $('#toggleSessionLevelInSection' + sectionNum + 'ForInstructor' + instrNum).html('Give different permissions for sessions in this section');
+    $('#toggleSessionLevelInSection' + sectionNum + 'ForInstructor' + instrNum)
+        .html('Give different permissions for sessions in this section');
     $('#toggleSessionLevelInSection' + sectionNum + 'ForInstructor' + instrNum)
         .attr('onclick', 'showTuneSessionnPermissionsDiv(' + instrNum + ', ' + sectionNum + ')');
     $('#tuneSectionPermissionsDiv' + sectionNum + 'ForInstructor' + instrNum
@@ -161,7 +163,8 @@ function checkTheRoleThatApplies(instrNum) {
         // Save original values of Custom Role
         instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum] = {};
         for (var i = 0; i < instructorPrivilegeValues.length; i++) {
-            var checkValue = $('#tunePermissionsDivForInstructor' + instrNum + " input[name='" + instructorPrivilegeValues[i] + "']").prop('checked');
+            var checkValue = $('#tunePermissionsDivForInstructor' + instrNum
+                               + " input[name='" + instructorPrivilegeValues[i] + "']").prop('checked');
             instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum][instructorPrivilegeValues[i]] = checkValue;
         }
         

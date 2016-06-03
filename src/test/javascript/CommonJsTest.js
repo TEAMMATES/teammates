@@ -122,7 +122,8 @@ QUnit.test('setStatusMessage(message,status)', function(assert) {
     
     setStatusMessage('', StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), undefined, 'Empty message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === undefined, 'Empty message with status (any status will be the same)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === undefined,
+              'Empty message with status (any status will be the same)');
     clearStatusMessages();
     
     setStatusMessage(message, 'random');

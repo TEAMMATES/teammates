@@ -59,7 +59,8 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
 
     }
     
-    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws MessagingException, JSONException, IOException {
+    private void sendAdminEmail(String emailContent, String subject, String receiverEmail)
+            throws MessagingException, JSONException, IOException {
         
         Emails emailsManager = new Emails();
         

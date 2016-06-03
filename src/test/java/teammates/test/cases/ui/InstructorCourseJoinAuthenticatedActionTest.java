@@ -53,7 +53,8 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
                              + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?key=" + invalidEncryptedKey,
                      redirectResult.getStatusMessage());
 
-        String expectedLogSegment = "Servlet Action Failure : You have used an invalid join link: " + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN
+        String expectedLogSegment = "Servlet Action Failure : You have used an invalid join link: "
+                                    + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN
                                     + "?key=" + invalidEncryptedKey + "<br/><br/>Action Instructor Joins Course<br/>"
                                     + "Google ID: idOfInstructor1OfCourse1<br/>Key : invalidKey";
         AssertHelper.assertContains(expectedLogSegment, joinAction.getLogMessage());
