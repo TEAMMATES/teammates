@@ -482,42 +482,42 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("verify checkbox toggling to false");
         
-        courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 5);
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex,
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 5);
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex,
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         
-        courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 7);
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex,
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 7);
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex,
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
         
-        courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 10);
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex,
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 10);
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex,
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         ______TS("verify checkbox toggling to true");
         
-        courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 6);
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex,
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 6);
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex,
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         
-        courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 8);
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex,
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 8);
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex,
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
         
-        courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 11);
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex,
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 11);
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex,
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         
