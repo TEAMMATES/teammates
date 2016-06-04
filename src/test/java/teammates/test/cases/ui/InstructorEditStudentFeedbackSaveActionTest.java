@@ -29,7 +29,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         testModifyResponses();
         
         testIncorrectParameters();
@@ -40,7 +40,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         testClosedSession();
     }
     
-    private void testModifyResponses() throws Exception {
+    private void testModifyResponses() {
         ______TS("edit existing answer");
         
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -159,7 +159,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
     }
     
-    private void testIncorrectParameters() throws Exception {
+    private void testIncorrectParameters() {
         ______TS("Unsuccessful case: test empty feedback session name parameter");
         
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -231,7 +231,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
     }
     
-    private void testDifferentPrivileges() throws Exception {
+    private void testDifferentPrivileges() {
         ______TS("Unsuccessful case: insufficient privileges");
         
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -361,7 +361,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
-                         + instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 2]", e.getMessage());
+                             + instructorHelper2.email + "] for privilege [canmodifysessioncommentinsection] "
+                             + "on section [Section 2]",
+                         e.getMessage());
         }
         
         ______TS("Successful case: sufficient for section, although insufficient for another session");
@@ -461,11 +463,13 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             a = getAction(submissionParams);
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [Another feedback session] is not accessible to instructor [" + instructorHelper3.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 2]", e.getMessage());
+            assertEquals("Feedback session [Another feedback session] is not accessible to instructor ["
+                             + instructorHelper3.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 2]",
+                         e.getMessage());
         }
     }
     
-    private void testSubmitResponseForInvalidQuestion() throws Exception {
+    private void testSubmitResponseForInvalidQuestion() {
         ______TS("Failure case: submit response for question in session, but should not be editable by instructor");
         
         InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
@@ -503,8 +507,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor ["
-                         + instructor.email + "]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] "
+                             + "is not accessible to instructor [" + instructor.email + "]",
+                         e.getMessage());
         }
 
         fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 4);
@@ -531,8 +536,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor ["
-                         + instructor.email + "]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] "
+                             + "is not accessible to instructor [" + instructor.email + "]",
+                         e.getMessage());
         }
         
         fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 5);
@@ -559,12 +565,13 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor ["
-                         + instructor.email + "]", e.getMessage());
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] "
+                             + "is not accessible to instructor [" + instructor.email + "]",
+                         e.getMessage());
         }
     }
     
-    private void testClosedSession() throws Exception {
+    private void testClosedSession() {
         ______TS("Success case: modifying responses in closed session");
         
         InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");

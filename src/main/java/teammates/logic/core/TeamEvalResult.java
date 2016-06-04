@@ -72,7 +72,8 @@ public class TeamEvalResult {
                 + replaceMagicNumbers(Arrays
                         .toString(normalizedAveragePerceivedAsDouble)));
 
-        double[][] normalizedPeerContributionRatioAsDouble = adjustPeerContributionRatioToTallyNormalizedAveragePerceived(peerContributionRatioAsDouble);
+        double[][] normalizedPeerContributionRatioAsDouble =
+                adjustPeerContributionRatioToTallyNormalizedAveragePerceived(peerContributionRatioAsDouble);
         log.fine("normalizedPeerContributionRatio as double :\n"
                 + pointsToString(peerContributionRatioAsDouble));
 

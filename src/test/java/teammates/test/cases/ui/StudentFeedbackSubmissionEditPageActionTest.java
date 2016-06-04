@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -41,14 +41,14 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
 
         String[] submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId
         };
 
         verifyAssumptionFailure(submissionParams);
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId
         };
 
@@ -57,7 +57,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         ______TS("Test null feedback session name parameter");
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId
         };
 
@@ -76,7 +76,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         ______TS("Test null course id parameter");
 
         submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId
         };
 
@@ -92,8 +92,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         ______TS("typical success case for registered student");
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId
         };
 
@@ -113,8 +113,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         feedbackSessionsDb.deleteEntity(session1InCourse1);
 
         String[] params = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId
         };
 
@@ -135,8 +135,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         gaeSimulation.logoutUser();
 
         params = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
                 Const.ParamsNames.REGKEY, unregStudent.key,
                 Const.ParamsNames.STUDENT_EMAIL, unregStudent.email
         };
@@ -152,8 +152,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
             
             redirectResult = getRedirectResult(pageAction);
             signalFailureToDetectException("EntityDoesNotExist");
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("unregistered student trying to access non-existent session", edne.getMessage());
+        } catch (EntityNotFoundException enfe) {
+            assertEquals("unregistered student trying to access non-existent session", enfe.getMessage());
         }
 
         stDb.deleteStudent("idOfTypicalCourse1", "unreg@stud.ent");
@@ -166,8 +166,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
 
         params = new String[]{
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId
         };
 
@@ -211,7 +211,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE + "?error=true&user=student1InCourse1",
                      redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
-        assertEquals("You are not registered in the course " + session1InCourse1.courseId,
+        assertEquals("You are not registered in the course " + session1InCourse1.getCourseId(),
                      redirectResult.getStatusMessage());
     }
 

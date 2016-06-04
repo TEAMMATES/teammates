@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
@@ -26,7 +26,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
         InstructorAttributes instructorHelper = dataBundle.instructors.get("IESFPTCoursehelper1");
         String idOfInstructor = instructor.googleId;
@@ -167,11 +167,11 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
             editPageAction = getAction(submissionParams);
             showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
+        } catch (EntityNotFoundException enfe) {
             assertEquals("An entity with the identifier "
                             + moderatedStudentEmail + " does not exist in " + courseId
                             + ".",
-                         edne.getMessage());
+                         enfe.getMessage());
 
         }
     }

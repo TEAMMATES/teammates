@@ -406,7 +406,7 @@ rules:
     # max-depth: "off"
 
     # enforce a maximum line length
-    max-len: "off" # recommended by Airbnb (100) and Google (80)
+    max-len: ["error", 140]
 
     # enforce a maximum depth that callbacks can be nested
     # max-nested-callbacks: "off"

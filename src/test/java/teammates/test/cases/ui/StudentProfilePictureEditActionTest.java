@@ -22,7 +22,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
 
         AccountAttributes student = dataBundle.accounts.get("student2InCourse1");
         gaeSimulation.loginAsStudent(student.googleId);
@@ -38,7 +38,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         testActionForNonExistentBlobKey(student);
     }
 
-    private void testActionForEmptyLeftX(AccountAttributes student) throws Exception {
+    private void testActionForEmptyLeftX(AccountAttributes student) {
         ______TS("Failure case: empty parameter - leftx");
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
         String[] submissionParams = createValidParamsForProfilePictureEdit();
@@ -53,7 +53,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForEmptyRightY(AccountAttributes student) throws Exception {
+    private void testActionForEmptyRightY(AccountAttributes student) {
         String[] submissionParams;
         ______TS("Failure case: empty parameter - rightx");
         String expectedLogMessage = getExpectedLogMessageEmptyCoords(student);
@@ -69,7 +69,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForEmptyTopY(AccountAttributes student) throws Exception {
+    private void testActionForEmptyTopY(AccountAttributes student) {
         ______TS("Failure case: empty parameter - topy");
         String expectedLogMessage = getExpectedLogMessageEmptyCoords(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
@@ -84,7 +84,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForEmptyBottomY(AccountAttributes student) throws Exception {
+    private void testActionForEmptyBottomY(AccountAttributes student) {
         ______TS("Failure case: empty parameter - bottomy");
         String expectedLogMessage = getExpectedLogMessageEmptyCoords(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
@@ -99,7 +99,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForEmptyHeight(AccountAttributes student) throws Exception {
+    private void testActionForEmptyHeight(AccountAttributes student) {
         ______TS("Failure case: empty parameter - height");
         String expectedLogMessage = getExpectedLogMessageEmptyDimensions(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
@@ -114,7 +114,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForEmptyWidth(AccountAttributes student) throws Exception {
+    private void testActionForEmptyWidth(AccountAttributes student) {
         ______TS("Failure case: empty parameter - width");
         String expectedLogMessage = getExpectedLogMessageEmptyDimensions(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
@@ -129,7 +129,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForZeroHeight(AccountAttributes student) throws Exception {
+    private void testActionForZeroHeight(AccountAttributes student) {
         ______TS("Failure case: zero height");
         String expectedLogMessage = getExpectedLogMessageZeroDimensions(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
@@ -144,7 +144,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForZeroWidth(AccountAttributes student) throws Exception {
+    private void testActionForZeroWidth(AccountAttributes student) {
         ______TS("Failure case: zero width");
         String expectedLogMessage = getExpectedLogMessageZeroDimensions(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
@@ -159,7 +159,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForNonExistentBlobKey(AccountAttributes student) throws Exception {
+    private void testActionForNonExistentBlobKey(AccountAttributes student) {
         ______TS("Failure case: non-existent blobKey");
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
         String[] submissionParams = createValidParamsForProfilePictureEdit();
