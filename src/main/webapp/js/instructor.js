@@ -130,7 +130,8 @@ function setupFsCopyModal() {
                  + '&currentPage=' + encodeURIComponent(currentPage),
             beforeSend: function() {
                 $('#fscopy_submit').prop('disabled', true);
-                $('#courseList').html("Loading possible destination courses. Please wait ...<br><img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
+                $('#courseList').html('Loading possible destination courses. Please wait ...<br>'
+                                      + "<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
             error: function() {
                 $('#courseList').html("<p id='fs-copy-modal-error'>Error retrieving course list."

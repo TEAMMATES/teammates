@@ -17,8 +17,9 @@ var CONFIRMATION_MODAL_OK = '#confirmation-modal-ok';
 
 var DEFAULT_CANCEL_BUTTON_TEXT = 'Cancel';
 var WARNING_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
-var CONFIRMATION_BODY = '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
-                        + '<p>Are you sure you want to continue?</p>';
+var CONFIRMATION_BODY =
+        '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
+        + '<p>Are you sure you want to continue?</p>';
 var CONFIRM_DELETE = 'Yes, continue and delete the existing responses.';
 
 /**
@@ -995,7 +996,8 @@ function addMcqOption(questionNum) {
                  + '<input type="radio" disabled>'
               + '</span>'
               + '<input type="text" name="' + FEEDBACK_QUESTION_MCQCHOICE + '-' + curNumberOfChoiceCreated + '" '
-                      + 'id="' + FEEDBACK_QUESTION_MCQCHOICE + '-' + curNumberOfChoiceCreated + idSuffix + '" class="form-control mcqOptionTextBox">'
+                      + 'id="' + FEEDBACK_QUESTION_MCQCHOICE + '-' + curNumberOfChoiceCreated + idSuffix + '" '
+                      + 'class="form-control mcqOptionTextBox">'
               + '<span class="input-group-btn">'
                   + '<button type="button" class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" '
                           + 'onclick="removeMcqOption(' + curNumberOfChoiceCreated + ',' + questionNum + ')" tabindex="-1">'
@@ -1087,7 +1089,8 @@ function addMsqOption(questionNum) {
                  + '<input type="checkbox" disabled>'
               + '</span>'
               + '<input type="text" name="' + FEEDBACK_QUESTION_MSQCHOICE + '-' + curNumberOfChoiceCreated + '" '
-                      + 'id="' + FEEDBACK_QUESTION_MSQCHOICE + '-' + curNumberOfChoiceCreated + idSuffix + '" class="form-control msqOptionTextBox">'
+                      + 'id="' + FEEDBACK_QUESTION_MSQCHOICE + '-' + curNumberOfChoiceCreated + idSuffix + '" '
+                      + 'class="form-control msqOptionTextBox">'
               + '<span class="input-group-btn">'
                   + '<button type="button" class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" '
                           + 'onclick="removeMsqOption(' + curNumberOfChoiceCreated + ',' + questionNum + ')" tabindex="-1">'
@@ -1246,7 +1249,8 @@ function addConstSumOption(questionNum) {
     $('<div class="margin-bottom-7px" id="constSumOptionRow-' + curNumberOfChoiceCreated + idSuffix + '">'
           + '<div class="input-group width-100-pc">'
               + '<input type="text" name="' + FEEDBACK_QUESTION_CONSTSUMOPTION + '-' + curNumberOfChoiceCreated + '" '
-                      + 'id="' + FEEDBACK_QUESTION_CONSTSUMOPTION + '-' + curNumberOfChoiceCreated + idSuffix + '" class="form-control constSumOptionTextBox">'
+                      + 'id="' + FEEDBACK_QUESTION_CONSTSUMOPTION + '-' + curNumberOfChoiceCreated + idSuffix + '" '
+                      + 'class="form-control constSumOptionTextBox">'
               + '<span class="input-group-btn">'
                   + '<button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" '
                           + 'onclick="removeConstSumOption(' + curNumberOfChoiceCreated + ',' + questionNum + ')" tabindex="-1">'
@@ -1423,11 +1427,18 @@ function addRubricRow(questionNum) {
         '<tr id="rubricRow-${qnIndex}-${row}">'
           + '<td>'
               + '<div class="col-sm-12 input-group">'
-                  + '<span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-${qnIndex}" id="rubricRemoveSubQuestionLink-${qnIndex}-${row}" onclick="removeRubricRow(${row},${qnIndex})"'
-                          + 'onmouseover="highlightRubricRow(${row}, ${qnIndex}, true)" onmouseout="highlightRubricRow(${row}, ${qnIndex}, false)">'
+                  + '<span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-${qnIndex}" '
+                          + 'id="rubricRemoveSubQuestionLink-${qnIndex}-${row}" '
+                          + 'onclick="removeRubricRow(${row},${qnIndex})" '
+                          + 'onmouseover="highlightRubricRow(${row}, ${qnIndex}, true)" '
+                          + 'onmouseout="highlightRubricRow(${row}, ${qnIndex}, false)">'
                       + '<span class="glyphicon glyphicon-remove"></span>'
                   + '</span>'
-                  + '<textarea class="form-control" rows="3" id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${qnIndex}-${row}" name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}">${subQuestion}</textarea>'
+                  + '<textarea class="form-control" rows="3" '
+                          + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${qnIndex}-${row}" '
+                          + 'name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}">'
+                      + '${subQuestion}'
+                  + '</textarea>'
               + '</div>'
           + '</td>'
           + '${rubricRowBodyFragments}'
@@ -1435,7 +1446,11 @@ function addRubricRow(questionNum) {
 
     var rubricRowFragmentTemplate =
         '<td class="align-center rubricCol-${qnIndex}-${col}">'
-        + '<textarea class="form-control" rows="3" id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}" name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}">${description}</textarea>'
+        + '<textarea class="form-control" rows="3" '
+                + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}" '
+                + 'name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}">'
+            + '${description}'
+        + '</textarea>'
       + '</td>';
 
     var rubricRowBodyFragments = '';
@@ -1486,9 +1501,13 @@ function addRubricCol(questionNum) {
     var rubricHeaderFragmentTemplate =
        '<th class="rubricCol-${qnIndex}-${col}">'
           + '<div class="input-group">'
-              + '<input type="text" class="col-sm-12 form-control" value="${rubricChoiceValue}" id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${qnIndex}-${col}" name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}">'
-              + '<span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${qnIndex}" id="rubricRemoveChoiceLink-${qnIndex}-${col}" onclick="removeRubricCol(${col}, ${qnIndex})" '
-                      + 'onmouseover="highlightRubricCol(${col}, ${qnIndex}, true)" onmouseout="highlightRubricCol(${col}, ${qnIndex}, false)">'
+              + '<input type="text" class="col-sm-12 form-control" value="${rubricChoiceValue}" '
+                      + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${qnIndex}-${col}" '
+                      + 'name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}">'
+              + '<span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${qnIndex}" '
+                      + 'id="rubricRemoveChoiceLink-${qnIndex}-${col}" onclick="removeRubricCol(${col}, ${qnIndex})" '
+                      + 'onmouseover="highlightRubricCol(${col}, ${qnIndex}, true)" '
+                      + 'onmouseout="highlightRubricCol(${col}, ${qnIndex}, false)">'
                   + '<span class="glyphicon glyphicon-remove"></span>'
               + '</span>'
           + '</div>'
@@ -1509,7 +1528,9 @@ function addRubricCol(questionNum) {
     // Insert weight <th>
     var rubricWeightFragmentTemplate =
         '<th class="rubricCol-${qnIndex}-${col}">'
-           + '<input type="number" class="form-control nonDestructive" value="${rubricWeight}" id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${qnIndex}-${col}" name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${col}" step="0.01">'
+           + '<input type="number" class="form-control nonDestructive" value="${rubricWeight}" '
+                   + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${qnIndex}-${col}" '
+                   + 'name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${col}" step="0.01">'
       + '</th>';
 
     var rubricWeightFragment = rubricWeightFragmentTemplate;
@@ -1528,8 +1549,12 @@ function addRubricCol(questionNum) {
 
     // Insert body <td>'s
     var rubricRowFragmentTemplate =
-        '<td class=\'align-center rubricCol-${qnIndex}-${col}\'>'
-        + '<textarea class=\'form-control\' rows=\'3\' id=\'${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}\' name=\'${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\'>${description}</textarea>'
+        '<td class="align-center rubricCol-${qnIndex}-${col}">'
+        + '<textarea class="form-control" rows="3" '
+                + 'id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}" '
+                + 'name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}">'
+            + '${description}'
+        + '</textarea>'
       + '</td>';
 
     // Create numberOfRows of <td>'s
@@ -1711,7 +1736,8 @@ function addRankOption(questionNum) {
     $('<div id="rankOptionRow-' + curNumberOfChoiceCreated + idSuffix + '">'
           + '<div class="input-group">'
               + '<input type="text" name="' + FEEDBACK_QUESTION_RANKOPTION + '-' + curNumberOfChoiceCreated + '" '
-                      + 'id="' + FEEDBACK_QUESTION_RANKOPTION + '-' + curNumberOfChoiceCreated + idSuffix + '" class="form-control rankOptionTextBox">'
+                      + 'id="' + FEEDBACK_QUESTION_RANKOPTION + '-' + curNumberOfChoiceCreated + idSuffix + '" '
+                      + 'class="form-control rankOptionTextBox">'
               + '<span class="input-group-btn">'
                   + '<button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" '
                           + 'onclick="removeRankOption(' + curNumberOfChoiceCreated + ',' + questionNum + ')" tabindex="-1">'

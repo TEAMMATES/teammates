@@ -23,13 +23,13 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
         testActionSuccessTypical(student);
         testActionInMasquerade(student);
     }
 
-    private void testActionSuccessTypical(AccountAttributes student) throws Exception {
+    private void testActionSuccessTypical(AccountAttributes student) {
         gaeSimulation.loginAsStudent(student.googleId);
         ______TS("Typical case");
         String[] submissionParams = new String[] {};
@@ -45,8 +45,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         verifyLogMessage(student, action, false);
     }
 
-    private void testActionInMasquerade(AccountAttributes student)
-            throws Exception {
+    private void testActionInMasquerade(AccountAttributes student) {
         gaeSimulation.loginAsAdmin("admin.user");
         ______TS("Typical case: masquerade mode");
         String[] submissionParams = new String[] {

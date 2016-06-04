@@ -40,7 +40,8 @@ $(document).ready(function() {
             'emoticons template paste textcolor colorpicker textpattern'
         ],
         
-        toolbar1: 'insertfile undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        toolbar1: 'insertfile undo redo | styleselect | bold italic underline '
+                  + '| alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
         toolbar2: 'print preview | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen',
         
         file_picker_callback: function(callback, value, meta) {
@@ -227,7 +228,8 @@ function clearUploadFileInfo() {
 }
 
 function clearUploadGroupReceiverListInfo() {
-    $('#adminEmailGroupReceiverListInput').html('<input type="file" name="emailgroupreceiverlisttoupload" id="adminEmailGroupReceiverList">');
+    $('#adminEmailGroupReceiverListInput').html('<input type="file" name="emailgroupreceiverlisttoupload" '
+                                                     + 'id="adminEmailGroupReceiverList">');
     $('#adminEmailGroupReceiverList').on('change paste keyup', function() {
         createGroupReceiverListUploadUrl();
     });

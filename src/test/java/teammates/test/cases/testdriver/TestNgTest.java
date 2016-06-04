@@ -18,10 +18,16 @@ public class TestNgTest extends BaseTestCase {
         HashMap<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates/test/cases"); // <class name, package name>
              
         testFiles = excludeFilesNotInTestNg(testFiles,
-                                           "BaseUiTestCase",         // Base*TestCase are base classes to be extended by the actual tests
-                                           "FeedbackQuestionUiTest", // Base class for all Feedback*QuestionUiTest (different question types)
-                                           "GodModeTest"             // Needs to be run only when changes are made to GodMode
-                                           );
+                                            
+                                            // Base*TestCase are base classes to be extended by the actual tests
+                                            "BaseUiTestCase",
+                                            
+                                            // Base class for all Feedback*QuestionUiTest (different question types)
+                                            "FeedbackQuestionUiTest",
+                                            
+                                            // Needs to be run only when changes are made to GodMode
+                                            "GodModeTest"
+                                            );
         
         for (Entry<String, String> testFileName : testFiles.entrySet()) {
             assertTrue(isTestFileIncluded(testNgXml, testFileName.getValue(), testFileName.getKey()));

@@ -22,7 +22,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         String instructorId = instructor.googleId;
 

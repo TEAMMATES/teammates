@@ -1,6 +1,5 @@
 package teammates.test.cases.storage;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -41,30 +40,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         for (String i : keys) {
             frDb.createEntity(dataBundle.feedbackResponses.get(i));
         }
-    }
-    
-    @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
-        
-        // remove possibly conflicting entity from the database
-        frDb.deleteEntity(fra);
-        
-        frDb.createEntity(fra);
-        verifyPresentInDatastore(fra, true);
-        
-        fra.setCreatedAt_nonProduction(null);
-        fra.setUpdatedAt_nonProduction(null);
-        
-        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        
-        ______TS("success : defaultTimeStamp for createdAt date");
-        
-        assertEquals(defaultTimeStamp, fra.getCreatedAt());
-        
-        ______TS("success : defaultTimeStamp for updatedAt date");
-        
-        assertEquals(defaultTimeStamp, fra.getUpdatedAt());
     }
     
     @Test
@@ -231,7 +206,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestion(fras.get("response1ForQ1S1C1").feedbackQuestionId);
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForQuestion(fras.get("response1ForQ1S1C1").feedbackQuestionId);
         assertEquals(7, responses.size());
         
         ______TS("null params");
@@ -637,7 +613,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String courseId = fras.get("response1ForQ1S1C1").courseId;
         String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, "Section 1");
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, "Section 1");
         
         assertEquals(5, responses.size());
         
@@ -674,7 +651,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String courseId = fras.get("response1ForQ1S1C1").courseId;
         String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, "Section 2");
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, "Section 2");
         
         assertEquals(0, responses.size());
         
@@ -715,7 +693,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String courseId = fras.get("response1ForQ1S1C1").courseId;
         String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, "Section 1");
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, "Section 1");
         
         assertEquals(5, responses.size());
         
@@ -807,7 +786,9 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         frDb.updateFeedbackResponse(modifiedResponse);
         
         verifyPresentInDatastore(modifiedResponse);
-        modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId, modifiedResponse.giverEmail, modifiedResponse.recipientEmail);
+        modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId,
+                                                    modifiedResponse.giverEmail,
+                                                    modifiedResponse.recipientEmail);
         assertEquals("New answer text!", modifiedResponse.getResponseDetails().getAnswerString());
         
     }
