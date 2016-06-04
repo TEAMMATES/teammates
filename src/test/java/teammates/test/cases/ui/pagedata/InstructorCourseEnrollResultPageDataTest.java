@@ -59,7 +59,9 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
         assertEquals(students[UpdateStatus.MODIFIED.numericRepresentation].size(),
                      pageData.getEnrollResultPanelList().get(UpdateStatus.MODIFIED.numericRepresentation).getStudentList().size());
         assertEquals(students[UpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation].size(),
-                     pageData.getEnrollResultPanelList().get(UpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation).getStudentList().size());
+                     pageData.getEnrollResultPanelList()
+                             .get(UpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation)
+                             .getStudentList().size());
         assertEquals(students[UpdateStatus.UNKNOWN.numericRepresentation].size(),
                      pageData.getEnrollResultPanelList().get(UpdateStatus.UNKNOWN.numericRepresentation).getStudentList().size());
         assertEquals(students[UpdateStatus.UNMODIFIED.numericRepresentation].size(),

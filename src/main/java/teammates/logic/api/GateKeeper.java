@@ -148,10 +148,10 @@ public class GateKeeper {
         verifyNotNull(student, "student");
         verifyNotNull(student.course, "student's course ID");
         verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.courseId, "feedback session's course ID");
+        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
 
-        if (!student.course.equals(feedbacksession.courseId) || feedbacksession.isPrivateSession()) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName
+        if (!student.course.equals(feedbacksession.getCourseId()) || feedbacksession.isPrivateSession()) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to student [" + student.email + "]");
         }
 
@@ -235,15 +235,15 @@ public class GateKeeper {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.courseId, "feedback session's course ID");
+        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
 
-        if (!instructor.courseId.equals(feedbacksession.courseId)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName
+        if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email + "]");
         }
 
-        if (creatorOnly && !feedbacksession.creatorEmail.equals(instructor.email)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName
+        if (creatorOnly && !feedbacksession.getCreatorEmail().equals(instructor.email)) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email
                                                   + "] for this purpose");
         }
@@ -264,21 +264,21 @@ public class GateKeeper {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.courseId, "feedback session's course ID");
+        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
 
-        if (!instructor.courseId.equals(feedbacksession.courseId)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName
+        if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email + "]");
         }
 
-        if (creatorOnly && !feedbacksession.creatorEmail.equals(instructor.email)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName
+        if (creatorOnly && !feedbacksession.getCreatorEmail().equals(instructor.email)) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email
                                                   + "] for this purpose");
         }
 
         if (!instructor.isAllowedForPrivilege(privilegeName)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email
                                                   + "] for privilege [" + privilegeName + "]");
         }
@@ -289,21 +289,21 @@ public class GateKeeper {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.courseId, "feedback session's course ID");
+        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
 
-        if (!instructor.courseId.equals(feedbacksession.courseId)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName
+        if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email + "]");
         }
 
-        if (creatorOnly && !feedbacksession.creatorEmail.equals(instructor.email)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName
+        if (creatorOnly && !feedbacksession.getCreatorEmail().equals(instructor.email)) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email
                                                   + "] for this purpose");
         }
 
-        if (!instructor.isAllowedForPrivilege(sectionName, feedbacksession.feedbackSessionName, privilegeName)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName
+        if (!instructor.isAllowedForPrivilege(sectionName, feedbacksession.getFeedbackSessionName(), privilegeName)) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email
                                                   + "] for privilege [" + privilegeName + "] on section ["
                                                   + sectionName + "]");

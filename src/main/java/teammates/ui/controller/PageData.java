@@ -28,7 +28,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
-import teammates.logic.api.Logic;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackSessionActions;
 
@@ -890,10 +889,6 @@ public class PageData {
         return Double.toString(num);
     }
     
-    public boolean isCourseArchived(String courseId, String googleId) {
-        return Logic.isCourseArchived(courseId, googleId);
-    }
-    
     public boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes qn,
                                               FeedbackParticipantType viewerType) {
         if (viewerType == FeedbackParticipantType.GIVER) {
@@ -1008,11 +1003,11 @@ public class PageData {
     }
 
     public String getjQueryFilePath() {
-        return Const.SystemParams.getjQueryFilePath(Config.inst().isDevServer());
+        return Const.SystemParams.getjQueryFilePath(Config.isDevServer());
     }
 
     public String getjQueryUiFilePath() {
-        return Const.SystemParams.getjQueryUiFilePath(Config.inst().isDevServer());
+        return Const.SystemParams.getjQueryUiFilePath(Config.isDevServer());
     }
 
 }

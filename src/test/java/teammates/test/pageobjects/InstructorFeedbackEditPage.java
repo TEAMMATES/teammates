@@ -91,6 +91,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_submit_add")
     private WebElement addNewQuestionButton;
     
+    @FindBy(id = "button_done_editing")
+    private WebElement doneEditingButton;
+    
     @FindBy(id = "questiontext")
     private WebElement questionTextBox;
     
@@ -145,6 +148,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "questiongetlink-1")
     private WebElement getLinkButton;
 
+    @FindBy(id = "confirmation-modal-ok")
+    private WebElement confirmationModalOkButton;
+    
     private InstructorCopyFsToModal fsCopyToModal;
     
     public InstructorFeedbackEditPage(Browser browser) {
@@ -400,10 +406,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickquestionSaveForQuestion1() {
         questionSaveForQuestion1.click();
         waitForPageToLoad();
-    }
-    
-    public void clickAndConfirmSaveForQuestion1() {
-        clickAndConfirm(questionSaveForQuestion1);
     }
     
     public void clickVisibilityPreviewForQuestion1() {
@@ -730,11 +732,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public InstructorFeedbacksPage clickDoneEditingLink() {
-        WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable"))
-                                                   .findElements(By.tagName("a"))
-                                                   .get(12);
-       
-        doneEditingLink.click();
+        doneEditingButton.click();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);
     }
@@ -993,5 +991,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
         waitForElementVisibility(checkbox);
         checkbox.click();
+    }
+    
+    public void clickAndConfirmSaveForQuestion1WithConfirmationModal() {
+        questionSaveForQuestion1.click();
+        waitForElementToBeClickable(confirmationModalOkButton);
+        confirmationModalOkButton.click();
+        
+        By confirmationModal = By.id("confirmation-modal");
+        waitForElementToDisappear(confirmationModal);
     }
 }

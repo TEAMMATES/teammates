@@ -28,7 +28,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         String[] submissionParams = new String[]{};
         
         ______TS("instructor with no courses");
