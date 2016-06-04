@@ -1,7 +1,7 @@
 # Contributing to TEAMMATES
 **Are you a new contributor?** Check out the [Contributor's Orientation Guide][COG].
 
-[COG]: https://docs.google.com/document/d/1cY9pmEmw4dC6Z4LjN1WUTsynJ0jVPgbWsFhdyBy_wCU/pub?embedded=true
+[COG]: /devdocs/orientation-guide.md
 
 ### Submitting a bug report
 Search [the issue tracker][issue tracker] to ensure that there is no open issue addressing the bug.  
