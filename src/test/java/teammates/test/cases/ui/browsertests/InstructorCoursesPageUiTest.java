@@ -305,8 +305,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         InstructorAttributes instructorWithNullArchiveStatus = BackDoor.getInstructorByGoogleId(instructor1CS1101.googleId,
                                                                                                 instructor1CS1101.courseId);
                                                                                                          
-        //this is a old instructor whose archive status has no value
-        assertNull(instructorWithNullArchiveStatus.isArchived);
+        //this is a old instructor whose archive status is not set and is by default false
+        assertFalse(instructorWithNullArchiveStatus.isArchived);
         
         coursesPage.archiveCourse(courseId);
         coursesPage.waitForAjaxLoadCoursesSuccess();

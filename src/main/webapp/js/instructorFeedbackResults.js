@@ -112,7 +112,7 @@ function filterResults(rawSearchText) {
         if ($(panelText).text().toLowerCase().indexOf(searchText) !== -1) {
             // pop and show all parent panels from the showStack
             while (showStack.length > 0) {
-                $(showStack.pop()).hide();
+                $(showStack.pop()).show();
             }
 
             // show current panel

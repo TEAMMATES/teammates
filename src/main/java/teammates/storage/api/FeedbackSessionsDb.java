@@ -460,7 +460,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void deleteStudentRespondant(String email, FeedbackSessionAttributes feedbackSession)
+    public void deleteStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
