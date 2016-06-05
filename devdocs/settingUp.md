@@ -36,7 +36,7 @@ Important: When a version is specified, please install that version instead of t
 `Dev server` means running the server in your own computer.
 
 1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
-2. Run the command `./gradlew appengineDownloadSdk` to obtain the Google App Engine SDK (version specified by Gradle).
+2. Run the command `./gradlew appengineDownloadSdk` to obtain the Google App Engine SDK (version specified in `build.gradle`).
 3. Configure Eclipse (if you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES):
    * Google App Engine: Go to `Window → Preferences → Google → App Engine` (Mac: `Eclipse → Preferences → Google → App Engine`),
    click the `Add` button, and point it to where Gradle kept the SDK.
