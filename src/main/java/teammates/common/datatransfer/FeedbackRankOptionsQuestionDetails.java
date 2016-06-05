@@ -20,6 +20,8 @@ import teammates.ui.controller.PageData;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
+import static teammates.common.util.Templates.FeedbackQuestionDetailsSlots.*;
+
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
     public static final transient int MIN_NUM_OF_OPTIONS = 2;
     public static final transient String ERROR_NOT_ENOUGH_OPTIONS =
@@ -80,14 +82,14 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         for (int i = 0; i < options.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                            SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
                             "${optionIdx}", Integer.toString(i),
-                            Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
-                                    Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VISIBILITY, "",
+                            SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
+                                    SLOT_RANK_OPTION_VISIBILITY, "",
                             "${options}", getSubmissionOptionsHtmlForRankingOptions(existingResponse.getAnswerList().get(i)),
-                            Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(options.get(i)));
+                            SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            SLOT_RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(options.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
             
         }
@@ -95,9 +97,9 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
-                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VISIBILITY, "",
+                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                SLOT_RANK_OPTION_VISIBILITY, "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                 "${rankToRecipientsValue}", "false",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
@@ -117,23 +119,23 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         for (int i = 0; i < options.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                            SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
                             "${optionIdx}", Integer.toString(i),
-                            Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
-                                    Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VISIBILITY, "",
+                            SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
+                                    SLOT_RANK_OPTION_VISIBILITY, "",
                             "${options}", getSubmissionOptionsHtmlForRankingOptions(Const.INT_UNINITIALIZED),
-                            Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(options.get(i)));
+                            SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            SLOT_RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(options.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
 
         return Templates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
-                            Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VISIBILITY, "",
+                            SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                            SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                            SLOT_RANK_OPTION_VISIBILITY, "",
                             "${rankToRecipientsValue}", "false",
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
@@ -172,7 +174,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
-                            Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(options.get(i)),
+                            SLOT_RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(options.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -259,14 +261,14 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             String option = entry.getKey();
             
             fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
-                    Templates.FeedbackQuestionDetailsConsts.RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(option),
+                    SLOT_RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(option),
                                                                         "${ranksReceived}", ranksReceived,
                                                                         "${averageRank}", df.format(average)));
         
         }
  
         return Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_OPTION_STATS,
-                Templates.FeedbackQuestionDetailsConsts.OPTION_RECIPIENT_DISPLAY_NAME, "Option",
+                SLOT_OPTION_RECIPIENT_DISPLAY_NAME, "Option",
                                                              "${fragments}", fragments.toString());
     }
 

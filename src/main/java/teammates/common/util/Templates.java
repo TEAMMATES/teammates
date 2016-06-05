@@ -196,53 +196,53 @@ public final class Templates {
                 FileHelper.readResourceFile("feedbackSessionTeamEvaluationTemplate.json");
     }
     
-    public static class FeedbackQuestionDetailsConsts {
-        public static final String QUESTION_INDEX = "${questionIndex}";
-        public static final String RESPONSE_INDEX = "${responseIndex}";
-        public static final String DISABLED = "${disabled}";
-        public static final String FEEDBACK_RESPONSE_TEXT = "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}";
-        public static final String CHECKED = "${checked}";
-        public static final String OPTION_RECIPIENT_DISPLAY_NAME = "${optionRecipientDisplayName}";
-        public static final String QUESTION_NUMBER = "${questionNumber}";
+    public static class FeedbackQuestionDetailsSlots {
+        public static final String SLOT_QUESTION_INDEX = "${questionIndex}";
+        public static final String SLOT_RESPONSE_INDEX = "${responseIndex}";
+        public static final String SLOT_DISABLED = "${disabled}";
+        public static final String SLOT_FEEDBACK_RESPONSE_TEXT = "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}";
+        public static final String SLOT_CHECKED = "${checked}";
+        public static final String SLOT_OPTION_RECIPIENT_DISPLAY_NAME = "${optionRecipientDisplayName}";
+        public static final String SLOT_QUESTION_NUMBER = "${questionNumber}";
         
         // MCQ
-        public static final String MCQ_CHOICE_VALUE = "${mcqChoiceValue}";
+        public static final String SLOT_MCQ_CHOICE_VALUE = "${mcqChoiceValue}";
         
         // MSQ
-        public static final String MSQ_CHOICE_VALUE = "${msqChoiceValue}";
-        public static final String MSQ_CHOICE_TEXT = "${msqChoiceText}";
+        public static final String SLOT_MSQ_CHOICE_VALUE = "${msqChoiceValue}";
+        public static final String SLOT_MSQ_CHOICE_TEXT = "${msqChoiceText}";
         
         // Numscale
-        public static final String MIN_SCALE = "${minScale}";
-        public static final String MAX_SCALE = "${maxScale}";
-        public static final String STEP = "${step}";
-        public static final String NUMSCALE_MIN = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}";
-        public static final String NUMSCALE_MAX = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}";
-        public static final String NUMSCALE_STEP = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}";
+        public static final String SLOT_MIN_SCALE = "${minScale}";
+        public static final String SLOT_MAX_SCALE = "${maxScale}";
+        public static final String SLOT_STEP = "${step}";
+        public static final String SLOT_NUMSCALE_MIN = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}";
+        public static final String SLOT_NUMSCALE_MAX = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}";
+        public static final String SLOT_NUMSCALE_STEP = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}";
         
         // Constant Sum
-        public static final String OPTION_INDEX = "${optionIdx}";
-        public static final String CONSTSUM_OPTION_VISIBILITY = "${constSumOptionVisibility}";
-        public static final String CONSTSUM_OPTION_POINT = "${constSumOptionPoint}";
-        public static final String CONSTSUM_OPTION_VALUE = "${constSumOptionValue}";
-        public static final String CONSTSUM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
-        public static final String CONSTSUM_TO_RECIPIENTS_VALUE = "${constSumToRecipientsValue}";
-        public static final String CONSTSUM_TO_RECIPIENTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";
-        public static final String CONSTSUM_DISTRIBUTE_UNEVENLY = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
-        public static final String CONSTSUM_POINTS_PER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
+        public static final String SLOT_OPTION_INDEX = "${optionIdx}";
+        public static final String SLOT_CONSTSUM_OPTION_VISIBILITY = "${constSumOptionVisibility}";
+        public static final String SLOT_CONSTSUM_OPTION_POINT = "${constSumOptionPoint}";
+        public static final String SLOT_CONSTSUM_OPTION_VALUE = "${constSumOptionValue}";
+        public static final String SLOT_CONSTSUM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
+        public static final String SLOT_CONSTSUM_TO_RECIPIENTS_VALUE = "${constSumToRecipientsValue}";
+        public static final String SLOT_CONSTSUM_TO_RECIPIENTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";
+        public static final String SLOT_CONSTSUM_DISTRIBUTE_UNEVENLY = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
+        public static final String SLOT_CONSTSUM_POINTS_PER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
         
         // Rank
-        public static final String RANK_OPTION_VISIBILITY = "${rankOptionVisibility}";
-        public static final String RANK_OPTION_VALUE = "${rankOptionValue}";
+        public static final String SLOT_RANK_OPTION_VISIBILITY = "${rankOptionVisibility}";
+        public static final String SLOT_RANK_OPTION_VALUE = "${rankOptionValue}";
         
         // Rubric
-        public static final String CURRENT_ROWS = "${currRows}";
-        public static final String CURRENT_COLS = "${currCols}";
-        public static final String TABLE_HEADER_ROW_FRAGMENT_HTML = "${tableHeaderRowFragmentHtml}";
-        public static final String TABLE_BODY_HTML = "${tableBodyHtml}";
-        public static final String ROW = "${row}";
-        public static final String COL = "${col}";
-        public static final String RUBRIC_CHOICE_VALUE = "${rubricChoiceValue}";
+        public static final String SLOT_CURRENT_ROWS = "${currRows}";
+        public static final String SLOT_CURRENT_COLS = "${currCols}";
+        public static final String SLOT_TABLE_HEADER_ROW_FRAGMENT_HTML = "${tableHeaderRowFragmentHtml}";
+        public static final String SLOT_TABLE_BODY_HTML = "${tableBodyHtml}";
+        public static final String SLOT_ROW = "${row}";
+        public static final String SLOT_COL = "${col}";
+        public static final String SLOT_RUBRIC_CHOICE_VALUE = "${rubricChoiceValue}";
         
     }
     

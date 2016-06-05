@@ -18,6 +18,8 @@ import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
+import static teammates.common.util.Templates.FeedbackQuestionDetailsSlots.*;
+
 public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackQuestionDetails {
     public int minScale;
@@ -73,20 +75,20 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
-                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
-                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Templates.FeedbackQuestionDetailsConsts.MIN_SCALE, Integer.toString(minScale),
-                Templates.FeedbackQuestionDetailsConsts.MAX_SCALE, Integer.toString(maxScale),
-                Templates.FeedbackQuestionDetailsConsts.STEP, StringHelper.toDecimalFormatString(step),
+                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
+                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                SLOT_MIN_SCALE, Integer.toString(minScale),
+                SLOT_MAX_SCALE, Integer.toString(maxScale),
+                SLOT_STEP, StringHelper.toDecimalFormatString(step),
                 "${existingAnswer}", numscaleResponseDetails.getAnswerString(),
                 "${possibleValuesString}", getPossibleValuesStringSubmit(),
-                Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Templates.FeedbackQuestionDetailsConsts.NUMSCALE_MIN,
+                SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                SLOT_NUMSCALE_MIN,
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
-                Templates.FeedbackQuestionDetailsConsts.NUMSCALE_MAX,
+                SLOT_NUMSCALE_MAX,
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
-                Templates.FeedbackQuestionDetailsConsts.NUMSCALE_STEP,
+                SLOT_NUMSCALE_STEP,
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
     }
 
@@ -95,15 +97,15 @@ public class FeedbackNumericalScaleQuestionDetails extends
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
-                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
-                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
+                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
+                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
                 "${minScale}", Integer.toString(minScale),
                 "${maxScale}", Integer.toString(maxScale),
                 "${step}", StringHelper.toDecimalFormatString(step),
                 "${existingAnswer}", "",
                 "${possibleValuesString}", getPossibleValuesStringSubmit(),
-                Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);

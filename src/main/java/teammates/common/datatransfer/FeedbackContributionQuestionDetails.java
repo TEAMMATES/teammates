@@ -20,6 +20,8 @@ import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
+import static teammates.common.util.Templates.FeedbackQuestionDetailsSlots.*;
+
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
     
     private static final Logger log = Utils.getLogger();
@@ -78,10 +80,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
-                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
+                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
                 "${contribSelectFragmentsHtml}", optionSelectFragmentsHtml);
     }
 
@@ -93,10 +95,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
-                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
+                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
                 "${contribSelectFragmentsHtml}", optionSelectHtml);
     }
 
@@ -104,7 +106,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
-                Templates.FeedbackQuestionDetailsConsts.QUESTION_NUMBER, Integer.toString(questionNumber),
+                SLOT_QUESTION_NUMBER, Integer.toString(questionNumber),
                 "${isNotSureAllowedChecked}", isNotSureAllowed ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
@@ -127,7 +129,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
-                Templates.FeedbackQuestionDetailsConsts.QUESTION_NUMBER, Integer.toString(questionNumber),
+                SLOT_QUESTION_NUMBER, Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
     }
@@ -197,7 +199,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 FeedbackQuestionFormTemplates.CONTRIB_ADDITIONAL_INFO,
                 "${more}", "[how to interpret, etc..]",
                 "${less}", "[less]",
-                Templates.FeedbackQuestionDetailsConsts.QUESTION_NUMBER, Integer.toString(question.questionNumber),
+                SLOT_QUESTION_NUMBER, Integer.toString(question.questionNumber),
                 "${additionalInfoId}", "contributionInfo",
                 "${questionAdditionalInfo}", FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
         

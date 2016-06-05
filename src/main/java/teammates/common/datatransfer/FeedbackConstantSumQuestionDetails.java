@@ -21,6 +21,8 @@ import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
+import static teammates.common.util.Templates.FeedbackQuestionDetailsSlots.*;
+
 public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
     public int numOfConstSumOptions;
     public boolean distributeToRecipients;
@@ -153,28 +155,27 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         if (distributeToRecipients) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Templates.FeedbackQuestionDetailsConsts.OPTION_INDEX, "0",
-                            Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VISIBILITY, "style=\"display:none\"",
-                            Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_POINT, existingConstSumResponse.getAnswerString(),
-                            Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VALUE, "");
+                            SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                            SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                            SLOT_OPTION_INDEX, "0",
+                            SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
+                            SLOT_CONSTSUM_OPTION_VISIBILITY, "style=\"display:none\"",
+                            SLOT_CONSTSUM_OPTION_POINT, existingConstSumResponse.getAnswerString(),
+                            SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            SLOT_CONSTSUM_OPTION_VALUE, "");
             optionListHtml.append(optionFragment).append(Const.EOL);
         } else {
             for (int i = 0; i < constSumOptions.size(); i++) {
                 String optionFragment =
                         Templates.populateTemplate(optionFragmentTemplate,
-                                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
-                                Templates.FeedbackQuestionDetailsConsts.OPTION_INDEX, Integer.toString(i),
-                                Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
-                                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VISIBILITY, "",
-                                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_POINT, Integer
-                                        .toString(existingConstSumResponse.getAnswerList().get(i)),
-                                Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
+                                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                                SLOT_OPTION_INDEX, Integer.toString(i),
+                                SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
+                                SLOT_CONSTSUM_OPTION_VISIBILITY, "",
+                                SLOT_CONSTSUM_OPTION_POINT, Integer.toString(existingConstSumResponse.getAnswerList().get(i)),
+                                SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                SLOT_CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
                 optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
@@ -182,19 +183,19 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
-                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
+                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                SLOT_CONSTSUM_OPTION_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
+                SLOT_CONSTSUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
                 "${constSumPointsPerOptionValue}", Boolean.toString(pointsPerOption),
                 "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
                 "${constSumPointsValue}", Integer.toString(points),
                 "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
+                SLOT_CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
+                SLOT_CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
+                SLOT_CONSTSUM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                SLOT_CONSTSUM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
                 );
     }
 
@@ -208,27 +209,27 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         if (distributeToRecipients) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                            Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
-                            Templates.FeedbackQuestionDetailsConsts.OPTION_INDEX, "0",
-                            Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
-                            Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VISIBILITY, "style=\"display:none\"",
-                            Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_POINT, "",
-                            Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VALUE, "");
+                            SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                            SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                            SLOT_OPTION_INDEX, "0",
+                            SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
+                            SLOT_CONSTSUM_OPTION_VISIBILITY, "style=\"display:none\"",
+                            SLOT_CONSTSUM_OPTION_POINT, "",
+                            SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            SLOT_CONSTSUM_OPTION_VALUE, "");
             optionListHtml.append(optionFragment).append(Const.EOL);
         } else {
             for (int i = 0; i < constSumOptions.size(); i++) {
                 String optionFragment =
                         Templates.populateTemplate(optionFragmentTemplate,
-                                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
-                                Templates.FeedbackQuestionDetailsConsts.OPTION_INDEX, Integer.toString(i),
-                                Templates.FeedbackQuestionDetailsConsts.DISABLED, sessionIsOpen ? "" : "disabled",
-                                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VISIBILITY, "",
-                                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_POINT, "",
-                                Templates.FeedbackQuestionDetailsConsts.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
+                                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                                SLOT_OPTION_INDEX, Integer.toString(i),
+                                SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
+                                SLOT_CONSTSUM_OPTION_VISIBILITY, "",
+                                SLOT_CONSTSUM_OPTION_POINT, "",
+                                SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                SLOT_CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
                 optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
@@ -236,19 +237,19 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
-                Templates.FeedbackQuestionDetailsConsts.QUESTION_INDEX, Integer.toString(qnIdx),
-                Templates.FeedbackQuestionDetailsConsts.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
-                        Templates.FeedbackQuestionDetailsConsts.CONSTSUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
+                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
+                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                SLOT_CONSTSUM_OPTION_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
+                        SLOT_CONSTSUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
                 "${constSumPointsPerOptionValue}", Boolean.toString(pointsPerOption),
                 "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
                 "${constSumPointsValue}", Integer.toString(points),
                 "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
+                SLOT_CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
+                SLOT_CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
+                SLOT_CONSTSUM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                SLOT_CONSTSUM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
                 );
     }
 
@@ -260,7 +261,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
-                            Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)),
+                            SLOT_CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -272,16 +273,16 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfConstSumOptions}", Integer.toString(numOfConstSumOptions),
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
+                SLOT_CONSTSUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
                 "${selectedConstSumPointsPerOption}", pointsPerOption ? "selected" : "",
                 "${constSumOptionTableVisibility}", distributeToRecipients ? "style=\"display:none\"" : "",
                 "${constSumPoints}", points == 0 ? "100" : Integer.toString(points),
-                Templates.FeedbackQuestionDetailsConsts.OPTION_RECIPIENT_DISPLAY_NAME, distributeToRecipients ? "recipient" : "option",
+                SLOT_OPTION_RECIPIENT_DISPLAY_NAME, distributeToRecipients ? "recipient" : "option",
                 "${distributeUnevenly}", forceUnevenDistribution ? "checked" : "",
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
-                Templates.FeedbackQuestionDetailsConsts.CONSTSUM_DISTRIBUTE_UNEVENLY,
+                SLOT_CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
+                SLOT_CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
+                SLOT_CONSTSUM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                SLOT_CONSTSUM_DISTRIBUTE_UNEVENLY,
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
 
     }
@@ -368,7 +369,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 
                 fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
-                        Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
+                        SLOT_CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                         "${pointsReceived}", pointsReceived,
                         "${averagePoints}", df.format(average)));
@@ -377,7 +378,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
                 fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
-                                    Templates.FeedbackQuestionDetailsConsts.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(option),
+                                    SLOT_CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(option),
                                     "${pointsReceived}", pointsReceived,
                                     "${averagePoints}", df.format(average)));
             }
@@ -385,11 +386,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         if (distributeToRecipients) {
             return Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
-                    Templates.FeedbackQuestionDetailsConsts.OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
+                    SLOT_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
                     "${fragments}", fragments.toString());
         }
         return Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
-                Templates.FeedbackQuestionDetailsConsts.OPTION_RECIPIENT_DISPLAY_NAME, "Option",
+                SLOT_OPTION_RECIPIENT_DISPLAY_NAME, "Option",
                 "${fragments}", fragments.toString());
     }
 
