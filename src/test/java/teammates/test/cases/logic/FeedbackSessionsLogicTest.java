@@ -919,10 +919,18 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         String student3AnonName = getAnonName(responseBundle, "student3InCourse1");
         String student6AnonEmail = getAnonEmail(responseBundle, "student6InCourse1");
         String student6AnonName = getAnonName(responseBundle, "student6InCourse1");
-        String instructor1AnonEmail = FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.INSTRUCTORS, responseBundle.instructors.get("instructor1OfCourse1").name);
-        String instructor1AnonName = FeedbackSessionResultsBundle.getAnonName(FeedbackParticipantType.INSTRUCTORS, responseBundle.instructors.get("instructor1OfCourse1").name);
-        String instructor2AnonEmail = FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.INSTRUCTORS, responseBundle.instructors.get("instructor2OfCourse1").name);
-        String instructor2AnonName = FeedbackSessionResultsBundle.getAnonName(FeedbackParticipantType.INSTRUCTORS, responseBundle.instructors.get("instructor2OfCourse1").name);
+        String instructor1AnonEmail = FeedbackSessionResultsBundle.getAnonEmail(
+                                          FeedbackParticipantType.INSTRUCTORS,
+                                          responseBundle.instructors.get("instructor1OfCourse1").name);
+        String instructor1AnonName = FeedbackSessionResultsBundle.getAnonName(
+                                          FeedbackParticipantType.INSTRUCTORS,
+                                          responseBundle.instructors.get("instructor1OfCourse1").name);
+        String instructor2AnonEmail = FeedbackSessionResultsBundle.getAnonEmail(
+                                          FeedbackParticipantType.INSTRUCTORS,
+                                          responseBundle.instructors.get("instructor2OfCourse1").name);
+        String instructor2AnonName = FeedbackSessionResultsBundle.getAnonName(
+                                          FeedbackParticipantType.INSTRUCTORS,
+                                          responseBundle.instructors.get("instructor2OfCourse1").name);
         Collections.addAll(expectedStrings,
                 "%GENERAL%=%NOBODY%",
                 "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1</td></div>'\"",
