@@ -13,8 +13,9 @@ var CONFIRMATION_MODAL_OK = '#confirmation-modal-ok';
 
 var DEFAULT_CANCEL_BUTTON_TEXT = 'Cancel';
 var WARNING_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
-var CONFIRMATION_BODY = '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
-                        + '<p>Are you sure you want to continue?</p>';
+var CONFIRMATION_BODY =
+        '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
+        + '<p>Are you sure you want to continue?</p>';
 var CONFIRM_DELETE = 'Yes, continue and delete the existing responses.';
 
 /**
@@ -960,7 +961,8 @@ function addMcqOption(questionNumber) {
                  + '<input type="radio" disabled>'
               + '</span>'
               + '<input type="text" name="' + FEEDBACK_QUESTION_MCQCHOICE + '-' + curNumberOfChoiceCreated + '" '
-                      + 'id="' + FEEDBACK_QUESTION_MCQCHOICE + '-' + curNumberOfChoiceCreated + idSuffix + '" class="form-control mcqOptionTextBox">'
+                      + 'id="' + FEEDBACK_QUESTION_MCQCHOICE + '-' + curNumberOfChoiceCreated + idSuffix + '" '
+                      + 'class="form-control mcqOptionTextBox">'
               + '<span class="input-group-btn">'
                   + '<button type="button" class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" '
                           + 'onclick="removeMcqOption(' + curNumberOfChoiceCreated + ',' + questionNumber + ')" tabindex="-1">'
@@ -1052,7 +1054,8 @@ function addMsqOption(questionNumber) {
                  + '<input type="checkbox" disabled>'
               + '</span>'
               + '<input type="text" name="' + FEEDBACK_QUESTION_MSQCHOICE + '-' + curNumberOfChoiceCreated + '" '
-                      + 'id="' + FEEDBACK_QUESTION_MSQCHOICE + '-' + curNumberOfChoiceCreated + idSuffix + '" class="form-control msqOptionTextBox">'
+                      + 'id="' + FEEDBACK_QUESTION_MSQCHOICE + '-' + curNumberOfChoiceCreated + idSuffix + '" '
+                      + 'class="form-control msqOptionTextBox">'
               + '<span class="input-group-btn">'
                   + '<button type="button" class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" '
                           + 'onclick="removeMsqOption(' + curNumberOfChoiceCreated + ',' + questionNumber + ')" tabindex="-1">'
@@ -1468,7 +1471,8 @@ function addRubricCol(questionNumber) {
                       + 'name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}">'
               + '<span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${qnIndex}" '
                       + 'id="rubricRemoveChoiceLink-${qnIndex}-${col}" onclick="removeRubricCol(${col}, ${qnIndex})" '
-                      + 'onmouseover="highlightRubricCol(${col}, ${qnIndex}, true)" onmouseout="highlightRubricCol(${col}, ${qnIndex}, false)">'
+                      + 'onmouseover="highlightRubricCol(${col}, ${qnIndex}, true)" '
+                      + 'onmouseout="highlightRubricCol(${col}, ${qnIndex}, false)">'
                   + '<span class="glyphicon glyphicon-remove"></span>'
               + '</span>'
           + '</div>'

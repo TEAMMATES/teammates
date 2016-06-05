@@ -192,7 +192,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
             assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + "non-existent-course/non@existent.email", e.getMessage());
         }
         
-        // Only check first 2 params (course & email) which are used to identify the student entry. The rest are actually allowed to be null.
+        // Only check first 2 params (course & email) which are used to identify the student entry.
+        // The rest are actually allowed to be null.
         ______TS("null course case");
         try {
             studentsDb.updateStudentWithoutSearchability(null, s.email, "new-name", "new-team", "new-section",

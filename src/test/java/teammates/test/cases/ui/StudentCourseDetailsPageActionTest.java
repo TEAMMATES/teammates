@@ -30,7 +30,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
 

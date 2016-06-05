@@ -24,7 +24,7 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends BaseAct
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
 

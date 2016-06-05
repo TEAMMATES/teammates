@@ -84,7 +84,8 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         assertFalse(fq.isValid());
 
-        String errorMessage = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, fq.creatorEmail, FieldValidator.REASON_EMPTY) + EOL
+        String errorMessage = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, fq.creatorEmail,
+                                            FieldValidator.REASON_EMPTY) + EOL
                               + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, fq.courseId, FieldValidator.REASON_EMPTY) + EOL
                               + String.format("Invalid creator's email: " + FieldValidator.EMAIL_ERROR_MESSAGE,
                                               fq.creatorEmail, FieldValidator.REASON_EMPTY) + EOL
