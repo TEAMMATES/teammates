@@ -65,12 +65,14 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     }
     
     @Override
-    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
+                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getContributionQuestionResponseAnswerHtml(response, question, feedbackSessionResultsBundle);
     }
 
     @Override
-    public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+    public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
+                               FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getContributionQuestionResponseAnswerCsv(response, question, feedbackSessionResultsBundle);
     }
 
@@ -179,7 +181,8 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     // TODO: check if this can be made non-static
     public static Map<String, StudentResultSummary> getContribQnStudentResultSummary(FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        Map<String, StudentResultSummary> contribQnStats = feedbackSessionResultsBundle.contributionQuestionStudentResultSummary.get(question.getId());
+        Map<String, StudentResultSummary> contribQnStats =
+                feedbackSessionResultsBundle.contributionQuestionStudentResultSummary.get(question.getId());
         if (contribQnStats == null) {
             FeedbackContributionQuestionDetails fqcd = (FeedbackContributionQuestionDetails) question.getQuestionDetails();
             contribQnStats = fqcd.getStudentResults(feedbackSessionResultsBundle, question);

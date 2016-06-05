@@ -107,7 +107,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                             "${rankNumOptionValue}", Integer.toString(0),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
+                                    Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                             "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
                             );
         

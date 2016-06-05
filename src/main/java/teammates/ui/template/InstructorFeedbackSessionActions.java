@@ -52,7 +52,9 @@ public class InstructorFeedbackSessionActions {
         this.allowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         if (!shouldEnableSubmitLink) {
-            shouldEnableSubmitLink = instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            shouldEnableSubmitLink =
+                    instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         }
         
         this.allowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
