@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
@@ -21,9 +22,11 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.UserType.Role;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -34,6 +37,7 @@ import com.google.appengine.api.datastore.Text;
 
 public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
+    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
@@ -54,6 +58,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         testGetViewableResponsesForQuestionInSection();
         testUpdateFeedbackResponse();
         testUpdateFeedbackResponsesForChangingTeam();
+        testUpdateFeedbackResponsesForChangingTeam_deleteLastResponse_decreaseResponseRate();
+        testUpdateFeedbackResponsesForChangingTeam_deleteNotLastResponse_sameResponseRate();
         testUpdateFeedbackResponsesForChangingEmail();
         testDeleteFeedbackResponsesForStudent();
         testSpecialCharactersInTeamName();
@@ -264,18 +270,100 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes questionToTeamMembersAndSelf =
                                         getQuestionFromDatastore(questionTypeBundle, "qn1InContribSession2InCourse2");
         studentToUpdate = questionTypeBundle.students.get("student2InCourse2");
-        FeedbackResponseAttributes response = getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
-        StudentEnrollDetails studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
-                                        studentToUpdate.course, studentToUpdate.email, studentToUpdate.team, studentToUpdate.team + "tmp", studentToUpdate.section, studentToUpdate.section + "tmp");
+        FeedbackResponseAttributes responseToBeDeleted =
+                getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
+        StudentEnrollDetails studentDetails1 =
+                new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED, studentToUpdate.course,
+                                         studentToUpdate.email, studentToUpdate.team,
+                                         studentToUpdate.team + "tmp", studentToUpdate.section,
+                                         studentToUpdate.section + "tmp");
+
         
         assertNotNull(frLogic.getFeedbackResponse(questionToTeamMembersAndSelf.getId(),
-                                        response.giverEmail,
-                                        response.recipientEmail));
-        assertTrue(frLogic.updateFeedbackResponseForChangingTeam(studentDetails1, response));
+                                                  responseToBeDeleted.giverEmail,
+                                                  responseToBeDeleted.recipientEmail));
+        assertTrue(frLogic.updateFeedbackResponseForChangingTeam(studentDetails1, responseToBeDeleted));
         assertNull(frLogic.getFeedbackResponse(questionToTeamMembersAndSelf.getId(),
-                                        response.giverEmail,
-                                        response.recipientEmail));
+                                               responseToBeDeleted.giverEmail,
+                                               responseToBeDeleted.recipientEmail));
 
+        // restore DataStore so other tests are unaffected
+        restoreStudentFeedbackResponseToDatastore(responseToBeDeleted);
+    }
+
+    public void testUpdateFeedbackResponsesForChangingTeam_deleteLastResponse_decreaseResponseRate()
+            throws Exception {
+        FeedbackResponseAttributes responseToBeDeleted =
+                getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
+        // make sure it's the last response by the student
+        assertEquals(1, numResponsesFromGiverInSession(responseToBeDeleted.giverEmail,
+                                                       responseToBeDeleted.feedbackSessionName,
+                                                       responseToBeDeleted.courseId));
+        StudentAttributes student = questionTypeBundle.students.get("student2InCourse2");
+        StudentEnrollDetails enrollmentDetailsToTriggerDeletion =
+                new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED, student.course,
+                                         student.email, student.team, student.team + "tmp", student.section,
+                                         student.section + "tmp");
+
+        int originalResponseRate = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                   responseToBeDeleted.courseId);
+        assertTrue(frLogic.updateFeedbackResponseForChangingTeam(enrollmentDetailsToTriggerDeletion,
+                                                                 responseToBeDeleted));
+        int responseRateAfterDeletion = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                        responseToBeDeleted.courseId);
+        assertEquals(originalResponseRate - 1, responseRateAfterDeletion);
+
+        // restore DataStore so other tests are unaffected
+        restoreStudentFeedbackResponseToDatastore(responseToBeDeleted);
+    }
+
+    public void testUpdateFeedbackResponsesForChangingTeam_deleteNotLastResponse_sameResponseRate()
+            throws Exception {
+        FeedbackResponseAttributes responseToBeDeleted =
+                getResponseFromDatastore(questionTypeBundle, "response1ForQ1S5C1");
+        // make sure it's not the last response by the student
+        assertTrue(1 < numResponsesFromGiverInSession(responseToBeDeleted.giverEmail,
+                                                      responseToBeDeleted.feedbackSessionName,
+                                                      responseToBeDeleted.courseId));
+        StudentAttributes student = questionTypeBundle.students.get("student1InCourse1");
+        StudentEnrollDetails enrollmentDetailsToTriggerDeletion =
+                new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED, student.course,
+                                         student.email, student.team, student.team + "tmp", student.section,
+                                         student.section + "tmp");
+
+        int originalResponseRate = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                   responseToBeDeleted.courseId);
+        assertTrue(frLogic.updateFeedbackResponseForChangingTeam(enrollmentDetailsToTriggerDeletion,
+                                                                 responseToBeDeleted));
+        int responseRateAfterDeletion = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                        responseToBeDeleted.courseId);
+        assertEquals(originalResponseRate, responseRateAfterDeletion);
+
+        // restore DataStore so other tests are unaffected
+        restoreStudentFeedbackResponseToDatastore(responseToBeDeleted);
+    }
+
+    private int numResponsesFromGiverInSession(String studentEmail, String sessionName, String courseId) {
+        int numResponses = 0;
+        for (FeedbackResponseAttributes response : questionTypeBundle.feedbackResponses.values()) {
+            if (response.giverEmail.equals(studentEmail) && response.feedbackSessionName.equals(sessionName)
+                    && response.courseId.equals(courseId)) {
+                numResponses++;
+            }
+        }
+        return numResponses;
+    }
+
+    private int getResponseRate(String sessionName, String courseId) {
+        FeedbackSessionAttributes sessionFromDataStore = fsLogic.getFeedbackSession(sessionName, courseId);
+        return sessionFromDataStore.getRespondingInstructorList().size()
+                + sessionFromDataStore.getRespondingStudentList().size();
+    }
+
+    private void restoreStudentFeedbackResponseToDatastore(FeedbackResponseAttributes response)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        frLogic.createFeedbackResponse(response);
+        fsLogic.addStudentRespondant(response.giverEmail, response.feedbackSessionName, response.courseId);
     }
     
     public void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
@@ -343,7 +431,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1");
-        List<FeedbackResponseAttributes> responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, null);
+        List<FeedbackResponseAttributes> responses =
+                frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, null);
         
         assertEquals(responses.size(), 1);
         

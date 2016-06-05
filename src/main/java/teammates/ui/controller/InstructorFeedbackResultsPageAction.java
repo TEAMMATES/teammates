@@ -75,7 +75,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         String isTestingAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
         int queryRange = isTestingAjax == null ? DEFAULT_QUERY_RANGE : QUERY_RANGE_FOR_AJAX_TESTING;
 
-        if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
+        if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null
+                && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
             // bundle for all questions and all sections
             data.setBundle(
                      logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(

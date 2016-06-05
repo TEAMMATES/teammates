@@ -51,7 +51,7 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
     protected void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
-        feedbackObject.sentPublishedEmail = true;
+        feedbackObject.setSentPublishedEmail(true);
         FeedbackSessionsLogic.inst().updateFeedbackSession(feedbackObject);
     }
 

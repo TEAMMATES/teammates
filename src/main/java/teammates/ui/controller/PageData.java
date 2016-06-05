@@ -28,7 +28,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
-import teammates.logic.api.Logic;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackSessionActions;
 
@@ -887,10 +886,6 @@ public class PageData {
             return Integer.toString((int) num);
         }
         return Double.toString(num);
-    }
-    
-    public boolean isCourseArchived(String courseId, String googleId) {
-        return Logic.isCourseArchived(courseId, googleId);
     }
     
     public boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes qn,

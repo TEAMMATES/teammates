@@ -122,6 +122,10 @@
       <property name="format" value="^ {80,}"/>
       <property name="message" value="Line has too many leading spaces."/>
     </module>
+    <module name="LineLength">
+      <property name="max" value="140"/>
+      <property name="tabWidth" value="4"/>
+    </module>
   </module>
   <module name="SuppressionFilter">
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>

@@ -77,7 +77,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             if (questionAttributes == null) {
                 statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
-                                                + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
+                                                       + "Please check your responses to make sure they are saved correctly.",
+                                                   StatusMessageColor.WARNING));
                 isError = true;
                 log.warning("Question not found. (deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
                 continue;
@@ -96,7 +97,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             List<String> errors = new ArrayList<String>();
             
             for (int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
-                FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionAttributes);
+                FeedbackResponseAttributes response =
+                        extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionAttributes);
                 
                 if (response.feedbackQuestionType != questionAttributes.questionType) {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, questionIndx));
@@ -130,7 +132,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 }
             }
                     
-            List<String> questionSpecificErrors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());
+            List<String> questionSpecificErrors =
+                    questionDetails.validateResponseAttributes(responsesForQuestion,
+                                                               data.bundle.recipientList.get(qnId).size());
             errors.addAll(questionSpecificErrors);
             
             if (!emailSet.containsAll(responsesRecipients)) {
