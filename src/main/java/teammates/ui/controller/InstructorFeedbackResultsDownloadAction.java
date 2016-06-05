@@ -45,7 +45,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block
-            statusToUser.add(new StatusMessage("There are too many responses. Please download the feedback results by section", StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage("There are too many responses. Please download the feedback results by section",
+                             StatusMessageColor.DANGER));
             isError = true;
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE);
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);

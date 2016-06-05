@@ -93,7 +93,8 @@ public class AdminInstructorAccountAddAction extends Action {
             courseId = importDemoData(data);
         } catch (Exception e) {
             
-            String retryUrl = Url.addParamToUrl(Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD, Const.ParamsNames.INSTRUCTOR_SHORT_NAME, data.instructorShortName);
+            String retryUrl = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
+            retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_SHORT_NAME, data.instructorShortName);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_NAME, data.instructorName);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);

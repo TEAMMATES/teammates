@@ -78,7 +78,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("Rank recipients: single question submission page");
         FeedbackQuestionAttributes singleRankRecipientsfq = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 3);
-        FeedbackQuestionSubmitPage rankRecipientsQuestionSubmitPage = loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRankUiT.CS4221", "student", singleRankRecipientsfq.getId());
+        FeedbackQuestionSubmitPage rankRecipientsQuestionSubmitPage =
+                loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRankUiT.CS4221", "student", singleRankRecipientsfq.getId());
         
         assertNull(BackDoor.getFeedbackResponse(singleRankRecipientsfq.getId(),
                                         "alice.b.tmms@gmail.tmt",
