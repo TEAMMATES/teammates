@@ -197,8 +197,8 @@ public final class Templates {
     }
     
     public static class FeedbackQuestionDetailsConsts {
-        public static final String QUESTION_INDEX = "${qnIdx}";
-        public static final String RESPONSE_INDEX = "${responseIdx}";
+        public static final String QUESTION_INDEX = "${questionIndex}";
+        public static final String RESPONSE_INDEX = "${responseIndex}";
         public static final String DISABLED = "${disabled}";
         public static final String FEEDBACK_RESPONSE_TEXT = "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}";
         public static final String CHECKED = "${checked}";
@@ -216,20 +216,20 @@ public final class Templates {
         public static final String MIN_SCALE = "${minScale}";
         public static final String MAX_SCALE = "${maxScale}";
         public static final String STEP = "${step}";
-        public static final String CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_MIN = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}";
-        public static final String CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_MAX = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}";
-        public static final String CONST_PARAMSNAMES_FEEDBACK_QUESTION_NUMSCALE_STEP = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}";
+        public static final String NUMSCALE_MIN = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}";
+        public static final String NUMSCALE_MAX = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}";
+        public static final String NUMSCALE_STEP = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}";
         
         // Constant Sum
         public static final String OPTION_INDEX = "${optionIdx}";
-        public static final String CONST_SUM_OPTION_VISIBILITY = "${constSumOptionVisibility}";
-        public static final String CONST_SUM_OPTION_POINT = "${constSumOptionPoint}";
-        public static final String CONST_SUM_OPTION_VALUE = "${constSumOptionValue}";
-        public static final String CONST_SUM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
-        public static final String CONST_SUM_TO_RECIPIENTS_VALUE = "${constSumToRecipientsValue}";
-        public static final String CONST_SUM_TO_RECIPIENTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";
-        public static final String CONST_SUM_DISTRIBUTE_UNEVENLY = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
-        public static final String CONST_SUM_POINTS_PER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
+        public static final String CONSTSUM_OPTION_VISIBILITY = "${constSumOptionVisibility}";
+        public static final String CONSTSUM_OPTION_POINT = "${constSumOptionPoint}";
+        public static final String CONSTSUM_OPTION_VALUE = "${constSumOptionValue}";
+        public static final String CONSTSUM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
+        public static final String CONSTSUM_TO_RECIPIENTS_VALUE = "${constSumToRecipientsValue}";
+        public static final String CONSTSUM_TO_RECIPIENTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";
+        public static final String CONSTSUM_DISTRIBUTE_UNEVENLY = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
+        public static final String CONSTSUM_POINTS_PER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
         
         // Rank
         public static final String RANK_OPTION_VISIBILITY = "${rankOptionVisibility}";
