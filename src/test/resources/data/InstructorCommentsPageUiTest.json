@@ -100,8 +100,7 @@
         "archivedCourse":{
             "id":"comments.idOfArchivedCourse",
             "name":"Archived Course",
-            "createdAt": "2012-04-01 11:58 PM UTC",
-            "isArchived":true
+            "createdAt": "2012-04-01 11:58 PM UTC"
         }
     },
     "instructors":{
@@ -241,6 +240,7 @@
             "name":"InstructorOfArchiveCourse name",
             "email":"comments.instructor1@course1.tmt",
             "role":"Co-owner",
+            "isArchived":true,
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
             "privileges": {

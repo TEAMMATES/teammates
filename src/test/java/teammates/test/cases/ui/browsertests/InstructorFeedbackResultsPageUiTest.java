@@ -409,7 +409,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("Typical case: ajax for view by giver > question > recipient");
         
-        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
+                                                                       "giver-question-recipient");
         
         resultsPage.clickAjaxLoadResponsesPanel(0);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGQR.html");
@@ -540,6 +541,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ThreadHelper.waitFor(1000);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionSearch.html");
 
+        ______TS("Verify that search works on RGQ view");
+        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.clickGroupByTeam();
+        resultsPage.fillSearchBox("team 2");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
+        
+        resultsPage.displayByQuestion();
     }
 
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.

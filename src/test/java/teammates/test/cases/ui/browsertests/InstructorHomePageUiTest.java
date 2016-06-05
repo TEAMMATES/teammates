@@ -228,7 +228,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("remind action: AWAITING feedback session");
         
-        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionAwaiting.getCourseId(), feedbackSessionAwaiting.getFeedbackSessionName()));
+        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionAwaiting.getCourseId(),
+                                                          feedbackSessionAwaiting.getFeedbackSessionName()));
         homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionAwaiting.getCourseId(),
                                                                  feedbackSessionAwaiting.getFeedbackSessionName()));
         
@@ -338,9 +339,9 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         InstructorAttributes instructor = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms", courseIdForCS1101);
         InstructorAttributes helper = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms.helper", courseIdForCS1101);
 
-        // Both will be null before it is archived for testing
-        assertNull(instructor.isArchived);
-        assertNull(helper.isArchived);
+        // Both will be false before it is archived for testing
+        assertFalse(instructor.isArchived);
+        assertFalse(helper.isArchived);
 
         assertFalse(BackDoor.getCourse(courseIdForCS1101).isArchived);
         

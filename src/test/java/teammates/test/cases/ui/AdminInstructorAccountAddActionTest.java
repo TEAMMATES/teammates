@@ -149,7 +149,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals(strWayShorterThanMaximum + normalIdSuffix + "10",
                      (String) generateNextDemoCourseId.invoke(a, strWayShorterThanMaximum + normalIdSuffix + "9", maximumIdLength));
         assertEquals(strOneCharShorterThanMaximum.substring(2) + normalIdSuffix + "10",
-                     (String) generateNextDemoCourseId.invoke(a, strOneCharShorterThanMaximum.substring(1) + normalIdSuffix + "9", maximumIdLength));
+                     (String) generateNextDemoCourseId.invoke(a, strOneCharShorterThanMaximum.substring(1) + normalIdSuffix + "9",
+                                                              maximumIdLength));
     }
 
     private Action getAction(String... parameters) {
