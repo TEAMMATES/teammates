@@ -896,7 +896,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"2",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"A highlight for me has been putting Software Engineering skills to use."
@@ -909,7 +909,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"3",
           "feedbackQuestionType":"NUMSCALE",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 4}"
@@ -922,7 +922,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"4",
           "feedbackQuestionType":"MCQ",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"%GENERAL%",
           "responseMetaData":{
               "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 1\", \"otherFieldContent\" : \"\"}"
@@ -935,7 +935,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"5",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"Good job Benny! Thanks for the hard work for making the application pretty!"
@@ -948,7 +948,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"5",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"It is good to see you working so hard to improve yourself!"
@@ -961,7 +961,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"5",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"Wow! You are really good at designing!"
@@ -974,7 +974,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"6",
           "feedbackQuestionType":"MSQ",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"%GENERAL%",
           "responseMetaData":{
               "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"C\", \"Java\"], \"otherFieldContent\" : \"\"}"
@@ -987,7 +987,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"8",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"Good job Benny! Thanks for the hard work for making the application pretty!"
@@ -1000,7 +1000,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"8",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"Thank you Danny! You taught me many useful skills in this project."
@@ -1013,7 +1013,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"8",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"You are the best Emma! Without you, our application will not be running."
@@ -1026,7 +1026,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"9",
           "feedbackQuestionType":"CONSTSUM",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20, 80]}"
@@ -1039,7 +1039,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [100]}"
@@ -1052,7 +1052,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [120]}"
@@ -1065,7 +1065,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
@@ -1078,7 +1078,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
@@ -1091,7 +1091,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1104,7 +1104,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 120}"
@@ -1117,7 +1117,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 90}"
@@ -1130,7 +1130,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 90}"
@@ -1143,7 +1143,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"12",
           "feedbackQuestionType":"RUBRIC",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [1,0]}"
@@ -1156,7 +1156,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"12",
           "feedbackQuestionType":"RUBRIC",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [0,1]}"
@@ -1169,7 +1169,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"13",
           "feedbackQuestionType":"RANK_RECIPIENTS",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"Team 2",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RANK_RECIPIENTS\",\"answer\" : 2}"
@@ -1182,7 +1182,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"13",
           "feedbackQuestionType":"RANK_RECIPIENTS",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"Team 3",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RANK_RECIPIENTS\",\"answer\" : 1}"
@@ -1195,7 +1195,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"14",
           "feedbackQuestionType":"RANK_OPTIONS",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RANK_OPTIONS\",\"answers\" : [1,3,2,4]}"
@@ -1208,7 +1208,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"2",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"I have enjoyed learning about new tools and using them."
@@ -1221,7 +1221,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"3",
           "feedbackQuestionType":"NUMSCALE",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 5}"
@@ -1234,7 +1234,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"4",
           "feedbackQuestionType":"MCQ",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"%GENERAL%",
           "responseMetaData":{
               "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 2\", \"otherFieldContent\" : \"\"}"
@@ -1247,7 +1247,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"5",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"Thank you for being helpful and explaining how you did your UI."
@@ -1260,7 +1260,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"5",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"I wish I was as good at programming as Alice."
@@ -1273,7 +1273,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"5",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"Francis is very talented with design work."
@@ -1286,7 +1286,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"6",
           "feedbackQuestionType":"MSQ",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"%GENERAL%",
           "responseMetaData":{
               "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Python\"], \"otherFieldContent\" : \"\"}"
@@ -1299,7 +1299,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"8",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"I really like your design Francis!"
@@ -1312,7 +1312,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"8",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"I really appreciate all the coding you have done in the project!"
@@ -1325,7 +1325,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"8",
           "feedbackQuestionType":"TEXT",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"Thank you Demo_Instructor for all the help in the project."
@@ -1338,7 +1338,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"9",
           "feedbackQuestionType":"CONSTSUM",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [45, 55]}"
@@ -1351,7 +1351,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [110]}"
@@ -1364,7 +1364,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
@@ -1377,7 +1377,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [50]}"
@@ -1390,7 +1390,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [150]}"
@@ -1403,7 +1403,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
@@ -1416,7 +1416,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 90}"
@@ -1429,7 +1429,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 50}"
@@ -1442,7 +1442,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 150}"
@@ -1455,7 +1455,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"12",
           "feedbackQuestionType":"RUBRIC",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [-1, 0]}"
@@ -1468,7 +1468,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"12",
           "feedbackQuestionType":"RUBRIC",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [0,0]}"
@@ -1481,7 +1481,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"13",
           "feedbackQuestionType":"RANK_RECIPIENTS",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"Team 1",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RANK_RECIPIENTS\",\"answer\" : 1}"
@@ -1494,7 +1494,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"13",
           "feedbackQuestionType":"RANK_RECIPIENTS",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"Team 3",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RANK_RECIPIENTS\",\"answer\" : 2}"
@@ -1507,7 +1507,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"14",
           "feedbackQuestionType":"RANK_OPTIONS",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RANK_OPTIONS\",\"answers\" : [4,1,2,3]}"
@@ -1522,7 +1522,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1535,7 +1535,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1548,7 +1548,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1561,7 +1561,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "giver":"alice.b.tmms@gmail.tmt",
           "recipientEmail":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1574,7 +1574,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"benny.c.tmms@gmail.tmt",
+          "giver":"benny.c.tmms@gmail.tmt",
           "recipientEmail":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1587,7 +1587,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"benny.c.tmms@gmail.tmt",
+          "giver":"benny.c.tmms@gmail.tmt",
           "recipientEmail":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1600,7 +1600,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"benny.c.tmms@gmail.tmt",
+          "giver":"benny.c.tmms@gmail.tmt",
           "recipientEmail":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1613,7 +1613,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"benny.c.tmms@gmail.tmt",
+          "giver":"benny.c.tmms@gmail.tmt",
           "recipientEmail":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1626,7 +1626,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"danny.e.tmms@gmail.tmt",
+          "giver":"danny.e.tmms@gmail.tmt",
           "recipientEmail":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1639,7 +1639,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"danny.e.tmms@gmail.tmt",
+          "giver":"danny.e.tmms@gmail.tmt",
           "recipientEmail":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1652,7 +1652,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"danny.e.tmms@gmail.tmt",
+          "giver":"danny.e.tmms@gmail.tmt",
           "recipientEmail":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1665,7 +1665,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"danny.e.tmms@gmail.tmt",
+          "giver":"danny.e.tmms@gmail.tmt",
           "recipientEmail":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1678,7 +1678,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"emma.f.tmms@gmail.tmt",
+          "giver":"emma.f.tmms@gmail.tmt",
           "recipientEmail":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1691,7 +1691,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"emma.f.tmms@gmail.tmt",
+          "giver":"emma.f.tmms@gmail.tmt",
           "recipientEmail":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1704,7 +1704,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"emma.f.tmms@gmail.tmt",
+          "giver":"emma.f.tmms@gmail.tmt",
           "recipientEmail":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1717,7 +1717,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"emma.f.tmms@gmail.tmt",
+          "giver":"emma.f.tmms@gmail.tmt",
           "recipientEmail":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1730,7 +1730,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 80}"
@@ -1743,7 +1743,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
@@ -1756,7 +1756,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
@@ -1769,7 +1769,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "giver":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
@@ -1782,7 +1782,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"teammates.demo.instructor@demo.course",
+          "giver":"teammates.demo.instructor@demo.course",
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
@@ -1795,7 +1795,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"teammates.demo.instructor@demo.course",
+          "giver":"teammates.demo.instructor@demo.course",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 80}"
@@ -1808,7 +1808,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"teammates.demo.instructor@demo.course",
+          "giver":"teammates.demo.instructor@demo.course",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
@@ -1821,7 +1821,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"teammates.demo.instructor@demo.course",
+          "giver":"teammates.demo.instructor@demo.course",
           "recipientEmail":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
@@ -1834,7 +1834,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"francis.g.tmms@gmail.tmt",
+          "giver":"francis.g.tmms@gmail.tmt",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
@@ -1847,7 +1847,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"francis.g.tmms@gmail.tmt",
+          "giver":"francis.g.tmms@gmail.tmt",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 80}"
@@ -1860,7 +1860,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"francis.g.tmms@gmail.tmt",
+          "giver":"francis.g.tmms@gmail.tmt",
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
@@ -1873,7 +1873,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"francis.g.tmms@gmail.tmt",
+          "giver":"francis.g.tmms@gmail.tmt",
           "recipientEmail":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
@@ -1886,7 +1886,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"gene.h.tmms@gmail.tmt",
+          "giver":"gene.h.tmms@gmail.tmt",
           "recipientEmail":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
@@ -1899,7 +1899,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"gene.h.tmms@gmail.tmt",
+          "giver":"gene.h.tmms@gmail.tmt",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 80}"
@@ -1912,7 +1912,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"gene.h.tmms@gmail.tmt",
+          "giver":"gene.h.tmms@gmail.tmt",
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
@@ -1925,7 +1925,7 @@
           "courseId":"demo.course",
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
-          "giverEmail":"gene.h.tmms@gmail.tmt",
+          "giver":"gene.h.tmms@gmail.tmt",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
@@ -1941,7 +1941,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "2",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "alice.b.tmms@gmail.tmt",
+        "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -1954,7 +1954,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "2",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "teammates.demo.instructor@demo.course",
+        "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
@@ -1967,7 +1967,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "2",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "emma.f.tmms@gmail.tmt",
+        "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -1980,7 +1980,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "2",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "benny.c.tmms@gmail.tmt",
+        "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -1993,7 +1993,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "2",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "francis.g.tmms@gmail.tmt",
+        "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2006,7 +2006,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "2",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "danny.e.tmms@gmail.tmt",
+        "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2019,7 +2019,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "2",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "charlie.d.tmms@gmail.tmt",
+        "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2032,7 +2032,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "2",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "gene.h.tmms@gmail.tmt",
+        "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2045,7 +2045,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "alice.b.tmms@gmail.tmt",
+        "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2058,7 +2058,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "alice.b.tmms@gmail.tmt",
+        "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2071,7 +2071,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "alice.b.tmms@gmail.tmt",
+        "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2084,7 +2084,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "benny.c.tmms@gmail.tmt",
+        "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2097,7 +2097,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "benny.c.tmms@gmail.tmt",
+        "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2110,7 +2110,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "benny.c.tmms@gmail.tmt",
+        "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2123,7 +2123,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "charlie.d.tmms@gmail.tmt",
+        "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2136,7 +2136,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "charlie.d.tmms@gmail.tmt",
+        "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2149,7 +2149,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "charlie.d.tmms@gmail.tmt",
+        "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
@@ -2162,7 +2162,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "danny.e.tmms@gmail.tmt",
+        "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2175,7 +2175,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "danny.e.tmms@gmail.tmt",
+        "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2188,7 +2188,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "danny.e.tmms@gmail.tmt",
+        "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2201,7 +2201,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "emma.f.tmms@gmail.tmt",
+        "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2214,7 +2214,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "emma.f.tmms@gmail.tmt",
+        "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2227,7 +2227,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "emma.f.tmms@gmail.tmt",
+        "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2240,7 +2240,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "teammates.demo.instructor@demo.course",
+        "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2253,7 +2253,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "teammates.demo.instructor@demo.course",
+        "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2266,7 +2266,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "teammates.demo.instructor@demo.course",
+        "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2279,7 +2279,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "francis.g.tmms@gmail.tmt",
+        "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
@@ -2292,7 +2292,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "francis.g.tmms@gmail.tmt",
+        "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2305,7 +2305,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "francis.g.tmms@gmail.tmt",
+        "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2318,7 +2318,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "gene.h.tmms@gmail.tmt",
+        "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
@@ -2331,7 +2331,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "gene.h.tmms@gmail.tmt",
+        "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2344,7 +2344,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "3",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "gene.h.tmms@gmail.tmt",
+        "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2357,7 +2357,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "4",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "teammates.demo.instructor@demo.course",
+        "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "Team 2",
         "recipientSection": "Tutorial Group 2",
@@ -2370,7 +2370,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "4",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "emma.f.tmms@gmail.tmt",
+        "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "Team 1",
         "recipientSection": "Tutorial Group 1",
@@ -2383,7 +2383,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "4",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "benny.c.tmms@gmail.tmt",
+        "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "Team 1",
         "recipientSection": "Tutorial Group 1",
@@ -2396,7 +2396,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "4",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "francis.g.tmms@gmail.tmt",
+        "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "Team 2",
         "recipientSection": "Tutorial Group 2",
@@ -2409,7 +2409,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "4",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "danny.e.tmms@gmail.tmt",
+        "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "Team 1",
         "recipientSection": "Tutorial Group 1",
@@ -2422,7 +2422,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "4",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "charlie.d.tmms@gmail.tmt",
+        "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "Team 2",
         "recipientSection": "Tutorial Group 2",
@@ -2435,7 +2435,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "4",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "alice.b.tmms@gmail.tmt",
+        "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "Team 1",
         "recipientSection": "Tutorial Group 1",
@@ -2448,7 +2448,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "4",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "gene.h.tmms@gmail.tmt",
+        "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "Team 2",
         "recipientSection": "Tutorial Group 2",
@@ -2461,7 +2461,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "alice.b.tmms@gmail.tmt",
+        "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2474,7 +2474,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "alice.b.tmms@gmail.tmt",
+        "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2487,7 +2487,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "alice.b.tmms@gmail.tmt",
+        "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2500,7 +2500,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "benny.c.tmms@gmail.tmt",
+        "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2513,7 +2513,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "benny.c.tmms@gmail.tmt",
+        "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2526,7 +2526,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "benny.c.tmms@gmail.tmt",
+        "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2539,7 +2539,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "charlie.d.tmms@gmail.tmt",
+        "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2552,7 +2552,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "charlie.d.tmms@gmail.tmt",
+        "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2565,7 +2565,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "charlie.d.tmms@gmail.tmt",
+        "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
@@ -2578,7 +2578,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "danny.e.tmms@gmail.tmt",
+        "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2591,7 +2591,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "danny.e.tmms@gmail.tmt",
+        "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2604,7 +2604,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "danny.e.tmms@gmail.tmt",
+        "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2617,7 +2617,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "teammates.demo.instructor@demo.course",
+        "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2630,7 +2630,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "teammates.demo.instructor@demo.course",
+        "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2643,7 +2643,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "teammates.demo.instructor@demo.course",
+        "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2656,7 +2656,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "emma.f.tmms@gmail.tmt",
+        "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2669,7 +2669,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "emma.f.tmms@gmail.tmt",
+        "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2682,7 +2682,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "emma.f.tmms@gmail.tmt",
+        "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
         "recipientEmail": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
@@ -2695,7 +2695,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "francis.g.tmms@gmail.tmt",
+        "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
@@ -2708,7 +2708,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "francis.g.tmms@gmail.tmt",
+        "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2721,7 +2721,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "francis.g.tmms@gmail.tmt",
+        "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2734,7 +2734,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "gene.h.tmms@gmail.tmt",
+        "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
@@ -2747,7 +2747,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "gene.h.tmms@gmail.tmt",
+        "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
@@ -2760,7 +2760,7 @@
         "courseId": "demo.course",
         "feedbackQuestionId": "5",
         "feedbackQuestionType": "TEXT",
-        "giverEmail": "gene.h.tmms@gmail.tmt",
+        "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
         "recipientEmail": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",

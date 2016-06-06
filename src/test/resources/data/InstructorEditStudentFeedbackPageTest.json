@@ -463,7 +463,7 @@
             "courseId":"IESFPTCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student1InIESFPTCourse@gmail.tmt",
+            "giver":"student1InIESFPTCourse@gmail.tmt",
             "recipientEmail":"student1InIESFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"Student 1 self feedback."
@@ -476,7 +476,7 @@
             "courseId":"IESFPTCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student2InIESFPTCourse@gmail.tmt",
+            "giver":"student2InIESFPTCourse@gmail.tmt",
             "recipientEmail":"student2InIESFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"Student 2 self feedback."
@@ -489,7 +489,7 @@
             "courseId":"IESFPTCourse",
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student1InIESFPTCourse@gmail.tmt",
+            "giver":"student1InIESFPTCourse@gmail.tmt",
             "recipientEmail":"student1InIESFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"response whereby giver should not be seen by instructors"
@@ -502,7 +502,7 @@
             "courseId":"IESFPTCourse",
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student1InIESFPTCourse@gmail.tmt",
+            "giver":"student1InIESFPTCourse@gmail.tmt",
             "recipientEmail":"student1InIESFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"response whereby receipient should not be seen by instructors"
@@ -515,7 +515,7 @@
             "courseId":"IESFPTCourse",
             "feedbackQuestionId":"5",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student1InIESFPTCourse@gmail.tmt",
+            "giver":"student1InIESFPTCourse@gmail.tmt",
             "recipientEmail":"student1InIESFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"response with everything should not be seen by instructors"
@@ -528,7 +528,7 @@
             "courseId":"IESFPTCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student1InIESFPTCourse@gmail.tmt",
+            "giver":"student1InIESFPTCourse@gmail.tmt",
             "recipientEmail":"student1InIESFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"Session 2 Question 1 Response 1"
@@ -541,7 +541,7 @@
             "courseId":"IESFPTCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student2InIESFPTCourse@gmail.tmt",
+            "giver":"student2InIESFPTCourse@gmail.tmt",
             "recipientEmail":"student2InIESFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"Session 2 Question 1 Response 2"
@@ -554,7 +554,7 @@
             "courseId":"IESFPTCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student1InIESFPTCourse@gmail.tmt",
+            "giver":"student1InIESFPTCourse@gmail.tmt",
             "recipientEmail":"student1InIESFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"Closed session response"

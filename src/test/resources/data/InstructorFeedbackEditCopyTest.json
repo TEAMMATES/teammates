@@ -419,7 +419,7 @@
         "courseId" : "FeedbackEditCopy.CS2104",
         "feedbackQuestionId" : "1",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "benny.tmms@gmail.tmt",
+        "giver" : "benny.tmms@gmail.tmt",
         "recipientEmail" : "benny.tmms@gmail.tmt",
         "responseMetaData" : {"value" : "student self feedback."},
         "giverSection":"Section A",

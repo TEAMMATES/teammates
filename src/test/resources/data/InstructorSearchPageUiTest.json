@@ -328,7 +328,7 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"searchUI.student1InCourse1@gmail.tmt",
+            "giver":"searchUI.student1InCourse1@gmail.tmt",
             "recipientEmail":"searchUI.student1InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Student 1 self feedback."
@@ -341,7 +341,7 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"searchUI.student2InCourse1@gmail.tmt",
+            "giver":"searchUI.student2InCourse1@gmail.tmt",
             "recipientEmail":"searchUI.student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"I'm cool'"
@@ -354,7 +354,7 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"searchUI.student2InCourse1@gmail.tmt",
+            "giver":"searchUI.student2InCourse1@gmail.tmt",
             "recipientEmail":"searchUI.student1InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 2 to student 1."
@@ -367,7 +367,7 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"searchUI.student1InCourse1@gmail.tmt",
+            "giver":"searchUI.student1InCourse1@gmail.tmt",
             "recipientEmail":"searchUI.student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 1 to student 2."
@@ -380,7 +380,7 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"searchUI.student3InCourse1@gmail.tmt",
+            "giver":"searchUI.student3InCourse1@gmail.tmt",
             "recipientEmail":"searchUI.student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 3 \"to\" student 2.\r\nMultiline test."
@@ -393,7 +393,7 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"searchUI.instructor1@course1.tmt",
+            "giver":"searchUI.instructor1@course1.tmt",
             "recipientEmail":"%GENERAL%",
             "responseMetaData":{
                 "value":"Good work, keep it up!"

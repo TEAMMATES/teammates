@@ -798,7 +798,7 @@
             "courseId":"idOfTypicalCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student1InCourse1@gmail.tmt",
+            "giver":"student1InCourse1@gmail.tmt",
             "recipientEmail":"student1InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Student 1 self feedback."
@@ -809,7 +809,7 @@
             "courseId":"idOfTypicalCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student2InCourse1@gmail.tmt",
+            "giver":"student2InCourse1@gmail.tmt",
             "recipientEmail":"student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"I'm cool'"
@@ -820,7 +820,7 @@
             "courseId":"idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student2InCourse1@gmail.tmt",
+            "giver":"student2InCourse1@gmail.tmt",
             "recipientEmail":"student1InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 2 to student 1."
@@ -831,7 +831,7 @@
             "courseId":"idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student1InCourse1@gmail.tmt",
+            "giver":"student1InCourse1@gmail.tmt",
             "recipientEmail":"student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 1 to student 2."
@@ -842,7 +842,7 @@
             "courseId":"idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student3InCourse1@gmail.tmt",
+            "giver":"student3InCourse1@gmail.tmt",
             "recipientEmail":"student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 3 \"to\" student 2.\r\nMultiline test."
@@ -853,7 +853,7 @@
             "courseId":"idOfTypicalCourse1",
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"instructor1@course1.tmt",
+            "giver":"instructor1@course1.tmt",
             "recipientEmail":"%GENERAL%",
             "responseMetaData":{
                 "value":"Good work, keep it up!"
@@ -864,7 +864,7 @@
             "courseId":"idOfTypicalCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student4InCourse1@gmail.tmt",
+            "giver":"student4InCourse1@gmail.tmt",
             "recipientEmail":"Team 1.2",
             "responseMetaData":{
                 "value":"Response from team 1 by (student 4) to team 1.2."
@@ -875,7 +875,7 @@
             "courseId":"idOfTypicalCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student4InCourse1@gmail.tmt",
+            "giver":"student4InCourse1@gmail.tmt",
             "recipientEmail":"Team 1.2",
             "responseMetaData":{
                 "value":"Response from team 1 by (student 4) to team 1.2."
@@ -886,7 +886,7 @@
             "courseId":"idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student4InCourse1@gmail.tmt",
+            "giver":"student4InCourse1@gmail.tmt",
             "recipientEmail":"student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 4 to team member (student 2)."
@@ -897,7 +897,7 @@
             "courseId":"idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"student1InCourse1@gmail.tmt",
+            "giver":"student1InCourse1@gmail.tmt",
             "recipientEmail":"student4InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 1 to team member (student 4)."
@@ -908,7 +908,7 @@
             "courseId":"idOfTypicalCourse2",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"instructor1@course2.tmt",
+            "giver":"instructor1@course2.tmt",
             "recipientEmail":"Team 2.1",
             "responseMetaData":{
                 "value":"Response from instr to Team 2.1"

@@ -472,7 +472,7 @@
             "courseId":"IEIFPTCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"IEIFPTCoursehelper1@gmail.tmt",
+            "giver":"IEIFPTCoursehelper1@gmail.tmt",
             "recipientEmail":"IEIFPTCoursehelper1@gmail.tmt",
             "responseMetaData":{
                 "value":"Helper 1 self feedback."
@@ -485,7 +485,7 @@
             "courseId":"IEIFPTCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"IEIFPTCourseintr@gmail.tmt",
+            "giver":"IEIFPTCourseintr@gmail.tmt",
             "recipientEmail":"IEIFPTCourseintr@gmail.tmt",
             "responseMetaData":{
                 "value":"Instructor 1 self feedback."
@@ -498,7 +498,7 @@
             "courseId":"IEIFPTCourse",
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"IEIFPTCoursehelper1@gmail.tmt",
+            "giver":"IEIFPTCoursehelper1@gmail.tmt",
             "recipientEmail":"student1InIEIFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"Helper 1 opinion about Student 1."
@@ -511,7 +511,7 @@
             "courseId":"IEIFPTCourse",
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"IEIFPTCoursehelper1@gmail.tmt",
+            "giver":"IEIFPTCoursehelper1@gmail.tmt",
             "recipientEmail":"student1InIEIFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"response whereby receipient should not be seen by instructors"
@@ -524,7 +524,7 @@
             "courseId":"IEIFPTCourse",
             "feedbackQuestionId":"5",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"IEIFPTCoursehelper1@gmail.tmt",
+            "giver":"IEIFPTCoursehelper1@gmail.tmt",
             "recipientEmail":"student1InIEIFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"response whereby giver should not be seen by instructors"
@@ -537,7 +537,7 @@
             "courseId":"IEIFPTCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"IEIFPTCourseintr@gmail.tmt",
+            "giver":"IEIFPTCourseintr@gmail.tmt",
             "recipientEmail":"IEIFPTCourseintr@gmail.tmt",
             "responseMetaData":{
                 "value":"Session 2 Question 1 Response 1"
@@ -550,7 +550,7 @@
             "courseId":"IEIFPTCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"IEIFPTCoursehelper1@gmail.tmt",
+            "giver":"IEIFPTCoursehelper1@gmail.tmt",
             "recipientEmail":"IEIFPTCoursehelper1@gmail.tmt",
             "responseMetaData":{
                 "value":"Session 2 Question 1 Response 2"
@@ -563,7 +563,7 @@
             "courseId":"IEIFPTCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"IEIFPTCourseintr@gmail.tmt",
+            "giver":"IEIFPTCourseintr@gmail.tmt",
             "recipientEmail":"IEIFPTCourseintr@gmail.tmt",
             "responseMetaData":{
                 "value":"Closed session response"
