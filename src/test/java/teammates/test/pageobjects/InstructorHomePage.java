@@ -57,13 +57,6 @@ public class InstructorHomePage extends AppPage {
         return pageSource.contains("<h1>Instructor Home</h1>");
     }
 
-    public InstructorHelpPage clickHelpLink() {
-        instructorHelpTab.click();
-        waitForPageToLoad();
-        switchToNewWindow();
-        return changePageType(InstructorHelpPage.class);
-    }
-    
     public void clickSortByIdButton() {
         sortByIdButton.click();
         waitForPageToLoad();
@@ -189,11 +182,6 @@ public class InstructorHomePage extends AppPage {
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorHomePage.class);
-    }
-
-    public void clickHomeTab() {
-        instructorHomeTab.click();
-        waitForPageToLoad();
     }
     
     public InstructorStudentListPage searchForStudent(String studentName) {
