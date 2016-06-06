@@ -94,6 +94,9 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
        git merge master
        ```
 
+   * If there are updates to the dependencies on the build configuration, you should update your local
+   copies accordingly. The details on the steps can be found on [this document](dependencies.md).
+
 9. When the work is ready for review:
    * Format the code: Select the code segments you modified and apply the code 
      formatting function of Eclipse (`Source → Format`). 

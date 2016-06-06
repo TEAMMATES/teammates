@@ -181,6 +181,16 @@ task copyDepsToWebInfLib(type: Copy) {
     rename("appengine-api-labs-1.9.27.jar", "appengine-api-labs.jar")
 }
 
+task resetEclipseDeps {
+    description "Updates the project's dependencies to be used by Eclipse configurations"
+    group "Setup"
+    doFirst {
+        delete  ".classpath",
+                "src/main/webapp/WEB-INF/lib"
+    }
+    finalizedBy eclipseClasspath, copyDepsToWebInfLib
+}
+
 task printUserHomeDir << {
     println "Your Gradle user directory is: ${gradle.gradleUserHomeDir}"
 }
