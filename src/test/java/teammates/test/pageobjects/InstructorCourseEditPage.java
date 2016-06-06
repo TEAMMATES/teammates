@@ -195,6 +195,10 @@ public class InstructorCourseEditPage extends AppPage {
         this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex, linkNum - 1).click();
     }
     
+    public boolean isSectionLevelPrivilegeLinkClicked(int instrNum, int sectionLevelIndex, int linkNum) {
+        return this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex, linkNum - 1).isSelected();
+    }
+    
     public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelIndex) {
         String linkId = "toggleSessionLevelInSection" + sectionLevelIndex + "ForInstructor" + instrNum;
         browser.driver.findElement(By.id(linkId)).click();
