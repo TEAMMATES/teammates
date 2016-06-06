@@ -83,7 +83,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         String enrollString =
                 "Section | Team | Name | Email | Comments\n"
                 // Modify team for student within section
-                + "Section 1| Team 4 | Alice Betsy</textarea><textarea>'\" | alice.b.tmms@gmail.tmt | This comment has been changed\n"
+                + "Section 1| Team 4 | Alice Betsy</textarea><textarea>'\" | alice.b.tmms@gmail.tmt"
+                        + " | This comment has been changed\n"
                 // Modify section and team
                 + "Section 2| Team 2 | Benny Charles| benny.c.tmms@gmail.tmt |\n"
                 // A student with no comment

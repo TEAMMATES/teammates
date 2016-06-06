@@ -19,7 +19,8 @@ public class StudentFeedbackResultsPage extends AppPage {
                 By.id("questionAdditionalInfoButton-" + qnNumber + "-" + additionalInfoId));
         qnAdditionalInfoButton.click();
         // Check if links toggle properly.
-        WebElement qnAdditionalInfo = browser.driver.findElement(By.id("questionAdditionalInfo-" + qnNumber + "-" + additionalInfoId));
+        WebElement qnAdditionalInfo = browser.driver.findElement(
+                By.id("questionAdditionalInfo-" + qnNumber + "-" + additionalInfoId));
         return qnAdditionalInfo.isDisplayed();
     }
     

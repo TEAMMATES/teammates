@@ -98,7 +98,8 @@ public class StudentProfilePictureEditAction extends Action {
             return newImage.getImageData();
         } catch (RuntimeException re) {
             isError = true;
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PICTURE_EDIT_FAILED, StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PICTURE_EDIT_FAILED,
+                                               StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : Reading and transforming image failed."
                           + re.getMessage();
         }
@@ -154,18 +155,21 @@ public class StudentProfilePictureEditAction extends Action {
         if (leftXString.isEmpty() || topYString.isEmpty()
                 || rightXString.isEmpty() || bottomYString.isEmpty()) {
             isError = true;
-            statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again", StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again",
+                                               StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or more of the given coords were empty.";
             return false;
         } else if (heightString.isEmpty() || widthString.isEmpty()) {
             isError = true;
-            statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again", StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again",
+                                               StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or both of the image dimensions were empty.";
             return false;
         } else if (Double.parseDouble(widthString) == 0
                 || Double.parseDouble(heightString) == 0) {
             isError = true;
-            statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again", StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again",
+                                               StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or both of the image dimensions were zero.";
             return false;
         }
