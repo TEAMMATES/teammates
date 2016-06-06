@@ -595,7 +595,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
     
-    private FeedbackSessionNotVisiblePage loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
+    private FeedbackSessionNotVisiblePage
+            loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())

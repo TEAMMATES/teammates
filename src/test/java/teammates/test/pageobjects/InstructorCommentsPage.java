@@ -1,6 +1,6 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
 
@@ -170,16 +170,17 @@ public class InstructorCommentsPage extends AppPage {
         textarea.sendKeys(text);
     }
     
-    public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx, Integer commentIdx, String text) {
-        WebElement textarea = browser.driver.findElement(By.id("responsecommenttext-" + sessionIdx + "-" + questionIdx + "-" + responseIdx
-                 + "-" + commentIdx));
+    public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx, int commentIdx, String text) {
+        WebElement textarea = browser.driver.findElement(
+                By.id("responsecommenttext-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx));
         textarea.click();
         textarea.clear();
         textarea.sendKeys(text);
     }
 
     public void addResponseComment(int sessionIdx, int questionIdx, int responseIdx) {
-        browser.driver.findElement(By.id("button_save_comment_for_add-" + sessionIdx + "-" + questionIdx + "-" + responseIdx)).click();
+        browser.driver.findElement(
+                By.id("button_save_comment_for_add-" + sessionIdx + "-" + questionIdx + "-" + responseIdx)).click();
         waitForPageToLoad();
     }
 
@@ -193,7 +194,8 @@ public class InstructorCommentsPage extends AppPage {
 
     public void saveResponseComment(int sessionIdx, int questionIdx, int responseIdx, int commentIdx) {
         browser.driver.findElement(
-                By.id("button_save_comment_for_edit-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx)).click();
+                By.id("button_save_comment_for_edit-" + sessionIdx + "-"
+                      + questionIdx + "-" + responseIdx + "-" + commentIdx)).click();
         waitForPageToLoad();
     }
 
@@ -269,8 +271,7 @@ public class InstructorCommentsPage extends AppPage {
      * Waits for 'comments for students' panel to collapse.
      */
     public void waitForCommentsForStudentsPanelsToCollapse() {
-        By panelCollapseSelector = By.cssSelector("div[id='panel_display-1']").cssSelector(".panel-heading+.panel-collapse");
-               
+        By panelCollapseSelector = By.cssSelector("#panel_display-1 .panel-heading+.panel-collapse");
         waitForElementToDisappear(panelCollapseSelector);
     }
     
@@ -296,19 +297,13 @@ public class InstructorCommentsPage extends AppPage {
     
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
         int idNumber = commentTableIdSuffix.split("-").length;
-        if (idNumber == 4) {
-            WebElement commentRow = browser.driver.findElement(By.id("responseCommentEditForm-" + commentTableIdSuffix));
-            waitForPageToLoad();
-            By errorSpan = By.cssSelector(".col-sm-offset-5 > span");
-            waitForElementPresence(errorSpan);
-            assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("span")).getText());
-        } else if (idNumber == 3) {
-            WebElement commentRow = browser.driver.findElement(By.id("showResponseCommentAddForm-" + commentTableIdSuffix));
-            waitForPageToLoad();
-            By errorSpan = By.cssSelector(".col-sm-offset-5 > span");
-            waitForElementPresence(errorSpan);
-            assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("span")).getText());
-        }
+        assertTrue(idNumber == 4 || idNumber == 3);
+        String commentRowId = (idNumber == 4 ? "responseCommentEditForm-"
+                                             : "showResponseCommentAddForm-")
+                              + commentTableIdSuffix;
+        waitForPageToLoad();
+        By errorSpan = By.cssSelector("#" + commentRowId + " .col-sm-offset-5 > span");
+        waitForTextContainedInElementPresence(errorSpan, errorMessage);
     }
 
     public void search(String text) {

@@ -165,7 +165,8 @@ public class InstructorCoursesPage extends AppPage {
     public void waitForAjaxLoadCoursesError() {
         By element = By.id("retryAjax");
         waitForElementPresence(element);
-        WebElement statusMessage = browser.driver.findElement(By.id("statusMessagesToUser")).findElement(By.className("statusMessage"));
+        WebElement statusMessage =
+                browser.driver.findElement(By.id("statusMessagesToUser")).findElement(By.className("statusMessage"));
         assertEquals("Courses could not be loaded. Click here to retry.", statusMessage.getText());
     }
     
@@ -175,7 +176,9 @@ public class InstructorCoursesPage extends AppPage {
     }
     
     private int getCourseCount() {
-        return browser.driver.findElements(By.className("table")).get(0).findElements(By.tagName("tr")).size();
+        By activeCoursesTable = By.id("tableActiveCourses");
+        waitForElementPresence(activeCoursesTable);
+        return browser.driver.findElement(activeCoursesTable).findElements(By.tagName("tr")).size();
     }
 
     private int getRowNumberOfCourse(String courseId) {

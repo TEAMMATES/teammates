@@ -112,12 +112,14 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         confirmationPage = AppPage.getNewPageInstance(browser, StudentCourseJoinConfirmationPage.class);
         confirmationPage.clickConfirmButton();
         studentHomePage = AppPage.getNewPageInstance(browser, StudentHomePage.class);
-        expectedStatus = String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[" + courseId + "] " + courseName) + '\n'
-                         + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[" + courseId + "] " + courseName) + '\n'
-                         + "Meanwhile, you can update your profile here.";
+        expectedStatus =
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[" + courseId + "] " + courseName)
+                + '\n'
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[" + courseId + "] " + courseName)
+                + '\n'
+                + "Meanwhile, you can update your profile here.";
         
-        studentHomePage.verifyStatus(
-                expectedStatus);
+        studentHomePage.verifyStatus(expectedStatus);
 
         ______TS("already joined, no confirmation page");
 
@@ -198,9 +200,12 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         confirmationPage = AppPage.getNewPageInstance(browser, StudentCourseJoinConfirmationPage.class);
         confirmationPage.clickConfirmButton();
         studentHomePage = AppPage.getNewPageInstance(browser, StudentHomePage.class);
-        expectedStatus = String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[" + courseId + "] " + courseName) + '\n'
-                         + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[" + courseId + "] " + courseName) + '\n'
-                         + "Meanwhile, you can update your profile here.";
+        expectedStatus =
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[" + courseId + "] " + courseName)
+                + '\n'
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[" + courseId + "] " + courseName)
+                + '\n'
+                + "Meanwhile, you can update your profile here.";
         studentHomePage.verifyStatus(expectedStatus);
 
         ______TS("already joined, no confirmation page");

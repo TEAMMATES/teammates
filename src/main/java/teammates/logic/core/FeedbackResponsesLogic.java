@@ -437,7 +437,8 @@ public class FeedbackResponsesLogic {
             newResponse.recipientSection = oldResponse.recipientSection;
         }
     
-        if (newResponse.recipientEmail.equals(oldResponse.recipientEmail) && newResponse.giverEmail.equals(oldResponse.giverEmail)) {
+        if (newResponse.recipientEmail.equals(oldResponse.recipientEmail)
+                && newResponse.giverEmail.equals(oldResponse.giverEmail)) {
             try {
                 frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
             } catch (EntityDoesNotExistException e) {

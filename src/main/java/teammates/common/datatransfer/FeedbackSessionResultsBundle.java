@@ -1841,7 +1841,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
 
     /**
-     * Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
+     * Returns the responses in this bundle as a {@code Tree} structure with no base node
+     * using a {@code LinkedHashMap} implementation.
      * <br>The tree is sorted by recipientName > giverName > questionNumber.
      * <br>The key of each map represents the parent node, while the value represents the leaf.
      * <br>The top-most parent {@code String recipientName} is the recipient's name of all it's leafs.
@@ -1891,7 +1892,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
     
     /**
-     * Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
+     * Returns the responses in this bundle as a {@code Tree} structure with no base node
+     * using a {@code LinkedHashMap} implementation.
      * <br>The tree is sorted by recipientName > giverName > questionNumber.
      * <br>The key of each map represents the parent node, while the value represents the leaf.
      * <br>The top-most parent {@code String recipientName} is the recipient's name of all it's leafs.
@@ -1973,7 +1975,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
     
     /**
-     * Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
+     * Returns the responses in this bundle as a {@code Tree} structure with no base node
+     * using a {@code LinkedHashMap} implementation.
      * <br>The tree is sorted by giverName > recipientName > questionNumber.
      * <br>The key of each map represents the parent node, while the value represents the leaf.
      * <br>The top-most parent {@code String giverName} is the recipient's name of all it's leafs.
@@ -2015,7 +2018,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 responsesFromOneGiver.put(recipientNameWithTeam,
                                           new ArrayList<FeedbackResponseAttributes>());
             }
-            List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient = responsesFromOneGiver.get(recipientNameWithTeam);
+            List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
+                    responsesFromOneGiver.get(recipientNameWithTeam);
             responsesFromOneGiverToOneRecipient.add(response);
         }
         
@@ -2023,7 +2027,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
     
     /**
-     *  Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
+     * Returns the responses in this bundle as a {@code Tree} structure with no base node
+     * using a {@code LinkedHashMap} implementation.
      * <br>The tree is sorted by giverName > recipientName > questionNumber.
      * <br>The key of each map represents the parent node, while the value represents the leaf.
      * <br>The top-most parent {@code String giverName} is the recipient's name of all it's leafs.
