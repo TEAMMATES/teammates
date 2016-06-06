@@ -69,10 +69,10 @@ public class BackDoorTest extends BaseTestCase {
         FeedbackQuestionAttributes fq = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ2S1C1");
         fq = BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
-        fr = BackDoor.getFeedbackResponse(fq.getId(), fr.giver, fr.recipientEmail);
+        fr = BackDoor.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         
         verifyPresentInDatastore(fr);
-        status = BackDoor.deleteFeedbackResponse(fq.getId(), fr.giver, fr.recipientEmail);
+        status = BackDoor.deleteFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(fr);
         
@@ -341,13 +341,13 @@ public class BackDoorTest extends BaseTestCase {
         fr.feedbackQuestionType = fq.questionType;
         fr.giver = student.email;
         fr.giverSection = student.section;
-        fr.recipientEmail = student.email;
+        fr.recipient = student.email;
         fr.recipientSection = student.section;
         fr.responseMetaData = new Text("Student 3 self feedback");
-        fr.setId(fq.getId() + "%" + fr.giver + "%" + fr.recipientEmail);
+        fr.setId(fq.getId() + "%" + fr.giver + "%" + fr.recipient);
 
         // Make sure not already inside
-        BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipientEmail);
+        BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
         verifyAbsentInDatastore(fr);
 
         // Perform creation
@@ -355,7 +355,7 @@ public class BackDoorTest extends BaseTestCase {
         verifyPresentInDatastore(fr);
 
         // Clean up
-        BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipientEmail);
+        BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
         verifyAbsentInDatastore(fr);
     }
     
@@ -381,7 +381,7 @@ public class BackDoorTest extends BaseTestCase {
     }
     
     private void verifyAbsentInDatastore(FeedbackResponseAttributes fr) {
-        assertEquals("null", BackDoor.getFeedbackResponseAsJson(fr.feedbackQuestionId, fr.giver, fr.recipientEmail));
+        assertEquals("null", BackDoor.getFeedbackResponseAsJson(fr.feedbackQuestionId, fr.giver, fr.recipient));
     }
 
     private void verifyPresentInDatastore(String dataBundleJsonString) {
@@ -473,7 +473,7 @@ public class BackDoorTest extends BaseTestCase {
     private void verifyPresentInDatastore(FeedbackResponseAttributes expectedResponse) {
         String responseJsonString = BackDoor.getFeedbackResponseAsJson(expectedResponse.feedbackQuestionId,
                                                                        expectedResponse.giver,
-                                                                       expectedResponse.recipientEmail);
+                                                                       expectedResponse.recipient);
         FeedbackResponseAttributes actualResponse = gson.fromJson(responseJsonString, FeedbackResponseAttributes.class);
 
         assertEquals(gson.toJson(expectedResponse), gson.toJson(actualResponse));

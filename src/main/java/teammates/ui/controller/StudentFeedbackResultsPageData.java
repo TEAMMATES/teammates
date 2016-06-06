@@ -126,8 +126,8 @@ public class StudentFeedbackResultsPageData extends PageData {
         List<String> recipients = new ArrayList<String>();
         
         for (FeedbackResponseAttributes singleResponse : responsesBundle) {
-            if (!recipients.contains(singleResponse.recipientEmail)) {
-                recipients.add(singleResponse.recipientEmail);
+            if (!recipients.contains(singleResponse.recipient)) {
+                recipients.add(singleResponse.recipient);
             }
         }
         
@@ -182,11 +182,11 @@ public class StudentFeedbackResultsPageData extends PageData {
                 displayedGiverName = giverName;
             }
             
-            boolean isUserRecipient = student.email.equals(response.recipientEmail);
+            boolean isUserRecipient = student.email.equals(response.recipient);
             if (isUserGiver && !isUserRecipient) {
                 // If the giver is the user, show the real name of the recipient
                 // since the giver would know which recipient he/she gave the response to
-                recipientName = bundle.getNameForEmail(response.recipientEmail);
+                recipientName = bundle.getNameForEmail(response.recipient);
             } else if (!isUserGiver
                        && !bundle.isRecipientVisible(response)) {
                 // Hide anonymous recipient entirely to prevent student from guessing the identity
@@ -234,7 +234,7 @@ public class StudentFeedbackResultsPageData extends PageData {
         List<FeedbackResponseAttributes> responsesForRecipient = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponseAttributes singleResponse : responsesBundle) {
-            if (singleResponse.recipientEmail.equals(recipientEmail)) {
+            if (singleResponse.recipient.equals(recipientEmail)) {
                 responsesForRecipient.add(singleResponse);
             }
         }

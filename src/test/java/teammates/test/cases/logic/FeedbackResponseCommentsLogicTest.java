@@ -382,7 +382,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         response = frLogic.getFeedbackResponse(
                                    getQuestionIdInDataBundle(questionInDataBundle),
                                    response.giver,
-                                   response.recipientEmail);
+                                   response.recipient);
         return response.getId();
     }
 }

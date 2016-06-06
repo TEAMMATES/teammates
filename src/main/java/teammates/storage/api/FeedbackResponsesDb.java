@@ -634,7 +634,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         fr.keepUpdateTimestamp = keepUpdateTimestamp;
         fr.setAnswer(newAttributes.responseMetaData);
-        fr.setRecipientEmail(newAttributes.recipientEmail);
+        fr.setRecipientEmail(newAttributes.recipient);
         fr.setGiverSection(newAttributes.giverSection);
         fr.setRecipientSection(newAttributes.recipientSection);
                 
@@ -1104,6 +1104,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return getFeedbackResponseEntity(
             feedbackResponseToGet.feedbackQuestionId,
             feedbackResponseToGet.giver,
-            feedbackResponseToGet.recipientEmail);
+            feedbackResponseToGet.recipient);
     }
 }

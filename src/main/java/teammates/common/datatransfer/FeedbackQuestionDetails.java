@@ -81,9 +81,9 @@ public abstract class FeedbackQuestionDetails {
         String giverEmail = fsrBundle.getDisplayableEmailGiver(feedbackResponseAttributes);
 
         // Retrieve recipient details
-        String recipientLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.recipientEmail);
-        String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipientEmail);
-        String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.recipient);
+        String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipient);
+        String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
 
         return Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))

@@ -258,7 +258,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         Map<String, List<Integer>> optionRanks = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
-            updateOptionRanksMapping(optionRanks, response.recipientEmail, normalisedRankOfResponse.get(response));
+            updateOptionRanksMapping(optionRanks, response.recipient, normalisedRankOfResponse.get(response));
         }
         
         return optionRanks;

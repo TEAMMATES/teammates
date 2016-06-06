@@ -93,7 +93,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         TeamEvalResult teamResult = teamResults.get(giverTeamName);
         
         int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giver);
-        int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipientEmail);
+        int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipient);
         
         if (giverIndex == -1 || recipientIndex == -1) {
             if (giverIndex == -1) {
@@ -105,7 +105,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             }
             if (recipientIndex == -1) {
                 log.severe("getContributionQuestionResponseAnswerHtml - recipientIndex is -1\n"
-                        + "Cannot find recipient: " + actualResponse.recipientEmail + "\n"
+                        + "Cannot find recipient: " + actualResponse.recipient + "\n"
                         + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
                         + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
                         + "Response Id: " + actualResponse.getId());
@@ -116,7 +116,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             
         Map<String, StudentResultSummary> stats = getContribQnStudentResultSummary(question, feedbackSessionResultsBundle);
         
-        if (response.giver.equals(response.recipientEmail)) {
+        if (response.giver.equals(response.recipient)) {
             StudentResultSummary studentResult = stats.get(response.giver);
             String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
                                               studentResult.claimedToInstructor);
@@ -144,7 +144,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         TeamEvalResult teamResult = teamResults.get(giverTeamName);
         
         int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giver);
-        int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipientEmail);
+        int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipient);
         
         String responseAnswerCsv = "";
         
@@ -158,7 +158,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             }
             if (recipientIndex == -1) {
                 log.severe("getContributionQuestionResponseAnswerCsv - recipientIndex is -1\n"
-                        + "Cannot find recipient: " + actualResponse.recipientEmail + "\n"
+                        + "Cannot find recipient: " + actualResponse.recipient + "\n"
                         + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
                         + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
                         + "Response Id: " + actualResponse.getId());
@@ -168,7 +168,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
                     FeedbackContributionQuestionDetails.convertToEqualShareFormat(
                             teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]));
             
-            if (response.giver.equals(response.recipientEmail)) {
+            if (response.giver.equals(response.recipient)) {
                 StudentResultSummary studentResult = stats.get(response.giver);
                 responseAnswerCsv = Sanitizer.sanitizeForCsv(
                         FeedbackContributionQuestionDetails.convertToEqualShareFormat(

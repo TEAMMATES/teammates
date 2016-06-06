@@ -224,7 +224,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                     && instructorCourseIdList.contains(response.courseId)) {
                 return true;
             } else if (type == FeedbackParticipantType.RECEIVER
-                    && instructorEmails.contains(response.recipientEmail)) {
+                    && instructorEmails.contains(response.recipient)) {
                 return true;
             }
         }
@@ -241,7 +241,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                     && instructorCourseIdList.contains(response.courseId)) {
                 return true;
             } else if (type == FeedbackParticipantType.RECEIVER
-                    && instructorEmails.contains(response.recipientEmail)) {
+                    && instructorEmails.contains(response.recipient)) {
                 return true;
             }
         }

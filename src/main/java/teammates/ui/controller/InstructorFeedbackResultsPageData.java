@@ -594,10 +594,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String displayableResponse = bundle.getResponseAnswerHtml(response, question);
 
             String giverName = bundle.getNameForEmail(response.giver);
-            String recipientName = bundle.getNameForEmail(response.recipientEmail);
+            String recipientName = bundle.getNameForEmail(response.recipient);
             
             String giverTeam = bundle.getTeamNameForEmail(response.giver);
-            String recipientTeam = bundle.getTeamNameForEmail(response.recipientEmail);
+            String recipientTeam = bundle.getTeamNameForEmail(response.recipient);
             
             giverName = bundle.appendTeamNameToName(giverName, giverTeam);
             recipientName = bundle.appendTeamNameToName(recipientName, recipientTeam);
@@ -1291,7 +1291,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // keep track of possible recipients without a response from the current giver
-            removeParticipantIdentifierFromList(possibleReceiversWithoutResponsesForGiver, response.recipientEmail);
+            removeParticipantIdentifierFromList(possibleReceiversWithoutResponsesForGiver, response.recipient);
             prevGiver = response.giver;
             
             InstructorFeedbackResultsModerationButton moderationButton = buildModerationButtonForExistingResponse(
@@ -1300,10 +1300,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                        bundle.getGiverNameForResponse(response),
                                                                        bundle.getTeamNameForEmail(response.giver),
                                                                        bundle.getRecipientNameForResponse(response),
-                                                                       bundle.getTeamNameForEmail(response.recipientEmail),
+                                                                       bundle.getTeamNameForEmail(response.recipient),
                                                                        bundle.getResponseAnswerHtml(response, question),
                                                                        moderationButton);
-            configureResponseRow(prevGiver, response.recipientEmail, responseRow);
+            configureResponseRow(prevGiver, response.recipient, responseRow);
             responseRows.add(responseRow);
         }
         
@@ -1346,7 +1346,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // keep track of possible participant who did not give/receive a response to/from the participantIdentifier
-            String participantWithResponse = isFirstGroupedByGiver ? response.recipientEmail : response.giver;
+            String participantWithResponse = isFirstGroupedByGiver ? response.recipient : response.giver;
             removeParticipantIdentifierFromList(possibleParticipantsWithoutResponses,
                                                 participantWithResponse);
 
@@ -1358,10 +1358,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                             bundle.getGiverNameForResponse(response),
                             bundle.getTeamNameForEmail(response.giver),
                             bundle.getRecipientNameForResponse(response),
-                            bundle.getTeamNameForEmail(response.recipientEmail),
+                            bundle.getTeamNameForEmail(response.recipient),
                             bundle.getResponseAnswerHtml(response, question), moderationButton);
 
-            configureResponseRow(response.giver, response.recipientEmail, responseRow);
+            configureResponseRow(response.giver, response.recipient, responseRow);
                         
             responseRows.add(responseRow);
         }

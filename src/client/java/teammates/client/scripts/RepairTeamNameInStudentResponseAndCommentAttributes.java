@@ -249,11 +249,11 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
             if (isPreview) {
                 System.out.println(numberOfReponsesWithExtraSpacesInRecipient
                                    + ". From \"" + response.giver + "\" "
-                                   + ". To \"" + response.recipientEmail + "\" "
+                                   + ". To \"" + response.recipient + "\" "
                                    + "courseId: " + response.courseId + " sessionName: "
                                    + response.feedbackSessionName);
             } else {
-                response.recipientEmail = StringHelper.removeExtraSpace(response.recipientEmail);
+                response.recipient = StringHelper.removeExtraSpace(response.recipient);
                 response.giver = StringHelper.removeExtraSpace(response.giver);
                 responsesLogic.updateFeedbackResponse(response);
             }

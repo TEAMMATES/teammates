@@ -92,8 +92,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             boolean isRecipientVisible1 = isRecipientVisible(o1);
             boolean isRecipientVisible2 = isRecipientVisible(o2);
             
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
             order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
@@ -131,8 +131,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             boolean isRecipientVisible1 = isRecipientVisible(o1);
             boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
             order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
@@ -181,8 +181,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             boolean isRecipientVisible1 = isRecipientVisible(o1);
             boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
             order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
@@ -216,8 +216,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             boolean isRecipientVisible1 = isRecipientVisible(o1);
             boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
             order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
@@ -262,17 +262,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             boolean isRecipientVisible1 = isRecipientVisible(o1);
             boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-            String t1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
-                                                                          : getTeamNameForEmail(o1.recipientEmail);
-            String t2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
-                                                                          : getTeamNameForEmail(o2.recipientEmail);
+            String t1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                                                                          : getTeamNameForEmail(o1.recipient);
+            String t2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                                                                          : getTeamNameForEmail(o2.recipient);
             order = compareByNames(t1, t2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
             order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
@@ -331,17 +331,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             boolean isRecipientVisible1 = isRecipientVisible(o1);
             boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-            String t1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
-                                                                          : getTeamNameForEmail(o1.recipientEmail);
-            String t2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
-                                                                          : getTeamNameForEmail(o2.recipientEmail);
+            String t1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                                                                          : getTeamNameForEmail(o1.recipient);
+            String t2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                                                                          : getTeamNameForEmail(o2.recipient);
             order = compareByNames(t1, t2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
             order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             
             if (order != 0) {
@@ -396,17 +396,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             boolean isRecipientVisible1 = isRecipientVisible(o1);
             boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-            String receiverTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
-                                                                                     : getTeamNameForEmail(o1.recipientEmail);
-            String receiverTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
-                                                                                     : getTeamNameForEmail(o2.recipientEmail);
+            String receiverTeam1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                                                                                     : getTeamNameForEmail(o1.recipient);
+            String receiverTeam2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                                                                                     : getTeamNameForEmail(o2.recipient);
             order = compareByNames(receiverTeam1, receiverTeam2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
             order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             
             if (order != 0) {
@@ -436,8 +436,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             boolean isRecipientVisible1 = isRecipientVisible(o1);
             boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
             order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
@@ -491,17 +491,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
             boolean isRecipientVisible1 = isRecipientVisible(o1);
             boolean isRecipientVisible2 = isRecipientVisible(o2);
-            String recipientTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
-                                                                                      : getTeamNameForEmail(o1.recipientEmail);
-            String recipientTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
-                                                                                      : getTeamNameForEmail(o2.recipientEmail);
+            String recipientTeam1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                                                                                      : getTeamNameForEmail(o1.recipient);
+            String recipientTeam2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                                                                                      : getTeamNameForEmail(o2.recipient);
             order = compareByNames(recipientTeam1, recipientTeam2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
             order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
@@ -546,10 +546,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         public int compare(FeedbackResponseAttributes o1, FeedbackResponseAttributes o2) {
             boolean isRecipientVisible1 = isRecipientVisible(o1);
             boolean isRecipientVisible2 = isRecipientVisible(o2);
-            String recipientTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
-                                                                                     : getTeamNameForEmail(o1.recipientEmail);
-            String recipientTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
-                                                                                     : getTeamNameForEmail(o2.recipientEmail);
+            String recipientTeam1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                                                                                     : getTeamNameForEmail(o1.recipient);
+            String recipientTeam2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                                                                                     : getTeamNameForEmail(o2.recipient);
             int order = compareByNames(recipientTeam1, recipientTeam2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
@@ -560,8 +560,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
             order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
@@ -626,17 +626,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             boolean isRecipientVisible1 = isRecipientVisible(o1);
             boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-            String receiverTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
-                                                                                     : getTeamNameForEmail(o1.recipientEmail);
-            String receiverTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
-                                                                                     : getTeamNameForEmail(o2.recipientEmail);
+            String receiverTeam1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                                                                                     : getTeamNameForEmail(o1.recipient);
+            String receiverTeam2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                                                                                     : getTeamNameForEmail(o2.recipient);
             order = compareByNames(receiverTeam1, receiverTeam2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
             order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             
             if (order != 0) {
@@ -661,15 +661,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             boolean isRecipientVisible1 = isRecipientVisible(o1);
             boolean isRecipientVisible2 = isRecipientVisible(o2);
             // Compare by Recipient Name
-            int recipientNameCompareResult = compareByNames(getNameForEmail(o1.recipientEmail),
-                                                            getNameForEmail(o2.recipientEmail),
+            int recipientNameCompareResult = compareByNames(getNameForEmail(o1.recipient),
+                                                            getNameForEmail(o2.recipient),
                                                             isRecipientVisible1, isRecipientVisible2);
             if (recipientNameCompareResult != 0) {
                 return recipientNameCompareResult;
             }
             
             // Compare by Recipient Email
-            int recipientEmailCompareResult = compareByNames(o1.recipientEmail, o2.recipientEmail,
+            int recipientEmailCompareResult = compareByNames(o1.recipient, o2.recipient,
                                                              isRecipientVisible1, isRecipientVisible2);
             if (recipientEmailCompareResult != 0) {
                 return recipientEmailCompareResult;
@@ -773,7 +773,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     private void hideResponsesGiverRecipient() {
         for (FeedbackResponseAttributes response : responses) {
             // Hide recipient details if its not visible to the current user
-            String name = emailNameTable.get(response.recipientEmail);
+            String name = emailNameTable.get(response.recipient);
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
             FeedbackParticipantType participantType = question.recipientType;
 
@@ -784,7 +784,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 emailNameTable.put(anonEmail, name);
                 emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
 
-                response.recipientEmail = anonEmail;
+                response.recipient = anonEmail;
             }
 
             // Hide giver details if its not visible to the current user
@@ -1576,7 +1576,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         if (isGiver) {
             participantIdentifier = response.giver;
         } else {
-            participantIdentifier = response.recipientEmail;
+            participantIdentifier = response.recipient;
         }
 
         if (isEmailOfPerson(participantIdentifier) && isFeedbackParticipantVisible(isGiver, response)) {
@@ -1626,7 +1626,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
     
     public String getRecipientNameForResponse(FeedbackResponseAttributes response) {
-        String name = emailNameTable.get(response.recipientEmail);
+        String name = emailNameTable.get(response.recipient);
         if (name == null || name.equals(Const.USER_IS_MISSING)) {
             return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
@@ -1737,9 +1737,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         Collections.sort(responses, compareByTeamQuestionRecipientTeamGiver);
 
         for (FeedbackResponseAttributes response : responses) {
-            String recipientTeam = getTeamNameForEmail(response.recipientEmail);
+            String recipientTeam = getTeamNameForEmail(response.recipient);
             if (recipientTeam.isEmpty()) {
-                recipientTeam = getNameForEmail(response.recipientEmail);
+                recipientTeam = getNameForEmail(response.recipient);
             }
             
             if (!sortedMap.containsKey(recipientTeam)) {
@@ -1814,7 +1814,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
         
         for (FeedbackResponseAttributes response : responses) {
-            String recipientEmail = response.recipientEmail;
+            String recipientEmail = response.recipient;
             if (!sortedMap.containsKey(recipientEmail)) {
                 sortedMap.put(recipientEmail,
                               new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>());
@@ -1863,7 +1863,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         
         for (FeedbackResponseAttributes response : responses) {
             String recipientName = this.getRecipientNameForResponse(response);
-            String recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
+            String recipientTeamName = this.getTeamNameForEmail(response.recipient);
             String recipientNameWithTeam = this.appendTeamNameToName(recipientName, recipientTeamName);
             if (!sortedMap.containsKey(recipientNameWithTeam)) {
                 sortedMap.put(recipientNameWithTeam,
@@ -1911,7 +1911,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
         
         for (FeedbackResponseAttributes response : responses) {
-            String recipientEmail = response.recipientEmail;
+            String recipientEmail = response.recipient;
             if (!sortedMap.containsKey(recipientEmail)) {
                 sortedMap.put(recipientEmail,
                               new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
@@ -2007,7 +2007,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver = sortedMap.get(giverNameWithTeam);
             
             String recipientName = this.getRecipientNameForResponse(response);
-            String recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
+            String recipientTeamName = this.getTeamNameForEmail(response.recipient);
             String recipientNameWithTeam = this.appendTeamNameToName(recipientName, recipientTeamName);
             if (!responsesFromOneGiver.containsKey(recipientNameWithTeam)) {
                 responsesFromOneGiver.put(recipientNameWithTeam,
@@ -2052,7 +2052,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             }
             Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver = sortedMap.get(giverEmail);
             
-            String recipientEmail = response.recipientEmail;
+            String recipientEmail = response.recipient;
             if (!responsesFromOneGiver.containsKey(recipientEmail)) {
                 responsesFromOneGiver.put(recipientEmail,
                                           new ArrayList<FeedbackResponseAttributes>());

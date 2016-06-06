@@ -169,7 +169,7 @@ public class InstructorSearchPageAction extends Action {
                                                     ? question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                                                     : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
 
-                        if (isVisibleToReceiver && emailList.contains(response.recipientEmail)) {
+                        if (isVisibleToReceiver && emailList.contains(response.recipient)) {
                             continue;
                         }
 

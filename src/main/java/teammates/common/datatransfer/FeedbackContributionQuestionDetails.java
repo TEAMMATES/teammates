@@ -524,7 +524,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<String> memberEmailList = teamMembersEmail.get(team);
             for (FeedbackResponseAttributes response : teamResponseList) {
                 int giverIndx = memberEmailList.indexOf(response.giver);
-                int recipientIndx = memberEmailList.indexOf(response.recipientEmail);
+                int recipientIndx = memberEmailList.indexOf(response.recipient);
                 if (giverIndx == -1 || recipientIndx == -1) {
                     continue;
                 }

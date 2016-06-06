@@ -57,7 +57,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         String feedbackQuestionId = fra.feedbackQuestionId;
         String giverEmail = fra.giver;
-        String recipientEmail = fra.recipientEmail;
+        String recipientEmail = fra.recipient;
         
         FeedbackResponseAttributes feedbackResponse = frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipientEmail);
         
@@ -68,7 +68,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("success : update lastUpdated");
         
         String newRecipientEmail = "new-email@tmt.com";
-        feedbackResponse.recipientEmail = newRecipientEmail;
+        feedbackResponse.recipient = newRecipientEmail;
         frDb.updateFeedbackResponse(feedbackResponse);
         
         FeedbackResponseAttributes updatedFr = frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, newRecipientEmail);
@@ -80,7 +80,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("success : keep lastUpdated");
 
         String newRecipientEmailTwo = "new-email-two@tmt.com";
-        feedbackResponse.recipientEmail = newRecipientEmailTwo;
+        feedbackResponse.recipient = newRecipientEmailTwo;
         frDb.updateFeedbackResponse(feedbackResponse, true);
 
         FeedbackResponseAttributes updatedFrTwo = frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, newRecipientEmailTwo);
@@ -153,7 +153,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         FeedbackResponseAttributes expected = getResponseAttributes("response1ForQ1S1C1");
         
         FeedbackResponseAttributes actual =
-                frDb.getFeedbackResponse(expected.feedbackQuestionId, expected.giver, expected.recipientEmail);
+                frDb.getFeedbackResponse(expected.feedbackQuestionId, expected.giver, expected.recipient);
         
         assertEquals(expected.toString(), actual.toString());
         
@@ -758,7 +758,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         FeedbackResponseAttributes invalidFra = getResponseAttributes("response3ForQ2S1C1");
         invalidFra.setId(frDb.getFeedbackResponse(invalidFra.feedbackQuestionId,
-                invalidFra.giver, invalidFra.recipientEmail).getId());
+                invalidFra.giver, invalidFra.recipient).getId());
         invalidFra.courseId = "invalid course_";
         try {
             frDb.updateFeedbackResponse(invalidFra);
@@ -785,7 +785,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         FeedbackResponseAttributes modifiedResponse = getResponseAttributes("response3ForQ2S1C1");
         
         modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId,
-                modifiedResponse.giver, modifiedResponse.recipientEmail);
+                modifiedResponse.giver, modifiedResponse.recipient);
         FeedbackResponseDetails frd = modifiedResponse.getResponseDetails();
         
         HashMap<String, String[]> requestParameters = new HashMap<String, String[]>();
@@ -802,7 +802,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         verifyPresentInDatastore(modifiedResponse);
         modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId,
                                                     modifiedResponse.giver,
-                                                    modifiedResponse.recipientEmail);
+                                                    modifiedResponse.recipient);
         assertEquals("New answer text!", modifiedResponse.getResponseDetails().getAnswerString());
         
     }
@@ -815,7 +815,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         fra.feedbackQuestionType = FeedbackQuestionType.TEXT;
         fra.giver = "giver@email.tmt";
         fra.giverSection = "None";
-        fra.recipientEmail = "recipient@email.tmt";
+        fra.recipient = "recipient@email.tmt";
         fra.recipientSection = "None";
         fra.feedbackQuestionId = "testFeedbackQuestionId";
         
@@ -830,7 +830,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         return new FeedbackResponseAttributes(result.feedbackSessionName,
                 result.courseId, result.feedbackQuestionId,
                 result.feedbackQuestionType, result.giver, result.giverSection,
-                result.recipientEmail, result.recipientSection, result.responseMetaData);
+                result.recipient, result.recipientSection, result.responseMetaData);
     }
     
     @AfterClass

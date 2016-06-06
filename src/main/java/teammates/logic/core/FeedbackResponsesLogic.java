@@ -291,13 +291,13 @@ public class FeedbackResponsesLogic {
             case RECEIVER:
                 // Response to team
                 if (question.recipientType.isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, response.recipientEmail)) {
+                    if (roster.isStudentInTeam(userEmail, response.recipient)) {
                         // this is a team name
                         return true;
                     }
                     break;
                     // Response to individual
-                } else if (response.recipientEmail.equals(userEmail)) {
+                } else if (response.recipient.equals(userEmail)) {
                     return true;
                 } else {
                     break;
@@ -305,12 +305,12 @@ public class FeedbackResponsesLogic {
             case RECEIVER_TEAM_MEMBERS:
                 // Response to team; recipient = teamName
                 if (question.recipientType.isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, response.recipientEmail)) {
+                    if (roster.isStudentInTeam(userEmail, response.recipient)) {
                         // this is a team name
                         return true;
                     }
                     break;
-                } else if (roster.isStudentsInSameTeam(response.recipientEmail, userEmail)) {
+                } else if (roster.isStudentsInSameTeam(response.recipient, userEmail)) {
                     // Response to individual
                     return true;
                 }
@@ -374,7 +374,7 @@ public class FeedbackResponsesLogic {
         FeedbackResponse oldResponseEntity = null;
         if (newResponse.getId() == null) {
             oldResponseEntity = frDb.getFeedbackResponseEntityWithCheck(newResponse.feedbackQuestionId,
-                    newResponse.giver, newResponse.recipientEmail);
+                    newResponse.giver, newResponse.recipient);
         } else {
             oldResponseEntity = frDb.getFeedbackResponseEntityWithCheck(newResponse.getId());
         }
@@ -427,8 +427,8 @@ public class FeedbackResponsesLogic {
         if (newResponse.giver == null) {
             newResponse.giver = oldResponse.giver;
         }
-        if (newResponse.recipientEmail == null) {
-            newResponse.recipientEmail = oldResponse.recipientEmail;
+        if (newResponse.recipient == null) {
+            newResponse.recipient = oldResponse.recipient;
         }
         if (newResponse.giverSection == null) {
             newResponse.giverSection = oldResponse.giverSection;
@@ -437,7 +437,7 @@ public class FeedbackResponsesLogic {
             newResponse.recipientSection = oldResponse.recipientSection;
         }
     
-        if (newResponse.recipientEmail.equals(oldResponse.recipientEmail)
+        if (newResponse.recipient.equals(oldResponse.recipient)
                 && newResponse.giver.equals(oldResponse.giver)) {
             try {
                 frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
@@ -538,7 +538,7 @@ public class FeedbackResponsesLogic {
 
         boolean isGiverSameForResponseAndEnrollment = response.giver
                 .equals(enrollment.email);
-        boolean isReceiverSameForResponseAndEnrollment = response.recipientEmail
+        boolean isReceiverSameForResponseAndEnrollment = response.recipient
                 .equals(enrollment.email);
 
         boolean shouldDeleteByChangeOfGiver = isGiverSameForResponseAndEnrollment
@@ -622,7 +622,7 @@ public class FeedbackResponsesLogic {
                 getFeedbackResponsesForReceiverForCourse(courseId, oldEmail);
 
         for (FeedbackResponseAttributes response : responsesToUser) {
-            response.recipientEmail = newEmail;
+            response.recipient = newEmail;
             try {
                 updateFeedbackResponse(response);
             } catch (EntityAlreadyExistsException e) {

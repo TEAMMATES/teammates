@@ -575,10 +575,10 @@ public class CommentsLogic {
             Map<String, Set<String>> responseCommentsAddedTable, FeedbackResponseCommentAttributes frc,
             FeedbackResponseAttributes relatedResponse) {
         if (frc.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
-            StudentAttributes studentOfThisEmail = roster.getStudentForEmail(relatedResponse.recipientEmail);
+            StudentAttributes studentOfThisEmail = roster.getStudentForEmail(relatedResponse.recipient);
             if (studentOfThisEmail == null) {
                 addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList, responseCommentsAddedTable,
-                                                frc.getId().toString(), relatedResponse.recipientEmail);
+                                                frc.getId().toString(), relatedResponse.recipient);
             } else {
                 addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList, responseCommentsAddedTable,
                                                 frc.getId().toString(), studentOfThisEmail.team);
@@ -592,13 +592,13 @@ public class CommentsLogic {
             FeedbackResponseAttributes relatedResponse) {
         if (frc.isVisibleTo(FeedbackParticipantType.RECEIVER)) {
             //recipientEmail is email
-            if (roster.getStudentForEmail(relatedResponse.recipientEmail) == null) {
+            if (roster.getStudentForEmail(relatedResponse.recipient) == null) {
                 addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList,
                                                 responseCommentsAddedTable, frc.getId().toString(),
-                                                relatedResponse.recipientEmail);
+                                                relatedResponse.recipient);
             } else {
                 addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList,
-                                                frc.getId().toString(), relatedResponse.recipientEmail);
+                                                frc.getId().toString(), relatedResponse.recipient);
             }
         }
     }

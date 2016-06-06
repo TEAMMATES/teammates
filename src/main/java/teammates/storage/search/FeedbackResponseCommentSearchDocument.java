@@ -82,7 +82,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         }
         
         if (relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS) {
-            InstructorAttributes ins = logic.getInstructorForEmail(comment.courseId, relatedResponse.recipientEmail);
+            InstructorAttributes ins = logic.getInstructorForEmail(comment.courseId, relatedResponse.recipient);
             if (ins != null && !addedEmailSet.contains(ins.email)) {
                 relatedInstructors.add(ins);
                 addedEmailSet.add(ins.email);
@@ -93,15 +93,15 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         } else if (relatedQuestion.recipientType == FeedbackParticipantType.NONE) {
             responseRecipientName = Const.USER_NOBODY_TEXT;
         } else {
-            StudentAttributes stu = logic.getStudentForEmail(comment.courseId, relatedResponse.recipientEmail);
+            StudentAttributes stu = logic.getStudentForEmail(comment.courseId, relatedResponse.recipient);
             if (stu != null && !addedEmailSet.contains(stu.email)) {
                 relatedStudents.add(stu);
                 addedEmailSet.add(stu.email);
                 responseRecipientName = stu.name + " (" + stu.team + ")";
             }
-            List<StudentAttributes> team = logic.getStudentsForTeam(relatedResponse.recipientEmail, comment.courseId);
+            List<StudentAttributes> team = logic.getStudentsForTeam(relatedResponse.recipient, comment.courseId);
             if (team != null) {
-                responseRecipientName = relatedResponse.recipientEmail; //it's actually a team name here
+                responseRecipientName = relatedResponse.recipient; //it's actually a team name here
                 for (StudentAttributes studentInTeam : team) {
                     if (!addedEmailSet.contains(studentInTeam.email)) {
                         relatedStudents.add(studentInTeam);
@@ -187,7 +187,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_SECTION)
                                             .setText(relatedResponse.giverSection))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_EMAIL)
-                                            .setText(relatedResponse.recipientEmail))
+                                            .setText(relatedResponse.recipient))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_SECTION)
                                             .setText(relatedResponse.recipientSection))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_GIVER)

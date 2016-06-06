@@ -509,7 +509,7 @@ public class FeedbackSessionsLogic {
 
                 FeedbackResponseAttributes response = iterResponse.next();
 
-                if (response.recipientEmail.equals(instructorEmail)) {
+                if (response.recipient.equals(instructorEmail)) {
                     iterResponse.remove();
                 }
             }
@@ -910,7 +910,7 @@ public class FeedbackSessionsLogic {
             }
             
             removeParticipantIdentifierFromList(question.recipientType, possibleRecipientsForGiver,
-                                                response.recipientEmail, fsrBundle);
+                                                response.recipient, fsrBundle);
             prevGiver = response.giver;
             
             // Append row(s)
@@ -1988,7 +1988,7 @@ public class FeedbackSessionsLogic {
                         for (FeedbackResponseAttributes response : responsesForThisQn) {
                             boolean isVisibleResponse = false;
                             if (response.giver.equals(userEmail)
-                                    || response.recipientEmail.equals(userEmail)
+                                    || response.recipient.equals(userEmail)
                                             && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                                     || role == Role.INSTRUCTOR
                                             && question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
@@ -2226,7 +2226,7 @@ public class FeedbackSessionsLogic {
         
         boolean isVisibleResponse = false;
         if (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-                || response.recipientEmail.equals(userEmail)
+                || response.recipient.equals(userEmail)
                         && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                 || response.giver.equals(userEmail)
                 || role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
@@ -2234,7 +2234,7 @@ public class FeedbackSessionsLogic {
         } else if (role == Role.STUDENT) {
             if (relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                    && response.recipientEmail.equals(student.team)) {
+                    && response.recipient.equals(student.team)) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
                        && studentsEmailInTeam.contains(response.giver)) {
@@ -2243,7 +2243,7 @@ public class FeedbackSessionsLogic {
                        && studentsEmailInTeam.contains(response.giver)) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                       && studentsEmailInTeam.contains(response.recipientEmail)) {
+                       && studentsEmailInTeam.contains(response.recipient)) {
                 isVisibleResponse = true;
             }
         }
@@ -2348,11 +2348,11 @@ public class FeedbackSessionsLogic {
         } else {
             recipientType = question.recipientType;
         }
-        if (!emailNameTable.containsKey(response.recipientEmail)) {
+        if (!emailNameTable.containsKey(response.recipient)) {
             emailNameTable.put(
-                    response.recipientEmail,
+                    response.recipient,
                     getNameTeamNamePairForEmail(recipientType,
-                                                response.recipientEmail, roster)[pairType]);
+                                                response.recipient, roster)[pairType]);
             
         }
     }

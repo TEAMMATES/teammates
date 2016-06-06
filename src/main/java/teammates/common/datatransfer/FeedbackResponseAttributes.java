@@ -28,10 +28,10 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public String giver;
     public String giverSection;
     /**
-     * Depending on the question recipient type, {@code recipientEmail} may contain the recipient's email, the team
+     * Depending on the question recipient type, {@code recipient} may contain the recipient's email, the team
      * name, "%GENERAL%", etc.
      */
-    public String recipientEmail; // TODO rename back "recipient" as it may contain team name and "%GENERAL%"?
+    public String recipient;
     public String recipientSection;
     
     /** Contains the JSON formatted string that holds the information of the response details <br>
@@ -59,7 +59,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.feedbackQuestionType = feedbackQuestionType;
         this.giver = Sanitizer.sanitizeEmail(giverEmail);
         this.giverSection = giverSection;
-        this.recipientEmail = recipientEmail;
+        this.recipient = recipientEmail;
         this.recipientSection = recipientSection;
         this.responseMetaData = responseMetaData;
     }
@@ -72,7 +72,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.feedbackQuestionType = fr.getFeedbackQuestionType();
         this.giver = fr.getGiverEmail();
         this.giverSection = (fr.getGiverSection() == null) ? Const.DEFAULT_SECTION : fr.getGiverSection();
-        this.recipientEmail = fr.getRecipientEmail();
+        this.recipient = fr.getRecipientEmail();
         this.recipientSection = (fr.getRecipientSection() == null) ? Const.DEFAULT_SECTION : fr.getRecipientSection();
         this.responseMetaData = fr.getResponseMetaData();
         this.createdAt = fr.getCreatedAt();
@@ -87,7 +87,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.feedbackQuestionType = copy.feedbackQuestionType;
         this.giver = copy.giver;
         this.giverSection = copy.giverSection;
-        this.recipientEmail = copy.recipientEmail;
+        this.recipient = copy.recipient;
         this.recipientSection = copy.recipientSection;
         this.responseMetaData = copy.responseMetaData;
         this.createdAt = copy.createdAt;
@@ -139,12 +139,12 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public Object toEntity() {
         return new FeedbackResponse(feedbackSessionName, courseId,
                 feedbackQuestionId, feedbackQuestionType,
-                giver, giverSection, recipientEmail, recipientSection, responseMetaData);
+                giver, giverSection, recipient, recipientSection, responseMetaData);
     }
     
     @Override
     public String getIdentificationString() {
-        return feedbackQuestionId + "/" + giver + ":" + recipientEmail;
+        return feedbackQuestionId + "/" + giver + ":" + recipient;
     }
     
     @Override
@@ -163,7 +163,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
                 + feedbackSessionName + ", courseId=" + courseId
                 + ", feedbackQuestionId=" + feedbackQuestionId
                 + ", feedbackQuestionType=" + feedbackQuestionType
-                + ", giverEmail=" + giver + ", recipientEmail=" + recipientEmail
+                + ", giverEmail=" + giver + ", recipientEmail=" + recipient
                 + ", answer=" + responseMetaData + "]";
     }
 
@@ -179,7 +179,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
         this.giver = Sanitizer.sanitizeEmail(giver);
         this.giverSection = Sanitizer.sanitizeTitle(giverSection);
-        this.recipientEmail = Sanitizer.sanitizeEmail(recipientEmail);
+        this.recipient = Sanitizer.sanitizeEmail(recipient);
         this.recipientSection = Sanitizer.sanitizeTitle(recipientSection);
     }
     
