@@ -406,7 +406,7 @@ public class CommentsLogic {
                 }
             //for team
             } else if (c.recipientType == CommentParticipantType.TEAM
-                    && c.recipients.contains(Sanitizer.sanitizeForHtml(student.team))) {
+                       && c.recipients.contains(Sanitizer.sanitizeForHtml(student.team))) {
                 if (c.showCommentTo.contains(CommentParticipantType.TEAM)) {
                     removeGiverNameByVisibilityOptions(c, CommentParticipantType.TEAM);
                     appendComments(c, comments, commentsVisitedSet);

@@ -67,9 +67,9 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         for (InstructorAttributes instr : instructors) {
 
             boolean isAlternativeInstructor =
-                    instr.isRegistered()
-                    && !instr.getEmail().equals(instructorToDeleteEmail)
-                    && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+                        instr.isRegistered()
+                        && !instr.getEmail().equals(instructorToDeleteEmail)
+                        && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
             if (isAlternativeInstructor) {
                 return true;
