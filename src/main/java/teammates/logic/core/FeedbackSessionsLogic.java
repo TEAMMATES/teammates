@@ -52,8 +52,7 @@ import teammates.storage.api.StudentsDb;
 public class FeedbackSessionsLogic {
     
     private static final String ASSUMPTION_FAIL_DELETE_INSTRUCTOR = "Fail to delete instructor respondant for ";
-    private static final String ASSUMPTION_FAIL_RESPONSE_ORIGIN = "Client did not indicate the origin of the response";
-    private static final String ASSUMPTION_FAIL_RESPONSES_ORIGIN = "Client did not indicate the origin of the responses";
+    private static final String ASSUMPTION_FAIL_RESPONSE_ORIGIN = "Client did not indicate the origin of the response(s)";
     private static final String ERROR_NUMBER_OF_RESPONSES_EXCEEDS_RANGE = "Number of responses exceeds the limited range";
     private static final String ERROR_SENDING_EMAILS = "Error while sending emails :";
     private static final String ERROR_SESSION_UNPUBLISH_ALREADY = "Session is already unpublished.";
@@ -2108,7 +2107,7 @@ public class FeedbackSessionsLogic {
                 allResponses = frLogic.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName,
                                                                                           courseId, section, range);
             } else {
-                Assumption.fail(ASSUMPTION_FAIL_RESPONSES_ORIGIN);
+                Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
             }
             if (allResponses.size() <= range) {
                 isComplete = true;
