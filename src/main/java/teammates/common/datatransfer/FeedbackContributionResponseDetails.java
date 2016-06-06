@@ -89,16 +89,16 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         // Need to get actual team name and giver/recipient emails here,
         // only for getting the responseAnswer.
         FeedbackResponseAttributes actualResponse = feedbackSessionResultsBundle.getActualResponse(response);
-        String giverTeamName = feedbackSessionResultsBundle.emailTeamNameTable.get(actualResponse.giverEmail);
+        String giverTeamName = feedbackSessionResultsBundle.emailTeamNameTable.get(actualResponse.giver);
         TeamEvalResult teamResult = teamResults.get(giverTeamName);
         
-        int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giverEmail);
+        int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giver);
         int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipientEmail);
         
         if (giverIndex == -1 || recipientIndex == -1) {
             if (giverIndex == -1) {
                 log.severe("getContributionQuestionResponseAnswerHtml - giverIndex is -1\n"
-                        + "Cannot find giver: " + actualResponse.giverEmail + "\n"
+                        + "Cannot find giver: " + actualResponse.giver + "\n"
                         + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
                         + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
                         + "Response Id: " + actualResponse.getId());
@@ -116,8 +116,8 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             
         Map<String, StudentResultSummary> stats = getContribQnStudentResultSummary(question, feedbackSessionResultsBundle);
         
-        if (response.giverEmail.equals(response.recipientEmail)) {
-            StudentResultSummary studentResult = stats.get(response.giverEmail);
+        if (response.giver.equals(response.recipientEmail)) {
+            StudentResultSummary studentResult = stats.get(response.giver);
             String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
                                               studentResult.claimedToInstructor);
             
@@ -140,10 +140,10 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         // Need to get actual team name and giver/recipient emails here,
         // only for getting the responseAnswer.
         FeedbackResponseAttributes actualResponse = feedbackSessionResultsBundle.getActualResponse(response);
-        String giverTeamName = feedbackSessionResultsBundle.emailTeamNameTable.get(actualResponse.giverEmail);
+        String giverTeamName = feedbackSessionResultsBundle.emailTeamNameTable.get(actualResponse.giver);
         TeamEvalResult teamResult = teamResults.get(giverTeamName);
         
-        int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giverEmail);
+        int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giver);
         int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipientEmail);
         
         String responseAnswerCsv = "";
@@ -151,7 +151,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         if (giverIndex == -1 || recipientIndex == -1) {
             if (giverIndex == -1) {
                 log.severe("getContributionQuestionResponseAnswerCsv - giverIndex is -1\n"
-                        + "Cannot find giver: " + actualResponse.giverEmail + "\n"
+                        + "Cannot find giver: " + actualResponse.giver + "\n"
                         + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
                         + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
                         + "Response Id: " + actualResponse.getId());
@@ -168,8 +168,8 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
                     FeedbackContributionQuestionDetails.convertToEqualShareFormat(
                             teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]));
             
-            if (response.giverEmail.equals(response.recipientEmail)) {
-                StudentResultSummary studentResult = stats.get(response.giverEmail);
+            if (response.giver.equals(response.recipientEmail)) {
+                StudentResultSummary studentResult = stats.get(response.giver);
                 responseAnswerCsv = Sanitizer.sanitizeForCsv(
                         FeedbackContributionQuestionDetails.convertToEqualShareFormat(
                                 studentResult.claimedToInstructor));

@@ -411,13 +411,13 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                                             Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
         FeedbackResponseAttributes responseBefore =
                 frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                                            feedbackResponse1InBundle.giverEmail,
+                                            feedbackResponse1InBundle.giver,
                                             feedbackResponse1InBundle.recipientEmail);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
         
         FeedbackResponseAttributes responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipientEmail);
         assertEquals(responseBefore.getId(), responseAfter.getId());
         
         
@@ -436,12 +436,12 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
         responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipientEmail);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
         
         responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipientEmail);
         assertEquals(responseBefore.getId(), responseAfter.getId());
         
         
@@ -461,12 +461,12 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
         responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipientEmail);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
         
         responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipientEmail);
         assertEquals(null, responseAfter);
         
     }

@@ -51,7 +51,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
         
-        String giverEmail = response.giverEmail;
+        String giverEmail = response.giver;
         String recipientEmail = response.recipientEmail;
         FeedbackSessionResultsBundle bundle =
                 logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, instructor.email);

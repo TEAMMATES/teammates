@@ -248,13 +248,13 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
             numberOfReponsesWithExtraSpacesInRecipient++;
             if (isPreview) {
                 System.out.println(numberOfReponsesWithExtraSpacesInRecipient
-                                   + ". From \"" + response.giverEmail + "\" "
+                                   + ". From \"" + response.giver + "\" "
                                    + ". To \"" + response.recipientEmail + "\" "
                                    + "courseId: " + response.courseId + " sessionName: "
                                    + response.feedbackSessionName);
             } else {
                 response.recipientEmail = StringHelper.removeExtraSpace(response.recipientEmail);
-                response.giverEmail = StringHelper.removeExtraSpace(response.giverEmail);
+                response.giver = StringHelper.removeExtraSpace(response.giver);
                 responsesLogic.updateFeedbackResponse(response);
             }
         }

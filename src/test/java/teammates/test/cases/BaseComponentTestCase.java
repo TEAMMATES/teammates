@@ -120,7 +120,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
    
     protected static void verifyAbsentInDatastore(FeedbackResponseAttributes fr) {
-        assertNull(frDb.getFeedbackResponse(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail));
+        assertNull(frDb.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipientEmail));
     }
     
     protected static void verifyPresentInDatastore(FeedbackResponseAttributes expected) {
@@ -129,7 +129,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     
     protected static void verifyPresentInDatastore(FeedbackResponseAttributes expected, boolean wildcardId) {
         FeedbackResponseAttributes actual = frDb.getFeedbackResponse(expected.feedbackQuestionId,
-                                                                     expected.giverEmail, expected.recipientEmail);
+                                                                     expected.giver, expected.recipientEmail);
         if (wildcardId) {
             expected.setId(actual.getId());
         }

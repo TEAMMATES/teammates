@@ -62,7 +62,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         Set<String> addedEmailSet = new HashSet<String>();
         if (relatedQuestion.giverType == FeedbackParticipantType.INSTRUCTORS
                 || relatedQuestion.giverType == FeedbackParticipantType.SELF) {
-            InstructorAttributes ins = logic.getInstructorForEmail(comment.courseId, relatedResponse.giverEmail);
+            InstructorAttributes ins = logic.getInstructorForEmail(comment.courseId, relatedResponse.giver);
             if (ins == null || addedEmailSet.contains(ins.email)) {
                 responseGiverName = Const.USER_UNKNOWN_TEXT;
             } else {
@@ -71,7 +71,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 responseGiverName = ins.name + " (" + ins.displayedName + ")";
             }
         } else {
-            StudentAttributes stu = logic.getStudentForEmail(comment.courseId, relatedResponse.giverEmail);
+            StudentAttributes stu = logic.getStudentForEmail(comment.courseId, relatedResponse.giver);
             if (stu == null || addedEmailSet.contains(stu.email)) {
                 responseGiverName = Const.USER_UNKNOWN_TEXT;
             } else {
@@ -183,7 +183,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL)
                                             .setText(comment.giverEmail))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL)
-                                            .setText(relatedResponse.giverEmail))
+                                            .setText(relatedResponse.giver))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_SECTION)
                                             .setText(relatedResponse.giverSection))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_EMAIL)

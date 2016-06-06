@@ -172,7 +172,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             String displayedGiverName;
             
             /* Change display name to 'You' or 'Your team' if necessary */
-            boolean isUserGiver = student.email.equals(response.giverEmail);
+            boolean isUserGiver = student.email.equals(response.giver);
             boolean isUserPartOfGiverTeam = student.team.equals(giverName);
             if (question.giverType == FeedbackParticipantType.TEAMS && isUserPartOfGiverTeam) {
                 displayedGiverName = "Your Team (" + giverName + ")";

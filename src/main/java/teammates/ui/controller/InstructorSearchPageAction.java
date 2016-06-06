@@ -161,7 +161,7 @@ public class InstructorSearchPageAction extends Action {
                         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
                                                  || comment.isVisibleTo(FeedbackParticipantType.GIVER);
 
-                        if (isVisibleToGiver && emailList.contains(response.giverEmail)) {
+                        if (isVisibleToGiver && emailList.contains(response.giver)) {
                             continue;
                         }
 

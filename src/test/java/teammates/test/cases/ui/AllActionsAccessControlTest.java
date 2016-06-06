@@ -659,7 +659,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         
         FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        response = frDb.getFeedbackResponse(question.getId(), response.giverEmail, response.recipientEmail);
+        response = frDb.getFeedbackResponse(question.getId(), response.giver, response.recipientEmail);
         comment = frcDb.getFeedbackResponseComment(response.getId(), comment.giverEmail, comment.createdAt);
         comment.feedbackResponseId = response.getId();
 

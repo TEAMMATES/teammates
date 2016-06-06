@@ -532,7 +532,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             FeedbackNumericalScaleResponseDetails responseDetails =
                     (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             double answer = responseDetails.getAnswer();
-            String giverEmail = response.giverEmail;
+            String giverEmail = response.giver;
             String recipientEmail = response.recipientEmail;
 
             // Compute number of responses including user's self response

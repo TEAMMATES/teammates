@@ -1103,7 +1103,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         return getFeedbackResponseEntity(
             feedbackResponseToGet.feedbackQuestionId,
-            feedbackResponseToGet.giverEmail,
+            feedbackResponseToGet.giver,
             feedbackResponseToGet.recipientEmail);
     }
 }

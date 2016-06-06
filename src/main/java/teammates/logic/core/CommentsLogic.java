@@ -607,14 +607,14 @@ public class CommentsLogic {
             Map<String, List<StudentAttributes>> teamStudentTable, Set<String> recipientEmailsList,
             Map<String, Set<String>> responseCommentsAddedTable, FeedbackResponseCommentAttributes frc,
             FeedbackQuestionAttributes relatedQuestion, FeedbackResponseAttributes relatedResponse) {
-        StudentAttributes giver = roster.getStudentForEmail(relatedResponse.giverEmail);
+        StudentAttributes giver = roster.getStudentForEmail(relatedResponse.giver);
         if (giver == null) {
             return;
         }
         
         if (frc.isVisibleTo(FeedbackParticipantType.GIVER)) {
             addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList,
-                                     frc.getId().toString(), relatedResponse.giverEmail);
+                                     frc.getId().toString(), relatedResponse.giver);
         }
         
         if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS

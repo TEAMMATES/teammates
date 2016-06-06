@@ -62,7 +62,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         
         for (FeedbackResponseAttributes response : responses) {
             String giverName = bundle.getGiverNameForResponse(response);
-            String giverTeamName = bundle.getTeamNameForEmail(response.giverEmail);
+            String giverTeamName = bundle.getTeamNameForEmail(response.giver);
             giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
 
             String recipientName = bundle.getRecipientNameForResponse(response);

@@ -131,7 +131,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
                     feedbackResponseCommentRows.add(feedbackResponseCommentRow);
                 }
                 String giverName = bundle.getGiverNameForResponse(response);
-                String giverTeamName = bundle.getTeamNameForEmail(response.giverEmail);
+                String giverTeamName = bundle.getTeamNameForEmail(response.giver);
                 giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
     
                 String recipientName = bundle.getRecipientNameForResponse(response);

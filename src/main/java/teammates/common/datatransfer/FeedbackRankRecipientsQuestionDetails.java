@@ -275,11 +275,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         // collect each giver's responses
         Map<String, List<FeedbackResponseAttributes>> responsesGivenByPerson = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
-            if (!responsesGivenByPerson.containsKey(response.giverEmail)) {
-                responsesGivenByPerson.put(response.giverEmail, new ArrayList<FeedbackResponseAttributes>());
+            if (!responsesGivenByPerson.containsKey(response.giver)) {
+                responsesGivenByPerson.put(response.giver, new ArrayList<FeedbackResponseAttributes>());
             }
             
-            responsesGivenByPerson.get(response.giverEmail)
+            responsesGivenByPerson.get(response.giver)
                                   .add(response);
         }
         

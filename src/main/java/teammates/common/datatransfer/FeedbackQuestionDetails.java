@@ -75,9 +75,9 @@ public abstract class FeedbackQuestionDetails {
                                              FeedbackResponseAttributes feedbackResponseAttributes,
                                              FeedbackQuestionAttributes question) {
         // Retrieve giver details
-        String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giverEmail);
-        String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giverEmail);
-        String giverTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
+        String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giver);
+        String giverTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giver);
         String giverEmail = fsrBundle.getDisplayableEmailGiver(feedbackResponseAttributes);
 
         // Retrieve recipient details

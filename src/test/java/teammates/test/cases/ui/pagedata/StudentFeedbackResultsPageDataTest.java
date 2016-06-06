@@ -150,7 +150,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
             for (FeedbackResponseAttributes dataBundleResponse : dataBundleResponses) {
                 FeedbackResponseAttributes actualResponse = logic.getFeedbackResponse(
                                                                     actualQuestion.getId(),
-                                                                    dataBundleResponse.giverEmail,
+                                                                    dataBundleResponse.giver,
                                                                     dataBundleResponse.recipientEmail);
                 actualResponses.add(actualResponse);
                 

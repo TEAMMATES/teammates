@@ -22,10 +22,10 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public String feedbackQuestionId;
     public FeedbackQuestionType feedbackQuestionType;
     /**
-    * Depending on the question giver type, {@code giverEmail} may contain the giver's email, the team name,
+    * Depending on the question giver type, {@code giver} may contain the giver's email, the team name,
     * "anonymous", etc.
     */
-    public String giverEmail;
+    public String giver;
     public String giverSection;
     /**
      * Depending on the question recipient type, {@code recipientEmail} may contain the recipient's email, the team
@@ -57,7 +57,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.feedbackQuestionId = feedbackQuestionId;
         this.feedbackQuestionType = feedbackQuestionType;
-        this.giverEmail = Sanitizer.sanitizeEmail(giverEmail);
+        this.giver = Sanitizer.sanitizeEmail(giverEmail);
         this.giverSection = giverSection;
         this.recipientEmail = recipientEmail;
         this.recipientSection = recipientSection;
@@ -70,7 +70,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.courseId = fr.getCourseId();
         this.feedbackQuestionId = fr.getFeedbackQuestionId();
         this.feedbackQuestionType = fr.getFeedbackQuestionType();
-        this.giverEmail = fr.getGiverEmail();
+        this.giver = fr.getGiverEmail();
         this.giverSection = (fr.getGiverSection() == null) ? Const.DEFAULT_SECTION : fr.getGiverSection();
         this.recipientEmail = fr.getRecipientEmail();
         this.recipientSection = (fr.getRecipientSection() == null) ? Const.DEFAULT_SECTION : fr.getRecipientSection();
@@ -85,7 +85,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.courseId = copy.courseId;
         this.feedbackQuestionId = copy.feedbackQuestionId;
         this.feedbackQuestionType = copy.feedbackQuestionType;
-        this.giverEmail = copy.giverEmail;
+        this.giver = copy.giver;
         this.giverSection = copy.giverSection;
         this.recipientEmail = copy.recipientEmail;
         this.recipientSection = copy.recipientSection;
@@ -139,12 +139,12 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public Object toEntity() {
         return new FeedbackResponse(feedbackSessionName, courseId,
                 feedbackQuestionId, feedbackQuestionType,
-                giverEmail, giverSection, recipientEmail, recipientSection, responseMetaData);
+                giver, giverSection, recipientEmail, recipientSection, responseMetaData);
     }
     
     @Override
     public String getIdentificationString() {
-        return feedbackQuestionId + "/" + giverEmail + ":" + recipientEmail;
+        return feedbackQuestionId + "/" + giver + ":" + recipientEmail;
     }
     
     @Override
@@ -163,7 +163,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
                 + feedbackSessionName + ", courseId=" + courseId
                 + ", feedbackQuestionId=" + feedbackQuestionId
                 + ", feedbackQuestionType=" + feedbackQuestionType
-                + ", giverEmail=" + giverEmail + ", recipientEmail=" + recipientEmail
+                + ", giverEmail=" + giver + ", recipientEmail=" + recipientEmail
                 + ", answer=" + responseMetaData + "]";
     }
 
@@ -177,7 +177,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
-        this.giverEmail = Sanitizer.sanitizeEmail(giverEmail);
+        this.giver = Sanitizer.sanitizeEmail(giver);
         this.giverSection = Sanitizer.sanitizeTitle(giverSection);
         this.recipientEmail = Sanitizer.sanitizeEmail(recipientEmail);
         this.recipientSection = Sanitizer.sanitizeTitle(recipientSection);

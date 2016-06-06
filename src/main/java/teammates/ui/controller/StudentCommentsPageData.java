@@ -213,7 +213,7 @@ public class StudentCommentsPageData extends PageData {
         for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {
             String giverName =
                     feedbackResultBundle.getGiverNameForResponse(responseEntry);
-            String giverTeamName = feedbackResultBundle.getTeamNameForEmail(responseEntry.giverEmail);
+            String giverTeamName = feedbackResultBundle.getTeamNameForEmail(responseEntry.giver);
             giverName = feedbackResultBundle.appendTeamNameToName(giverName, giverTeamName);
 
             String recipientName =

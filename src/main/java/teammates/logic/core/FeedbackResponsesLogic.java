@@ -262,11 +262,11 @@ public class FeedbackResponsesLogic {
         // Early return if user is giver
         if (question.giverType == FeedbackParticipantType.TEAMS) {
             // if response is given by team, then anyone in the team can see the response
-            if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
+            if (roster.isStudentsInSameTeam(response.giver, userEmail)) {
                 return true;
             }
         } else {
-            if (response.giverEmail.equals(userEmail)) {
+            if (response.giver.equals(userEmail)) {
                 return true;
             }
         }
@@ -284,7 +284,7 @@ public class FeedbackResponsesLogic {
             case OWN_TEAM_MEMBERS:
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                 // Refers to Giver's Team Members
-                if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
+                if (roster.isStudentsInSameTeam(response.giver, userEmail)) {
                     return true;
                 }
                 break;
@@ -374,7 +374,7 @@ public class FeedbackResponsesLogic {
         FeedbackResponse oldResponseEntity = null;
         if (newResponse.getId() == null) {
             oldResponseEntity = frDb.getFeedbackResponseEntityWithCheck(newResponse.feedbackQuestionId,
-                    newResponse.giverEmail, newResponse.recipientEmail);
+                    newResponse.giver, newResponse.recipientEmail);
         } else {
             oldResponseEntity = frDb.getFeedbackResponseEntityWithCheck(newResponse.getId());
         }
@@ -424,8 +424,8 @@ public class FeedbackResponsesLogic {
         if (newResponse.responseMetaData == null) {
             newResponse.responseMetaData = oldResponse.responseMetaData;
         }
-        if (newResponse.giverEmail == null) {
-            newResponse.giverEmail = oldResponse.giverEmail;
+        if (newResponse.giver == null) {
+            newResponse.giver = oldResponse.giver;
         }
         if (newResponse.recipientEmail == null) {
             newResponse.recipientEmail = oldResponse.recipientEmail;
@@ -438,7 +438,7 @@ public class FeedbackResponsesLogic {
         }
     
         if (newResponse.recipientEmail.equals(oldResponse.recipientEmail)
-                && newResponse.giverEmail.equals(oldResponse.giverEmail)) {
+                && newResponse.giver.equals(oldResponse.giver)) {
             try {
                 frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
             } catch (EntityDoesNotExistException e) {
@@ -536,7 +536,7 @@ public class FeedbackResponsesLogic {
         FeedbackQuestionAttributes question = fqLogic
                 .getFeedbackQuestion(response.feedbackQuestionId);
 
-        boolean isGiverSameForResponseAndEnrollment = response.giverEmail
+        boolean isGiverSameForResponseAndEnrollment = response.giver
                 .equals(enrollment.email);
         boolean isReceiverSameForResponseAndEnrollment = response.recipientEmail
                 .equals(enrollment.email);
@@ -608,7 +608,7 @@ public class FeedbackResponsesLogic {
                 getFeedbackResponsesFromGiverForCourse(courseId, oldEmail);
 
         for (FeedbackResponseAttributes response : responsesFromUser) {
-            response.giverEmail = newEmail;
+            response.giver = newEmail;
             try {
                 updateFeedbackResponse(response);
             } catch (EntityAlreadyExistsException e) {
@@ -647,7 +647,7 @@ public class FeedbackResponsesLogic {
 
         for (FeedbackResponseAttributes response : responsesForQuestion) {
             this.deleteFeedbackResponseAndCascade(response);
-            emails.add(response.giverEmail);
+            emails.add(response.giver);
         }
 
         if (!hasResponseRateUpdate) {
