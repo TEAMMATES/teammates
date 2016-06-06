@@ -1173,6 +1173,24 @@ public class FeedbackSessionsLogic {
 
         fsDb.updateFeedbackSession(newSession);
     }
+
+    /**
+     * Returns true if the feedback session identified by {@code sessionName} and {@code courseId} contains
+     * any feedback response from student with email {@code studentEmail}
+     * @param studentEmail
+     * @param sessionName
+     * @param courseId
+     */
+    public boolean hasResponsesFromStudent(String studentEmail, String sessionName, String courseId) {
+        List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(sessionName,
+                                                                                            courseId);
+        for (FeedbackResponseAttributes response : responses) {
+            if (response.giverEmail.equals(studentEmail)) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     public void updateRespondantsForInstructor(String oldEmail, String newEmail, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -1259,7 +1277,7 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackSessionAttributes session : sessionsToUpdate) {
             try {
-                deleteStudentRespondant(student.email, session.getFeedbackSessionName(), session.getCourseId());
+                deleteStudentFromRespondentList(student.email, session.getFeedbackSessionName(), session.getCourseId());
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Fail to delete instructor respondant for " + session.getFeedbackSessionName());
             }
@@ -1376,7 +1394,7 @@ public class FeedbackSessionsLogic {
         fsDb.deleteInstructorRespondant(email, sessionToUpdate);
     }
 
-    public void deleteStudentRespondant(String email, String feedbackSessionName, String courseId)
+    public void deleteStudentFromRespondentList(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
@@ -1389,7 +1407,7 @@ public class FeedbackSessionsLogic {
                     "Trying to update a feedback session that does not exist.");
         }
 
-        fsDb.deleteStudentRespondant(email, sessionToUpdate);
+        fsDb.deleteStudentRespondent(email, sessionToUpdate);
     }
 
     /**
