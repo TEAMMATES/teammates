@@ -695,6 +695,19 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return (List<FeedbackResponse>) q.execute(courseId);
     }
     
+    public boolean hasFeedbackResponseEntitiesForCourse(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        Query q = getPm().newQuery(FeedbackResponse.class);
+        q.declareParameters("String courseIdParam");
+        q.setFilter("courseId == courseIdParam");
+        q.setRange(0, 1);
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> responses = (List<FeedbackResponse>) q.execute(courseId);
+        return !responses.isEmpty();
+    }
+    
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
         Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackResponseIdParam");
