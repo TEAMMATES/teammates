@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import teammates.common.util.Assumption;
@@ -355,7 +354,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         StringBuilder contribFragments = new StringBuilder();
 
-        Map<String, String> sortedMap = new TreeMap<String, String>();
+        Map<String, String> sortedMap = new LinkedHashMap<String, String>();
         
         for (Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()) {
             StudentResultSummary summary = entry.getValue();
@@ -421,6 +420,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for (Set<String> teamNamesForSection : bundle.sectionTeamNameTable.values()) {
             teamNames.addAll(teamNamesForSection);
         }
+        Collections.sort(teamNames);
         return teamNames;
     }
 
@@ -555,6 +555,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         Map<String, List<String>> teamMembersEmail = new LinkedHashMap<String, List<String>>();
         for (String teamName : teamNames) {
             List<String> memberEmails = new ArrayList<String>(bundle.rosterTeamNameMembersTable.get(teamName));
+            Collections.sort(memberEmails);
             teamMembersEmail.put(teamName, memberEmails);
         }
         return teamMembersEmail;
@@ -585,6 +586,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 responses.add(response);
             }
         }
+        Collections.sort(responses, bundle.compareByGiverRecipientQuestion);
         return responses;
     }
     
