@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import static teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,8 +19,6 @@ import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
 import teammates.ui.controller.PageData;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
-
-import static teammates.common.util.Templates.FeedbackQuestionDetailsSlots.*;
 
 public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionDetails {
     
@@ -43,22 +43,22 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         String optionFragment =
                 Templates.populateTemplate(optionFragmentTemplate,
-                        SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                        SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                         "${optionIdx}", "0",
-                        SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
-                        SLOT_RANK_OPTION_VISIBILITY, "style=\"display:none\"",
+                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                        Slots.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, existingResponse.answer),
-                        SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        SLOT_RANK_OPTION_VALUE, "");
+                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Slots.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
-                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
-                SLOT_RANK_OPTION_VISIBILITY, "style=\"display:none\"",
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Slots.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                 "${rankToRecipientsValue}", "true",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
@@ -80,22 +80,22 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         String optionFragment =
                 Templates.populateTemplate(optionFragmentTemplate,
-                        SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                        SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                         "${optionIdx}", "0",
-                        SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
-                        SLOT_RANK_OPTION_VISIBILITY, "style=\"display:none\"",
+                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                        Slots.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, Const.INT_UNINITIALIZED),
-                        SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        SLOT_RANK_OPTION_VALUE, "");
+                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Slots.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         return Templates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
-                            SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                            SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
-                            SLOT_RANK_OPTION_VISIBILITY, "style=\"display:none\"",
+                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Slots.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
                             "${rankToRecipientsValue}", "true",
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
@@ -192,7 +192,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             
             fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
-                                                                        SLOT_RANK_OPTION_VALUE,
+                                                                        Slots.RANK_OPTION_VALUE,
                                                                         Sanitizer.sanitizeForHtml(name),
                                                                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                                                                         "${ranksReceived}", ranksReceived,

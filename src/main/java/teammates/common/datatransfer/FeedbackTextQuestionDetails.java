@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import static teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -10,8 +12,6 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
-
-import static teammates.common.util.Templates.FeedbackQuestionDetailsSlots.*;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     
@@ -46,10 +46,10 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
-                SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
-                SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 "${existingResponse}", Sanitizer.sanitizeForHtml(existingResponseDetails.getAnswerString()));
     }
 
@@ -58,10 +58,10 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
-                SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
-                SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 "${existingResponse}", "");
     }
 

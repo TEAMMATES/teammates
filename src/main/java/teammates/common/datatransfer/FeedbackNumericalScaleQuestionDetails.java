@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import static teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
+
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -17,8 +19,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
-
-import static teammates.common.util.Templates.FeedbackQuestionDetailsSlots.*;
 
 public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackQuestionDetails {
@@ -75,20 +75,20 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
-                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
-                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
-                SLOT_MIN_SCALE, Integer.toString(minScale),
-                SLOT_MAX_SCALE, Integer.toString(maxScale),
-                SLOT_STEP, StringHelper.toDecimalFormatString(step),
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Slots.MIN_SCALE, Integer.toString(minScale),
+                Slots.MAX_SCALE, Integer.toString(maxScale),
+                Slots.STEP, StringHelper.toDecimalFormatString(step),
                 "${existingAnswer}", numscaleResponseDetails.getAnswerString(),
                 "${possibleValuesString}", getPossibleValuesStringSubmit(),
-                SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                SLOT_NUMSCALE_MIN,
+                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Slots.NUMSCALE_MIN,
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
-                SLOT_NUMSCALE_MAX,
+                Slots.NUMSCALE_MAX,
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
-                SLOT_NUMSCALE_STEP,
+                Slots.NUMSCALE_STEP,
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
     }
 
@@ -97,15 +97,15 @@ public class FeedbackNumericalScaleQuestionDetails extends
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
-                SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
-                SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 "${minScale}", Integer.toString(minScale),
                 "${maxScale}", Integer.toString(maxScale),
                 "${step}", StringHelper.toDecimalFormatString(step),
                 "${existingAnswer}", "",
                 "${possibleValuesString}", getPossibleValuesStringSubmit(),
-                SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);

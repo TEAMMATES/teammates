@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import static teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,8 +24,6 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
-
-import static teammates.common.util.Templates.FeedbackQuestionDetailsSlots.*;
 
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public int numOfMsqChoices;
@@ -145,13 +145,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < choices.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                            SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
-                            SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
-                            SLOT_CHECKED, existingMsqResponse.contains(choices.get(i)) ? "checked" : "",
-                            SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            SLOT_MSQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(choices.get(i)),
-                            SLOT_MSQ_CHOICE_TEXT,  Sanitizer.sanitizeForHtml(choices.get(i)));
+                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                            Slots.CHECKED, existingMsqResponse.contains(choices.get(i)) ? "checked" : "",
+                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            Slots.MSQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(choices.get(i)),
+                            Slots.MSQ_CHOICE_TEXT,  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
@@ -159,14 +159,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment =
                     Templates.populateTemplate(otherOptionFragmentTemplate,
-                            SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                            SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
-                            SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
+                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                             "${text-disabled}", sessionIsOpen && isOtherSelected ? "" : "disabled",
-                            SLOT_CHECKED, isOtherSelected ? "checked" : "",
-                            SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            Slots.CHECKED, isOtherSelected ? "checked" : "",
+                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}",
-                            SLOT_MSQ_CHOICE_VALUE,
+                            Slots.MSQ_CHOICE_VALUE,
                             Sanitizer.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
                             "${msqOtherOptionAnswer}", isOtherSelected ? "1" : "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
@@ -175,13 +175,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         // additional checkbox for user to submit a blank response ("None of the above")
         String optionFragment =
                 Templates.populateTemplate(optionFragmentTemplate,
-                        SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                        SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
-                        SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
-                        SLOT_CHECKED, existingMsqResponse.contains("") ? "checked" : "",
-                        SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        SLOT_MSQ_CHOICE_VALUE,  "",
-                        SLOT_MSQ_CHOICE_TEXT,  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
+                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                        Slots.CHECKED, existingMsqResponse.contains("") ? "checked" : "",
+                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Slots.MSQ_CHOICE_VALUE,  "",
+                        Slots.MSQ_CHOICE_TEXT,  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
         
         return Templates.populateTemplate(
@@ -199,13 +199,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < choices.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
-                            SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                            SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
-                            SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
-                            SLOT_CHECKED, "",
-                            SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            SLOT_MSQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(choices.get(i)),
-                            SLOT_MSQ_CHOICE_TEXT, Sanitizer.sanitizeForHtml(choices.get(i)));
+                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                            Slots.CHECKED, "",
+                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            Slots.MSQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(choices.get(i)),
+                            Slots.MSQ_CHOICE_TEXT, Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment);
             optionListHtml.append(Const.EOL);
         }
@@ -214,14 +214,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment =
                        Templates.populateTemplate(otherOptionFragmentTemplate,
-                            SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                            SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
-                            SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
+                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                             "${text-disabled}", "disabled",
-                            SLOT_CHECKED, "",
-                            SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            Slots.CHECKED, "",
+                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}",
-                            SLOT_MSQ_CHOICE_VALUE, "",
+                            Slots.MSQ_CHOICE_VALUE, "",
                             "${msqOtherOptionAnswer}", "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
         }
@@ -229,13 +229,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         // additional checkbox for user to submit a blank response ("None of the above")
         String optionFragment =
                 Templates.populateTemplate(optionFragmentTemplate,
-                        SLOT_QUESTION_INDEX, Integer.toString(qnIdx),
-                        SLOT_RESPONSE_INDEX, Integer.toString(responseIdx),
-                        SLOT_DISABLED, sessionIsOpen ? "" : "disabled",
-                        SLOT_CHECKED, "",
-                        SLOT_FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        SLOT_MSQ_CHOICE_VALUE,  "",
-                        SLOT_MSQ_CHOICE_TEXT,  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
+                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                        Slots.CHECKED, "",
+                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        Slots.MSQ_CHOICE_VALUE,  "",
+                        Slots.MSQ_CHOICE_TEXT,  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         return Templates.populateTemplate(
@@ -301,7 +301,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
-                            SLOT_MSQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(msqChoices.get(i)),
+                            Slots.MSQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(msqChoices.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -356,7 +356,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             for (int i = 0; i < numOfMsqChoices; i++) {
                 String optionFragment =
                         Templates.populateTemplate(optionFragmentTemplate,
-                                SLOT_MSQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(msqChoices.get(i)));
+                                Slots.MSQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(msqChoices.get(i)));
                 
                 optionListHtml.append(optionFragment);
             }
