@@ -247,6 +247,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
                 SLOT_CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 SLOT_CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
                 SLOT_CONSTSUM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
                 SLOT_CONSTSUM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
@@ -554,11 +555,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
         if (!distributeToRecipients && numOfConstSumOptions < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS) {
-            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS + ".");
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS
+                       + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS + ".");
         }
         
         if (points < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS) {
-            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_POINTS + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS + ".");
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_POINTS
+                       + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS + ".");
         }
         
         return errors;

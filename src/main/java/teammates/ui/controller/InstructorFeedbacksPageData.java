@@ -197,7 +197,8 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                                            instructors.get(courseId));
             
             ElementTag elementAttributes;
-            if (session.getCourseId().equals(courseIdForNewSession) && session.getFeedbackSessionName().equals(feedbackSessionNameForSessionList)) {
+            if (session.getCourseId().equals(courseIdForNewSession)
+                    && session.getFeedbackSessionName().equals(feedbackSessionNameForSessionList)) {
                 elementAttributes = new ElementTag("class", "sessionsRow warning");
             } else {
                 elementAttributes = new ElementTag("class", "sessionsRow");

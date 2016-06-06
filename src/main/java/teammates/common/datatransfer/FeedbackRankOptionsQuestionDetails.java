@@ -49,7 +49,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         int numOptionsCreated = Integer.parseInt(numOptionsCreatedString);
         
         for (int i = 0; i < numOptionsCreated; i++) {
-            String rankOption = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION + "-" + i);
+            String rankOption = HttpRequestHelper.getValueFromParamMap(
+                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION + "-" + i);
             if (rankOption != null && !rankOption.trim().isEmpty()) {
                 options.add(rankOption);
             }
@@ -104,7 +105,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 "${rankToRecipientsValue}", "false",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 "${rankNumOptionValue}", Integer.toString(options.size()),
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
                 );
     }
@@ -187,7 +189,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfRankOptions}", String.valueOf(options.size()),
                 "${optionRecipientDisplayName}", "option",
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 "${areDuplicatesAllowedChecked}", areDuplicatesAllowed ? "checked" : "");
     
     }
@@ -358,8 +361,9 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<li data-questiontype = \"" + FeedbackQuestionType.RANK_OPTIONS.name() + "\"><a>" + Const.FeedbackQuestionTypeNames.RANK_OPTION
-             + "</a></li>";
+        return "<li data-questiontype = \"" + FeedbackQuestionType.RANK_OPTIONS.name() + "\">"
+                 + "<a>" + Const.FeedbackQuestionTypeNames.RANK_OPTION + "</a>"
+             + "</li>";
     }
 
     @Override

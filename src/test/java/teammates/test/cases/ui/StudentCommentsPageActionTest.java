@@ -27,7 +27,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentId = student1InCourse1.googleId;
         String adminUserId = "admin.user";

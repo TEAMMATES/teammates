@@ -357,8 +357,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
             return "";
         }
         
-        String statsTitle = getStatsTitle(isRecipientTypeGeneral, isRecipientTypeTeam,
-                                          hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients));
+        String statsTitle = getStatsTitle(
+                isRecipientTypeGeneral, isRecipientTypeTeam,
+                hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients));
         String templateToUse = showAvgExcludingSelf
                              ? FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
                              : FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
@@ -589,7 +590,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 averageExcludingSelf.put(recipientEmail, null);
             }
             if (!isSelfResponse && totalExcludingSelf.get(recipientEmail) != null) {
-                double averageReceivedExcludingSelf = totalExcludingSelf.get(recipientEmail) / numResponsesExcludingSelf.get(recipientEmail);
+                double averageReceivedExcludingSelf =
+                        totalExcludingSelf.get(recipientEmail) / numResponsesExcludingSelf.get(recipientEmail);
                 averageExcludingSelf.put(recipientEmail, averageReceivedExcludingSelf);
             }
         }

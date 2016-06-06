@@ -207,7 +207,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT,
                 "${contribAdditionalInfo}", contribAdditionalInfo,
                 "${myViewOfMe}", getPointsAsColorizedHtml(selfClaim),
-                "${myViewOfOthers}", getNormalizedPointsListColorizedDescending(currentUserTeamResults.claimed[currentUserIndex], currentUserIndex),
+                "${myViewOfOthers}", getNormalizedPointsListColorizedDescending(
+                                             currentUserTeamResults.claimed[currentUserIndex], currentUserIndex),
                 "${teamViewOfMe}", getPointsAsColorizedHtml(teamClaim),
                 "${teamViewOfOthers}", getNormalizedPointsListColorizedDescending(
                                                currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex],
@@ -770,7 +771,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String targetEmail, FeedbackSessionResultsBundle bundle) {
         
         if (hasPerceivedContribution(targetEmail, question, bundle)) {
-            Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
+            Map<String, StudentResultSummary> stats =
+                    FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
             StudentResultSummary studentResult = stats.get(targetEmail);
             int pc = studentResult.perceivedToInstructor;
             

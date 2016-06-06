@@ -165,7 +165,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         return this;
     }
     
-    private String getFilteredCommentGiverName(FeedbackResponseAttributes response, FeedbackResponseCommentAttributes comment, String name) {
+    private String getFilteredCommentGiverName(FeedbackResponseAttributes response,
+                                               FeedbackResponseCommentAttributes comment, String name) {
         return isCommentGiverNameVisibleToInstructor(response, comment) ? name : "Anonymous";
     }
     
