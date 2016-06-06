@@ -1,7 +1,5 @@
 package teammates.common.datatransfer;
 
-import static teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -16,6 +14,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
+import teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
 import teammates.ui.controller.PageData;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;

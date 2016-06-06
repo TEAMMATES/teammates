@@ -1,7 +1,5 @@
 package teammates.common.datatransfer;
 
-import static teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -11,6 +9,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
+import teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {

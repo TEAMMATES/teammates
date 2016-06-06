@@ -1,7 +1,5 @@
 package teammates.common.datatransfer;
 
-import static teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
-
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -18,6 +16,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
+import teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackNumericalScaleQuestionDetails extends
