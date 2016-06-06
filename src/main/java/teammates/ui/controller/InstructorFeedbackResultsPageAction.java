@@ -16,9 +16,7 @@ import teammates.ui.controller.InstructorFeedbackResultsPageData.ViewType;
 public class InstructorFeedbackResultsPageAction extends Action {
 
     private static final String ALL_SECTION_OPTION = "All";
-    private static final int DEFAULT_QUERY_RANGE = 1000;
     private static final int DEFAULT_SECTION_QUERY_RANGE = 2500;
-    private static final int QUERY_RANGE_FOR_AJAX_TESTING = 5;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -77,7 +75,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String isTestingAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
    
-        if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
+        if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null
+                && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
             // bundle for all questions and all sections
             data.setBundle(
                      logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(

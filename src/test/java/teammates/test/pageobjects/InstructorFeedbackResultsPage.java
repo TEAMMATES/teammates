@@ -258,10 +258,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
             try {
                 waitForElementVisibility(element);
             } catch (org.openqa.selenium.StaleElementReferenceException e) {
-                //
+                // Case when element has been removed after JS processing
             }
         }
-        //waitForElementsVisibility(webElements);
     }
 
     public boolean verifyAllStatsVisibility() {

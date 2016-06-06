@@ -210,8 +210,8 @@ function bindCollapseEvents(panels, nPanels) {
 
             var sectionIndex = '';
 
-            var isSectionPanel = true,
-                sectionBody = $(heading).next().find('[id^="sectionBody-"]');
+            var isSectionPanel = true;
+            var sectionBody = $(heading).next().find('[id^="sectionBody-"]');
 
             if (sectionBody.length === 0) {
                 sectionBody = $(heading).parents('[id^="sectionBody-"]');
@@ -221,7 +221,7 @@ function bindCollapseEvents(panels, nPanels) {
             if (sectionBody.length !== 0) {
                 sectionIndex = sectionBody.attr('id').match(/sectionBody-(\d+)/)[1] + '-';
                 if (isSectionPanel) {
-                    sectionIndex = "section-" + sectionIndex;
+                    sectionIndex = 'section-' + sectionIndex;
                 }
             }
 
