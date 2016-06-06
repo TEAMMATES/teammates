@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
@@ -127,7 +127,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         try {
             remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
             redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
-        } catch (EntityDoesNotExistException e) {
+        } catch (EntityNotFoundException e) {
             assertEquals("Instructor [" + invalidEmail + "] does not exist in course [" + courseId + "]", e.getMessage());
         }
         

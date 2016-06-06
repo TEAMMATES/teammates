@@ -27,7 +27,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructorToEdit = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructorToEdit.googleId;
         String courseId = instructorToEdit.courseId;

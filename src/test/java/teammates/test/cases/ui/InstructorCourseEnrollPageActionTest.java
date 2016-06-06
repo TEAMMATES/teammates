@@ -23,14 +23,14 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         visitEnrollPage_withInvalidRequestParams_throwsException();
         visitEnrollPage_forCourseWithoutResponses_noWarningMessage();
         visitEnrollPage_forCourseWithResponses_hasWarningMessage();
         visitEnrollPage_inMasqueradeMode();
     }
 
-    private void visitEnrollPage_withInvalidRequestParams_throwsException() throws Exception {
+    private void visitEnrollPage_withInvalidRequestParams_throwsException() {
         ______TS("Not enough parameters");
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor4");
@@ -39,7 +39,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         verifyAssumptionFailure();
     }
 
-    private void visitEnrollPage_forCourseWithoutResponses_noWarningMessage() throws Exception {
+    private void visitEnrollPage_forCourseWithoutResponses_noWarningMessage() {
         ______TS("Typical case 1: open the enroll page of a course without existing feedback responses");
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor4");
@@ -66,7 +66,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
     }
 
-    private void visitEnrollPage_forCourseWithResponses_hasWarningMessage() throws Exception {
+    private void visitEnrollPage_forCourseWithResponses_hasWarningMessage() {
         ______TS("Typical case 2: open the enroll page of a course with existing feedback responses");
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
@@ -93,7 +93,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
     }
 
-    private void visitEnrollPage_inMasqueradeMode() throws Exception {
+    private void visitEnrollPage_inMasqueradeMode() {
         ______TS("Masquerade mode");
 
         gaeSimulation.loginAsAdmin("admin.user");
