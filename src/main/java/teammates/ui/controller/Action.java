@@ -203,7 +203,8 @@ public abstract class Action {
     }
 
     private boolean doesUserNeedToLogin(UserType currentUser) {
-        boolean userNeedsGoogleAccountForPage = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
+        boolean userNeedsGoogleAccountForPage =
+                !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean userIsNotLoggedIn = currentUser == null;
         boolean noRegkeyGiven = getRegkeyFromRequest() == null;
         
@@ -380,7 +381,9 @@ public abstract class Action {
      * @param response ActionResult
      */
     protected void putStatusMessageToSession(ActionResult response) {
-        List<StatusMessage> statusMessagesToUser = (List<StatusMessage>) session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
+        @SuppressWarnings("unchecked")
+        List<StatusMessage> statusMessagesToUser =
+                (List<StatusMessage>) session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
         
         if (statusMessagesToUser == null) {
             statusMessagesToUser = new ArrayList<StatusMessage>();

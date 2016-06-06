@@ -88,7 +88,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         pointsPerOptionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
-        pointsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
+        pointsString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
         Assumption.assertNotNull("Null points", pointsString);
         forceUnevenDistributionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
@@ -160,7 +162,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             int totalNumRecipients,
             FeedbackResponseDetails existingResponseDetails) {
         
-        FeedbackConstantSumResponseDetails existingConstSumResponse = (FeedbackConstantSumResponseDetails) existingResponseDetails;
+        FeedbackConstantSumResponseDetails existingConstSumResponse =
+                (FeedbackConstantSumResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;
         
@@ -203,7 +206,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
                 "${constSumPointsValue}", Integer.toString(points),
                 "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}",
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
@@ -261,10 +265,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
                 "${constSumPointsValue}", Integer.toString(points),
                 "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}",
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}",
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
@@ -282,7 +288,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     Templates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
                             "${constSumOptionValue}", Sanitizer.sanitizeForHtml(constSumOptions.get(i)),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}",
+                                    Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
@@ -291,7 +298,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 FeedbackQuestionFormTemplates.CONSTSUM_EDIT_FORM,
                 "${constSumEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfConstSumOptions}", Integer.toString(numOfConstSumOptions),
                 "${constSumToRecipientsValue}", Boolean.toString(distributeToRecipients),
                 "${selectedConstSumPointsPerOption}", pointsPerOption ? "selected" : "",
@@ -299,7 +307,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${constSumPoints}", points == 0 ? "100" : Integer.toString(points),
                 "${optionRecipientDisplayName}", distributeToRecipients ? "recipient" : "option",
                 "${distributeUnevenly}", forceUnevenDistribution ? "checked" : "",
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}",
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
@@ -568,8 +577,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public String getQuestionTypeChoiceOption() {
         // Constant sum has two options for user to select.
-        return "<li data-questiontype = \"CONSTSUM_OPTION\"><a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</a></li>"
-               + "<li data-questiontype = \"CONSTSUM_RECIPIENT\"><a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</a></li>";
+        return "<li data-questiontype = \"CONSTSUM_OPTION\">"
+                 + "<a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</a>"
+             + "</li>"
+             + "<li data-questiontype = \"CONSTSUM_RECIPIENT\">"
+                 + "<a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</a>"
+             + "</li>";
     }
     
     @Override

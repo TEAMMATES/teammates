@@ -53,14 +53,17 @@ public class CommentSearchDocument extends SearchDocument {
                     delim = ", ";
                 } else {
                     relatedStudents.add(student);
-                    commentRecipientNameBuilder.append(delim).append(student.name).append(" (" + student.team + ", " + student.email + ")");
+                    commentRecipientNameBuilder.append(delim)
+                                               .append(student.name)
+                                               .append(" (" + student.team + ", " + student.email + ")");
                     delim = ", ";
                 }
             }
             break;
         case TEAM:
             for (String team : comment.recipients) {
-                List<StudentAttributes> students = logic.getStudentsForTeam(StringHelper.recoverFromSanitizedText(team), comment.courseId);
+                List<StudentAttributes> students =
+                        logic.getStudentsForTeam(StringHelper.recoverFromSanitizedText(team), comment.courseId);
                 if (students != null) {
                     relatedStudents.addAll(students);
                 }

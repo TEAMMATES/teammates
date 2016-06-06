@@ -179,7 +179,7 @@ function handleData(err, countryCoordinates, userData) {
         }
 
         function datumHasCoords(datum) {
-            return typeof datum !== 'undefined' && typeof datum.latitude !== 'undefined' && typeof datum.longitude !== 'undefined';
+            return datum && datum.latitude && datum.longitude;
         }
     });
 

@@ -57,7 +57,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         feedbackQuestion.questionNumber++;
         fqDb.updateFeedbackQuestion(feedbackQuestion);
         
-        FeedbackQuestionAttributes updatedFq = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
+        FeedbackQuestionAttributes updatedFq =
+                fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
         
         // Assert lastUpdate has changed, and is now.
         assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
@@ -68,7 +69,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         feedbackQuestion.questionNumber++;
         fqDb.updateFeedbackQuestion(feedbackQuestion, true);
 
-        FeedbackQuestionAttributes updatedFqTwo = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
+        FeedbackQuestionAttributes updatedFqTwo =
+                fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
         
         // Assert lastUpdate has NOT changed.
         assertEquals(updatedFq.getUpdatedAt(), updatedFqTwo.getUpdatedAt());

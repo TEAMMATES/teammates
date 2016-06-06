@@ -105,7 +105,8 @@ public class ControllerServlet extends HttpServlet {
             cleanUpStatusMessageInSession(req);
             
             List<StatusMessage> statusMessagesToUser = new ArrayList<StatusMessage>();
-            statusMessagesToUser.add(new StatusMessage(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, StatusMessageColor.WARNING));
+            statusMessagesToUser.add(new StatusMessage(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
+                                                       StatusMessageColor.WARNING));
             req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST, statusMessagesToUser);
             
             if (requestUrl.contains("/instructor")) {

@@ -150,7 +150,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         ______TS("link: link of Grace period feedback");
         
-        assertTrue(Boolean.parseBoolean(studentHomePage.getViewFeedbackButton("Graced Feedback Session").getAttribute("disabled")));
+        assertEquals("true", studentHomePage.getViewFeedbackButton("Graced Feedback Session").getAttribute("disabled"));
         
         studentHomePage.getSubmitFeedbackButton("Graced Feedback Session").click();
         studentHomePage.reloadPage();
@@ -163,7 +163,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         ______TS("link: link of pending feedback");
         
-        assertTrue(Boolean.parseBoolean(studentHomePage.getViewFeedbackButton("First Feedback Session").getAttribute("disabled")));
+        assertEquals("true", studentHomePage.getViewFeedbackButton("First Feedback Session").getAttribute("disabled"));
         
         studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
         studentHomePage.reloadPage();

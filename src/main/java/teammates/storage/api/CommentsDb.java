@@ -608,7 +608,8 @@ public class CommentsDb extends EntitiesDb {
         q.setFilter("courseId == courseIdParam && recipientType == recipientTypeParam && recipients.contains(receiverParam)");
         
         @SuppressWarnings("unchecked")
-        List<Comment> commentList = (List<Comment>) q.execute(courseId, recipientType.toString(), Sanitizer.sanitizeForHtml(recipient));
+        List<Comment> commentList =
+                (List<Comment>) q.execute(courseId, recipientType.toString(), Sanitizer.sanitizeForHtml(recipient));
         
         return getCommentsWithoutDeletedEntity(commentList);
     }

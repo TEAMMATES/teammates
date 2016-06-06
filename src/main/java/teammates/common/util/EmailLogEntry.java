@@ -54,18 +54,31 @@ public class EmailLogEntry {
     }
     
     private String getLogInfoForTableRowAsHtml() {
-        return String.format(
-                "<tr class=\"log\"><td>%s</td><td>%s</td><td>%s</td></tr>"
-                + "<tr id=\"small\"><td colspan=\"3\"><ul class=\"list-group\">"
-                + "<li class=\"list-group-item list-group-item-info\">,"
-                + "<input type=\"text\" value=\"%s\" class=\"form-control\" readonly></li>"
-                + "</ul></td></tr>"
-                + "<tr id=\"big\" style=\"display:none;\">"
-                + "<td colspan=\"3\"><div class=\"well\"><ul class=\"list-group\"><li class=\"list-group-item list-group-item-success\">"
-                + "<small>%s</small>"
-                + "</li></ul></div></td>"
-                + "</tr>",
-                this.receiver, this.subject, this.getTimeForDisplay(), this.getContent(), this.content);
+        return "<tr class=\"log\">"
+                 + "<td>" + this.receiver + "</td>"
+                 + "<td>" + this.subject + "</td>"
+                 + "<td>" + this.getTimeForDisplay() + "</td>"
+             + "</tr>"
+             + "<tr id=\"small\">"
+                 + "<td colspan=\"3\">"
+                     + "<ul class=\"list-group\">"
+                         + "<li class=\"list-group-item list-group-item-info\">,"
+                             + "<input type=\"text\" value=\"" + this.getContent() + "\" class=\"form-control\" readonly>"
+                         + "</li>"
+                     + "</ul>"
+                 + "</td>"
+             + "</tr>"
+             + "<tr id=\"big\" style=\"display:none;\">"
+                 + "<td colspan=\"3\">"
+                     + "<div class=\"well\">"
+                         + "<ul class=\"list-group\">"
+                             + "<li class=\"list-group-item list-group-item-success\">"
+                                 + "<small>" + this.content + "</small>"
+                             + "</li>"
+                         + "</ul>"
+                     + "</div>"
+                 + "</td>"
+             + "</tr>";
     }
     
     /**
