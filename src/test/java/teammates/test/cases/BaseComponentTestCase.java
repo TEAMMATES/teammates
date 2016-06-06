@@ -45,7 +45,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
 
-    private static final Gson gson = Utils.getTeammatesGson();
+    private static Gson gson = Utils.getTeammatesGson();
 
     @BeforeTest
     public void testSetUp() {
@@ -138,13 +138,13 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     protected static void verifyAbsentInDatastore(FeedbackSessionAttributes fs) {
-        assertNull(fsDb.getFeedbackSession(fs.courseId, fs.feedbackSessionName));
+        assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
     }
     
     protected static void verifyPresentInDatastore(FeedbackSessionAttributes expected) {
-        FeedbackSessionAttributes actual = fsDb.getFeedbackSession(expected.courseId, expected.feedbackSessionName);
-        expected.respondingInstructorList = actual.respondingInstructorList;
-        expected.respondingStudentList = actual.respondingStudentList;
+        FeedbackSessionAttributes actual = fsDb.getFeedbackSession(expected.getCourseId(), expected.getFeedbackSessionName());
+        expected.setRespondingInstructorList(actual.getRespondingInstructorList());
+        expected.setRespondingStudentList(actual.getRespondingStudentList());
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
 

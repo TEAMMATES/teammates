@@ -62,15 +62,13 @@ public class OfflineBackup extends RemoteApiClient {
      */
     private List<String> getModifiedLogs() {
         List<String> modifiedLogs = new ArrayList<String>();
-        TestProperties testProperties = TestProperties.inst();
         try {
             //Opens a URL connection to obtain the entity modified logs
-            URL myURL = new URL(testProperties.TEAMMATES_URL + "/entityModifiedLogs");
+            URL url = new URL(TestProperties.TEAMMATES_URL + "/entityModifiedLogs");
             
-            URLConnection myURLConnection = myURL.openConnection();
+            URLConnection urlConn = url.openConnection();
         
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    myURLConnection.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
             String logMessage;
             while ((logMessage = in.readLine()) != null) {
                 modifiedLogs.add(logMessage);
@@ -250,7 +248,8 @@ public class OfflineBackup extends RemoteApiClient {
     protected void retrieveAndSaveFeedbackResponseCommentsByCourse(String courseId) {
         
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
-        List<FeedbackResponseCommentAttributes> feedbackResponseComments = feedbackResponseCommentsDb.getFeedbackResponseCommentsForCourse(courseId);
+        List<FeedbackResponseCommentAttributes> feedbackResponseComments =
+                feedbackResponseCommentsDb.getFeedbackResponseCommentsForCourse(courseId);
 
         appendToFile(currentFileName, "\t\"feedbackResponseComments\":{\n");
         
@@ -401,11 +400,15 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     protected void saveFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
-        appendToFile(currentFileName, formatJsonString(feedbackResponseComment.getJsonString(), feedbackResponseComment.getId().toString()));
+        appendToFile(currentFileName,
+                     formatJsonString(feedbackResponseComment.getJsonString(),
+                                      feedbackResponseComment.getId().toString()));
     }
     
     protected void saveFeedbackSession(FeedbackSessionAttributes feedbackSession) {
-        appendToFile(currentFileName, formatJsonString(feedbackSession.getJsonString(), feedbackSession.feedbackSessionName + "%" + feedbackSession.courseId));
+        appendToFile(currentFileName,
+                     formatJsonString(feedbackSession.getJsonString(),
+                                      feedbackSession.getFeedbackSessionName() + "%" + feedbackSession.getCourseId()));
     }
     
     protected void saveInstructor(InstructorAttributes instructor) {

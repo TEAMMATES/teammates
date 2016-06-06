@@ -1,6 +1,5 @@
 package teammates.test.cases.storage;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -41,30 +40,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         for (String i : keys) {
             frDb.createEntity(dataBundle.feedbackResponses.get(i));
         }
-    }
-    
-    @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
-        
-        // remove possibly conflicting entity from the database
-        frDb.deleteEntity(fra);
-        
-        frDb.createEntity(fra);
-        verifyPresentInDatastore(fra, true);
-        
-        fra.setCreatedAt_NonProduction(null);
-        fra.setUpdatedAt_NonProduction(null);
-        
-        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        
-        ______TS("success : defaultTimeStamp for createdAt date");
-        
-        assertEquals(defaultTimeStamp, fra.getCreatedAt());
-        
-        ______TS("success : defaultTimeStamp for updatedAt date");
-        
-        assertEquals(defaultTimeStamp, fra.getUpdatedAt());
     }
     
     @Test
@@ -184,7 +159,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent response");
         
-        assertNull(frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt", "student3InCourse1@gmail.tmt"));
+        assertNull(frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt",
+                                            "student3InCourse1@gmail.tmt"));
         
         ______TS("null fqId");
         
@@ -231,7 +207,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestion(fras.get("response1ForQ1S1C1").feedbackQuestionId);
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForQuestion(fras.get("response1ForQ1S1C1").feedbackQuestionId);
         assertEquals(7, responses.size());
         
         ______TS("null params");
@@ -355,11 +332,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent feedback question");
         
-        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion("non-existent fq id", "student1InCourse1@gmail.tmt").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion(
+                "non-existent fq id", "student1InCourse1@gmail.tmt").isEmpty());
         
         ______TS("non-existent receiver");
         
-        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion(questionId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion(
+                questionId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());
     }
 
     @Test
@@ -450,11 +429,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent courseId");
         
-        assertTrue(frDb.getFeedbackResponsesForReceiverForCourse("non-existent courseId", "student1InCourse1@gmail.tmt").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForReceiverForCourse(
+                "non-existent courseId", "student1InCourse1@gmail.tmt").isEmpty());
         
         ______TS("non-existent receiver");
         
-        assertTrue(frDb.getFeedbackResponsesForReceiverForCourse(courseId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForReceiverForCourse(
+                courseId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());
     }
     
     @Test
@@ -598,7 +579,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String courseId = fras.get("response1ForQ1S1C1").courseId;
         String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, 1);
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, 1);
         
         assertEquals(responses.size(), 2);
         
@@ -637,7 +619,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String courseId = fras.get("response1ForQ1S1C1").courseId;
         String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, "Section 1");
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, "Section 1");
         
         assertEquals(5, responses.size());
         
@@ -659,11 +642,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent feedback session");
         
-        assertTrue(frDb.getFeedbackResponsesForSessionInSection("non-existent feedback session", courseId, "Section 1").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForSessionInSection(
+                "non-existent feedback session", courseId, "Section 1").isEmpty());
         
         ______TS("non-existent course");
         
-        assertTrue(frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, "non-existent courseId", "Section 1").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForSessionInSection(
+                feedbackSessionName, "non-existent courseId", "Section 1").isEmpty());
     }
 
     @Test
@@ -674,7 +659,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String courseId = fras.get("response1ForQ1S1C1").courseId;
         String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, "Section 2");
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, "Section 2");
         
         assertEquals(0, responses.size());
         
@@ -696,15 +682,18 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent feedback session");
         
-        assertTrue(frDb.getFeedbackResponsesForSessionFromSection("non-existent feedback session", courseId, "Section 1").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForSessionFromSection(
+                "non-existent feedback session", courseId, "Section 1").isEmpty());
         
         ______TS("non-existent course");
         
-        assertTrue(frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, "non-existent courseId", "Section 1").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForSessionFromSection(
+                feedbackSessionName, "non-existent courseId", "Section 1").isEmpty());
         
         ______TS("no responses for session");
         
-        assertTrue(frDb.getFeedbackResponsesForSessionFromSection("Empty feedback session", "idOfTypicalCourse1", "Section 1").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForSessionFromSection(
+                "Empty feedback session", "idOfTypicalCourse1", "Section 1").isEmpty());
     }
 
     @Test
@@ -715,7 +704,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String courseId = fras.get("response1ForQ1S1C1").courseId;
         String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, "Section 1");
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, "Section 1");
         
         assertEquals(5, responses.size());
         
@@ -737,15 +727,18 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent feedback session");
         
-        assertTrue(frDb.getFeedbackResponsesForSessionToSection("non-existent feedback session", courseId, "Section 1").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForSessionToSection(
+                "non-existent feedback session", courseId, "Section 1").isEmpty());
         
         ______TS("non-existent course");
         
-        assertTrue(frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, "non-existent courseId", "Section 1").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForSessionToSection(
+                feedbackSessionName, "non-existent courseId", "Section 1").isEmpty());
         
         ______TS("no responses for session");
         
-        assertTrue(frDb.getFeedbackResponsesForSessionToSection("Empty feedback session", "idOfTypicalCourse1", "Section 1").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForSessionToSection(
+                "Empty feedback session", "idOfTypicalCourse1", "Section 1").isEmpty());
     }
     
     @SuppressWarnings("static-access")
@@ -807,7 +800,9 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         frDb.updateFeedbackResponse(modifiedResponse);
         
         verifyPresentInDatastore(modifiedResponse);
-        modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId, modifiedResponse.giverEmail, modifiedResponse.recipientEmail);
+        modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId,
+                                                    modifiedResponse.giverEmail,
+                                                    modifiedResponse.recipientEmail);
         assertEquals("New answer text!", modifiedResponse.getResponseDetails().getAnswerString());
         
     }

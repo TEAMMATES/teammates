@@ -19,7 +19,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorCommentsPageData;
-import teammates.ui.template.Comment;
+import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
 
@@ -84,12 +84,12 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         /******************** Assertions for data structures ********************/
         
         String giverDetails = "You";
-        List<Comment> commentRows = new ArrayList<Comment>();
+        List<CommentRow> commentRows = new ArrayList<CommentRow>();
         
         // Create first expected comment row
         String recipientDisplay = "student2 In Course1 (Team 1.1</td></div>'\", student2InCourse1@gmail.tmt)";
         CommentAttributes comment = dataBundle.comments.get("comment1FromI3C1toS2C1");
-        Comment commentRow = new Comment(comment, giverDetails, recipientDisplay);
+        CommentRow commentRow = new CommentRow(comment, giverDetails, recipientDisplay);
         commentRow.withExtraClass("status_display-private");
         commentRow.setVisibilityIcon("");
         commentRow.setNotificationIcon(comment.isPendingNotification());
@@ -101,7 +101,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         // Create second expected comment row
         recipientDisplay = "all students in this course";
         comment = dataBundle.comments.get("comment1FromI3C1toC1");
-        commentRow = new Comment(comment, giverDetails, recipientDisplay);
+        commentRow = new CommentRow(comment, giverDetails, recipientDisplay);
         commentRow.withExtraClass("status_display-private");
         commentRow.setVisibilityIcon("");
         commentRow.setNotificationIcon(comment.isPendingNotification());
@@ -178,7 +178,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     private List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
         List<FeedbackSessionAttributes> feedbackSessionsInCourse = new ArrayList<FeedbackSessionAttributes>();
         for (FeedbackSessionAttributes feedbackSession : dataBundle.feedbackSessions.values()) {
-            if (feedbackSession.courseId.equals(courseId)) {
+            if (feedbackSession.getCourseId().equals(courseId)) {
                 feedbackSessionsInCourse.add(feedbackSession);
             }
         }
@@ -208,17 +208,17 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     private void checkCommentsForStudentsTablesEqual(CommentsForStudentsTable expected, CommentsForStudentsTable actual) {
         assertEquals(expected.getGiverDetails(), actual.getGiverDetails());
         assertEquals(expected.getExtraClass(), actual.getExtraClass());
-        List<Comment> expectedCommentRows = expected.getRows();
-        List<Comment> actualCommentRows = actual.getRows();
+        List<CommentRow> expectedCommentRows = expected.getRows();
+        List<CommentRow> actualCommentRows = actual.getRows();
         assertEquals(expectedCommentRows.size(), actualCommentRows.size());
         for (int i = 0; i < expectedCommentRows.size(); i++) {
-            Comment expectedCommentRow = expectedCommentRows.get(i);
-            Comment actualCommentRow = actualCommentRows.get(i);
+            CommentRow expectedCommentRow = expectedCommentRows.get(i);
+            CommentRow actualCommentRow = actualCommentRows.get(i);
             checkCommentRowsEqual(expectedCommentRow, actualCommentRow);
         }
     }
 
-    private void checkCommentRowsEqual(Comment expected, Comment actual) {
+    private void checkCommentRowsEqual(CommentRow expected, CommentRow actual) {
         assertEquals(expected.getCreatedAt(), actual.getCreatedAt());
         assertEquals(expected.getEditedAt(), actual.getEditedAt());
         assertEquals(expected.getCommentText(), actual.getCommentText());

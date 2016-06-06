@@ -14,14 +14,22 @@ public class TestNgTest extends BaseTestCase {
 
     @Test
     public void checkTestsInTestNg() throws FileNotFoundException {
-        String testNgXml = FileHelper.readFile("./src/test/testng-travis.xml") + FileHelper.readFile("./src/test/testng-local.xml");
-        HashMap<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates/test/cases"); // <class name, package name>
+        String testNgXml = FileHelper.readFile("./src/test/testng-travis.xml")
+                           + FileHelper.readFile("./src/test/testng-local.xml");
+        // <class name, package name>
+        HashMap<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates/test/cases");
              
         testFiles = excludeFilesNotInTestNg(testFiles,
-                                           "BaseUiTestCase",         // Base*TestCase are base classes to be extended by the actual tests
-                                           "FeedbackQuestionUiTest", // Base class for all Feedback*QuestionUiTest (different question types)
-                                           "GodModeTest"             // Needs to be run only when changes are made to GodMode
-                                           );
+                                            
+                                            // Base*TestCase are base classes to be extended by the actual tests
+                                            "BaseUiTestCase",
+                                            
+                                            // Base class for all Feedback*QuestionUiTest (different question types)
+                                            "FeedbackQuestionUiTest",
+                                            
+                                            // Needs to be run only when changes are made to GodMode
+                                            "GodModeTest"
+                                            );
         
         for (Entry<String, String> testFileName : testFiles.entrySet()) {
             assertTrue(isTestFileIncluded(testNgXml, testFileName.getValue(), testFileName.getKey()));
@@ -49,7 +57,8 @@ public class TestNgTest extends BaseTestCase {
      * @param filesExcludedFromTestNg    Files to be excluded
      * @return                           Files to be checked after excluding tests
      */
-    private HashMap<String, String> excludeFilesNotInTestNg(HashMap<String, String> testFiles, String... filesExcludedFromTestNg) {
+    private HashMap<String, String> excludeFilesNotInTestNg(HashMap<String, String> testFiles,
+                                                            String... filesExcludedFromTestNg) {
         for (String test : filesExcludedFromTestNg) {
             testFiles.remove(test);
         }
@@ -93,8 +102,10 @@ public class TestNgTest extends BaseTestCase {
                 // If the package name is in TestNG in the form of <package name="teammates.test.cases.package.name" />
                 // then files in the current directory are excluded because the whole package would be tested by TestNG.
                 
-                testFiles.putAll(addFilesToTestsRecursively(path + "/" + name, isPackageNameInTestNg(packageName + "." + name, testNgXml),
-                                                            packageName + "." + name, testNgXml));
+                testFiles.putAll(
+                        addFilesToTestsRecursively(path + "/" + name,
+                                                   isPackageNameInTestNg(packageName + "." + name, testNgXml),
+                                                   packageName + "." + name, testNgXml));
             }
         }
         

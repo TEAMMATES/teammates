@@ -35,10 +35,13 @@ public abstract class EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE = "Trying to update non-existent Student Profile: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
-    public static final String ERROR_UPDATE_NON_EXISTENT_INSTRUCTOR_PERMISSION = "Trying to update non-existing InstructorPermission: ";
-    public static final String ERROR_UPDATE_TO_EXISTENT_INTRUCTOR_PERMISSION = "Trying to update to existent IntructorPermission: ";
+    public static final String ERROR_UPDATE_NON_EXISTENT_INSTRUCTOR_PERMISSION =
+            "Trying to update non-existing InstructorPermission: ";
+    public static final String ERROR_UPDATE_TO_EXISTENT_INTRUCTOR_PERMISSION =
+            "Trying to update to existent IntructorPermission: ";
     public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
-    public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
+    public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR =
+            "Trying to make an non-existent account an Instructor :";
 
     protected static final Logger log = Utils.getLogger();
     
@@ -69,8 +72,8 @@ public abstract class EntitiesDb {
         }
         
         Object entity = entityToAdd.toEntity();
-        getPM().makePersistent(entity);
-        getPM().flush();
+        getPm().makePersistent(entity);
+        getPm().flush();
 
         // Wait for the operation to persist
         int elapsedTime = 0;
@@ -97,7 +100,8 @@ public abstract class EntitiesDb {
         return entity;
     }
     
-    public List<EntityAttributes> createEntities(Collection<? extends EntityAttributes> entitiesToAdd) throws InvalidParametersException {
+    public List<EntityAttributes> createEntities(Collection<? extends EntityAttributes> entitiesToAdd)
+            throws InvalidParametersException {
         
         Assumption.assertNotNull(
                 Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
@@ -121,14 +125,15 @@ public abstract class EntitiesDb {
             log.info(entityToAdd.getBackupIdentifier());
         }
        
-        getPM().makePersistentAll(entities);
-        getPM().flush();
+        getPm().makePersistentAll(entities);
+        getPm().flush();
  
         return entitiesToUpdate;
 
     }
     
-    public List<Object> createAndReturnEntities(Collection<? extends EntityAttributes> entitiesToAdd) throws InvalidParametersException {
+    public List<Object> createAndReturnEntities(Collection<? extends EntityAttributes> entitiesToAdd)
+            throws InvalidParametersException {
         
         Assumption.assertNotNull(
                 Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
@@ -152,8 +157,8 @@ public abstract class EntitiesDb {
             log.info(entityToAdd.getBackupIdentifier());
         }
         
-        getPM().makePersistentAll(entities);
-        getPM().flush();
+        getPm().makePersistentAll(entities);
+        getPm().flush();
  
         return entities;
 
@@ -178,8 +183,8 @@ public abstract class EntitiesDb {
         }
         
         Object entity = entityToAdd.toEntity();
-        getPM().makePersistent(entity);
-        getPM().flush();
+        getPm().makePersistent(entity);
+        getPm().flush();
 
         // Wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -221,8 +226,8 @@ public abstract class EntitiesDb {
             return;
         }
 
-        getPM().deletePersistent(entity);
-        getPM().flush();
+        getPm().deletePersistent(entity);
+        getPm().flush();
         
         // wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -258,17 +263,17 @@ public abstract class EntitiesDb {
             }
         }
         
-        getPM().deletePersistentAll(entities);
-        getPM().flush();
+        getPm().deletePersistentAll(entities);
+        getPm().flush();
     }
     
     public void commitOutstandingChanges() {
-        closePM();
+        closePm();
     }
     
-    protected void closePM() {
-        if (!getPM().isClosed()) {
-            getPM().close();
+    protected void closePm() {
+        if (!getPm().isClosed()) {
+            getPm().close();
         }
     }
     
@@ -297,7 +302,7 @@ public abstract class EntitiesDb {
      */
     protected abstract Object getEntity(EntityAttributes attributes);
     
-    protected PersistenceManager getPM() {
+    protected PersistenceManager getPm() {
         return Datastore.getPersistenceManager();
     }
     

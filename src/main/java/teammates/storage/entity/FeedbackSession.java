@@ -111,15 +111,18 @@ public class FeedbackSession {
             Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
-        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
-            feedbackSessionType, sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
+        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
+             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
+             feedbackSessionType, sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled,
+             isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
             Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
-            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, Set<String> instructorList, Set<String> studentList) {
+            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
+            Set<String> instructorList, Set<String> studentList) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;

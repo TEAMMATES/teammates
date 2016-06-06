@@ -213,13 +213,15 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         String longCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         
         assertEquals(maxLengthCourseId, coursesPage.fillCourseIdTextBox(maxLengthCourseId));
-        assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH), coursesPage.fillCourseIdTextBox(longCourseId));
+        assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH),
+                     coursesPage.fillCourseIdTextBox(longCourseId));
         
         String maxLengthCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
         String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
         
         assertEquals(maxLengthCourseName, coursesPage.fillCourseNameTextBox(maxLengthCourseName));
-        assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH), coursesPage.fillCourseNameTextBox(longCourseName));
+        assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH),
+                     coursesPage.fillCourseNameTextBox(longCourseName));
         
     }
 
@@ -248,18 +250,18 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         ______TS("add action fail: invalid course ID");
         
-        String invalidID = "Invalid ID";
+        String invalidId = "Invalid ID";
         
-        coursesPage.addCourse(invalidID, "random course name");
+        coursesPage.addCourse(invalidId, "random course name");
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddInvalidIdFailed.html");
 
         ______TS("add action fail: missing parameters");
         
-        String validID = "Valid.ID";
+        String validId = "Valid.ID";
         String missingCourseName = "";
 
-        coursesPage.addCourse(validID, missingCourseName);
+        coursesPage.addCourse(validId, missingCourseName);
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddMissingParamsFailed.html");
     }
@@ -303,8 +305,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         InstructorAttributes instructorWithNullArchiveStatus = BackDoor.getInstructorByGoogleId(instructor1CS1101.googleId,
                                                                                                 instructor1CS1101.courseId);
                                                                                                          
-        //this is a old instructor whose archive status has no value
-        assertNull(instructorWithNullArchiveStatus.isArchived);
+        //this is a old instructor whose archive status is not set and is by default false
+        assertFalse(instructorWithNullArchiveStatus.isArchived);
         
         coursesPage.archiveCourse(courseId);
         coursesPage.waitForAjaxLoadCoursesSuccess();

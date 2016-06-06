@@ -1,8 +1,8 @@
 package teammates.test.cases.common;
 
-//CHECKSTYLE:OFF as we want to perform tests on everything from FieldValidator
+// CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
 import static teammates.common.util.FieldValidator.*;
-//CHECKSTYLE:ON
+// CHECKSTYLE.ON:AvoidStarImport
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -440,17 +440,23 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetValidityInfo_INSTRUCTOR_ROLE() {
+    public void testGetValidityInfoInstructorRole() {
         
         verifyAssertError("not null", FieldType.INTRUCTOR_ROLE, null);
         
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, "");
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER, "");
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR, "");
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, "");
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE,
+                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE,
+                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE,
+                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE,
+                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE,
+                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, "");
         String emptyValue = "";
-        testOnce("empty value", FieldType.INTRUCTOR_ROLE, emptyValue, String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
+        testOnce("empty value", FieldType.INTRUCTOR_ROLE, emptyValue,
+                 String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
         String invalidValue = "invalid value";
         testOnce(invalidValue, FieldType.INTRUCTOR_ROLE, invalidValue, String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE,
                 invalidValue, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING));
@@ -521,7 +527,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetValidityInfo_COURSE_ID() {
+    public void testGetValidityInfoCourseId() {
         
         verifyAssertError("null value", FieldType.COURSE_ID, null);
         
@@ -580,7 +586,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_NAME() {
+    public void testRegexName() {
         ______TS("success: typical name");
         String name = "Benny Charlés";
         assertTrue(StringHelper.isMatching(name, REGEX_NAME));
@@ -599,7 +605,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_EMAIL() {
+    public void testRegexEmail() {
         ______TS("success: typical email");
         String email = "john@email.com";
         assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
@@ -630,7 +636,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_COURSE_ID() {
+    public void testRegexCourseId() {
         ______TS("success: typical course ID");
         String courseId = "CS101";
         assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
@@ -645,7 +651,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_SAMPLE_COURSE_ID() {
+    public void testRegexSampleCourseId() {
         ______TS("success: typical sample course ID");
         String courseId = "CS101-demo3";
         assertTrue(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
@@ -656,7 +662,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
     
     @Test
-    public void test_REGEX_GOOGLE_ID_NON_EMAIL() {
+    public void testRegexGoogleIdNonEmail() {
         ______TS("success: typical google id");
         String googleId = "teammates.instr";
         assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));

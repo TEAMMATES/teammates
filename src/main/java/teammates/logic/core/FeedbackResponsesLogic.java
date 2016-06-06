@@ -437,7 +437,8 @@ public class FeedbackResponsesLogic {
             newResponse.recipientSection = oldResponse.recipientSection;
         }
     
-        if (newResponse.recipientEmail.equals(oldResponse.recipientEmail) && newResponse.giverEmail.equals(oldResponse.giverEmail)) {
+        if (newResponse.recipientEmail.equals(oldResponse.recipientEmail)
+                && newResponse.giverEmail.equals(oldResponse.giverEmail)) {
             try {
                 frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
             } catch (EntityDoesNotExistException e) {
@@ -529,9 +530,8 @@ public class FeedbackResponsesLogic {
 
     }
 
-    public boolean updateFeedbackResponseForChangingTeam(
-            StudentEnrollDetails enrollment,
-            FeedbackResponseAttributes response) {
+    public boolean updateFeedbackResponseForChangingTeam(StudentEnrollDetails enrollment,
+            FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
 
         FeedbackQuestionAttributes question = fqLogic
                 .getFeedbackQuestion(response.feedbackQuestionId);
@@ -552,9 +552,18 @@ public class FeedbackResponsesLogic {
 
         if (shouldDeleteResponse) {
             frDb.deleteEntity(response);
+            updateSessionResponseRateForDeletingStudentResponse(enrollment.email,
+                    response.feedbackSessionName, enrollment.course);
         }
         
         return shouldDeleteResponse;
+    }
+
+    private void updateSessionResponseRateForDeletingStudentResponse(String studentEmail, String sessionName,
+            String courseId) throws InvalidParametersException, EntityDoesNotExistException {
+        if (!fsLogic.hasResponsesFromStudent(studentEmail, sessionName, courseId)) {
+            fsLogic.deleteStudentFromRespondentList(studentEmail, sessionName, courseId);
+        }
     }
 
     private boolean isRecipientTypeTeamMembers(FeedbackQuestionAttributes question) {
@@ -648,7 +657,8 @@ public class FeedbackResponsesLogic {
         try {
             FeedbackQuestionAttributes question = fqLogic
                     .getFeedbackQuestion(feedbackQuestionId);
-            boolean isInstructor = question.giverType == FeedbackParticipantType.SELF || question.giverType == FeedbackParticipantType.INSTRUCTORS;
+            boolean isInstructor = question.giverType == FeedbackParticipantType.SELF
+                                   || question.giverType == FeedbackParticipantType.INSTRUCTORS;
             for (String email : emails) {
                 boolean hasResponses = hasGiverRespondedForSession(email, question.feedbackSessionName, question.courseId);
                 if (!hasResponses) {
@@ -657,7 +667,7 @@ public class FeedbackResponsesLogic {
                                 question.feedbackSessionName,
                                 question.courseId);
                     } else {
-                        fsLogic.deleteStudentRespondant(email,
+                        fsLogic.deleteStudentFromRespondentList(email,
                                 question.feedbackSessionName,
                                 question.courseId);
                     }
@@ -755,7 +765,8 @@ public class FeedbackResponsesLogic {
             if (studentInTeam.email.equals(student.email)) {
                 continue;
             }
-            List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, studentInTeam.email);
+            List<FeedbackResponseAttributes> responses =
+                    frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, studentInTeam.email);
             teamResponses.addAll(responses);
         }
         

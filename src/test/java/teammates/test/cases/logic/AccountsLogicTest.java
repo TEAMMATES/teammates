@@ -116,7 +116,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     
     @Test
     public void testDeletePicture() throws Exception {
-        String keyString = GoogleCloudStorageHelper.writeFileToGcs("accountsLogicTestid", "src/test/resources/images/profile_pic.png", "");
+        String keyString = GoogleCloudStorageHelper.writeFileToGcs("accountsLogicTestid",
+                                                                   "src/test/resources/images/profile_pic.png", "");
         BlobKey key = new BlobKey(keyString);
         accountsLogic.deletePicture(key);
         assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(key));
@@ -432,7 +433,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: instructor joined but account already exists");
         
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
-        InstructorAttributes newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        InstructorAttributes newIns =
+                new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
         encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
@@ -449,7 +451,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
         
         instructor = dataBundle.instructors.get("instructor4");
-        newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");
+        newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId",
+                                          "anInstructorWithoutGoogleId@gmail.com");
         
         instructorsLogic.createInstructor(newIns);
         

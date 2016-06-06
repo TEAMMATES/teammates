@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import java.lang.reflect.Constructor;
-
-import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -21,9 +18,7 @@ import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
-import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
@@ -32,7 +27,6 @@ import teammates.test.pageobjects.InstructorCoursesPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHomePage;
-import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentCommentsPage;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
@@ -70,8 +64,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         ______TS("content: typical page");
         
-        AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
-        homePage = loginAdminToPageForAdminUiTests(browser, homeUrl, AdminHomePage.class);
+        AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE).withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
+        homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
         
         homePage.verifyHtml("/adminHomePage.html");
     }
@@ -91,11 +85,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                  + instructor.name + " | " + instructor.email + " | " + institute;
         
         ______TS("action fail & success: add multiple instructors");
-        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+        BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructorDetails);
-        assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION),
+        assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID,
+                                   Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION),
                      homePage.getMessageFromResultTable(1));
         
         String encryptedKey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
@@ -110,7 +105,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         ______TS("action success : create instructor account and the account is created successfully after user's verification");
         
-        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+        BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
@@ -140,19 +135,19 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
       
         //simulate the user's verification here because it is added by admin
         browser.driver.get(joinLink);
-        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
-                           .loginAsJoiningInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
-                                                     TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        confirmationPage = AppPage.createCorrectLoginPageType(browser)
+                           .loginAsJoiningInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+                                                     TestProperties.TEST_INSTRUCTOR_PASSWORD);
         confirmationPage.clickCancelButton();
         
         browser.driver.get(joinLink);
-        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
-                           .loginAsJoiningInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
-                                                     TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        confirmationPage = AppPage.createCorrectLoginPageType(browser)
+                           .loginAsJoiningInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+                                                     TestProperties.TEST_INSTRUCTOR_PASSWORD);
         confirmationPage.clickConfirmButton();
         
         //check a account has been created for the requester successfully
-        assertNotNull(BackDoor.getAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT));
+        assertNotNull(BackDoor.getAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT));
 
         //verify sample course is accessible for newly joined instructor as an instructor
         
@@ -186,7 +181,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         ______TS("new instructor can unarchive sample course");
         AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
-                                        .withUserId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+                                        .withUserId(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
         coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.unarchiveCourse(demoCourseId);
@@ -206,17 +201,17 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         ______TS("new instructor can edit feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
-        InstructorFeedbackEditPage feedbackEditPage = instructorHomePage.clickFeedbackSessionEditLink("AHPUiT.instr1.gma-demo",
-                                                                                                      "Second team feedback session");
+        InstructorFeedbackEditPage feedbackEditPage =
+                instructorHomePage.clickFeedbackSessionEditLink("AHPUiT.instr1.gma-demo", "Second team feedback session");
         
         feedbackEditPage.clickEditSessionButton();
         
         FeedbackSessionAttributes feedbackSession = BackDoor.getFeedbackSession("AHPUiT.instr1.gma-demo",
                                                                                 "Second team feedback session");
-        feedbackEditPage.editFeedbackSession(feedbackSession.startTime,
-                                             feedbackSession.endTime,
+        feedbackEditPage.editFeedbackSession(feedbackSession.getStartTime(),
+                                             feedbackSession.getEndTime(),
                                              new Text("updated instructions"),
-                                             feedbackSession.gracePeriod);
+                                             feedbackSession.getGracePeriod());
         feedbackEditPage.reloadPage();
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionSuccessEdited.html");
 
@@ -256,10 +251,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         ______TS("action success: course is accessible for newly joined instructor as student");
         //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
-        if (!TestProperties.inst().TEAMMATES_URL.contains("local")) {
+        if (!TestProperties.isDevServer()) {
             
             BackDoor.deleteCourse(demoCourseId);
-            BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+            BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
             BackDoor.deleteInstructor(demoCourseId, instructor.email);
             return;
         }
@@ -267,8 +262,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         //verify sample course is accessible for newly joined instructor as an student
         
         StudentHomePage studentHomePage = getHomePage(browser).clickStudentLogin()
-                                                              .loginAsStudent(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
-                                                                              TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+                                                              .loginAsStudent(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+                                                                              TestProperties.TEST_INSTRUCTOR_PASSWORD);
         
         studentHomePage.verifyContains(demoCourseId);
         studentHomePage.clickViewTeam();
@@ -300,15 +295,15 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         //login in as instructor again to test sample course deletion
         instructorHomePage = getHomePage(browser).clickInstructorLogin()
-                                                 .loginAsInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
-                                                                    TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+                                                 .loginAsInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+                                                                    TestProperties.TEST_INSTRUCTOR_PASSWORD);
 
         instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
         assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been deleted."));
      
         instructorHomePage.logout();
         
-        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+        BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
 
@@ -319,25 +314,4 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
     
-    private LoginPage createCorrectLoginPageType(String pageSource) {
-        if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
-            return (LoginPage) createNewPage(browser, DevServerLoginPage.class);
-        } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
-            return (LoginPage) createNewPage(browser, GoogleLoginPage.class);
-        } else {
-            throw new IllegalStateException("Not a valid login page :" + pageSource);
-        }
-    }
-    
-    private <T extends AppPage> T createNewPage(Browser browser, Class<T> typeOfPage) {
-        Constructor<T> constructor;
-        try {
-            constructor = typeOfPage.getConstructor(Browser.class);
-            T page = constructor.newInstance(browser);
-            PageFactory.initElements(browser.driver, page);
-            return page;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

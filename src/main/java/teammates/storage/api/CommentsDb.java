@@ -260,7 +260,7 @@ public class CommentsDb extends EntitiesDb {
         }
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
-        getPM().close();
+        getPm().close();
     }
 
     /**
@@ -307,7 +307,7 @@ public class CommentsDb extends EntitiesDb {
         comment.setLastEditorEmail(newAttributes.giverEmail);
         comment.setLastEditedAt(newAttributes.createdAt);
         
-        getPM().close();
+        getPm().close();
         
         CommentAttributes updatedComment = new CommentAttributes(comment);
         log.info(updatedComment.getBackupIdentifier());
@@ -337,7 +337,7 @@ public class CommentsDb extends EntitiesDb {
         }
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
-        getPM().close();
+        getPm().close();
     }
     
     // for now, this method is not being used as instructor cannot be receiver
@@ -351,7 +351,7 @@ public class CommentsDb extends EntitiesDb {
         }
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
-        getPM().close();
+        getPm().close();
     }
     
     /*
@@ -378,7 +378,7 @@ public class CommentsDb extends EntitiesDb {
         }
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
-        getPM().close();
+        getPm().close();
     }
     
     /*
@@ -395,9 +395,9 @@ public class CommentsDb extends EntitiesDb {
 //                CommentRecipientType.INSTRUCTOR, email);
 //        getPM().deletePersistentAll(recipientComments);
         
-        getPM().deletePersistentAll(giverComments);
+        getPm().deletePersistentAll(giverComments);
         
-        getPM().flush();
+        getPm().flush();
     }
     
     /*
@@ -412,9 +412,9 @@ public class CommentsDb extends EntitiesDb {
         List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId,
                                                        CommentParticipantType.PERSON, email);
         
-        getPM().deletePersistentAll(recipientComments);
+        getPm().deletePersistentAll(recipientComments);
         
-        getPM().flush();
+        getPm().flush();
     }
     
     /*
@@ -429,8 +429,8 @@ public class CommentsDb extends EntitiesDb {
         List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId,
                                                        CommentParticipantType.TEAM, teamName);
         
-        getPM().deletePersistentAll(recipientComments);
-        getPM().flush();
+        getPm().deletePersistentAll(recipientComments);
+        getPm().flush();
     }
     
     /*
@@ -445,8 +445,8 @@ public class CommentsDb extends EntitiesDb {
         List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId,
                                                        CommentParticipantType.SECTION, sectionName);
         
-        getPM().deletePersistentAll(recipientComments);
-        getPM().flush();
+        getPm().deletePersistentAll(recipientComments);
+        getPm().flush();
     }
     
     /*
@@ -458,8 +458,8 @@ public class CommentsDb extends EntitiesDb {
         
         List<Comment> courseComments = getCommentEntitiesForCourse(courseId);
         
-        getPM().deletePersistentAll(courseComments);
-        getPM().flush();
+        getPm().deletePersistentAll(courseComments);
+        getPm().flush();
     }
     
     /*
@@ -471,8 +471,8 @@ public class CommentsDb extends EntitiesDb {
         
         List<Comment> commentsToDelete = getCommentEntitiesForCourses(courseIds);
         
-        getPM().deletePersistentAll(commentsToDelete);
-        getPM().flush();
+        getPm().deletePersistentAll(commentsToDelete);
+        getPm().flush();
     }
     
     /*
@@ -518,7 +518,7 @@ public class CommentsDb extends EntitiesDb {
         String query = "select from " + Comment.class.getName();
             
         @SuppressWarnings("unchecked")
-        List<Comment> commentList = (List<Comment>) getPM()
+        List<Comment> commentList = (List<Comment>) getPm()
                 .newQuery(query).execute();
     
         return getCommentsWithoutDeletedEntity(commentList);
@@ -536,7 +536,7 @@ public class CommentsDb extends EntitiesDb {
     }
     
     private List<Comment> getCommentEntitiesForCourse(String courseId) {
-        Query q = getPM().newQuery(Comment.class);
+        Query q = getPm().newQuery(Comment.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
         
@@ -547,7 +547,7 @@ public class CommentsDb extends EntitiesDb {
     }
     
     private List<Comment> getCommentEntitiesForCourses(List<String> courseIds) {
-        Query q = getPM().newQuery(Comment.class);
+        Query q = getPm().newQuery(Comment.class);
         q.setFilter(":p.contains(courseId)");
         
         @SuppressWarnings("unchecked")
@@ -557,7 +557,7 @@ public class CommentsDb extends EntitiesDb {
     }
     
     private List<Comment> getCommentEntitiesForSendingState(String courseId, CommentSendingState sendingState) {
-        Query q = getPM().newQuery(Comment.class);
+        Query q = getPm().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String sendingStateParam");
         q.setFilter("courseId == courseIdParam && sendingState == sendingStateParam");
         
@@ -568,7 +568,7 @@ public class CommentsDb extends EntitiesDb {
     }
     
     private List<Comment> getCommentEntitiesForGiver(String courseId, String giverEmail) {
-        Query q = getPM().newQuery(Comment.class);
+        Query q = getPm().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
         
@@ -580,7 +580,7 @@ public class CommentsDb extends EntitiesDb {
     
     private List<Comment> getCommentEntitiesForGiverAndStatus(String courseId, String giverEmail,
                                                               CommentStatus status) {
-        Query q = getPM().newQuery(Comment.class);
+        Query q = getPm().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam, String statusParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam && status == statusParam");
         
@@ -591,7 +591,7 @@ public class CommentsDb extends EntitiesDb {
     }
     
     private List<Comment> getCommentEntitiesForDraft(String giverEmail) {
-        Query q = getPM().newQuery(Comment.class);
+        Query q = getPm().newQuery(Comment.class);
         q.declareParameters("String giverEmailParam, String statusParam");
         q.setFilter("giverEmail == giverEmailParam && status == statusParam");
         
@@ -603,19 +603,20 @@ public class CommentsDb extends EntitiesDb {
     
     private List<Comment> getCommentEntitiesForRecipients(String courseId,
             CommentParticipantType recipientType, String recipient) {
-        Query q = getPM().newQuery(Comment.class);
+        Query q = getPm().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String recipientTypeParam, String receiverParam");
         q.setFilter("courseId == courseIdParam && recipientType == recipientTypeParam && recipients.contains(receiverParam)");
         
         @SuppressWarnings("unchecked")
-        List<Comment> commentList = (List<Comment>) q.execute(courseId, recipientType.toString(), Sanitizer.sanitizeForHtml(recipient));
+        List<Comment> commentList =
+                (List<Comment>) q.execute(courseId, recipientType.toString(), Sanitizer.sanitizeForHtml(recipient));
         
         return getCommentsWithoutDeletedEntity(commentList);
     }
     
     private List<Comment> getCommentEntitiesForCommentViewer(String courseId,
             CommentParticipantType commentViewerType) {
-        Query q = getPM().newQuery(Comment.class);
+        Query q = getPm().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String commentViewerTypeParam");
         q.setFilter("courseId == courseIdParam "
                 + "&& showCommentTo.contains(commentViewerTypeParam)");
@@ -638,7 +639,7 @@ public class CommentsDb extends EntitiesDb {
     
     // Gets a comment entity if the ID is known
     private Comment getCommentEntity(Long commentId) {
-        Query q = getPM().newQuery(Comment.class);
+        Query q = getPm().newQuery(Comment.class);
         q.declareParameters("Long commentIdParam");
         q.setFilter("commentId == commentIdParam");
         

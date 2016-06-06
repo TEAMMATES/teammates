@@ -29,7 +29,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testAccessControl() throws Exception {
+    public void testAccessControl() {
         
         String[] params = new String[]{
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Copied Session",
@@ -43,7 +43,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String expectedString = "";
@@ -113,7 +113,8 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Servlet Action Failure : Trying to create a Feedback Session that exists: Second feedback session/idOfTypicalCourse1|||"
+                + "Servlet Action Failure : Trying to create a Feedback Session that exists: "
+                + "Second feedback session/idOfTypicalCourse1|||"
                 + "/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         

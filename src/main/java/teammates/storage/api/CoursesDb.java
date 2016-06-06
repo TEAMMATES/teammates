@@ -81,7 +81,7 @@ public class CoursesDb extends EntitiesDb {
     @Deprecated
     public List<CourseAttributes> getAllCourses() {
         
-        Query q = getPM().newQuery(Course.class);
+        Query q = getPm().newQuery(Course.class);
         
         @SuppressWarnings("unchecked")
         List<Course> courseList = (List<Course>) q.execute();
@@ -124,7 +124,7 @@ public class CoursesDb extends EntitiesDb {
         courseEntityToUpdate.setArchiveStatus(Boolean.valueOf(courseToUpdate.isArchived));
         
         log.info(courseToUpdate.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
     
 
@@ -149,7 +149,7 @@ public class CoursesDb extends EntitiesDb {
     }
 
     private Course getCourseEntity(String courseId) {
-        Query q = getPM().newQuery(Course.class);
+        Query q = getPm().newQuery(Course.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("ID == courseIdParam");
         
@@ -168,7 +168,7 @@ public class CoursesDb extends EntitiesDb {
             return new ArrayList<Course>();
         }
         
-        Query q = getPM().newQuery(Course.class);
+        Query q = getPm().newQuery(Course.class);
         q.setFilter(":p.contains(ID)");
 
         @SuppressWarnings("unchecked")

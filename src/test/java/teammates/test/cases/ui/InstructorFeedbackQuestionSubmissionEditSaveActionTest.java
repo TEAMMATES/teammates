@@ -33,7 +33,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
         
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         FeedbackResponseAttributes fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, "%GENERAL%");
@@ -47,8 +47,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         verifyAssumptionFailure();
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
         };
         
         verifyAssumptionFailure(submissionParams);
@@ -58,8 +58,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
@@ -81,8 +81,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", "",
@@ -107,7 +107,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         fr.feedbackQuestionId = fq.getId();
         frDb.createEntity(fr);
         
-        fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
+        fq = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
         fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, "%GENERAL%");
         assertNotNull(fr);
         
@@ -118,8 +118,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
@@ -144,7 +144,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         fr.feedbackQuestionId = fq.getId();
         frDb.createEntity(fr);
         
-        fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
+        fq = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
         fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, "%GENERAL%");
         assertNotNull(fr);
         
@@ -155,8 +155,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
@@ -178,8 +178,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
@@ -200,8 +200,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
@@ -230,7 +230,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, FeedbackQuestionType.MCQ.toString(),//Submit mcq response for text question
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, FeedbackQuestionType.MCQ.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId()
         };
@@ -242,8 +242,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         ______TS("delete answer");
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
@@ -263,8 +263,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         ______TS("skip question");
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
@@ -283,8 +283,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         ______TS("new response");
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
@@ -303,8 +303,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         ______TS("Modified recipient to invalid recipient");
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", "invalid_recipient_email",
@@ -324,7 +324,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         instructor = dataBundle.instructors.get("instructor1OfCourse1");
         fs = dataBundle.feedbackSessions.get("gracePeriodSession");
         
-        fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 2);
+        fq = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 2);
         
         fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, instructor.email);
         assertNotNull(fr);
@@ -334,8 +334,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
@@ -357,7 +357,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         instructor = dataBundle.instructors.get("instructor1OfCourse1");
         fs = dataBundle.feedbackSessions.get("closedSession");
         
-        fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        fq = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         
         fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, instructor.email);
         assertNotNull(fr);
@@ -367,8 +367,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
@@ -390,7 +390,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         instructor = dataBundle.instructors.get("instructor1OfCourse2");
         fs = dataBundle.feedbackSessions.get("session1InCourse2");
         
-        fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        fq = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, "student1InCourse2@gmail.tmt");
         assertNotNull(fr);
         
@@ -399,8 +399,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
@@ -420,7 +420,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         ______TS("Unsuccessful case: test null course id parameter");
         
         submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
@@ -441,7 +441,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         ______TS("Unsuccessful case: test null feedback session name parameter");
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,

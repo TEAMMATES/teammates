@@ -80,8 +80,9 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         cursor = results.getCursor();
         
         for (ScoredDocument doc : results) {
-            StudentAttributes student = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(),
-                                                                             StudentAttributes.class);
+            StudentAttributes student =
+                    new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(),
+                                                         StudentAttributes.class);
             
             if (studentsLogic.getStudentForRegistrationKey(StringHelper.encrypt(student.key)) == null) {
                 studentsLogic.deleteDocument(student);

@@ -286,7 +286,8 @@ public class InstructorsLogic {
         CourseAttributes course = coursesLogic.getCourse(courseId);
         if (course == null) {
             throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + instructor.email + "]");
+                    "Course does not exist [" + courseId + "], "
+                    + "trying to send invite email to student [" + instructor.email + "]");
         }
 
         Emails emailMgr = new Emails();

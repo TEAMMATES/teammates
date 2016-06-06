@@ -493,7 +493,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * * All parameters are non-null.
      *  @return An empty list if no such responses are found.
      */
-    public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForSessionWithinRange(String giverEmail, String feedbackSessionName, String courseId, long range) {
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForSessionWithinRange(
+            String giverEmail, String feedbackSessionName, String courseId, long range) {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
@@ -638,7 +639,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         fr.setRecipientSection(newAttributes.recipientSection);
                 
         log.info(newAttributes.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
     
     public void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr)
@@ -660,13 +661,13 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         List<FeedbackResponse> feedbackResponses = getFeedbackResponseEntitiesForCourses(courseIds);
         
-        getPM().deletePersistentAll(feedbackResponses);
-        getPM().flush();
+        getPm().deletePersistentAll(feedbackResponses);
+        getPm().flush();
     }
     
     @SuppressWarnings("unchecked")
     public List<FeedbackResponse> getFeedbackResponseEntitiesForCourses(List<String> courseIds) {
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.setFilter(":p.contains(courseId)");
         
         return (List<FeedbackResponse>) q.execute(courseIds);
@@ -687,7 +688,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     
     @SuppressWarnings("unchecked")
     private List<FeedbackResponse> getFeedbackResponseEntitiesForCourse(String courseId) {
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
 
@@ -695,7 +696,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     }
     
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackResponseIdParam");
         q.setFilter("feedbackResponseId == feedbackResponseIdParam");
         
@@ -712,7 +713,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private FeedbackResponse getFeedbackResponseEntity(
             String feedbackQuestionId, String giverEmail, String receiver) {
         
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam, "
                             + "String giverEmailParam, String receiverParam");
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && "
@@ -735,9 +736,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         List<FeedbackResponse> feedbackResponses = new ArrayList<FeedbackResponse>();
        
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam, String giverSectionParam, String receiverSectionParam");
-        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverSection == giverSectionParam && receiverSection == receiverSectionParam");
+        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam "
+                    + "&& giverSection == giverSectionParam "
+                    + "&& receiverSection == receiverSectionParam");
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> firstQueryResponses =
@@ -760,7 +763,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestion(
                 String feedbackQuestionId) {
     
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam");
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam ");
         
@@ -773,7 +776,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionWithinRange(
                 String feedbackQuestionId, long range) {
     
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam");
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam ");
         q.setRange(0, range + 1);
@@ -787,7 +790,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSession(
             String feedbackSessionName, String courseId) {
         
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
 
@@ -801,7 +804,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionWithinRange(
             String feedbackSessionName, String courseId, long range) {
         
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
         q.setRange(0, range + 1);
@@ -818,9 +821,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
 
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
-        q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && giverSection == sectionParam");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam "
+                    + "&& courseId == courseIdParam "
+                    + "&& giverSection == sectionParam");
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> firstQueryResponses =
@@ -831,7 +836,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
             }
         }
         
-        q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && receiverSection == sectionParam");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam "
+                    + "&& courseId == courseIdParam "
+                    + "&& receiverSection == sectionParam");
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> secondQueryResponses =
                 (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
@@ -847,9 +854,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionFromSection(
             String feedbackSessionName, String courseId, String section) {
 
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
-        q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && giverSection == sectionParam");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam "
+                    + "&& courseId == courseIdParam "
+                    + "&& giverSection == sectionParam");
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> queryResponses =
@@ -861,9 +870,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionToSection(
             String feedbackSessionName, String courseId, String section) {
 
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
-        q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && receiverSection == sectionParam");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam "
+                    + "&& courseId == courseIdParam "
+                    + "&& receiverSection == sectionParam");
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> queryResponses =
@@ -877,9 +888,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
 
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
-        q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && giverSection == sectionParam");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam "
+                    + "&& courseId == courseIdParam "
+                    + "&& giverSection == sectionParam");
         q.setRange(0, range + 1);
         
         @SuppressWarnings("unchecked")
@@ -891,7 +904,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
             }
         }
         
-        q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && receiverSection == sectionParam");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam "
+                    + "&& courseId == courseIdParam "
+                    + "&& receiverSection == sectionParam");
         q.setRange(0, range + 1);
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> secondQueryResponses =
@@ -908,9 +923,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionFromSectionWithinRange(
             String feedbackSessionName, String courseId, String section, long range) {
 
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
-        q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && giverSection == sectionParam");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam "
+                    + "&& courseId == courseIdParam "
+                    + "&& giverSection == sectionParam");
         q.setRange(0, range + 1);
 
         @SuppressWarnings("unchecked")
@@ -923,9 +940,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionToSectionWithinRange(
             String feedbackSessionName, String courseId, String section, long range) {
 
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
-        q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && receiverSection == sectionParam");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam "
+                    + "&& courseId == courseIdParam "
+                    + "&& receiverSection == sectionParam");
         q.setRange(0, range + 1);
 
         @SuppressWarnings("unchecked")
@@ -938,7 +957,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForQuestion(
             String feedbackQuestionId, String receiver) {
 
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam, String receiverParam");
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && receiver == receiverParam");
         
@@ -954,7 +973,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
         
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam, String receiverParam, String sectionParam");
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && receiver == receiverParam "
                     + "&& giverSection == sectionParam");
@@ -985,7 +1004,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestion(
             String feedbackQuestionId, String giverEmail) {
 
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam, String giverEmailParam");
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam");
         
@@ -1001,7 +1020,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
         
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam, String giverEmailParam, String sectionParam");
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam "
                     + "&& giverSection == sectionParam");
@@ -1032,9 +1051,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForSessionWithinRange(
             String giverEmail, String feedbackSessionName, String courseId, long range) {
 
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String giverEmailParam, String feedbackSessionNameParam, String courseIdParam");
-        q.setFilter("giverEmail == giverEmailParam && feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
+        q.setFilter("giverEmail == giverEmailParam "
+                    + "&& feedbackSessionName == feedbackSessionNameParam "
+                    + "&& courseId == courseIdParam");
         q.setRange(0, range + 1);
         
         @SuppressWarnings("unchecked")
@@ -1047,7 +1068,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForCourse(
             String courseId, String receiver) {
 
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String courseIdParam, String receiverParam");
         q.setFilter("courseId == courseIdParam && receiver == receiverParam");
         
@@ -1060,7 +1081,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForCourse(
             String courseId, String giverEmail) {
 
-        Query q = getPM().newQuery(FeedbackResponse.class);
+        Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
         

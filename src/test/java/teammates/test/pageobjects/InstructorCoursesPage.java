@@ -1,11 +1,11 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import teammates.test.driver.AssertHelper;
 
 /** Represents the "Courses" page for Instructors. */
 public class InstructorCoursesPage extends AppPage {
@@ -165,8 +165,9 @@ public class InstructorCoursesPage extends AppPage {
     public void waitForAjaxLoadCoursesError() {
         By element = By.id("retryAjax");
         waitForElementPresence(element);
-        WebElement statusMessage = browser.driver.findElement(By.id("statusMessagesToUser")).findElement(By.className("statusMessage"));
-        AssertHelper.assertContains("Courses could not be loaded. Click here to retry", statusMessage.getText());
+        WebElement statusMessage =
+                browser.driver.findElement(By.id("statusMessagesToUser")).findElement(By.className("statusMessage"));
+        assertEquals("Courses could not be loaded. Click here to retry.", statusMessage.getText());
     }
     
     public void waitForAjaxLoadCoursesSuccess() {

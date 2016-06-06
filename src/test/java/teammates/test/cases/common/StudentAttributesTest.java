@@ -1,6 +1,7 @@
 package teammates.test.cases.common;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -18,11 +19,42 @@ import teammates.test.cases.BaseTestCase;
 
 public class StudentAttributesTest extends BaseTestCase {
 
+    private class StudentAttributesWithModifiableTimestamp extends StudentAttributes {
+        
+        private void setCreatedAt(Date createdAt) {
+            this.createdAt = createdAt;
+        }
+        
+        private void setUpdatedAt(Date updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+        
+    }
+    
     @BeforeClass
     public static void setupClass() {
         printTestClassHeader();
     }
 
+    @Test
+    public void testDefaultTimestamp() {
+        
+        StudentAttributesWithModifiableTimestamp s = new StudentAttributesWithModifiableTimestamp();
+        
+        s.setCreatedAt(null);
+        s.setUpdatedAt(null);
+        
+        Date defaultStudentCreationTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        
+        ______TS("success : defaultTimeStamp for createdAt date");
+        
+        assertEquals(defaultStudentCreationTimeStamp, s.getCreatedAt());
+        
+        ______TS("success : defaultTimeStamp for updatedAt date");
+        
+        assertEquals(defaultStudentCreationTimeStamp, s.getUpdatedAt());
+    }
+    
     @Test
     public void testUpdateStatusEnum() {
         assertEquals(UpdateStatus.ERROR, UpdateStatus.enumRepresentation(0));
@@ -52,12 +84,12 @@ public class StudentAttributesTest extends BaseTestCase {
         expected = generateTypicalStudentObject();
         studentUnderTest = new StudentAttributes("googleId.1", "email@email.com", "name 1", "comment 1",
                                                  "courseId1", "team 1", "section 1");
-        verifyStudentContentIncludingID(expected, studentUnderTest.toEntity());
+        verifyStudentContentIncludingId(expected, studentUnderTest.toEntity());
 
         ______TS("Typical case: initialize from entity");
         expected = generateTypicalStudentObject();
         studentUnderTest = new StudentAttributes(expected);
-        verifyStudentContentIncludingID(expected, studentUnderTest.toEntity());
+        verifyStudentContentIncludingId(expected, studentUnderTest.toEntity());
 
         ______TS("Failure case: empty course id");
         invalidStudent = new StudentAttributes("section", "team", "name", "e@e.com", "c", "");
@@ -145,11 +177,16 @@ public class StudentAttributesTest extends BaseTestCase {
         s.team = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
 
         assertFalse("invalid value", s.isValid());
-        String errorMessage = String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid@google@id", FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
+        String errorMessage = String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid@google@id",
+                                            FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
                 + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY) + Const.EOL
-                + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email", FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
-                + String.format(FieldValidator.TEAM_NAME_ERROR_MESSAGE, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", FieldValidator.REASON_TOO_LONG) + Const.EOL
-                + String.format(FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, s.comments, FieldValidator.REASON_TOO_LONG) + Const.EOL
+                + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
+                                FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
+                + String.format(FieldValidator.TEAM_NAME_ERROR_MESSAGE,
+                                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                                FieldValidator.REASON_TOO_LONG) + Const.EOL
+                + String.format(FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, s.comments,
+                                FieldValidator.REASON_TOO_LONG) + Const.EOL
                 + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY);
         assertEquals("invalid value", errorMessage, StringHelper.toString(s.getInvalidityInfo()));
     }
@@ -325,7 +362,7 @@ public class StudentAttributesTest extends BaseTestCase {
         assertEquals(expected.getComments(), actual.getComments());
     }
 
-    private void verifyStudentContentIncludingID(Student expected, Student actual) {
+    private void verifyStudentContentIncludingId(Student expected, Student actual) {
         verifyStudentContent(expected, actual);
         assertEquals(expected.getGoogleId(), actual.getGoogleId());
     }

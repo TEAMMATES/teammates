@@ -39,9 +39,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         // use both the student accounts injected for this test
         
-        String student1GoogleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+        String student1GoogleId = TestProperties.TEST_STUDENT1_ACCOUNT;
         String student1Email = student1GoogleId + "@gmail.com";
-        String student2GoogleId = TestProperties.inst().TEST_STUDENT2_ACCOUNT;
+        String student2GoogleId = TestProperties.TEST_STUDENT2_ACCOUNT;
         String student2Email = student2GoogleId + "@gmail.com";
         testData.accounts.get("Alice").googleId = student1GoogleId;
         testData.accounts.get("Charlie").googleId = student2GoogleId;
@@ -128,9 +128,15 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         patternString = "Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
         detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
         
-        patternString = "Team 1</option><option value=\"dump\"></td><td>'\"{*}Team 1</option><option value=\"dump\"></td><td>'\"{*}Team 2{*}Team 2";
+        patternString = "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
+                        + "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
+                        + "Team 2{*}"
+                        + "Team 2";
         detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
-        patternString = "Team 2{*}Team 2{*}Team 1</option><option value=\"dump\"></td><td>'\"{*}Team 1</option><option value=\"dump\"></td><td>'\"";
+        patternString = "Team 2{*}"
+                        + "Team 2{*}"
+                        + "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
+                        + "Team 1</option><option value=\"dump\"></td><td>'\"";
         detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
     }
     
@@ -181,9 +187,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         StudentAttributes student2 = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
 
         // student2 is yet to register, student1 is already registered
-        String student1Password = TestProperties.inst().TEST_STUDENT1_PASSWORD;
-        String student2Password = TestProperties.inst().TEST_STUDENT2_PASSWORD;
-        boolean isEmailEnabled = !TestProperties.inst().isDevServer();
+        String student1Password = TestProperties.TEST_STUDENT1_PASSWORD;
+        String student2Password = TestProperties.TEST_STUDENT2_PASSWORD;
+        boolean isEmailEnabled = !TestProperties.isDevServer();
 
         ______TS("action: remind single student");
 

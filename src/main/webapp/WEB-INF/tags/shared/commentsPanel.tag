@@ -52,7 +52,7 @@
                 <ul class="list-group comments"> 
                     <c:forEach items="${commentsForStudentsTable.rows}" var="commentRow">
                         <c:set var="commentIndex" value="${commentIndex + 1}" />
-                        <shared:comment comment="${commentRow}" commentIndex="${commentIndex}" />
+                        <shared:commentRow comment="${commentRow}" commentIndex="${commentIndex}" />
                     </c:forEach>
                     <c:if test="${forRecordsPage}">
                         <c:if test="${empty commentsForStudentsTable.rows}">

@@ -30,7 +30,7 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         String emailId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);
         Assumption.assertNotNull(emailId);
         
-        String receiverEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_RECEVIER);
+        String receiverEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_RECEIVER);
         Assumption.assertNotNull(receiverEmail);
         
 
@@ -59,11 +59,14 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
 
     }
     
-    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws MessagingException, JSONException, IOException {
+    private void sendAdminEmail(String emailContent, String subject, String receiverEmail)
+            throws MessagingException, JSONException, IOException {
         
         Emails emailsManager = new Emails();
         
-        MimeMessage email = emailsManager.generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent), subject, receiverEmail);
+        MimeMessage email =
+                emailsManager.generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),
+                                                 subject, receiverEmail);
         emailsManager.sendEmailWithoutLogging(email);
        
     }

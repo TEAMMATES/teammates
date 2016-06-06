@@ -23,7 +23,8 @@ import com.google.gson.Gson;
  * The search result bundle for {@link FeedbackResponseCommentAttributes}.
  */
 public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundle {
-    public Map<String, List<FeedbackResponseCommentAttributes>> comments = new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+    public Map<String, List<FeedbackResponseCommentAttributes>> comments =
+            new HashMap<String, List<FeedbackResponseCommentAttributes>>();
     public Map<String, List<FeedbackResponseAttributes>> responses = new HashMap<String, List<FeedbackResponseAttributes>>();
     public Map<String, List<FeedbackQuestionAttributes>> questions = new HashMap<String, List<FeedbackQuestionAttributes>>();
     public Map<String, FeedbackSessionAttributes> sessions = new HashMap<String, FeedbackSessionAttributes>();
@@ -126,12 +127,12 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             FeedbackSessionAttributes session = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(),
                     FeedbackSessionAttributes.class);
-            if (fsLogic.getFeedbackSession(session.getSessionName(), session.courseId) == null) {
+            if (fsLogic.getFeedbackSession(session.getSessionName(), session.getCourseId()) == null) {
                 frcLogic.deleteDocument(comment);
                 continue;
             }
-            if (!isAdded.contains(session.feedbackSessionName)) {
-                isAdded.add(session.feedbackSessionName);
+            if (!isAdded.contains(session.getFeedbackSessionName())) {
+                isAdded.add(session.getFeedbackSessionName());
                 sessions.put(session.getSessionName(), session);
             }
             
@@ -165,7 +166,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         return this;
     }
     
-    private String getFilteredCommentGiverName(FeedbackResponseAttributes response, FeedbackResponseCommentAttributes comment, String name) {
+    private String getFilteredCommentGiverName(FeedbackResponseAttributes response,
+                                               FeedbackResponseCommentAttributes comment, String name) {
         return isCommentGiverNameVisibleToInstructor(response, comment) ? name : "Anonymous";
     }
     

@@ -39,8 +39,8 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         
         // use the instructor account injected for this test
         
-        testData.accounts.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-        testData.accounts.get("instructor1OfCourse1").email = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
+        testData.accounts.get("instructor1OfCourse1").googleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
+        testData.accounts.get("instructor1OfCourse1").email = TestProperties.TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
         
         removeAndRestoreTestDataOnServer(testData);
         
@@ -84,7 +84,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         
         //Verify pre-existing submissions and responses
         List<FeedbackResponseAttributes> oldResponsesForSession =
-                getAllResponsesForStudentForSession(student, session.feedbackSessionName);
+                getAllResponsesForStudentForSession(student, session.getFeedbackSessionName());
         assertFalse(oldResponsesForSession.isEmpty());
         
         String newTeam = "Team 1.2";
@@ -96,7 +96,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         
         
         int numberOfNewResponses =
-                getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
+                getAllResponsesForStudentForSession(student, session.getFeedbackSessionName()).size();
         assertEquals(0, numberOfNewResponses);
         
     }

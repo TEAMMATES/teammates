@@ -16,9 +16,9 @@ public class Course {
     @PrimaryKey
     @Persistent
     @SerializedName("id")
-    //CHECKSTYLE:OFF the database uses ID
+    // CHECKSTYLE.OFF:AbbreviationAsWordInName|MemberName the database uses ID
     private String ID;
-    //CHECKSTYLE:ON
+    // CHECKSTYLE.ON:AbbreviationAsWordInName|MemberName
 
     @Persistent
     private String name;

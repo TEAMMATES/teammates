@@ -76,10 +76,13 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             
             if (questionAttributes == null) {
-                statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
-                                                + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
+                statusToUser.add(new StatusMessage("The feedback session or questions may have changed "
+                                                       + "while you were submitting. Please check your responses "
+                                                       + "to make sure they are saved correctly.",
+                                                   StatusMessageColor.WARNING));
                 isError = true;
-                log.warning("Question not found in Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]."
+                log.warning("Question not found in Feedback Session [" + feedbackSessionName + "] "
+                            + "of Course ID [" + courseId + "]."
                             + "(deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
                 continue;
             }
@@ -93,16 +96,19 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
      * @param instructor the instructor to be checked
      * @param questionAttributes the question to be checked against
      */
-    private void checkSessionQuestionAccessPermission(InstructorAttributes instructor, FeedbackQuestionAttributes questionAttributes) {
+    private void checkSessionQuestionAccessPermission(InstructorAttributes instructor,
+                                                      FeedbackQuestionAttributes questionAttributes) {
         boolean isGiverVisibleToInstructors = questionAttributes.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean isRecipientVisibleToInstructors = questionAttributes.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isRecipientVisibleToInstructors =
+                questionAttributes.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
         boolean isResponseVisibleToInstructors = questionAttributes.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
         
         if (!isResponseVisibleToInstructors || !isGiverVisibleToInstructors || !isRecipientVisibleToInstructors) {
             isError = true;
             throw new UnauthorizedAccessException(
                     "Feedback session [" + feedbackSessionName
-                    + "] question [" + questionAttributes.getId() + "] is not accessible to instructor [" + instructor.email + "]");
+                    + "] question [" + questionAttributes.getId() + "] is not accessible "
+                    + "to instructor [" + instructor.email + "]");
         }
     }
 

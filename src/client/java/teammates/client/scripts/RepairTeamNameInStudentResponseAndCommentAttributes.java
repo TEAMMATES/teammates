@@ -106,7 +106,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     private List<CourseAttributes> getCoursesWithinOneYear() {
         List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         
-        Query q = getPM().newQuery(Course.class);
+        Query q = getPm().newQuery(Course.class);
         q.declareParameters("java.util.Date startTime");
         q.setFilter("createdAt >= startTime");
         
@@ -268,7 +268,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         return !s.equals(StringHelper.removeExtraSpace(s));
     }
     
-    protected PersistenceManager getPM() {
+    protected PersistenceManager getPm() {
         return Datastore.getPersistenceManager();
     }
     
@@ -284,6 +284,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
         
-        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments, true);
+        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section,
+                                 student.email, student.googleId, student.comments, true);
     }
 }

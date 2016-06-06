@@ -174,10 +174,10 @@ public final class DataGenerator {
                 
                 //add to team, add to students;
                 String studentIndex = email.split("Email@gmail.com")[0].split("Stu")[1];
-                String studentID = PREFIX + "Stu" + studentIndex + "Team" + teamCount + "_in_" + courseName;
+                String studentId = PREFIX + "Stu" + studentIndex + "Team" + teamCount + "_in_" + courseName;
                 
-                students.add(studentID);
-                team.add(studentID);
+                students.add(studentId);
+                team.add(studentId);
             }
 
             teamCount++;
@@ -327,7 +327,8 @@ public final class DataGenerator {
     public static int getDeviatedNumberOfStudentInCourse() {
         int num = 0;
         do {
-            num = (int) Math.floor(random.nextGaussian() * STANDARD_DEVIATION_STUDENT_PER_COURSE + AVERAGE_NUM_OF_STUDENTS_PER_COURSE);
+            num = (int) Math.floor(random.nextGaussian() * STANDARD_DEVIATION_STUDENT_PER_COURSE
+                                   + AVERAGE_NUM_OF_STUDENTS_PER_COURSE);
         } while (num > MAX_NUM_OF_STUDENTS_PER_COURSE || num < MIN_NUM_OF_STUDENTS_PER_COURSE);
         return num;
     }

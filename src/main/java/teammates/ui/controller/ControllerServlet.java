@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.PageNotFoundException;
@@ -74,7 +74,7 @@ public class ControllerServlet extends HttpServlet {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
-        } catch (EntityDoesNotExistException e) {
+        } catch (EntityNotFoundException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
@@ -105,7 +105,8 @@ public class ControllerServlet extends HttpServlet {
             cleanUpStatusMessageInSession(req);
             
             List<StatusMessage> statusMessagesToUser = new ArrayList<StatusMessage>();
-            statusMessagesToUser.add(new StatusMessage(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, StatusMessageColor.WARNING));
+            statusMessagesToUser.add(new StatusMessage(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
+                                                       StatusMessageColor.WARNING));
             req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST, statusMessagesToUser);
             
             if (requestUrl.contains("/instructor")) {

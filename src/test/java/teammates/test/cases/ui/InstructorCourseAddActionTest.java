@@ -30,7 +30,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecute() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         
@@ -44,8 +44,8 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         ______TS("Error: Invalid parameter for Course ID");
         
-        String invalidCourseID = "ticac,tpa1,id";
-        Action addAction = getAction(Const.ParamsNames.COURSE_ID, invalidCourseID,
+        String invalidCourseId = "ticac,tpa1,id";
+        Action addAction = getAction(Const.ParamsNames.COURSE_ID, invalidCourseId,
                                      Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
         ShowPageResult pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
@@ -53,7 +53,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                      pageResult.getDestinationWithParams());
 
         assertTrue(pageResult.isError);
-        assertEquals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseID,
+        assertEquals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseId,
                                         FieldValidator.REASON_INCORRECT_FORMAT), pageResult.getStatusMessage());
 
         InstructorCoursesPageData pageData = (InstructorCoursesPageData) pageResult.data;
@@ -61,7 +61,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                                     + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                    + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseID,
+                                    + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseId,
                                     FieldValidator.REASON_INCORRECT_FORMAT)
                                     + "|||/page/instructorCourseAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
