@@ -85,6 +85,7 @@
             "name": "Instructor1 Course1",
             "email": "FSRTest.instr1@course1.tmt",
             "role":"Co-owner",
+            "isArchived": false,
             "displayedName":"Co-owner",
             "privileges": {
                 "courseLevel": {
@@ -110,6 +111,7 @@
             "name": "Instructor2 Course1",
             "email": "FSRTest.instr2@course1.tmt",
             "role":"Co-owner",
+            "isArchived": false,
             "displayedName":"Co-owner",
             "privileges": {
                 "courseLevel": {
@@ -135,6 +137,7 @@
             "name": "Instructor3 Course1",
             "email": "FSRTest.instr3@course1n2.tmt",
             "role":"Co-owner",
+            "isArchived": false,
             "displayedName":"Co-owner",
             "privileges": {
                 "courseLevel": {
@@ -160,6 +163,7 @@
             "name": "Instructor3 No Sessions",
             "email": "FSRTest.instr3@course1n2.tmt",
             "role":"Co-owner",
+            "isArchived": false,
             "displayedName":"Co-owner",
             "privileges": {
                 "courseLevel": {

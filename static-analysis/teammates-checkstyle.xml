@@ -118,15 +118,19 @@
       <property name="format" value="((?!\*)\S|\* ) +$"/>
       <property name="message" value="Line has trailing spaces."/>
     </module>
+    <module name="LineLength">
+      <property name="max" value="140"/>
+      <property name="tabWidth" value="4"/>
+    </module>
   </module>
   <module name="SuppressionFilter">
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>
   </module>
   <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter">
-      <property name="offCommentFormat" value="CHECKSTYLE\.OFF:([A-Za-z\|]+)"/>
-      <property name="onCommentFormat" value="CHECKSTYLE\.ON:([A-Za-z\|]+)"/>
-      <property name="checkFormat" value="$1"/>
+    <property name="offCommentFormat" value="CHECKSTYLE\.OFF:([A-Za-z\|]+)"/>
+    <property name="onCommentFormat" value="CHECKSTYLE\.ON:([A-Za-z\|]+)"/>
+    <property name="checkFormat" value="$1"/>
   </module>
   <module name="NewlineAtEndOfFile">
     <property name="lineSeparator" value="lf_cr_crlf"/>

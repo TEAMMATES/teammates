@@ -32,9 +32,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * This is set to null to represent a missing response.
      */
     public Text responseMetaData;
+    protected transient Date createdAt;
+    protected transient Date updatedAt;
     private String feedbackResponseId;
-    private transient Date createdAt;
-    private transient Date updatedAt;
     
     public FeedbackResponseAttributes() {
         // attributes to be set after construction
@@ -236,20 +236,6 @@ public class FeedbackResponseAttributes extends EntityAttributes {
                 return fr1.getId().compareTo(fr2.getId());
             }
         });
-    }
-    
-    /**
-     * Should only be used for testing
-     */
-    public void setCreatedAt_nonProduction(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    /**
-     * Should only be used for testing
-     */
-    public void setUpdatedAt_nonProduction(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
     
 }
