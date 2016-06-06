@@ -129,7 +129,8 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 
         ______TS("edit action");
         
-        InstructorCourseDetailsPage detailsPage = editPage.submitSuccessfully("New name", "New team", "newemail@gmail.tmt", "New comments");
+        InstructorCourseDetailsPage detailsPage =
+                editPage.submitSuccessfully("New name", "New team", "newemail@gmail.tmt", "New comments");
         detailsPage.verifyStatus(Const.StatusMessages.STUDENT_EDITED);
         detailsPage.verifyIsCorrectPage(testData.courses.get("CCSDEditUiT.CS2104").getId());
             

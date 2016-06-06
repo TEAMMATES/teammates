@@ -77,14 +77,15 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED, r.getStatusMessage());
         
-        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
-                                  + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                  + "Student <span class=\"bold\">" + student1InCourse1.email
-                                  + "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"
-                                  + "New Email: " + newStudentEmail
-                                  + "<br>New Team: " + newStudentTeam
-                                  + "<br>Comments: " + newStudentComments
-                                  + "|||/page/instructorCourseStudentDetailsEditSave";
+        String expectedLogMessage =
+                "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Student <span class=\"bold\">" + student1InCourse1.email
+                + "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"
+                + "New Email: " + newStudentEmail
+                + "<br>New Team: " + newStudentTeam
+                + "<br>Comments: " + newStudentComments
+                + "|||/page/instructorCourseStudentDetailsEditSave";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
@@ -151,11 +152,12 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG),
                 result.getStatusMessage());
         
-        expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
-                           + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                           + "Servlet Action Failure : "
-                           + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG)
-                           + "|||/page/instructorCourseStudentDetailsEditSave";
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Servlet Action Failure : "
+                + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG)
+                + "|||/page/instructorCourseStudentDetailsEditSave";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         

@@ -103,7 +103,8 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
             if (a.getInstitute() == null || a.getInstitute().isEmpty()) {
                 System.out.println("Assigning '" + studentInstitutions.get(a.getGoogleId()) + "' to '" + a.getGoogleId());
                 if (!isTrial) {
-                    Account newA = new Account(a.getGoogleId(), a.getName(), false, a.getEmail(), studentInstitutions.get(a.getGoogleId()));
+                    Account newA = new Account(a.getGoogleId(), a.getName(), false, a.getEmail(),
+                                               studentInstitutions.get(a.getGoogleId()));
                     pm.deletePersistent(a);
                     pm.makePersistent(newA);
                 }

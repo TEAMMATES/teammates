@@ -15,7 +15,8 @@ public class StudentCourseDetailsPanel {
     private List<StudentAttributes> teammates;
     
     public StudentCourseDetailsPanel(String courseId, String courseName, List<InstructorAttributes> instructors,
-                                       String studentTeam, String studentName, String studentEmail, List<StudentAttributes> teammates) {
+                                     String studentTeam, String studentName, String studentEmail,
+                                     List<StudentAttributes> teammates) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.instructors = instructors;

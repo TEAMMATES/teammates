@@ -217,7 +217,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("empty weight test");
 
-        feedbackEditPage.fillQuestionBox("empty weight test");
+        feedbackEditPage.fillNewQuestionBox("empty weight test");
         feedbackEditPage.clickAssignWeightsCheckbox(-1);
         feedbackEditPage.fillRubricWeightBox("", -1, 3);
         feedbackEditPage.clickAddQuestionButton();
@@ -238,7 +238,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RUBRIC");
-        feedbackEditPage.fillQuestionBox("RUBRIC qn");
+        feedbackEditPage.fillNewQuestionBox("RUBRIC qn");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
@@ -251,7 +251,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("RUBRIC: edit question success");
         
         // Click edit button
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         
         // Check that fields are editable
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEdit.html");
@@ -264,7 +264,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditSuccess.html");
         
         ______TS("RUBRIC: edit sub-questions success");
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         
         // Edit sub-question for row 1
         feedbackEditPage.fillRubricSubQuestionBox("New(0) sub-question text", 1, 0);
@@ -290,7 +290,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditSubQuestionSuccess.html");
 
         ______TS("RUBRIC: edit choices success");
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         
         // Edit choice for col 1
         feedbackEditPage.fillRubricChoiceBox("New(0) choice", 1, 0);
@@ -315,7 +315,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditChoiceSuccess.html");
 
         ______TS("RUBRIC: edit weight success");
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
 
         // Edit the weight of the first choice
         feedbackEditPage.clickAssignWeightsCheckbox(1);
@@ -325,7 +325,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditWeightSuccess.html");
 
         ______TS("RUBRIC: edit descriptions success");
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         
         // Edit description for 0-0
         feedbackEditPage.fillRubricDescriptionBox("New(0) description", 1, 0, 0);
@@ -367,10 +367,10 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectNewQuestionType("RUBRIC");
         
         // start editing it
-        feedbackEditPage.fillQuestionBox("RUBRIC qn JS validation test");
+        feedbackEditPage.fillNewQuestionBox("RUBRIC qn JS validation test");
         feedbackEditPage.clickAddQuestionButton();
         
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         
         // try to remove everything
         feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);

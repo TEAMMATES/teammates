@@ -89,7 +89,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public void checkCourse(int courseIdx) {
         browser.driver.findElement(By.id("course_check-" + courseIdx)).click();
-        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-preload.gif']"));
+        waitForAjaxLoaderGifToDisappear();
     }
 
     public void clickDisplayArchiveOptions() {

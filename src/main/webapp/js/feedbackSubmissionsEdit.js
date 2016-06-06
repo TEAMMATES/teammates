@@ -228,8 +228,9 @@ function prepareMSQQuestions() {
 
         // reset other options when "none of the above" is clicked
         noneOfTheAboveOption.click(function() {
-            var $options = $(this).closest('table').find(
-                           'input[name^="responsetext-"][value!=""], input[name^="responsetext-"][data-text]'); // includes 'other'
+            var $options = $(this).closest('table')
+                                  .find('input[name^="responsetext-"][value!=""], '
+                                        + 'input[name^="responsetext-"][data-text]'); // includes 'other'
             var name = $(this).attr('name');
             var indexSuffix = name.substring(name.indexOf('-'));
             
@@ -524,7 +525,8 @@ function updateConstSumMessageQn(qnNum) {
         var message = '';
 
         if (allNotNumbers) {
-            message = 'Please distribute ' + points + ' points among the above ' + (distributeToRecipients ? 'recipients.' : 'options.');
+            message = 'Please distribute ' + points + ' points among the above '
+                      + (distributeToRecipients ? 'recipients.' : 'options.');
             messageElement.addClass('text-color-blue');
             messageElement.removeClass('text-color-red');
             messageElement.removeClass('text-color-green');
