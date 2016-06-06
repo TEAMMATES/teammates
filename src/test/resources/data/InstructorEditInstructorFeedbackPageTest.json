@@ -473,7 +473,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"IEIFPTCoursehelper1@gmail.tmt",
-            "recipientEmail":"IEIFPTCoursehelper1@gmail.tmt",
+            "recipient":"IEIFPTCoursehelper1@gmail.tmt",
             "responseMetaData":{
                 "value":"Helper 1 self feedback."
             },
@@ -486,7 +486,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"IEIFPTCourseintr@gmail.tmt",
-            "recipientEmail":"IEIFPTCourseintr@gmail.tmt",
+            "recipient":"IEIFPTCourseintr@gmail.tmt",
             "responseMetaData":{
                 "value":"Instructor 1 self feedback."
             },
@@ -499,7 +499,7 @@
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"TEXT",
             "giver":"IEIFPTCoursehelper1@gmail.tmt",
-            "recipientEmail":"student1InIEIFPTCourse@gmail.tmt",
+            "recipient":"student1InIEIFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"Helper 1 opinion about Student 1."
             },
@@ -512,7 +512,7 @@
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"TEXT",
             "giver":"IEIFPTCoursehelper1@gmail.tmt",
-            "recipientEmail":"student1InIEIFPTCourse@gmail.tmt",
+            "recipient":"student1InIEIFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"response whereby receipient should not be seen by instructors"
             },
@@ -525,7 +525,7 @@
             "feedbackQuestionId":"5",
             "feedbackQuestionType":"TEXT",
             "giver":"IEIFPTCoursehelper1@gmail.tmt",
-            "recipientEmail":"student1InIEIFPTCourse@gmail.tmt",
+            "recipient":"student1InIEIFPTCourse@gmail.tmt",
             "responseMetaData":{
                 "value":"response whereby giver should not be seen by instructors"
             },
@@ -538,7 +538,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"IEIFPTCourseintr@gmail.tmt",
-            "recipientEmail":"IEIFPTCourseintr@gmail.tmt",
+            "recipient":"IEIFPTCourseintr@gmail.tmt",
             "responseMetaData":{
                 "value":"Session 2 Question 1 Response 1"
             },
@@ -551,7 +551,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"IEIFPTCoursehelper1@gmail.tmt",
-            "recipientEmail":"IEIFPTCoursehelper1@gmail.tmt",
+            "recipient":"IEIFPTCoursehelper1@gmail.tmt",
             "responseMetaData":{
                 "value":"Session 2 Question 1 Response 2"
             },
@@ -564,7 +564,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"IEIFPTCourseintr@gmail.tmt",
-            "recipientEmail":"IEIFPTCourseintr@gmail.tmt",
+            "recipient":"IEIFPTCourseintr@gmail.tmt",
             "responseMetaData":{
                 "value":"Closed session response"
             },

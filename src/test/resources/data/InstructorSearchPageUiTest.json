@@ -329,7 +329,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"searchUI.student1InCourse1@gmail.tmt",
-            "recipientEmail":"searchUI.student1InCourse1@gmail.tmt",
+            "recipient":"searchUI.student1InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Student 1 self feedback."
             },
@@ -342,7 +342,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"searchUI.student2InCourse1@gmail.tmt",
-            "recipientEmail":"searchUI.student2InCourse1@gmail.tmt",
+            "recipient":"searchUI.student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"I'm cool'"
             },
@@ -355,7 +355,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giver":"searchUI.student2InCourse1@gmail.tmt",
-            "recipientEmail":"searchUI.student1InCourse1@gmail.tmt",
+            "recipient":"searchUI.student1InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 2 to student 1."
             },
@@ -368,7 +368,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giver":"searchUI.student1InCourse1@gmail.tmt",
-            "recipientEmail":"searchUI.student2InCourse1@gmail.tmt",
+            "recipient":"searchUI.student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 1 to student 2."
             },
@@ -381,7 +381,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giver":"searchUI.student3InCourse1@gmail.tmt",
-            "recipientEmail":"searchUI.student2InCourse1@gmail.tmt",
+            "recipient":"searchUI.student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 3 \"to\" student 2.\r\nMultiline test."
             },
@@ -394,7 +394,7 @@
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"TEXT",
             "giver":"searchUI.instructor1@course1.tmt",
-            "recipientEmail":"%GENERAL%",
+            "recipient":"%GENERAL%",
             "responseMetaData":{
                 "value":"Good work, keep it up!"
             },

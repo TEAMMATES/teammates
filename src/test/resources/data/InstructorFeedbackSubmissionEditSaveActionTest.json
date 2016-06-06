@@ -425,7 +425,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"instructor1@course1.tmt",
-            "recipientEmail":"instructor1@course1.tmt",
+            "recipient":"instructor1@course1.tmt",
             "responseMetaData":{
                 "value":"Instructor self feedback."
             }
@@ -436,7 +436,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giver":"instructor1@course1.tmt",
-            "recipientEmail":"student1inCourse1@gmail.tmt",
+            "recipient":"student1inCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Instructor feedback to student 1."
             }
@@ -447,7 +447,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"instructor1@course1.tmt",
-            "recipientEmail":"instructor2@course1.tmt",
+            "recipient":"instructor2@course1.tmt",
             "responseMetaData":{
                 "value":"Response from instructor 1 to instructor 2."
             }
@@ -458,7 +458,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"instructor1@course1.tmt",
-            "recipientEmail":"instructor1@course1.tmt",
+            "recipient":"instructor1@course1.tmt",
             "responseMetaData":{
                 "value":"Private response."
             }

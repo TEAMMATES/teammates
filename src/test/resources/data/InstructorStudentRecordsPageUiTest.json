@@ -546,7 +546,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"alice.b.tmms@gmail.tmt",
-            "recipientEmail":"alice.b.tmms@gmail.tmt",
+            "recipient":"alice.b.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"My product is light."
             }
@@ -557,7 +557,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giver":"alice.b.tmms@gmail.tmt",
-            "recipientEmail":"benny.c.tmms@gmail.tmt",
+            "recipient":"benny.c.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Benny is a good student."
             }
@@ -568,7 +568,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giver":"benny.c.tmms@gmail.tmt",
-            "recipientEmail":"danny.e.tmms@gmail.tmt",
+            "recipient":"danny.e.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Danny starts with D."
             }
@@ -579,7 +579,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giver":"charlie.d.tmms@gmail.tmt",
-            "recipientEmail":"alice.b.tmms@gmail.tmt",
+            "recipient":"alice.b.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Alice is a good girl coder."
             }
@@ -590,7 +590,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giver":"benny.c.tmms@gmail.tmt",
-            "recipientEmail":"charlie.d.tmms@gmail.tmt",
+            "recipient":"charlie.d.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Charlie did alot of work."
             }

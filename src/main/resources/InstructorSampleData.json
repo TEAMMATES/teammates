@@ -897,7 +897,7 @@
           "feedbackQuestionId":"2",
           "feedbackQuestionType":"TEXT",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "recipient":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"A highlight for me has been putting Software Engineering skills to use."
           },
@@ -910,7 +910,7 @@
           "feedbackQuestionId":"3",
           "feedbackQuestionType":"NUMSCALE",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "recipient":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 4}"
           },
@@ -923,7 +923,7 @@
           "feedbackQuestionId":"4",
           "feedbackQuestionType":"MCQ",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"%GENERAL%",
+          "recipient":"%GENERAL%",
           "responseMetaData":{
               "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 1\", \"otherFieldContent\" : \"\"}"
           },
@@ -936,7 +936,7 @@
           "feedbackQuestionId":"5",
           "feedbackQuestionType":"TEXT",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"benny.c.tmms@gmail.tmt",
+          "recipient":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"Good job Benny! Thanks for the hard work for making the application pretty!"
           },
@@ -949,7 +949,7 @@
           "feedbackQuestionId":"5",
           "feedbackQuestionType":"TEXT",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "recipient":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"It is good to see you working so hard to improve yourself!"
           },
@@ -962,7 +962,7 @@
           "feedbackQuestionId":"5",
           "feedbackQuestionType":"TEXT",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"francis.g.tmms@gmail.tmt",
+          "recipient":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"Wow! You are really good at designing!"
           },
@@ -975,7 +975,7 @@
           "feedbackQuestionId":"6",
           "feedbackQuestionType":"MSQ",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"%GENERAL%",
+          "recipient":"%GENERAL%",
           "responseMetaData":{
               "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"C\", \"Java\"], \"otherFieldContent\" : \"\"}"
           },
@@ -988,7 +988,7 @@
           "feedbackQuestionId":"8",
           "feedbackQuestionType":"TEXT",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"benny.c.tmms@gmail.tmt",
+          "recipient":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"Good job Benny! Thanks for the hard work for making the application pretty!"
           },
@@ -1001,7 +1001,7 @@
           "feedbackQuestionId":"8",
           "feedbackQuestionType":"TEXT",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"danny.e.tmms@gmail.tmt",
+          "recipient":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"Thank you Danny! You taught me many useful skills in this project."
           },
@@ -1014,7 +1014,7 @@
           "feedbackQuestionId":"8",
           "feedbackQuestionType":"TEXT",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"emma.f.tmms@gmail.tmt",
+          "recipient":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"You are the best Emma! Without you, our application will not be running."
           },
@@ -1027,7 +1027,7 @@
           "feedbackQuestionId":"9",
           "feedbackQuestionType":"CONSTSUM",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "recipient":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20, 80]}"
           },
@@ -1040,7 +1040,7 @@
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "recipient":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [100]}"
           },
@@ -1053,7 +1053,7 @@
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"benny.c.tmms@gmail.tmt",
+          "recipient":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [120]}"
           },
@@ -1066,7 +1066,7 @@
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"danny.e.tmms@gmail.tmt",
+          "recipient":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
           },
@@ -1079,7 +1079,7 @@
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"emma.f.tmms@gmail.tmt",
+          "recipient":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
           },
@@ -1092,7 +1092,7 @@
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "recipient":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1105,7 +1105,7 @@
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"benny.c.tmms@gmail.tmt",
+          "recipient":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 120}"
           },
@@ -1118,7 +1118,7 @@
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"danny.e.tmms@gmail.tmt",
+          "recipient":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 90}"
           },
@@ -1131,7 +1131,7 @@
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"emma.f.tmms@gmail.tmt",
+          "recipient":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 90}"
           },
@@ -1144,7 +1144,7 @@
           "feedbackQuestionId":"12",
           "feedbackQuestionType":"RUBRIC",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "recipient":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [1,0]}"
           },
@@ -1157,7 +1157,7 @@
           "feedbackQuestionId":"12",
           "feedbackQuestionType":"RUBRIC",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"benny.c.tmms@gmail.tmt",
+          "recipient":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [0,1]}"
           },
@@ -1170,7 +1170,7 @@
           "feedbackQuestionId":"13",
           "feedbackQuestionType":"RANK_RECIPIENTS",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"Team 2",
+          "recipient":"Team 2",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RANK_RECIPIENTS\",\"answer\" : 2}"
           },
@@ -1183,7 +1183,7 @@
           "feedbackQuestionId":"13",
           "feedbackQuestionType":"RANK_RECIPIENTS",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"Team 3",
+          "recipient":"Team 3",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RANK_RECIPIENTS\",\"answer\" : 1}"
           },
@@ -1196,7 +1196,7 @@
           "feedbackQuestionId":"14",
           "feedbackQuestionType":"RANK_OPTIONS",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "recipient":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RANK_OPTIONS\",\"answers\" : [1,3,2,4]}"
           },
@@ -1209,7 +1209,7 @@
           "feedbackQuestionId":"2",
           "feedbackQuestionType":"TEXT",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "recipient":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"I have enjoyed learning about new tools and using them."
           },
@@ -1222,7 +1222,7 @@
           "feedbackQuestionId":"3",
           "feedbackQuestionType":"NUMSCALE",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "recipient":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 5}"
           },
@@ -1235,7 +1235,7 @@
           "feedbackQuestionId":"4",
           "feedbackQuestionType":"MCQ",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"%GENERAL%",
+          "recipient":"%GENERAL%",
           "responseMetaData":{
               "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 2\", \"otherFieldContent\" : \"\"}"
           },
@@ -1248,7 +1248,7 @@
           "feedbackQuestionId":"5",
           "feedbackQuestionType":"TEXT",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"benny.c.tmms@gmail.tmt",
+          "recipient":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"Thank you for being helpful and explaining how you did your UI."
           },
@@ -1261,7 +1261,7 @@
           "feedbackQuestionId":"5",
           "feedbackQuestionType":"TEXT",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "recipient":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"I wish I was as good at programming as Alice."
           },
@@ -1274,7 +1274,7 @@
           "feedbackQuestionId":"5",
           "feedbackQuestionType":"TEXT",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"francis.g.tmms@gmail.tmt",
+          "recipient":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"Francis is very talented with design work."
           },
@@ -1287,7 +1287,7 @@
           "feedbackQuestionId":"6",
           "feedbackQuestionType":"MSQ",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"%GENERAL%",
+          "recipient":"%GENERAL%",
           "responseMetaData":{
               "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Python\"], \"otherFieldContent\" : \"\"}"
           },
@@ -1300,7 +1300,7 @@
           "feedbackQuestionId":"8",
           "feedbackQuestionType":"TEXT",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"francis.g.tmms@gmail.tmt",
+          "recipient":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"I really like your design Francis!"
           },
@@ -1313,7 +1313,7 @@
           "feedbackQuestionId":"8",
           "feedbackQuestionType":"TEXT",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"gene.h.tmms@gmail.tmt",
+          "recipient":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"I really appreciate all the coding you have done in the project!"
           },
@@ -1326,7 +1326,7 @@
           "feedbackQuestionId":"8",
           "feedbackQuestionType":"TEXT",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "recipient":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"Thank you Demo_Instructor for all the help in the project."
           },
@@ -1339,7 +1339,7 @@
           "feedbackQuestionId":"9",
           "feedbackQuestionType":"CONSTSUM",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "recipient":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [45, 55]}"
           },
@@ -1352,7 +1352,7 @@
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "recipient":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [110]}"
           },
@@ -1365,7 +1365,7 @@
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"francis.g.tmms@gmail.tmt",
+          "recipient":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
           },
@@ -1378,7 +1378,7 @@
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"gene.h.tmms@gmail.tmt",
+          "recipient":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [50]}"
           },
@@ -1391,7 +1391,7 @@
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "recipient":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [150]}"
           },
@@ -1404,7 +1404,7 @@
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "recipient":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
@@ -1417,7 +1417,7 @@
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"francis.g.tmms@gmail.tmt",
+          "recipient":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 90}"
           },
@@ -1430,7 +1430,7 @@
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"gene.h.tmms@gmail.tmt",
+          "recipient":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 50}"
           },
@@ -1443,7 +1443,7 @@
           "feedbackQuestionId":"11",
           "feedbackQuestionType":"CONTRIB",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "recipient":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 150}"
           },
@@ -1456,7 +1456,7 @@
           "feedbackQuestionId":"12",
           "feedbackQuestionType":"RUBRIC",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "recipient":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [-1, 0]}"
           },
@@ -1469,7 +1469,7 @@
           "feedbackQuestionId":"12",
           "feedbackQuestionType":"RUBRIC",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"francis.g.tmms@gmail.tmt",
+          "recipient":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [0,0]}"
           },
@@ -1482,7 +1482,7 @@
           "feedbackQuestionId":"13",
           "feedbackQuestionType":"RANK_RECIPIENTS",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"Team 1",
+          "recipient":"Team 1",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RANK_RECIPIENTS\",\"answer\" : 1}"
           },
@@ -1495,7 +1495,7 @@
           "feedbackQuestionId":"13",
           "feedbackQuestionType":"RANK_RECIPIENTS",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"Team 3",
+          "recipient":"Team 3",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RANK_RECIPIENTS\",\"answer\" : 2}"
           },
@@ -1508,7 +1508,7 @@
           "feedbackQuestionId":"14",
           "feedbackQuestionType":"RANK_OPTIONS",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "recipient":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RANK_OPTIONS\",\"answers\" : [4,1,2,3]}"
           },
@@ -1523,7 +1523,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "recipient":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1536,7 +1536,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"benny.c.tmms@gmail.tmt",
+          "recipient":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1549,7 +1549,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"danny.e.tmms@gmail.tmt",
+          "recipient":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1562,7 +1562,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"alice.b.tmms@gmail.tmt",
-          "recipientEmail":"emma.f.tmms@gmail.tmt",
+          "recipient":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1575,7 +1575,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"benny.c.tmms@gmail.tmt",
-          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "recipient":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1588,7 +1588,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"benny.c.tmms@gmail.tmt",
-          "recipientEmail":"benny.c.tmms@gmail.tmt",
+          "recipient":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1601,7 +1601,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"benny.c.tmms@gmail.tmt",
-          "recipientEmail":"danny.e.tmms@gmail.tmt",
+          "recipient":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1614,7 +1614,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"benny.c.tmms@gmail.tmt",
-          "recipientEmail":"emma.f.tmms@gmail.tmt",
+          "recipient":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1627,7 +1627,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"danny.e.tmms@gmail.tmt",
-          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "recipient":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1640,7 +1640,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"danny.e.tmms@gmail.tmt",
-          "recipientEmail":"benny.c.tmms@gmail.tmt",
+          "recipient":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1653,7 +1653,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"danny.e.tmms@gmail.tmt",
-          "recipientEmail":"danny.e.tmms@gmail.tmt",
+          "recipient":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1666,7 +1666,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"danny.e.tmms@gmail.tmt",
-          "recipientEmail":"emma.f.tmms@gmail.tmt",
+          "recipient":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1679,7 +1679,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"emma.f.tmms@gmail.tmt",
-          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "recipient":"alice.b.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1692,7 +1692,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"emma.f.tmms@gmail.tmt",
-          "recipientEmail":"benny.c.tmms@gmail.tmt",
+          "recipient":"benny.c.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1705,7 +1705,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"emma.f.tmms@gmail.tmt",
-          "recipientEmail":"danny.e.tmms@gmail.tmt",
+          "recipient":"danny.e.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1718,7 +1718,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"emma.f.tmms@gmail.tmt",
-          "recipientEmail":"emma.f.tmms@gmail.tmt",
+          "recipient":"emma.f.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1731,7 +1731,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "recipient":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 80}"
           },
@@ -1744,7 +1744,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "recipient":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
@@ -1757,7 +1757,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"francis.g.tmms@gmail.tmt",
+          "recipient":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
@@ -1770,7 +1770,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"charlie.d.tmms@gmail.tmt",
-          "recipientEmail":"gene.h.tmms@gmail.tmt",
+          "recipient":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
@@ -1783,7 +1783,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"teammates.demo.instructor@demo.course",
-          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "recipient":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
@@ -1796,7 +1796,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"teammates.demo.instructor@demo.course",
-          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "recipient":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 80}"
           },
@@ -1809,7 +1809,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"teammates.demo.instructor@demo.course",
-          "recipientEmail":"francis.g.tmms@gmail.tmt",
+          "recipient":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
@@ -1822,7 +1822,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"teammates.demo.instructor@demo.course",
-          "recipientEmail":"gene.h.tmms@gmail.tmt",
+          "recipient":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
@@ -1835,7 +1835,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"francis.g.tmms@gmail.tmt",
-          "recipientEmail":"francis.g.tmms@gmail.tmt",
+          "recipient":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
@@ -1848,7 +1848,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"francis.g.tmms@gmail.tmt",
-          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "recipient":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 80}"
           },
@@ -1861,7 +1861,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"francis.g.tmms@gmail.tmt",
-          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "recipient":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
@@ -1874,7 +1874,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"francis.g.tmms@gmail.tmt",
-          "recipientEmail":"gene.h.tmms@gmail.tmt",
+          "recipient":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
@@ -1887,7 +1887,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"gene.h.tmms@gmail.tmt",
-          "recipientEmail":"gene.h.tmms@gmail.tmt",
+          "recipient":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
@@ -1900,7 +1900,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"gene.h.tmms@gmail.tmt",
-          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "recipient":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 80}"
           },
@@ -1913,7 +1913,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"gene.h.tmms@gmail.tmt",
-          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "recipient":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
@@ -1926,7 +1926,7 @@
           "feedbackQuestionId":"1",
           "feedbackQuestionType":"CONTRIB",
           "giver":"gene.h.tmms@gmail.tmt",
-          "recipientEmail":"francis.g.tmms@gmail.tmt",
+          "recipient":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
@@ -1943,7 +1943,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "alice.b.tmms@gmail.tmt",
+        "recipient": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I did all a portion of the backend."
@@ -1956,7 +1956,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "teammates.demo.instructor@demo.course",
+        "recipient": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "I was the project lead. I designed the application architecture and managed the project to ensure we deliver the product on time."
@@ -1969,7 +1969,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "emma.f.tmms@gmail.tmt",
+        "recipient": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I worked with Alice to build the application backend."
@@ -1982,7 +1982,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "benny.c.tmms@gmail.tmt",
+        "recipient": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I did all the UI work."
@@ -1995,7 +1995,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "francis.g.tmms@gmail.tmt",
+        "recipient": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "I was the designer. I did all the UI work."
@@ -2008,7 +2008,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "danny.e.tmms@gmail.tmt",
+        "recipient": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I designed the software architecture and led the project."
@@ -2021,7 +2021,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "charlie.d.tmms@gmail.tmt",
+        "recipient": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "I am a bit slow compared to my team mates, but the members helped me to catch up."
@@ -2034,7 +2034,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "gene.h.tmms@gmail.tmt",
+        "recipient": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "I am the programmer for the team. I did most of the coding."
@@ -2047,7 +2047,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "benny.c.tmms@gmail.tmt",
+        "recipient": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Benny did all the UI work of the application. He contributed a lot."
@@ -2060,7 +2060,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "emma.f.tmms@gmail.tmt",
+        "recipient": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Emma is a strong programmer. She contributed to the backend with me."
@@ -2073,7 +2073,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "danny.e.tmms@gmail.tmt",
+        "recipient": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Danny is the project lead. He managed the project and designed the software architecture."
@@ -2086,7 +2086,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "alice.b.tmms@gmail.tmt",
+        "recipient": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Alice built part of the application backend."
@@ -2099,7 +2099,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "emma.f.tmms@gmail.tmt",
+        "recipient": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Emma programmed the application backend."
@@ -2112,7 +2112,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "danny.e.tmms@gmail.tmt",
+        "recipient": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Danny led the project. He did a good job."
@@ -2125,7 +2125,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "francis.g.tmms@gmail.tmt",
+        "recipient": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Francis is the designer. I like his work!"
@@ -2138,7 +2138,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "gene.h.tmms@gmail.tmt",
+        "recipient": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Gene is a good coder. She codes a large amount of our application."
@@ -2151,7 +2151,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "teammates.demo.instructor@demo.course",
+        "recipient": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Demo_Instructor is a patient and good project lead."
@@ -2164,7 +2164,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "alice.b.tmms@gmail.tmt",
+        "recipient": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Alice built a portion of the application backend. Her work is solid."
@@ -2177,7 +2177,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "benny.c.tmms@gmail.tmt",
+        "recipient": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Benny built the user interface. He is very productive."
@@ -2190,7 +2190,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "emma.f.tmms@gmail.tmt",
+        "recipient": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Emma also built the application backend. She completes her tasks promptly."
@@ -2203,7 +2203,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "danny.e.tmms@gmail.tmt",
+        "recipient": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Danny is our team leader. He is very responsible."
@@ -2216,7 +2216,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "alice.b.tmms@gmail.tmt",
+        "recipient": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Alice helped to build the application backend. She is a good programmer."
@@ -2229,7 +2229,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "benny.c.tmms@gmail.tmt",
+        "recipient": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Benny designed and made the user interface. He is very creative."
@@ -2242,7 +2242,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "francis.g.tmms@gmail.tmt",
+        "recipient": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Francis is the designer of the project. He did a good job!"
@@ -2255,7 +2255,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "charlie.d.tmms@gmail.tmt",
+        "recipient": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "A bit weak in terms of technical skills. He spent lots of time in picking up the skills. Although a bit slow in development, his attitude is good."
@@ -2268,7 +2268,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "gene.h.tmms@gmail.tmt",
+        "recipient": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Gene is the programmer for our team. She put in a lot of effort in coding a significant portion of the project."
@@ -2281,7 +2281,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "teammates.demo.instructor@demo.course",
+        "recipient": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Demo_Instructor was the project lead. He put a lot of effort in this project."
@@ -2294,7 +2294,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "charlie.d.tmms@gmail.tmt",
+        "recipient": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Charlie was a bit weak. Demo_Instructor spent lots of time helping him."
@@ -2307,7 +2307,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "gene.h.tmms@gmail.tmt",
+        "recipient": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Gene is the programmer for our team. She is a very good coder."
@@ -2320,7 +2320,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "teammates.demo.instructor@demo.course",
+        "recipient": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Demo_Instructor was our team leader. He helped us a lot, especially Charlie."
@@ -2333,7 +2333,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "charlie.d.tmms@gmail.tmt",
+        "recipient": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Charlie has a lot of room for improvements. He puts in effort to learn new things."
@@ -2346,7 +2346,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "francis.g.tmms@gmail.tmt",
+        "recipient": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Francis is a very good designer. He made a very nice UI."
@@ -2359,7 +2359,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "Team 2",
+        "recipient": "Team 2",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "I had a great time with this team. Thanks for all the support from the members."
@@ -2372,7 +2372,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "Team 1",
+        "recipient": "Team 1",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "The team work is great and I learnt a lot from this project."
@@ -2385,7 +2385,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "Team 1",
+        "recipient": "Team 1",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I like the team and I learned a lot from my team mates."
@@ -2398,7 +2398,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "Team 2",
+        "recipient": "Team 2",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "The team is nice. Everybody learnt a lot from this project."
@@ -2411,7 +2411,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "Team 1",
+        "recipient": "Team 1",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "The team dynamics was very good. I enjoy it a lot."
@@ -2424,7 +2424,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "Team 2",
+        "recipient": "Team 2",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "I like the team. I learned my good software engineering practices from the members."
@@ -2437,7 +2437,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "Team 1",
+        "recipient": "Team 1",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I had a great time in doing this project."
@@ -2450,7 +2450,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "Team 2",
+        "recipient": "Team 2",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "This is a great team. I am sure we learnt a lot from each other."
@@ -2463,7 +2463,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "benny.c.tmms@gmail.tmt",
+        "recipient": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Good job Benny! Thanks for the hard work for making the application pretty!"
@@ -2476,7 +2476,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "emma.f.tmms@gmail.tmt",
+        "recipient": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "You are the best Emma! Without you, our application will not be running."
@@ -2489,7 +2489,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "danny.e.tmms@gmail.tmt",
+        "recipient": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Thank you Danny! You taught me many useful skills in this project."
@@ -2502,7 +2502,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "alice.b.tmms@gmail.tmt",
+        "recipient": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Thank you for all the effort in building the application backend. Cool!"
@@ -2515,7 +2515,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "emma.f.tmms@gmail.tmt",
+        "recipient": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I really appreciate your effort in the project. One of the best programmer among us!."
@@ -2528,7 +2528,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "danny.e.tmms@gmail.tmt",
+        "recipient": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I really enjoy doing project with you. :)"
@@ -2541,7 +2541,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "francis.g.tmms@gmail.tmt",
+        "recipient": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "I really like your design Francis!"
@@ -2554,7 +2554,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "gene.h.tmms@gmail.tmt",
+        "recipient": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "I really appreciate all the coding you have done in the project!"
@@ -2567,7 +2567,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "teammates.demo.instructor@demo.course",
+        "recipient": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Thank you Demo_Instructor for all the help in the project."
@@ -2580,7 +2580,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "alice.b.tmms@gmail.tmt",
+        "recipient": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Nice work Alice! You are a very good girl coder! :)"
@@ -2593,7 +2593,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "benny.c.tmms@gmail.tmt",
+        "recipient": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Good job Benny. You are really gifted in design!"
@@ -2606,7 +2606,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "emma.f.tmms@gmail.tmt",
+        "recipient": "emma.f.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Great job Emma. You are a great programmer!"
@@ -2619,7 +2619,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "francis.g.tmms@gmail.tmt",
+        "recipient": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Nice work Francis!"
@@ -2632,7 +2632,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "charlie.d.tmms@gmail.tmt",
+        "recipient": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Good try Charlie! Thanks for showing great effort in picking up the skills."
@@ -2645,7 +2645,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "gene.h.tmms@gmail.tmt",
+        "recipient": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Keep up the good work Gene!"
@@ -2658,7 +2658,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "danny.e.tmms@gmail.tmt",
+        "recipient": "danny.e.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "Best team leader I ever had. I would love to be on your team again :)"
@@ -2671,7 +2671,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "alice.b.tmms@gmail.tmt",
+        "recipient": "alice.b.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "It has been a very enjoyable experience working with you on the backend!"
@@ -2684,7 +2684,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "benny.c.tmms@gmail.tmt",
+        "recipient": "benny.c.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I liked your design a lot! Great job!"
@@ -2697,7 +2697,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "teammates.demo.instructor@demo.course",
+        "recipient": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Thank you Demo_Instructor for all the hardwork!"
@@ -2710,7 +2710,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "charlie.d.tmms@gmail.tmt",
+        "recipient": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Nice job Charlie! You learnt pretty fast"
@@ -2723,7 +2723,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "gene.h.tmms@gmail.tmt",
+        "recipient": "gene.h.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Thank you Gene for all the code you have written for us!"
@@ -2736,7 +2736,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "teammates.demo.instructor@demo.course",
+        "recipient": "teammates.demo.instructor@demo.course",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Thank you Demo_Instructor for being such a good team leader!"
@@ -2749,7 +2749,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "charlie.d.tmms@gmail.tmt",
+        "recipient": "charlie.d.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Keep it up Charlie! You are improving very fast!"
@@ -2762,7 +2762,7 @@
         "feedbackQuestionType": "TEXT",
         "giver": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "francis.g.tmms@gmail.tmt",
+        "recipient": "francis.g.tmms@gmail.tmt",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "Nice designs Francis. Good work!"

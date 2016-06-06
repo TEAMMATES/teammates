@@ -670,7 +670,7 @@
        "feedbackQuestionType":"RANK_RECIPIENTS",
        "giver":"benny.c.tmms@gmail.tmt",
        "giverSection":"Section 2",
-       "recipientEmail":"alice.b.tmms@gmail.tmt",
+       "recipient":"alice.b.tmms@gmail.tmt",
        "recipientSection":"Section 1",
        "responseMetaData":{
             "value": "{
@@ -687,7 +687,7 @@
        "feedbackQuestionType":"RANK_RECIPIENTS",
        "giver":"benny.c.tmms@gmail.tmt",
        "giverSection":"Section 2",
-       "recipientEmail":"benny.c.tmms@gmail.tmt",
+       "recipient":"benny.c.tmms@gmail.tmt",
        "recipientSection":"Section 1",
        "responseMetaData":{
             "value": "{
@@ -704,7 +704,7 @@
        "feedbackQuestionType":"RANK_RECIPIENTS",
        "giver":"charlie.d.tmms@gmail.tmt",
        "giverSection":"Section 2",
-       "recipientEmail":"alice.b.tmms@gmail.tmt",
+       "recipient":"alice.b.tmms@gmail.tmt",
        "recipientSection":"Section 1",
        "responseMetaData":{
             "value": "{
@@ -721,7 +721,7 @@
        "feedbackQuestionType":"RANK_RECIPIENTS",
        "giver":"emily.f.tmms@gmail.tmt",
        "giverSection":"Section 2",
-       "recipientEmail":"benny.c.tmms@gmail.tmt",
+       "recipient":"benny.c.tmms@gmail.tmt",
        "recipientSection":"Section 1",
        "responseMetaData":{
             "value": "{
@@ -738,7 +738,7 @@
        "feedbackQuestionType":"RANK_RECIPIENTS",
        "giver":"charlie.d.tmms@gmail.tmt",
        "giverSection":"Section 2",
-       "recipientEmail":"Team 1</option><option value=\"dump\"></td><td>'\"",
+       "recipient":"Team 1</option><option value=\"dump\"></td><td>'\"",
        "recipientSection":"Section 1",
        "responseMetaData":{
             "value": "{
@@ -755,7 +755,7 @@
        "feedbackQuestionType":"RANK_RECIPIENTS",
        "giver":"emily.f.tmms@gmail.tmt",
        "giverSection":"Section 2",
-       "recipientEmail":"Team 1</option><option value=\"dump\"></td><td>'\"",
+       "recipient":"Team 1</option><option value=\"dump\"></td><td>'\"",
        "recipientSection":"Section 1",
        "responseMetaData":{
             "value": "{
@@ -772,7 +772,7 @@
        "feedbackQuestionType":"RANK_OPTIONS",
        "giver":"tmms.test@gmail.tmt",
        "giverSection":"None",
-       "recipientEmail":"alice.b.tmms@gmail.tmt",
+       "recipient":"alice.b.tmms@gmail.tmt",
        "recipientSection":"Section 1",
        "responseMetaData":{
             "value": "{

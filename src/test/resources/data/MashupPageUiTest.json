@@ -714,7 +714,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"alice.b.tmms@gmail.tmt",
-            "recipientEmail":"alice.b.tmms@gmail.tmt",
+            "recipient":"alice.b.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"My product is light."
             },
@@ -727,7 +727,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giver":"alice.b.tmms@gmail.tmt",
-            "recipientEmail":"benny.c.tmms@gmail.tmt",
+            "recipient":"benny.c.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Benny is a good student."
             },
@@ -740,7 +740,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giver":"benny.c.tmms@gmail.tmt",
-            "recipientEmail":"danny.e.tmms@gmail.tmt",
+            "recipient":"danny.e.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Danny starts with D."
             },
@@ -753,7 +753,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giver":"charlie.d.tmms@gmail.tmt",
-            "recipientEmail":"alice.b.tmms@gmail.tmt",
+            "recipient":"alice.b.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Alice is a good girl coder."
             },
@@ -766,7 +766,7 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giver":"benny.c.tmms@gmail.tmt",
-            "recipientEmail":"charlie.d.tmms@gmail.tmt",
+            "recipient":"charlie.d.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Charlie did alot of work."
             },
@@ -779,7 +779,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"teammates.test@gmail.tmt",
-            "recipientEmail":"teammates.test@gmail.tmt",
+            "recipient":"teammates.test@gmail.tmt",
             "responseMetaData":{
                 "value":"It's awesome!."
             },
@@ -792,7 +792,7 @@
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"MCQ",
             "giver":"teammates.test@gmail.tmt",
-            "recipientEmail":"teammates.test@gmail.tmt",
+            "recipient":"teammates.test@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"It's good\", \"otherFieldContent\" : \"\"}"
             },
@@ -805,7 +805,7 @@
             "feedbackQuestionId":"5",
             "feedbackQuestionType":"MCQ",
             "giver":"teammates.test@gmail.tmt",
-            "recipientEmail":"teammates.test@gmail.tmt",
+            "recipient":"teammates.test@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Alice Betsy (Team 2)\", \"otherFieldContent\" : \"\"}"
             },
@@ -818,7 +818,7 @@
             "feedbackQuestionId":"6",
             "feedbackQuestionType":"MSQ",
             "giver":"teammates.test@gmail.tmt",
-            "recipientEmail":"teammates.test@gmail.tmt",
+            "recipient":"teammates.test@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
             },
@@ -831,7 +831,7 @@
             "feedbackQuestionId":"7",
             "feedbackQuestionType":"MSQ",
             "giver":"teammates.test@gmail.tmt",
-            "recipientEmail":"teammates.test@gmail.tmt",
+            "recipient":"teammates.test@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Team 1\", \"Team 2\"]}"
             },
@@ -844,7 +844,7 @@
             "feedbackQuestionId":"8",
             "feedbackQuestionType":"NUMSCALE",
             "giver":"teammates.test@gmail.tmt",
-            "recipientEmail":"teammates.test@gmail.tmt",
+            "recipient":"teammates.test@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3.5}"
             },

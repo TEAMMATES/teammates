@@ -420,7 +420,7 @@
         "feedbackQuestionId" : "1",
         "feedbackQuestionType" : "TEXT",
         "giver" : "benny.tmms@gmail.tmt",
-        "recipientEmail" : "benny.tmms@gmail.tmt",
+        "recipient" : "benny.tmms@gmail.tmt",
         "responseMetaData" : {"value" : "student self feedback."},
         "giverSection":"Section A",
         "recipientSection":"Section A"

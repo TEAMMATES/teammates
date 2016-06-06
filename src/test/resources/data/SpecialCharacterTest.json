@@ -191,7 +191,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"FQLogicPCT.charlie.d@gmail.tmt",
-            "recipientEmail":"Team 1\"><\'",
+            "recipient":"Team 1\"><\'",
             "responseMetaData":{
                 "value":"Team 2 (charlie) to team 1"
             }
@@ -203,7 +203,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"FQLogicPCT.danny.e@gmail.tmt",
-            "recipientEmail":"Team 1\"><\'",
+            "recipient":"Team 1\"><\'",
             "responseMetaData":{
                 "value":"Team 2 (danny) to team 1"
             }
@@ -215,7 +215,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"FQLogicPCT.emily.f@gmail.tmt",
-            "recipientEmail":"Team 1\"><\'",
+            "recipient":"Team 1\"><\'",
             "responseMetaData":{
                 "value":"Team 3 to Team 1 \r\n multiline special char test"
             }
@@ -227,7 +227,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giver":"FQLogicPCT.alice.b@gmail.tmt",
-            "recipientEmail":"Team 2",
+            "recipient":"Team 2",
             "responseMetaData":{
                 "value":"alice to team 2"
             }
