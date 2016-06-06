@@ -83,7 +83,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                                    .withUserId(testData.accounts.get("studentWithEmptyProfile").googleId);
         StudentHomePage shp = loginAdminToPage(browser, profileUrl, StudentHomePage.class);
-        profilePage = shp.loadProfileTab().changePageType(StudentProfilePage.class);
+        profilePage = shp.loadProfileTab();
     }
 
     private void testContent() throws Exception {

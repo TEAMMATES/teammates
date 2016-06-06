@@ -8,11 +8,8 @@ import java.util.Date;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -411,16 +408,9 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void verifyResponseValue(String responseRate, String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
-        try {
-            wait.until(ExpectedConditions.textToBePresentInElement(
-                    browser.driver.findElement(
-                            By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
-                            + "]/td[contains(@class,'session-response-for-test')]")),
-                            responseRate));
-        } catch (TimeoutException e) {
-            fail("Not expected message");
-        }
+        waitForTextContainedInElementPresence(
+                By.xpath("//tbody/tr[" + (sessionRowId + 1) + "]/td[contains(@class,'session-response-for-test')]"),
+                responseRate);
     }
     
     public WebElement getViewResultsLink(String courseId, String sessionName) {

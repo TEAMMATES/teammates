@@ -58,11 +58,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
     private void testLinks() {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
-        submitPage.linkOnHomeLink();
+        submitPage.loadStudentHomeTab();
         submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
-        submitPage.linkOnProfileLink();
+        submitPage.loadProfileTab();
         submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
-        submitPage.linkOnCommentsLink();
+        submitPage.loadStudentCommentsTab();
 
         submitPage.logout();
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
