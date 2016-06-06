@@ -695,17 +695,23 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return (List<FeedbackResponse>) q.execute(courseId);
     }
     
+    /**
+     * @param courseId
+     * @return true if there are existing responses in any feedback session in the course
+     */
     public boolean hasFeedbackResponseEntitiesForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        
+        return !getFeedbackResponseEntitiesForCourseWithinRange(courseId, 1).isEmpty();
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForCourseWithinRange(String courseId, long range) {
         Query q = getPm().newQuery(FeedbackResponse.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
-        q.setRange(0, 1);
+        q.setRange(0, range);
         
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponse> responses = (List<FeedbackResponse>) q.execute(courseId);
-        return !responses.isEmpty();
+        return (List<FeedbackResponse>) q.execute(courseId);
     }
     
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
