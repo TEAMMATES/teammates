@@ -66,7 +66,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("empty options");
         
-        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionBox("NumScale qn");
         feedbackEditPage.fillMinNumScaleBox("", -1);
         feedbackEditPage.fillStepNumScaleBox("", -1);
         feedbackEditPage.fillMaxNumScaleBox("", -1);
@@ -81,7 +81,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("invalid options");
         
-        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionBox("NumScale qn");
         feedbackEditPage.fillMinNumScaleBox("1", -1);
         feedbackEditPage.fillStepNumScaleBox("0.3", -1);
         feedbackEditPage.fillMaxNumScaleBox("5", -1);
@@ -96,7 +96,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("possible floating point error");
         
-        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionBox("NumScale qn");
         feedbackEditPage.fillMinNumScaleBox("1", -1);
         feedbackEditPage.fillStepNumScaleBox("0.001", -1);
         feedbackEditPage.fillMaxNumScaleBox("5555", -1);
@@ -130,7 +130,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
 
     @Override
     public void testCustomizeOptions() {
-        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionBox("NumScale qn");
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
         feedbackEditPage.fillStepNumScaleBox(0.3, -1);
@@ -164,7 +164,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     public void testEditQuestionAction() throws Exception {
         ______TS("NUMSCALE: edit question success");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("edited numscale qn text", 1);
         feedbackEditPage.fillMinNumScaleBox(3, 1);
         feedbackEditPage.fillMaxNumScaleBox(4, 1);
