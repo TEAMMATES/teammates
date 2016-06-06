@@ -57,7 +57,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage.verifyHtml("/InstructorCourseEnrollPage.html");
     }
 
-    private void testSampleLink() throws Exception {
+    private void testSampleLink() {
         
         ______TS("link for the sample spreadsheet");
         enrollPage.clickSpreadsheetLink();
@@ -123,7 +123,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         
         enrollString =
                 "| Name | Email | | Team | Comments\n"
-                + "|Alice Betsy</option></td></div>'\" | alice.b.tmms@gmail.tmt || Team 1</option></td></div>'\" | This comment has been changed\n"
+                + "|Alice Betsy</option></td></div>'\" | alice.b.tmms@gmail.tmt ||"
+                        + " Team 1</option></td></div>'\" | This comment has been changed\n"
                 // A student with no comment
                 + "|Frank Galoe | frank.g.tmms@gmail.tmt || Team 1</option></td></div>'\" |\n"
                 // A new student with name containing accented characters

@@ -33,18 +33,22 @@ public class InstructorAttributesTest extends BaseTestCase {
         assertEquals(displayedName, instructor.displayedName);
         assertEquals(privileges, instructor.privileges);
         
-        InstructorAttributes instructor1 = new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
-                instructor.role, instructor.displayedName, instructor.getTextFromInstructorPrivileges());
+        InstructorAttributes instructor1 =
+                new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
+                                         instructor.role, instructor.displayedName,
+                                         instructor.getTextFromInstructorPrivileges());
         
         assertEquals(privileges, instructor1.privileges);
         
-        InstructorAttributes instructor2 = new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
-                instructor.role, instructor.displayedName, instructor1.privileges);
+        InstructorAttributes instructor2 =
+                new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
+                                         instructor.role, instructor.displayedName, instructor1.privileges);
         
         assertEquals(instructor1.privileges, instructor2.privileges);
         
-        InstructorAttributes instructorNew = new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
-                instructor.role, false, instructor.displayedName, instructor1.privileges);
+        InstructorAttributes instructorNew =
+                new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
+                                         instructor.role, false, instructor.displayedName, instructor1.privileges);
         
         assertFalse(instructorNew.isDisplayedToStudents);
         

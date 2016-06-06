@@ -238,7 +238,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
 
         studentList = new ArrayList<StudentAttributes>();
         for (int i = 0; i < 100; i++) {
-            StudentAttributes addedStudent = new StudentAttributes("Section 1", "Team " + i, "Name " + i, "email@com" + i, "cmt" + i, courseId);
+            StudentAttributes addedStudent =
+                    new StudentAttributes("Section 1", "Team " + i, "Name " + i, "email@com" + i, "cmt" + i, courseId);
             studentList.add(addedStudent);
         }
         try {
@@ -503,10 +504,12 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         info = StringHelper.toString(Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithInvalidEmail, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidEmail, info));
-        info = StringHelper.toString(Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithInvalidStudentNameAndEmail, courseId).getInvalidityInfo()),
+        info = StringHelper.toString(
+                Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithInvalidStudentNameAndEmail, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidStudentNameAndEmail, info));
-        info = StringHelper.toString(Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamNameAndEmail, courseId).getInvalidityInfo()),
+        info = StringHelper.toString(
+                Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamNameAndEmail, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamNameAndEmail, info));
         info = StringHelper.toString(Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail,
@@ -541,7 +544,10 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         String lineWithStudentNameEmpty = "Team 5 |  | no_name@email.tmt";
         String lineWithEmailEmpty = "Team 5 | StudentWithEmailFieldEmpty | |";
         
-        enrollLines = headerLine + Const.EOL + lineWithTeamNameEmpty + Const.EOL + lineWithStudentNameEmpty + Const.EOL + lineWithEmailEmpty;
+        enrollLines = headerLine + Const.EOL
+                      + lineWithTeamNameEmpty + Const.EOL
+                      + lineWithStudentNameEmpty + Const.EOL
+                      + lineWithEmailEmpty;
 
         invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
         expectedInvalidInfo.clear();
@@ -598,7 +604,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         info = StringHelper.toString(Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail,
                                                                                courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamNameAndStudentNameAndEmail, info));
+        expectedInvalidInfo.add(
+                String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamNameAndStudentNameAndEmail, info));
         info = StringHelper.toString(Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithTeamNameEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithTeamNameEmpty, info));
@@ -626,8 +633,9 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         FeedbackSessionAttributes fsAttr = new FeedbackSessionAttributes("newFeedbackSessionName",
                 courseIdForEnrollTest, instructorEmail, new Text("default instructions"),
-                TimeHelper.getHoursOffsetToCurrentTime(0), TimeHelper.getHoursOffsetToCurrentTime(2), TimeHelper.getHoursOffsetToCurrentTime(5),
-                TimeHelper.getHoursOffsetToCurrentTime(1), TimeHelper.getHoursOffsetToCurrentTime(6),
+                TimeHelper.getHoursOffsetToCurrentTime(0), TimeHelper.getHoursOffsetToCurrentTime(2),
+                TimeHelper.getHoursOffsetToCurrentTime(5), TimeHelper.getHoursOffsetToCurrentTime(1),
+                TimeHelper.getHoursOffsetToCurrentTime(6),
                 8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false);
         fsLogic.createFeedbackSession(fsAttr);
         
@@ -1041,7 +1049,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         String actualKey = studentsLogic.getEncryptedKeyForStudent(course1Id, student1InCourse1.email);
-        String expectedKey = StringHelper.encrypt(studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key);
+        String expectedKey =
+                StringHelper.encrypt(studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key);
         assertEquals(expectedKey, actualKey);
     }
     

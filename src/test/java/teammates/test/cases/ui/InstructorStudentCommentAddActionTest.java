@@ -25,7 +25,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         StudentAttributes student = dataBundle.students.get("student3InCourse1");
         String instructorId = instructor.googleId;
