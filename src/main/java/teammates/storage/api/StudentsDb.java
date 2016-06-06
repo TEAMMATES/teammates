@@ -94,13 +94,15 @@ public class StudentsDb extends EntitiesDb {
      * @param studentsToAdd
      * @throws InvalidParametersException
      */
-    public void createStudentsWithoutSearchability(Collection<StudentAttributes> studentsToAdd) throws InvalidParametersException {
+    public void createStudentsWithoutSearchability(Collection<StudentAttributes> studentsToAdd)
+            throws InvalidParametersException {
         
         List<EntityAttributes> studentsToUpdate = createEntities(studentsToAdd);
         for (EntityAttributes entity : studentsToUpdate) {
             StudentAttributes student = (StudentAttributes) entity;
             try {
-                updateStudentWithoutSearchability(student.course, student.email, student.name, student.team, student.section, student.email, student.googleId, student.comments);
+                updateStudentWithoutSearchability(student.course, student.email, student.name, student.team,
+                                                  student.section, student.email, student.googleId, student.comments);
             } catch (EntityDoesNotExistException e) {
              // This situation is not tested as replicating such a situation is
              // difficult during testing

@@ -111,7 +111,8 @@ public class InstructorsDb extends EntitiesDb {
         }
     }
 
-    public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException {
+    public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd)
+            throws InvalidParametersException {
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
 
@@ -125,7 +126,8 @@ public class InstructorsDb extends EntitiesDb {
         }
     }
     
-    public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException {
+    public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         Instructor instructor = (Instructor) createEntity(instructorToAdd);
         if (instructor == null) {
             throw new InvalidParametersException("Created instructor is null.");
@@ -278,7 +280,8 @@ public class InstructorsDb extends EntitiesDb {
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public void updateInstructorByGoogleId(InstructorAttributes instructorAttributesToUpdate) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateInstructorByGoogleId(InstructorAttributes instructorAttributesToUpdate)
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
          

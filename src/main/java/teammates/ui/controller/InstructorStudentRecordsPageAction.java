@@ -70,9 +70,11 @@ public class InstructorStudentRecordsPageAction extends Action {
             Assumption.assertNotNull(studentProfile);
         } else {
             if (student.googleId.isEmpty()) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS, StatusMessageColor.WARNING));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS,
+                                                   StatusMessageColor.WARNING));
             } else if (!isInstructorAllowedToViewStudent) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR, StatusMessageColor.WARNING));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR,
+                                                   StatusMessageColor.WARNING));
             }
         }
 
@@ -82,7 +84,7 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         List<String> sessionNames = new ArrayList<String>();
         for (FeedbackSessionAttributes fsa : sessions) {
-            sessionNames.add(fsa.feedbackSessionName);
+            sessionNames.add(fsa.getFeedbackSessionName());
         }
         
         InstructorStudentRecordsPageData data =
@@ -105,7 +107,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
         while (iterFs.hasNext()) {
             FeedbackSessionAttributes tempFs = iterFs.next();
-            if (!tempFs.courseId.equals(courseId)
+            if (!tempFs.getCourseId().equals(courseId)
                     || !instructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
                                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                 iterFs.remove();

@@ -119,7 +119,8 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         ______TS("success: get comment for receiver");
         
         c.recipientType = CommentParticipantType.PERSON;
-        List<CommentAttributes> comments = commentsLogic.getCommentsForReceiver(c.courseId, c.recipientType, c.recipients.iterator().next());
+        List<CommentAttributes> comments =
+                commentsLogic.getCommentsForReceiver(c.courseId, c.recipientType, c.recipients.iterator().next());
         for (CommentAttributes comment : comments) {
             assertEquals(c.courseId, comment.courseId);
             assertEquals(c.recipients, comment.recipients);
@@ -363,7 +364,9 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         commentsLogic.updateComment(c);
         verifyPresentInDatastore(c);
         
-        List<CommentAttributes> actual = commentsLogic.getCommentsForReceiver(c.courseId, CommentParticipantType.PERSON, c.recipients.iterator().next());
+        List<CommentAttributes> actual =
+                commentsLogic.getCommentsForReceiver(c.courseId, CommentParticipantType.PERSON,
+                                                     c.recipients.iterator().next());
         assertEquals(1, actual.size());
         assertEquals(c.commentText, actual.get(0).commentText);
     }

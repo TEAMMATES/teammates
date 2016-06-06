@@ -51,7 +51,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         
-        String adminEmailTaskQueueMode = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE);
+        String adminEmailTaskQueueMode =
+                HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE);
 
         Assumption.assertNotNull(adminEmailTaskQueueMode);
         
@@ -62,7 +63,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             emailId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);
             Assumption.assertNotNull(emailId);
             
-            addressReceiverListString = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
+            addressReceiverListString =
+                    HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
             Assumption.assertNotNull(addressReceiverListString);
             
             addAdminEmailToTaskQueue(emailId);
@@ -74,15 +76,22 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             emailId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);
             Assumption.assertNotNull(emailId);
             
-            groupReceiverListFileKey = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
+            groupReceiverListFileKey =
+                    HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
             Assumption.assertNotNull(groupReceiverListFileKey);
             
             groupReceiverListFileSize = (int) getFileSize(groupReceiverListFileKey);
             
-            String indexOfEmailListToResumeAsString = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX);
-            String indexOfEmailToResumeAsString = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX);
+            String indexOfEmailListToResumeAsString =
+                    HttpRequestHelper.getValueFromRequestParameterMap(
+                            req, ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX);
+            String indexOfEmailToResumeAsString =
+                    HttpRequestHelper.getValueFromRequestParameterMap(
+                            req, ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX);
             
-            int indexOfEmailListToResume = indexOfEmailListToResumeAsString == null ? 0 : Integer.parseInt(indexOfEmailListToResumeAsString);
+            int indexOfEmailListToResume = indexOfEmailListToResumeAsString == null
+                                           ? 0
+                                           : Integer.parseInt(indexOfEmailListToResumeAsString);
             int indexOfEmailToResume = indexOfEmailToResumeAsString == null ? 0 : Integer.parseInt(indexOfEmailToResumeAsString);
   
             try {
@@ -294,7 +303,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                 
                 if (isNearDeadline()) {
                     pauseAndCreateAnNewTask(i, j);
-                    log.info("Adding group mail tasks for mail with id " + emailId + "have been paused with list index: " + i + " email index: " + j);
+                    log.info("Adding group mail tasks for mail with id " + emailId
+                             + " have been paused with list index: " + i + " email index: " + j);
                     return;
                 }
                 

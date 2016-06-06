@@ -81,7 +81,9 @@ public class AdminSearchPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
     }
     
-    private AdminSearchPageData putCourseNameIntoMap(List<StudentAttributes> students, List<InstructorAttributes> instructors, AdminSearchPageData data) {
+    private AdminSearchPageData putCourseNameIntoMap(List<StudentAttributes> students,
+                                                     List<InstructorAttributes> instructors,
+                                                     AdminSearchPageData data) {
         
         Logic logic = new Logic();
         
@@ -106,7 +108,8 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
     
-    private AdminSearchPageData putInstructorCourseJoinLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data) {
+    private AdminSearchPageData putInstructorCourseJoinLinkIntoMap(List<InstructorAttributes> instructors,
+                                                                   AdminSearchPageData data) {
 
         for (InstructorAttributes instructor : instructors) {
             
@@ -130,7 +133,8 @@ public class AdminSearchPageAction extends Action {
         for (InstructorAttributes instructor : instructors) {
             
             if (tempCourseIdToInstituteMap.get(instructor.courseId) != null) {
-                data.instructorInstituteMap.put(instructor.getIdentificationString(), tempCourseIdToInstituteMap.get(instructor.courseId));
+                data.instructorInstituteMap.put(instructor.getIdentificationString(),
+                                                tempCourseIdToInstituteMap.get(instructor.courseId));
                 continue;
             }
             
@@ -150,7 +154,8 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
     
-    private AdminSearchPageData putInstructorHomePageLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data) {
+    private AdminSearchPageData putInstructorHomePageLinkIntoMap(List<InstructorAttributes> instructors,
+                                                                 AdminSearchPageData data) {
         
         for (InstructorAttributes instructor : instructors) {
             
@@ -303,7 +308,7 @@ public class AdminSearchPageAction extends Action {
          
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                .withCourseId(student.course)
-                               .withSessionName(fsa.feedbackSessionName)
+                               .withSessionName(fsa.getFeedbackSessionName())
                                .withRegistrationKey(StringHelper.encrypt(student.key))
                                .withStudentEmail(student.email)
                                .toAbsoluteString();
@@ -317,7 +322,7 @@ public class AdminSearchPageAction extends Action {
                 data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
            
-            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);
+            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName());
             
         } else {
             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
@@ -328,12 +333,12 @@ public class AdminSearchPageAction extends Action {
                 data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
             
-            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName + " (Currently Not Open)");
+            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + " (Currently Not Open)");
         }
 
         String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                    .withCourseId(student.course)
-                                   .withSessionName(fsa.feedbackSessionName)
+                                   .withSessionName(fsa.getFeedbackSessionName())
                                    .withRegistrationKey(StringHelper.encrypt(student.key))
                                    .withStudentEmail(student.email)
                                    .toAbsoluteString();
@@ -347,7 +352,7 @@ public class AdminSearchPageAction extends Action {
                 data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(viewResultUrl);
             }
             
-            data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.feedbackSessionName + " (Published)");
+            data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.getFeedbackSessionName() + " (Published)");
         }
         return data;
     }

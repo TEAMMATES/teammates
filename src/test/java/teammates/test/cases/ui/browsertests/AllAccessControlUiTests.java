@@ -14,8 +14,6 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.DevServerLoginPage;
-import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.NotAuthorizedPage;
@@ -245,12 +243,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     private void verifyRedirectToLogin(AppUrl url) {
         printUrl(url.toAbsoluteString());
         currentPage.navigateTo(url);
-        assertTrue(isLoginPage(currentPage));
-    }
-
-    private boolean isLoginPage(AppPage currentPage) {
-        return GoogleLoginPage.containsExpectedPageContents(currentPage.getPageSource())
-                || DevServerLoginPage.containsExpectedPageContents(currentPage.getPageSource());
+        AppPage.createCorrectLoginPageType(browser);
     }
 
     private void printUrl(String url) {

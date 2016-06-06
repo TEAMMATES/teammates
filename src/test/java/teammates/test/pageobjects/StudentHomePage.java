@@ -24,19 +24,6 @@ public class StudentHomePage extends AppPage {
         return pageSource.contains("<h1>Student Home</h1>");
     }
 
-    public StudentHelpPage clickHelpLink() {
-        studentHelpTab.click();
-        waitForPageToLoad();
-        switchToNewWindow();
-        return changePageType(StudentHelpPage.class);
-    }
-
-    public void clickHomeTab() {
-        studentHomeTab.click();
-        waitForPageToLoad();
-
-    }
-
     public void clickViewTeam() {
 
         List<WebElement> viewTeamLinks = browser.driver.findElements(By.linkText("View Team"));

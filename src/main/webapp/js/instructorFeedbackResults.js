@@ -112,7 +112,7 @@ function filterResults(rawSearchText) {
         if ($(panelText).text().toLowerCase().indexOf(searchText) !== -1) {
             // pop and show all parent panels from the showStack
             while (showStack.length > 0) {
-                $(showStack.pop()).hide();
+                $(showStack.pop()).show();
             }
 
             // show current panel
@@ -246,12 +246,18 @@ $(document).ready(function() {
         } else {
             childPanelType = participantPanelType;
         }
-        var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
+        var panels = $(this).closest('.panel-success')
+                            .children('.panel-collapse')
+                            .find(childPanelType)
+                            .children('.panel-collapse');
         toggleCollapse(this, panels);
     });
 
     $('a[id^="collapse-panels-button-team-"]').on('click', function() {
-        var panels = $(this).closest('.panel-warning').children('.panel-collapse').find(participantPanelType).children('.panel-collapse');
+        var panels = $(this).closest('.panel-warning')
+                            .children('.panel-collapse')
+                            .find(participantPanelType)
+                            .children('.panel-collapse');
         toggleCollapse(this, panels);
     });
 

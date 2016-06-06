@@ -39,7 +39,8 @@ public class AdminSessionsPageData extends PageData {
     public void init(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap,
             int totalOngoingSessions, int totalOpenStatusSessions, int totalClosedStatusSessions,
-            int totalWaitToOpenStatusSessions, int totalInstitutes, Date rangeStart, Date rangeEnd, double zone, boolean isShowAll) {
+            int totalWaitToOpenStatusSessions, int totalInstitutes, Date rangeStart, Date rangeEnd,
+            double zone, boolean isShowAll) {
 
         this.totalOngoingSessions = totalOngoingSessions;
         this.totalOpenStatusSessions = totalOpenStatusSessions;
@@ -187,15 +188,15 @@ public class AdminSessionsPageData extends PageData {
             feedbackSessionRows.add(new AdminFeedbackSessionRow(
                                             getSessionStatusForShow(feedbackSession),
                                             getFeedbackSessionStatsLink(
-                                                    feedbackSession.courseId,
-                                                    feedbackSession.feedbackSessionName,
+                                                    feedbackSession.getCourseId(),
+                                                    feedbackSession.getFeedbackSessionName(),
                                                     googleId),
                                             TimeHelper.formatTime12H(feedbackSession.getSessionStartTime()),
                                             TimeHelper.formatTime12H(feedbackSession.getSessionEndTime()),
-                                            getInstructorHomePageViewLink(feedbackSession.creatorEmail),
-                                            feedbackSession.creatorEmail,
-                                            feedbackSession.courseId,
-                                            feedbackSession.feedbackSessionName));
+                                            getInstructorHomePageViewLink(feedbackSession.getCreatorEmail()),
+                                            feedbackSession.getCreatorEmail(),
+                                            feedbackSession.getCourseId(),
+                                            feedbackSession.getFeedbackSessionName()));
         }
         return feedbackSessionRows;
     }

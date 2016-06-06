@@ -1,7 +1,6 @@
 package teammates.test.cases.storage;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -29,31 +28,6 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         printTestClassHeader();
     }
     
-    @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
-        
-        FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
-        
-        // remove possibly conflicting entity from the database
-        fqDb.deleteEntity(fq);
-        
-        fqDb.createEntity(fq);
-        verifyPresentInDatastore(fq, true);
-        
-        fq.setCreatedAt_nonProduction(null);
-        fq.setUpdatedAt_nonProduction(null);
-        
-        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        
-        ______TS("success : defaultTimeStamp for createdAt date");
-
-        assertEquals(defaultTimeStamp, fq.getCreatedAt());
-
-        ______TS("success : defaultTimeStamp for updatedAt date");
-
-        assertEquals(defaultTimeStamp, fq.getUpdatedAt());
-    }
-
     @Test
     public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
                                        EntityDoesNotExistException {
@@ -83,7 +57,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         feedbackQuestion.questionNumber++;
         fqDb.updateFeedbackQuestion(feedbackQuestion);
         
-        FeedbackQuestionAttributes updatedFq = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
+        FeedbackQuestionAttributes updatedFq =
+                fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
         
         // Assert lastUpdate has changed, and is now.
         assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
@@ -94,7 +69,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         feedbackQuestion.questionNumber++;
         fqDb.updateFeedbackQuestion(feedbackQuestion, true);
 
-        FeedbackQuestionAttributes updatedFqTwo = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
+        FeedbackQuestionAttributes updatedFqTwo =
+                fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
         
         // Assert lastUpdate has NOT changed.
         assertEquals(updatedFq.getUpdatedAt(), updatedFqTwo.getUpdatedAt());
