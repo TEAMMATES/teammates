@@ -17,6 +17,7 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
@@ -569,7 +570,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private InstructorFeedbacksPage navigateToInstructorFeedbacksPage() {
         
         AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
-        InstructorFeedbacksPage feedbacksPage = feedbackEditPage.navigateTo(feedbacksPageUrl, InstructorFeedbacksPage.class);
+        InstructorFeedbacksPage feedbacksPage =
+                AppPage.getNewPageInstance(browser, feedbacksPageUrl, InstructorFeedbacksPage.class);
         feedbacksPage.waitForPageToLoad();
         return feedbacksPage;
     }

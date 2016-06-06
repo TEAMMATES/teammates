@@ -158,23 +158,6 @@ public class FeedbackSubmitPage extends AppPage {
         return browser.driver.findElement(By.id("response_submit_button"));
     }
     
-    public void linkOnHomeLink() {
-        studentHomeTab.click();
-        AppPage.getNewPageInstance(browser, StudentHomePage.class);
-    }
-
-    public void linkOnProfileLink() {
-        studentProfileTab.click();
-        AppPage.getNewPageInstance(browser, StudentProfilePage.class);
-        
-    }
-
-    public void linkOnCommentsLink() {
-        studentCommentsTab.click();
-        AppPage.getNewPageInstance(browser, StudentCommentsPage.class);
-        
-    }
-    
     public void waitForCellHoverToDisappear() {
         waitForElementToDisappear(By.className("cell-hover"));
     }

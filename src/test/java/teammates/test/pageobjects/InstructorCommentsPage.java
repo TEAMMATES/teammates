@@ -40,20 +40,6 @@ public class InstructorCommentsPage extends AppPage {
         waitForPageToLoad();
     }
     
-    public InstructorHomePage clickHomePageLinkInHeader() {
-        String pathToHomePageLink = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a";
-        browser.driver.findElement(By.xpath(pathToHomePageLink)).click();
-        waitForPageToLoad();
-        waitForAjaxLoaderGifToDisappear();
-        return changePageType(InstructorHomePage.class);
-    }
-    
-    public void clickCommentsPageLinkInHeader() {
-        String pathToCommentsPageLink = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a";
-        browser.driver.findElement(By.xpath(pathToCommentsPageLink)).click();
-        waitForPageToLoad();
-    }
-    
     public void clickShowMoreOptions() {
         showMoreOptionsCheckbox.click();
         waitForPageToLoad();
