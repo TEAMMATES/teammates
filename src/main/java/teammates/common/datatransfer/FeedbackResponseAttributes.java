@@ -21,8 +21,16 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public String courseId;
     public String feedbackQuestionId;
     public FeedbackQuestionType feedbackQuestionType;
+    /**
+    * Depending on the question giver type, {@code giverEmail} may contain the giver's email, the team name,
+    * "anonymous", etc.
+    */
     public String giverEmail;
     public String giverSection;
+    /**
+     * Depending on the question recipient type, {@code recipientEmail} may contain the recipient's email, the team
+     * name, "%GENERAL%", etc.
+     */
     public String recipientEmail; // TODO rename back "recipient" as it may contain team name and "%GENERAL%"?
     public String recipientSection;
     
