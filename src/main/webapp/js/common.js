@@ -99,13 +99,15 @@ var DISPLAY_INPUT_FIELDS_EXTRA = 'There are too many fields.';
 var DISPLAY_INPUT_FIELDS_MISSING = 'There are missing fields.';
 var DISPLAY_GOOGLEID_INVALID = 'GoogleID should only consist of alphanumerics, fullstops, dashes or underscores.';
 var DISPLAY_EMAIL_INVALID = 'The e-mail address is invalid.';
-var DISPLAY_NAME_INVALID = 'Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets<br> and not more than 40 characters.';
+var DISPLAY_NAME_INVALID = 'Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, '
+                           + 'commas, slashes, round brackets<br> and not more than 40 characters.';
 var DISPLAY_STUDENT_TEAMNAME_INVALID = 'Team name should contain less than 60 characters.';
 
 // Used in instructorCourse.js only
 var DISPLAY_COURSE_LONG_ID = 'Course ID should not exceed ' + COURSE_ID_MAX_LENGTH + ' characters.';
 var DISPLAY_COURSE_LONG_NAME = 'Course name should not exceed ' + COURSE_NAME_MAX_LENGTH + ' characters.';
-var DISPLAY_COURSE_INVALID_ID = 'Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID. Spaces are not allowed for course ID.';
+var DISPLAY_COURSE_INVALID_ID = 'Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs '
+                                + 'in course ID. Spaces are not allowed for course ID.';
 var DISPLAY_COURSE_COURSE_ID_EMPTY = 'Course ID cannot be empty.';
 var DISPLAY_COURSE_COURSE_NAME_EMPTY = 'Course name cannot be empty';
 
@@ -113,7 +115,8 @@ var DISPLAY_COURSE_COURSE_NAME_EMPTY = 'Course name cannot be empty';
 var DISPLAY_INSTRUCTOR_ID_EMPTY = 'Instructor ID cannot be empty.';
 var DISPLAY_INSTRUCTOR_NAME_EMPTY = 'Instructor name cannot be empty.';
 var DISPLAY_INSTRUCTOR_EMAIL_EMPTY = 'Instructor email cannot be empty.';
-var DISPLAY_CANNOT_DELETE_LAST_INSTRUCTOR = 'There is only ONE instructor left in the course. You are not allowed to delete this instructor.';
+var DISPLAY_CANNOT_DELETE_LAST_INSTRUCTOR = 'There is only ONE instructor left in the course. '
+                                            + 'You are not allowed to delete this instructor.';
 
 // Used in instructorCourseEnroll.js only
 var DISPLAY_ENROLLMENT_INPUT_EMPTY = 'Please input at least one student detail.';
@@ -125,11 +128,13 @@ var FEEDBACK_SESSION_COPY_INVALID = 'There is no feedback session to be copied.'
 var FEEDBACK_QUESTION_COPY_INVALID = 'There is no feedback question to be copied.';
 var DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE = 'This feedback session name already existed in this course. Please use another name.';
 var DISPLAY_FEEDBACK_SESSION_NAME_EMPTY = 'Feedback session name must not be empty.';
-var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = 'Please enter the maximum number of recipients each respondants should give feedback to.';
+var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
+        'Please enter the maximum number of recipients each respondants should give feedback to.';
 
 var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. The question text cannot be empty.';
 var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
-var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID = 'Please enter valid options. The interval is not divisible by the specified increment.';
+var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
+        'Please enter valid options. The interval is not divisible by the specified increment.';
 
 var DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
 var DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';

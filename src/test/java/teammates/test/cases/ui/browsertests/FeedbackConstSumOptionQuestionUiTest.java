@@ -29,7 +29,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
@@ -65,20 +65,21 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         
         ______TS("empty options");
         
-        feedbackEditPage.fillQuestionBox("ConstSum-option qn");
+        feedbackEditPage.fillNewQuestionBox("ConstSum-option qn");
         feedbackEditPage.fillConstSumPointsBox("", -1);
         
         assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
         
         feedbackEditPage.clickAddQuestionButton();
         
-        assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.",
+                     feedbackEditPage.getStatus());
         
         ______TS("remove when 1 left");
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
-        feedbackEditPage.fillQuestionBox("Test const sum question");
+        feedbackEditPage.fillNewQuestionBox("Test const sum question");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
 
         feedbackEditPage.clickRemoveConstSumOptionLink(1, -1);
@@ -89,7 +90,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickRemoveConstSumOptionLink(0, -1);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.",
+                     feedbackEditPage.getStatus());
     }
 
     @Override
@@ -126,7 +128,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     public void testAddQuestionAction() throws Exception {
         ______TS("CONST SUM: add question action success");
         
-        feedbackEditPage.fillQuestionBox("const sum qn");
+        feedbackEditPage.fillNewQuestionBox("const sum qn");
         feedbackEditPage.selectRecipientsToBeStudents();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
@@ -139,7 +141,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     public void testEditQuestionAction() throws Exception {
         ______TS("CONST SUM: edit question success");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 1);
         feedbackEditPage.fillConstSumPointsBox("200", 1);
         feedbackEditPage.selectConstSumPointsOptions("per recipient:", 1);

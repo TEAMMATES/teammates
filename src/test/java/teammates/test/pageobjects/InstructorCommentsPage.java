@@ -177,7 +177,8 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx, String text) {
-        WebElement textarea = browser.driver.findElement(By.id("responseCommentAddForm-" + sessionIdx + "-" + questionIdx + "-" + responseIdx));
+        WebElement textarea = browser.driver.findElement(
+                By.id("responseCommentAddForm-" + sessionIdx + "-" + questionIdx + "-" + responseIdx));
         textarea.click();
         textarea.clear();
         textarea.sendKeys(text);
@@ -205,7 +206,8 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public void saveResponseComment(int sessionIdx, int questionIdx, int responseIdx, int commentIdx) {
-        browser.driver.findElement(By.id("button_save_comment_for_edit-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx)).click();
+        browser.driver.findElement(
+                By.id("button_save_comment_for_edit-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx)).click();
         waitForPageToLoad();
     }
 

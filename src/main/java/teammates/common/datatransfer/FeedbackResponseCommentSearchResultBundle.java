@@ -126,12 +126,12 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             FeedbackSessionAttributes session = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(),
                     FeedbackSessionAttributes.class);
-            if (fsLogic.getFeedbackSession(session.getSessionName(), session.courseId) == null) {
+            if (fsLogic.getFeedbackSession(session.getSessionName(), session.getCourseId()) == null) {
                 frcLogic.deleteDocument(comment);
                 continue;
             }
-            if (!isAdded.contains(session.feedbackSessionName)) {
-                isAdded.add(session.feedbackSessionName);
+            if (!isAdded.contains(session.getFeedbackSessionName())) {
+                isAdded.add(session.getFeedbackSessionName());
                 sessions.put(session.getSessionName(), session);
             }
             
@@ -165,7 +165,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         return this;
     }
     
-    private String getFilteredCommentGiverName(FeedbackResponseAttributes response, FeedbackResponseCommentAttributes comment, String name) {
+    private String getFilteredCommentGiverName(FeedbackResponseAttributes response,
+                                               FeedbackResponseCommentAttributes comment, String name) {
         return isCommentGiverNameVisibleToInstructor(response, comment) ? name : "Anonymous";
     }
     

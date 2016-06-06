@@ -23,8 +23,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.EmailTemplates;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
@@ -96,8 +96,8 @@ public class EmailsTest extends BaseComponentTestCase {
     public void testGenerateFeedbackEmailBase() throws IOException, MessagingException {
 
         FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
-        fsa.feedbackSessionName = "Feedback Session Name";
-        fsa.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+        fsa.setFeedbackSessionName("Feedback Session Name");
+        fsa.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
 
         CourseAttributes c = new CourseAttributes("course-id", "Course Name");
 
@@ -134,18 +134,18 @@ public class EmailsTest extends BaseComponentTestCase {
 
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                             .withCourseId(c.getId())
-                            .withSessionName(fsa.feedbackSessionName)
+                            .withSessionName(fsa.getFeedbackSessionName())
                             .withRegistrationKey(encryptedKey)
                             .withStudentEmail(s.email)
                             .toAbsoluteString();
 
-        String deadline = TimeHelper.formatTime12H(fsa.endTime);
+        String deadline = TimeHelper.formatTime12H(fsa.getEndTime());
 
         String emailBody = email.getContent().toString();
 
         AssertHelper.assertContainsRegex("Hello " + s.name
                 + "{*}${status}{*}" + c.getId() + "{*}" + c.getName() + "{*}"
-                + fsa.feedbackSessionName + "{*}" + deadline + "{*}" + submitUrl + "{*}"
+                + fsa.getFeedbackSessionName() + "{*}" + deadline + "{*}" + submitUrl + "{*}"
                 + submitUrl, emailBody);
 
         printEmail(email);
@@ -161,14 +161,14 @@ public class EmailsTest extends BaseComponentTestCase {
 
         String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                             .withCourseId(c.getId())
-                            .withSessionName(fsa.feedbackSessionName)
+                            .withSessionName(fsa.getFeedbackSessionName())
                             .withRegistrationKey(encryptedKey)
                             .withStudentEmail(s.email)
                             .toAbsoluteString();
 
         AssertHelper.assertContainsRegex("Hello " + s.name
                 + "{*}is now open for viewing{*}" + c.getId() + "{*}"
-                + c.getName() + "{*}" + fsa.feedbackSessionName + "{*}" + reportUrl + "{*}"
+                + c.getName() + "{*}" + fsa.getFeedbackSessionName() + "{*}" + reportUrl + "{*}"
                 + reportUrl, emailBody);
 
         printEmail(email);
@@ -183,7 +183,7 @@ public class EmailsTest extends BaseComponentTestCase {
         emailBody = email.getContent().toString();
 
         AssertHelper.assertContainsRegex("Hello " + s.name + "{*}" + c.getId() + "{*}" + c.getName()
-                + "{*}" + fsa.feedbackSessionName + "{*}" + deadline + "{*}" + submitUrl + "{*}"
+                + "{*}" + fsa.getFeedbackSessionName() + "{*}" + deadline + "{*}" + submitUrl + "{*}"
                 + submitUrl, emailBody);
 
         printEmail(email);
@@ -197,7 +197,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         AssertHelper.assertContainsRegex("Hello " + s.name
                 + "{*}is now open for viewing{*}" + c.getId() + "{*}" + c.getName()
-                + "{*}" + fsa.feedbackSessionName + "{*}" + reportUrl + "{*}" + reportUrl,
+                + "{*}" + fsa.getFeedbackSessionName() + "{*}" + reportUrl + "{*}" + reportUrl,
                 emailBody);
 
         printEmail(email);
@@ -214,7 +214,7 @@ public class EmailsTest extends BaseComponentTestCase {
         AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
                 + "The email below has been sent to students of course: " + c.getId()
                 + "{*}" + c.getId() + "{*}" + c.getName()
-                + "{*}" + fsa.feedbackSessionName + "{*}" + deadline
+                + "{*}" + fsa.getFeedbackSessionName() + "{*}" + deadline
                 + "{*}{The student's unique submission url appears here}"
                 + "{*}{The student's unique submission url appears here}",
                 emailBody);
@@ -233,7 +233,7 @@ public class EmailsTest extends BaseComponentTestCase {
         AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
                 + "The email below has been sent to students of course: " + c.getId()
                 + "{*}is now open for viewing{*}" + c.getId() + "{*}" + c.getName()
-                + "{*}" + fsa.feedbackSessionName
+                + "{*}" + fsa.getFeedbackSessionName()
                 + "{*}{The student's unique results url appears here}"
                 + "{*}{The student's unique results url appears here}",
                 emailBody);
@@ -302,10 +302,10 @@ public class EmailsTest extends BaseComponentTestCase {
         
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
         
-        CourseAttributes c = coursesLogic.getCourse(fsa.courseId);
+        CourseAttributes c = coursesLogic.getCourse(fsa.getCourseId());
         
-        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.courseId);
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.courseId);
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.getCourseId());
+        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
         
         StudentAttributes s1 = new StudentAttributes();
         s1.email = "student5InCourse1@gmail.tmt";
@@ -442,8 +442,8 @@ public class EmailsTest extends BaseComponentTestCase {
     @Test
     public void testParseMimeMessageToSendgrid() throws MessagingException, JSONException, IOException {
         FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
-        fsa.feedbackSessionName = "Feedback Session Name";
-        fsa.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+        fsa.setFeedbackSessionName("Feedback Session Name");
+        fsa.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
 
         CourseAttributes c = new CourseAttributes("course-id", "Course Name");
 

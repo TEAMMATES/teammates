@@ -11,8 +11,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import teammates.common.util.Const;
-import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Templates;
+import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
 import teammates.ui.controller.PageData;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
@@ -49,7 +50,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
         
         String optionFragment =
-                FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                Templates.populateTemplate(optionFragmentTemplate,
                         "${qnIdx}", Integer.toString(qnIdx),
                         "${responseIdx}", Integer.toString(responseIdx),
                         "${optionIdx}", "0",
@@ -60,7 +61,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${rankOptionValue}", "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                 "${qnIdx}", Integer.toString(qnIdx),
@@ -70,7 +71,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 "${rankToRecipientsValue}", "true",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 "${rankNumOptionValue}", Integer.toString(0),
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
                 );
         
@@ -85,7 +87,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
         
         String optionFragment =
-                FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                Templates.populateTemplate(optionFragmentTemplate,
                         "${qnIdx}", Integer.toString(qnIdx),
                         "${responseIdx}", Integer.toString(responseIdx),
                         "${optionIdx}", "0",
@@ -96,7 +98,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${rankOptionValue}", "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                             FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
                             "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                             "${qnIdx}", Integer.toString(qnIdx),
@@ -106,7 +108,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                             "${rankNumOptionValue}", Integer.toString(0),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
+                                    Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                             "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
                             );
         
@@ -136,11 +139,12 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         
-        return FeedbackQuestionFormTemplates.populateTemplate(
+        return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.RANK_EDIT_RECIPIENTS_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${optionRecipientDisplayName}", "recipient",
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 "${areDuplicatesAllowedChecked}", areDuplicatesAllowed ? "checked" : "");
     
     }
@@ -158,7 +162,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String additionalInfoId) {
         String additionalInfo = this.getQuestionTypeDisplayName() + "<br>";
                 
-        String html = FeedbackQuestionFormTemplates.populateTemplate(
+        String html = Templates.populateTemplate(
                         FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                         "${more}", "[more]",
                         "${less}", "[less]",
@@ -197,7 +201,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String name = bundle.getNameForEmail(participantIdentifier);
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             
-            fragments.append(FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
+            fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
                                                                         "${rankOptionValue}", Sanitizer.sanitizeForHtml(name),
                                                                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                                                                         "${ranksReceived}", ranksReceived,
@@ -205,7 +209,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         }
      
-        return FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_RECIPIENT_STATS,
+        return Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_RECIPIENT_STATS,
                                                              "${optionRecipientDisplayName}", "Recipient",
                                                              "${fragments}", fragments.toString());
         

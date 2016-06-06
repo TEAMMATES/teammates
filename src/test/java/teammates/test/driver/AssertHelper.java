@@ -153,7 +153,8 @@ public final class AssertHelper {
                    actualId.contains(userIdentifier));
     }
     
-    public static void assertLogMessageEqualsForUnregisteredStudentUser(String expected, String actual, String studentEmail, String courseId) {
+    public static void assertLogMessageEqualsForUnregisteredStudentUser(
+            String expected, String actual, String studentEmail, String courseId) {
         assertLogMessageEquals(expected, actual, studentEmail + "%" + courseId);
     }
     
