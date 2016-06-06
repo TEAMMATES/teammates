@@ -2,7 +2,6 @@ package teammates.test.cases.common;
 
 // CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
 import static teammates.common.util.FieldValidator.*;
-// CHECKSTYLE.ON:AvoidStarImport
 
 import java.util.Date;
 
@@ -15,6 +14,7 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class FieldValidatorTest extends BaseTestCase {
@@ -601,26 +601,23 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForSessionStartAndEnd_valid_returnEmptyString() {
-        Date date = new Date();
-        Date sessionStart = new Date(date.getTime() - 1000);
-        Date sessionEnd = new Date(date.getTime() + 1000);
+        Date sessionStart = TimeHelper.getHoursOffsetToCurrentTime(-1);
+        Date sessionEnd = TimeHelper.getHoursOffsetToCurrentTime(1);
         assertEquals("", validator.getInvalidityInfoForTimeForSessionStartAndEnd(sessionStart, sessionEnd));
     }
 
     @Test
     public void testGetInvalidityInfoForTimeForSessionStartAndEnd_invalid_returnErrorString() {
-        Date date = new Date();
-        Date sessionStart = new Date(date.getTime() + 1000);
-        Date sessionEnd = new Date(date.getTime() - 1000);
+        Date sessionStart = TimeHelper.getHoursOffsetToCurrentTime(1);
+        Date sessionEnd = TimeHelper.getHoursOffsetToCurrentTime(-1);
         assertEquals("The end time for this feedback session cannot be earlier than the start time.",
                      validator.getInvalidityInfoForTimeForSessionStartAndEnd(sessionStart, sessionEnd));
     }
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndSessionStart_valid_returnEmptyString() {
-        Date date = new Date();
-        Date visibilityStart = new Date(date.getTime() - 1000);
-        Date sessionStart = new Date(date.getTime() + 1000);
+        Date visibilityStart = TimeHelper.getHoursOffsetToCurrentTime(-1);
+        Date sessionStart = TimeHelper.getHoursOffsetToCurrentTime(1);
         assertEquals("",
                      validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
                          visibilityStart, sessionStart));
@@ -628,9 +625,8 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndSessionStart_invalid_returnErrorString() {
-        Date date = new Date();
-        Date visibilityStart = new Date(date.getTime() + 1000);
-        Date sessionStart = new Date(date.getTime() - 1000);
+        Date visibilityStart = TimeHelper.getHoursOffsetToCurrentTime(1);
+        Date sessionStart = TimeHelper.getHoursOffsetToCurrentTime(-1);
         assertEquals("The start time for this feedback session cannot be earlier than the time when the "
                          + "session will be visible.",
                      validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
@@ -639,9 +635,8 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndResultsPublish_valid_returnEmptyString() {
-        Date date = new Date();
-        Date visibilityStart = new Date(date.getTime() - 1000);
-        Date resultsPublish = new Date(date.getTime() + 1000);
+        Date visibilityStart = TimeHelper.getHoursOffsetToCurrentTime(-1);
+        Date resultsPublish = TimeHelper.getHoursOffsetToCurrentTime(1);
         assertEquals("",
                      validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                          visibilityStart, resultsPublish));
@@ -649,9 +644,8 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndResultsPublish_invalid_returnErrorString() {
-        Date date = new Date();
-        Date visibilityStart = new Date(date.getTime() + 1000);
-        Date resultsPublish = new Date(date.getTime() - 1000);
+        Date visibilityStart = TimeHelper.getHoursOffsetToCurrentTime(1);
+        Date resultsPublish = TimeHelper.getHoursOffsetToCurrentTime(-1);
         assertEquals("The time when the results will be visible for this feedback session cannot be "
                          + "earlier than the time when the session will be visible.",
                      validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
