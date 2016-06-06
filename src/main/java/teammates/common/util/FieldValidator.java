@@ -338,7 +338,8 @@ public class FieldValidator {
      *         Returns an empty string if the {@code emailSubject} is acceptable.
      */
     public String getInvalidityInfoForEmailSubject(String emailSubject) {
-        return getValidityInfoForAllowedName(EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, emailSubject);
+        return getValidityInfoForAllowedName(
+                EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, emailSubject);
     }
 
     /**
@@ -651,8 +652,8 @@ public class FieldValidator {
      *         Empty string if {@code sessionStart} is after {@code sessionEnd}
      */
     public String getInvalidityInfoForTimeForSessionStartAndEnd(Date sessionStart, Date sessionEnd) {
-        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(sessionStart, sessionEnd,
-                START_TIME_FIELD_NAME, END_TIME_FIELD_NAME);
+        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(
+                sessionStart, sessionEnd, START_TIME_FIELD_NAME, END_TIME_FIELD_NAME);
     }
 
     /**
@@ -660,9 +661,10 @@ public class FieldValidator {
      * @return Error string if {@code visibilityStart} is before {@code sessionStart}
      *         Empty string if {@code visibilityStart} is after {@code sessionStart}
      */
-    public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(Date visibilityStart, Date sessionStart) {
-        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(visibilityStart, sessionStart,
-                SESSION_VISIBLE_TIME_FIELD_NAME, START_TIME_FIELD_NAME);
+    public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(Date visibilityStart,
+                                                                            Date sessionStart) {
+        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(
+                visibilityStart, sessionStart, SESSION_VISIBLE_TIME_FIELD_NAME, START_TIME_FIELD_NAME);
     }
 
     /**
