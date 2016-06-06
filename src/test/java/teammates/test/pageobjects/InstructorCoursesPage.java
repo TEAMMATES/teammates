@@ -175,7 +175,9 @@ public class InstructorCoursesPage extends AppPage {
     }
     
     private int getCourseCount() {
-        return browser.driver.findElements(By.className("table")).get(0).findElements(By.tagName("tr")).size();
+        By activeCoursesTable = By.id("tableActiveCourses");
+        waitForElementPresence(activeCoursesTable);
+        return browser.driver.findElement(activeCoursesTable).findElements(By.tagName("tr")).size();
     }
 
     private int getRowNumberOfCourse(String courseId) {
