@@ -314,7 +314,8 @@ public class Logic {
         instructorsLogic.createInstructor(instructor);
     }
     
-    public InstructorAttributes createInstructor(InstructorAttributes instructor) throws InvalidParametersException, EntityAlreadyExistsException {
+    public InstructorAttributes createInstructor(InstructorAttributes instructor)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         return instructorsLogic.createInstructor(instructor);
     }
 
@@ -743,32 +744,6 @@ public class Logic {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         return coursesLogic.getArchivedCoursesForInstructor(googleId);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     * @return true if the course has been archived by the instructor specified
-     */
-    public static boolean isCourseArchived(String courseId, String instructorGoogleId) {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorGoogleId);
-        
-        return coursesLogic.isCourseArchived(courseId, instructorGoogleId);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     * @return true if the course has been archived by the instructor specified
-     */
-    public static boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
-        
-        return coursesLogic.isCourseArchived(course, instructor);
     }
     
     /**
@@ -1659,7 +1634,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        feedbackSessionsLogic.deleteStudentRespondant(email, feedbackSessionName, courseId);
+        feedbackSessionsLogic.deleteStudentFromRespondentList(email, feedbackSessionName, courseId);
     }
     
     /**
@@ -2611,18 +2586,6 @@ public class Logic {
 
     public MimeMessage emailErrorReport(HttpServletRequest req, Throwable error) {
         return emailManager.sendErrorReport(req, error);
-    }
-    
-    public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
-        Assumption.assertNotNull(courseBundles);
-        Assumption.assertNotNull(googleId);
-        return coursesLogic.extractActiveCourses(courseBundles, googleId);
-    }
-    
-    public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
-        Assumption.assertNotNull(courseBundles);
-        Assumption.assertNotNull(googleId);
-        return coursesLogic.extractArchivedCourses(courseBundles, googleId);
     }
 
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {

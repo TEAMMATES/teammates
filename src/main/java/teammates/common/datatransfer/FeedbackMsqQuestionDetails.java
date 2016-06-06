@@ -46,13 +46,17 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         List<String> msqChoices = new LinkedList<String>();
         boolean msqOtherEnabled = false;
         
-        String otherOptionFlag = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG);
+        String otherOptionFlag =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG);
         
         if ("on".equals(otherOptionFlag)) {
             msqOtherEnabled = true;
         }
             
-        String generatedMsqOptions = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
+        String generatedMsqOptions =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
         if (generatedMsqOptions.equals(FeedbackParticipantType.NONE.toString())) {
             String numMsqChoicesCreatedString =
                     HttpRequestHelper.getValueFromParamMap(requestParameters,
@@ -61,7 +65,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             int numMsqChoicesCreated = Integer.parseInt(numMsqChoicesCreatedString);
             
             for (int i = 0; i < numMsqChoicesCreated; i++) {
-                String msqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
+                String msqChoice =
+                        HttpRequestHelper.getValueFromParamMap(
+                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
                 if (msqChoice != null && !msqChoice.trim().isEmpty()) {
                     msqChoices.add(msqChoice);
                     numOfMsqChoices++;

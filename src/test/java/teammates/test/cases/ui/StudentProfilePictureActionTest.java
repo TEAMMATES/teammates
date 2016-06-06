@@ -7,7 +7,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -39,7 +39,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         testActionWithEmailAndCourse();
     }
 
-    public void testActionWithNoParams() throws Exception {
+    public void testActionWithNoParams() {
 
         ______TS("Failure case: no parameters given");
         gaeSimulation.loginAsStudent(account.googleId);
@@ -63,12 +63,12 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
      * 
      * @throws Exception
      */
-    public void testActionWithBlobKey() throws Exception {
+    public void testActionWithBlobKey() {
         testActionWithBlobKeySuccess();
         testActionWithBlobKeySuccessMasquerade();
     }
 
-    protected void testActionWithBlobKeySuccess() throws Exception {
+    protected void testActionWithBlobKeySuccess() {
         ______TS("Typical case: using blobkey");
         gaeSimulation.loginAsStudent(account.googleId);
 
@@ -84,7 +84,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         verifyLogMessageForActionWithBlobKey(false);
     }
 
-    protected void testActionWithBlobKeySuccessMasquerade() throws Exception {
+    protected void testActionWithBlobKeySuccessMasquerade() {
         ______TS("Typical case: masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");
 
@@ -116,8 +116,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         testActionWithEmailAndCourseUnauthorisedInstructor();
     }
 
-    protected void testActionWithEmailAndCourseSuccessTypical(AccountAttributes instructor)
-            throws Exception {
+    protected void testActionWithEmailAndCourseSuccessTypical(AccountAttributes instructor) {
 
         ______TS("Typical case: using email and course");
 
@@ -147,8 +146,8 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         try {
             action.executeAndPostProcess();
             signalFailureToDetectException("Entity Does not exist");
-        } catch (EntityDoesNotExistException uae) {
-            assertEquals("student with " + student.course + "/random-email", uae.getMessage());
+        } catch (EntityNotFoundException enfe) {
+            assertEquals("student with " + student.course + "/random-email", enfe.getMessage());
         }
     }
 
@@ -174,7 +173,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         return instructor;
     }
 
-    private void testActionForStudentWithEmptyGoogleId() throws Exception {
+    private void testActionForStudentWithEmptyGoogleId() {
         ______TS("Failure case: no profile available (unreg student)");
 
         StudentAttributes student = dataBundle.students.get("student2InUnregisteredCourse");
@@ -190,8 +189,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         assertEquals("", result.blobKey);
     }
 
-    protected void testActionWithEmailAndCourseUnauthorisedInstructor()
-            throws Exception {
+    protected void testActionWithEmailAndCourseUnauthorisedInstructor() {
         ______TS("Failure case: instructor not from same course");
         AccountAttributes unauthInstructor = dataBundle.accounts.get("instructor1OfCourse2");
         gaeSimulation.loginAsInstructor(unauthInstructor.googleId);

@@ -30,19 +30,18 @@ Important: When a version is specified, please install that version instead of t
    Instructions are at https://developers.google.com/eclipse/docs/install-eclipse-4.4 <br>
    Note: Sometimes the update site for the GAE plug-in does not work. In which case, 
    follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
-5. Install Google App Engine SDK version 1.9.27. <br>
-   Download link to the SDK is http://central.maven.org/maven2/com/google/appengine/appengine-java-sdk/1.9.27/appengine-java-sdk-1.9.27.zip.<br>
-   Go to `Window → Preferences → Google → App Engine` (Mac: `Eclipse → Preferences → Google → App Engine`), click the `Add` button,
-   and point it to where you extracted the SDK zip file. <br>
-   Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
-6. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
+5. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
 
 ## Setting up the dev server
 `Dev server` means running the server in your own computer.
 
 1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
-2. Configure Eclipse (if you worry that these settings will interfere with your 
-    other projects, you can use a separate eclipse instance for TEAMMATES):
+2. Run the command `./gradlew appengineDownloadSdk` to obtain the Google App Engine SDK (version specified in `build.gradle`).
+3. Configure Eclipse (if you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES):
+   * Google App Engine: Go to `Window → Preferences → Google → App Engine` (Mac: `Eclipse → Preferences → Google → App Engine`),
+   click the `Add` button, and point it to where Gradle kept the SDK.
+   This directory can be found by running the command `./gradlew printUserHomeDir`.<br>
+   Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
    * Text encoding: Go to `Window → Preferences → General → Workspace` (Mac: `Eclipse → Preferences → General → Workspace`), change the 
    `Text file encoding` setting from `Default` to `Other: UTF-8`.
    * JRE: Go to `Windows → Preferences → Java → Installed JRE` (Mac: `Eclipse → Preferences → Java → Installed JRE`) and ensure a 
@@ -57,7 +56,7 @@ Important: When a version is specified, please install that version instead of t
     to indent using 4 spaces instead of tabs.
     * HTML syntax: We prefer not to use the HTML syntax validator provided by Eclipse.
     To turn it off, go to `Window → Preferences → Validation → HTML Syntax Validator` (Mac: `Eclipse → Preferences → Validation → HTML Syntax Validator`) and uncheck the `Build` option.
-3. Run the command `./gradlew setup`.<br>
+4. Run the command `./gradlew setup`.<br>
    This creates the main config files {These are not under revision control because their content vary from developer to developer}.
    * `.project`<br>
    * `src/main/resources/build.properties`<br>
@@ -72,15 +71,15 @@ Important: When a version is specified, please install that version instead of t
    This command can be run again whenever the dependencies need to be updated.
    Sometimes, the changes from this command might not show up in Eclipse immediately. "Refreshing" the project or restarting Eclipse
    should fix that.
-4. Start Eclipse and go to `File → Import...` and select `Existing Projects into Workspace` under `General`. Set the `root directory` to the location where
+5. Start Eclipse and go to `File → Import...` and select `Existing Projects into Workspace` under `General`. Set the `root directory` to the location where
    the repo is cloned. Click `Finish`.
-5. Start the dev server.<br>
+6. Start the dev server.<br>
     Right-click on the project folder and choose `Run → As Web Application`. 
     After some time, you should see this message on the console 
     `Dev App Server is now running` or something similar.
     The dev server is now ready to serve requests at the URL given in the console output.
     e.g `http://localhost:8888`.<br> 
-6. To confirm the server is up, go to the server URL in your Browser.
+7. To confirm the server is up, go to the server URL in your Browser.
    To log in to the system, you need to add yourself as an instructor first:
    * Go to `http://[appURL]/admin/adminHomePage` 
    (On your computer, it may be `http://localhost:8888/admin/adminHomePage`) 
@@ -91,12 +90,12 @@ Important: When a version is specified, please install that version instead of t
       Name: `John Dorian` <br>
       Email: `teammates.instructor@university.edu` <br>
       Institute: `National University of Singapore` 
-7. On the `dev server`, emails which contains the join link will not be sent to the added instructor.<br>
+8. On the `dev server`, emails which contains the join link will not be sent to the added instructor.<br>
    Instead, you can use the join link given after adding an intructor, to complete the joining process.<br>
    Remember to change the URL of the link if necessary, but keep the parameters.<br>
    e.g. Change <b>`http://teammates-john.appspot.com`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS` <br>
    to <b>`http://localhost:8888`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
-8. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
+9. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
    After that, log in as admin by going to `http://localhost:8888/admin/adminSearchPage` and provide the same GoogleID you used for logging in step 6.<br>
    Search for the student you added in as instructor. From the search results, click anywhere on the desired row(except on the student name) to get the course join link for that student.<br>
    Then, log out and use that join link to log in as a student. You have the required access now.<br>
@@ -185,21 +184,11 @@ this section.
 
 * Build the project in Eclipse (`Project -> Clean`).
 * Start the dev server in Eclipse.
-* Open a DOS window in the project folder and run the `runtests.bat` 
-  in the following manner.<br>
-  `runtests.bat  appengine_SDK_location  project_folder_location` <br>
-  e.g. `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates`<br>
+* Run the following command in the project root folder:<br>
+  `./gradlew travisTests`<br>
   This will run the full test suite once and retry the failed tests several times.<br>
-  (**Mac**: In Terminal, navigate to the project folder and run the `runtests.sh` in the following manner.<br>
-  `./runtests.sh GAE_SDK_Location Project_Folder_location`<br>
-  e.g. `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES`, if the path to GAE_SDK_Location is `/Users/someuser/appengine-java-sdk-1.9.27` and path to Project_Folder_location is `/Users/someuser/TEAMMATES`.<br>
-  It's recommended to use absolute path on Mac, and you could retrieve the absolute path by navigate to that folder and type `pwd` command.<br>
-  If the file is not an executable, change its permission by: `chmod +x runtests.sh`)
-* The final result can be viewed by opening `[project folder]/testrunner/test-output/index.html`.
-* To run only certain `<test>` segments of the `testng.xml`, add the `-testnames`
-  option followed by the names of the `<test>` segments you want to run.<br>e.g.
-  `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates -testnames component-tests,sequential-ui-tests,parallel-ui-tests`<br>
-  (**Mac**: `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES -testnames component-tests,sequential-ui-tests,parallel-ui-tests`)
+* The final result can be viewed by opening `{project folder}/build/test-try-{n}/index.html`,
+  where `{n}` is the sequence number of the test run.
   
 ## Deploying to a staging server
 `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.

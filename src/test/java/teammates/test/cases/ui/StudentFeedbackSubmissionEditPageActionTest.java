@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -152,8 +152,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
             
             redirectResult = getRedirectResult(pageAction);
             signalFailureToDetectException("EntityDoesNotExist");
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("unregistered student trying to access non-existent session", edne.getMessage());
+        } catch (EntityNotFoundException enfe) {
+            assertEquals("unregistered student trying to access non-existent session", enfe.getMessage());
         }
 
         stDb.deleteStudent("idOfTypicalCourse1", "unreg@stud.ent");
