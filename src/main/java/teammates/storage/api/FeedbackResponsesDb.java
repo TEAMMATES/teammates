@@ -248,8 +248,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        Collection<FeedbackResponse> frList = getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName,
-                                                                                      courseId, section);
+        Collection<FeedbackResponse> frList =
+                getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName, courseId, section);
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList) {
@@ -273,8 +273,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        Collection<FeedbackResponse> frList = getFeedbackResponseEntitiesForSessionFromSection(feedbackSessionName,
-                                                                                      courseId, section);
+        Collection<FeedbackResponse> frList =
+                getFeedbackResponseEntitiesForSessionFromSection(feedbackSessionName, courseId, section);
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList) {
@@ -298,8 +298,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        Collection<FeedbackResponse> frList = getFeedbackResponseEntitiesForSessionToSection(feedbackSessionName,
-                                                                                      courseId, section);
+        Collection<FeedbackResponse> frList =
+                getFeedbackResponseEntitiesForSessionToSection(feedbackSessionName, courseId, section);
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList) {
@@ -323,8 +323,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        Collection<FeedbackResponse> frList = getFeedbackResponseEntitiesForSessionInSectionWithinRange(feedbackSessionName,
-                                                                                      courseId, section, range);
+        Collection<FeedbackResponse> frList =
+                getFeedbackResponseEntitiesForSessionInSectionWithinRange(
+                        feedbackSessionName, courseId, section, range);
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList) {
@@ -348,8 +349,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        Collection<FeedbackResponse> frList = getFeedbackResponseEntitiesForSessionFromSectionWithinRange(feedbackSessionName,
-                                                                                      courseId, section, range);
+        Collection<FeedbackResponse> frList =
+                getFeedbackResponseEntitiesForSessionFromSectionWithinRange(
+                        feedbackSessionName, courseId, section, range);
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList) {
@@ -373,8 +375,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        Collection<FeedbackResponse> frList = getFeedbackResponseEntitiesForSessionToSectionWithinRange(feedbackSessionName,
-                                                                                      courseId, section, range);
+        Collection<FeedbackResponse> frList =
+                getFeedbackResponseEntitiesForSessionToSectionWithinRange(
+                        feedbackSessionName, courseId, section, range);
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList) {

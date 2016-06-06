@@ -207,13 +207,13 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         ______TS("new instructor can edit feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
-        InstructorFeedbackEditPage feedbackEditPage = instructorHomePage.clickFeedbackSessionEditLink("AHPUiT.instr1.gma-demo",
-                                                                                                      "Second team feedback session");
+        InstructorFeedbackEditPage feedbackEditPage =
+                instructorHomePage.clickFeedbackSessionEditLink("AHPUiT.instr1.gma-demo", "Second team feedback session");
         
         feedbackEditPage.clickEditSessionButton();
         
-        FeedbackSessionAttributes feedbackSession = BackDoor.getFeedbackSession("AHPUiT.instr1.gma-demo",
-                                                                                "Second team feedback session");
+        FeedbackSessionAttributes feedbackSession =
+                BackDoor.getFeedbackSession("AHPUiT.instr1.gma-demo", "Second team feedback session");
         feedbackEditPage.editFeedbackSession(feedbackSession.getStartTime(),
                                              feedbackSession.getEndTime(),
                                              new Text("updated instructions"),
@@ -223,8 +223,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         ______TS("new instructor can click submit button of sample feedbackSession");
         instructorHomePage.loadInstructorHomeTab();
-        FeedbackSubmitPage fbsp = instructorHomePage.clickFeedbackSessionSubmitLink("AHPUiT.instr1.gma-demo",
-                                                                                    "Second team feedback session");
+        FeedbackSubmitPage fbsp =
+                instructorHomePage.clickFeedbackSessionSubmitLink("AHPUiT.instr1.gma-demo",
+                                                                  "Second team feedback session");
         fbsp.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSubmissionEditPage.html");
         
         ______TS("new instructor can send reminder of sample course");

@@ -272,8 +272,8 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         return Datastore.getPersistenceManager();
     }
     
-    public void updateStudent(String originalEmail, StudentAttributes student) throws InvalidParametersException,
-                                                                                      EntityDoesNotExistException {
+    public void updateStudent(String originalEmail, StudentAttributes student)
+            throws InvalidParametersException, EntityDoesNotExistException {
         studentsDb.verifyStudentExists(student.course, originalEmail);
         StudentAttributes originalStudent = studentsLogic.getStudentForEmail(student.course, originalEmail);
         

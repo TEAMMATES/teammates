@@ -492,9 +492,9 @@ public class CommentsDb extends EntitiesDb {
             return new CommentSearchResultBundle();
         }
         
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.COMMENT,
-                                                          new CommentSearchQuery(instructors, queryString,
-                                                                                 cursorString));
+        Results<ScoredDocument> results =
+                searchDocuments(Const.SearchIndex.COMMENT,
+                                new CommentSearchQuery(instructors, queryString, cursorString));
         
         return new CommentSearchResultBundle().fromResults(results, instructors);
     }

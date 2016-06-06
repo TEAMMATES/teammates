@@ -88,18 +88,16 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                     selectedSection, sortType, questionId));
         } else if (Const.FeedbackSessionResults.GQR_SORT_TYPE.equals(sortType)
                 || Const.FeedbackSessionResults.GRQ_SORT_TYPE.equals(sortType)) {
-            data.setBundle(logic
-                    .getFeedbackSessionResultsForInstructorFromSectionWithinRange(feedbackSessionName, courseId,
-                                                                                  instructor.email,
-                                                                                  selectedSection,
-                                                                                  DEFAULT_SECTION_QUERY_RANGE));
+            data.setBundle(
+                    logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
+                            feedbackSessionName, courseId, instructor.email, selectedSection,
+                            DEFAULT_SECTION_QUERY_RANGE));
         } else if (Const.FeedbackSessionResults.RQG_SORT_TYPE.equals(sortType)
                 || Const.FeedbackSessionResults.RGQ_SORT_TYPE.equals(sortType)) {
-            data.setBundle(logic
-                    .getFeedbackSessionResultsForInstructorToSectionWithinRange(feedbackSessionName, courseId,
-                                                                                instructor.email,
-                                                                                selectedSection,
-                                                                                DEFAULT_SECTION_QUERY_RANGE));
+            data.setBundle(
+                    logic.getFeedbackSessionResultsForInstructorToSectionWithinRange(
+                            feedbackSessionName, courseId, instructor.email, selectedSection,
+                            DEFAULT_SECTION_QUERY_RANGE));
         }
 
         if (data.getBundle() == null) {
@@ -175,15 +173,14 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 bundle.isComplete = true;
             } else {
                 // bundle for all questions, with a selected section
-                bundle = logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
-                                                                                    instructor.email,
-                                                                                    selectedSection);
+                bundle = logic.getFeedbackSessionResultsForInstructorInSection(
+                        feedbackSessionName, courseId, instructor.email, selectedSection);
             }
         } else {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {
                 // bundle for a specific question, with all sections
-                bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId,
-                                                                                  instructor.email, questionId);
+                bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(
+                        feedbackSessionName, courseId, instructor.email, questionId);
             } else {
                 // bundle for a specific question and a specific section
                 bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(

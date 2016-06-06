@@ -194,8 +194,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             }
             
             String answer = response.getResponseDetails().getAnswerHtml(questionDetails);
-            List<FeedbackResponseCommentRow> comments = createStudentFeedbackResultsResponseComments(
-                                                                                          response.getId());
+            List<FeedbackResponseCommentRow> comments = createStudentFeedbackResultsResponseComments(response.getId());
             
             responses.add(new FeedbackResultsResponse(displayedGiverName, answer, comments));
         }

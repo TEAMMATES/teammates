@@ -10,7 +10,6 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -271,22 +270,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
-        WebElement commentRow;
-        try {
-            commentRow = wait.until(ExpectedConditions.presenceOfElementLocated(
-                                                               By.id("responseCommentRow" + commentRowIdSuffix)));
-        } catch (TimeoutException e) {
-            fail("Timeout!");
-            commentRow = null;
-        }
-        try {
-            wait.until(ExpectedConditions.textToBePresentInElement(commentRow.findElement(By.id("plainCommentText"
-                                                                                                + commentRowIdSuffix)),
-                                                                   commentText));
-        } catch (TimeoutException e) {
-            fail("Not expected message");
-        }
+        By commentRowSelector = By.id("responseCommentRow" + commentRowIdSuffix);
+        waitForElementPresence(commentRowSelector);
+        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
+        WebElement commentRow = browser.driver.findElement(commentRowSelector);
         try {
             assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName));
         } catch (AssertionError e) {

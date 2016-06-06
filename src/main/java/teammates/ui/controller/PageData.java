@@ -746,9 +746,8 @@ public class PageData {
      * @return
      * @throws EntityDoesNotExistException
      */
-    public InstructorFeedbackSessionActions getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
-                                                                                String returnUrl,
-                                                                                InstructorAttributes instructor) {
+    public InstructorFeedbackSessionActions getInstructorFeedbackSessionActions(
+            FeedbackSessionAttributes session, String returnUrl, InstructorAttributes instructor) {
         return new InstructorFeedbackSessionActions(this, session, returnUrl, instructor);
     }
 

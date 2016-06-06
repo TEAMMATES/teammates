@@ -1182,8 +1182,7 @@ public class FeedbackSessionsLogic {
      * @param courseId
      */
     public boolean hasResponsesFromStudent(String studentEmail, String sessionName, String courseId) {
-        List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(sessionName,
-                                                                                            courseId);
+        List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(sessionName, courseId);
         for (FeedbackResponseAttributes response : responses) {
             if (response.giverEmail.equals(studentEmail)) {
                 return true;
@@ -2058,28 +2057,31 @@ public class FeedbackSessionsLogic {
         List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
         if (params.get("range") == null) {
             if (isInSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
-                                                                               courseId, section);
+                allResponses =
+                        frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
             } else if (isFromSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName,
-                                                                                 courseId, section);
+                allResponses =
+                        frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, section);
             } else if (isToSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName,
-                                                                               courseId, section);
+                allResponses =
+                        frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, section);
             } else {
                 Assumption.fail("Client did not indicate the origin of the response");
             }
         } else {
             long range = Long.parseLong(params.get("range"));
             if (isInSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
-                                                                                          courseId, section, range);
+                allResponses =
+                        frLogic.getFeedbackResponsesForSessionInSectionWithinRange(
+                                feedbackSessionName, courseId, section, range);
             } else if (isFromSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionFromSectionWithinRange(feedbackSessionName,
-                                                                                            courseId, section, range);
+                allResponses =
+                        frLogic.getFeedbackResponsesForSessionFromSectionWithinRange(
+                                feedbackSessionName, courseId, section, range);
             } else if (isToSection) {
-                allResponses = frLogic.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName,
-                                                                                          courseId, section, range);
+                allResponses =
+                        frLogic.getFeedbackResponsesForSessionToSectionWithinRange(
+                                feedbackSessionName, courseId, section, range);
             } else {
                 Assumption.fail("Client did not indicate the origin of the responses");
             }

@@ -124,8 +124,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     // deletes the response since answer is empty
                     saveResponse(response);
                 } else {
-                    response.giverEmail = questionAttributes.giverType.isTeam() ? userTeamForCourse
-                                                                                : userEmailForCourse;
+                    response.giverEmail = questionAttributes.giverType.isTeam()
+                                          ? userTeamForCourse
+                                          : userEmailForCourse;
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
                 }

@@ -638,8 +638,8 @@ public class CoursesLogic {
         
         instructorsLogic.verifyInstructorExists(googleId);
 
-        List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId,
-                                                                                                         omitArchived);
+        List<InstructorAttributes> instructorAttributesList =
+                instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
         
         return getCourseSummariesForInstructor(instructorAttributesList);
     }
@@ -684,8 +684,7 @@ public class CoursesLogic {
      * @param instructorId - Google Id of instructor
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
      **/
-    public HashMap<String, CourseDetailsBundle> getCoursesDetailsListForInstructor(String instructorId,
-                                                                                   boolean omitArchived)
+    public HashMap<String, CourseDetailsBundle> getCoursesDetailsListForInstructor(String instructorId, boolean omitArchived)
            throws EntityDoesNotExistException {
         
         HashMap<String, CourseDetailsBundle> courseList =
@@ -717,8 +716,8 @@ public class CoursesLogic {
     public HashMap<String, CourseSummaryBundle> getCoursesSummaryWithoutStatsForInstructor(
             String instructorId, boolean omitArchived) {
         
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId,
-                                                                                               omitArchived);
+        List<InstructorAttributes> instructorList =
+                instructorsLogic.getInstructorsForGoogleId(instructorId, omitArchived);
         return getCourseSummaryWithoutStatsForInstructor(instructorList);
     }
     
@@ -757,8 +756,8 @@ public class CoursesLogic {
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public void setArchiveStatusOfCourse(String courseId, boolean archiveStatus) throws InvalidParametersException,
-                                                                                        EntityDoesNotExistException {
+    public void setArchiveStatusOfCourse(String courseId, boolean archiveStatus)
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         CourseAttributes courseToUpdate = getCourse(courseId);
         if (courseToUpdate == null) {
