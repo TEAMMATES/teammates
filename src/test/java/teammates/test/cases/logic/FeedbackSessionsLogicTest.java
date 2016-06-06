@@ -1084,7 +1084,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         Collections.addAll(expectedStrings,
                 "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1",
                 "Team 1.2=Team 1.2",
-                FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.TEAMS, responseBundle.students.get("student3InCourse1").team),
+                FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.TEAMS,
+                                                responseBundle.students.get("student3InCourse1").team),
                 "FSRTest.instr1@course1.tmt=Instructor1 Course1");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(4, results.emailNameTable.size());
@@ -1095,7 +1096,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         Collections.addAll(expectedStrings,
                 "FSRTest.student1InCourse1@gmail.tmt=Team 1.1</td></div>'\"",
                 "Team 1.2=",
-                FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.TEAMS, responseBundle.students.get("student3InCourse1").team),
+                FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.TEAMS,
+                                                responseBundle.students.get("student3InCourse1").team),
                 "FSRTest.instr1@course1.tmt=Instructors");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(4, results.emailTeamNameTable.size());
