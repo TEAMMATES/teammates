@@ -399,7 +399,7 @@ public class InstructorCourseEditPage extends AppPage {
     
     private WebElement sessionLevelTableRow(int instrNum, int sectionLevelIndex, int sessionIndex) {
         WebElement sessionLevelTableBody = this.sessionLevelTableBody(instrNum, sectionLevelIndex);
-        String cssSelector = "tr";
+        String cssSelector = "tbody tr";
         return sessionLevelTableBody.findElements(By.cssSelector(cssSelector)).get(sessionIndex);
     }
     
