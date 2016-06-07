@@ -89,7 +89,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     public void testAddQuestionAction() throws Exception {
         ______TS("CONTRIB: add question action success");
         
-        feedbackEditPage.fillQuestionBox("contrib qn");
+        feedbackEditPage.fillNewQuestionBox("contrib qn");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
@@ -101,7 +101,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     public void testEditQuestionAction() throws Exception {
         ______TS("CONTRIB: edit question success");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         
         //Check invalid feedback paths are disabled.
         //Javascript should hide giver/recipient options that are not STUDENTS to OWN_TEAM_MEMBERS_INCLUDING_SELF
@@ -139,13 +139,13 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
-        feedbackEditPage.fillQuestionBox("q1, essay qn");
+        feedbackEditPage.fillNewQuestionBox("q1, essay qn");
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONTRIB");
-        feedbackEditPage.fillQuestionBox("q2, contribution qn");
+        feedbackEditPage.fillNewQuestionBox("q2, contribution qn");
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         

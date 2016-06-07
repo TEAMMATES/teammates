@@ -64,7 +64,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
-            String totalResponsesForQuestion = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-" + questionIndx);
+            String totalResponsesForQuestion =
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-" + questionIndx);
             
             if (totalResponsesForQuestion == null) {
                 continue; // question has been skipped (not displayed).
@@ -76,8 +77,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             if (questionAttributes == null) {
-                statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
-                                                       + "Please check your responses to make sure they are saved correctly.",
+                statusToUser.add(new StatusMessage("The feedback session or questions may have changed "
+                                                       + "while you were submitting. Please check your responses "
+                                                       + "to make sure they are saved correctly.",
                                                    StatusMessageColor.WARNING));
                 isError = true;
                 log.warning("Question not found. (deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
@@ -274,18 +276,16 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
         
         // This field can be null if the question is skipped
-        String[] answer = HttpRequestHelper.getValuesFromParamMap(
-                                               requestParameters,
-                                               Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx);
+        String paramName = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx;
+        String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, paramName);
         
         if (questionDetails.isQuestionSkipped(answer)) {
             response.responseMetaData = new Text("");
         } else {
             FeedbackResponseDetails responseDetails =
-                                            FeedbackResponseDetails.createResponseDetails(
-                                                                            answer,
-                                                                            questionDetails.questionType,
-                                                                            questionDetails, requestParameters, questionIndx, responseIndx);
+                    FeedbackResponseDetails.createResponseDetails(answer, questionDetails.questionType,
+                                                                  questionDetails, requestParameters,
+                                                                  questionIndx, responseIndx);
             response.setResponseDetails(responseDetails);
         }
         

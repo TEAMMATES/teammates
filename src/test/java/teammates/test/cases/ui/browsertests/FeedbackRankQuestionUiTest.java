@@ -325,7 +325,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
         
-        feedbackEditPage.fillQuestionBox("Rank qn");
+        feedbackEditPage.fillNewQuestionBox("Rank qn");
         feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1 <>");
         
         assertEquals(2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
@@ -338,7 +338,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
         
-        feedbackEditPage.fillQuestionBox("Rank qn");
+        feedbackEditPage.fillNewQuestionBox("Rank qn");
         
         // blank option at the start and end, to check they are removed
         feedbackEditPage.clickAddMoreRankOptionLinkForNewQn();
@@ -363,7 +363,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(0);
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(1);
-        feedbackEditPage.fillQuestionBox("Rank recipients qn");
+        feedbackEditPage.fillNewQuestionBox("Rank recipients qn");
         
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
@@ -375,7 +375,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("rank edit: edit rank options question success");
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         
         // Verify that fields are editable
         feedbackEditPage.verifyHtmlPart(By.id("questionTable1"),
@@ -403,7 +403,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRankQuestionEditSuccess.html");
 
         ______TS("rank edit: edit rank recipients question success");
-        assertTrue(feedbackEditPage.clickEditQuestionButton(2));
+        feedbackEditPage.clickEditQuestionButton(2);
         
         feedbackEditPage.tickDuplicatesAllowedCheckboxForQuestion(2);
         feedbackEditPage.clickSaveExistingQuestionButton(2);
@@ -426,7 +426,9 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
-                                        .withUserId(instructorId).withCourseId(instructorCourseId).withSessionName(instructorEditFSName);
+                        .withUserId(instructorId)
+                        .withCourseId(instructorCourseId)
+                        .withSessionName(instructorEditFSName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

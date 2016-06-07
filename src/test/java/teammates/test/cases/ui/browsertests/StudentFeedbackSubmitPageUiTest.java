@@ -58,11 +58,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
     private void testLinks() {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
-        submitPage.linkOnHomeLink();
+        submitPage.loadStudentHomeTab();
         submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
-        submitPage.linkOnProfileLink();
+        submitPage.loadProfileTab();
         submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
-        submitPage.linkOnCommentsLink();
+        submitPage.loadStudentCommentsTab();
 
         submitPage.logout();
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
@@ -595,7 +595,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
     
-    private FeedbackSessionNotVisiblePage loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
+    private FeedbackSessionNotVisiblePage
+            loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())

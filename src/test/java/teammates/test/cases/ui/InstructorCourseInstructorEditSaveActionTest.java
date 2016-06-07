@@ -56,7 +56,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                     Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                     redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, newInstructorName), redirectResult.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, newInstructorName),
+                     redirectResult.getStatusMessage());
         
         InstructorAttributes editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorName, editedInstructor.name);
@@ -128,7 +129,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, newInstructorName), redirectResult.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, newInstructorName),
+                     redirectResult.getStatusMessage());
         
         editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorEmail, editedInstructor.email);

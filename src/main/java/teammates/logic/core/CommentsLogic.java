@@ -405,7 +405,8 @@ public class CommentsLogic {
                     preventAppendingThisCommentAgain(commentsVisitedSet, c);
                 }
             //for team
-            } else if (c.recipientType == CommentParticipantType.TEAM && c.recipients.contains(Sanitizer.sanitizeForHtml(student.team))) {
+            } else if (c.recipientType == CommentParticipantType.TEAM
+                       && c.recipients.contains(Sanitizer.sanitizeForHtml(student.team))) {
                 if (c.showCommentTo.contains(CommentParticipantType.TEAM)) {
                     removeGiverNameByVisibilityOptions(c, CommentParticipantType.TEAM);
                     appendComments(c, comments, commentsVisitedSet);

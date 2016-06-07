@@ -25,7 +25,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
-    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd) throws InvalidParametersException {
+    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd)
+            throws InvalidParametersException {
         List<EntityAttributes> feedbackSessionsToUpdate = createEntities(feedbackSessionsToAdd);
         for (EntityAttributes entity : feedbackSessionsToUpdate) {
             FeedbackSessionAttributes session = (FeedbackSessionAttributes) entity;

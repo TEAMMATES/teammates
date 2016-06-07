@@ -21,7 +21,8 @@ public class AdminAccountManagementPageAction extends Action {
             instructorGoogleId = "";
         }
         
-        Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable = new HashMap<String, ArrayList<InstructorAttributes>>();
+        Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable =
+                new HashMap<String, ArrayList<InstructorAttributes>>();
         Map<String, AccountAttributes> instructorAccountsTable = new HashMap<String, AccountAttributes>();
         
         List<InstructorAttributes> instructorsList = logic.getInstructorsForGoogleId(instructorGoogleId);
