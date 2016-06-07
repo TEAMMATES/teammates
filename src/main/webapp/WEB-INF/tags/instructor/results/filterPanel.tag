@@ -61,6 +61,13 @@
                           </label>
                       </div>
                   </div>
+                   <div data-toggle="tooltip" title="Show statistics">
+                      <div class="checkbox padding-top-0 min-height-0">
+                          <label<c:if test="${filterPanel.sortType == 'recipient-giver-question' or filterPanel.sortType == 'giver-recipient-question'}"> class="text-strike"</c:if>>
+                              <input type="checkbox" id="include-empty-responses" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INCLUDE_EMPTY_RESPONSES%>"<c:if test="${filterPanel.includeEmptyResponses}"> checked</c:if>> Include Empty Responses
+                          </label>
+                      </div>
+                  </div>
                 </div>
             </div>
             <div class="row">
