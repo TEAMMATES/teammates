@@ -44,7 +44,8 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
             }
 
             if (index > 0) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, StatusMessageColor.SUCCESS));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
+                                                   StatusMessageColor.SUCCESS));
             } else {
                 statusToUser.add(new StatusMessage("No questions are indicated to be copied", StatusMessageColor.DANGER));
                 isError = true;

@@ -33,8 +33,10 @@ public class InstructorFeedbackEditPageAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         
-        List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        List<FeedbackQuestionAttributes> copiableQuestions = logic.getCopiableFeedbackQuestionsForInstructor(account.googleId);
+        List<FeedbackQuestionAttributes> questions =
+                logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+        List<FeedbackQuestionAttributes> copiableQuestions =
+                logic.getCopiableFeedbackQuestionsForInstructor(account.googleId);
         
         Map<String, Boolean> questionHasResponses = new HashMap<String, Boolean>();
         
@@ -57,7 +59,8 @@ public class InstructorFeedbackEditPageAction extends Action {
                         + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
         
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
-        data.init(feedbackSession, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
+        data.init(feedbackSession, questions, copiableQuestions, questionHasResponses, studentList,
+                  instructorList, instructor);
            
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }

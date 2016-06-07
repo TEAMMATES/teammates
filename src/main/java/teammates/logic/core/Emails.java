@@ -58,7 +58,8 @@ public class Emails {
     public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
     public static final String SUBJECT_PREFIX_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
             "TEAMMATES: Your account has been reset for course";
-    public static final String SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN = "TEAMMATES: Invitation to join course as an instructor";
+    public static final String SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN =
+            "TEAMMATES: Invitation to join course as an instructor";
     public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
     public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT = "TEAMMATES: Welcome to TEAMMATES!";
     
@@ -503,8 +504,9 @@ public class Emails {
         return message;
     }
     
-    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor, String shortName, String institute)
-                             throws AddressException, MessagingException, UnsupportedEncodingException {
+    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor, String shortName,
+                                                             String institute)
+            throws AddressException, MessagingException, UnsupportedEncodingException {
 
         MimeMessage messageToUser = getEmptyEmailAddressedToEmail(instructor.email);
         messageToUser = addBccRecipientToEmail(messageToUser, Config.SUPPORT_EMAIL);
@@ -712,7 +714,8 @@ public class Emails {
      * @throws IOException
      * @throws JSONException
      */
-    private void sendEmail(MimeMessage message, boolean isWithLogging) throws MessagingException, JSONException, IOException {
+    private void sendEmail(MimeMessage message, boolean isWithLogging)
+            throws MessagingException, JSONException, IOException {
         if (Config.isUsingSendgrid()) {
             sendUsingSendgrid(message);
             
@@ -850,7 +853,8 @@ public class Emails {
         return message;
     }
 
-    private MimeMessage addBccRecipientToEmail(MimeMessage mail, String newAddress) throws AddressException, MessagingException {
+    private MimeMessage addBccRecipientToEmail(MimeMessage mail, String newAddress)
+            throws AddressException, MessagingException {
         
         mail.addRecipient(Message.RecipientType.BCC, new InternetAddress(newAddress));
         return mail;

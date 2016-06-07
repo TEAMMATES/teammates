@@ -226,10 +226,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String questionNumberString = Integer.toString(qnIdx);
         String responseNumberString = Integer.toString(responseIdx);
 
-        String tableHeaderFragmentHtml = getSubmissionFormTableHeaderFragmentHtml(questionNumberString, responseNumberString);
+        String tableHeaderFragmentHtml =
+                getSubmissionFormTableHeaderFragmentHtml(questionNumberString, responseNumberString);
         String tableBodyHtml =
                 getSubmissionFormTableBodyHtml(questionNumberString, responseNumberString, sessionIsOpen, true, frd);
-        String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, true, frd);
+        String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString,
+                                                        sessionIsOpen, true, frd);
 
         // Create submission form
         String html = Templates.populateTemplate(
@@ -252,10 +254,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String questionNumberString = Integer.toString(qnIdx);
         String responseNumberString = Integer.toString(responseIdx);
 
-        String tableHeaderFragmentHtml = getSubmissionFormTableHeaderFragmentHtml(questionNumberString, responseNumberString);
+        String tableHeaderFragmentHtml =
+                getSubmissionFormTableHeaderFragmentHtml(questionNumberString, responseNumberString);
         String tableBodyHtml =
                 getSubmissionFormTableBodyHtml(questionNumberString, responseNumberString, sessionIsOpen, false, null);
-        String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString, sessionIsOpen, false, null);
+        String mobileHtml = getSubmissionFormMobileHtml(questionNumberString, responseNumberString,
+                                                        sessionIsOpen, false, null);
 
         // Create submission form
         String html = Templates.populateTemplate(
@@ -345,7 +349,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                         // Check if existing choice for sub-question == current choice
                         "${checked}", isExistingResponse && frd.getAnswer(i) == j ? "checked" : "",
                         "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
-                        "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
+                        "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}",
+                                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
             }
             String panel = Templates.populateTemplate(mobilePanelTemplate,
@@ -873,7 +878,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
         
         if (this.numOfRubricChoices < Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_CHOICES) {
-            errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_CHOICES);
+            errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_NOT_ENOUGH_CHOICES
+                       + Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_CHOICES);
         }
         
         if (this.numOfRubricSubQuestions < Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_SUB_QUESTIONS) {

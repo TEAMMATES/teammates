@@ -52,7 +52,8 @@ public class InstructorsDb extends EntitiesDb {
     
     public void deleteDocument(InstructorAttributes instructorToDelete) {
         if (instructorToDelete.key == null) {
-            InstructorAttributes instructor = this.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email);
+            InstructorAttributes instructor =
+                    getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email);
             
             // handle legacy data which do not have key attribute (key == null)
             if (instructor.key != null) {

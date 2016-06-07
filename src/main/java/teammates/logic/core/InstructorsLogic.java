@@ -250,7 +250,8 @@ public class InstructorsLogic {
         CourseAttributes course = coursesLogic.getCourse(courseId);
         if (course == null) {
             throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + instructorEmail + "]");
+                    "Course does not exist [" + courseId + "], "
+                    + "trying to send invite email to student [" + instructorEmail + "]");
         }
         
         InstructorAttributes instructorData = getInstructorForEmail(courseId, instructorEmail);
@@ -319,7 +320,8 @@ public class InstructorsLogic {
         return joinLink;
     }
 
-    public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name, String institute, String email) {
+    public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name,
+                                                              String institute, String email) {
         
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();

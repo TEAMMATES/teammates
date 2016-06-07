@@ -99,8 +99,12 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         for(FeedbackResponseAttributes response : responses){
             numResponses++;
             String answerString = response.getResponseDetails().getAnswerString();
-            minLength = (StringHelper.countWords(answerString) < minLength) ? StringHelper.countWords(answerString) : minLength;
-            maxLength = (StringHelper.countWords(answerString) > maxLength) ? StringHelper.countWords(answerString) : maxLength;
+            minLength = StringHelper.countWords(answerString) < minLength
+                        ? StringHelper.countWords(answerString)
+                        : minLength;
+            maxLength = StringHelper.countWords(answerString) > maxLength
+                        ? StringHelper.countWords(answerString)
+                        : maxLength;
             totalLength += StringHelper.countWords(answerString);
         }
         

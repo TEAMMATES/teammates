@@ -2035,7 +2035,8 @@ public class FeedbackSessionsLogic {
                 }
             }
 
-            addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
+            addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role,
+                                       feedbackSessionName, section);
             
             FeedbackSessionResultsBundle results =
                     new FeedbackSessionResultsBundle(

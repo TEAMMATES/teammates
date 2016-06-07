@@ -105,7 +105,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${rankOptionVisibility}", "",
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                 "${rankToRecipientsValue}", "false",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 "${rankNumOptionValue}", Integer.toString(options.size()),
@@ -145,7 +146,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${rankOptionVisibility}", "",
                 "${rankToRecipientsValue}", "false",
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 "${rankNumOptionValue}", Integer.toString(options.size()),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
@@ -184,7 +186,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                     Templates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
                             "${rankOptionValue}", Sanitizer.sanitizeForHtml(options.get(i)),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION);
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION}",
+                                    Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
@@ -273,16 +276,18 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
             String option = entry.getKey();
             
-            fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
-                                                                        "${rankOptionValue}", Sanitizer.sanitizeForHtml(option),
-                                                                        "${ranksReceived}", ranksReceived,
-                                                                        "${averageRank}", df.format(average)));
+            fragments.append(Templates.populateTemplate(
+                    FeedbackQuestionFormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
+                    "${rankOptionValue}", Sanitizer.sanitizeForHtml(option),
+                    "${ranksReceived}", ranksReceived,
+                    "${averageRank}", df.format(average)));
         
         }
  
-        return Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_OPTION_STATS,
-                                                             "${optionRecipientDisplayName}", "Option",
-                                                             "${fragments}", fragments.toString());
+        return Templates.populateTemplate(
+                FeedbackQuestionFormTemplates.RANK_RESULT_OPTION_STATS,
+                "${optionRecipientDisplayName}", "Option",
+                "${fragments}", fragments.toString());
     }
 
     @Override

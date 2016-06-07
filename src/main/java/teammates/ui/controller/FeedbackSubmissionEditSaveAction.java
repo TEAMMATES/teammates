@@ -47,7 +47,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         data = new FeedbackSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);
-        Assumption.assertNotNull("Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".", data.bundle);
+        Assumption.assertNotNull("Feedback session " + feedbackSessionName
+                                 + " does not exist in " + courseId + ".", data.bundle);
         
         checkAdditionalConstraints();
         
@@ -55,7 +56,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         if (!isSessionOpenForSpecificUser(data.bundle.feedbackSession)) {
             isError = true;
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN,
+                                               StatusMessageColor.WARNING));
             return createSpecificRedirectResult();
         }
         
@@ -82,7 +84,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                        + "to make sure they are saved correctly.",
                                                    StatusMessageColor.WARNING));
                 isError = true;
-                log.warning("Question not found. (deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
+                log.warning("Question not found. (deleted or invalid id passed?) id: "
+                            + questionId + " index: " + questionIndx);
                 continue;
             }
             
@@ -250,7 +253,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
         Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
-        Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(), response.feedbackQuestionId);
+        Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(),
+                                response.feedbackQuestionId);
         
         response.recipientEmail = HttpRequestHelper.getValueFromParamMap(
                 requestParameters,
@@ -335,7 +339,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     
     protected abstract String getUserSectionForCourse();
 
-    protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
+    protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse)
+            throws EntityDoesNotExistException;
 
     protected abstract void setStatusToAdmin();
 

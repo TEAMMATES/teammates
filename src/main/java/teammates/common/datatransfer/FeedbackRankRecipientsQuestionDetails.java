@@ -45,7 +45,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         int totalNumRecipients,
                         FeedbackResponseDetails existingResponseDetails) {
         
-        FeedbackRankRecipientsResponseDetails existingResponse = (FeedbackRankRecipientsResponseDetails) existingResponseDetails;
+        FeedbackRankRecipientsResponseDetails existingResponse =
+                (FeedbackRankRecipientsResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
         
@@ -56,7 +57,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${optionIdx}", "0",
                         "${disabled}", sessionIsOpen ? "" : "disabled",
                         "${rankOptionVisibility}", "style=\"display:none\"",
-                        "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, existingResponse.answer),
+                        "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients,
+                                                                                   existingResponse.answer),
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${rankOptionValue}", "");
         optionListHtml.append(optionFragment).append(Const.EOL);
@@ -67,7 +69,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${rankOptionVisibility}", "style=\"display:none\"",
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
                 "${rankToRecipientsValue}", "true",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 "${rankNumOptionValue}", Integer.toString(0),
@@ -93,7 +96,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${optionIdx}", "0",
                         "${disabled}", sessionIsOpen ? "" : "disabled",
                         "${rankOptionVisibility}", "style=\"display:none\"",
-                        "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, Const.INT_UNINITIALIZED),
+                        "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients,
+                                                                                   Const.INT_UNINITIALIZED),
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${rankOptionValue}", "");
         optionListHtml.append(optionFragment).append(Const.EOL);
@@ -105,8 +109,10 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${rankOptionVisibility}", "style=\"display:none\"",
                 "${rankToRecipientsValue}", "true",
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 "${rankNumOptionValue}", Integer.toString(0),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
                         Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
@@ -200,18 +206,19 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String name = bundle.getNameForEmail(participantIdentifier);
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             
-            fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
-                                                                        "${rankOptionValue}", Sanitizer.sanitizeForHtml(name),
-                                                                        "${team}", Sanitizer.sanitizeForHtml(teamName),
-                                                                        "${ranksReceived}", ranksReceived,
-                                                                        "${averageRank}", df.format(average)));
+            fragments.append(Templates.populateTemplate(
+                    FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
+                    "${rankOptionValue}", Sanitizer.sanitizeForHtml(name),
+                    "${team}", Sanitizer.sanitizeForHtml(teamName),
+                    "${ranksReceived}", ranksReceived,
+                    "${averageRank}", df.format(average)));
 
         }
      
-        return Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_RECIPIENT_STATS,
-                                                             "${optionRecipientDisplayName}", "Recipient",
-                                                             "${fragments}", fragments.toString());
-        
+        return Templates.populateTemplate(
+                FeedbackQuestionFormTemplates.RANK_RESULT_RECIPIENT_STATS,
+                "${optionRecipientDisplayName}", "Recipient",
+                "${fragments}", fragments.toString());
         
     }
 
@@ -334,7 +341,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         Set<Integer> responseRank = new HashSet<>();
         for (FeedbackResponseAttributes response : responses) {
-            FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails) response.getResponseDetails();
+            FeedbackRankRecipientsResponseDetails frd =
+                    (FeedbackRankRecipientsResponseDetails) response.getResponseDetails();
             
             if (responseRank.contains(frd.answer)) {
                 errors.add("Duplicate rank " + frd.answer + " in question");

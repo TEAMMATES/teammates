@@ -119,6 +119,7 @@
       <property name="message" value="Line has trailing spaces."/>
     </module>
     <module name="LineLength">
+      <property name="ignorePattern" value="https?://"/>
       <property name="max" value="125"/>
       <property name="tabWidth" value="4"/>
     </module>

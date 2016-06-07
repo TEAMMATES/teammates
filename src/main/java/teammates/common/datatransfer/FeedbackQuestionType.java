@@ -93,9 +93,9 @@ public enum FeedbackQuestionType {
      *
      * @return FeedbackResponseDetails
      */
-    public FeedbackResponseDetails getFeedbackResponseDetailsInstance(FeedbackQuestionDetails questionDetails,
-                                                                      String[] answer, Map<String, String[]> requestParameters,
-                                                                      int questionIndx, int responseIndx) {
+    public FeedbackResponseDetails getFeedbackResponseDetailsInstance(
+            FeedbackQuestionDetails questionDetails, String[] answer, Map<String, String[]> requestParameters,
+            int questionIndx, int responseIndx) {
         FeedbackResponseDetails feedbackResponseDetails = null;
 
         switch (this) {

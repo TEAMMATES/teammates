@@ -189,7 +189,8 @@ public class InstructorFeedbackEditPageData extends PageData {
                                 .toString();
         newQnForm = FeedbackQuestionEditForm.getNewQnForm(doneEditingLink, feedbackSession,
                                                           getQuestionTypeChoiceOptions(), getParticipantOptions(null, true),
-                                                          getParticipantOptions(null, false), getQuestionNumberOptions(nextQnNum),
+                                                          getParticipantOptions(null, false),
+                                                          getQuestionNumberOptions(nextQnNum),
                                                           getNewQuestionSpecificEditFormHtml());
     }
 

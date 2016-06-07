@@ -210,8 +210,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}",
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}",
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
                 );
@@ -399,7 +401,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String name = bundle.getNameForEmail(participantIdentifier);
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 
-                fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
+                fragments.append(Templates.populateTemplate(
+                        FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
                         "${constSumOptionValue}", Sanitizer.sanitizeForHtml(name),
                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                         "${pointsReceived}", pointsReceived,
@@ -408,10 +411,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             } else {
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
-                fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
-                                    "${constSumOptionValue}", Sanitizer.sanitizeForHtml(option),
-                                    "${pointsReceived}", pointsReceived,
-                                    "${averagePoints}", df.format(average)));
+                fragments.append(Templates.populateTemplate(
+                        FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
+                        "${constSumOptionValue}", Sanitizer.sanitizeForHtml(option),
+                        "${pointsReceived}", pointsReceived,
+                        "${averagePoints}", df.format(average)));
             }
         }
         

@@ -305,7 +305,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     Templates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
                             "${msqChoiceValue}", Sanitizer.sanitizeForHtml(msqChoices.get(i)),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}",
+                                    Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
@@ -322,7 +323,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}",
                         Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG,
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked",
-                "${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}", Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 "${generateOptionsForValue}", generateOptionsFor.toString(),
                 "${studentSelected}", generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected" : "",
                 "${FeedbackParticipantType.STUDENTS.toString()}", FeedbackParticipantType.STUDENTS.toString(),
@@ -417,8 +419,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         int numChoicesSelected = 0;
         for (FeedbackResponseAttributes response : responses) {
-            List<String> answerStrings = ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
-            Boolean isOtherOptionAnswer = ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+            List<String> answerStrings =
+                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
+            boolean isOtherOptionAnswer =
+                    ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
             String otherAnswer = "";
             
             if (isOtherOptionAnswer) {
@@ -496,8 +500,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         int numChoicesSelected = 0;
         
         for (FeedbackResponseAttributes response : responses) {
-            List<String> answerStrings = ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
-            Boolean isOtherOptionAnswer = ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+            List<String> answerStrings =
+                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
+            boolean isOtherOptionAnswer =
+                    ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
             String otherAnswer = "";
             
             if (isOtherOptionAnswer) {
@@ -564,7 +570,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         List<String> errors = new ArrayList<String>();
         if (generateOptionsFor == FeedbackParticipantType.NONE
                 && numOfMsqChoices < Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES) {
-            errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES + ".");
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES
+                       + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES + ".");
         }
         //TODO: check that msq options do not repeat. needed?
         

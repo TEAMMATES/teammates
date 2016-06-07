@@ -209,7 +209,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
             
             if (numOfResponseBoxes > 0) {
                 FeedbackSubmissionEditQuestion question = createQuestion(questionAttributes, qnIndx);
-                List<FeedbackSubmissionEditResponse> responses = createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
+                List<FeedbackSubmissionEditResponse> responses =
+                        createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
             
                 questionsWithResponses.add(new StudentFeedbackSubmissionEditQuestionsWithResponses(
                                                 question, responses, numOfResponseBoxes, maxResponsesPossible));

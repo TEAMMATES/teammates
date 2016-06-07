@@ -176,7 +176,8 @@ public abstract class Action {
         boolean isUnknownKey = student == null;
         boolean isARegisteredUser = !isUnknownKey && student.googleId != null && !student.googleId.isEmpty();
         boolean isMissingAdditionalAuthenticationInfo = email == null || courseId == null;
-        boolean isAuthenticationFailure = !isUnknownKey && (!student.email.equals(email) || !student.course.equals(courseId));
+        boolean isAuthenticationFailure = !isUnknownKey && (!student.email.equals(email)
+                                          || !student.course.equals(courseId));
         
         AccountAttributes loggedInUser = null;
         

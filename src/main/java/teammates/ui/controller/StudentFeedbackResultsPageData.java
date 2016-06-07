@@ -72,8 +72,8 @@ public class StudentFeedbackResultsPageData extends PageData {
             FeedbackQuestionDetails questionDetailsBundle = question.getQuestionDetails();
             
             /* Contain only those attributes which will be displayed on the page */
-            FeedbackResultsQuestionDetails questionDetails = createQuestionDetails(
-                                                                 questionIndex, question, questionDetailsBundle, responsesBundle);
+            FeedbackResultsQuestionDetails questionDetails =
+                    createQuestionDetails(questionIndex, question, questionDetailsBundle, responsesBundle);
             List<FeedbackResultsResponseTable> responseTables = createResponseTables(question, responsesBundle);
             
             feedbackResultsQuestionsWithResponses.add(
@@ -132,7 +132,8 @@ public class StudentFeedbackResultsPageData extends PageData {
         }
         
         for (String recipient : recipients) {
-            List<FeedbackResponseAttributes> responsesForRecipient = filterResponsesByRecipientEmail(recipient, responsesBundle);
+            List<FeedbackResponseAttributes> responsesForRecipient =
+                    filterResponsesByRecipientEmail(recipient, responsesBundle);
             
             boolean isUserRecipient = student.email.equals(recipient);
             boolean isUserTeamRecipient = question.recipientType == FeedbackParticipantType.TEAMS

@@ -147,7 +147,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             
             String commentGiverName = extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
-            commentGiverTable.put(comment.getId().toString(), getFilteredCommentGiverName(response, comment, commentGiverName));
+            commentGiverTable.put(comment.getId().toString(),
+                                  getFilteredCommentGiverName(response, comment, commentGiverName));
             numberOfCommentFound++;
         }
         
@@ -231,7 +232,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         return false;
     }
     
-    private boolean isNameVisibleToInstructor(FeedbackResponseAttributes response, List<FeedbackParticipantType> showNameTo) {
+    private boolean isNameVisibleToInstructor(FeedbackResponseAttributes response,
+                                              List<FeedbackParticipantType> showNameTo) {
         //giver can always see
         if (instructorEmails.contains(response.giverEmail)) {
             return true;
