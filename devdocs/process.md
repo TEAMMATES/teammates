@@ -19,7 +19,7 @@ the organization structure of the TEAMMATES dev community.
 * `Project Advisor`
 
 Those who are at the rank of `Committer` or above are considered a core member if they are 'active'. 
-An *active* member is someone who contributes to almost every release cycle, thereby helping to maintin the 
+An *active* member is someone who contributes to almost every release cycle, thereby helping to maintain the 
 project velocity. An active member is expected to *pledge* at least one issue to each release, at the beginning of 
 the release cycle. They are also strongly encouraged to pick at least one high priority issue for each release cycle. 
 
