@@ -49,7 +49,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
         assertNotNull("Feedback response not found in database", fr);
         
         InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
@@ -168,7 +171,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
         assertNotNull("Feedback response not found in database", fr);
         
         String moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
@@ -194,7 +200,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         ______TS("Unsuccessful case: test empty course id parameter");
         
         submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, dataBundle.feedbackResponses.get("response1ForQ1").feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                        dataBundle.feedbackResponses.get("response1ForQ1").feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
@@ -240,7 +247,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
         assertNotNull("Feedback response not found in database", fr);
         
         String moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
@@ -268,7 +278,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
-                         + instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]",
+                                 + instructorHelper.email + "] for privilege "
+                                 + "[" + Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+                                 + "] on section [Section 1]",
                          e.getMessage());
         }
         
@@ -294,7 +306,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
-                         + instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]",
+                                 + instructorHelper.email + "] for privilege "
+                                 + "[" + Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+                                 + "] on section [Section 1]",
                          e.getMessage());
         }
        
@@ -306,7 +320,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         frDb = new FeedbackResponsesDb();
         fr = dataBundle.feedbackResponses.get("response2ForQ1");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
         assertNotNull("Feedback response not found in database", fr);
         
         submissionParams = new String[]{
@@ -341,7 +358,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         frDb = new FeedbackResponsesDb();
         fr = dataBundle.feedbackResponses.get("response2ForQ1");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
+        
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
         assertNotNull("Feedback response not found in database", fr);
         
         submissionParams = new String[]{
@@ -372,7 +392,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         fr = dataBundle.feedbackResponses.get("response2ForS2Q1");
         fq = fqDb.getFeedbackQuestion("Another feedback session", "IESFPTCourse", 1);
         
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
         assertNotNull("Feedback response not found in database", fr);
         
         submissionParams = new String[]{
@@ -409,7 +431,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         fr = dataBundle.feedbackResponses.get("response2ForQ1");
         fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 1);
         
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
         assertNotNull("Feedback response not found in database", fr);
         
         submissionParams = new String[]{
@@ -444,7 +468,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         fr = dataBundle.feedbackResponses.get("response2ForS2Q1");
         fq = fqDb.getFeedbackQuestion("Another feedback session", "IESFPTCourse", 1);
         
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
         assertNotNull("Feedback response not found in database", fr);
         
         submissionParams = new String[]{
@@ -483,7 +509,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ3");
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 3);
         
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
         assertNotNull("Feedback response not found in database", fr);
         String moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
         
@@ -518,7 +546,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertNotNull("Feedback question not found in database", fq);
 
         fr = dataBundle.feedbackResponses.get("response1ForQ4");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
         assertNotNull("Feedback response not found in database", fr);
         
         submissionParams = new String[]{
@@ -547,7 +578,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertNotNull("Feedback question not found in database", fq);
 
         fr = dataBundle.feedbackResponses.get("response1ForQ5");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
         assertNotNull("Feedback response not found in database", fr);
         
         submissionParams = new String[]{
@@ -585,7 +619,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("Closed feedback session", "IESFPTCourse", 1);
         
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1InClosedSession");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
         assertNotNull("Feedback response not found in database", fr);
         
         String[] submissionParams = new String[]{

@@ -404,7 +404,8 @@ public final class HtmlHelper {
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
                       // jQuery js file
-                      .replace(Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()), "${lib.path}/jquery.min.js")
+                      .replace(Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()),
+                               "${lib.path}/jquery.min.js")
                       // jQuery-ui js file
                       .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()),
                                "${lib.path}/jquery-ui.min.js")
@@ -453,7 +454,8 @@ public final class HtmlHelper {
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now))
-                      .replace("<!-- filepath.jquery -->", Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()))
+                      .replace("<!-- filepath.jquery -->",
+                               Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()))
                       .replace("<!-- filepath.jquery-ui -->",
                                Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()));
     }

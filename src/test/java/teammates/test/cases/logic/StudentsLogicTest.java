@@ -522,7 +522,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         info = StringHelper.toString(
                 Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamNameAndEmail, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamNameAndEmail, info));
+        expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
+                                              lineWithInvalidTeamNameAndEmail, info));
         info = StringHelper.toString(Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail,
                 courseId).getInvalidityInfo()), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
@@ -570,7 +571,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                 Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithStudentNameEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithStudentNameEmpty, info));
-        info = StringHelper.toString(Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithEmailEmpty, courseId).getInvalidityInfo()),
+        info = StringHelper.toString(
+                Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithEmailEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithEmailEmpty, info));
 
@@ -619,7 +621,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                                                                                courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         expectedInvalidInfo.add(
-                String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamNameAndStudentNameAndEmail, info));
+                String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
+                              lineWithInvalidTeamNameAndStudentNameAndEmail, info));
         info = StringHelper.toString(
                 Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithTeamNameEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
@@ -825,7 +828,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        assertEquals(student1InCourse1.googleId, studentsLogic.getStudentForEmail(course1Id, student1InCourse1.email).googleId);
+        assertEquals(student1InCourse1.googleId,
+                     studentsLogic.getStudentForEmail(course1Id, student1InCourse1.email).googleId);
     }
     
     public void testGetStudentForRegistrationKey() {
@@ -1019,7 +1023,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
             studentsLogic.getKeyForStudent(student1InCourse1.course, nonExistStudentEmail);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            String expectedErrorMsg = "Student does not exist: [" + student1InCourse1.course + "/" + nonExistStudentEmail + "]";
+            String expectedErrorMsg = "Student does not exist: "
+                                      + "[" + student1InCourse1.course + "/" + nonExistStudentEmail + "]";
             assertEquals(expectedErrorMsg, e.getMessage());
         }
         
@@ -1054,7 +1059,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
             studentsLogic.getEncryptedKeyForStudent(student1InCourse1.course, nonExistStudentEmail);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            String expectedErrorMsg = "Student does not exist: [" + student1InCourse1.course + "/" + nonExistStudentEmail + "]";
+            String expectedErrorMsg = "Student does not exist: "
+                                      + "[" + student1InCourse1.course + "/" + nonExistStudentEmail + "]";
             assertEquals(expectedErrorMsg, e.getMessage());
         }
         
@@ -1065,8 +1071,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         String actualKey = studentsLogic.getEncryptedKeyForStudent(course1Id, student1InCourse1.email);
-        String expectedKey =
-                StringHelper.encrypt(studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key);
+        String expectedKey = StringHelper.encrypt(
+                studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key);
         assertEquals(expectedKey, actualKey);
     }
     

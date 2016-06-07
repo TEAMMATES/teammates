@@ -382,7 +382,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
         
-        FeedbackResponseAttributes updatedResponse = frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail);
+        FeedbackResponseAttributes updatedResponse =
+                frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail);
         assertEquals(fr.responseMetaData, updatedResponse.responseMetaData);
         
         ______TS("private session edit answer");

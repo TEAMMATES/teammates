@@ -64,7 +64,8 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             
             if (needRepairRecipientSection) {
                 if (isTeamRecipient(question.recipientType)) {
-                    String recipientSection = logic.getStudentsForTeam(response.recipientEmail, question.courseId).get(0).section;
+                    String recipientSection =
+                            logic.getStudentsForTeam(response.recipientEmail, question.courseId).get(0).section;
                     if (!recipientSection.equals(response.recipientSection)) {
                         originalRecipientSection = response.recipientSection;
                         response.recipientSection = recipientSection;

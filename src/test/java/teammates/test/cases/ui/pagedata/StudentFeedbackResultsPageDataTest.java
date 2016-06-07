@@ -132,11 +132,11 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
     }
 
     private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getActualQuestionsAndResponsesWithId(
-                                    Logic logic,
-                                    Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
+            Logic logic, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> actualQuestionsWithResponses =
                                         new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : questionsWithResponses.entrySet()) {
+        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
+                     entry : questionsWithResponses.entrySet()) {
             FeedbackQuestionAttributes dataBundleQuestion = entry.getKey();
            
             FeedbackQuestionAttributes actualQuestion = logic.getFeedbackQuestion(

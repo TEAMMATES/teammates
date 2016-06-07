@@ -560,7 +560,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         // Check if the dates of previous, current and next month are enabled
         for (int i = 0; i < 3; i++) {
 
-            List<WebElement> dates = browser.driver.findElements(By.xpath("//div[@id='ui-datepicker-div']/table/tbody/tr/td"));
+            List<WebElement> dates =
+                    browser.driver.findElements(By.xpath("//div[@id='ui-datepicker-div']/table/tbody/tr/td"));
 
             for (WebElement date : dates) {
 

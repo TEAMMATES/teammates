@@ -45,7 +45,8 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     private CommentsLogic commentsLogic = new CommentsLogic();
 
     public static void main(String[] args) throws IOException {
-        RepairTeamNameInStudentResponseAndCommentAttributes migrator = new RepairTeamNameInStudentResponseAndCommentAttributes();
+        RepairTeamNameInStudentResponseAndCommentAttributes migrator =
+                new RepairTeamNameInStudentResponseAndCommentAttributes();
         migrator.doOperationRemotely();
     }
 

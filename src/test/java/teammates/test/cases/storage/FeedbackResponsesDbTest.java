@@ -43,7 +43,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+    public void testTimestamp()
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         
         ______TS("success : created");
 
@@ -59,7 +60,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String giverEmail = fra.giverEmail;
         String recipientEmail = fra.recipientEmail;
         
-        FeedbackResponseAttributes feedbackResponse = frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipientEmail);
+        FeedbackResponseAttributes feedbackResponse =
+                frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipientEmail);
         
         // Assert dates are now.
         AssertHelper.assertDateIsNow(feedbackResponse.getCreatedAt());
@@ -83,7 +85,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         feedbackResponse.recipientEmail = newRecipientEmailTwo;
         frDb.updateFeedbackResponse(feedbackResponse, true);
 
-        FeedbackResponseAttributes updatedFrTwo = frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, newRecipientEmailTwo);
+        FeedbackResponseAttributes updatedFrTwo =
+                frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, newRecipientEmailTwo);
         
         // Assert lastUpdate has NOT changed.
         assertEquals(updatedFr.getUpdatedAt(), updatedFrTwo.getUpdatedAt());
@@ -469,11 +472,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent feedback question");
         
-        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion("non-existent fq id", "student1InCourse1@gmail.tmt").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion(
+                "non-existent fq id", "student1InCourse1@gmail.tmt").isEmpty());
         
         ______TS("non-existent receiver");
         
-        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion(questionId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion(
+                questionId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());
     }
 
     @Test
@@ -564,11 +569,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent feedback question");
         
-        assertTrue(frDb.getFeedbackResponsesFromGiverForCourse("non-existent courseId", "student1InCourse1@gmail.tmt").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesFromGiverForCourse(
+                "non-existent courseId", "student1InCourse1@gmail.tmt").isEmpty());
         
         ______TS("non-existent giver");
         
-        assertTrue(frDb.getFeedbackResponsesFromGiverForCourse(courseId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesFromGiverForCourse(
+                courseId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());
     }
 
     @Test
@@ -602,11 +609,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent feedback session");
         
-        assertTrue(frDb.getFeedbackResponsesForSessionWithinRange("non-existent feedback session", courseId, 1).isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForSessionWithinRange(
+                "non-existent feedback session", courseId, 1).isEmpty());
         
         ______TS("non-existent course");
         
-        assertTrue(frDb.getFeedbackResponsesForSessionWithinRange(feedbackSessionName, "non-existent courseId", 1).isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForSessionWithinRange(
+                feedbackSessionName, "non-existent courseId", 1).isEmpty());
     }
 
     @Test

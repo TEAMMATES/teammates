@@ -84,9 +84,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             instructorsDb.createEntity(i);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(
-                    String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId, FieldValidator.REASON_INCORRECT_FORMAT),
-                    e.getMessage());
+            AssertHelper.assertContains(String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
+                                                      FieldValidator.REASON_INCORRECT_FORMAT),
+                                        e.getMessage());
         }
         
         i.googleId = "valid.fresh.id";

@@ -123,7 +123,8 @@ public class StudentAttributesTest extends BaseTestCase {
                 .generateStringOfLength(FieldValidator.SECTION_NAME_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes(longSectionName, "t1", "n", "e@e.com", "c", courseId);
         assertFalse(invalidStudent.isValid());
-        assertEquals(String.format(FieldValidator.SECTION_NAME_ERROR_MESSAGE, longSectionName, FieldValidator.REASON_TOO_LONG),
+        assertEquals(String.format(FieldValidator.SECTION_NAME_ERROR_MESSAGE, longSectionName,
+                                   FieldValidator.REASON_TOO_LONG),
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: team name too long");

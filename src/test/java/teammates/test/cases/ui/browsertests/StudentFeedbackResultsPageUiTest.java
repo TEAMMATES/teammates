@@ -50,14 +50,16 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         // Mcq Session
         resultsPage = loginToStudentFeedbackResultsPage(unreg, "MCQ Session", StudentFeedbackResultsPage.class);
 
-        // This is the full HTML verification for Unregistered Student Feedback Results Page, the rest can all be verifyMainHtml
+        // This is the full HTML verification for Unregistered Student Feedback Results Page,
+        // the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/unregisteredStudentFeedbackResultsPageMCQ.html");
 
         ______TS("no responses");
 
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "Empty Session");
 
-        // This is the full HTML verification for Registered Student Feedback Results Page, the rest can all be verifyMainHtml
+        // This is the full HTML verification for Registered Student Feedback Results Page,
+        // the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/studentFeedbackResultsPageEmpty.html");
 
         ______TS("standard session results");
@@ -173,7 +175,8 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         AppUrl submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                             .withCourseId(s.course)
                                             .withStudentEmail(s.email)
-                                            .withSessionName(testData.feedbackSessions.get(fsDataId).getFeedbackSessionName())
+                                            .withSessionName(testData.feedbackSessions.get(fsDataId)
+                                                                                      .getFeedbackSessionName())
                                             .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email));
         return AppPage.getNewPageInstance(browser, submitUrl, typeOfPage);
     }

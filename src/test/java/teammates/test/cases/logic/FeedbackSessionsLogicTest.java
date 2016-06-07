@@ -377,8 +377,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         Map<String, FeedbackSessionDetailsBundle> detailsMap =
                 new HashMap<String, FeedbackSessionDetailsBundle>();
         
-        List<FeedbackSessionDetailsBundle> detailsList =
-                fsLogic.getFeedbackSessionDetailsForInstructor(newDataBundle.instructors.get("instructor1OfCourse1").googleId);
+        String instrGoogleId = newDataBundle.instructors.get("instructor1OfCourse1").googleId;
+        List<FeedbackSessionDetailsBundle> detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(instrGoogleId);
         
         List<String> expectedSessions = new ArrayList<String>();
         expectedSessions.add(newDataBundle.feedbackSessions.get("standard.session").toString());
@@ -478,8 +478,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         AssertHelper.assertContains(expectedSessions, actualSessions);
         
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.noquestions").getFeedbackSessionName() + "%"
-                + newDataBundle.feedbackSessions.get("private.session.noquestions").getCourseId()).stats;
+        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.noquestions")
+                                                             .getFeedbackSessionName()
+                + "%" + newDataBundle.feedbackSessions.get("private.session.noquestions")
+                                                      .getCourseId()).stats;
         
         assertEquals(0, stats.expectedTotal);
         assertEquals(0, stats.submittedTotal);
@@ -511,8 +513,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         }
         actualSessions = actualSessionsBuilder.toString();
         AssertHelper.assertContains(expectedSessions, actualSessions);
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.norecipients").getFeedbackSessionName() + "%"
-                + newDataBundle.feedbackSessions.get("private.session.norecipients").getCourseId()).stats;
+        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.norecipients")
+                                                             .getFeedbackSessionName()
+                + "%" + newDataBundle.feedbackSessions.get("private.session.norecipients")
+                                                      .getCourseId()).stats;
         
         assertEquals(0, stats.expectedTotal);
         assertEquals(0, stats.submittedTotal);
@@ -952,8 +956,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "Anonymous student 928876384@@Anonymous student 928876384.com=Anonymous student 928876384's Team",
                 "Anonymous student 541628227@@Anonymous student 541628227.com=Anonymous student 541628227's Team",
                 "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508's Team",
-                "Anonymous instructor 1805393227@@Anonymous instructor 1805393227.com=Anonymous instructor 1805393227's Team",
-                "Anonymous instructor 682119606@@Anonymous instructor 682119606.com=Anonymous instructor 682119606's Team",
+                "Anonymous instructor 1805393227@@"
+                        + "Anonymous instructor 1805393227.com=Anonymous instructor 1805393227's Team",
+                "Anonymous instructor 682119606@@"
+                        + "Anonymous instructor 682119606.com=Anonymous instructor 682119606's Team",
                 "Team 1.3=",
                 "Team 1.2=",
                 "Team 1.4=");

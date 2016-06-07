@@ -184,7 +184,8 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         ______TS("Unsuccessful case: test empty course id parameter");
         submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, dataBundle.feedbackResponses.get("response1ForQ1").feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                        dataBundle.feedbackResponses.get("response1ForQ1") .feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
         
