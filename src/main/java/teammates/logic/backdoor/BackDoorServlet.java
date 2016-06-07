@@ -56,8 +56,10 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_GET_TEAM_PROFILE_AS_JSON = "OPERATION_GET_TEAM_PROFILE_AS_JSON";
     public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
     public static final String OPERATION_GET_FEEDBACK_SESSION_AS_JSON = "OPERATION_GET_FEEDBACK_SESSION_AS_JSON";
-    public static final String OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON = "OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON";
-    public static final String OPERATION_GET_FEEDBACK_RESPONSES_FOR_GIVER_AS_JSON = "OPERATION_GET_FEEDBACK_RESPONSES_FOR_GIVER_AS_JSON";
+    public static final String OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON =
+            "OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON";
+    public static final String OPERATION_GET_FEEDBACK_RESPONSES_FOR_GIVER_AS_JSON =
+            "OPERATION_GET_FEEDBACK_RESPONSES_FOR_GIVER_AS_JSON";
     public static final String OPERATION_GET_FEEDBACK_QUESTION_AS_JSON = "OPERATION_GET_FEEDBACK_QUESTION_AS_JSON";
     public static final String OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON = "OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON";
     public static final String OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON = "OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON";
@@ -161,9 +163,9 @@ public class BackDoorServlet extends HttpServlet {
             String pictureKey = req.getParameter(PARAMETER_PICTURE_KEY);
             return backDoorLogic.isPicturePresentInGcs(pictureKey);
         } else if (action.equals(OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID)) {
-            String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
+            String instructorId = req.getParameter(PARAMETER_INSTRUCTOR_ID);
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
-            return backDoorLogic.getInstructorAsJsonById(instructorID, courseId);
+            return backDoorLogic.getInstructorAsJsonById(instructorId, courseId);
         } else if (action.equals(OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL)) {
             String instructorEmail = req.getParameter(PARAMETER_INSTRUCTOR_EMAIL);
             String courseId = req.getParameter(PARAMETER_COURSE_ID);

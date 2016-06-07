@@ -154,7 +154,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         }
     }
 
-    protected PersistenceManager getPM() {
+    protected PersistenceManager getPm() {
         return Datastore.getPersistenceManager();
     }
 
@@ -174,6 +174,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
         
-        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments, true);
+        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section,
+                                 student.email, student.googleId, student.comments, true);
     }
 }

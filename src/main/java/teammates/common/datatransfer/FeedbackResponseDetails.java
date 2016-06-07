@@ -44,7 +44,8 @@ public abstract class FeedbackResponseDetails {
      * @param feedbackSessionResultsBundle
      * @return
      */
-    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
+                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getAnswerHtml(question.getQuestionDetails());
     }
     
@@ -68,8 +69,9 @@ public abstract class FeedbackResponseDetails {
             FeedbackQuestionDetails questionDetails,
             Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
                                 
-        FeedbackResponseDetails responseDetails = questionType.getFeedbackResponseDetailsInstance(
-                                                                   questionDetails, answer, requestParameters, questionIndx, responseIndx);
+        FeedbackResponseDetails responseDetails =
+                questionType.getFeedbackResponseDetailsInstance(questionDetails, answer, requestParameters,
+                                                                questionIndx, responseIndx);
         return responseDetails;
     }
 }

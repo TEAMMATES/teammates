@@ -94,13 +94,15 @@ public class StudentsDb extends EntitiesDb {
      * @param studentsToAdd
      * @throws InvalidParametersException
      */
-    public void createStudentsWithoutSearchability(Collection<StudentAttributes> studentsToAdd) throws InvalidParametersException {
+    public void createStudentsWithoutSearchability(Collection<StudentAttributes> studentsToAdd)
+            throws InvalidParametersException {
         
         List<EntityAttributes> studentsToUpdate = createEntities(studentsToAdd);
         for (EntityAttributes entity : studentsToUpdate) {
             StudentAttributes student = (StudentAttributes) entity;
             try {
-                updateStudentWithoutSearchability(student.course, student.email, student.name, student.team, student.section, student.email, student.googleId, student.comments);
+                updateStudentWithoutSearchability(student.course, student.email, student.name, student.team,
+                                                  student.section, student.email, student.googleId, student.comments);
             } catch (EntityDoesNotExistException e) {
              // This situation is not tested as replicating such a situation is
              // difficult during testing
@@ -158,7 +160,7 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        Query q = getPM().newQuery(Student.class);
+        Query q = getPm().newQuery(Student.class);
         q.declareParameters("String googleIdParam, String courseIdParam");
         q.setFilter("ID == googleIdParam && courseID == courseIdParam");
         
@@ -184,7 +186,7 @@ public class StudentsDb extends EntitiesDb {
         try {
             //First, try to retrieve the student by assuming the given registrationKey key is encrypted
             String decryptedKey = StringHelper.decrypt(registrationKey.trim());
-            Student student = getPM().getObjectById(Student.class,
+            Student student = getPm().getObjectById(Student.class,
                     KeyFactory.stringToKey(decryptedKey));
             studentAttributes = new StudentAttributes(student);
         } catch (Exception e) {
@@ -192,10 +194,10 @@ public class StudentsDb extends EntitiesDb {
                 //Failing that, we try to retrieve assuming the given registrationKey is unencrypted
                 //  (early versions of the system sent unencrypted keys).
                 //TODO: This branch can be removed after Dec 2013
-                Student student = getPM().getObjectById(Student.class,
+                Student student = getPm().getObjectById(Student.class,
                         KeyFactory.stringToKey(registrationKey.trim()));
                 studentAttributes = new StudentAttributes(student);
-            } catch (Exception e2) {
+            } catch (Exception ex) {
                 //Failing both, we assume there is no such student
                 studentAttributes = null;
             }
@@ -341,21 +343,21 @@ public class StudentsDb extends EntitiesDb {
      */
     public void updateStudent(String courseId, String email, String newName,
                                     String newTeamName, String newSectionName, String newEmail,
-                                    String newGoogleID,
+                                    String newGoogleId,
                                     String newComments,
                                     boolean keepUpdateTimestamp) throws InvalidParametersException,
                                     EntityDoesNotExistException {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                newEmail, newGoogleID, newComments, true, keepUpdateTimestamp);
+                newEmail, newGoogleId, newComments, true, keepUpdateTimestamp);
     }
     
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail,
-            String newGoogleID,
+            String newGoogleId,
             String newComments) throws InvalidParametersException,
             EntityDoesNotExistException {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                newEmail, newGoogleID, newComments, true, false);
+                newEmail, newGoogleId, newComments, true, false);
     }
 
     /**
@@ -366,26 +368,26 @@ public class StudentsDb extends EntitiesDb {
     public void updateStudentWithoutSearchability(String courseId, String email,
             String newName,
             String newTeamName, String newSectionName, String newEmail,
-            String newGoogleID,
+            String newGoogleId,
             String newComments,
             boolean keepUpdateTimestamp) throws InvalidParametersException,
             EntityDoesNotExistException {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                                        newEmail, newGoogleID, newComments, false, keepUpdateTimestamp);
+                                        newEmail, newGoogleId, newComments, false, keepUpdateTimestamp);
     }
     
     public void updateStudentWithoutSearchability(String courseId, String email,
             String newName,
             String newTeamName, String newSectionName, String newEmail,
-            String newGoogleID,
+            String newGoogleId,
             String newComments) throws InvalidParametersException,
             EntityDoesNotExistException {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                newEmail, newGoogleID, newComments, false, false);
+                newEmail, newGoogleId, newComments, false, false);
     }
 
     public void updateStudent(String courseId, String email, String newName,
-            String newTeamName, String newSectionName, String newEmail, String newGoogleID,
+            String newTeamName, String newSectionName, String newEmail, String newGoogleId,
             String newComments, boolean hasDocument, boolean keepUpdateTimestamp)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -406,7 +408,7 @@ public class StudentsDb extends EntitiesDb {
         student.setName(newName);
         student.setLastName(StringHelper.splitName(newName)[1]);
         student.setComments(newComments);
-        student.setGoogleId(newGoogleID);
+        student.setGoogleId(newGoogleId);
         student.setTeamName(newTeamName);
         student.setSectionName(newSectionName);
         
@@ -418,7 +420,7 @@ public class StudentsDb extends EntitiesDb {
         student.keepUpdateTimestamp = keepUpdateTimestamp;
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
-        getPM().close();
+        getPm().close();
     }
 
     //TODO: add an updateStudent(StudentAttributes) version and make the above private
@@ -452,8 +454,8 @@ public class StudentsDb extends EntitiesDb {
             deleteDocument(new StudentAttributes(studentToDelete));
         }
        
-        getPM().deletePersistent(studentToDelete);
-        getPM().flush();
+        getPm().deletePersistent(studentToDelete);
+        getPm().flush();
     
         // Check delete operation persisted
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -498,8 +500,8 @@ public class StudentsDb extends EntitiesDb {
                 deleteDocument(new StudentAttributes(student));
             }
         }
-        getPM().deletePersistentAll(studentList);
-        getPM().flush();
+        getPm().deletePersistentAll(studentList);
+        getPm().flush();
     }
 
     /**
@@ -526,8 +528,8 @@ public class StudentsDb extends EntitiesDb {
                 deleteDocument(new StudentAttributes(student));
             }
         }
-        getPM().deletePersistentAll(studentList);
-        getPM().flush();
+        getPm().deletePersistentAll(studentList);
+        getPm().flush();
     }
 
     public void deleteStudentsForCourses(List<String> courseIds) {
@@ -536,8 +538,8 @@ public class StudentsDb extends EntitiesDb {
         
         List<Student> studentsToDelete = getStudentEntitiesForCourses(courseIds);
         
-        getPM().deletePersistentAll(studentsToDelete);
-        getPM().flush();
+        getPm().deletePersistentAll(studentsToDelete);
+        getPm().flush();
     }
     
     public void verifyStudentExists(String courseId, String email)
@@ -552,7 +554,7 @@ public class StudentsDb extends EntitiesDb {
 
     private Student getStudentEntityForEmail(String courseId, String email) {
         
-        Query q = getPM().newQuery(Student.class);
+        Query q = getPm().newQuery(Student.class);
         q.declareParameters("String courseIdParam, String emailParam");
         q.setFilter("courseID == courseIdParam && email == emailParam");
         
@@ -568,7 +570,7 @@ public class StudentsDb extends EntitiesDb {
 
     @SuppressWarnings("unchecked")
     public List<Student> getStudentEntitiesForCourse(String courseId) {
-        Query q = getPM().newQuery(Student.class);
+        Query q = getPm().newQuery(Student.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
         
@@ -576,7 +578,7 @@ public class StudentsDb extends EntitiesDb {
     }
     
     private List<Student> getStudentEntitiesForCourses(List<String> courseIds) {
-        Query q = getPM().newQuery(Student.class);
+        Query q = getPm().newQuery(Student.class);
         q.setFilter(":p.contains(courseID)");
         
         @SuppressWarnings("unchecked")
@@ -586,7 +588,7 @@ public class StudentsDb extends EntitiesDb {
     }
 
     private List<Student> getStudentEntitiesForGoogleId(String googleId) {
-        Query q = getPM().newQuery(Student.class);
+        Query q = getPm().newQuery(Student.class);
         q.declareParameters("String googleIdParam");
         q.setFilter("ID == googleIdParam");
         
@@ -597,7 +599,7 @@ public class StudentsDb extends EntitiesDb {
     }
 
     private List<Student> getStudentEntitiesForTeam(String teamName, String courseId) {
-        Query q = getPM().newQuery(Student.class);
+        Query q = getPm().newQuery(Student.class);
         q.declareParameters("String teamNameParam, String courseIDParam");
         q.setFilter("teamName == teamNameParam && courseID == courseIDParam");
         
@@ -608,7 +610,7 @@ public class StudentsDb extends EntitiesDb {
     }
 
     private List<Student> getStudentEntitiesForSection(String sectionName, String courseId) {
-        Query q = getPM().newQuery(Student.class);
+        Query q = getPm().newQuery(Student.class);
         q.declareParameters("String sectionNameParam, String courseIDParam");
         q.setFilter("sectionName == sectionNameParam && courseID == courseIDParam");
 
@@ -624,7 +626,7 @@ public class StudentsDb extends EntitiesDb {
      */
     public List<Student> getStudentEntities() {
         
-        Query q = getPM().newQuery(Student.class);
+        Query q = getPm().newQuery(Student.class);
         
         @SuppressWarnings("unchecked")
         List<Student> studentList = (List<Student>) q.execute();

@@ -28,7 +28,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");
         String instructorId = instructor.googleId;
         

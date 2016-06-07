@@ -14,7 +14,7 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.ui.template.FeedbackResponseComment;
+import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackResultsQuestionDetails;
 import teammates.ui.template.FeedbackResultsResponse;
 import teammates.ui.template.FeedbackResultsResponseTable;
@@ -76,7 +76,8 @@ public class StudentFeedbackResultsPageData extends PageData {
                                                                  questionIndex, question, questionDetailsBundle, responsesBundle);
             List<FeedbackResultsResponseTable> responseTables = createResponseTables(question, responsesBundle);
             
-            feedbackResultsQuestionsWithResponses.add(new StudentFeedbackResultsQuestionWithResponses(questionDetails, responseTables));
+            feedbackResultsQuestionsWithResponses.add(
+                    new StudentFeedbackResultsQuestionWithResponses(questionDetails, responseTables));
             questionIndex++;
             
         }
@@ -194,7 +195,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             }
             
             String answer = response.getResponseDetails().getAnswerHtml(questionDetails);
-            List<FeedbackResponseComment> comments = createStudentFeedbackResultsResponseComments(
+            List<FeedbackResponseCommentRow> comments = createStudentFeedbackResultsResponseComments(
                                                                                           response.getId());
             
             responses.add(new FeedbackResultsResponse(displayedGiverName, answer, comments));
@@ -207,15 +208,15 @@ public class StudentFeedbackResultsPageData extends PageData {
      * @param feedbackResponseId  Response ID for which comments are created
      * @return Comments for the response
      */
-    private List<FeedbackResponseComment> createStudentFeedbackResultsResponseComments(
+    private List<FeedbackResponseCommentRow> createStudentFeedbackResultsResponseComments(
                                                                                String feedbackResponseId) {
         
-        List<FeedbackResponseComment> comments = new ArrayList<FeedbackResponseComment>();
+        List<FeedbackResponseCommentRow> comments = new ArrayList<FeedbackResponseCommentRow>();
         List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(feedbackResponseId);
         
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
-                comments.add(new FeedbackResponseComment(comment, comment.giverEmail));
+                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail));
             }
         }
         return comments;

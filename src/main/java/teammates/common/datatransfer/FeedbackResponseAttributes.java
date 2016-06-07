@@ -33,9 +33,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * This is set to null to represent a missing response.
      */
     public Text responseMetaData;
+    protected transient Date createdAt;
+    protected transient Date updatedAt;
     private String feedbackResponseId;
-    private transient Date createdAt;
-    private transient Date updatedAt;
     
     public FeedbackResponseAttributes() {
         // attributes to be set after construction
@@ -238,25 +238,5 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             }
         });
     }
-    
-    /**
-     * Should only be used for testing
-     */
-    //CHECKSTYLE:OFF
-    // Naming violation is so that it will be noticed if it is accidentally included in production code
-    public void setCreatedAt_NonProduction(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-    //CHECKSTYLE:ON
-
-    /**
-     * Should only be used for testing
-     */
-    //CHECKSTYLE:OFF
-    // Naming violation is so that it will be noticed if it is accidentally included in production code
-    public void setUpdatedAt_NonProduction(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-    //CHECKSTYLE:ON
     
 }

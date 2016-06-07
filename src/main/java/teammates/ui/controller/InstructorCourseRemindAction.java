@@ -58,13 +58,15 @@ public class InstructorCourseRemindAction extends Action {
             MimeMessage emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
             emailsSent.add(emailSent);
             
-            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail, StatusMessageColor.SUCCESS));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail,
+                                               StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         } else if (isSendingToInstructor) {
             MimeMessage emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
             emailsSent.add(emailSent);
             
-            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail, StatusMessageColor.SUCCESS));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail,
+                                               StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
         } else {
             emailsSent = logic.sendRegistrationInviteForCourse(courseId);
@@ -143,7 +145,7 @@ public class InstructorCourseRemindAction extends Action {
         String userName;
         String regKey;
         
-        public JoinEmailData(String userName, String regKey) {
+        JoinEmailData(String userName, String regKey) {
             this.userName = userName;
             this.regKey = regKey;
         }

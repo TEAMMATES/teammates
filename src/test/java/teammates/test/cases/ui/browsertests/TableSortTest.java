@@ -23,7 +23,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingID() {
+    public void testTableSortingId() {
         verifySortingOrder(By.id("button_sortid"),
             
                 "-13.5",

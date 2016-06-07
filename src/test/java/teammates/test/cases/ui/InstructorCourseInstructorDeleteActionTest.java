@@ -24,7 +24,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes loginInstructor = dataBundle.instructors.get("instructor1OfCourse1");
         String loginInstructorId = loginInstructor.googleId;
         String courseId = loginInstructor.courseId;
@@ -45,8 +45,9 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         Action deleteAction = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?error=false&user=idOfInstructor1OfCourse1&courseid=idOfTypicalCourse1",
-                        redirectResult.getDestinationWithParams());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
+                         + "?error=false&user=idOfInstructor1OfCourse1&courseid=idOfTypicalCourse1",
+                     redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, redirectResult.getStatusMessage());
 

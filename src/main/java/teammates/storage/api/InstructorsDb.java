@@ -111,7 +111,8 @@ public class InstructorsDb extends EntitiesDb {
         }
     }
 
-    public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException {
+    public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd)
+            throws InvalidParametersException {
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
 
@@ -125,7 +126,8 @@ public class InstructorsDb extends EntitiesDb {
         }
     }
     
-    public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException {
+    public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         Instructor instructor = (Instructor) createEntity(instructorToAdd);
         if (instructor == null) {
             throw new InvalidParametersException("Created instructor is null.");
@@ -278,7 +280,8 @@ public class InstructorsDb extends EntitiesDb {
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public void updateInstructorByGoogleId(InstructorAttributes instructorAttributesToUpdate) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateInstructorByGoogleId(InstructorAttributes instructorAttributesToUpdate)
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
          
@@ -308,7 +311,7 @@ public class InstructorsDb extends EntitiesDb {
         
         putDocument(new InstructorAttributes(instructorToUpdate));
         log.info(instructorAttributesToUpdate.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
     
     /**
@@ -345,7 +348,7 @@ public class InstructorsDb extends EntitiesDb {
         //TODO: make courseId+email the non-modifiable values
         putDocument(new InstructorAttributes(instructorToUpdate));
         log.info(instructorAttributesToUpdate.getBackupIdentifier());
-        getPM().close();
+        getPm().close();
     }
     
     /**
@@ -366,8 +369,8 @@ public class InstructorsDb extends EntitiesDb {
         
         deleteDocument(new InstructorAttributes(instructorToDelete));
 
-        getPM().deletePersistent(instructorToDelete);
-        getPM().flush();
+        getPm().deletePersistent(instructorToDelete);
+        getPm().flush();
   
         // Check delete operation persisted
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -404,8 +407,8 @@ public class InstructorsDb extends EntitiesDb {
             deleteDocument(new InstructorAttributes(instructor));
         }
         
-        getPM().deletePersistentAll(instructorsToDelete);
-        getPM().flush();
+        getPm().deletePersistentAll(instructorsToDelete);
+        getPm().flush();
     }
     
     /**
@@ -422,8 +425,8 @@ public class InstructorsDb extends EntitiesDb {
             deleteDocument(new InstructorAttributes(instructor));
         }
         
-        getPM().deletePersistentAll(instructorList);
-        getPM().flush();
+        getPm().deletePersistentAll(instructorList);
+        getPm().flush();
       
     }
     
@@ -440,14 +443,14 @@ public class InstructorsDb extends EntitiesDb {
         for (Instructor instructor : instructorList) {
             deleteDocument(new InstructorAttributes(instructor));
         }
-        getPM().deletePersistentAll(instructorList);
-        getPM().flush();
+        getPm().deletePersistentAll(instructorList);
+        getPm().flush();
 
     }
     
     private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
         
-        Query q = getPM().newQuery(Instructor.class);
+        Query q = getPm().newQuery(Instructor.class);
         q.declareParameters("String googleIdParam, String courseIdParam");
         q.setFilter("googleId == googleIdParam && courseId == courseIdParam");
         
@@ -464,7 +467,7 @@ public class InstructorsDb extends EntitiesDb {
     
     private Instructor getInstructorEntityForEmail(String courseId, String email) {
         
-        Query q = getPM().newQuery(Instructor.class);
+        Query q = getPm().newQuery(Instructor.class);
         q.declareParameters("String courseIdParam, String emailParam");
         q.setFilter("courseId == courseIdParam && email == emailParam");
         
@@ -480,7 +483,7 @@ public class InstructorsDb extends EntitiesDb {
     }
     
     private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds) {
-        Query q = getPM().newQuery(Instructor.class);
+        Query q = getPm().newQuery(Instructor.class);
         q.setFilter(":p.contains(courseId)");
         
         @SuppressWarnings("unchecked")
@@ -491,7 +494,7 @@ public class InstructorsDb extends EntitiesDb {
     
     private Instructor getInstructorEntityForRegistrationKey(String key) {
         
-        Query q = getPM().newQuery(Instructor.class);
+        Query q = getPm().newQuery(Instructor.class);
         q.declareParameters("String regKey");
         q.setFilter("registrationKey == regKey");
         
@@ -508,7 +511,7 @@ public class InstructorsDb extends EntitiesDb {
     
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId) {
         
-        Query q = getPM().newQuery(Instructor.class);
+        Query q = getPm().newQuery(Instructor.class);
         q.declareParameters("String googleIdParam");
         q.setFilter("googleId == googleIdParam");
 
@@ -526,7 +529,7 @@ public class InstructorsDb extends EntitiesDb {
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
         
         if (omitArchived) {
-            Query q = getPM().newQuery(Instructor.class);
+            Query q = getPm().newQuery(Instructor.class);
             q.declareParameters("String googleIdParam, boolean omitArchivedParam");
             // Omit archived == true, get instructors with isArchived != true
             q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
@@ -538,7 +541,7 @@ public class InstructorsDb extends EntitiesDb {
     
     private List<Instructor> getInstructorEntitiesForEmail(String email) {
         
-        Query q = getPM().newQuery(Instructor.class);
+        Query q = getPm().newQuery(Instructor.class);
         q.declareParameters("String emailParam");
         q.setFilter("email == emailParam");
         
@@ -550,7 +553,7 @@ public class InstructorsDb extends EntitiesDb {
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
         
-        Query q = getPM().newQuery(Instructor.class);
+        Query q = getPm().newQuery(Instructor.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
         
@@ -565,7 +568,7 @@ public class InstructorsDb extends EntitiesDb {
         String query = "select from " + Instructor.class.getName();
             
         @SuppressWarnings("unchecked")
-        List<Instructor> instructorList = (List<Instructor>) getPM()
+        List<Instructor> instructorList = (List<Instructor>) getPm()
                 .newQuery(query).execute();
     
         return instructorList;
