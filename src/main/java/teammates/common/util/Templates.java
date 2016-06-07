@@ -231,8 +231,10 @@ public final class Templates {
             public static final String CONSTSUM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
             public static final String CONSTSUM_TO_RECIPIENTS_VALUE = "${constSumToRecipientsValue}";
             public static final String CONSTSUM_TO_RECIPIENTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";
-            public static final String CONSTSUM_DISTRIBUTE_UNEVENLY = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
-            public static final String CONSTSUM_POINTS_PER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
+            public static final String CONSTSUM_DISTRIBUTE_UNEVENLY =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
+            public static final String CONSTSUM_POINTS_PER_OPTION =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
 
             // Rank
             public static final String RANK_OPTION_VISIBILITY = "${rankOptionVisibility}";

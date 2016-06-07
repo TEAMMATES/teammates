@@ -344,7 +344,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${checked}", isExistingResponse && frd.getAnswer(i) == j ? "checked" : "",
                                 //Check if existing choice for sub-question == current choice
                                 Slots.RUBRIC_CHOICE_VALUE, Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
-                                "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
+                                "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}",
+                                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
             }
             String panel = Templates.populateTemplate(mobilePanelTemplate,
