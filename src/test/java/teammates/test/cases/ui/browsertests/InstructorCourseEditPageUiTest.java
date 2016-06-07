@@ -482,6 +482,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("verify checkbox toggling to false");
         
+        // course level
         courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 5);
         assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
@@ -500,6 +501,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
+        // section level
         courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 1);
         assertFalse(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 1));
         assertFalse(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 2));
@@ -512,8 +514,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertFalse(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 6));
         assertFalse(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 7));
         
+        // session level
+        courseEditPage.clickSessionLevelPrivilegeLink(editInstructorIndex, 0, 0, 2);
+        assertFalse(courseEditPage.isSessionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 0, 2));
+        assertFalse(courseEditPage.isSessionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 0, 3));
+        
         ______TS("verify checkbox toggling to true");
         
+        // course level
         courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 6);
         assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
@@ -532,6 +540,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
+        // section level
         courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 2);
         assertTrue(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 1));
         assertTrue(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 2));
@@ -544,6 +553,10 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 6));
         assertTrue(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 7));
         
+        // session level
+        courseEditPage.clickSessionLevelPrivilegeLink(editInstructorIndex, 0, 0, 3);
+        assertTrue(courseEditPage.isSessionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 0, 2));
+        assertTrue(courseEditPage.isSessionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 0, 3));
         
         courseEditPage.selectRoleForInstructor(editInstructorIndex, "Co-owner");
     }
