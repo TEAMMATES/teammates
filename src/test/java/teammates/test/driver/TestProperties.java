@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 import teammates.common.util.Config;
-import teammates.common.util.FileHelper;
 import teammates.common.util.Url;
+import teammates.test.util.FileHelper;
 
 /** 
  * Represents properties in test.properties file

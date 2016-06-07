@@ -6,10 +6,10 @@ import java.util.Arrays;
 import org.testng.AssertJUnit;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.FileHelper;
 
 /** Base class for all test cases */
 public class BaseTestCase {

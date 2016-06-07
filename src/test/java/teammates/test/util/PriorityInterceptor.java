@@ -10,8 +10,6 @@ import org.testng.IMethodInstance;
 import org.testng.IMethodInterceptor;
 import org.testng.ITestContext;
 
-import teammates.common.util.FileHelper;
-
 /**
  * By default, testng runs all methods in a test in lexical order.
  * by default, testng allows "@(priority = 1)" to order methods.

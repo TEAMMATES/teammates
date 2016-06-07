@@ -7,8 +7,8 @@ import java.util.Map.Entry;
 
 import org.testng.annotations.Test;
 
-import teammates.common.util.FileHelper;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.util.FileHelper;
 
 public class TestNgTest extends BaseTestCase {
 
