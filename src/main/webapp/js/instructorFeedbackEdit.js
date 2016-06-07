@@ -498,6 +498,7 @@ function showNewQuestionFrame(type) {
 }
 
 function hideAllNewQuestionForms() {
+    $('#textForm').hide();
     $('#mcqForm').hide();
     $('#msqForm').hide();
     $('#numScaleForm').hide();
@@ -514,6 +515,8 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_TEXT);
         
         hideAllNewQuestionForms();
+        
+        $('#textForm').show();
         break;
     case 'MCQ':
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
