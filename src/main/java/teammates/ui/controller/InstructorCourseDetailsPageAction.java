@@ -49,7 +49,7 @@ public class InstructorCourseDetailsPageAction extends Action {
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         StudentAttributes.sortByNameAndThenByEmail(students);
         
-        data.init(instructor, courseDetails, instructors, students);
+        data.init(instructor, courseDetails, instructors);
         
         if (students.isEmpty()) {
             String message = String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY,
