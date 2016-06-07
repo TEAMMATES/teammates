@@ -37,15 +37,21 @@ public class FeedbackNumericalScaleQuestionDetails extends
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
         
-        String minScaleString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN);
+        String minScaleString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN);
         Assumption.assertNotNull("Null minimum scale", minScaleString);
         int minScale = Integer.parseInt(minScaleString);
         
-        String maxScaleString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX);
+        String maxScaleString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX);
         Assumption.assertNotNull("Null maximum scale", maxScaleString);
         int maxScale = Integer.parseInt(maxScaleString);
         
-        String stepString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
+        String stepString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
         Assumption.assertNotNull("Null step", stepString);
         Double step = Double.parseDouble(stepString);
 
@@ -338,7 +344,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             averageScore = average.get(recipient);
             averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
             
-            String averageScoreExcludingSelfText = getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
+            String averageScoreExcludingSelfText =
+                    getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
             
             String recipientFragmentHtml = Templates.populateTemplate(
                     fragmentTemplateToUse,
@@ -479,7 +486,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             boolean isRecipientGeneral = recipient.equals(Const.GENERAL_QUESTION);
             
             Double averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
-            String averageScoreExcludingSelfText = getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
+            String averageScoreExcludingSelfText =
+                    getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
             
             csvBody.append(Sanitizer.sanitizeForCsv(recipientTeam) + ','
                            + Sanitizer.sanitizeForCsv(isRecipientGeneral
@@ -523,7 +531,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             Map<String, Integer> numResponsesExcludingSelf) {
         
         for (FeedbackResponseAttributes response : responses) {
-            FeedbackNumericalScaleResponseDetails responseDetails = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
+            FeedbackNumericalScaleResponseDetails responseDetails =
+                    (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             double answer = responseDetails.getAnswer();
             String giverEmail = response.giverEmail;
             String recipientEmail = response.recipientEmail;
@@ -574,7 +583,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 Double totalScoreExcludingSelf = totalExcludingSelf.get(recipientEmail);
                 
                 // totalScoreExcludingSelf == null when the user has only self response
-                totalExcludingSelf.put(recipientEmail, totalScoreExcludingSelf == null ? answer : totalScoreExcludingSelf + answer);
+                totalExcludingSelf.put(recipientEmail,
+                                       totalScoreExcludingSelf == null ? answer : totalScoreExcludingSelf + answer);
             }
 
             // Compute average score received

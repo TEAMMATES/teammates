@@ -132,19 +132,18 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         }
 
         return Templates.populateTemplate(
-                            FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
-                            "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
+                FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
+                "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                             Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Slots.RANK_OPTION_VISIBILITY, "",
-                            "${rankToRecipientsValue}", "false",
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
-                            "${rankNumOptionValue}", Integer.toString(options.size()),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
-                                    Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                            "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
-                            );
+                "${rankToRecipientsValue}", "false",
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
+                "${rankNumOptionValue}", Integer.toString(options.size()),
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
+                "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed));
     }
     
     private String getSubmissionOptionsHtmlForRankingOptions(int rankGiven) {
@@ -185,7 +184,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 FeedbackQuestionFormTemplates.RANK_EDIT_OPTIONS_FORM,
                 "${rankEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfRankOptions}", String.valueOf(options.size()),
                 "${optionRecipientDisplayName}", "option",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",

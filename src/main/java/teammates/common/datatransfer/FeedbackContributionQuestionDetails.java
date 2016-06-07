@@ -383,16 +383,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
                      
             String contribFragmentString = Sanitizer.sanitizeForCsv(displayTeam) + ","
-                             + Sanitizer.sanitizeForCsv(displayName) + ","
-                             + Sanitizer.sanitizeForCsv(displayEmail) + ","
-                             + Sanitizer.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
-                             + Sanitizer.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
-                             + Sanitizer.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx)) + Const.EOL;
+                    + Sanitizer.sanitizeForCsv(displayName) + ","
+                    + Sanitizer.sanitizeForCsv(displayEmail) + ","
+                    + Sanitizer.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
+                    + Sanitizer.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
+                    + Sanitizer.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx)) + Const.EOL;
         
             // Replace all Unset values
             contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.INT_UNINITIALIZED), "N/A");
             contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.POINTS_NOT_SURE), "Not Sure");
-            contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.POINTS_NOT_SUBMITTED), "Not Submitted");
+            contribFragmentString =
+                    contribFragmentString.replaceAll(Integer.toString(Const.POINTS_NOT_SUBMITTED), "Not Submitted");
             
             //For sorting purposes
             sortedMap.put(displayTeam + "-%-" + displayName, contribFragmentString);
@@ -776,13 +777,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             int pc = studentResult.perceivedToInstructor;
             
             return FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
-            
         }
         return "";
     }
     
-    private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
-        Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
+    private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question,
+                                             FeedbackSessionResultsBundle bundle) {
+        Map<String, StudentResultSummary> stats =
+                FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
         return stats.containsKey(email);
     }
     

@@ -57,7 +57,9 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
         assertEquals(students[UpdateStatus.ERROR.numericRepresentation].size(),
                      pageData.getEnrollResultPanelList().get(UpdateStatus.ERROR.numericRepresentation).getStudentList().size());
         assertEquals(students[UpdateStatus.MODIFIED.numericRepresentation].size(),
-                     pageData.getEnrollResultPanelList().get(UpdateStatus.MODIFIED.numericRepresentation).getStudentList().size());
+                     pageData.getEnrollResultPanelList()
+                             .get(UpdateStatus.MODIFIED.numericRepresentation)
+                             .getStudentList().size());
         assertEquals(students[UpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation].size(),
                      pageData.getEnrollResultPanelList()
                              .get(UpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation)
@@ -65,7 +67,9 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
         assertEquals(students[UpdateStatus.UNKNOWN.numericRepresentation].size(),
                      pageData.getEnrollResultPanelList().get(UpdateStatus.UNKNOWN.numericRepresentation).getStudentList().size());
         assertEquals(students[UpdateStatus.UNMODIFIED.numericRepresentation].size(),
-                     pageData.getEnrollResultPanelList().get(UpdateStatus.UNMODIFIED.numericRepresentation).getStudentList().size());
+                     pageData.getEnrollResultPanelList()
+                             .get(UpdateStatus.UNMODIFIED.numericRepresentation)
+                             .getStudentList().size());
         
         assertTrue(pageData.isHasSection());
         assertEquals(enrollStudents, pageData.getEnrollStudents());

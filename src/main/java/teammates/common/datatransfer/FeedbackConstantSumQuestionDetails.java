@@ -75,7 +75,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         pointsPerOptionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
-        pointsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
+        pointsString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
         Assumption.assertNotNull("Null points", pointsString);
         forceUnevenDistributionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
@@ -147,7 +149,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             int totalNumRecipients,
             FeedbackResponseDetails existingResponseDetails) {
         
-        FeedbackConstantSumResponseDetails existingConstSumResponse = (FeedbackConstantSumResponseDetails) existingResponseDetails;
+        FeedbackConstantSumResponseDetails existingConstSumResponse =
+                (FeedbackConstantSumResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;
         
@@ -246,7 +249,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}",
                 Slots.CONSTSUM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
                 );
@@ -261,7 +264,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     Templates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
                             Slots.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}",
+                                    Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
@@ -270,7 +274,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 FeedbackQuestionFormTemplates.CONSTSUM_EDIT_FORM,
                 "${constSumEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfConstSumOptions}", Integer.toString(numOfConstSumOptions),
                 Slots.CONSTSUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
                 "${selectedConstSumPointsPerOption}", pointsPerOption ? "selected" : "",
@@ -545,8 +550,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public String getQuestionTypeChoiceOption() {
         // Constant sum has two options for user to select.
-        return "<li data-questiontype = \"CONSTSUM_OPTION\"><a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</a></li>"
-               + "<li data-questiontype = \"CONSTSUM_RECIPIENT\"><a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</a></li>";
+        return "<li data-questiontype = \"CONSTSUM_OPTION\">"
+                 + "<a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</a>"
+             + "</li>"
+             + "<li data-questiontype = \"CONSTSUM_RECIPIENT\">"
+                 + "<a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</a>"
+             + "</li>";
     }
     
     @Override

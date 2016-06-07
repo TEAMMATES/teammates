@@ -218,7 +218,8 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         assertEquals(question.courseId, questionWithResponses.getQuestion().getCourseId());
         assertEquals(question.questionNumber, questionWithResponses.getQuestion().getQuestionNumber());
         assertEquals(question.getQuestionDetails().questionText, questionWithResponses.getQuestion().getQuestionText());
-        assertEquals(question.numberOfEntitiesToGiveFeedbackTo, questionWithResponses.getQuestion().getNumberOfEntitiesToGiveFeedbackTo());
+        assertEquals(question.numberOfEntitiesToGiveFeedbackTo,
+                     questionWithResponses.getQuestion().getNumberOfEntitiesToGiveFeedbackTo());
         assertEquals(question.getId(), questionWithResponses.getQuestion().getQuestionId());
     }
 }

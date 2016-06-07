@@ -90,19 +90,18 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         return Templates.populateTemplate(
-                            FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
-                            "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
+                FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
+                "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                             Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Slots.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
-                            "${rankToRecipientsValue}", "true",
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
-                            "${rankNumOptionValue}", Integer.toString(0),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
-                                    Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                            "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
-                            );
+                "${rankToRecipientsValue}", "true",
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
+                "${rankNumOptionValue}", Integer.toString(0),
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
+                "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed));
     }
 
     private String getSubmissionOptionsHtmlForRankingRecipients(int totalNumRecipients, int rankGiven) {
