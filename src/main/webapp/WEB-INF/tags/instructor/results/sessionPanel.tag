@@ -55,6 +55,7 @@
                             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${sessionPanel.feedbackSessionName}">
                             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${sessionPanel.courseId}">
                             <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${sessionPanel.selectedSection}">
+                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INCLUDE_EMPTY_RESPONSES%>"  value="${sessionPanel.emptyResponsesShown}">
                         </form>
                         <br>
                         <div>
@@ -80,4 +81,5 @@
 
 <r:copyPasteModal courseId="${sessionPanel.courseId}"
                   feedbackSession="${sessionPanel.feedbackSessionName}"
-                  selectedSection="${sessionPanel.selectedSection}" />
+                  selectedSection="${sessionPanel.selectedSection}"
+                  emptyResponsesShown="${sessionPanel.emptyResponsesShown}" />

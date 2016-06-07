@@ -81,7 +81,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // TODO multiple page data classes inheriting this for each view type,
     // rather than an enum determining behavior in many methods
     private ViewType viewType;
-    
+    private boolean isEmptyResponsesShown;
+
     enum ViewType {
         QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER, RECIPIENT_GIVER_QUESTION, GIVER_RECIPIENT_QUESTION;
         
@@ -125,10 +126,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
      */
     public void initForViewByQuestion(InstructorAttributes instructor,
                                       String selectedSection, String showStats,
-                                      String groupByTeam) {
+                                      String groupByTeam, Boolean isEmptyResponsesShown) {
         this.viewType = ViewType.QUESTION;
         this.sortType = ViewType.QUESTION.toString();
-        initCommonVariables(instructor, selectedSection, showStats, groupByTeam);
+        initCommonVariables(instructor, selectedSection, showStats, groupByTeam, isEmptyResponsesShown);
         
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap = bundle.getQuestionResponseMap();
         questionPanels = new ArrayList<InstructorFeedbackResultsQuestionTable>();
@@ -155,13 +156,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void initCommonVariables(InstructorAttributes instructor, String selectedSection,
-                                    String showStats, String groupByTeam) {
+                                    String showStats, String groupByTeam, boolean isEmptyResponsesShown) {
         Assumption.assertNotNull(bundle);
         
         this.instructor = instructor;
         this.selectedSection = selectedSection;
         this.showStats = showStats;
         this.groupByTeam = groupByTeam;
+        this.isEmptyResponsesShown = isEmptyResponsesShown;
         
         for (FeedbackQuestionAttributes question : bundle.questions.values()) {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
@@ -198,11 +200,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
      */
     public void initForSectionPanelViews(InstructorAttributes instructor,
                                     String selectedSection, String showStats,
-                                    String groupByTeam, ViewType view) {
+                                    String groupByTeam, ViewType view, boolean isEmptyResponsesShown) {
         Assumption.assertNotNull(bundle);
         this.viewType = view;
         this.sortType = view.toString();
-        initCommonVariables(instructor, selectedSection, showStats, groupByTeam);
+        initCommonVariables(instructor, selectedSection, showStats, groupByTeam, isEmptyResponsesShown);
         
         if (!bundle.isComplete) {
             // results page to be loaded by ajax instead
@@ -1435,6 +1437,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         List<InstructorFeedbackResultsResponseRow> missingResponses = new ArrayList<InstructorFeedbackResultsResponseRow>();
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
         
+        if(!isEmptyResponsesShown){
+            return missingResponses;
+        }
+        
         for (String possibleRecipient : possibleReceivers) {
             if (questionDetails.shouldShowNoResponseText(question)) {
                 String textToDisplay = questionDetails.getNoResponseTextInHtml(
@@ -1472,6 +1478,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     String recipientName, String recipientTeam) {
         List<InstructorFeedbackResultsResponseRow> missingResponses = new ArrayList<InstructorFeedbackResultsResponseRow>();
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
+        
+        if(!isEmptyResponsesShown){
+            return missingResponses;
+        }
         
         for (String possibleGiver : possibleGivers) {
             String possibleGiverName = bundle.getFullNameFromRoster(possibleGiver);
@@ -1827,6 +1837,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return showStats != null;
     }
 
+    public boolean getEmptyResponsesShown(){
+        return isEmptyResponsesShown;
+    }
+    
     public int getStartIndex() {
         return startIndex;
     }
@@ -1880,13 +1894,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorFeedbackResultsSessionPanel getSessionPanel() {
         return new InstructorFeedbackResultsSessionPanel(
                 bundle.feedbackSession, getInstructorFeedbackSessionEditLink(),
-                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection);
+                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection, isEmptyResponsesShown);
     }
     
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {
         return new InstructorFeedbackResultsFilterPanel(
                 isStatsShown(), bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
-                isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), getSections());
+                isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), getSections(), getEmptyResponsesShown());
     }
     
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {

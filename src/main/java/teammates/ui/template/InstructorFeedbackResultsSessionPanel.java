@@ -14,11 +14,13 @@ public class InstructorFeedbackResultsSessionPanel {
     private String resultsVisibleFrom;
     private FeedbackSessionPublishButton feedbackSessionPublishButton;
     private String selectedSection;
+    private Boolean isEmptyResponsesShown;
 
     public InstructorFeedbackResultsSessionPanel(FeedbackSessionAttributes session,
                                                  String editLink,
                                                  FeedbackSessionPublishButton feedbackSessionPublishButton,
-                                                 String selectedSection) {
+                                                 String selectedSection,
+                                                 Boolean isEmptyResponsesShown) {
         this.courseId = Sanitizer.sanitizeForHtml(session.getCourseId());
         this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.getFeedbackSessionName());
         this.editLink = editLink;
@@ -27,6 +29,7 @@ public class InstructorFeedbackResultsSessionPanel {
         this.resultsVisibleFrom = getResultsVisibleFromText(session);
         this.feedbackSessionPublishButton = feedbackSessionPublishButton;
         this.selectedSection = selectedSection;
+        this.isEmptyResponsesShown = isEmptyResponsesShown;
     }
     
     public String getCourseId() {
@@ -47,6 +50,10 @@ public class InstructorFeedbackResultsSessionPanel {
 
     public String getEndTime() {
         return endTime;
+    }
+
+    public Boolean getEmptyResponsesShown() {
+        return isEmptyResponsesShown;
     }
 
     public String getResultsVisibleFrom() {
