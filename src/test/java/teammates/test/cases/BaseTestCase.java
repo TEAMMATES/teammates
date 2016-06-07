@@ -1,6 +1,6 @@
 package teammates.test.cases;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.testng.AssertJUnit;
@@ -59,7 +59,7 @@ public class BaseTestCase {
                                   + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

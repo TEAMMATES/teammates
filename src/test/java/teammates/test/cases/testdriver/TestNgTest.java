@@ -1,7 +1,7 @@
 package teammates.test.cases.testdriver;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -13,7 +13,7 @@ import teammates.test.util.FileHelper;
 public class TestNgTest extends BaseTestCase {
 
     @Test
-    public void checkTestsInTestNg() throws FileNotFoundException {
+    public void checkTestsInTestNg() throws IOException {
         String testNgXml = FileHelper.readFile("./src/test/testng-travis.xml")
                            + FileHelper.readFile("./src/test/testng-local.xml");
         // <class name, package name>

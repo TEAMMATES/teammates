@@ -3,7 +3,6 @@ package teammates.test.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,30 +17,42 @@ public final class FileHelper {
     private FileHelper() {
         // utility class
     }
-
-    public static String readFile(String filename) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new BufferedReader(new FileReader(filename)));
-        String ans = scanner.useDelimiter("\\Z").next();
-        scanner.close();
-        return ans;
+    
+    /**
+     * Reads the file with the specified path as a String.
+     */
+    public static String readFile(String filePath) throws IOException {
+        Scanner sc = new Scanner(new BufferedReader(new FileReader(filePath)));
+        String result = sc.useDelimiter("\\Z").next();
+        sc.close();
+        return result;
     }
     
-    public static byte[] readFileAsBytes(String fileName) throws IOException {
-        FileInputStream stream = new FileInputStream(fileName);
+    /**
+     * Reads the file with the specified path as a byte array.
+     */
+    public static byte[] readFileAsBytes(String filePath) throws IOException {
+        FileInputStream fis = new FileInputStream(filePath);
         byte[] buffer = new byte[1024 * 300];
-        stream.read(buffer);
-        stream.close();
+        fis.read(buffer);
+        fis.close();
         return buffer;
     }
     
+    /**
+     * Saves the supplied content to the specified file path.
+     */
     public static void saveFile(String filePath, String content) throws IOException {
-        FileWriter output = new FileWriter(new File(filePath));
-        output.write(content);
-        output.close();
+        FileWriter fw = new FileWriter(new File(filePath));
+        fw.write(content);
+        fw.close();
     }
-
-    public static void deleteFile(String fileName) {
-        File file = new File(fileName);
+    
+    /**
+     * Deletes the file with the specified path.
+     */
+    public static void deleteFile(String filePath) {
+        File file = new File(filePath);
         file.delete();
     }
 

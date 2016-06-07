@@ -3,7 +3,6 @@ package teammates.client.scripts;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -79,7 +78,7 @@ public class PerformanceProfiler extends Thread {
         String jsonString = "";
         try {
             jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         data = gson.fromJson(jsonString, DataBundle.class);

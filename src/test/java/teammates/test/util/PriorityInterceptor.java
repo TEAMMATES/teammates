@@ -1,6 +1,6 @@
 package teammates.test.util;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -29,7 +29,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
     static {
         try {
             packageOrder = FileHelper.readFile("src/test/testng-travis.xml");
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
