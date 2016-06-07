@@ -159,7 +159,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent response");
         
-        assertNull(frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt", "student100InCourse1@gmail.tmt"));
+        assertNull(frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt",
+                                            "student100InCourse1@gmail.tmt"));
         
         ______TS("null fqId");
         
@@ -206,7 +207,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");
         
-        List<FeedbackResponseAttributes> responses = 
+        List<FeedbackResponseAttributes> responses =
                 frDb.getFeedbackResponsesForQuestion(fras.get("response1ForQ1S1C1").feedbackQuestionId);
         assertEquals(8, responses.size());
         

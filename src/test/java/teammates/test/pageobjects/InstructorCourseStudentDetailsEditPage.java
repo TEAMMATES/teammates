@@ -63,7 +63,9 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * relevant input field.
      * @param isTeamChangedForWholeTeam TODO
      */
-    private void fillStudentDetailsForm(String studentName, String teamName, boolean isTeamChangedForWholeTeam, String studentEmail, String comments) {
+    private void fillStudentDetailsForm(String studentName, String teamName,
+                                        boolean isTeamChangedForWholeTeam,
+                                        String studentEmail, String comments) {
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
         }
