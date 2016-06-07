@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import org.testng.annotations.AfterClass;
@@ -41,13 +39,7 @@ public class GodModeTest extends BaseUiTestCase {
     private static void injectContextDependentValuesIntoActualFile() throws Exception {
         initialContent = FileHelper.readFile(ACTUAL_FILEPATH);
         String changedContent = HtmlHelper.injectContextDependentValuesForTest(initialContent);
-        writeToFile(ACTUAL_FILEPATH, changedContent);
-    }
-
-    private static void writeToFile(String filePath, String content) throws Exception {
-        FileWriter output = new FileWriter(new File(filePath));
-        output.write(content);
-        output.close();
+        FileHelper.saveFile(ACTUAL_FILEPATH, changedContent);
     }
 
     @Test
@@ -79,7 +71,7 @@ public class GodModeTest extends BaseUiTestCase {
         // run the God mode with non-existent expected file
         runGodModeRoutine(isPart);
         
-        writeToFile(OUTPUT_FILEPATH, PLACEHOLDER_CONTENT);
+        FileHelper.saveFile(OUTPUT_FILEPATH, PLACEHOLDER_CONTENT);
         
         try {
             // should fail as the expected output file has the wrong content
@@ -128,7 +120,7 @@ public class GodModeTest extends BaseUiTestCase {
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
         System.clearProperty("godmode");
-        writeToFile(ACTUAL_FILEPATH, initialContent);
+        FileHelper.saveFile(ACTUAL_FILEPATH, initialContent);
     }
 
 }

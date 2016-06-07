@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -33,6 +34,12 @@ public final class FileHelper {
         return buffer;
     }
     
+    public static void saveFile(String filePath, String content) throws IOException {
+        FileWriter output = new FileWriter(new File(filePath));
+        output.write(content);
+        output.close();
+    }
+
     public static void deleteFile(String fileName) {
         File file = new File(fileName);
         file.delete();
