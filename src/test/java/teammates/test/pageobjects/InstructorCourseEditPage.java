@@ -199,6 +199,16 @@ public class InstructorCourseEditPage extends AppPage {
         return this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex, linkNum - 1).isSelected();
     }
     
+    public void clickSessionLevelPrivilegeLink(int instrNum, int sectionLevelIndex,
+                                               int sessionIndex, int linkNum) {
+        this.sessionLevelTableCheckbox(instrNum, sectionLevelIndex, sessionIndex, linkNum - 1).click();
+    }
+    
+    public boolean isSessionLevelPrivilegeLinkClicked(int instrNum, int sectionLevelIndex,
+                                                      int sessionIndex, int linkNum) {
+        return this.sessionLevelTableCheckbox(instrNum, sectionLevelIndex, sessionIndex, linkNum - 1).isSelected();
+    }
+    
     public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelIndex) {
         String linkId = "toggleSessionLevelInSection" + sectionLevelIndex + "ForInstructor" + instrNum;
         browser.driver.findElement(By.id(linkId)).click();
@@ -379,6 +389,25 @@ public class InstructorCourseEditPage extends AppPage {
         WebElement sectionPanelBody = this.sectionLevelPanelBody(instrNum, sectionLevelIndex);
         String cssSelector = "input[type='checkbox']";
         return sectionPanelBody.findElements(By.cssSelector(cssSelector)).get(checkBoxIndex);
+    }
+    
+    private WebElement sessionLevelTableBody(int instrNum, int sectionLevelIndex) {
+        WebElement sectionPanelBody = this.sectionLevelPanelBody(instrNum, sectionLevelIndex);
+        String cssSelector = "table";
+        return sectionPanelBody.findElement(By.cssSelector(cssSelector));
+    }
+    
+    private WebElement sessionLevelTableRow(int instrNum, int sectionLevelIndex, int sessionIndex) {
+        WebElement sessionLevelTableBody = this.sessionLevelTableBody(instrNum, sectionLevelIndex);
+        String cssSelector = "tr";
+        return sessionLevelTableBody.findElements(By.cssSelector(cssSelector)).get(sessionIndex);
+    }
+    
+    private WebElement sessionLevelTableCheckbox(int instrNum, int sectionLevelIndex,
+                                                 int sessionIndex, int checkBoxIndex) {
+        WebElement sessionLevelTableRow = this.sessionLevelTableRow(instrNum, sectionLevelIndex, sessionIndex);
+        String cssSelector = "input[type='checkbox']";
+        return sessionLevelTableRow.findElements(By.cssSelector(cssSelector)).get(checkBoxIndex);
     }
 
 }
