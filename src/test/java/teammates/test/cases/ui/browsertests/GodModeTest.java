@@ -93,15 +93,7 @@ public class GodModeTest extends BaseUiTestCase {
         runGodModeRoutine(isPart);
         
         // delete the output file generated
-        deleteFile(OUTPUT_FILEPATH);
-    }
-    
-    private static void deleteFile(String filePath) {
-        File file = new File(filePath);
-        if (!file.delete()) {
-            print("Delete failed: " + file.getAbsolutePath());
-            file.deleteOnExit();
-        }
+        FileHelper.deleteFile(OUTPUT_FILEPATH);
     }
     
     private void runGodModeRoutine(boolean isPart) throws Exception {
