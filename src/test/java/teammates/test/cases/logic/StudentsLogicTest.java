@@ -411,8 +411,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                                             Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
         FeedbackResponseAttributes responseBefore =
                 frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                                             feedbackResponse1InBundle.giver,
-                                             feedbackResponse1InBundle.recipient);
+                                            feedbackResponse1InBundle.giver,
+                                            feedbackResponse1InBundle.recipient);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
         
