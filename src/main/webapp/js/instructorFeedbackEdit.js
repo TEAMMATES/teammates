@@ -9,12 +9,6 @@ $(document).ready(function() {
     hideUncommonPanels();
 });
 
-var CONFIRMATION_MODAL = '#confirmation-modal';
-var CONFIRMATION_MODAL_TITLE = '#confirmation-modal-title';
-var CONFIRMATION_MODAL_BODY = '#confirmation-modal-body';
-var CONFIRMATION_MODAL_CANCEL = '#confirmation-modal-cancel';
-var CONFIRMATION_MODAL_OK = '#confirmation-modal-ok';
-
 var DEFAULT_CANCEL_BUTTON_TEXT = 'Cancel';
 var WARNING_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
 var CONFIRMATION_BODY =
@@ -41,10 +35,14 @@ function readyFeedbackEditPage() {
     $('form[id|=form_editquestion]').submit(function(event) {
         if ($(this).attr('editStatus') === 'mustDeleteResponses') {
             event.preventDefault();
-            showConfirmationModal(WARNING_DELETE_RESPONSES, CONFIRMATION_BODY, DEFAULT_CANCEL_BUTTON_TEXT, CONFIRM_DELETE);
-            checkForConfirmation(event);
+            var okCallback = function() {
+                event.currentTarget.submit();
+            }
+            BootboxWrapper.showModalConfirmation(WARNING_DELETE_RESPONSES, CONFIRMATION_BODY, okCallback, null,
+                                                 CONFIRM_DELETE, DEFAULT_CANCEL_BUTTON_TEXT, StatusType.DANGER);
         }
     });
+
     $('form.form_question').submit(function() {
         return checkFeedbackQuestion(this);
     });
@@ -1780,16 +1778,3 @@ function removeRankOption(index, questionNum) {
     }
 }
 
-function showConfirmationModal(title, body, cancelButtonText, confirmButtonText) {
-    $(CONFIRMATION_MODAL_TITLE).html(title);
-    $(CONFIRMATION_MODAL_BODY).html(body);
-    $(CONFIRMATION_MODAL_CANCEL).html(cancelButtonText);
-    $(CONFIRMATION_MODAL_OK).html(confirmButtonText);
-    $(CONFIRMATION_MODAL).modal('show');
-}
-
-function checkForConfirmation(event) {
-    $(CONFIRMATION_MODAL_OK).on('click', function() {
-        event.currentTarget.submit();
-    });
-}
