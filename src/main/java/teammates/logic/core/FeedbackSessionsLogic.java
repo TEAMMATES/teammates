@@ -815,13 +815,17 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail, Boolean isEmptyResponsesShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
-        return getFeedbackSessionResultsSummaryInSectionAsCsv(feedbackSessionName, courseId, userEmail, null, isEmptyResponsesShown);
+        return getFeedbackSessionResultsSummaryInSectionAsCsv(feedbackSessionName,
+                                                              courseId,
+                                                              userEmail,
+                                                              null,
+                                                              isEmptyResponsesShown);
     }
 
-    public String getFeedbackSessionResultsSummaryInSectionAsCsv(String feedbackSessionName, 
-                                                                 String courseId, 
-                                                                 String userEmail, 
-                                                                 String section, 
+    public String getFeedbackSessionResultsSummaryInSectionAsCsv(String feedbackSessionName,
+                                                                 String courseId,
+                                                                 String userEmail,
+                                                                 String section,
                                                                  Boolean isEmptyResponsesShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
@@ -862,7 +866,7 @@ public class FeedbackSessionsLogic {
 
     private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(
             FeedbackSessionResultsBundle fsrBundle,
-            Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry, 
+            Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry,
             Boolean isEmptyResponsesShown) {
         
         FeedbackQuestionAttributes question = entry.getKey();
@@ -922,7 +926,7 @@ public class FeedbackSessionsLogic {
         }
         
         // add the rows for the possible givers and recipients who have missing responses
-        if(isEmptyResponsesShown){
+        if (isEmptyResponsesShown) {
             exportBuilder.append(getRemainingRowsInCsvFormat(fsrBundle, entry, question, questionDetails,
                                                 possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver))
                          .append(Const.EOL + Const.EOL);

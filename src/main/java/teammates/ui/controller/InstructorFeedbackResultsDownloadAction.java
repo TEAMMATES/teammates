@@ -32,18 +32,18 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String fileName = "";
         try {
             if (section == null || "All".equals(section)) {
-                fileContent = logic.getFeedbackSessionResultSummaryAsCsv(courseId, 
+                fileContent = logic.getFeedbackSessionResultSummaryAsCsv(courseId,
                                                                          feedbackSessionName,
-                                                                         instructor.email, 
+                                                                         instructor.email,
                                                                          isEmptyResponsesShown);
                 fileName = courseId + "_" + feedbackSessionName;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
                               + " in Course " + courseId + " was downloaded";
             } else {
-                fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, 
+                fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId,
                                                                                   feedbackSessionName,
-                                                                                  instructor.email, 
-                                                                                  section, 
+                                                                                  instructor.email,
+                                                                                  section,
                                                                                   isEmptyResponsesShown);
                 fileName = courseId + "_" + feedbackSessionName + "_" + section;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
