@@ -5,7 +5,6 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Instructor;
@@ -121,7 +120,7 @@ public class InstructorAttributes extends EntityAttributes {
     public InstructorAttributes(Instructor instructor) {
         this.googleId = instructor.getGoogleId();
         this.courseId = instructor.getCourseId();
-        this.isArchived = instructor.getIsArchived();
+        this.isArchived = instructor.getIsArchived() != null && instructor.getIsArchived();
         this.name = instructor.getName();
         this.email = instructor.getEmail();
         
@@ -208,7 +207,7 @@ public class InstructorAttributes extends EntityAttributes {
             }
         }
         
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        error = validator.getInvalidityInfoForCourseId(courseId);
         if (!error.isEmpty()) {
             errors.add(error);
         }

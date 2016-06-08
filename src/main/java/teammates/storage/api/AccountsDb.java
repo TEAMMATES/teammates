@@ -59,7 +59,8 @@ public class AccountsDb extends EntitiesDb {
     }
     
     /* This function is used for persisting data bundle in testing process */
-    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException {
+    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount)
+            throws InvalidParametersException {
         
         List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
         if (updateAccount) {

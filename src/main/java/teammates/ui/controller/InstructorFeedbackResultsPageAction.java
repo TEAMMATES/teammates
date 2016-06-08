@@ -75,7 +75,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         String isTestingAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
         int queryRange = isTestingAjax == null ? DEFAULT_QUERY_RANGE : QUERY_RANGE_FOR_AJAX_TESTING;
 
-        if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
+        if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null
+                && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
             // bundle for all questions and all sections
             data.setBundle(
                      logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
@@ -113,7 +114,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                    && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType);
         if (selectedSection.equals(ALL_SECTION_OPTION) && (isShowSectionWarningForParticipantView
                                                            || isShowSectionWarningForQuestionView)) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING,
+                                               StatusMessageColor.WARNING));
             isError = true;
         }
         
@@ -152,10 +154,10 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
     }
 
-    private FeedbackSessionResultsBundle getBundleForQuestionView(String needAjax, String courseId, String feedbackSessionName,
-                                                                  InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                                                  String selectedSection, String sortType, String questionId)
-                                                                  throws EntityDoesNotExistException {
+    private FeedbackSessionResultsBundle getBundleForQuestionView(
+            String needAjax, String courseId, String feedbackSessionName, InstructorAttributes instructor,
+            InstructorFeedbackResultsPageData data, String selectedSection, String sortType, String questionId)
+                    throws EntityDoesNotExistException {
         FeedbackSessionResultsBundle bundle;
         if (questionId == null) {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {

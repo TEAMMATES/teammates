@@ -50,7 +50,8 @@ public class InstructorFeedbackSessionActions {
 
         this.allowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         this.allowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+        boolean shouldEnableSubmitLink =
+                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         if (!shouldEnableSubmitLink) {
             shouldEnableSubmitLink =
                     instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
@@ -58,7 +59,9 @@ public class InstructorFeedbackSessionActions {
         }
         
         this.allowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
-        this.allowedToRemind = session.isOpened() && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        this.allowedToRemind =
+                session.isOpened()
+                && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             
         this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
                                                               PUBLISH_BUTTON_TYPE);

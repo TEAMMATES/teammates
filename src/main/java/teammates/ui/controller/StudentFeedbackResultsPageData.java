@@ -76,7 +76,8 @@ public class StudentFeedbackResultsPageData extends PageData {
                                                                  questionIndex, question, questionDetailsBundle, responsesBundle);
             List<FeedbackResultsResponseTable> responseTables = createResponseTables(question, responsesBundle);
             
-            feedbackResultsQuestionsWithResponses.add(new StudentFeedbackResultsQuestionWithResponses(questionDetails, responseTables));
+            feedbackResultsQuestionsWithResponses.add(
+                    new StudentFeedbackResultsQuestionWithResponses(questionDetails, responseTables));
             questionIndex++;
             
         }

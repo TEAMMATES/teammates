@@ -111,7 +111,8 @@ public class InstructorsDb extends EntitiesDb {
         }
     }
 
-    public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException {
+    public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd)
+            throws InvalidParametersException {
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
 

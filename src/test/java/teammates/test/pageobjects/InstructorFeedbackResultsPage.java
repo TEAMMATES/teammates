@@ -10,13 +10,10 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -163,17 +160,16 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void addFeedbackResponseComment(String addResponseCommentId, String commentText) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 5);
         WebElement addResponseCommentForm = browser.driver.findElement(By.id(addResponseCommentId));
         WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
         WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
         showResponseCommentAddFormButton.click();
-        wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
+        waitForElementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea")));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
         addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
         if (commentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
-            wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
+            waitForElementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea")));
         } else {
             // non-empty comment: wait until the add comment form disappears
             waitForElementToDisappear(By.id(addResponseCommentId));
@@ -271,27 +267,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
-        WebElement commentRow;
-        try {
-            commentRow = wait.until(ExpectedConditions.presenceOfElementLocated(
-                                                               By.id("responseCommentRow" + commentRowIdSuffix)));
-        } catch (TimeoutException e) {
-            fail("Timeout!");
-            commentRow = null;
-        }
-        try {
-            wait.until(ExpectedConditions.textToBePresentInElement(commentRow.findElement(By.id("plainCommentText"
-                                                                                                + commentRowIdSuffix)),
-                                                                   commentText));
-        } catch (TimeoutException e) {
-            fail("Not expected message");
-        }
-        try {
-            assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName));
-        } catch (AssertionError e) {
-            assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains("you"));
-        }
+        By commentRowSelector = By.id("responseCommentRow" + commentRowIdSuffix);
+        waitForElementPresence(commentRowSelector);
+        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
+        WebElement commentRow = browser.driver.findElement(commentRowSelector);
+        assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName)
+                   || commentRow.findElement(By.className("text-muted")).getText().contains("you"));
     }
 
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
@@ -302,7 +283,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void verifyRowMissing(String rowIdSuffix) {
         try {
-            waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-loader.gif']"));
+            waitForAjaxLoaderGifToDisappear();
             browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
             fail("Row expected to be missing found.");
         } catch (NoSuchElementException expected) {
@@ -486,17 +467,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
         By ajaxErrorSelector = By.cssSelector(".ajax_submit:nth-of-type(" + indexOfForm
                                         + ") .ajax-error");
         waitForElementPresence(ajaxErrorSelector);
-        WebElement ajaxError = browser.driver.findElement(ajaxErrorSelector);
         
-        assertEquals("[ Failed to load. Click here to retry. ]", ajaxError.getText());
+        waitForTextContainedInElementPresence(ajaxErrorSelector, "[ Failed to load. Click here to retry. ]");
     }
     
     public void waitForAjaxErrorOnNoResponsePanel() {
         By ajaxErrorSelector = By.cssSelector(".ajax_response_rate_submit .ajax-error");
         waitForElementPresence(ajaxErrorSelector);
-        WebElement ajaxError = browser.driver.findElement(ajaxErrorSelector);
         
-        assertEquals("[ Failed to load. Click here to retry. ]", ajaxError.getText());
+        waitForTextContainedInElementPresence(ajaxErrorSelector, "[ Failed to load. Click here to retry. ]");
     }
     
 }

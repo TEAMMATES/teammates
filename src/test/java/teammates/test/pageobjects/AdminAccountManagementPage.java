@@ -95,6 +95,6 @@ public class AdminAccountManagementPage extends AppPage {
 
     public void waitForAdminAccountsManagementPageToFinishLoading() {
         By currentPageEntryCountSpan = By.id("currentPageEntryCount");
-        waitForElementPresence(currentPageEntryCountSpan, 60);
+        waitForElementPresence(currentPageEntryCountSpan);
     }
 }
