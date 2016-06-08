@@ -1435,12 +1435,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                     String giverIdentifier,
                                                                     String giverName, String giverTeam) {
         List<InstructorFeedbackResultsResponseRow> missingResponses = new ArrayList<InstructorFeedbackResultsResponseRow>();
-        FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
         
-        if(!isEmptyResponsesShown){
+        if (!isEmptyResponsesShown) {
             return missingResponses;
         }
         
+        FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
         for (String possibleRecipient : possibleReceivers) {
             if (questionDetails.shouldShowNoResponseText(question)) {
                 String textToDisplay = questionDetails.getNoResponseTextInHtml(
@@ -1477,12 +1477,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     List<String> possibleGivers, String recipientIdentifier,
                                     String recipientName, String recipientTeam) {
         List<InstructorFeedbackResultsResponseRow> missingResponses = new ArrayList<InstructorFeedbackResultsResponseRow>();
-        FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
         
-        if(!isEmptyResponsesShown){
+        if (!isEmptyResponsesShown) {
             return missingResponses;
         }
         
+        FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
         for (String possibleGiver : possibleGivers) {
             String possibleGiverName = bundle.getFullNameFromRoster(possibleGiver);
             String possibleGiverTeam = bundle.getTeamNameFromRoster(possibleGiver);
@@ -1837,7 +1837,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return showStats != null;
     }
 
-    public boolean getEmptyResponsesShown(){
+    public boolean getEmptyResponsesShown() {
         return isEmptyResponsesShown;
     }
     
@@ -1900,7 +1900,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {
         return new InstructorFeedbackResultsFilterPanel(
                 isStatsShown(), bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
-                isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), 
+                isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(),
                 getSections(), getEmptyResponsesShown());
     }
     

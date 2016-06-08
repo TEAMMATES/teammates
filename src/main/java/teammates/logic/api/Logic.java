@@ -1524,15 +1524,15 @@ public class Logic {
      */
     public String getFeedbackSessionResultSummaryAsCsv(String courseId,
                                                        String feedbackSessionName,
-                                                       String instructorEmail, 
+                                                       String instructorEmail,
                                                        Boolean isEmptyResponsesShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         
-        return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(feedbackSessionName, 
-                                                                           courseId, 
+        return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(feedbackSessionName,
+                                                                           courseId,
                                                                            instructorEmail,
                                                                            isEmptyResponsesShown);
     }
@@ -1540,12 +1540,12 @@ public class Logic {
     /**
      * Generates summary results (without comments) within a section in CSV format. <br>
      * Preconditions: <br>
-     * * All parameters are non-null. <br> 
+     * * All parameters are non-null. <br>
      */
     public String getFeedbackSessionResultSummaryInSectionAsCsv(String courseId,
                                                                 String feedbackSessionName,
                                                                 String instructorEmail,
-                                                                String section, 
+                                                                String section,
                                                                 Boolean isEmptyResponsesShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         

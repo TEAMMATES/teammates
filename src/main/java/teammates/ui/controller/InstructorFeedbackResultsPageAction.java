@@ -51,11 +51,11 @@ public class InstructorFeedbackResultsPageAction extends Action {
         // TODO move into another action and another page data class
         boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         if (isLoadingCsvResultsAsHtml) {
-            return createAjaxResultForCsvTableLoadedInHtml(courseId, 
-                                                           feedbackSessionName, 
-                                                           instructor, 
-                                                           data, 
-                                                           selectedSection, 
+            return createAjaxResultForCsvTableLoadedInHtml(courseId,
+                                                           feedbackSessionName,
+                                                           instructor,
+                                                           data,
+                                                           selectedSection,
                                                            isEmptyResponsesShown);
         }
         data.setSessionResultsHtmlTableAsString("");
@@ -211,17 +211,17 @@ public class InstructorFeedbackResultsPageAction extends Action {
             if (selectedSection.contentEquals(ALL_SECTION_OPTION)) {
                 data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
                                             logic.getFeedbackSessionResultSummaryAsCsv(
-                                                                            courseId, 
+                                                                            courseId,
                                                                             feedbackSessionName,
-                                                                            instructor.email, 
+                                                                            instructor.email,
                                                                             isEmptyResponsesShown)));
             } else {
                 data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
                                             logic.getFeedbackSessionResultSummaryInSectionAsCsv(
-                                                                            courseId, 
+                                                                            courseId,
                                                                             feedbackSessionName,
-                                                                            instructor.email, 
-                                                                            selectedSection, 
+                                                                            instructor.email,
+                                                                            selectedSection,
                                                                             isEmptyResponsesShown)));
             }
         } catch (ExceedingRangeException e) {
