@@ -27,7 +27,7 @@
                 <tbody>
                     <c:forEach items="${noResponsePanel.emails}" var="email">
                         <tr>
-                            <c:if test="${not empty noResponsePanel.instructorStatus[email]}">
+                            <c:if test="${not empty noResponsePanel.instructorStatus[email] && noResponsePanel.instructorStatus[email] == 'true'}">
                                      <td><i>${fn:escapeXml(noResponsePanel.teams[email])}</i></td>
                             </c:if>
                             <c:if test="${empty noResponsePanel.instructorStatus[email]}">
