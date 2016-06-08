@@ -1900,7 +1900,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {
         return new InstructorFeedbackResultsFilterPanel(
                 isStatsShown(), bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
-                isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), getSections(), getEmptyResponsesShown());
+                isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), 
+                getSections(), getEmptyResponsesShown());
     }
     
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {

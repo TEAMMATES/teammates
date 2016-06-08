@@ -51,7 +51,12 @@ public class InstructorFeedbackResultsPageAction extends Action {
         // TODO move into another action and another page data class
         boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         if (isLoadingCsvResultsAsHtml) {
-            return createAjaxResultForCsvTableLoadedInHtml(courseId, feedbackSessionName, instructor, data, selectedSection, isEmptyResponsesShown);
+            return createAjaxResultForCsvTableLoadedInHtml(courseId, 
+                                                           feedbackSessionName, 
+                                                           instructor, 
+                                                           data, 
+                                                           selectedSection, 
+                                                           isEmptyResponsesShown);
         }
         data.setSessionResultsHtmlTableAsString("");
         data.setAjaxStatus("");
