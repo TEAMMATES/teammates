@@ -63,11 +63,14 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         questionsWithResponses = getActualQuestionsAndResponsesWithId(
                                         logic, questionsWithResponses);
             
-        pageData.setBundle(logic.getFeedbackSessionResultsForStudent(question1.feedbackSessionName, question1.courseId, student.email));
+        pageData.setBundle(logic.getFeedbackSessionResultsForStudent(
+                question1.feedbackSessionName, question1.courseId, student.email));
         pageData.init(questionsWithResponses);
         
-        StudentFeedbackResultsQuestionWithResponses questionBundle1 = pageData.getFeedbackResultsQuestionsWithResponses().get(0);
-        StudentFeedbackResultsQuestionWithResponses questionBundle2 = pageData.getFeedbackResultsQuestionsWithResponses().get(1);
+        StudentFeedbackResultsQuestionWithResponses questionBundle1 =
+                pageData.getFeedbackResultsQuestionsWithResponses().get(0);
+        StudentFeedbackResultsQuestionWithResponses questionBundle2 =
+                pageData.getFeedbackResultsQuestionsWithResponses().get(1);
         
         assertNotNull(pageData.getFeedbackResultsQuestionsWithResponses());
         assertEquals(2, pageData.getFeedbackResultsQuestionsWithResponses().size());

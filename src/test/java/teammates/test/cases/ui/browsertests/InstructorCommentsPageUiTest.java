@@ -91,7 +91,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         if (commentsPage.getPageSource().contains("added response comment")
                 || commentsPage.getPageSource().contains("edited response comment")) {
             commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
-            commentsPage.clickCommentsPageLinkInHeader();
+            commentsPage.loadInstructorCommentsTab();
         }
     }
     
@@ -102,12 +102,18 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyContains("comments.idOfArchivedCourse");
         
         commentsPage.clickNextCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE
-                   + "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
+        
+        AppUrl commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+                .withUserId(testData.instructors.get("instructorOfArchivedCourse").googleId)
+                .withCourseId(testData.instructors.get("instructorOfArchivedCourse").courseId);
+        assertEquals(commentsPageUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
         
         commentsPage.clickPreviousCourseLink();
-        assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE
-                   + "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
+        
+        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+                .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
+                .withCourseId(testData.instructors.get("instructor1OfCourse1").courseId);
+        assertEquals(commentsPageUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
         
         commentsPage.clickIsIncludeArchivedCoursesCheckbox();
         
@@ -150,7 +156,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("Typical case: panels expand/collapse");
         
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
         
         commentsPage.clickCommentsForStudentsPanelHeading();
         commentsPage.waitForCommentsForStudentsPanelsToCollapse();
@@ -230,7 +236,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         ______TS("search: empty string");
         commentsPage.search("");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchEmpty.html");
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
         
         ______TS("search: typical successful case");
         //prepare search document
@@ -242,17 +248,17 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.loadResponseComments();
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
         commentsPage.saveResponseComment(1, 1, 1, 1);
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
         
         commentsPage.search("comments");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchNormal.html");
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
     }
     
     private void testEmailPendingComments() {
-        InstructorHomePage homePage = commentsPage.clickHomePageLinkInHeader();
+        InstructorHomePage homePage = commentsPage.loadInstructorHomeTab();
         homePage.verifyContains("Send email notification to recipients of 2 pending comments");
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
         commentsPage.clickSendEmailNotificationButton();
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_CLEARED);
     }

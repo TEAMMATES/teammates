@@ -643,7 +643,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         ______TS("Unsuccessful case: test empty course id parameter");
 
         submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, dataBundle.feedbackResponses.get("response1ForQ1S1C1").feedbackSessionName
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                        dataBundle.feedbackResponses.get("response1ForQ1S1C1").feedbackSessionName
         };
 
         try {
@@ -711,7 +712,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         responsesToAdd.add(fr);
         frDb.createFeedbackResponses(responsesToAdd);
         
-        otherFr = frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail); //necessary to get the correct responseId
+        // necessary to get the correct responseId
+        otherFr = frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail);
         assertNotNull("Feedback response not found in database", fr);
         
         submissionParams = new String[] {

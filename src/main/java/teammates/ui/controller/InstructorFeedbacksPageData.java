@@ -192,12 +192,13 @@ public class InstructorFeedbacksPageData extends PageData {
                 ++displayedStatsCount;
             }
             
-            InstructorFeedbackSessionActions actions = getInstructorFeedbackSessionActions(session,
-                                                                                           Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
-                                                                                           instructors.get(courseId));
+            InstructorFeedbackSessionActions actions =
+                    getInstructorFeedbackSessionActions(session, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
+                                                        instructors.get(courseId));
             
             ElementTag elementAttributes;
-            if (session.getCourseId().equals(courseIdForNewSession) && session.getFeedbackSessionName().equals(feedbackSessionNameForSessionList)) {
+            if (session.getCourseId().equals(courseIdForNewSession)
+                    && session.getFeedbackSessionName().equals(feedbackSessionNameForSessionList)) {
                 elementAttributes = new ElementTag("class", "sessionsRow warning");
             } else {
                 elementAttributes = new ElementTag("class", "sessionsRow");
@@ -231,8 +232,9 @@ public class InstructorFeedbacksPageData extends PageData {
         
         ElementTag standardFeedbackSession = createOption("Session with your own questions", "STANDARD",
                                                           "STANDARD".equals(defaultSessionType));
-        ElementTag evaluationFeedbackSession = createOption("Team peer evaluation session", "TEAMEVALUATION",
-                                                            defaultSessionType == null || "TEAMEVALUATION".equals(defaultSessionType));
+        ElementTag evaluationFeedbackSession =
+                createOption("Team peer evaluation session", "TEAMEVALUATION",
+                             defaultSessionType == null || "TEAMEVALUATION".equals(defaultSessionType));
         
         result.add(standardFeedbackSession);
         result.add(evaluationFeedbackSession);

@@ -230,7 +230,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, FeedbackQuestionType.MCQ.toString(),//Submit mcq response for text question
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, FeedbackQuestionType.MCQ.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId()
         };

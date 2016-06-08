@@ -71,7 +71,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 "${rankToRecipientsValue}", "true",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 "${rankNumOptionValue}", Integer.toString(0),
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
                 );
         
@@ -98,19 +99,18 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         String html = Templates.populateTemplate(
-                            FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
-                            "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
-                            "${qnIdx}", Integer.toString(qnIdx),
-                            "${responseIdx}", Integer.toString(responseIdx),
-                            "${rankOptionVisibility}", "style=\"display:none\"",
-                            "${rankToRecipientsValue}", "true",
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
-                            "${rankNumOptionValue}", Integer.toString(0),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
-                                    Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                            "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
-                            );
+                FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
+                "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
+                "${qnIdx}", Integer.toString(qnIdx),
+                "${responseIdx}", Integer.toString(responseIdx),
+                "${rankOptionVisibility}", "style=\"display:none\"",
+                "${rankToRecipientsValue}", "true",
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
+                "${rankNumOptionValue}", Integer.toString(0),
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
+                "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed));
         
         return html;
     }
@@ -142,7 +142,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 FeedbackQuestionFormTemplates.RANK_EDIT_RECIPIENTS_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${optionRecipientDisplayName}", "recipient",
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 "${areDuplicatesAllowedChecked}", areDuplicatesAllowed ? "checked" : "");
     
     }

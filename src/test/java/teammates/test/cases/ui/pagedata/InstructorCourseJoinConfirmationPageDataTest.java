@@ -25,7 +25,8 @@ public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
         String regkey = "someRandomKey";
         String institute = "Institute Name";
         
-        InstructorCourseJoinConfirmationPageData pageData = new InstructorCourseJoinConfirmationPageData(account, regkey, institute);
+        InstructorCourseJoinConfirmationPageData pageData =
+                new InstructorCourseJoinConfirmationPageData(account, regkey, institute);
         
         assertNotNull(pageData.getRegkey());
         assertEquals(regkey, pageData.getRegkey());

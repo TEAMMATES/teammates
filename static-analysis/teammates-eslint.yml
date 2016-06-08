@@ -406,7 +406,7 @@ rules:
     # max-depth: "off"
 
     # enforce a maximum line length
-    max-len: ["error", 150]
+    max-len: ["error", 130]
 
     # enforce a maximum depth that callbacks can be nested
     # max-nested-callbacks: "off"

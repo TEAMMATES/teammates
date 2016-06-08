@@ -406,7 +406,8 @@ public final class HtmlHelper {
                       // jQuery js file
                       .replace(Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()), "${lib.path}/jquery.min.js")
                       // jQuery-ui js file
-                      .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()), "${lib.path}/jquery-ui.min.js")
+                      .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()),
+                               "${lib.path}/jquery-ui.min.js")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -453,7 +454,8 @@ public final class HtmlHelper {
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now))
                       .replace("<!-- filepath.jquery -->", Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()))
-                      .replace("<!-- filepath.jquery-ui -->", Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()));
+                      .replace("<!-- filepath.jquery-ui -->",
+                               Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()));
     }
 
 }

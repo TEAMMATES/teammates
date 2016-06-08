@@ -108,7 +108,8 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
     
-    private AdminSearchPageData putInstructorCourseJoinLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data) {
+    private AdminSearchPageData putInstructorCourseJoinLinkIntoMap(List<InstructorAttributes> instructors,
+                                                                   AdminSearchPageData data) {
 
         for (InstructorAttributes instructor : instructors) {
             
@@ -132,7 +133,8 @@ public class AdminSearchPageAction extends Action {
         for (InstructorAttributes instructor : instructors) {
             
             if (tempCourseIdToInstituteMap.get(instructor.courseId) != null) {
-                data.instructorInstituteMap.put(instructor.getIdentificationString(), tempCourseIdToInstituteMap.get(instructor.courseId));
+                data.instructorInstituteMap.put(instructor.getIdentificationString(),
+                                                tempCourseIdToInstituteMap.get(instructor.courseId));
                 continue;
             }
             
@@ -152,7 +154,8 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
     
-    private AdminSearchPageData putInstructorHomePageLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data) {
+    private AdminSearchPageData putInstructorHomePageLinkIntoMap(List<InstructorAttributes> instructors,
+                                                                 AdminSearchPageData data) {
         
         for (InstructorAttributes instructor : instructors) {
             
