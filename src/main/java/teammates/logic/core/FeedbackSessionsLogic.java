@@ -1183,14 +1183,7 @@ public class FeedbackSessionsLogic {
      * @param courseId
      */
     public boolean hasResponsesFromStudent(String studentEmail, String sessionName, String courseId) {
-        List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(sessionName,
-                                                                                            courseId);
-        for (FeedbackResponseAttributes response : responses) {
-            if (response.giverEmail.equals(studentEmail)) {
-                return true;
-            }
-        }
-        return false;
+        return frLogic.hasGiverRespondedForSession(studentEmail, sessionName, courseId);
     }
     
     public void updateRespondantsForInstructor(String oldEmail, String newEmail, String courseId)
