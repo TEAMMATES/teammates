@@ -357,6 +357,10 @@ public class FeedbackResponsesLogic {
         }
         return question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
     }
+    
+    public boolean isCourseHasResponses(String courseId) {
+        return frDb.hasFeedbackResponseEntitiesForCourse(courseId);
+    }
 
     /**
      * Updates a {@link FeedbackResponse} based on it's {@code id}.<br>
