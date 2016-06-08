@@ -433,10 +433,9 @@ public class Logic {
     }
     
     /**
-     * Get the decrypted registration key for the instructor.
+     * Get the encrypted registration key for the instructor.
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @return null if the key doesn't exist.
      * @throws EntityDoesNotExistException
      */
     public String getEncryptedKeyForInstructor(String courseId, String email)
