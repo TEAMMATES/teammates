@@ -64,6 +64,7 @@ function readyFeedbackEditPage() {
     // Copy Binding
     bindCopyButton();
     bindCopyEvents();
+    setupQuestionCopyModal();
 
     // Additional formatting & bindings.
     disableEditFS();
@@ -790,22 +791,45 @@ function toParameterFormat(str) {
     return str.replace(/\s/g, '+');
 }
 
-function bindCopyButton() {
-    $('#button_copy').on('click', function(e) {
-        e.preventDefault();
+function setupQuestionCopyModal() {
+    $('#copyModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var actionlink = button.data('actionlink');
+        var courseid = button.data('courseid');
+        var fsname = button.data('fsname');
         
-        var questionRows = $('#copyTableModal >tbody>tr');
-        if (questionRows.length) {
-            setStatusMessage('', StatusType.WARNING);
-            $('#copyModal').modal('show');
-        } else {
-            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, StatusType.DANGER);
-        }
-       
-        return false;
+        var $questionCopyStatusMessage = $('#question-copy-modal-status');
+        $.ajax({
+            type: 'GET',
+            url: actionlink + '?courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname),
+            beforeSend: function() {
+                $('#button_copy_submit').prop('disabled', true);
+                $('#copyTableModal').html('Loading possible questions to copy. Please wait ...<br>'
+                                          + "<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
+            },
+            error: function() {
+                $questionCopyStatusMessage.html("<p id='fs-copy-modal-error'>Error retrieving questions list."
+                                          + 'Please close the dialog window and try again.</p>');
+            },
+            success: function(data) {
+                $('#copyTableModal').replaceWith($(data).find('#copyTableModal'));
+                
+                var questionRows = $('#copyTableModal > tbody > tr');
+                if (!questionRows.length) {
+                
+                    $questionCopyStatusMessage.addClass('alert alert-danger');
+                    $questionCopyStatusMessage.text(FEEDBACK_QUESTION_COPY_INVALID);
+                } else {
+                    $questionCopyStatusMessage.html('');
+                }
+            }
+        });
     });
+}
 
-    $('#button_copy_submit').on('click', function(e) {
+function bindCopyButton() {
+
+    $('body').on('click', '#button_copy_submit', function(e) {
         e.preventDefault();
 
         var index = 0;
@@ -838,7 +862,7 @@ var numRowsSelected = 0;
 
 function bindCopyEvents() {
 
-    $('#copyTableModal >tbody>tr').on('click', function(e) {
+    $('body').on('click', '#copyTableModal >tbody>tr', function(e) {
         e.preventDefault();
         
         if ($(this).hasClass('row-selected')) {

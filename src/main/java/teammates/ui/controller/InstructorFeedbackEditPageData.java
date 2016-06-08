@@ -17,10 +17,8 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
 import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
-import teammates.ui.template.FeedbackQuestionTableRow;
 import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
@@ -32,7 +30,6 @@ public class InstructorFeedbackEditPageData extends PageData {
     private List<FeedbackQuestionEditForm> qnForms;
     private FeedbackQuestionEditForm newQnForm;
     private FeedbackSessionPreviewForm previewForm;
-    private FeedbackQuestionCopyTable copyQnForm;
     private String statusForAjax;
     private boolean hasError;
     
@@ -41,7 +38,6 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
     
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
-                     List<FeedbackQuestionAttributes> copiableQuestions,
                      Map<String, Boolean> questionHasResponses,
                      List<StudentAttributes> studentList, List<InstructorAttributes> instructorList,
                      InstructorAttributes instructor) {
@@ -61,7 +57,6 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         buildPreviewForm(feedbackSession, studentList, instructorList);
         
-        buildCopyQnForm(feedbackSession, copiableQuestions, instructor);
     }
     
     private void buildPreviewForm(FeedbackSessionAttributes feedbackSession,
@@ -89,33 +84,6 @@ public class InstructorFeedbackEditPageData extends PageData {
     private FeedbackSessionsAdditionalSettingsFormSegment
             buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
         return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
-    }
-
-    private void buildCopyQnForm(FeedbackSessionAttributes feedbackSession,
-                                    List<FeedbackQuestionAttributes> copiableQuestions,
-                                    InstructorAttributes instructor) {
-        List<FeedbackQuestionTableRow> copyQuestionRows = buildCopyQuestionsModalRows(copiableQuestions,
-                                                                                      instructor);
-        copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.getCourseId(), feedbackSession.getFeedbackSessionName(),
-                                                   copyQuestionRows);
-    }
-
-    private List<FeedbackQuestionTableRow> buildCopyQuestionsModalRows(List<FeedbackQuestionAttributes> copiableQuestions,
-                                                                       InstructorAttributes instructor) {
-        List<FeedbackQuestionTableRow> copyQuestionRows = new ArrayList<FeedbackQuestionTableRow>();
-        if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
-            for (FeedbackQuestionAttributes question : copiableQuestions) {
-                String courseId = question.courseId;
-                String fsName = question.feedbackSessionName;
-                String qnType = question.getQuestionDetails().getQuestionTypeDisplayName();
-                String qnText = question.getQuestionDetails().questionText;
-                String qnId = question.getId();
-                
-                FeedbackQuestionTableRow row = new FeedbackQuestionTableRow(courseId, fsName, qnType, qnText, qnId);
-                copyQuestionRows.add(row);
-            }
-        }
-        return copyQuestionRows;
     }
 
     private void buildExistingQuestionForm(String feedbackSessionName,
@@ -300,10 +268,6 @@ public class InstructorFeedbackEditPageData extends PageData {
         return previewForm;
     }
     
-    public FeedbackQuestionCopyTable getCopyQnForm() {
-        return copyQnForm;
-    }
-
     public String getStatusForAjax() {
         return statusForAjax;
     }

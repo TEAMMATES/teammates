@@ -2,7 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 
-<%@ attribute name="copyQnForm" type="teammates.ui.template.FeedbackQuestionCopyTable" required="true"%>
+<%@ attribute name="copyQnForm" type="teammates.ui.template.FeedbackQuestionCopyTable" %>
+<%@ attribute name="feedbackSessionName" %>
+<%@ attribute name="courseId" %>
 
 <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -16,7 +18,7 @@
             <div class="modal-body padding-0">
                 <form class="form" id="copyModalForm" role="form" method="post"
                     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY %>">
-                    <%-- Previous Questions --%>
+                    
                     <table class="table-responsive table table-hover table-bordered margin-0" id="copyTableModal">
                         <thead class="fill-primary">
                             <tr>
@@ -46,15 +48,16 @@
                             </tr>
                         </c:forEach>
                     </table>
-                    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${copyQnForm.fsName}">
+                    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${feedbackSessionName}">
                     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
-                    <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${copyQnForm.courseId}">
+                    <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${courseId}">
                 </form>
             </div>
             <div class="modal-footer margin-0">
                 <button type="button" class="btn btn-primary" id="button_copy_submit" disabled>Copy</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
+            <div id="question-copy-modal-status"></div>
         </div>
     </div>
 </div>
