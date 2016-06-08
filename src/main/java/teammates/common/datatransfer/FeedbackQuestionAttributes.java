@@ -6,7 +6,6 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackQuestion;
@@ -132,7 +131,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        error = validator.getInvalidityInfoForCourseId(courseId);
         if (!error.isEmpty()) {
             errors.add(error);
         }

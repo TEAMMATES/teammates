@@ -13,19 +13,6 @@ import com.google.appengine.api.datastore.Text;
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
  */
 public class FieldValidator {
-        
-    public enum FieldType {
-        COURSE_ID,
-        INTRUCTOR_ROLE,
-        START_TIME,
-        END_TIME,
-        SESSION_VISIBLE_TIME,
-        RESULTS_VISIBLE_TIME,
-        FEEDBACK_SESSION_TIME_FRAME,
-        EMAIL_SUBJECT,
-        EMAIL_CONTENT
-    }
-    
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Generic types ///////////////////////////////////////
     // ////////////////////////////////////////////////////////////////////////
@@ -322,10 +309,6 @@ public class FieldValidator {
             "\"%s\" is not acceptable to TEAMMATES as %s because it %s. "
             + "The value of %s should be no longer than %d characters.";
     
-    public static final String ALPHANUMERIC_STRING_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as %s because it is non-alphanumeric. "
-            + "Please only use alphabets, numbers and whitespace in %s.";
-    
     public static final String INVALID_NAME_ERROR_MESSAGE =
             "\"%s\" is not acceptable to TEAMMATES as %s because it %s. "
             + "All %s must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
@@ -342,54 +325,29 @@ public class FieldValidator {
             "The provided %s is not acceptable to TEAMMATES as it cannot be empty.";
     
     /**
-     * 
-     * @param fieldType
-     *            The field type. e.g., FieldType.E_MAIL
-     * @param value
-     *            The value of the field. e.g., "david@yahoo.com"
-     * @return A string explaining reasons why the value is not acceptable and
-     *         what are the acceptable values. Returns an empty string "" if the
-     *         value is acceptable
+     * Checks if {@code emailContent} is not null and not empty
+     * @param emailContent
+     * @return An explanation of why the {@code emailContent} is not acceptable.
+     *         Returns an empty string if the {@code emailContent} is acceptable.
      */
-    public String getInvalidityInfo(FieldType fieldType, Object value) {
-        return getInvalidityInfo(fieldType, "", value);
+    public String getInvalidityInfoForEmailContent(Text emailContent) {
+        Assumption.assertTrue("Non-null value expected", emailContent != null);
+        if (emailContent.getValue().isEmpty()) {
+            return EMAIL_CONTENT_ERROR_MESSAGE;
+        }
+        return "";
     }
-    
+
     /**
-     * Similar to {@link #getInvalidityInfo(FieldType, Object)} except this takes
-     * an extra parameter fieldName
-     * 
-     * @param fieldType
-     * @param fieldName
-     *            A descriptive name of the field. e.g. "Instructor's name".
-     *            This will be used to make the return value more descriptive.
-     * @param value
-     * @return
+     * Checks if {@code emailSubject} is a non-null non-empty string no longer than the specified length
+     * {@code EMAIL_SUBJECT_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @param emailSubject
+     * @return An explanation of why the {@code emailSubject} is not acceptable.
+     *         Returns an empty string if the {@code emailSubject} is acceptable.
      */
-    public String getInvalidityInfo(FieldType fieldType, String fieldName, Object value) {
-        //TODO: should be break this into individual methods? We already have some methods like that in this class.
-        String returnValue = "";
-        switch (fieldType) {
-        case COURSE_ID:
-            returnValue = getValidityInfoForCourseId((String) value);
-            break;
-        case INTRUCTOR_ROLE:
-            returnValue = getValidityInfoForInstructorRole((String) value);
-            break;
-        case EMAIL_SUBJECT:
-            returnValue = this.getValidityInfoForAllowedName(EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, (String) value);
-            break;
-        case EMAIL_CONTENT:
-            returnValue = this.getValidityInfoForEmailContent((Text) value);
-            break;
-        default:
-            throw new AssertionError("Unrecognized field type : " + fieldType);
-        }
-        
-        if (fieldName.isEmpty() || returnValue.isEmpty()) {
-            return returnValue;
-        }
-        return "Invalid " + fieldName + ": " + returnValue;
+    public String getInvalidityInfoForEmailSubject(String emailSubject) {
+        return getValidityInfoForAllowedName(
+                EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, emailSubject);
     }
 
     /**
@@ -442,6 +400,33 @@ public class FieldValidator {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
+        }
+        return "";
+    }
+
+    /**
+     * Checks if {@code courseId} is not null, not empty, has no surrounding whitespaces, not longer than
+     * {@code COURSE_ID_MAX_LENGTH}, is sanitized for HTML, and match the REGEX {@code REGEX_COURSE_ID}
+     * @param courseId
+     * @return An explanation of why the {@code courseId} is not acceptable.
+     *         Returns an empty string if the {@code courseId} is acceptable.
+     */
+    public String getInvalidityInfoForCourseId(String courseId) {
+
+        Assumption.assertTrue("Non-null value expected", courseId != null);
+
+        if (courseId.isEmpty()) {
+            return String.format(COURSE_ID_ERROR_MESSAGE, courseId, REASON_EMPTY);
+        }
+        if (isUntrimmed(courseId)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, COURSE_NAME_FIELD_NAME);
+        }
+        String sanitizedValue = Sanitizer.sanitizeForHtml(courseId);
+        if (courseId.length() > COURSE_ID_MAX_LENGTH) {
+            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
+        }
+        if (!StringHelper.isMatching(courseId, REGEX_COURSE_ID)) {
+            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
     }
@@ -676,67 +661,49 @@ public class FieldValidator {
         return "";
     }
     
-    public String getValidityInfoForTimeFrame(FieldType mainFieldType, FieldType earlierFieldType,
-            FieldType laterFieldType, Date earlierTime, Date laterTime) {
-        
-        Assumption.assertTrue("Non-null value expected", laterFieldType != null);
+    /**
+     * Checks if Session Start Time is before Session End Time
+     * @return Error string if {@code sessionStart} is before {@code sessionEnd}
+     *         Empty string if {@code sessionStart} is after {@code sessionEnd}
+     */
+    public String getInvalidityInfoForTimeForSessionStartAndEnd(Date sessionStart, Date sessionEnd) {
+        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(
+                sessionStart, sessionEnd, START_TIME_FIELD_NAME, END_TIME_FIELD_NAME);
+    }
+
+    /**
+     * Checks if Session Visibility Start Time is before Session Start Time
+     * @return Error string if {@code visibilityStart} is before {@code sessionStart}
+     *         Empty string if {@code visibilityStart} is after {@code sessionStart}
+     */
+    public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(Date visibilityStart,
+                                                                            Date sessionStart) {
+        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(
+                visibilityStart, sessionStart, SESSION_VISIBLE_TIME_FIELD_NAME, START_TIME_FIELD_NAME);
+    }
+
+    /**
+     * Checks if Visibility Start Time is before Results Publish Time
+     * @return Error string if {@code visibilityStart} is before {@code resultsPublish}
+     *         Empty string if {@code visibilityStart} is after {@code resultsPublish}
+     */
+    public String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(Date visibilityStart,
+                                                                              Date resultsPublish) {
+        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
+                SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
+    }
+
+    private String getInvalidtyInfoForFirstTimeIsBeforeSecondTime(Date earlierTime, Date laterTime,
+            String earlierTimeFieldName, String laterTimeFieldName) {
         Assumption.assertTrue("Non-null value expected", earlierTime != null);
         Assumption.assertTrue("Non-null value expected", laterTime != null);
-        
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
             return "";
         }
-
-        String mainFieldName;
-        
-        if (mainFieldType.equals(FieldType.FEEDBACK_SESSION_TIME_FRAME)) {
-            mainFieldName = FEEDBACK_SESSION_NAME;
-        } else {
-            throw new AssertionError("Unrecognized field type for time frame validity check : " + mainFieldType);
-        }
-        
-        String earlierFieldName;
-        
-        switch (earlierFieldType) {
-        case START_TIME:
-            earlierFieldName = START_TIME_FIELD_NAME;
-            break;
-        case END_TIME:
-            earlierFieldName = END_TIME_FIELD_NAME;
-            break;
-        case SESSION_VISIBLE_TIME:
-            earlierFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
-            break;
-        case RESULTS_VISIBLE_TIME:
-            earlierFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME;
-            break;
-        default:
-            throw new AssertionError("Unrecognized field type for time frame validity check : " + earlierFieldType);
-        }
-        
-        String laterFieldName;
-        
-        switch (laterFieldType) {
-        case START_TIME:
-            laterFieldName = START_TIME_FIELD_NAME;
-            break;
-        case END_TIME:
-            laterFieldName = END_TIME_FIELD_NAME;
-            break;
-        case SESSION_VISIBLE_TIME:
-            laterFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
-            break;
-        case RESULTS_VISIBLE_TIME:
-            laterFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME;
-            break;
-        default:
-            throw new AssertionError("Unrecognized field type for time frame validity check : " + laterFieldType);
-        }
-        
         if (laterTime.before(earlierTime)) {
-            return String.format(TIME_FRAME_ERROR_MESSAGE, laterFieldName, mainFieldName, earlierFieldName);
+            return String.format(TIME_FRAME_ERROR_MESSAGE, laterTimeFieldName,
+                                 FEEDBACK_SESSION_NAME, earlierTimeFieldName);
         }
-        
         return "";
     }
     
@@ -828,55 +795,6 @@ public class FieldValidator {
     
     public String getValidityInfoForNonNullField(String fieldName, Object value) {
         return (value == null) ? String.format(NON_NULL_FIELD_ERROR_MESSAGE, fieldName) : "";
-    }
-
-    private String getValidityInfoForCourseId(String value) {
-        
-        Assumption.assertTrue("Non-null value expected", value != null);
-        
-        if (value.isEmpty()) {
-            return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
-        }
-        if (isUntrimmed(value)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
-        }
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-        if (value.length() > COURSE_ID_MAX_LENGTH) {
-            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
-        }
-        if (!StringHelper.isMatching(value, REGEX_COURSE_ID)) {
-            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
-        }
-        return "";
-    }
-    
-    private String getValidityInfoForInstructorRole(String value) {
-        
-        Assumption.assertTrue("Non-null value expected", value != null);
-        
-        if (value.isEmpty()) {
-            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, REASON_EMPTY);
-        }
-        if (!(value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
-                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)
-                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER)
-                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR)
-                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM))) {
-            String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, sanitizedValue, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING);
-        }
-        
-        return "";
-    }
-    
-    private String getValidityInfoForEmailContent(Text value) {
-        Assumption.assertTrue("Non-null value expected", value != null);
-        
-        if (value.getValue().isEmpty()) {
-            return EMAIL_CONTENT_ERROR_MESSAGE;
-        }
-        
-        return "";
     }
 
     private boolean isUntrimmed(String value) {
