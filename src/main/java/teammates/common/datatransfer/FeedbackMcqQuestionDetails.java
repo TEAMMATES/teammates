@@ -58,11 +58,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         List<String> mcqChoices = new LinkedList<String>();
         boolean mcqOtherEnabled = false; // TODO change this when implementing "other, please specify" field
         
-        if ("on".equals(HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG))) {
+        if ("on".equals(HttpRequestHelper.getValueFromParamMap(
+                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG))) {
             mcqOtherEnabled = true;
         }
         
-        String generatedMcqOptions = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
+        String generatedMcqOptions =
+                HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
         
         if (generatedMcqOptions.equals(FeedbackParticipantType.NONE.toString())) {
             String numMcqChoicesCreatedString = HttpRequestHelper.getValueFromParamMap(
@@ -163,7 +165,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${text-disabled}", sessionIsOpen && isOtherSelected ? "" : "disabled",
                             "${checked}", isOtherSelected ? "checked" : "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}",
+                                    Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             "${mcqChoiceValue}", Sanitizer.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
                             "${mcqOtherOptionAnswer}", isOtherSelected ? "1" : "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
@@ -205,7 +208,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${text-disabled}", "disabled",
                             "${checked}", "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}",
+                                    Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             "${mcqChoiceValue}", "",
                             "${mcqOtherOptionAnswer}", "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
@@ -284,11 +288,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 FeedbackQuestionFormTemplates.MCQ_EDIT_FORM,
                 "${mcqEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfMcqChoices}", Integer.toString(numOfMcqChoices),
                 "${checkedOtherOptionEnabled}", otherEnabled ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}", Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG,
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}", Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 "${generateOptionsForValue}", generateOptionsFor.toString(),

@@ -69,7 +69,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         
         // Test fs form
         FeedbackSessionsForm fsForm = data.getFsForm();
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE).withUserId(instructor.googleId).toString(), fsForm.getCopyToLink());
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
+                .withUserId(instructor.googleId).toString(), fsForm.getCopyToLink());
         assertEquals(fs.getCourseId(), fsForm.getCourseId());
         assertNull(fsForm.getCourses());
         assertNull(fsForm.getCoursesSelectField());
@@ -146,22 +147,31 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertEquals("Rate 1 other student's product", questionForms.get(1).getQuestionText());
         assertTrue(questionForms.get(1).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
        
-        assertEquals(DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO, questionForms.get(1).getFeedbackPathSettings().getNumOfEntitiesToGiveFeedbackToValue());
-        assertEquals(NUM_RECIPIENT_OPTIONS, questionForms.get(1).getFeedbackPathSettings().getRecipientParticipantOptions().size());
-        assertEquals(NUM_GIVER_OPTIONS, questionForms.get(1).getFeedbackPathSettings().getGiverParticipantOptions().size());
+        assertEquals(DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO,
+                     questionForms.get(1).getFeedbackPathSettings().getNumOfEntitiesToGiveFeedbackToValue());
+        assertEquals(NUM_RECIPIENT_OPTIONS,
+                     questionForms.get(1).getFeedbackPathSettings().getRecipientParticipantOptions().size());
+        assertEquals(NUM_GIVER_OPTIONS,
+                     questionForms.get(1).getFeedbackPathSettings().getGiverParticipantOptions().size());
         
-        verifyMapContains(questionForms.get(1).getVisibilitySettings().getResponseVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.RECEIVER));
-        verifyMapContains(questionForms.get(1).getVisibilitySettings().getGiverNameVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
-        verifyMapContains(questionForms.get(1).getVisibilitySettings().getRecipientNameVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.RECEIVER));
+        verifyMapContains(questionForms.get(1).getVisibilitySettings().getResponseVisibleFor(),
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.RECEIVER));
+        verifyMapContains(questionForms.get(1).getVisibilitySettings().getGiverNameVisibleFor(),
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
+        verifyMapContains(questionForms.get(1).getVisibilitySettings().getRecipientNameVisibleFor(),
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.RECEIVER));
         
         assertEquals("My comments on the class", questionForms.get(2).getQuestionText());
         
         assertEquals("-3", questionForms.get(2).getQuestionNumberSuffix());
         
         assertFalse(questionForms.get(2).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
-        assertEquals(DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO, questionForms.get(2).getFeedbackPathSettings().getNumOfEntitiesToGiveFeedbackToValue());
-        assertEquals(NUM_RECIPIENT_OPTIONS, questionForms.get(2).getFeedbackPathSettings().getRecipientParticipantOptions().size());
-        assertEquals(NUM_GIVER_OPTIONS, questionForms.get(2).getFeedbackPathSettings().getGiverParticipantOptions().size());
+        assertEquals(DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO,
+                     questionForms.get(2).getFeedbackPathSettings().getNumOfEntitiesToGiveFeedbackToValue());
+        assertEquals(NUM_RECIPIENT_OPTIONS,
+                     questionForms.get(2).getFeedbackPathSettings().getRecipientParticipantOptions().size());
+        assertEquals(NUM_GIVER_OPTIONS,
+                     questionForms.get(2).getFeedbackPathSettings().getGiverParticipantOptions().size());
                 
         verifyMapContains(questionForms.get(2).getVisibilitySettings().getResponseVisibleFor(),
                           Arrays.asList(FeedbackParticipantType.INSTRUCTORS,

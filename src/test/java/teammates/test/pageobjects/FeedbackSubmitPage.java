@@ -52,7 +52,8 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void fillResponseTextBox(int qnNumber, int responseNumber, int responseSubNumber, String text) {
         WebElement element = browser.driver.findElement(
-                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
+                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
+                      + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
         element.click();
         fillTextBox(element, text);
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
@@ -84,7 +85,8 @@ public class FeedbackSubmitPage extends AppPage {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
         String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
-        WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
+        WebElement element = browser.driver.findElement(
+                By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         element.click();
     }
     
@@ -92,7 +94,8 @@ public class FeedbackSubmitPage extends AppPage {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
         String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
-        WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
+        WebElement element = browser.driver.findElement(
+                By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         element.click();
     }
     
@@ -103,30 +106,40 @@ public class FeedbackSubmitPage extends AppPage {
     }
     
     public void clickRubricRadio(int qnIndex, int respIndex, int row, int col) {
-        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
+        WebElement radio = browser.driver.findElement(
+                By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE
+                      + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         radio.click();
     }
     
     public void clickRubricCell(int qnIndex, int respIndex, int row, int col) {
-        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
+        WebElement radio = browser.driver.findElement(
+                By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE
+                      + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         // Gets the parent element.
         WebElement cell = radio.findElement(By.xpath(".."));
         cell.click();
     }
     
     public void clickRubricRadioMobile(int qnIndex, int respIndex, int row, int col) {
-        WebElement radio = browser.driver.findElement(By.id("mobile-" + Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
+        WebElement radio = browser.driver.findElement(
+                By.id("mobile-" + Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE
+                      + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         radio.click();
     }
 
     public boolean isRubricRadioMobileChecked(int qnIndex, int respIndex, int row, int col) {
-        WebElement radio = browser.driver.findElement(By.id("mobile-" + Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
+        WebElement radio = browser.driver.findElement(
+                By.id("mobile-" + Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE
+                      + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         String isChecked = radio.getAttribute("checked");
         return "true".equals(isChecked);
     }
 
     public boolean isRubricRadioChecked(int qnIndex, int respIndex, int row, int col) {
-        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
+        WebElement radio = browser.driver.findElement(
+                By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE
+                      + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         String isChecked = radio.getAttribute("checked");
         return "true".equals(isChecked);
     }
@@ -143,23 +156,6 @@ public class FeedbackSubmitPage extends AppPage {
 
     public WebElement getSubmitButton() {
         return browser.driver.findElement(By.id("response_submit_button"));
-    }
-    
-    public void linkOnHomeLink() {
-        studentHomeTab.click();
-        AppPage.getNewPageInstance(browser, StudentHomePage.class);
-    }
-
-    public void linkOnProfileLink() {
-        studentProfileTab.click();
-        AppPage.getNewPageInstance(browser, StudentProfilePage.class);
-        
-    }
-
-    public void linkOnCommentsLink() {
-        studentCommentsTab.click();
-        AppPage.getNewPageInstance(browser, StudentCommentsPage.class);
-        
     }
     
     public void waitForCellHoverToDisappear() {

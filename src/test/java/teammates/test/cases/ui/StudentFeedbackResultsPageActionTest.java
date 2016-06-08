@@ -184,7 +184,8 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         StudentFeedbackResultsPageData pageData = (StudentFeedbackResultsPageData) pageResult.data;
 
         // databundle time changed here because publishing sets resultsVisibleTime to now.
-        dataBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(TimeHelper.now(dataBundle.feedbackSessions.get("session1InCourse1").getTimeZone()).getTime());
+        dataBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(
+                TimeHelper.now(dataBundle.feedbackSessions.get("session1InCourse1").getTimeZone()).getTime());
 
         /*
          * The above test can fail if the time elapsed between pageData... and dataBundle...
@@ -198,7 +199,8 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         long toleranceTimeInMs = 1000;
         if (dataBundleResultsVisibleFromTime - pageDataResultsVisibleFromTime < toleranceTimeInMs) {
             // change to the value that will never make the test fail
-            dataBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(pageData.getBundle().feedbackSession.getResultsVisibleFromTime());
+            dataBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(
+                    pageData.getBundle().feedbackSession.getResultsVisibleFromTime());
         }
 
         List<FeedbackSessionAttributes> expectedInfoList = new ArrayList<FeedbackSessionAttributes>();

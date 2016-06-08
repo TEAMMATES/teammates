@@ -52,7 +52,8 @@ public class InstructorCourseDetailsPageAction extends Action {
         data.init(instructor, courseDetails, instructors, students);
         
         if (students.isEmpty()) {
-            String message = String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY, data.getInstructorCourseEnrollLink(courseId));
+            String message = String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY,
+                                           data.getInstructorCourseEnrollLink(courseId));
             statusToUser.add(new StatusMessage(message, StatusMessageColor.WARNING));
         }
         

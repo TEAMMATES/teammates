@@ -31,7 +31,8 @@ public class StudentHomePageData extends PageData {
         return courseTables;
     }
     
-    private void setCourseTables(List<CourseDetailsBundle> courses, Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
+    private void setCourseTables(List<CourseDetailsBundle> courses,
+                                 Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
         courseTables = new ArrayList<CourseTable>();
         int startingSessionIdx = 0; // incremented for each session row without resetting between courses
         for (CourseDetailsBundle courseDetails : courses) {

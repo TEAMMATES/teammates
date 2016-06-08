@@ -210,9 +210,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT,
                 "${contribAdditionalInfo}", contribAdditionalInfo,
                 "${myViewOfMe}", getPointsAsColorizedHtml(selfClaim),
-                "${myViewOfOthers}", getNormalizedPointsListColorizedDescending(currentUserTeamResults.claimed[currentUserIndex], currentUserIndex),
+                "${myViewOfOthers}", getNormalizedPointsListColorizedDescending(
+                                             currentUserTeamResults.claimed[currentUserIndex], currentUserIndex),
                 "${teamViewOfMe}", getPointsAsColorizedHtml(teamClaim),
-                "${teamViewOfOthers}", getNormalizedPointsListColorizedDescending(currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex], currentUserIndex));
+                "${teamViewOfOthers}", getNormalizedPointsListColorizedDescending(
+                                               currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex],
+                                               currentUserIndex));
     }
     
     private String getQuestionResultsStatisticsHtmlQuestionView(List<FeedbackResponseAttributes> responses,
@@ -384,16 +387,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
                      
             String contribFragmentString = Sanitizer.sanitizeForCsv(displayTeam) + ","
-                             + Sanitizer.sanitizeForCsv(displayName) + ","
-                             + Sanitizer.sanitizeForCsv(displayEmail) + ","
-                             + Sanitizer.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
-                             + Sanitizer.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
-                             + Sanitizer.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx)) + Const.EOL;
+                    + Sanitizer.sanitizeForCsv(displayName) + ","
+                    + Sanitizer.sanitizeForCsv(displayEmail) + ","
+                    + Sanitizer.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
+                    + Sanitizer.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
+                    + Sanitizer.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx)) + Const.EOL;
         
             // Replace all Unset values
             contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.INT_UNINITIALIZED), "N/A");
             contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.POINTS_NOT_SURE), "Not Sure");
-            contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.POINTS_NOT_SUBMITTED), "Not Submitted");
+            contribFragmentString =
+                    contribFragmentString.replaceAll(Integer.toString(Const.POINTS_NOT_SUBMITTED), "Not Submitted");
             
             //For sorting purposes
             sortedMap.put(displayTeam + "-%-" + displayName, contribFragmentString);
@@ -733,14 +737,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         // giver type can only be STUDENTS
         if (feedbackQuestionAttributes.giverType != FeedbackParticipantType.STUDENTS) {
-            log.severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
+            log.severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType
+                       + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
             feedbackQuestionAttributes.giverType = FeedbackParticipantType.STUDENTS;
             errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
         
         // recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF
         if (feedbackQuestionAttributes.recipientType != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
-            log.severe("Unexpected recipientType for contribution question: " + feedbackQuestionAttributes.recipientType + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
+            log.severe("Unexpected recipientType for contribution question: "
+                       + feedbackQuestionAttributes.recipientType
+                       + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
             feedbackQuestionAttributes.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
             errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
@@ -766,19 +773,23 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String targetEmail, FeedbackSessionResultsBundle bundle) {
         
         if (hasPerceivedContribution(targetEmail, question, bundle)) {
-            Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
+            Map<String, StudentResultSummary> stats =
+                    FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
             StudentResultSummary studentResult = stats.get(targetEmail);
             int pc = studentResult.perceivedToInstructor;
             
-            String perceivedContributionHtml = FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
+            String perceivedContributionHtml =
+                    FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
             
             return perceivedContributionHtml;
         }
         return "";
     }
     
-    private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
-        Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
+    private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question,
+                                             FeedbackSessionResultsBundle bundle) {
+        Map<String, StudentResultSummary> stats =
+                FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
         return stats.containsKey(email);
     }
     
@@ -788,7 +799,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * Otherwise, returns "No Response".
      */
     @Override
-    public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
+    public String getNoResponseTextInHtml(String giverEmail, String recipientEmail,
+                                          FeedbackSessionResultsBundle bundle,
+                                          FeedbackQuestionAttributes question) {
         boolean isPerceivedContributionShown = giverEmail.equals(recipientEmail)
                                                && hasPerceivedContribution(recipientEmail, question, bundle);
         

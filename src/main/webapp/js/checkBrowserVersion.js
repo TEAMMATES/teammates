@@ -1,6 +1,6 @@
 // Browser Compatibility and support
-var MICROSOFT_INTERNET_EXPLORER = 'Microsoft Internet Explorer';
-var MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION = 9;
+var MSIE = 'Microsoft Internet Explorer';
+var MSIE_LOWEST_VERSION = 9;
 var CHROME = 'Chrome';
 var CHROME_LOWEST_VERSION = 15;
 var FIREFOX = 'Firefox';
@@ -25,10 +25,10 @@ function checkBrowserVersion() {
     /* eslint-disable no-negated-condition */ // usage of .contains() equivalent requires !==
     // In MSIE, the true version is after "MSIE" in userAgent
     if ((verOffset = nAgt.indexOf('MSIE')) !== -1) {
-        browserName = MICROSOFT_INTERNET_EXPLORER;
+        browserName = MSIE;
         fullVersion = nAgt.substring(verOffset + 5);
         majorVersion = parseInt(fullVersion, 10);
-        if (majorVersion < MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION) {
+        if (majorVersion < MSIE_LOWEST_VERSION) {
             supported = false;
         }
     } else if ((verOffset = nAgt.indexOf('Chrome')) !== -1) {
@@ -69,12 +69,21 @@ function checkBrowserVersion() {
     if (!supported) {
         var message = document.getElementById('browserMessage');
         message.style.display = 'block';
-        message.innerHTML = 'You are currently using ' + browserName + ' v.' + majorVersion + '. This web browser is not officially supported by TEAMMATES. '
-                          + 'In case this web browser does not display the webpage correctly, you may wish to view it in the following supported browsers: <br>'
-                          + '<table><tr><td width="50%"> - ' + MICROSOFT_INTERNET_EXPLORER + ' ' + MICROSOFT_INTERNET_EXPLORER_LOWEST_VERSION + '+</td>'
-                          + '<td> - ' + CHROME + ' ' + CHROME_LOWEST_VERSION + '+</td></tr>'
-                          + '<tr><td> - ' + FIREFOX + ' ' + FIREFOX_LOWEST_VERSION + '+</td> '
-                          + '<td> - ' + SAFARI + ' ' + SAFARI_LOWEST_VERSION + '+</td></tr></table>';
+        message.innerHTML =
+            'You are currently using ' + browserName + ' v.' + majorVersion + '. '
+            + 'This web browser is not officially supported by TEAMMATES. '
+            + 'In case this web browser does not display the webpage correctly, '
+            + 'you may wish to view it in the following supported browsers: <br>'
+            + '<table>'
+                + '<tr>'
+                    + '<td width="50%"> - ' + MSIE + ' ' + MSIE_LOWEST_VERSION + '+</td>'
+                    + '<td> - ' + CHROME + ' ' + CHROME_LOWEST_VERSION + '+</td>'
+                + '</tr>'
+                + '<tr>'
+                    + '<td> - ' + FIREFOX + ' ' + FIREFOX_LOWEST_VERSION + '+</td>'
+                    + '<td> - ' + SAFARI + ' ' + SAFARI_LOWEST_VERSION + '+</td>'
+                + '</tr>'
+            + '</table>';
     }
     
 }

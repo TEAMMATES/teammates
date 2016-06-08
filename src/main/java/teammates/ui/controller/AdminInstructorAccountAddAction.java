@@ -47,7 +47,8 @@ public class AdminInstructorAccountAddAction extends Action {
         data.instructorAddingResultForAjax = true;
         data.statusForAjax = "";
         
-        // If there is input from the instructorDetailsSingleLine form, that data will be prioritized over the data from the 3-parameter form
+        // If there is input from the instructorDetailsSingleLine form,
+        // that data will be prioritized over the data from the 3-parameter form
         if (data.instructorDetailsSingleLine == null) {
             data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
             Assumption.assertNotNull(data.instructorShortName);
@@ -79,7 +80,8 @@ public class AdminInstructorAccountAddAction extends Action {
         data.instructorInstitution = data.instructorInstitution.trim();
         
         try {
-            logic.verifyInputForAdminHomePage(data.instructorShortName, data.instructorName, data.instructorInstitution, data.instructorEmail);
+            logic.verifyInputForAdminHomePage(data.instructorShortName, data.instructorName,
+                                              data.instructorInstitution, data.instructorEmail);
         } catch (InvalidParametersException e) {
             data.statusForAjax = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
             data.instructorAddingResultForAjax = false;
@@ -93,7 +95,8 @@ public class AdminInstructorAccountAddAction extends Action {
             courseId = importDemoData(data);
         } catch (Exception e) {
             
-            String retryUrl = Url.addParamToUrl(Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD, Const.ParamsNames.INSTRUCTOR_SHORT_NAME, data.instructorShortName);
+            String retryUrl = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
+            retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_SHORT_NAME, data.instructorShortName);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_NAME, data.instructorName);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
@@ -118,8 +121,10 @@ public class AdminInstructorAccountAddAction extends Action {
         
         BackDoorLogic backDoor = new BackDoorLogic();
         List<InstructorAttributes> instructorList = backDoor.getInstructorsForCourse(courseId);
-        String joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName, data.instructorInstitution);
-        data.statusForAjax = "Instructor " + data.instructorName + " has been successfully created with join link:<br>" + joinLink;
+        String joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName,
+                                                            data.instructorInstitution);
+        data.statusForAjax = "Instructor " + data.instructorName
+                             + " has been successfully created with join link:<br>" + joinLink;
         statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.SUCCESS));
         statusToAdmin = "A New Instructor <span class=\"bold\">"
                 + data.instructorName + "</span> has been created.<br>"
@@ -197,7 +202,8 @@ public class AdminInstructorAccountAddAction extends Action {
         
         //produce searchable documents
         List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, pageData.instructorEmail);
-        List<FeedbackResponseCommentAttributes> frComments = backdoor.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);
+        List<FeedbackResponseCommentAttributes> frComments =
+                backdoor.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);
         List<StudentAttributes> students = backdoor.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = backdoor.getInstructorsForCourse(courseId);
         

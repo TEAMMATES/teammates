@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
@@ -26,7 +26,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("IEIFPTCourseinstr");
         InstructorAttributes moderatedInstructor = dataBundle.instructors.get("IEIFPTCoursehelper1");
         InstructorEditInstructorFeedbackPageAction editInstructorFpAction;
@@ -53,11 +53,12 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
                      showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
-        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage"
-                + "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||"
-                + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>"
-                + "Session Name: First feedback session<br>Course ID: IEIFPTCourse|||"
-                + "/page/instructorEditInstructorFeedbackPage",
+        AssertHelper.assertLogMessageEquals(
+                "TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage"
+                    + "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||"
+                    + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>"
+                    + "Session Name: First feedback session<br>Course ID: IEIFPTCourse|||"
+                    + "/page/instructorEditInstructorFeedbackPage",
                 editInstructorFpAction.getLogMessage());
         
         ______TS("success: another feedback");
@@ -74,12 +75,13 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
                      showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
-        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage"
-                + "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||"
-                + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>"
-                + "Session Name: Another feedback session<br>Course ID: IEIFPTCourse|||"
-                + "/page/instructorEditInstructorFeedbackPage",
-                editInstructorFpAction.getLogMessage());
+        String logMessage = "TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||"
+                            + "instructorEditInstructorFeedbackPage|||true|||Instructor|||IEIFPTCourseinstr|||"
+                            + "IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||"
+                            + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>"
+                            + "Session Name: Another feedback session<br>Course ID: IEIFPTCourse|||"
+                            + "/page/instructorEditInstructorFeedbackPage";
+        AssertHelper.assertLogMessageEquals(logMessage, editInstructorFpAction.getLogMessage());
         
         ______TS("failure: does not have privilege (helper can't moderate instructor)");
         gaeSimulation.loginAsInstructor(moderatedInstructor.googleId);
@@ -113,9 +115,9 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
             editInstructorFpAction = getAction(submissionParams);
             editInstructorFpAction.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
+        } catch (EntityNotFoundException enfe) {
             assertEquals("Instructor Email " + moderatedInstructorEmail
-                         + " does not exist in " + courseId + ".", edne.getMessage());
+                         + " does not exist in " + courseId + ".", enfe.getMessage());
         }
     }
 

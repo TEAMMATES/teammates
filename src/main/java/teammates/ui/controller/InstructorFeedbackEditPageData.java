@@ -76,15 +76,18 @@ public class InstructorFeedbackEditPageData extends PageData {
         buildBasicFsForm(feedbackSession, buildFsFormAdditionalSettings(feedbackSession));
     }
     
-    private void buildBasicFsForm(FeedbackSessionAttributes fsa, FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
-        String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.getCourseId(), fsa.getFeedbackSessionName(), Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+    private void buildBasicFsForm(FeedbackSessionAttributes fsa,
+                                  FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
+        String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.getCourseId(), fsa.getFeedbackSessionName(),
+                                                              Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         String copyToLink = getInstructorFeedbackEditCopyLink();
         
         fsForm = FeedbackSessionsForm.getFsFormForExistingFs(fsa, additionalSettings,
                                                              fsDeleteLink, copyToLink);
     }
     
-    private FeedbackSessionsAdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
+    private FeedbackSessionsAdditionalSettingsFormSegment
+            buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
         return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
     }
 
@@ -139,7 +142,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         feedbackPathSettings.setGiverParticipantOptions(getParticipantOptions(question, true));
         feedbackPathSettings.setRecipientParticipantOptions(getParticipantOptions(question, false));
         
-        boolean isNumberOfEntitiesToGiveFeedbackToChecked = question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
+        boolean isNumberOfEntitiesToGiveFeedbackToChecked =
+                question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
         feedbackPathSettings.setNumberOfEntitiesToGiveFeedbackToChecked(isNumberOfEntitiesToGiveFeedbackToChecked);
         feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(isNumberOfEntitiesToGiveFeedbackToChecked
                                                                    ? question.numberOfEntitiesToGiveFeedbackTo
