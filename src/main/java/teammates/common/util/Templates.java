@@ -102,11 +102,9 @@ public final class Templates {
             public static final String NUMSCALE_RESULTS_STATS_FRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionNumScaleResultsStatsFragment.html");
             public static final String NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE =
-                    FileHelper
-                            .readResourceFile("feedbackQuestionNumScaleResultStatsTemplateWithSelfResponse.html");
+                    FileHelper.readResourceFile("feedbackQuestionNumScaleResultStatsTemplateWithSelfResponse.html");
             public static final String NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE =
-                    FileHelper
-                            .readResourceFile("feedbackQuestionNumScaleResultsStatsFragmentWithSelfResponse.html");
+                    FileHelper.readResourceFile("feedbackQuestionNumScaleResultsStatsFragmentWithSelfResponse.html");
 
             public static final String CONSTSUM_SUBMISSION_FORM =
                     FileHelper.readResourceFile("feedbackQuestionConstSumSubmissionFormTemplate.html");
@@ -138,14 +136,12 @@ public final class Templates {
             public static final String CONTRIB_RESULT_STATS_STUDENT =
                     FileHelper.readResourceFile("feedbackQuestionContribResultStatsStudentViewTemplate.html");
             public static final String CONTRIB_RESULT_STATS_STUDENT_INFO =
-                    FileHelper
-                            .readResourceFile("feedbackQuestionContribResultStatsStudentViewAdditionalInfo.html");
+                    FileHelper.readResourceFile("feedbackQuestionContribResultStatsStudentViewAdditionalInfo.html");
 
             public static final String RUBRIC_SUBMISSION_FORM =
                     FileHelper.readResourceFile("feedbackQuestionRubricSubmissionFormTemplate.html");
             public static final String RUBRIC_SUBMISSION_FORM_MOBILE_PANEL_FRAGMENT =
-                    FileHelper
-                            .readResourceFile("feedbackQuestionRubricSubmissionFormMobilePanelFragment.html");
+                    FileHelper.readResourceFile("feedbackQuestionRubricSubmissionFormMobilePanelFragment.html");
             public static final String RUBRIC_SUBMISSION_FORM_MOBILE_PANEL =
                     FileHelper.readResourceFile("feedbackQuestionRubricSubmissionFormMobilePanel.html");
             public static final String RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT =
