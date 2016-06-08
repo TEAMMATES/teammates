@@ -9,8 +9,13 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.FeedbackMcqResponseDetails;
+import teammates.common.datatransfer.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
@@ -701,6 +706,59 @@ public class FeedbackResponsesLogic {
                 Assumption
                         .fail("Feedback response failed to update successfully"
                             + "as email was already in use.");
+            }
+        }
+    }
+    
+    public void updateFeedbackResponsesWithGeneratedOptions(
+            String courseId, String originalOption, String newOption, FeedbackParticipantType participantType) 
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        List<FeedbackQuestionAttributes> mcqQuestionsOfResponsesToUpdate =
+                fqLogic.getMcqQuestionsWithGeneratedOptions(courseId);
+        List<FeedbackQuestionAttributes> msqQuestionsOfResponsesToUpdate =
+                fqLogic.getMsqQuestionsWithGeneratedOptions(courseId);
+        
+        for (FeedbackQuestionAttributes mcqQuestion : mcqQuestionsOfResponsesToUpdate) {
+            if (((FeedbackMcqQuestionDetails) mcqQuestion.getQuestionDetails()).getGenerateOptionsFor() == participantType) {
+                List<FeedbackResponseAttributes> responses = 
+                        getFeedbackResponsesForQuestion(mcqQuestion.getId());
+                
+                for (FeedbackResponseAttributes response : responses) {
+                    FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getResponseDetails();
+                    
+                    if (!responseDetails.isOtherOptionAnswer() && responseDetails.getAnswerString().equals(originalOption)) {
+                        String[] newAnswer = { newOption };
+                        
+                        responseDetails.extractResponseDetails(
+                                FeedbackQuestionType.MCQ, mcqQuestion.getQuestionDetails(), newAnswer);
+                        response.setResponseDetails(responseDetails);
+                        
+                        updateFeedbackResponse(response);
+                    }
+                }
+            }
+        }
+        
+        for (FeedbackQuestionAttributes msqQuestion : msqQuestionsOfResponsesToUpdate) {
+            if (((FeedbackMsqQuestionDetails) msqQuestion.getQuestionDetails()).getGenerateOptionsFor() == participantType) {
+                List<FeedbackResponseAttributes> responses = 
+                        getFeedbackResponsesForQuestion(msqQuestion.getId());
+                
+                for (FeedbackResponseAttributes response : responses) {
+                    FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getResponseDetails();
+                    List<String> answers = responseDetails.getAnswerStrings();
+                    
+                    if (!responseDetails.isOtherOptionAnswer() && answers.contains(originalOption)) {
+                        answers.set(answers.indexOf(originalOption), newOption);
+                        String[] newAnswer = answers.toArray(new String[answers.size()]);
+                        
+                        responseDetails.extractResponseDetails(
+                                FeedbackQuestionType.MSQ, msqQuestion.getQuestionDetails(), newAnswer);
+                        response.setResponseDetails(responseDetails);
+                        
+                        updateFeedbackResponse(response);
+                    }
+                }
             }
         }
     }

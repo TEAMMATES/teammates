@@ -607,4 +607,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
+
+    public FeedbackParticipantType getGenerateOptionsFor() {
+        return generateOptionsFor;
+    }
 }

@@ -298,6 +298,7 @@ public class StudentsLogic {
         }
         
         frLogic.updateFeedbackResponsesForChangingWholeTeam(courseId, originalTeamName, newTeamName);        
+        frLogic.updateFeedbackResponsesWithGeneratedOptions(courseId, originalTeamName, newTeamName, FeedbackParticipantType.TEAMS);
     }
     
     public void resetStudentGoogleId(String originalEmail, String courseId, boolean hasDocument)
