@@ -193,6 +193,47 @@ public class FeedbackResponsesLogic {
             String courseId, String userEmail) {
         return frDb.getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
     }
+    
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromTeamForCourse(
+            String courseId, String teamName) {
+        List<FeedbackQuestionAttributes> questions =
+                fqLogic.getFeedbackQuestionsForGiverType(courseId, FeedbackParticipantType.TEAMS);
+        List<FeedbackResponseAttributes> responsesFromTeam = 
+                new ArrayList<FeedbackResponseAttributes>();
+        
+        for (FeedbackQuestionAttributes question : questions) {
+            List<FeedbackResponseAttributes> responsesForQuestion =
+                    getFeedbackResponsesForQuestion(question.getId());
+            
+            for (FeedbackResponseAttributes response : responsesForQuestion) {
+                if (response.giverEmail.equals(teamName)) {
+                    responsesFromTeam.add(response);
+                }
+            }
+        }
+        return responsesFromTeam;
+    }
+    
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForTeamForCourse(
+            String courseId, String teamName) {
+        List<FeedbackQuestionAttributes> questions =
+                fqLogic.getFeedbackQuestionsForRecipientType(courseId, FeedbackParticipantType.TEAMS);
+        questions.addAll(fqLogic.getFeedbackQuestionsForRecipientType(courseId, FeedbackParticipantType.OWN_TEAM));
+        List<FeedbackResponseAttributes> responsesForTeam = 
+                new ArrayList<FeedbackResponseAttributes>();
+        
+        for (FeedbackQuestionAttributes question : questions) {
+            List<FeedbackResponseAttributes> responsesForQuestion =
+                    getFeedbackResponsesForQuestion(question.getId());
+            
+            for (FeedbackResponseAttributes response : responsesForQuestion) {
+                if (response.recipientEmail.equals(teamName)) {
+                    responsesForTeam.add(response);
+                }
+            }
+        }
+        return responsesForTeam;
+    }
 
     /**
      * Get existing feedback responses from student or his team for the given
@@ -593,6 +634,37 @@ public class FeedbackResponsesLogic {
         
         if (isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment) {
             frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
+        }
+    }
+    
+    public void updateFeedbackResponsesForChangingWholeTeam(
+            String courseId, String oldTeam, String newTeam) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        List<FeedbackResponseAttributes> responsesFromTeam =
+                getFeedbackResponsesFromTeamForCourse(courseId, oldTeam);
+
+        for (FeedbackResponseAttributes response : responsesFromTeam) {
+            response.giverEmail = newTeam;
+            try {
+                updateFeedbackResponse(response);
+            } catch (EntityAlreadyExistsException e) {
+                Assumption.fail("Feedback response failed to update successfully"
+                                + "as email was already in use.");
+            }
+        }
+
+        List<FeedbackResponseAttributes> responsesToTeam =
+                getFeedbackResponsesForTeamForCourse(courseId, oldTeam);
+
+        for (FeedbackResponseAttributes response : responsesToTeam) {
+            response.recipientEmail = newTeam;
+            try {
+                updateFeedbackResponse(response);
+            } catch (EntityAlreadyExistsException e) {
+                Assumption.fail("Feedback response failed to update successfully"
+                                + "as email was already in use.");
+            }
         }
     }
 

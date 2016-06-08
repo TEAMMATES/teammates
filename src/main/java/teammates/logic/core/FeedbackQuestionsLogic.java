@@ -229,7 +229,7 @@ public class FeedbackQuestionsLogic {
         boolean isInstructor = instructor != null;
         
         if (isInstructor) {
-            questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
+            questions.addAll(fqDb.getFeedbackQuestionsInSessionForGiverType(
                             feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));
         }
         Collections.sort(questions);
@@ -262,11 +262,11 @@ public class FeedbackQuestionsLogic {
         String feedbackSessionName = fsa.getFeedbackSessionName();
         String courseId = fsa.getCourseId();
         
-        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
+        questions.addAll(fqDb.getFeedbackQuestionsInSessionForGiverType(
                                        feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));
         
         // Return all self (creator) questions
-        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
+        questions.addAll(fqDb.getFeedbackQuestionsInSessionForGiverType(feedbackSessionName,
                 courseId, FeedbackParticipantType.SELF));
         
         Collections.sort(questions);
@@ -306,10 +306,10 @@ public class FeedbackQuestionsLogic {
                 new ArrayList<FeedbackQuestionAttributes>();
         
         questions.addAll(
-                fqDb.getFeedbackQuestionsForGiverType(
+                fqDb.getFeedbackQuestionsInSessionForGiverType(
                         feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS));
         questions.addAll(
-                fqDb.getFeedbackQuestionsForGiverType(
+                fqDb.getFeedbackQuestionsInSessionForGiverType(
                         feedbackSessionName, courseId, FeedbackParticipantType.TEAMS));
         
         Collections.sort(questions);
@@ -337,6 +337,15 @@ public class FeedbackQuestionsLogic {
         return questions;
     }
     
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForGiverType(
+            String courseId, FeedbackParticipantType giverType) {
+        return fqDb.getFeedbackQuestionsForGiverType(courseId, giverType);
+    }
+    
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForRecipientType(
+            String courseId, FeedbackParticipantType recipientType) {
+        return fqDb.getFeedbackQuestionsForRecipientType(courseId, recipientType);
+    }
     public Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
             throws EntityDoesNotExistException {
         

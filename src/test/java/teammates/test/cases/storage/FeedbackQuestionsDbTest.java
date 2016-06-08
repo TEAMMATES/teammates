@@ -233,40 +233,40 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         ______TS("standard success case");
 
         List<FeedbackQuestionAttributes> questions =
-                fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
+                fqDb.getFeedbackQuestionsInSessionForGiverType(fqa.feedbackSessionName, fqa.courseId,
                                                       FeedbackParticipantType.INSTRUCTORS);
         assertEquals(questions.size(), numOfQuestions[0]);
 
-        questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
+        questions = fqDb.getFeedbackQuestionsInSessionForGiverType(fqa.feedbackSessionName,
                                                           fqa.courseId, FeedbackParticipantType.STUDENTS);
         assertEquals(questions.size(), numOfQuestions[1]);
 
-        questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
+        questions = fqDb.getFeedbackQuestionsInSessionForGiverType(fqa.feedbackSessionName,
                                                           fqa.courseId, FeedbackParticipantType.SELF);
         assertEquals(questions.size(), numOfQuestions[2]);
 
-        questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
+        questions = fqDb.getFeedbackQuestionsInSessionForGiverType(fqa.feedbackSessionName,
                                                           fqa.courseId, FeedbackParticipantType.TEAMS);
         assertEquals(questions.size(), numOfQuestions[3]);
 
         ______TS("null params");
 
         try {
-            fqDb.getFeedbackQuestionsForGiverType(null, fqa.courseId, FeedbackParticipantType.STUDENTS);
+            fqDb.getFeedbackQuestionsInSessionForGiverType(null, fqa.courseId, FeedbackParticipantType.STUDENTS);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
 
         try {
-            fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, null, FeedbackParticipantType.STUDENTS);
+            fqDb.getFeedbackQuestionsInSessionForGiverType(fqa.feedbackSessionName, null, FeedbackParticipantType.STUDENTS);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
 
         try {
-            fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId, null);
+            fqDb.getFeedbackQuestionsInSessionForGiverType(fqa.feedbackSessionName, fqa.courseId, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -274,12 +274,12 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("non-existant session");
 
-        assertTrue(fqDb.getFeedbackQuestionsForGiverType("non-existant session", fqa.courseId,
+        assertTrue(fqDb.getFeedbackQuestionsInSessionForGiverType("non-existant session", fqa.courseId,
                                                          FeedbackParticipantType.STUDENTS).isEmpty());
 
         ______TS("no questions in session");
 
-        assertTrue(fqDb.getFeedbackQuestionsForGiverType("Empty session", fqa.courseId,
+        assertTrue(fqDb.getFeedbackQuestionsInSessionForGiverType("Empty session", fqa.courseId,
                                                          FeedbackParticipantType.STUDENTS).isEmpty());
 
         deleteFeedbackQuestions(numOfQuestions[0] + numOfQuestions[1] + numOfQuestions[2] + numOfQuestions[3]);

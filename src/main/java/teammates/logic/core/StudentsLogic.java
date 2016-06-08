@@ -296,6 +296,8 @@ public class StudentsLogic {
         for (StudentAttributes studentInTeam : studentsInTeam) {
             updateStudentCascadeWithSubmissionAdjustmentScheduled(studentInTeam.getEmail(), studentInTeam, true);
         }
+        
+        frLogic.updateFeedbackResponsesForChangingWholeTeam(courseId, originalTeamName, newTeamName);        
     }
     
     public void resetStudentGoogleId(String originalEmail, String courseId, boolean hasDocument)
