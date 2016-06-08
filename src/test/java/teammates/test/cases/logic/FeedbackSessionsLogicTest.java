@@ -108,7 +108,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 finalFsa.add(fsa);
             }
         }
-        AssertHelper.assertSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId, false));
+        AssertHelper.assertSameContentIgnoreOrder(
+                finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId, false));
         
     }
     
@@ -330,7 +331,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals("Copied Session", copiedSession.getFeedbackSessionName());
         assertEquals(typicalCourse2.getId(), copiedSession.getCourseId());
         List<FeedbackQuestionAttributes> questions1 =
-                fqLogic.getFeedbackQuestionsForSession(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
+                fqLogic.getFeedbackQuestionsForSession(session1InCourse1.getFeedbackSessionName(),
+                                                       session1InCourse1.getCourseId());
         List<FeedbackQuestionAttributes> questions2 =
                 fqLogic.getFeedbackQuestionsForSession(copiedSession.getFeedbackSessionName(), copiedSession.getCourseId());
         
@@ -820,8 +822,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "Team 1.2=",
                 "Team 1.4=",
                 "FSRTest.instr1@course1.tmt=Instructors",
-                "Anonymous student 670710946@@Anonymous student 670710946.com=Anonymous student 670710946" + Const.TEAM_OF_EMAIL_OWNER,
-                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508" + Const.TEAM_OF_EMAIL_OWNER);
+                "Anonymous student 670710946@@Anonymous student 670710946.com=Anonymous student 670710946"
+                        + Const.TEAM_OF_EMAIL_OWNER,
+                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508"
+                        + Const.TEAM_OF_EMAIL_OWNER);
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(13, results.emailTeamNameTable.size());
         
@@ -1903,7 +1907,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         fs = dataBundle.feedbackSessions.get("empty.session");
         
-        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs.getFeedbackSessionName(), fs.getCourseId(), instructor.email));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(
+                fs.getFeedbackSessionName(), fs.getCourseId(), instructor.email));
         
     }
     

@@ -213,13 +213,15 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         String longCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         
         assertEquals(maxLengthCourseId, coursesPage.fillCourseIdTextBox(maxLengthCourseId));
-        assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH), coursesPage.fillCourseIdTextBox(longCourseId));
+        assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH),
+                     coursesPage.fillCourseIdTextBox(longCourseId));
         
         String maxLengthCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
         String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
         
         assertEquals(maxLengthCourseName, coursesPage.fillCourseNameTextBox(maxLengthCourseName));
-        assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH), coursesPage.fillCourseNameTextBox(longCourseName));
+        assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH),
+                     coursesPage.fillCourseNameTextBox(longCourseName));
         
     }
 

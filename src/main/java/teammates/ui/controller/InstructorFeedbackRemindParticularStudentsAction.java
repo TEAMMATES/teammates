@@ -24,7 +24,8 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         
         String[] usersToRemind = getRequestParamValues("usersToRemind");
         if (usersToRemind == null || usersToRemind.length == 0) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT, StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT,
+                                               StatusMessageColor.DANGER));
             return createRedirectResult(nextUrl);
         }
         

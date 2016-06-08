@@ -190,7 +190,8 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             //Convert email to anonEmail and add stats.
             Map<String, StudentResultSummary> anonContribQnStats = new HashMap<String, StudentResultSummary>();
             for (Map.Entry<String, StudentResultSummary> entry : contribQnStats.entrySet()) {
-                anonContribQnStats.put(feedbackSessionResultsBundle.getAnonEmailFromStudentEmail(entry.getKey()), entry.getValue());
+                anonContribQnStats.put(
+                        feedbackSessionResultsBundle.getAnonEmailFromStudentEmail(entry.getKey()), entry.getValue());
             }
             for (Map.Entry<String, StudentResultSummary> entry : anonContribQnStats.entrySet()) {
                 if (contribQnStats.get(entry.getKey()) == null) {
@@ -206,7 +207,8 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     
     public Map<String, TeamEvalResult> getContribQnTeamEvalResult(FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        Map<String, TeamEvalResult> contribQnStats = feedbackSessionResultsBundle.contributionQuestionTeamEvalResults.get(question.getId());
+        Map<String, TeamEvalResult> contribQnStats =
+                feedbackSessionResultsBundle.contributionQuestionTeamEvalResults.get(question.getId());
         if (contribQnStats == null) {
             FeedbackContributionQuestionDetails fqcd = (FeedbackContributionQuestionDetails) question.getQuestionDetails();
             contribQnStats = fqcd.getTeamEvalResults(feedbackSessionResultsBundle, question);
