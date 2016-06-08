@@ -27,7 +27,14 @@
                 <tbody>
                     <c:forEach items="${noResponsePanel.emails}" var="email">
                         <tr>
-                            <td>${fn:escapeXml(noResponsePanel.teams[email])}</td>
+                            <c:choose>
+                                <c:when test="${not empty noResponsePanel.instructorStatus[email] && noResponsePanel.instructorStatus[email] == 'true'}">
+                                         <td><i>${fn:escapeXml(noResponsePanel.teams[email])}</i></td>
+                                </c:when>
+                                <c:otherwise>
+                                         <td>${fn:escapeXml(noResponsePanel.teams[email])}</td>
+                                </c:otherwise>
+                            </c:choose>
                             <td>${fn:escapeXml(noResponsePanel.names[email])}</td>
                             <td>
                                 <c:if test="${not empty noResponsePanel.moderationButtons[email]}">

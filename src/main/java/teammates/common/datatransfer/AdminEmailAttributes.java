@@ -7,7 +7,6 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -57,12 +56,12 @@ public class AdminEmailAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL_CONTENT, content);
+        error = validator.getInvalidityInfoForEmailContent(content);
         if (!error.isEmpty()) {
             errors.add(error);
         }
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL_SUBJECT, subject);
+        error = validator.getInvalidityInfoForEmailSubject(subject);
         if (!error.isEmpty()) {
             errors.add(error);
         }
