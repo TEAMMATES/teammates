@@ -743,6 +743,7 @@ public final class Const {
         public static final String TO_EMAIL = "toemail";
         public static final String SECTION_NAME = "sectionname";
         public static final String TEAM_NAME = "teamname";
+        public static final String TEAM_TO_EDIT = "teamtoedit";
         public static final String POINTS = "points";
         public static final String JUSTIFICATION = "justification";
         public static final String COMMENTS = "comments";
@@ -859,6 +860,7 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
         public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
+        public static final String INSTRUCTOR_COURSE_RENAME_TEAM = "/page/instructorCourseRenameTeam";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_ADD = "/page/instructorCourseInstructorAdd";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE = "/page/instructorCourseInstructorEditSave";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_DELETE = "/page/instructorCourseInstructorDelete";

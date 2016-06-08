@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +27,10 @@ public class InstructorCourseDetailsPageData extends PageData {
     private String studentListHtmlTableAsString;
     private ElementTag giveCommentButton;
     private ElementTag courseRemindButton;
+    private ElementTag renameTeamButton;
     private List<StudentListSectionData> sections;
     private boolean hasSection;
+    private List<String> teamNames;
     
     public InstructorCourseDetailsPageData(AccountAttributes account) {
         super(account);
@@ -44,7 +47,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         
         String content = "<span class=\"glyphicon glyphicon-comment glyphicon-primary\"></span>";
         giveCommentButton = createButton(content, "btn btn-default btn-xs icon-button pull-right",
-                                         "button_add_comment", null, "", "tooltip", null, isDisabled);
+                                         "button_add_comment", null, "", "tooltip", null, null, isDisabled);
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         String onClick = "if(toggleSendRegistrationKeysConfirmation('"
@@ -52,12 +55,16 @@ public class InstructorCourseDetailsPageData extends PageData {
                           + "window.location.href='"
                           + sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId())) + "';";
         courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null,
-                                          Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
-
+                                          Const.Tooltips.COURSE_REMIND, "tooltip", null, onClick, isDisabled);
+        renameTeamButton = createButton(null, "btn btn-primary", null, null,
+                                        null, "modal", "#rename-team-modal", null, isDisabled);
+        
         this.sections = new ArrayList<StudentListSectionData>();
+        this.teamNames = new ArrayList<String>();
         for (SectionDetailsBundle section : courseDetails.sections) {
             Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
             for (TeamDetailsBundle teamDetails : section.teams) {
+                teamNames.add(teamDetails.name);
                 for (StudentAttributes student : teamDetails.students) {
                     String studentPhotoUrl = student.getPublicProfilePictureUrl();
                     studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl,
@@ -81,6 +88,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         } else {
             this.hasSection = true;
         }
+        Collections.sort(teamNames);
     }
     
     public InstructorAttributes getCurrentInstructor() {
@@ -103,6 +111,10 @@ public class InstructorCourseDetailsPageData extends PageData {
         return courseRemindButton;
     }
     
+    public ElementTag getRenameTeamButton() {
+        return renameTeamButton;
+    }
+    
     public void setStudentListHtmlTableAsString(String studentListHtmlTableAsString) {
         this.studentListHtmlTableAsString = studentListHtmlTableAsString;
     }
@@ -118,9 +130,13 @@ public class InstructorCourseDetailsPageData extends PageData {
     public boolean isHasSection() {
         return hasSection;
     }
+    
+    public List<String> getTeamNames() {
+        return teamNames;
+    }
 
     private ElementTag createButton(String content, String buttonClass, String id, String href,
-                            String title, String dataToggle, String onClick, boolean isDisabled) {
+                            String title, String dataToggle, String dataTarget, String onClick, boolean isDisabled) {
         ElementTag button = new ElementTag(content);
         
         if (buttonClass != null) {
@@ -142,6 +158,10 @@ public class InstructorCourseDetailsPageData extends PageData {
         
         if (dataToggle != null) {
             button.setAttribute("data-toggle", dataToggle);
+        }
+        
+        if (dataTarget != null) {
+            button.setAttribute("data-target", dataTarget);
         }
                 
         if (onClick != null) {

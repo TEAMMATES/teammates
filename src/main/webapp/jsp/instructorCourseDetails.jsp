@@ -13,7 +13,8 @@
     <course:courseInformationContainer courseDetails="${data.courseDetails}" 
                                        instructors="${data.instructors}" 
                                        giveCommentButton="${data.giveCommentButton}" 
-                                       courseRemindButton="${data.courseRemindButton}"/>
+                                       courseRemindButton="${data.courseRemindButton}"
+                                       renameTeamButton="${data.renameTeamButton}"/>
     <course:commentArea courseId="${data.courseDetails.course.id}"/>
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
@@ -23,4 +24,5 @@
     <br>
     <br>
     <br>
+    <course:renameTeamModal courseId="${data.courseDetails.course.id}" teamNames="${data.teamNames}"/>
 </ti:instructorPage>
