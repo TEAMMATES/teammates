@@ -805,6 +805,7 @@ public abstract class AppPage {
                     // Last retry count: do one last attempt and if it still fails,
                     // throw assertion error and show the differences
                     HtmlHelper.assertSameHtml(expected, actual, isPart);
+                    System.out.println(expected);
                     break;
                 }
                 if (HtmlHelper.areSameHtml(expected, actual, isPart)) {
