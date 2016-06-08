@@ -253,7 +253,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                                 isSessionOpenForSubmission, qnIndx, responseIndx,
                                                 questionAttributes.courseId, numOfResponseBoxes);
             
-            responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion, submissionFormHtml, ""));
+            responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
+                                                             submissionFormHtml, ""));
             responseIndx++;
         }
         

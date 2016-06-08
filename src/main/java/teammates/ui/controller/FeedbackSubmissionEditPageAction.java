@@ -27,7 +27,8 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         
         if (feedbackSession == null) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS,
+                                               StatusMessageColor.WARNING));
                        
             return createSpecificRedirectResult();
         }

@@ -34,9 +34,8 @@ public class HomePage extends AppPage {
             logout();
             instructorLoginLink.click();
             waitForPageToLoad();
-            pageSource = getPageSource();
         }
-        return createCorretLoginPageType(pageSource);
+        return createCorrectLoginPageType(browser);
         
     }
 
@@ -50,19 +49,8 @@ public class HomePage extends AppPage {
             logout();
             studentLoginLink.click();
             waitForPageToLoad();
-            pageSource = getPageSource();
         }
-        return createCorretLoginPageType(pageSource);
-    }
-
-    private LoginPage createCorretLoginPageType(String pageSource) {
-        if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
-            return changePageType(DevServerLoginPage.class);
-        } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
-            return changePageType(GoogleLoginPage.class);
-        } else {
-            throw new IllegalStateException("Not a valid login page :" + pageSource);
-        }
+        return createCorrectLoginPageType(browser);
     }
 
 }

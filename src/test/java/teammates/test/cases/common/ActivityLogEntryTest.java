@@ -14,7 +14,8 @@ public class ActivityLogEntryTest extends BaseTestCase {
     @Test
     public void testActivityLogEntryClass() {
         ______TS("Test constructors and generateLogMessage");
-        String logMessage = "TEAMMATESLOG|||instructorHome|||Pageload|||true|||Instructor|||UserName|||UserId|||UserEmail|||Message|||URL";
+        String logMessage = "TEAMMATESLOG|||instructorHome|||Pageload|||true|||Instructor|||UserName|||UserId"
+                            + "|||UserEmail|||Message|||URL";
         AccountAttributes acc = new AccountAttributes("UserId", "UserName", true, "UserEmail", "UserInstitute");
         ActivityLogEntry entry = new ActivityLogEntry("instructorHome", "Pageload", acc, "Message", "URL");
         AssertHelper.assertLogMessageEquals(logMessage, entry.generateLogMessage());
@@ -27,8 +28,8 @@ public class ActivityLogEntryTest extends BaseTestCase {
         assertEquals(logMessage, entry.generateLogMessage());
         
         logMessage = "TEAMMATESLOG|||instructorHome|||Unknown|||true|||Unknown|||Unknown|||Unknown|||Unknown"
-                     + "|||<span class=\"text-danger\">Error. ActivityLogEntry object is not created for this servlet action.</span>"
-                     + "<br>Message|||URL";
+                     + "|||<span class=\"text-danger\">Error. ActivityLogEntry object is not created "
+                     + "for this servlet action.</span><br>Message|||URL";
         entry = new ActivityLogEntry("instructorHome", "Message", "URL");
         AssertHelper.assertLogMessageEquals(logMessage, entry.generateLogMessage());
 
@@ -38,7 +39,8 @@ public class ActivityLogEntryTest extends BaseTestCase {
         appLog.setTimeUsec(0);
         entry = new ActivityLogEntry(appLog);
         
-        assertEquals("<a href=\"URL?user=UserId\" class=\"text-success bold\" target=\"_blank\">instructorHome</a>", entry.getActionInfo());
+        assertEquals("<a href=\"URL?user=UserId\" class=\"text-success bold\" target=\"_blank\">instructorHome</a>",
+                     entry.getActionInfo());
         assertEquals("01-01-1970 07:30:00", entry.getDateInfo());
         assertEquals("Message", entry.getMessageInfo());
         assertEquals("UserId", entry.getPersonInfo());
