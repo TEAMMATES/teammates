@@ -1172,6 +1172,7 @@ public final class Const {
         public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "%d student(s) remain unmodified:";
         public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "%d student(s) with unknown enrolment status:";
 
+        public static final String TEAM_EDITED = "The team has been edited successfully";
         public static final String TEAM_INVALID_SECTION_EDIT =
                 "The team \"%s\" is in multiple sections. "
                 + "The team ID should be unique across the entire course "
