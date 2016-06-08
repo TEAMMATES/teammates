@@ -61,6 +61,13 @@
                           </label>
                       </div>
                   </div>
+                   <div data-toggle="tooltip" title="Show Empty Responses">
+                      <div class="checkbox padding-top-0 min-height-0">
+                          <label>
+                              <input type="checkbox" onchange="this.form.submit()" value="true" id="include-empty-responses" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INCLUDE_EMPTY_RESPONSES%>"<c:if test="${filterPanel.emptyResponsesShown}"> checked</c:if>> Include Empty Responses
+                          </label>
+                      </div>
+                  </div>
                 </div>
             </div>
             <div class="row">

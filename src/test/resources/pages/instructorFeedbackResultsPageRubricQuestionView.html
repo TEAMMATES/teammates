@@ -99,6 +99,7 @@
     <input name="user" type="hidden" value="FRubricQnUiT.instructor">
     <input name="frgroupbysection" type="hidden" value="All">
     <input name="csvtohtmltable" type="hidden" value="true">
+    <input name="frincludeemptyresponses" type="hidden" value="false">
   </form>
   <div class="modal fade align-center" id="fsResultsTableWindow">
     <div class="modal-dialog modal-lg">
@@ -200,6 +201,14 @@
                 </label>
               </div>
             </div>
+            <div data-original-title="Show Empty Responses" data-toggle="tooltip" title="">
+              <div class="checkbox padding-top-0 min-height-0">
+                <label>
+                  <input id="include-empty-responses" name="frincludeemptyresponses" onchange="this.form.submit()" type="checkbox" value="true">
+                  Include Empty Responses
+                </label>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -233,6 +242,7 @@
         <input id="showStats-1" name="frshowstats" type="hidden" value="off">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frincludeemptyresponses" type="hidden" value="false">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon pull-right glyphicon-chevron-up">

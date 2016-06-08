@@ -22,6 +22,7 @@
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on" id="showStats-${questionPanel.question.questionNumber}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="${questionPanel.question.feedbackQuestionId}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${data.selectedSection}">
+                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INCLUDE_EMPTY_RESPONSES%>" value="${data.emptyResponsesShown}">
             </form>
             <div class='display-icon pull-right'>
                 <span class="glyphicon ${ isShowingResponses ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>

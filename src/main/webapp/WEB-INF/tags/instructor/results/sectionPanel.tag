@@ -58,6 +58,7 @@
                     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseId}">
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${feedbackSessionName}">
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${sectionPanel.sectionName}">
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INCLUDE_EMPTY_RESPONSES%>" value="${data.emptyResponsesShown}">
                     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="${data.groupByTeam}">
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="${data.sortType}">

@@ -5,12 +5,14 @@
 <%@ attribute name="courseId" required="true" %>
 <%@ attribute name="feedbackSession" required="true" %>
 <%@ attribute name="selectedSection" required="true" %>
+<%@ attribute name="emptyResponsesShown" required="true" %>
 <form id="csvToHtmlForm">
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseId}">
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${feedbackSession}">
     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${selectedSection}">
     <input type="hidden" name="<%=Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED%>" value="true">
+    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INCLUDE_EMPTY_RESPONSES%>" value="${emptyResponsesShown}">
 </form>
 <div class="modal fade align-center" id="fsResultsTableWindow">
     <div class="modal-dialog modal-lg">
