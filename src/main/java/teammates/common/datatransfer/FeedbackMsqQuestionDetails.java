@@ -422,7 +422,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             List<String> answerStrings =
                     ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
             boolean isOtherOptionAnswer =
-                    ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
             String otherAnswer = "";
             
             if (isOtherOptionAnswer) {
@@ -503,7 +503,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             List<String> answerStrings =
                     ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
             boolean isOtherOptionAnswer =
-                    ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
             String otherAnswer = "";
             
             if (isOtherOptionAnswer) {

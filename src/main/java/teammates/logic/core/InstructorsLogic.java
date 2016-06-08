@@ -251,7 +251,7 @@ public class InstructorsLogic {
         if (course == null) {
             throw new EntityDoesNotExistException(
                     "Course does not exist [" + courseId + "], "
-                    + "trying to send invite email to student [" + instructorEmail + "]");
+                    + "trying to send invite email to instructor [" + instructorEmail + "]");
         }
         
         InstructorAttributes instructorData = getInstructorForEmail(courseId, instructorEmail);
