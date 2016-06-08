@@ -20,7 +20,8 @@ public class InstructorCourseEditSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_NAME, courseName);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId),
+                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
         
         CourseAttributes courseToEdit = new CourseAttributes(courseId, courseName);
         

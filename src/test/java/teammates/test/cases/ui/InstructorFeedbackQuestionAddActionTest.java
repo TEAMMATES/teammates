@@ -849,12 +849,13 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         assertEquals("NONE is not a valid feedback giver..", result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
-                             + "instructorFeedbackQuestionAdd|||true|||"
-                             + "Instructor|||Instructor 1 of Course 1|||"
-                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                             + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, "NONE", FieldValidator.GIVER_TYPE_NAME)
-                             + "|||/page/instructorFeedbackQuestionAdd";
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                + "instructorFeedbackQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, "NONE", FieldValidator.GIVER_TYPE_NAME)
+                + "|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Masquerade mode");

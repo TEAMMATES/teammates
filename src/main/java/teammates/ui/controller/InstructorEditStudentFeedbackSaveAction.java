@@ -62,23 +62,28 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             
             if (questionAttributes == null) {
-                statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
-                                                       + "Please check your responses to make sure they are saved correctly.",
+                statusToUser.add(new StatusMessage("The feedback session or questions may have changed "
+                                                       + "while you were submitting. Please check your responses "
+                                                       + "to make sure they are saved correctly.",
                                                    StatusMessageColor.WARNING));
                 isError = true;
                 log.warning("Question not found. (deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
                 continue;
             }
             
-            boolean isGiverVisibleToInstructors = questionAttributes.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-            boolean isRecipientVisibleToInstructors = questionAttributes.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-            boolean isResponseVisibleToInstructors = questionAttributes.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            boolean isGiverVisibleToInstructors =
+                    questionAttributes.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            boolean isRecipientVisibleToInstructors =
+                    questionAttributes.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            boolean isResponseVisibleToInstructors =
+                    questionAttributes.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
             
             if (!isResponseVisibleToInstructors || !isGiverVisibleToInstructors || !isRecipientVisibleToInstructors) {
                 isError = true;
                 throw new UnauthorizedAccessException(
                         "Feedback session [" + feedbackSessionName
-                        + "] question [" + questionAttributes.getId() + "] is not accessible to instructor [" + instructor.email + "]");
+                        + "] question [" + questionAttributes.getId() + "] is not accessible "
+                        + "to instructor [" + instructor.email + "]");
             }
         }
     }

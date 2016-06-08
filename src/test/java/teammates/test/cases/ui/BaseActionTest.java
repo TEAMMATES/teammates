@@ -69,7 +69,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
     
     private String[] addStudentAuthenticationInfo(String[] params) {
-        StudentAttributes unregStudent = StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+        StudentAttributes unregStudent =
+                StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
         List<String> list = new ArrayList<String>();
         list.add(Const.ParamsNames.REGKEY);
         list.add(StringHelper.encrypt(unregStudent.key));

@@ -426,7 +426,9 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
-                                        .withUserId(instructorId).withCourseId(instructorCourseId).withSessionName(instructorEditFSName);
+                        .withUserId(instructorId)
+                        .withCourseId(instructorCourseId)
+                        .withSessionName(instructorEditFSName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
