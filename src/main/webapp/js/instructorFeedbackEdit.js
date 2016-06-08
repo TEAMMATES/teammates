@@ -498,7 +498,6 @@ function showNewQuestionFrame(type) {
 }
 
 function hideAllNewQuestionForms() {
-    $('#textForm').hide();
     $('#mcqForm').hide();
     $('#msqForm').hide();
     $('#numScaleForm').hide();
@@ -515,8 +514,6 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_TEXT);
         
         hideAllNewQuestionForms();
-        
-        $('#textForm').show();
         break;
     case 'MCQ':
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
@@ -1256,7 +1253,8 @@ function addConstSumOption(questionNum) {
                       + 'class="form-control constSumOptionTextBox">'
               + '<span class="input-group-btn">'
                   + '<button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" '
-                          + 'onclick="removeConstSumOption(' + curNumberOfChoiceCreated + ',' + questionNum + ')" tabindex="-1">'
+                          + 'onclick="removeConstSumOption(' + curNumberOfChoiceCreated + ',' + questionNum + ')" '
+                          + 'tabindex="-1">'
                       + '<span class="glyphicon glyphicon-remove"></span>'
                   + '</button>'
               + '</span>'
