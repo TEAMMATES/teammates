@@ -148,11 +148,11 @@ var INSTITUTION_MAX_LENGTH = 64;
 
 $(document).on('ajaxComplete ready', function() {
 
-    /**
-	 *  Triggering keyup event for all text question type textfields,
-	 *   to call function that finds out input length.
-	 */
-	$('textarea[id^="responsetext-"]').keyup();
+        /**
+		 * Triggering keyup event for all text question type textfields, to call
+		 * function that finds out input length.
+		 */
+    $('textarea[id^="responsetext-"]').keyup();
 
     /**
 	 * Initializing then disabling is better than simply not initializing for
