@@ -12,8 +12,8 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
-import teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
+import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
+import teammates.common.util.Templates.FeedbackQuestion.Slots;
 import teammates.common.util.Utils;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
@@ -234,7 +234,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         // Create submission form
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM,
+                FormTemplates.RUBRIC_SUBMISSION_FORM,
                 Slots.QUESTION_INDEX, questionNumberString,
                 Slots.RESPONSE_INDEX, responseNumberString,
                 Slots.CURRENT_ROWS, Integer.toString(this.numOfRubricSubQuestions),
@@ -259,7 +259,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         // Create submission form
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM,
+                FormTemplates.RUBRIC_SUBMISSION_FORM,
                 Slots.QUESTION_INDEX, questionNumberString,
                 Slots.RESPONSE_INDEX, responseNumberString,
                 Slots.CURRENT_ROWS, Integer.toString(this.numOfRubricSubQuestions),
@@ -272,7 +272,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     private String getSubmissionFormTableHeaderFragmentHtml(String questionNumberString, String responseNumberString) {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
-        String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT;
+        String tableHeaderFragmentTemplate = FormTemplates.RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT;
 
         for (int i = 0; i < numOfRubricChoices; i++) {
             String tableHeaderCell =
@@ -291,8 +291,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                                   boolean sessionIsOpen, boolean isExistingResponse,
                                                   FeedbackRubricResponseDetails frd) {
         StringBuilder tableBodyHtml = new StringBuilder();
-        String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_BODY_FRAGMENT;
-        String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_BODY;
+        String tableBodyFragmentTemplate = FormTemplates.RUBRIC_SUBMISSION_FORM_BODY_FRAGMENT;
+        String tableBodyTemplate = FormTemplates.RUBRIC_SUBMISSION_FORM_BODY;
 
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
@@ -328,8 +328,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private String getSubmissionFormMobileHtml(String questionNumberString, String responseNumberString,
             boolean sessionIsOpen, boolean isExistingResponse, FeedbackRubricResponseDetails frd) {
         StringBuilder mobileHtml = new StringBuilder();
-        String mobilePanelTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL;
-        String mobilePanelFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL_FRAGMENT;
+        String mobilePanelTemplate = FormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL;
+        String mobilePanelFragmentTemplate = FormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL_FRAGMENT;
 
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
             StringBuilder panelBody = new StringBuilder();
@@ -364,7 +364,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
-        String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM_HEADER_FRAGMENT;
+        String tableHeaderFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_HEADER_FRAGMENT;
         for (int i = 0; i < numOfRubricChoices; i++) {
             String tableHeaderCell =
                     Templates.populateTemplate(tableHeaderFragmentTemplate,
@@ -378,7 +378,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Create rubric weights row
         StringBuilder tableWeightFragmentHtml = new StringBuilder();
-        String tableWeightFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM_WEIGHT_FRAGMENT;
+        String tableWeightFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_WEIGHT_FRAGMENT;
         for (int i = 0; i < numOfRubricChoices; i++) {
             String tableWeightCell =
                     Templates.populateTemplate(tableWeightFragmentTemplate,
@@ -393,8 +393,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Create table body
         StringBuilder tableBodyHtml = new StringBuilder();
         
-        String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM_BODY_FRAGMENT;
-        String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM_BODY;
+        String tableBodyFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_BODY_FRAGMENT;
+        String tableBodyTemplate = FormTemplates.RUBRIC_EDIT_FORM_BODY;
         
         for (int j = 0; j < numOfRubricSubQuestions; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
@@ -424,7 +424,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Create edit form
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM,
+                FormTemplates.RUBRIC_EDIT_FORM,
                 Slots.QUESTION_INDEX, questionNumberString,
                 Slots.CURRENT_ROWS, Integer.toString(this.numOfRubricSubQuestions),
                 Slots.CURRENT_COLS, Integer.toString(this.numOfRubricChoices),
@@ -515,12 +515,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         
         String additionalInfo = Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.RUBRIC_ADDITIONAL_INFO,
+                FormTemplates.RUBRIC_ADDITIONAL_INFO,
                 "${questionTypeName}", this.getQuestionTypeDisplayName(),
                 "${rubricAdditionalInfoFragments}", subQuestionListHtml.toString());
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
@@ -542,7 +542,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
-        String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
+        String tableHeaderFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
         for (int i = 0; i < numOfRubricChoices; i++) {
 
             String header = Sanitizer.sanitizeForHtml(rubricChoices.get(i))
@@ -567,8 +567,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Create table body
         StringBuilder tableBodyHtml = new StringBuilder();
         
-        String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
-        String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY;
+        String tableBodyFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
+        String tableBodyTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY;
         DecimalFormat df = new DecimalFormat("#");
         DecimalFormat dfAverage = new DecimalFormat("0.00");
 
@@ -600,7 +600,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS,
+                FormTemplates.RUBRIC_RESULT_STATS,
                 "${statsTitle}", "student".equals(view) ? "Response Summary (of visible responses)" : "Response Summary",
                 Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, tableHeaderFragmentHtml.toString(),
                 Slots.TABLE_BODY_HTML, tableBodyHtml.toString());

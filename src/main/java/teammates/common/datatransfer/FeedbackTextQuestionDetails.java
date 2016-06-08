@@ -8,8 +8,8 @@ import java.util.Map;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Templates;
-import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
-import teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
+import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
+import teammates.common.util.Templates.FeedbackQuestion.Slots;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
@@ -44,7 +44,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
             int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
+                FormTemplates.TEXT_SUBMISSION_FORM,
                 Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -56,7 +56,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
+                FormTemplates.TEXT_SUBMISSION_FORM,
                 Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),

@@ -13,8 +13,8 @@ import java.util.Set;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Templates;
-import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
-import teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
+import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
+import teammates.common.util.Templates.FeedbackQuestion.Slots;
 import teammates.ui.controller.PageData;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
@@ -38,7 +38,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         FeedbackRankRecipientsResponseDetails existingResponse = (FeedbackRankRecipientsResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
+        String optionFragmentTemplate = FormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
         
         String optionFragment =
                 Templates.populateTemplate(optionFragmentTemplate,
@@ -53,7 +53,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         String html = Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
+                FormTemplates.RANK_SUBMISSION_FORM,
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
@@ -75,7 +75,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         
         StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
+        String optionFragmentTemplate = FormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
         
         String optionFragment =
                 Templates.populateTemplate(optionFragmentTemplate,
@@ -90,7 +90,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM,
+                FormTemplates.RANK_SUBMISSION_FORM,
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                             Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
@@ -128,7 +128,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.RANK_EDIT_RECIPIENTS_FORM,
+                FormTemplates.RANK_EDIT_RECIPIENTS_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${optionRecipientDisplayName}", "recipient",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
@@ -151,7 +151,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         String additionalInfo = this.getQuestionTypeDisplayName() + "<br>";
                 
         String html = Templates.populateTemplate(
-                        FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                        FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                         "${more}", "[more]",
                         "${less}", "[less]",
                         "${questionNumber}", Integer.toString(questionNumber),
@@ -189,7 +189,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String name = bundle.getNameForEmail(participantIdentifier);
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             
-            fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
+            fragments.append(Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
                                                                         Slots.RANK_OPTION_VALUE,
                                                                         Sanitizer.sanitizeForHtml(name),
                                                                         "${team}", Sanitizer.sanitizeForHtml(teamName),
@@ -198,7 +198,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         }
      
-        return Templates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_RECIPIENT_STATS,
+        return Templates.populateTemplate(FormTemplates.RANK_RESULT_RECIPIENT_STATS,
                                                              "${optionRecipientDisplayName}", "Recipient",
                                                              "${fragments}", fragments.toString());
         

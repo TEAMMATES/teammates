@@ -17,8 +17,8 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
-import teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
+import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
+import teammates.common.util.Templates.FeedbackQuestion.Slots;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
@@ -138,7 +138,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         List<String> choices = generateOptionList(courseId);
         
         StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
+        String optionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
         Boolean isOtherSelected = existingMsqResponse.isOtherOptionAnswer();
         
         for (int i = 0; i < choices.size(); i++) {
@@ -155,7 +155,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         if (otherEnabled) {
-            String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
+            String otherOptionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment =
                     Templates.populateTemplate(otherOptionFragmentTemplate,
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -184,7 +184,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         optionListHtml.append(optionFragment).append(Const.EOL);
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
+                FormTemplates.MSQ_SUBMISSION_FORM,
                 "${msqSubmissionFormOptionFragments}", optionListHtml.toString());
     }
 
@@ -194,7 +194,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         List<String> choices = generateOptionList(courseId);
                 
         StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
+        String optionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
         for (int i = 0; i < choices.size(); i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
@@ -210,7 +210,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         if (otherEnabled) {
-            String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
+            String otherOptionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment =
                        Templates.populateTemplate(otherOptionFragmentTemplate,
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -238,7 +238,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
+                FormTemplates.MSQ_SUBMISSION_FORM,
                 "${msqSubmissionFormOptionFragments}", optionListHtml.toString());
     }
     
@@ -295,7 +295,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_EDIT_FORM_OPTIONFRAGMENT;
+        String optionFragmentTemplate = FormTemplates.MSQ_EDIT_FORM_OPTIONFRAGMENT;
         for (int i = 0; i < numOfMsqChoices; i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
@@ -307,7 +307,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.MSQ_EDIT_FORM,
+                FormTemplates.MSQ_EDIT_FORM,
                 "${msqEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}",
@@ -343,7 +343,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder(200);
-        String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
+        String optionFragmentTemplate = FormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         
         if (this.generateOptionsFor != FeedbackParticipantType.NONE) {
             String optionHelpText = String.format(
@@ -372,12 +372,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         String additionalInfo = Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO,
+                FormTemplates.MSQ_ADDITIONAL_INFO,
                 "${questionTypeName}", this.getQuestionTypeDisplayName(),
                 "${msqAdditionalInfoFragments}", optionListHtml.toString());
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
@@ -455,14 +455,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         StringBuilder fragments = new StringBuilder();
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+            fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}", entry.getKey(),
                                 "${count}", entry.getValue().toString(),
                                 "${percentage}", df.format(100 * (double) entry.getValue() / numChoicesSelected)));
 
         }
         //Use same template as MCQ for now, until they need to be different.
-        return Templates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
+        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
                                                               "${fragments}", fragments.toString());
     }
 

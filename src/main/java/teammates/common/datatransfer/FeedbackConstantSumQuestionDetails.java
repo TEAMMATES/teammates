@@ -17,8 +17,8 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
-import teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
+import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
+import teammates.common.util.Templates.FeedbackQuestion.Slots;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
@@ -152,7 +152,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         FeedbackConstantSumResponseDetails existingConstSumResponse =
                 (FeedbackConstantSumResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;
+        String optionFragmentTemplate = FormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;
         
         if (distributeToRecipients) {
             String optionFragment =
@@ -183,7 +183,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
 
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
+                FormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
@@ -206,7 +206,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         
         StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;
+        String optionFragmentTemplate = FormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;
         
         if (distributeToRecipients) {
             String optionFragment =
@@ -237,7 +237,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
 
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
+                FormTemplates.CONSTSUM_SUBMISSION_FORM,
                 "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
@@ -258,7 +258,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FeedbackQuestionFormTemplates.CONSTSUM_EDIT_FORM_OPTIONFRAGMENT;
+        String optionFragmentTemplate = FormTemplates.CONSTSUM_EDIT_FORM_OPTIONFRAGMENT;
         for (int i = 0; i < numOfConstSumOptions; i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
@@ -271,7 +271,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.CONSTSUM_EDIT_FORM,
+                FormTemplates.CONSTSUM_EDIT_FORM,
                 "${constSumEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}",
@@ -307,7 +307,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public String getQuestionAdditionalInfoHtml(int questionNumber,
             String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
+        String optionFragmentTemplate = FormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         StringBuilder additionalInfo = new StringBuilder();
 
         if (this.distributeToRecipients) {
@@ -323,7 +323,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             }
             optionListHtml.append("</ul>");
             additionalInfo.append(Templates.populateTemplate(
-                    FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO,
+                    FormTemplates.MSQ_ADDITIONAL_INFO,
                     "${questionTypeName}", this.getQuestionTypeDisplayName(),
                     "${msqAdditionalInfoFragments}", optionListHtml.toString()));
         
@@ -334,7 +334,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                               : "Total points: " + points);
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
@@ -372,7 +372,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String name = bundle.getNameForEmail(participantIdentifier);
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 
-                fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
+                fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
                         Slots.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
                         "${team}", Sanitizer.sanitizeForHtml(teamName),
                         "${pointsReceived}", pointsReceived,
@@ -381,7 +381,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             } else {
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
-                fragments.append(Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
+                fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                         Slots.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(option),
                                     "${pointsReceived}", pointsReceived,
                                     "${averagePoints}", df.format(average)));
@@ -389,11 +389,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
         
         if (distributeToRecipients) {
-            return Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
+            return Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
                     Slots.OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
                     "${fragments}", fragments.toString());
         }
-        return Templates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
+        return Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_OPTION_STATS,
                 Slots.OPTION_RECIPIENT_DISPLAY_NAME, "Option",
                 "${fragments}", fragments.toString());
     }

@@ -15,8 +15,8 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Templates;
-import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
-import teammates.common.util.Templates.FeedbackQuestionDetails.Slots;
+import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
+import teammates.common.util.Templates.FeedbackQuestion.Slots;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
@@ -78,7 +78,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String optionSelectFragmentsHtml = getContributionOptionsHtml(points);
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
+                FormTemplates.CONTRIB_SUBMISSION_FORM,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -93,7 +93,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String optionSelectHtml = getContributionOptionsHtml(Const.INT_UNINITIALIZED);
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
+                FormTemplates.CONTRIB_SUBMISSION_FORM,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -104,7 +104,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
+                FormTemplates.CONTRIB_EDIT_FORM,
                 Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
                 "${isNotSureAllowedChecked}", isNotSureAllowed ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}",
@@ -125,7 +125,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String additionalInfo = this.getQuestionTypeDisplayName();
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${more}", "[more]",
                 "${less}", "[less]",
                 Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
@@ -195,15 +195,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         int teamClaim = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex][currentUserIndex];
         
         String contribAdditionalInfo = Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.CONTRIB_ADDITIONAL_INFO,
+                FormTemplates.CONTRIB_ADDITIONAL_INFO,
                 "${more}", "[how to interpret, etc..]",
                 "${less}", "[less]",
                 Slots.QUESTION_NUMBER, Integer.toString(question.questionNumber),
                 "${additionalInfoId}", "contributionInfo",
-                "${questionAdditionalInfo}", FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
+                "${questionAdditionalInfo}", FormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT,
+                FormTemplates.CONTRIB_RESULT_STATS_STUDENT,
                 "${contribAdditionalInfo}", contribAdditionalInfo,
                 "${myViewOfMe}", getPointsAsColorizedHtml(selfClaim),
                 "${myViewOfOthers}", getNormalizedPointsListColorizedDescending(
@@ -282,7 +282,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
             contribFragments.append(Templates.populateTemplate(
-                    FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
+                    FormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
                     "${studentTeam}", Sanitizer.sanitizeForHtml(displayTeam),
                     "${studentName}", Sanitizer.sanitizeForHtml(displayName),
                     "${CC}", getPointsAsColorizedHtml(summary.claimedToInstructor),
@@ -294,7 +294,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
         
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS,
+                FormTemplates.CONTRIB_RESULT_STATS,
                 "${contribFragments}", contribFragments.toString(),
                 "${Const.Tooltips.CLAIMED}", Sanitizer.sanitizeForHtml(Const.Tooltips.CLAIMED),
                 "${Const.Tooltips.PERCEIVED}", Const.Tooltips.PERCEIVED,
