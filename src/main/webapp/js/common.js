@@ -147,17 +147,11 @@ var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
 $(document).on('ajaxComplete ready', function() {
-
-        /**
-		 * Triggering keyup event for all text question type textfields, to call
-		 * function that finds out input length.
-		 */
-    $('textarea[id^="responsetext-"]').keyup();
-
     /**
-	 * Initializing then disabling is better than simply not initializing for
-	 * mobile due to some tooltips-specific code that throws errors.
-	 */
+     * Initializing then disabling is better than simply
+     * not initializing for mobile due to some tooltips-specific
+     * code that throws errors.
+    */
     var $tooltips = $('[data-toggle="tooltip"]');
     $tooltips.tooltip({
         html: true,
@@ -876,12 +870,3 @@ function hideSingleCollapse(e) {
     $(heading).find('a.btn').hide();
 }
 
-/**
- * updates the length of the textArea
- * @param textAreaId - Id of text area for which char are to be counted
- * @param charCountId - Id of Label to display length of text area
- */
-function updateTextQuestionCharCount(textAreaId, charCountId) {
-    var cs = $('#' + textAreaId).val().length;
-    $('#' + charCountId).text(cs);
-}
