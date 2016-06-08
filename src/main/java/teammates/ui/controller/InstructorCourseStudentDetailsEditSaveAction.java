@@ -45,8 +45,6 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
         student.section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
         student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);
         boolean hasSection = logic.hasIndicatedSections(courseId);
-        boolean isTeamChangedForWholeTeam =
-                "on".equals(getRequestParamValue(Const.ParamsNames.TEAM_CHANGED_FOR_WHOLE_TEAM));
         
         student.name = Sanitizer.sanitizeName(student.name);
         student.email = Sanitizer.sanitizeEmail(student.email);
@@ -66,20 +64,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
                 logic.validateTeams(Arrays.asList(student), courseId);
             }
             
-            if (!isSectionChanged && isTeamChanged && isTeamChangedForWholeTeam) {
-                List<StudentAttributes> studentsInTeam =
-                        logic.getStudentsForTeam(originalStudentAttribute.getTeam(), courseId);
-                for (StudentAttributes studentInTeam : studentsInTeam) {
-                    if (studentInTeam.getEmail().equals(studentEmail)) {
-                        logic.updateStudentTeamChangedForWholeTeam(studentEmail, student);
-                    } else {
-                        studentInTeam.team = student.team;
-                        logic.updateStudentTeamChangedForWholeTeam(studentInTeam.getEmail(), studentInTeam);
-                    }
-                }
-            } else {
-                logic.updateStudent(studentEmail, student);
-            }
+            logic.updateStudent(studentEmail, student);
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Student <span class=\"bold\">" + studentEmail + "'s</span> details in "
                             + "Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"

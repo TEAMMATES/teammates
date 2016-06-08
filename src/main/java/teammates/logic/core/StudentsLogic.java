@@ -206,23 +206,16 @@ public class StudentsLogic {
     public void updateStudentCascade(String originalEmail,
             StudentAttributes student) throws InvalidParametersException,
             EntityDoesNotExistException {
-        updateStudentCascade(originalEmail, student, true, false);
+        updateStudentCascade(originalEmail, student, true);
     }
 
     public void updateStudentCascadeWithoutDocument(String originalEmail,
             StudentAttributes student) throws InvalidParametersException,
             EntityDoesNotExistException {
-        updateStudentCascade(originalEmail, student, false, false);
+        updateStudentCascade(originalEmail, student, false);
     }
 
-    public void updateStudentCascadeTeamChangedForWholeTeam(String originalEmail,
-            StudentAttributes student) throws InvalidParametersException,
-            EntityDoesNotExistException {
-        updateStudentCascade(originalEmail, student, true, true);
-    }
-
-    public void updateStudentCascade(String originalEmail, StudentAttributes student,
-                                     boolean hasDocument, boolean isTeamChangedForWholeTeam)
+    public void updateStudentCascade(String originalEmail, StudentAttributes student, boolean hasDocument)
             throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
         updateStudentCascadeWithSubmissionAdjustmentScheduled(originalEmail, student, hasDocument);
@@ -248,14 +241,7 @@ public class StudentsLogic {
         
         // adjust submissions if moving to a different team
         if (isTeamChanged(originalStudent.team, student.team)) {
-            if (isTeamChangedForWholeTeam) {
-                frLogic.updateFeedbackResponsesForChangingWholeTeam(
-                        student.course, originalStudent.team, student.team);
-            } else {
-                frLogic.updateFeedbackResponsesForChangingTeam(
-                        student.course, finalEmail, originalStudent.team, student.team);
-            }
-            
+            frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
         }
 
         if (isSectionChanged(originalStudent.section, student.section)) {

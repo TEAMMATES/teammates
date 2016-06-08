@@ -1132,20 +1132,7 @@ public class Logic {
         studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, student);
     }
     
-    /**
-     * Updates a student whose team name has been changed for the whole team.
-     * Preserves both responses to/from the team and within the team members.
-     * @param originalEmail
-     * @param student
-     */
-    
-    public void updateStudentTeamChangedForWholeTeam(String originalEmail, StudentAttributes student)
-            throws InvalidParametersException, EntityDoesNotExistException {
         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
-
-        studentsLogic.updateStudentCascadeTeamChangedForWholeTeam(originalEmail, student);
     }
 
     /**

@@ -505,23 +505,6 @@ public class FeedbackResponsesLogic {
             }
         }
     }
-    
-    /**
-     * Updates responses for a team when its name changes. This is done by
-     * changing responses associated with the old team name to be associated
-     * with the new team name.
-     * @param courseId
-     * @param oldTeam
-     * @param newTeam
-     * @throws EntityDoesNotExistException
-     * @throws InvalidParametersException
-     */
-    public void updateFeedbackResponsesForChangingWholeTeam(String courseId, String oldTeam, String newTeam)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        if (studentsLogic.getStudentsForTeam(oldTeam, courseId).isEmpty()) {
-            updateFeedbackResponsesForChangingEmail(courseId, oldTeam, newTeam);
-        }
-    }
 
     public void updateFeedbackResponsesForChangingSection(
             String courseId, String userEmail, String oldSection, String newSection)
