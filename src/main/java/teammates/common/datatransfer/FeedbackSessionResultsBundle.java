@@ -869,7 +869,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
 
     private static String getHashOfName(String name) {
-        return Integer.toString(Math.abs(name.hashCode()));
+        return Long.toString(Math.abs((long) name.hashCode()));
     }
 
     private String getNameFromRoster(String participantIdentifier, boolean isFullName) {
