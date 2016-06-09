@@ -207,8 +207,8 @@ Role: dev (with push permission), or reviewer
       need to sync it before proceeding. This can be done via GitHub with the "Update branch" button.
     
     The dev will need to resolve them before merging can proceed. It is up to the dev/reviewer's discretion
-    on whether the merge conflict or outdated branch needs another review to be called for. In general, unless
-    the changeset are functionally conflicting, there is no need for another review.
+    on whether the merge conflict or outdated branch needs another review to be called for.
+    In general, unless the changeset is functionally conflicting, there is no need for another review.
   * When GitHub gives a green light for merging,
     * Checkout to the PR branch, merge with the current `master` branch, and test the code locally by running the "Local tests".<br>
       `git checkout -b 2287-add-sample-course-test origin/2287-add-sample-course-test`<br>
