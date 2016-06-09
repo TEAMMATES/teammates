@@ -523,8 +523,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<FeedbackResponseAttributes> teamResponseList = teamResponses.get(team);
             List<String> memberEmailList = teamMembersEmail.get(team);
             for (FeedbackResponseAttributes response : teamResponseList) {
-                int giverIndx = memberEmailList.indexOf(response.giverEmail);
-                int recipientIndx = memberEmailList.indexOf(response.recipientEmail);
+                int giverIndx = memberEmailList.indexOf(response.giver);
+                int recipientIndx = memberEmailList.indexOf(response.recipient);
                 if (giverIndx == -1 || recipientIndx == -1) {
                     continue;
                 }
@@ -544,7 +544,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>());
         }
         for (FeedbackResponseAttributes response : responses) {
-            String team = bundle.emailTeamNameTable.get(response.giverEmail);
+            String team = bundle.emailTeamNameTable.get(response.giver);
             if (teamResponses.containsKey(team)) {
                 teamResponses.get(team).add(response);
             }
@@ -567,7 +567,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle) {
         List<String> teamNames = new ArrayList<String>();
         for (FeedbackResponseAttributes response : responses) {
-            String teamNameOfResponseGiver = bundle.getTeamNameForEmail(response.giverEmail);
+            String teamNameOfResponseGiver = bundle.getTeamNameForEmail(response.giver);
             if (!teamNames.contains(teamNameOfResponseGiver)) {
                 teamNames.add(teamNameOfResponseGiver);
             }

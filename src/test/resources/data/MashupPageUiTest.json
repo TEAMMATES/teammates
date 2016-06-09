@@ -713,8 +713,8 @@
             "courseId":"CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"alice.b.tmms@gmail.tmt",
-            "recipientEmail":"alice.b.tmms@gmail.tmt",
+            "giver":"alice.b.tmms@gmail.tmt",
+            "recipient":"alice.b.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"My product is light."
             },
@@ -726,8 +726,8 @@
             "courseId":"CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"alice.b.tmms@gmail.tmt",
-            "recipientEmail":"benny.c.tmms@gmail.tmt",
+            "giver":"alice.b.tmms@gmail.tmt",
+            "recipient":"benny.c.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Benny is a good student."
             },
@@ -739,8 +739,8 @@
             "courseId":"CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"benny.c.tmms@gmail.tmt",
-            "recipientEmail":"danny.e.tmms@gmail.tmt",
+            "giver":"benny.c.tmms@gmail.tmt",
+            "recipient":"danny.e.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Danny starts with D."
             },
@@ -752,8 +752,8 @@
             "courseId":"CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"charlie.d.tmms@gmail.tmt",
-            "recipientEmail":"alice.b.tmms@gmail.tmt",
+            "giver":"charlie.d.tmms@gmail.tmt",
+            "recipient":"alice.b.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Alice is a good girl coder."
             },
@@ -765,8 +765,8 @@
             "courseId":"CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"benny.c.tmms@gmail.tmt",
-            "recipientEmail":"charlie.d.tmms@gmail.tmt",
+            "giver":"benny.c.tmms@gmail.tmt",
+            "recipient":"charlie.d.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Charlie did alot of work."
             },
@@ -778,8 +778,8 @@
             "courseId":"CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"teammates.test@gmail.tmt",
-            "recipientEmail":"teammates.test@gmail.tmt",
+            "giver":"teammates.test@gmail.tmt",
+            "recipient":"teammates.test@gmail.tmt",
             "responseMetaData":{
                 "value":"It's awesome!."
             },
@@ -791,8 +791,8 @@
             "courseId":"CS2104",
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"MCQ",
-            "giverEmail":"teammates.test@gmail.tmt",
-            "recipientEmail":"teammates.test@gmail.tmt",
+            "giver":"teammates.test@gmail.tmt",
+            "recipient":"teammates.test@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"It's good\", \"otherFieldContent\" : \"\"}"
             },
@@ -804,8 +804,8 @@
             "courseId":"CS2104",
             "feedbackQuestionId":"5",
             "feedbackQuestionType":"MCQ",
-            "giverEmail":"teammates.test@gmail.tmt",
-            "recipientEmail":"teammates.test@gmail.tmt",
+            "giver":"teammates.test@gmail.tmt",
+            "recipient":"teammates.test@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Alice Betsy (Team 2)\", \"otherFieldContent\" : \"\"}"
             },
@@ -817,8 +817,8 @@
             "courseId":"CS2104",
             "feedbackQuestionId":"6",
             "feedbackQuestionType":"MSQ",
-            "giverEmail":"teammates.test@gmail.tmt",
-            "recipientEmail":"teammates.test@gmail.tmt",
+            "giver":"teammates.test@gmail.tmt",
+            "recipient":"teammates.test@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
             },
@@ -830,8 +830,8 @@
             "courseId":"CS2104",
             "feedbackQuestionId":"7",
             "feedbackQuestionType":"MSQ",
-            "giverEmail":"teammates.test@gmail.tmt",
-            "recipientEmail":"teammates.test@gmail.tmt",
+            "giver":"teammates.test@gmail.tmt",
+            "recipient":"teammates.test@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Team 1\", \"Team 2\"]}"
             },
@@ -843,8 +843,8 @@
             "courseId":"CS2104",
             "feedbackQuestionId":"8",
             "feedbackQuestionType":"NUMSCALE",
-            "giverEmail":"teammates.test@gmail.tmt",
-            "recipientEmail":"teammates.test@gmail.tmt",
+            "giver":"teammates.test@gmail.tmt",
+            "recipient":"teammates.test@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3.5}"
             },
@@ -857,7 +857,7 @@
             "courseId":"CS2104",
             "feedbackSessionName":"First feedback session",
             "feedbackQuestionId":"1",
-            "giverEmail":"teammates.test@gmail.tmt",
+            "giver":"teammates.test@gmail.tmt",
             "feedbackResponseId":"1%teammates.test@gmail.tmt%teammates.test@gmail.tmt",
             "createdAt":"2026-03-01 11:59 PM UTC",
             "commentText":{
@@ -870,7 +870,7 @@
             "courseId":"CS2104",
             "feedbackSessionName":"First feedback session",
             "feedbackQuestionId":"1",
-            "giverEmail":"teammates.instr@gmail.tmt",
+            "giver":"teammates.instr@gmail.tmt",
             "feedbackResponseId":"1%teammates.test@gmail.tmt%teammates.test@gmail.tmt",
             "createdAt":"2026-03-02 11:59 PM UTC",
             "commentText":{
@@ -883,7 +883,7 @@
     "comments":{
         "comment1FromI1C1toS1C1":{
             "courseId":"CS2104",
-            "giverEmail":"teammates.test@gmail.tmt",
+            "giver":"teammates.test@gmail.tmt",
             "recipientType":"PERSON",
             "recipients":["alice.b.tmms@gmail.tmt"],
             "status": "FINAL",
@@ -899,7 +899,7 @@
         },
         "comment2FromI1C1toS1C1":{
             "courseId":"CS2104",
-            "giverEmail":"teammates.test@gmail.tmt",
+            "giver":"teammates.test@gmail.tmt",
             "recipientType":"PERSON",
             "recipients":["benny.c.tmms@gmail.tmt"],
             "status": "FINAL",

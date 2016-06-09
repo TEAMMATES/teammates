@@ -833,11 +833,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         expectedStrings.clear();
         List<String> actualStrings = new ArrayList<String>();
         for (FeedbackResponseAttributes response : results.responses) {
-            String giverName = results.getNameForEmail(response.giverEmail);
-            String giverTeamName = results.getTeamNameForEmail(response.giverEmail);
+            String giverName = results.getNameForEmail(response.giver);
+            String giverTeamName = results.getTeamNameForEmail(response.giver);
             giverName = results.appendTeamNameToName(giverName, giverTeamName);
-            String recipientName = results.getNameForEmail(response.recipientEmail);
-            String recipientTeamName = results.getTeamNameForEmail(response.recipientEmail);
+            String recipientName = results.getNameForEmail(response.recipient);
+            String recipientTeamName = results.getTeamNameForEmail(response.recipient);
             recipientName = results.appendTeamNameToName(recipientName, recipientTeamName);
             actualStrings.add(giverName);
             actualStrings.add(recipientName);
@@ -2151,7 +2151,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         }
         
         return frLogic.getFeedbackResponse(questionId,
-                response.giverEmail, response.recipientEmail);
+                response.giver, response.recipient);
     }
     
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {

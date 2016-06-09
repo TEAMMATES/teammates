@@ -476,7 +476,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
             for (int i = 0; i < frd.getAnswerList().size(); i++) {
                 String optionReceivingPoints =
-                        distributeToRecipients ? response.recipientEmail : String.valueOf(i);
+                        distributeToRecipients ? response.recipient : String.valueOf(i);
                 
                 int pointsReceived = frd.getAnswerList().get(i);
                 updateOptionPointsMapping(optionPoints, optionReceivingPoints, pointsReceived);
