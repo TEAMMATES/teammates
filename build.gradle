@@ -18,6 +18,7 @@ buildscript {
 }
 
 configurations {
+    macker
     enhancer
     exclude
     testExclude
@@ -34,6 +35,8 @@ repositories {
 }
 
 dependencies {
+    macker          "de.andrena.tools.macker:macker:1.0.1"
+
     appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
 
     compile         "com.google.appengine.tools:appengine-gcs-client:0.3.13",
@@ -297,10 +300,15 @@ tasks.withType(FindBugs) {
     }
 }
 
+task getMacker(type: Copy) {
+    from configurations.macker
+    into "static-analysis/macker"
+}
+
 task downloadStaticAnalysisTools {
     description "Downloads all static analysis tools."
     group "Static analysis"
-    dependsOn checkstyleEmpty, pmdEmpty, findbugsEmpty
+    dependsOn checkstyleEmpty, pmdEmpty, findbugsEmpty, getMacker
 }
 
 task staticAnalysisMain {
@@ -311,10 +319,20 @@ task staticAnalysisTest {
     dependsOn checkstyleTest, pmdTest, findbugsTest
 }
 
+// Run Macker via Ant because Gradle swallows all the important outputs
+task macker(type: Exec) {
+    def ant = ["ant"]
+    def command = ["macker"]
+    commandLine = (isWindows ? ["cmd", "/c"] : []) + ant + command
+}
+
+macker.dependsOn testClasses
+macker.shouldRunAfter staticAnalysisMain, staticAnalysisTest
+
 task staticAnalysis {
     description "Runs the entire static analysis tasks."
     group "Static analysis"
-    dependsOn eslint, staticAnalysisMain, staticAnalysisTest
+    dependsOn eslint, staticAnalysisMain, staticAnalysisTest, macker
 }
 
 // TEST TASKS

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<macker>
+    <ruleset name="Test cases should not be dependent on each other">
+        <var name="testCasesPackage" value="teammates.test.cases" />
+        <pattern name="testCasesInnerClasses" class="${testCasesPackage}.**$**" />
+        <pattern name="baseTestCases" class="${testCasesPackage}.**Base**" />
+        <pattern name="baseQuestionUiTest" class="${testCasesPackage}.ui.browsertests.FeedbackQuestionUiTest" />
+        <access-rule>
+            <deny>
+                <from class="${testCasesPackage}.**" />
+                <to class="${testCasesPackage}.**" />
+                <allow>
+                    <from pattern="testCasesInnerClasses" />
+                </allow>
+                <allow>
+                    <to pattern="testCasesInnerClasses" />
+                </allow>
+                <allow>
+                    <to pattern="baseTestCases" />
+                </allow>
+                <allow>
+                    <to pattern="baseQuestionUiTest" />
+                </allow>
+            </deny>
+        </access-rule>
+    </ruleset>
+</macker>

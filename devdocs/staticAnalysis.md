@@ -68,6 +68,16 @@ The suppression should be as specific as possible, and the reason for violating 
 In Gradle build, the rules are configured by specifying the classes in the `visitors` variable.
 The plugin for Eclipse can be found [here](http://findbugs.cs.umd.edu/eclipse/).
 
+### Macker
+
+[Macker](https://github.com/andrena/macker) checks the architectural integrity of Java source code.
+The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-macker.xml).
+To set it up, run the following command:
+```
+./gradlew getMacker
+```
+In addition, Macker requires [Ant](https://ant.apache.org/bindownload.cgi) to run, so install Ant if necessary.
+
 ### EclEmma/JaCoCo
 
 [EclEmma/JaCoCo](http://eclemma.org/jacoco/) measures code coverage for Java test run.
