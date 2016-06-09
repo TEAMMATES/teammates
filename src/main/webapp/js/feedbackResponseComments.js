@@ -138,7 +138,8 @@ var deleteCommentHandler = function(e) {
             if (editForm.is(':visible')) {
                 setFormErrorMessage(editForm.find('div > a'), 'Failed to delete comment. Please try again.');
             } else if (frCommentList.parent().find('div.delete_error_msg').length === 0) {
-                frCommentList.after('<div class="delete_error_msg alert alert-danger">Failed to delete comment. Please try again.</div>');
+                frCommentList.after('<div class="delete_error_msg alert alert-danger">'
+                                    + 'Failed to delete comment. Please try again.</div>');
             }
             submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
         },
@@ -168,8 +169,10 @@ var deleteCommentHandler = function(e) {
 };
 
 function registerResponseCommentsEvent() {
-    $('body').on('click', 'form[class*="responseCommentAddForm"] > div > a[id^="button_save_comment_for_add"]', addCommentHandler);
-    $('body').on('click', 'form[class*="responseCommentEditForm"] > div > a[id^="button_save_comment_for_edit"]', editCommentHandler);
+    $('body').on('click', 'form[class*="responseCommentAddForm"] > div > a[id^="button_save_comment_for_add"]',
+                 addCommentHandler);
+    $('body').on('click', 'form[class*="responseCommentEditForm"] > div > a[id^="button_save_comment_for_edit"]',
+                 editCommentHandler);
     $('body').on('click', 'form[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandler);
     
     $('div[id^=plainCommentText]').css('margin-left', '15px');
@@ -340,11 +343,13 @@ function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentI
     var visibilityEditForm = $('#visibility-options' + id);
     if (visibilityEditForm.is(':visible')) {
         visibilityEditForm.hide();
-        $('#frComment-visibility-options-trigger' + id).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+        $('#frComment-visibility-options-trigger' + id)
+            .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
         
     } else {
         visibilityEditForm.show();
-        $('#frComment-visibility-options-trigger' + id).html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
+        $('#frComment-visibility-options-trigger' + id)
+            .html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
     }
 }
 

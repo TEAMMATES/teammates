@@ -27,7 +27,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId),
+                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
         InstructorAttributes instructorToEdit = extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
@@ -106,8 +107,9 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         instructorRole = Sanitizer.sanitizeName(instructorRole);
         displayedName = Sanitizer.sanitizeName(displayedName);
         
-        InstructorAttributes instructorToEdit = updateBasicInstructorAttributes(courseId, instructorId,
-                instructorName, instructorEmail, instructorRole, isDisplayedToStudents, displayedName);
+        InstructorAttributes instructorToEdit =
+                updateBasicInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
+                                                instructorRole, isDisplayedToStudents, displayedName);
         
         if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToEdit);

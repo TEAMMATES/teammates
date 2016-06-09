@@ -51,7 +51,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         
-        String adminEmailTaskQueueMode = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE);
+        String adminEmailTaskQueueMode =
+                HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE);
 
         Assumption.assertNotNull(adminEmailTaskQueueMode);
         
@@ -62,7 +63,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             emailId = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);
             Assumption.assertNotNull(emailId);
             
-            addressReceiverListString = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
+            addressReceiverListString =
+                    HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
             Assumption.assertNotNull(addressReceiverListString);
             
             addAdminEmailToTaskQueue(emailId);

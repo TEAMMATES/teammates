@@ -40,7 +40,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     private void testCompose() {
         ______TS("email compose page");
         
-        emailPage = loginAdminToPageForAdminUiTests(
+        emailPage = loginAdminToPage(
                         browser, createUrl(Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE), AdminEmailPage.class);
         assertTrue(isEmailComposeElementsPresent());
         

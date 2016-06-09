@@ -114,7 +114,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                    && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType);
         if (selectedSection.equals(ALL_SECTION_OPTION) && (isShowSectionWarningForParticipantView
                                                            || isShowSectionWarningForQuestionView)) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING,
+                                               StatusMessageColor.WARNING));
             isError = true;
         }
         
@@ -153,10 +154,10 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
     }
 
-    private FeedbackSessionResultsBundle getBundleForQuestionView(String needAjax, String courseId, String feedbackSessionName,
-                                                                  InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                                                  String selectedSection, String sortType, String questionId)
-                                                                  throws EntityDoesNotExistException {
+    private FeedbackSessionResultsBundle getBundleForQuestionView(
+            String needAjax, String courseId, String feedbackSessionName, InstructorAttributes instructor,
+            InstructorFeedbackResultsPageData data, String selectedSection, String sortType, String questionId)
+                    throws EntityDoesNotExistException {
         FeedbackSessionResultsBundle bundle;
         if (questionId == null) {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {

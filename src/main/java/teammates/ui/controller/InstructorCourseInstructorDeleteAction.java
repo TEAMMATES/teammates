@@ -35,7 +35,8 @@ public class InstructorCourseInstructorDeleteAction extends Action {
                 + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
         } else {
             isError = true;
-            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED,
+                                               StatusMessageColor.DANGER));
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
                     + " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
                     + "as there is only one instructor left to be able to modify instructors.<br>";
@@ -65,9 +66,10 @@ public class InstructorCourseInstructorDeleteAction extends Action {
 
         for (InstructorAttributes instr : instructors) {
 
-            boolean isAlternativeInstructor = instr.isRegistered()
-                                              && !instr.getEmail().equals(instructorToDeleteEmail)
-                                              && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+            boolean isAlternativeInstructor =
+                        instr.isRegistered()
+                        && !instr.getEmail().equals(instructorToDeleteEmail)
+                        && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
             if (isAlternativeInstructor) {
                 return true;

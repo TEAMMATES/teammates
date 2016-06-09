@@ -373,8 +373,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * @param additionalInfoId
      */
     private void buildSectionPanelsForViewByParticipantQuestionParticipant(
-                                    Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses,
-                                    String additionalInfoId) {
+            Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses,
+            String additionalInfoId) {
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
         
@@ -393,8 +393,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         // Iterate through the primary participant
         int primaryParticipantIndex = this.getStartIndex();
-        for (Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> primaryToSecondaryParticipantToResponsesMap
-                : sortedResponses.entrySet()) {
+        for (Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
+                     primaryToSecondaryParticipantToResponsesMap : sortedResponses.entrySet()) {
             primaryParticipantIndex += 1;
             String primaryParticipantIdentifier = primaryToSecondaryParticipantToResponsesMap.getKey();
             
@@ -685,7 +685,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     private void finalizeBuildingSectionPanelWithoutTeamStats(InstructorFeedbackResultsSectionPanel sectionPanel,
                                                           String sectionName) {
-        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> emptyResponseMap = new LinkedHashMap<>();
+        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> emptyResponseMap =
+                new LinkedHashMap<>();
         LinkedHashSet<String> emptyTeamList = new LinkedHashSet<String>();
         finalizeBuildingSectionPanel(sectionPanel, sectionName, emptyResponseMap, emptyTeamList);
     }
@@ -1315,15 +1316,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return responseRows;
     }
     
-    private List<InstructorFeedbackResultsResponseRow> buildResponseRowsForQuestionForSingleGiver(FeedbackQuestionAttributes question,
-                                                                                          List<FeedbackResponseAttributes> responses,
-                                                                                          String giverIdentifier) {
+    private List<InstructorFeedbackResultsResponseRow>
+            buildResponseRowsForQuestionForSingleGiver(FeedbackQuestionAttributes question,
+                                                       List<FeedbackResponseAttributes> responses,
+                                                       String giverIdentifier) {
         return buildResponseRowsForQuestionForSingleParticipant(question, responses, giverIdentifier, true);
     }
     
-    private List<InstructorFeedbackResultsResponseRow> buildResponseRowsForQuestionForSingleRecipient(FeedbackQuestionAttributes question,
-                                                                                              List<FeedbackResponseAttributes> responses,
-                                                                                              String recipientIdentifier) {
+    private List<InstructorFeedbackResultsResponseRow>
+            buildResponseRowsForQuestionForSingleRecipient(FeedbackQuestionAttributes question,
+                                                           List<FeedbackResponseAttributes> responses,
+                                                           String recipientIdentifier) {
         return buildResponseRowsForQuestionForSingleParticipant(question, responses, recipientIdentifier, false);
     }
     
@@ -1439,9 +1442,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 String possibleRecipientName = bundle.getFullNameFromRoster(possibleRecipient);
                 String possibleRecipientTeam = bundle.getTeamNameFromRoster(possibleRecipient);
                 
-                InstructorFeedbackResultsModerationButton moderationButton = buildModerationButtonForGiver(
-                                                                                 question, giverIdentifier,
-                                                                                 "btn btn-default btn-xs", MODERATE_SINGLE_RESPONSE);
+                InstructorFeedbackResultsModerationButton moderationButton =
+                        buildModerationButtonForGiver(question, giverIdentifier, "btn btn-default btn-xs",
+                                                      MODERATE_SINGLE_RESPONSE);
                 InstructorFeedbackResultsResponseRow missingResponse =
                         new InstructorFeedbackResultsResponseRow(
                                 giverName, giverTeam, possibleRecipientName, possibleRecipientTeam,
@@ -1539,14 +1542,16 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return responseRows;
     }
 
-    private InstructorFeedbackResultsModerationButton buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
-                                                                      FeedbackResponseAttributes response) {
+    private InstructorFeedbackResultsModerationButton
+            buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
+                                                     FeedbackResponseAttributes response) {
         boolean isGiverInstructor = question.giverType == FeedbackParticipantType.INSTRUCTORS;
         boolean isGiverStudentOrTeam = question.giverType == FeedbackParticipantType.STUDENTS
                                        || question.giverType == FeedbackParticipantType.TEAMS;
         
         if (isGiverStudentOrTeam || isGiverInstructor) {
-            return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs", MODERATE_SINGLE_RESPONSE);
+            return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs",
+                                                 MODERATE_SINGLE_RESPONSE);
         }
         return null;
     }
@@ -1576,8 +1581,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         String sectionName = bundle.getSectionFromRoster(giverIdentifier);
         boolean isAllowedToModerate = isAllowedToModerate(instructor, sectionName, getFeedbackSessionName());
         boolean isDisabled = !isAllowedToModerate;
-        String moderateFeedbackResponseLink = isGiverInstructorOfCourse ? Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE
-                                                                        : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
+        String moderateFeedbackResponseLink = isGiverInstructorOfCourse
+                                              ? Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE
+                                              : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
         moderateFeedbackResponseLink = addUserIdToUrl(moderateFeedbackResponseLink);
 
         InstructorFeedbackResultsModerationButton moderationButton =
@@ -1857,7 +1863,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     private String getInstructorFeedbackSessionResultsLink() {
-        return getInstructorFeedbackResultsLink(bundle.feedbackSession.getCourseId(), bundle.feedbackSession.getFeedbackSessionName());
+        return getInstructorFeedbackResultsLink(bundle.feedbackSession.getCourseId(),
+                                                bundle.feedbackSession.getFeedbackSessionName());
     }
     
     private boolean isAllowedToModerate(InstructorAttributes instructor, String sectionName, String feedbackSessionName) {

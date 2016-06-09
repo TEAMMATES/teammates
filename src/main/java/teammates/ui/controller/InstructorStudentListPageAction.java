@@ -43,7 +43,8 @@ public class InstructorStudentListPageAction extends Action {
         }
         
         if (courses.isEmpty()) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS,
+                                               StatusMessageColor.WARNING));
         }
 
         statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();
