@@ -26,7 +26,9 @@ public class FeedbackConstantSumResponseDetails extends
             }
         }
         FeedbackConstantSumQuestionDetails constSumQd = (FeedbackConstantSumQuestionDetails) questionDetails;
-        this.setConstantSumResponseDetails(constSumAnswer, constSumQd.getConstSumOptions(), constSumQd.isDistributeToRecipients());
+        this.setConstantSumResponseDetails(constSumAnswer,
+        		                           constSumQd.getConstSumOptions(),
+        		                           constSumQd.isDistributeToRecipients());
     }
 
     /**
