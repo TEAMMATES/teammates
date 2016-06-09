@@ -13,7 +13,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorCourseInstructorEditSaveAction extends InstructorCourseInstructorActionAbstract {
+public class InstructorCourseInstructorEditSaveAction extends InstructorCourseInstructorAbstractAction {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {

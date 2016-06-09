@@ -10,7 +10,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 
-public abstract class InstructorCourseInstructorActionAbstract extends Action {
+public abstract class InstructorCourseInstructorAbstractAction extends Action {
     
     /**
      * Updates section and session level privileges for the instructor.

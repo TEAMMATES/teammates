@@ -15,7 +15,7 @@ import teammates.logic.api.GateKeeper;
 /**
  * Action: add another instructor to a course that already exists
  */
-public class InstructorCourseInstructorAddAction extends InstructorCourseInstructorActionAbstract {
+public class InstructorCourseInstructorAddAction extends InstructorCourseInstructorAbstractAction {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
