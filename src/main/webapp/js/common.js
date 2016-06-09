@@ -880,56 +880,54 @@ var BootboxWrapper = {
     /**
      * Custom alert dialog to replace default alert() function
      * Required params: titleText and messegeText
+     * Optional params: okButtonText (defaults to "OK")
+     *                  color (defaults to StatusType.INFO)
      */
     showModalAlert: function(titleText, messageText, okButtonText, color) {
-        okButtonText = okButtonText || 'OK';
-        color = color || StatusType.INFO;
-
         bootbox.dialog({
             title: titleText,
             message: messageText,
             buttons: {
                 okay: {
-                    label: okButtonText,
+                    label: okButtonText || 'OK',
                     className: 'modal-btn-ok '
-                               + 'btn-' + color
+                               + 'btn-' + color || StatusType.INFO
                 }
             }
         })
         // applies bootstrap color to title background
-        .find('.modal-header').addClass('alert-' + color);
+        .find('.modal-header').addClass('alert-' + color || StatusType.INFO);
     },
 
     /**
      * Custom confirmation dialog to replace default confirm() function
      * Required params: titleText, messegeText and okCallback
+     * Optional params: cancelCallBack (defaults to null)
+     *                  okButtonText (defaults to "OK")
+     *                  cancelButtonText (defaults to "Cancel")
+     *                  color (defaults to StatusType.INFO)
      */
     showModalConfirmation: function(titleText, messageText, okCallback, cancelCallback,
                                     okButtonText, cancelButtonText, color) {
-        cancelCallback = cancelCallback || null;
-        okButtonText = okButtonText || 'OK';
-        cancelButtonText = cancelButtonText || 'Cancel';
-        color = color || StatusType.INFO
-
         bootbox.dialog({
             title: titleText,
             message: messageText,
             buttons: {
                 cancel: {
-                    label: cancelButtonText,
+                    label: cancelButtonText || 'Cancel',
                     className: 'modal-btn-cancel '
                                + 'btn-default',
-                    callback: cancelCallback
+                    callback: cancelCallback || null
                 },
                 ok: {
-                    label: okButtonText,
+                    label: okButtonText || 'OK',
                     className: 'modal-btn-ok '
-                               + 'btn-' + color,
+                               + 'btn-' + color || StatusType.INFO,
                     callback: okCallback
                 }
             }
         })
         // applies bootstrap color to title background
-        .find('.modal-header').addClass('alert-' + color);
+        .find('.modal-header').addClass('alert-' + color || StatusType.INFO);
     }
-}
+};

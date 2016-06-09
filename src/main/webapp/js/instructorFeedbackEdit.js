@@ -37,7 +37,7 @@ function readyFeedbackEditPage() {
             event.preventDefault();
             var okCallback = function() {
                 event.currentTarget.submit();
-            }
+            };
             BootboxWrapper.showModalConfirmation(WARNING_DELETE_RESPONSES, CONFIRMATION_BODY, okCallback, null,
                                                  CONFIRM_DELETE, DEFAULT_CANCEL_BUTTON_TEXT, StatusType.DANGER);
         }
