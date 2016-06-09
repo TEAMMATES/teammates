@@ -532,8 +532,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             FeedbackNumericalScaleResponseDetails responseDetails =
                     (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             double answer = responseDetails.getAnswer();
-            String giverEmail = response.giverEmail;
-            String recipientEmail = response.recipientEmail;
+            String giverEmail = response.giver;
+            String recipientEmail = response.recipient;
 
             // Compute number of responses including user's self response
             if (!numResponses.containsKey(recipientEmail)) {
@@ -615,7 +615,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                     && type != FeedbackParticipantType.SELF
                     && type != FeedbackParticipantType.NONE) {
                 
-                hiddenRecipients.add(response.recipientEmail);
+                hiddenRecipients.add(response.recipient);
             }
         }
         return hiddenRecipients;

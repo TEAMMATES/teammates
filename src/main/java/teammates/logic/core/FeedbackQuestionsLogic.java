@@ -474,7 +474,7 @@ public class FeedbackQuestionsLogic {
             List<FeedbackResponseAttributes> responses =
                     frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
             for (FeedbackResponseAttributes response : responses) {
-                if (response.giverEmail.equals(student.email)) {
+                if (response.giver.equals(student.email)) {
                     numberOfResponsesNeeded -= 1;
                 }
             }
