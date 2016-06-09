@@ -49,7 +49,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                "${existingResponse}", Sanitizer.sanitizeForHtml(existingResponseDetails.getAnswerString()));
+                Slots.TEXT_EXISTING_RESPONSE, Sanitizer.sanitizeForHtml(existingResponseDetails.getAnswerString()));
     }
 
     @Override
@@ -61,7 +61,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                "${existingResponse}", "");
+                Slots.TEXT_EXISTING_RESPONSE, "");
     }
 
     @Override
