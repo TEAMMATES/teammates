@@ -208,13 +208,20 @@ Role: dev (with push permission), or reviewer
     * **Outdated branch**: The PR is not in sync with the current `master` branch; the author will
       need to sync it before proceeding. This can be done via GitHub with the "Update branch" button.
   * When GitHub gives a green light for merging,
-    * Merge with "squash and merge" option (preferable). Format of the commit message:<br>
-      `[Issue number] Issue title as given in the original issue`<br>
-      e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`<br>
-      The additional descriptions can be left as is.
-    * Optionally, apply an `e.*` label to the issue (not the PR) to indicate 
-      the estimated effort required to fix the issue, and another `e.*` label to the PR
-      to indicate the estimated effort required to review the PR.
+    * Checkout to the PR branch, merge with the current `master` branch, and test the code locally by running the `Local tests`.<br>
+      `git checkout -b 2287-add-sample-course-test origin/2287-add-sample-course-test`<br>
+      `git merge master`<br>
+    * If green,
+      * Merge with "squash and merge" option (preferable). Format of the commit message:<br>
+        `[Issue number] Issue title as given in the original issue`<br>
+        e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`<br>
+        The additional descriptions can be left as is.
+      * Optionally, apply an `e.*` label to the issue (not the PR) to indicate 
+        the estimated effort required to fix the issue, and another `e.*` label to the PR
+        to indicate the estimated effort required to review the PR.
+    * If not green,
+      * Change the pull request status to `s.Ongoing`
+      * Add a comment to mention the test failure.
 
 ###Assigning labels, reviewers, and milestones
 Roles: PM (Project Manager) + RL (Release Lead)
