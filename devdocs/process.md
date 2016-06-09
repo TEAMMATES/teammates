@@ -205,11 +205,12 @@ Role: dev (with push permission), or reviewer
       need to resolve the conflicts before proceeding.
     * **Outdated branch**: The PR is not in sync with the current `master` branch; the author will
       need to sync it before proceeding. This can be done via GitHub with the "Update branch" button.
+    
     The dev will need to resolve them before merging can proceed. It is up to the dev/reviewer's discretion
     on whether the merge conflict or outdated branch needs another review to be called for. In general, unless
     the changeset are functionally conflicting, there is no need for another review.
   * When GitHub gives a green light for merging,
-    * Checkout to the PR branch, merge with the current `master` branch, and test the code locally by running the `Local tests`.<br>
+    * Checkout to the PR branch, merge with the current `master` branch, and test the code locally by running the "Local tests".<br>
       `git checkout -b 2287-add-sample-course-test origin/2287-add-sample-course-test`<br>
       `git merge master`<br>
     * If green,
@@ -221,7 +222,7 @@ Role: dev (with push permission), or reviewer
         the estimated effort required to fix the issue, and another `e.*` label to the PR
         to indicate the estimated effort required to review the PR.
     * If not green,
-      * Change the pull request status to `s.Ongoing`
+      * Change the pull request status to `s.Ongoing`.
       * Add a comment to mention the test failure.
 
 ###Assigning labels, reviewers, and milestones
