@@ -172,8 +172,8 @@ public abstract class InstructorCourseInstructorActionAbstract extends Action {
             HashMap<String, Boolean> isSectionSpecialMappings,
             HashMap<String, List<String>> specialSectionsInSectionGroups) {
         for (int i = 0; i < sectionNames.size(); i++) {
-            String sectionGroupIsSetStr = getRequestParamValue("is"
-                                                  + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + "set");
+            String sectionGroupIsSetStr =
+                    getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + "set");
             boolean isSectionGroupSpecial = Boolean.parseBoolean(sectionGroupIsSetStr);
             
             for (int j = 0; j < sectionNames.size(); j++) {
