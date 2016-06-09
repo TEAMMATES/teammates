@@ -64,7 +64,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         for (SectionDetailsBundle section : courseDetails.sections) {
             Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
             for (TeamDetailsBundle teamDetails : section.teams) {
-                teamNames.add(teamDetails.name);
+                teamNames.add(sanitizeForHtml(teamDetails.name));
                 for (StudentAttributes student : teamDetails.students) {
                     String studentPhotoUrl = student.getPublicProfilePictureUrl();
                     studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl,
