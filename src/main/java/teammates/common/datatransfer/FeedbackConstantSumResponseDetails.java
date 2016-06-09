@@ -29,7 +29,6 @@ public class FeedbackConstantSumResponseDetails extends
         this.setConstantSumResponseDetails(constSumAnswer,
                                            constSumQd.getConstSumOptions(),
                                            constSumQd.isDistributeToRecipients());
-
     }
 
     /**
