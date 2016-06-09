@@ -791,10 +791,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         String mapString = results.emailNameTable.toString();
         List<String> expectedStrings = new ArrayList<String>();
         
-        String student2AnonEmail = getAnonEmail(responseBundle, "student2InCourse1");
-        String student2AnonName = getAnonName(responseBundle, "student2InCourse1");
-        String student4AnonEmail = getAnonEmail(responseBundle, "student4InCourse1");
-        String student4AnonName = getAnonName(responseBundle, "student4InCourse1");
+        String student2AnonEmail = getStudentAnonEmail(responseBundle, "student2InCourse1");
+        String student2AnonName = getStudentAnonName(responseBundle, "student2InCourse1");
+        String student4AnonEmail = getStudentAnonEmail(responseBundle, "student4InCourse1");
+        String student4AnonName = getStudentAnonName(responseBundle, "student4InCourse1");
         Collections.addAll(expectedStrings,
                 "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1",
                 "FSRTest.student2InCourse1@gmail.tmt=student2 In Course1",
@@ -846,8 +846,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             actualStrings.add(recipientName);
         }
         Collections.addAll(expectedStrings,
-                getAnonName(responseBundle, "student2InCourse1"),
-                getAnonName(responseBundle, "student4InCourse1"),
+                getStudentAnonName(responseBundle, "student2InCourse1"),
+                getStudentAnonName(responseBundle, "student4InCourse1"),
                 "student1 In Course1</td></div>'\" (Team 1.1</td></div>'\")",
                 "student2 In Course1 (Team 1.1</td></div>'\")",
                 "student4 In Course1 (Team 1.2)",
@@ -916,12 +916,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // Test the user email-name maps used for display purposes
         mapString = results.emailNameTable.toString();
         expectedStrings.clear();
-        String student1AnonEmail = getAnonEmail(responseBundle, "student1InCourse1");
-        String student1AnonName = getAnonName(responseBundle, "student1InCourse1");
-        String student3AnonEmail = getAnonEmail(responseBundle, "student3InCourse1");
-        String student3AnonName = getAnonName(responseBundle, "student3InCourse1");
-        String student6AnonEmail = getAnonEmail(responseBundle, "student6InCourse1");
-        String student6AnonName = getAnonName(responseBundle, "student6InCourse1");
+        String student1AnonEmail = getStudentAnonEmail(responseBundle, "student1InCourse1");
+        String student1AnonName = getStudentAnonName(responseBundle, "student1InCourse1");
+        String student3AnonEmail = getStudentAnonEmail(responseBundle, "student3InCourse1");
+        String student3AnonName = getStudentAnonName(responseBundle, "student3InCourse1");
+        String student6AnonEmail = getStudentAnonEmail(responseBundle, "student6InCourse1");
+        String student6AnonName = getStudentAnonName(responseBundle, "student6InCourse1");
         String instructor1AnonEmail = FeedbackSessionResultsBundle.getAnonEmail(
                                           FeedbackParticipantType.INSTRUCTORS,
                                           responseBundle.instructors.get("instructor1OfCourse1").name);
@@ -1562,11 +1562,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         session = newDataBundle.feedbackSessions.get("contribSessionStudentAnonymised");
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         
-        String student1Name = getAnonName(newDataBundle, "student1InCourse1");
-        String student2Name = getAnonName(newDataBundle, "student2InCourse1");
-        String student3Name = getAnonName(newDataBundle, "student3InCourse1");
-        String student4Name = getAnonName(newDataBundle, "student4InCourse1");
-        String student5Name = getAnonName(newDataBundle, "student5InCourse1");
+        String student1AnonName = getStudentAnonName(newDataBundle, "student1InCourse1");
+        String student2AnonName = getStudentAnonName(newDataBundle, "student2InCourse1");
+        String student3AnonName = getStudentAnonName(newDataBundle, "student3InCourse1");
+        String student4AnonName = getStudentAnonName(newDataBundle, "student4InCourse1");
+        String student5AnonName = getStudentAnonName(newDataBundle, "student5InCourse1");
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.email);
@@ -1584,15 +1584,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "Claimed Contribution (CC) = the contribution claimed by the student.",
                 "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
                 "Team, Name, Email, CC, PC, Ratings Recieved",
-                "\"" + student1Name + "'s Team\",\"" + student1Name + "\",\"-\",\"100\",\"N/A\",\"N/A, N/A, N/A\"",
-                "\"" + student2Name + "'s Team\",\"" + student2Name + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
-                "\"" + student3Name + "'s Team\",\"" + student3Name + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
-                "\"" + student4Name + "'s Team\",\"" + student4Name + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
-                "\"" + student5Name + "'s Team\",\"" + student5Name + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A\"",
+                "\"" + student1AnonName + "'s Team\",\"" + student1AnonName + "\",\"-\",\"100\",\"N/A\",\"N/A, N/A, N/A\"",
+                "\"" + student2AnonName + "'s Team\",\"" + student2AnonName + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
+                "\"" + student3AnonName + "'s Team\",\"" + student3AnonName + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
+                "\"" + student4AnonName + "'s Team\",\"" + student4AnonName + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
+                "\"" + student5AnonName + "'s Team\",\"" + student5AnonName + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A\"",
                 "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"" + student1Name + "'s Team\",\"" + student1Name + "\",\"Unknown user\",\"-\",\"\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"" + student1AnonName + "'s Team\",\"" + student1AnonName + "\",\"Unknown user\",\"-\",\"\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
@@ -1760,12 +1760,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    private String getAnonEmail(DataBundle dataBundle, String studentKey) {
+    private String getStudentAnonEmail(DataBundle dataBundle, String studentKey) {
         return FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.STUDENTS,
                                                          dataBundle.students.get(studentKey).name);
     }
 
-    private String getAnonName(DataBundle dataBundle, String studentKey) {
+    private String getStudentAnonName(DataBundle dataBundle, String studentKey) {
         return FeedbackSessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS,
                                                         dataBundle.students.get(studentKey).name);
     }
