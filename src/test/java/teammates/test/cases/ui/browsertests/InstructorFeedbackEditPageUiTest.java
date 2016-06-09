@@ -390,6 +390,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         String qnTextAfterCancelEdit = feedbackEditPage.getQuestionBoxText(qnIndex);
         assertEquals(qnTextOriginal, qnTextAfterCancelEdit);
         
+        ______TS("Try re-editing a question after cancelling, making sure that form controls still work");
+        feedbackEditPage.clickEditQuestionButton(qnIndex);
+        feedbackEditPage.selectRecipientsToBeStudents(qnIndex);
+        assertTrue(feedbackEditPage.isOptionForSelectingNumberOfEntitiesVisible(qnIndex));
+
         // Delete it to reset the status for the following tests
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(qnIndex));
     }
