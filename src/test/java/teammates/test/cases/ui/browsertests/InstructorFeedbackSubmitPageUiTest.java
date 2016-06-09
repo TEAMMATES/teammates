@@ -331,6 +331,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Nothing much to test for input validation.
         // Test fields are disabled when session is closed.
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
+        submitPage.waitForAndDismissAlertModal();
 
         // Test input disabled
         int qnNumber = 1;
@@ -455,6 +456,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // Test input disabled
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
+        submitPage.waitForAndDismissAlertModal();
 
         int qnNumber = 5;
         int responseNumber = 0;

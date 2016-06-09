@@ -172,6 +172,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         // test the response submitted during the grace period
         fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
+        submitPage.waitForAndDismissAlertModal();
         
         assertEquals("this is a response edited during grace period",
                      BackDoor.getFeedbackResponse(fq.getId(),
