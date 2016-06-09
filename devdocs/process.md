@@ -201,12 +201,13 @@ Role: dev (with push permission), or reviewer
 
   * Merging can be done via GitHub. Make sure that GitHub gives a green light for merging.
     There are a few scenarios where GitHub can prevent merging from proceeding:
-    * **Failed status check**: The PR breaks some tests or did not pass static analysis; the author
-      will need to correct them before proceeding.
     * **Merge conflict**: The PR is conflicting with the current `master` branch; the author will
       need to resolve the conflicts before proceeding.
     * **Outdated branch**: The PR is not in sync with the current `master` branch; the author will
       need to sync it before proceeding. This can be done via GitHub with the "Update branch" button.
+    The dev will need to resolve them before merging can proceed. It is up to the dev/reviewer's discretion
+    on whether the merge conflict or outdated branch needs another review to be called for. In general, unless
+    the changeset are functionally conflicting, there is no need for another review.
   * When GitHub gives a green light for merging,
     * Checkout to the PR branch, merge with the current `master` branch, and test the code locally by running the `Local tests`.<br>
       `git checkout -b 2287-add-sample-course-test origin/2287-add-sample-course-test`<br>
