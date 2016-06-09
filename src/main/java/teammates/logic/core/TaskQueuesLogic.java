@@ -13,6 +13,7 @@ import com.google.appengine.api.taskqueue.TaskOptions;
 public class TaskQueuesLogic {
 
     private static TaskQueuesLogic instance;
+    
     public static TaskQueuesLogic inst() {
         if (instance == null) {
             instance = new TaskQueuesLogic();
@@ -20,7 +21,7 @@ public class TaskQueuesLogic {
         return instance;
     }
     
-    public void createAndAddTask(String queueName, 
+    public void createAndAddTask(String queueName,
             String workerUrl, HashMap<String, String> paramMap) {
         Queue requiredQueue = QueueFactory.getQueue(queueName);
         TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
@@ -36,7 +37,7 @@ public class TaskQueuesLogic {
     }
     
     // TODO Combine this and createAndAddTask and modify task schedulers accordingly?
-    public void createAndAddTaskMultisetParam(String queueName, 
+    public void createAndAddTaskMultisetParam(String queueName,
             String workerUrl, HashMap<String, String[]> paramMap) {
         Queue requiredQueue = QueueFactory.getQueue(queueName);
         TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
@@ -53,7 +54,7 @@ public class TaskQueuesLogic {
         requiredQueue.add(taskToBeAdded);
     }
     
-    public void createAndAddDeferredTask(String queueName, 
+    public void createAndAddDeferredTask(String queueName,
             String workerUrl, HashMap<String, String> paramMap, long countdownTime) {
         Queue requiredQueue = QueueFactory.getQueue(queueName);
         TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);

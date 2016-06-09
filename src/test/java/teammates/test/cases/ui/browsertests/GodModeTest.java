@@ -32,7 +32,7 @@ public class GodModeTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        TestProperties.inst().verifyReadyForGodMode();
+        TestProperties.verifyReadyForGodMode();
         injectContextDependentValuesIntoActualFile();
         browser = BrowserPool.getBrowser();
         page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl(ACTUAL_FILENAME));

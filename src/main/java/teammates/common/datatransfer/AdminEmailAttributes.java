@@ -7,7 +7,6 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -38,7 +37,7 @@ public class AdminEmailAttributes extends EntityAttributes {
         this.isInTrashBin = ae.getIsInTrashBin();
     }
     
-    public AdminEmailAttributes(String subject, 
+    public AdminEmailAttributes(String subject,
                                 List<String> addressReceiver,
                                 List<String> groupReceiver,
                                 Text content,
@@ -57,12 +56,12 @@ public class AdminEmailAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL_CONTENT, content);
+        error = validator.getInvalidityInfoForEmailContent(content);
         if (!error.isEmpty()) {
             errors.add(error);
         }
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL_SUBJECT, subject);
+        error = validator.getInvalidityInfoForEmailSubject(subject);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -140,7 +139,7 @@ public class AdminEmailAttributes extends EntityAttributes {
         
         Calendar cal = Calendar.getInstance();
         cal.setTime(this.sendDate);
-        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         
         return TimeHelper.formatTime12H(cal.getTime());
     }
@@ -148,7 +147,7 @@ public class AdminEmailAttributes extends EntityAttributes {
     public String getCreateDateForDisplay() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(this.createDate);
-        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         
         return TimeHelper.formatTime12H(cal.getTime());
     }

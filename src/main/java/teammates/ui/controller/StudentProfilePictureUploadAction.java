@@ -6,6 +6,14 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
+import teammates.logic.api.GateKeeper;
+
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
@@ -17,14 +25,6 @@ import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
 import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
-
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Assumption;
-import teammates.common.util.Config;
-import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 /**
  * Action: saves the file information of the profile picture
@@ -52,7 +52,8 @@ public class StudentProfilePictureUploadAction extends Action {
                 blobKey = blobInfo.getBlobKey();
                 pictureKey = renameFileToGoogleId(blobInfo);
                 logic.updateStudentProfilePicture(account.googleId, pictureKey);
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, StatusMessageColor.SUCCESS));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED,
+                                                   StatusMessageColor.SUCCESS));
                 r.addResponseParam(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "true");
             }
         } catch (BlobstoreFailureException | IOException bfe) {
@@ -95,7 +96,7 @@ public class StudentProfilePictureUploadAction extends Action {
      * @param transformedImage
      * @return BlobKey
      * @throws IOException
-     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this 
+     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this
      */
     private String uploadFileToGcs(byte[] transformedImage) throws IOException {
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
@@ -118,10 +119,11 @@ public class StudentProfilePictureUploadAction extends Action {
                                                                           .getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PHOTO);
             if (blobs == null || blobs.isEmpty()) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN, StatusMessageColor.DANGER));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN,
+                                                   StatusMessageColor.DANGER));
                 isError = true;
                 return null;
-            } 
+            }
             BlobInfo profilePic = blobs.get(0);
             return validateProfilePicture(profilePic);
         } catch (IllegalStateException e) {

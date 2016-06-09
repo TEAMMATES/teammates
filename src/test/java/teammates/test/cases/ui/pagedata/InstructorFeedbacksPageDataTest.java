@@ -80,7 +80,9 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         int expectedDefaultGracePeriodOptionsIndex = 3;
         assertNull(formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().get("selected"));
-        assertTrue(formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().containsKey("selected"));
+        assertTrue(formModel.getGracePeriodOptions()
+                            .get(expectedDefaultGracePeriodOptionsIndex)
+                            .getAttributes().containsKey("selected"));
         
         assertEquals("Please answer all the given questions.", formModel.getInstructions());
         assertEquals("", formModel.getAdditionalSettings().getResponseVisibleDateValue());
@@ -120,7 +122,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
 
         ______TS("case with instructor with only archived course");
         AccountAttributes instructorOfArchivedCourseAccount = dataBundle.accounts.get("instructorOfArchivedCourse");
-        InstructorFeedbacksPageData instructorArchivedCourseData = new InstructorFeedbacksPageData(instructorOfArchivedCourseAccount);
+        InstructorFeedbacksPageData instructorArchivedCourseData =
+                new InstructorFeedbacksPageData(instructorOfArchivedCourseAccount);
         Map<String, InstructorAttributes> archivedCourseInstructorMap = new HashMap<String, InstructorAttributes>();
         
         instructors = getInstructorsForGoogleId(instructorOfArchivedCourseAccount.googleId, true);
@@ -129,10 +132,12 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
             archivedCourseInstructorMap.put(instructor.courseId, instructor);
         }
         
-        List<InstructorAttributes> instructorsForArchivedCourse = new ArrayList<InstructorAttributes>(archivedCourseInstructorMap.values());
+        List<InstructorAttributes> instructorsForArchivedCourse =
+                new ArrayList<InstructorAttributes>(archivedCourseInstructorMap.values());
         List<CourseAttributes> archivedCourses = getCoursesForInstructor(instructorsForArchivedCourse);
         List<FeedbackSessionAttributes> archivedFsList = getFeedbackSessionsListForInstructor(instructorsForArchivedCourse);
-        instructorArchivedCourseData.initWithoutDefaultFormValues(archivedCourses, null, archivedFsList, archivedCourseInstructorMap, null);
+        instructorArchivedCourseData.initWithoutDefaultFormValues(archivedCourses, null, archivedFsList,
+                                                                  archivedCourseInstructorMap, null);
 
         ______TS("case with instructor with only archived course: test new fs form");
         // Test new fs form model
@@ -140,7 +145,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_ACTIVE_COURSES, 
+        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_ACTIVE_COURSES,
                      formModel.getCoursesSelectField().get(0).getContent());
         
         assertTrue(formModel.isSubmitButtonDisabled());
@@ -169,7 +174,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS, 
+        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS,
                      formModel.getCoursesSelectField().get(0).getContent());
         
         assertTrue(formModel.isSubmitButtonDisabled());
@@ -211,7 +216,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         boolean isOtherFeedbackSessionHighlighted = false;
         for (FeedbackSessionsTableRow row : sessionRows) {
             if ("First feedback session".equals(row.getName())) {
-                isFirstFeedbackSessionHighlighted = row.getRowAttributes().getAttributes().get("class").matches(".*\\bwarning\\b.*");
+                isFirstFeedbackSessionHighlighted =
+                        row.getRowAttributes().getAttributes().get("class").matches(".*\\bwarning\\b.*");
             } else {
                 if (row.getRowAttributes().getAttributes().get("class").matches(".*\\bwarning\\b.*")) {
                     isOtherFeedbackSessionHighlighted = true;
@@ -269,7 +275,9 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         int expectedDefaultGracePeriodOptionsIndex = 2;
         assertNull(formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().get("selected"));
-        assertTrue(formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().containsKey("selected"));
+        assertTrue(formModel.getGracePeriodOptions()
+                            .get(expectedDefaultGracePeriodOptionsIndex)
+                            .getAttributes().containsKey("selected"));
         
         assertEquals("Please please fill in the following questions.", formModel.getInstructions());
         assertEquals("01/05/2027", formModel.getAdditionalSettings().getResponseVisibleDateValue());
@@ -352,10 +360,10 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         while (iter.hasNext()) {
             InstructorAttributes instructor = iter.next();
 
-            boolean isGoogleIdSame = instructor.googleId != null 
+            boolean isGoogleIdSame = instructor.googleId != null
                                      && instructor.googleId.equals(googleId);
-            boolean isOmittedDueToArchiveStatus = isOmitArchived 
-                                                  && instructor.isArchived != null 
+            boolean isOmittedDueToArchiveStatus = isOmitArchived
+                                                  && instructor.isArchived != null
                                                   && instructor.isArchived;
             if (!isGoogleIdSame || isOmittedDueToArchiveStatus) {
                 iter.remove();
@@ -384,12 +392,13 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(List<InstructorAttributes> instructorsForUser) {
         Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
         
-        List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>(dataBundle.feedbackSessions.values());
+        List<FeedbackSessionAttributes> feedbackSessions =
+                new ArrayList<FeedbackSessionAttributes>(dataBundle.feedbackSessions.values());
         
         Iterator<FeedbackSessionAttributes> iter = feedbackSessions.iterator();
         while (iter.hasNext()) {
             FeedbackSessionAttributes fs = iter.next();
-            if (!courseIdsOfUser.contains(fs.courseId)) {
+            if (!courseIdsOfUser.contains(fs.getCourseId())) {
                 iter.remove();
             }
         }

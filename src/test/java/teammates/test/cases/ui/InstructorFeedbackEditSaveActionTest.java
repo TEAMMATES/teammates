@@ -9,9 +9,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
+import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
 import teammates.ui.controller.InstructorFeedbackEditSaveAction;
-import teammates.ui.controller.AjaxResult;
 
 public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
@@ -25,7 +25,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -44,7 +44,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         ______TS("success: Typical case");
         
         String[] params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
-                                                                session.feedbackSessionName);
+                                                                session.getFeedbackSessionName());
         
         InstructorFeedbackEditSaveAction a = getAction(params);
         AjaxResult ar = (AjaxResult) a.executeAndPostProcess();
@@ -84,7 +84,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         ______TS("success: Timzone with offset, 'never' show session, 'custom' show results");
         
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
-                                                       session.feedbackSessionName);
+                                                       session.getFeedbackSessionName());
         params[25] = "5.75";
         params[13] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
@@ -116,7 +116,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         ______TS("success: atopen session visible time, custom results visible time, null timezone, null grace period");
         
         params = createParamsCombinationForFeedbackSession(
-                         instructor1ofCourse1.courseId, session.feedbackSessionName, 1);
+                         instructor1ofCourse1.courseId, session.getFeedbackSessionName(), 1);
         
         //remove grace period (first) and then time zone
         params = ArrayUtils.remove(params, 26);
@@ -151,7 +151,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin.user");
 
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
-                                                       session.feedbackSessionName);
+                                                       session.getFeedbackSessionName());
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
         params[25] = " ";
         params[27] = "12dsf";

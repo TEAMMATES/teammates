@@ -6,8 +6,8 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentDetailsPageAction extends Action {
@@ -23,7 +23,8 @@ public class InstructorCourseStudentDetailsPageAction extends Action {
         
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_COURSE_DETAILS, StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_COURSE_DETAILS,
+                                               StatusMessageColor.DANGER));
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
@@ -45,7 +46,7 @@ public class InstructorCourseStudentDetailsPageAction extends Action {
         
         statusToAdmin = "instructorCourseStudentDetails Page Load<br>"
                         + "Viewing details for Student <span class=\"bold\">" + studentEmail
-                        + "</span> in Course <span class=\"bold\">[" + courseId + "]</span>"; 
+                        + "</span> in Course <span class=\"bold\">[" + courseId + "]</span>";
         
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS, data);
@@ -54,7 +55,7 @@ public class InstructorCourseStudentDetailsPageAction extends Action {
     
     private StudentProfileAttributes loadStudentProfile(StudentAttributes student, InstructorAttributes currentInstructor) {
         StudentProfileAttributes studentProfile = null;
-        boolean isInstructorAllowedToViewStudent = currentInstructor.isAllowedForPrivilege(student.section, 
+        boolean isInstructorAllowedToViewStudent = currentInstructor.isAllowedForPrivilege(student.section,
                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
         boolean isStudentWithProfile = !student.googleId.isEmpty();
         if (isInstructorAllowedToViewStudent && isStudentWithProfile) {
@@ -68,11 +69,11 @@ public class InstructorCourseStudentDetailsPageAction extends Action {
         boolean hasExistingStatus = !statusToUser.isEmpty()
                                         || session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST) != null;
         if (!isStudentWithProfile && !hasExistingStatus) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS, 
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS,
                                                StatusMessageColor.WARNING));
-        } 
+        }
         if (!isInstructorAllowedToViewStudent && !hasExistingStatus) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR, 
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR,
                                                StatusMessageColor.WARNING));
         }
         return null;

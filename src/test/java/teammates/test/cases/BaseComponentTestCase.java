@@ -3,8 +3,6 @@ package teammates.test.cases;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-import com.google.gson.Gson;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -28,6 +26,8 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.driver.GaeSimulation;
 
+import com.google.gson.Gson;
+
 /** Base class for Component tests.
  * Automatically sets up the GAE Simulation @BeforeTest and tears it down @AfterTest
  */
@@ -45,7 +45,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
 
-    private static final Gson gson = Utils.getTeammatesGson();
+    private static Gson gson = Utils.getTeammatesGson();
 
     @BeforeTest
     public void testSetUp() {
@@ -89,7 +89,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
 
     protected static void verifyAbsentInDatastore(FeedbackQuestionAttributes fq) {
-        assertNull(fqDb.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber));    
+        assertNull(fqDb.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber));
     }
     
     protected static void verifyPresentInDatastore(FeedbackQuestionAttributes expected) {
@@ -138,13 +138,13 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     protected static void verifyAbsentInDatastore(FeedbackSessionAttributes fs) {
-        assertNull(fsDb.getFeedbackSession(fs.courseId, fs.feedbackSessionName));    
+        assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
     }
     
     protected static void verifyPresentInDatastore(FeedbackSessionAttributes expected) {
-        FeedbackSessionAttributes actual = fsDb.getFeedbackSession(expected.courseId, expected.feedbackSessionName);
-        expected.respondingInstructorList = actual.respondingInstructorList;
-        expected.respondingStudentList = actual.respondingStudentList;
+        FeedbackSessionAttributes actual = fsDb.getFeedbackSession(expected.getCourseId(), expected.getFeedbackSessionName());
+        expected.setRespondingInstructorList(actual.getRespondingInstructorList());
+        expected.setRespondingStudentList(actual.getRespondingStudentList());
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
 
@@ -201,7 +201,7 @@ public class BaseComponentTestCase extends BaseTestCase {
         // and cannot be anticipated
         if (actualStudent.key != null) {
             expectedStudent.key = actualStudent.key;
-        }    
+        }
     }
     
     @AfterTest

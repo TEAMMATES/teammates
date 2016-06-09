@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Manage the pool of {@link Browser} instances.
- * This class is thread-safe.  
+ * This class is thread-safe.
  */
 public final class BrowserPool {
     /* This class is implemented as a Singleton class.

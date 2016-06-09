@@ -21,7 +21,8 @@ public class AdminAccountManagementPageAction extends Action {
             instructorGoogleId = "";
         }
         
-        Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable = new HashMap<String, ArrayList<InstructorAttributes>>();
+        Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable =
+                new HashMap<String, ArrayList<InstructorAttributes>>();
         Map<String, AccountAttributes> instructorAccountsTable = new HashMap<String, AccountAttributes>();
         
         List<InstructorAttributes> instructorsList = logic.getInstructorsForGoogleId(instructorGoogleId);
@@ -46,7 +47,7 @@ public class AdminAccountManagementPageAction extends Action {
         AdminAccountManagementPageData data = new AdminAccountManagementPageData(account, instructorAccountsTable,
                                                                                  instructorCoursesTable, isToShowAll);
         
-        statusToAdmin = "Admin Account Management Page Load<br>" 
+        statusToAdmin = "Admin Account Management Page Load<br>"
                         + "<span class=\"bold\">Total Instructors:</span> " + instructorAccountsTable.size();
         
         return createShowPageResult(Const.ViewURIs.ADMIN_ACCOUNT_MANAGEMENT, data);

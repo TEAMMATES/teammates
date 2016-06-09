@@ -6,32 +6,32 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
+
+import com.google.gson.Gson;
 
 public class AjaxResult extends ActionResult {
 
     public PageData data;
     public boolean isClearingStatusMessage = true;
     
-    public AjaxResult(String destination, 
-                      AccountAttributes account, 
+    public AjaxResult(String destination,
+                      AccountAttributes account,
                       List<StatusMessage> status) {
         super(destination, account, status);
     }
 
     public AjaxResult(AccountAttributes account,
-                      List<StatusMessage> status, 
+                      List<StatusMessage> status,
                       PageData data) {
         super("", account, status);
         this.data = data;
     }
     
     public AjaxResult(AccountAttributes account,
-                      List<StatusMessage> status, 
+                      List<StatusMessage> status,
                       PageData data, boolean isClearingStatusMessage) {
         this(account, status, data);
         this.isClearingStatusMessage = isClearingStatusMessage;
@@ -52,15 +52,17 @@ public class AjaxResult extends ActionResult {
         resp.setCharacterEncoding("UTF-8");
         String jsonData = new Gson().toJson(data);
         
-        resp.getWriter().write(jsonData);    
-    } 
+        resp.getWriter().write(jsonData);
+    }
 
     /**
      * Adds the list of status messages (if any) to the page data.
      * @param req HttpServletRequest object
      */
     private void addStatusMessagesToPageData(HttpServletRequest req) {
-        List<StatusMessage> statusMessagesToUser = (List<StatusMessage>) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
+        @SuppressWarnings("unchecked")
+        List<StatusMessage> statusMessagesToUser =
+                (List<StatusMessage>) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
         
         // If the list of status messages can be found in the session and it is not empty,
         // means there are status messages to be shown to the user, add them to the page data.
@@ -74,7 +76,9 @@ public class AjaxResult extends ActionResult {
      * @param req HttpServeletRequest object
      */
     private void clearStatusMessageForRequest(HttpServletRequest req) {
-        List<StatusMessage> statusMessagesToUser = (List<StatusMessage>) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
+        @SuppressWarnings("unchecked")
+        List<StatusMessage> statusMessagesToUser =
+                (List<StatusMessage>) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
         
         if (statusMessagesToUser != null) {
             req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);

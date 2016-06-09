@@ -24,7 +24,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -73,11 +73,11 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         assertEquals(student1InCourse1.comments, pageData.getStudentInfoTable().getComments());
         assertEquals(student1InCourse1.course, pageData.getStudentInfoTable().getCourse());
         
-        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEdit|||instructorCourseStudentDetailsEdit" 
-                                  + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" 
-                                  + "|||instr1@course1.tmt|||instructorCourseStudentEdit Page Load<br>Editing Student " 
-                                  + "<span class=\"bold\">student1InCourse1@gmail.tmt's</span> details in Course " 
-                                  + "<span class=\"bold\">[idOfTypicalCourse1]</span>" 
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEdit|||instructorCourseStudentDetailsEdit"
+                                  + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
+                                  + "|||instr1@course1.tmt|||instructorCourseStudentEdit Page Load<br>Editing Student "
+                                  + "<span class=\"bold\">student1InCourse1@gmail.tmt's</span> details in Course "
+                                  + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                                   + "|||/page/instructorCourseStudentDetailsEdit";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 

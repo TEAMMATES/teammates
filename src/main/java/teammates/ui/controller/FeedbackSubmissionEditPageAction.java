@@ -5,8 +5,8 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 
 public abstract class FeedbackSubmissionEditPageAction extends Action {
     protected String courseId;
@@ -27,7 +27,8 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         
         if (feedbackSession == null) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS,
+                                               StatusMessageColor.WARNING));
                        
             return createSpecificRedirectResult();
         }

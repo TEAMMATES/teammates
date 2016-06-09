@@ -73,7 +73,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 + "?error=true&user=" + student1InCourse1.googleId,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
-        assertEquals("You (student1InCourse1) have already joined this course", 
+        assertEquals("You (student1InCourse1) have already joined this course",
                 redirectResult.getStatusMessage());
 
         /*______TS("student object belongs to another account");
@@ -140,11 +140,13 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
-                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
+                              "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
                 + "<br />"
-                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
-                + "<br />" 
-                + Const.StatusMessages.STUDENT_UPDATE_PROFILE,  
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
+                                "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                + "<br />"
+                + Const.StatusMessages.STUDENT_UPDATE_PROFILE,
                 redirectResult.getStatusMessage());
 
         ______TS("join course with no feedback sessions, profile has only one missing field");
@@ -180,14 +182,16 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
-                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
+                              "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
                 + "<br />"
-                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals") 
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
+                                "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
                 + "<br />"
                 + Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE,
                 redirectResult.getStatusMessage());
 
-        ______TS("join course with no feedback sessions, profile has no missing field");        
+        ______TS("join course with no feedback sessions, profile has no missing field");
         AccountAttributes studentWithFullProfile = dataBundle.accounts.get("noFSStudent3");
         
         studentWithFullProfile = accountsDb.getAccount(studentWithFullProfile.googleId, true);
@@ -220,9 +224,11 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
-                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals") 
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
+                              "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
                 + "<br />"
-                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals"),
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
+                                "[idOfCourseNoEvals] Typical Course 3 with 0 Evals"),
                 redirectResult.getStatusMessage());
 
         
@@ -260,7 +266,8 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
-                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfTypicalCourse1] Typical Course 1 with 2 Evals"), 
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
+                              "[idOfTypicalCourse1] Typical Course 1 with 2 Evals"),
                 redirectResult.getStatusMessage());
 
     }

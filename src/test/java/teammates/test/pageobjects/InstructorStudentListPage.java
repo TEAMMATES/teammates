@@ -89,7 +89,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public void checkCourse(int courseIdx) {
         browser.driver.findElement(By.id("course_check-" + courseIdx)).click();
-        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-preload.gif']"));
+        waitForAjaxLoaderGifToDisappear();
     }
 
     public void clickDisplayArchiveOptions() {
@@ -114,7 +114,7 @@ public class InstructorStudentListPage extends AppPage {
         int id = 0;
         while (isElementPresent(By.id("panelHeading-" + id))) {
             if (getElementText(By.xpath("//div[@id='panelHeading-" + id + "']//strong"))
-                 .startsWith("[" + courseId + "]")) {
+                    .startsWith("[" + courseId + "]")) {
                 return id;
             }
             id++;
@@ -129,7 +129,7 @@ public class InstructorStudentListPage extends AppPage {
         for (int i = 0; i < studentCount; i++) {
             String studentNameInRow = getStudentNameInRow(courseNumber, i);
             if (studentNameInRow.equals(studentName)) {
-                return (courseNumber + "." + i);
+                return courseNumber + "." + i;
             }
         }
         return "";

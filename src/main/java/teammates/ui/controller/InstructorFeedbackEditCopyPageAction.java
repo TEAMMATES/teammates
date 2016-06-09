@@ -7,7 +7,6 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.Logic;
 
 public class InstructorFeedbackEditCopyPageAction extends Action {
 
@@ -32,18 +31,16 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
             
             boolean isAllowedToMakeSession =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-            boolean isArchived = Logic.isCourseArchived(course.getId(), account.googleId);
 
-            if (!isArchived && isAllowedToMakeSession) {
+            if (!instructor.isArchived && isAllowedToMakeSession) {
                 coursesToAddToData.add(course);
             }
         }
         
         CourseAttributes.sortByCreatedDate(coursesToAddToData);
         
-        InstructorFeedbackEditCopyPageData data = 
-            new InstructorFeedbackEditCopyPageData(account, coursesToAddToData, courseId, 
-                                                   feedbackSessionName);
+        InstructorFeedbackEditCopyPageData data =
+                new InstructorFeedbackEditCopyPageData(account, coursesToAddToData, courseId, feedbackSessionName);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_COPY_MODAL, data);
     }

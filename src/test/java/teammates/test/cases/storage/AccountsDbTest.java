@@ -191,7 +191,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.studentProfile.shortName = "Edite";
         accountsDb.updateAccount(a, true);
         
-        actualAccount = accountsDb.getAccount(a.googleId, true);        
+        actualAccount = accountsDb.getAccount(a.googleId, true);
         assertEquals(a.studentProfile.shortName, actualAccount.studentProfile.shortName);
         
         ______TS("success: profile not modified in the default case");
@@ -250,7 +250,8 @@ public class AccountsDbTest extends BaseComponentTestCase {
             assertEquals(StringHelper.toString(a.getInvalidityInfo()), ipe.getMessage());
         }
         
-        // Only check first 2 parameters (course & email) which are used to identify the student entry. The rest are actually allowed to be null.
+        // Only check first 2 parameters (course & email) which are used to identify the student entry.
+        // The rest are actually allowed to be null.
         ______TS("failure: null parameter");
         try {
             accountsDb.updateAccount(null);
@@ -263,7 +264,9 @@ public class AccountsDbTest extends BaseComponentTestCase {
     @Test
     public void testDeleteAccount() throws Exception {
         AccountAttributes a = createNewAccount();
-        a.studentProfile.pictureKey = GoogleCloudStorageHelper.writeFileToGcs(a.googleId, "src/test/resources/images/profile_pic_default.png", "");
+        a.studentProfile.pictureKey =
+                GoogleCloudStorageHelper.writeFileToGcs(a.googleId,
+                                                        "src/test/resources/images/profile_pic_default.png", "");
         profilesDb.updateStudentProfilePicture(a.googleId, a.studentProfile.pictureKey);
         
         ______TS("typical success case");

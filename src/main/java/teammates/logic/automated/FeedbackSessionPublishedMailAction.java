@@ -51,7 +51,7 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
     protected void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
-        feedbackObject.sentPublishedEmail = true;
+        feedbackObject.setSentPublishedEmail(true);
         FeedbackSessionsLogic.inst().updateFeedbackSession(feedbackObject);
     }
 
@@ -64,10 +64,10 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
                 + feedbackSessionName + " and course : " + courseId);
         
         if (feedbackObject == null) {
-            log.severe("Feedback session object for feedback session name : " + feedbackSessionName 
+            log.severe("Feedback session object for feedback session name : " + feedbackSessionName
                        + " for course : " + courseId + " could not be fetched");
             return null;
-        } 
+        }
          /*
           * Check if feedback session was deleted between scheduling
           * and the actual sending of emails

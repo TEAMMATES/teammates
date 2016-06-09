@@ -38,7 +38,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         // use the 2nd student account injected for this test
         
-        String student2GoogleId = TestProperties.inst().TEST_STUDENT2_ACCOUNT;
+        String student2GoogleId = TestProperties.TEST_STUDENT2_ACCOUNT;
         String student2Email = student2GoogleId + "@gmail.com";
         testData.accounts.get("studentWithExistingProfile").googleId = student2GoogleId;
         testData.accounts.get("studentWithExistingProfile").email = student2Email;
@@ -83,7 +83,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                                    .withUserId(testData.accounts.get("studentWithEmptyProfile").googleId);
         StudentHomePage shp = loginAdminToPage(browser, profileUrl, StudentHomePage.class);
-        profilePage = shp.loadProfileTab().changePageType(StudentProfilePage.class);
+        profilePage = shp.loadProfileTab();
     }
 
     private void testContent() throws Exception {
@@ -117,7 +117,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     private void testActions() {
-        // assumes it is run after NavLinks Test 
+        // assumes it is run after NavLinks Test
         // (ie already logged in as studentWithExistingProfile
         String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
 
@@ -242,7 +242,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         ______TS("Failure case: invalid blob-key");
 
         String invalidKey = "random-StRing123";
-        if (TestProperties.inst().isDevServer()) {
+        if (TestProperties.isDevServer()) {
             getProfilePicturePage(studentId, invalidKey, NotFoundPage.class);
         } else {
             getProfilePicturePage(studentId, invalidKey, GenericAppPage.class);

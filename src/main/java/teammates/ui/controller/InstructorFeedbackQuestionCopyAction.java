@@ -4,8 +4,8 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackQuestionCopyAction extends Action {
@@ -28,7 +28,7 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
             statusToAdmin = "";
 
             while (feedbackQuestionId != null) {
-                FeedbackQuestionAttributes feedbackQuestion = 
+                FeedbackQuestionAttributes feedbackQuestion =
                         logic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId, instructorEmail);
 
                 index++;

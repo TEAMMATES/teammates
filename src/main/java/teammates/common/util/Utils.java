@@ -25,10 +25,7 @@ public final class Utils {
 
     /**
      * This creates a Gson object that can handle the Date format we use in the
-     * Json file and also reformat the Json string in pretty-print format. <br>
-     * Technique found in <a href=
-     * "http://code.google.com/p/google-gson/source/browse/trunk/gson/src/test/java/com/google/gson/functional/DefaultTypeAdaptersTest.java?spec=svn327&r=327"
-     * >here </a>
+     * Json file and also reformat the Json string in pretty-print format.
      */
     public static Gson getTeammatesGson() {
         return new GsonBuilder()

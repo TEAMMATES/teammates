@@ -3,11 +3,11 @@ package teammates.ui.template;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.util.TimeHelper;
 
-public class FeedbackResponseComment {
+public class FeedbackResponseCommentRow {
     private Long commentId;
     private String extraClass = "";
     private String giverDisplay;
@@ -38,7 +38,7 @@ public class FeedbackResponseComment {
     private boolean instructorAllowedToDelete;
     private boolean instructorAllowedToEdit;
     
-    public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
@@ -47,18 +47,20 @@ public class FeedbackResponseComment {
     }
 
     // for editing / deleting comments
-    public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay,
-            String giverName, String recipientName, String showCommentToString,
-            String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
+                                      String giverName, String recipientName, String showCommentToString,
+                                      String showGiverNameToString,
+                                      Map<FeedbackParticipantType, Boolean> responseVisiblities) {
         this(frc, giverDisplay);
         setDataForAddEditDelete(frc, giverName, recipientName,
                                 showCommentToString, showGiverNameToString, responseVisiblities);
     }
     
     // for adding comments
-    public FeedbackResponseComment(FeedbackResponseCommentAttributes frc,
-            String giverName, String recipientName, String showCommentToString,
-            String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc,
+                                      String giverName, String recipientName, String showCommentToString,
+                                      String showGiverNameToString,
+                                      Map<FeedbackParticipantType, Boolean> responseVisiblities) {
         setDataForAddEditDelete(frc, giverName, recipientName,
                                 showCommentToString, showGiverNameToString, responseVisiblities);
         this.questionId = frc.feedbackQuestionId;
@@ -114,7 +116,7 @@ public class FeedbackResponseComment {
     }
 
     public String getFeedbackResponseId() {
-        return feedbackResponseId;   
+        return feedbackResponseId;
     }
 
     public String getCourseId() {
@@ -288,7 +290,7 @@ public class FeedbackResponseComment {
         this.withNotificationIcon = true;
     }
 
-    public FeedbackResponseComment setLinkToCommentsPage(String linkToCommentsPage) {
+    public FeedbackResponseCommentRow setLinkToCommentsPage(String linkToCommentsPage) {
         this.withLinkToCommentsPage = true;
         this.linkToCommentsPage = linkToCommentsPage;
         return this;

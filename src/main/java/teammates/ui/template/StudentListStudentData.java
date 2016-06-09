@@ -25,8 +25,9 @@ public class StudentListStudentData {
         this.toggleDeleteConfirmationParams = "'" + Sanitizer.sanitizeForJs(course) + "','"
                                             + Sanitizer.sanitizeForJs(studentName) + "'";
         this.photoUrl = photoUrl;
-        this.courseStudentDetailsLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
-                                                                            course, studentEmail, googleId);
+        this.courseStudentDetailsLink =
+                furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
+                                                    course, studentEmail, googleId);
         this.courseStudentEditLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT,
                                                                          course, studentEmail, googleId);
         this.courseStudentRemindLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_REMIND,

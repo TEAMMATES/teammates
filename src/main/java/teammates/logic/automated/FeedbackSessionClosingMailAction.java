@@ -63,10 +63,10 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
                  + feedbackSessionName + " and course : " + courseId);
         
         if (feedbackObject == null) {
-            log.severe("Feedback session object for feedback session name : " + feedbackSessionName 
+            log.severe("Feedback session object for feedback session name : " + feedbackSessionName
                        + " for course : " + courseId + " could not be fetched");
             return null;
-        } 
+        }
         
         /*
          * Check if feedback session was deleted between scheduling

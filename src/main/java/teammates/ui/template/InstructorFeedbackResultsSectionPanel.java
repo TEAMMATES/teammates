@@ -37,6 +37,18 @@ public class InstructorFeedbackResultsSectionPanel {
         participantPanels = new LinkedHashMap<String, List<InstructorFeedbackResultsParticipantPanel>>();
     }
     
+    /**
+     * Adds a participant panel. The participant panel will not be grouped with any team panel.
+     * @see {@link #addParticipantPanel(String, InstructorFeedbackResultsParticipantPanel)}
+     */
+    public void addParticipantPanel(InstructorFeedbackResultsParticipantPanel participantPanel) {
+        addParticipantPanel("", participantPanel);
+    }
+    
+    /**
+     * Adds a participant panel. The participant panel is grouped with the team panel with team {@code currentTeam}.
+     * @see {@link #addParticipantPanel(InstructorFeedbackResultsParticipantPanel)}
+     */
     public void addParticipantPanel(String currentTeam,
                                     InstructorFeedbackResultsParticipantPanel giverPanel) {
         List<InstructorFeedbackResultsParticipantPanel> teamsMembersPanels;
@@ -73,7 +85,7 @@ public class InstructorFeedbackResultsSectionPanel {
 
     public void setParticipantPanels(
                                     Map<String, List<InstructorFeedbackResultsParticipantPanel>> participantPanels) {
-        this.participantPanels = participantPanels; 
+        this.participantPanels = participantPanels;
     }
 
     public Map<String, List<InstructorFeedbackResultsQuestionTable>> getTeamStatisticsTable() {

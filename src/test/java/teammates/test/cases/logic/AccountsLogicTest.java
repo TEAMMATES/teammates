@@ -5,8 +5,6 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -28,12 +26,14 @@ import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.Priority;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 public class AccountsLogicTest extends BaseComponentTestCase {
 
-    private AccountsLogic accountsLogic = AccountsLogic.inst();
-    private InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private StudentsLogic studentsLogic = StudentsLogic.inst();
-    private Logic logic = new Logic();
+    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static final Logic logic = new Logic();
     private static DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
@@ -70,7 +70,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         //      => It saves time during tests
         
         ______TS("get SP");
-        StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com", 
+        StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com",
                 "institute", "countryName", "female", "moreInfo", "");
         AccountAttributes accountWithStudentProfile = new AccountAttributes("id", "name",
                 true, "test@email.com", "dev", expectedSpa);
@@ -78,7 +78,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         accountsLogic.createAccount(accountWithStudentProfile);
         
         StudentProfileAttributes actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;        
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
         
         ______TS("update SP");
@@ -88,7 +88,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         accountsLogic.updateStudentProfile(accountWithStudentProfile.studentProfile);
         
         actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;        
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
         
         ______TS("update picture");
@@ -116,7 +116,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     
     @Test
     public void testDeletePicture() throws Exception {
-        String keyString = GoogleCloudStorageHelper.writeFileToGcs("accountsLogicTestid", "src/test/resources/images/profile_pic.png", "");
+        String keyString = GoogleCloudStorageHelper.writeFileToGcs("accountsLogicTestid",
+                                                                   "src/test/resources/images/profile_pic.png", "");
         BlobKey key = new BlobKey(keyString);
         accountsLogic.deletePicture(key);
         assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(key));
@@ -433,7 +434,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: instructor joined but account already exists");
         
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
-        InstructorAttributes newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        InstructorAttributes newIns =
+                new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
@@ -451,9 +453,10 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
         
         instructor = dataBundle.instructors.get("instructor4");
-        newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");
+        newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId",
+                                          "anInstructorWithoutGoogleId@gmail.com");
         
-        instructorsLogic.createInstructor(newIns);  
+        instructorsLogic.createInstructor(newIns);
         
         nonInstrAccount = dataBundle.accounts.get("student2InCourse1");
         nonInstrAccount.email = "newInstructor@gmail.com";
@@ -522,7 +525,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
                     "You have used an invalid join link: "
                     + "/page/instructorCourseJoin?key=" + invalidKey,
                     e.getMessage());
-        }        
+        }
     }
 
     @Test

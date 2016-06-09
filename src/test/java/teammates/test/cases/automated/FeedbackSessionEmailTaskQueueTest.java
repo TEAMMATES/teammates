@@ -6,22 +6,22 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackSessionsLogic;
 
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
+
 /**
  *  Tests feedback session reminder and publish emails.
  *  Tests the SystemParams.EMAIL_TASK_QUEUE, and SystemParams.SEND_EMAIL_TASK_QUEUE
- *  
+ * 
  */
 @Test(sequential = true)
 public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQueueTestCase {
@@ -34,7 +34,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     public static class FeedbackSessionsEmailTaskQueueCallback extends BaseTaskQueueCallback {
         
         @Override
-        public int execute(URLFetchRequest request) {            
+        public int execute(URLFetchRequest request) {
             HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
             
             assertTrue(paramMap.containsKey(ParamsNames.SUBMISSION_FEEDBACK));
@@ -78,7 +78,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
-        fsa.endTime = TimeHelper.getHoursOffsetToCurrentTime(0);
+        fsa.setEndTime(TimeHelper.getHoursOffsetToCurrentTime(0));
         
         feedbackSessionsLogic.updateFeedbackSession(fsa);
 
@@ -86,7 +86,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
 
         while (counter != 10) {
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-            feedbackSessionsLogic.publishFeedbackSession(fsa.feedbackSessionName, fsa.courseId);
+            feedbackSessionsLogic.publishFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
             if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)) {
                 break;
             }
@@ -98,12 +98,12 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         ______TS("Try to publish non-existent feedback session");
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-        fsa.endTime = TimeHelper.getHoursOffsetToCurrentTime(0);
+        fsa.setEndTime(TimeHelper.getHoursOffsetToCurrentTime(0));
         feedbackSessionsLogic.updateFeedbackSession(fsa);
         try {
             feedbackSessionsLogic.publishFeedbackSession("non-existent-feedback-session", "non-existent-course");
         } catch (Exception e) {
-            assertEquals("Trying to publish a non-existant session.", 
+            assertEquals("Trying to publish a non-existant session.",
                     e.getMessage());
         }
         if (!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)) {
@@ -123,7 +123,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
 
         while (counter != 10) {
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-            logic.sendReminderForFeedbackSession(fsa.courseId, fsa.feedbackSessionName);
+            logic.sendReminderForFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName());
             if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)) {
                 break;
             }
@@ -137,10 +137,10 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
         fsa = dataBundle.feedbackSessions.get("session2InCourse1");
         try {
-            logic.sendReminderForFeedbackSession(fsa.courseId, null);
+            logic.sendReminderForFeedbackSession(fsa.getCourseId(), null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals("The supplied parameter was null\n", a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals("The supplied parameter was null\n", ae.getMessage());
         }
         
         assertEquals(0, FeedbackSessionsEmailTaskQueueCallback.taskCount);
@@ -161,14 +161,14 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         ______TS("1 opening email task to be sent");
         
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
-        assertEquals("First feedback session", fsa.feedbackSessionName);
-        fsa.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        fsa.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
+        assertEquals("First feedback session", fsa.getFeedbackSessionName());
+        fsa.setStartTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        fsa.setEndTime(TimeHelper.getDateOffsetToCurrentTime(2));
         
         fsLogic.updateFeedbackSession(fsa);
         fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
-        assertFalse(fsa.sentOpenEmail);
-        fsa.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        assertFalse(fsa.isSentOpenEmail());
+        fsa.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
         fsLogic.updateFeedbackSession(fsa);
         
         int counter = 0;
@@ -203,9 +203,9 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         ______TS("1 closing email task to be sent");
 
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
-        fsa.startTime = TimeHelper.getDateOffsetToCurrentTime(-3);
-        fsa.endTime = TimeHelper.getMsOffsetToCurrentTime((SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT 
-                + (int) fsa.timeZone) * 60 * 60 * 1000 - 60 * 1000);
+        fsa.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-3));
+        fsa.setEndTime(TimeHelper.getMsOffsetToCurrentTime((SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT
+                + (int) fsa.getTimeZone()) * 60 * 60 * 1000 - 60 * 1000));
         fsLogic.updateFeedbackSession(fsa);
         
         assertFalse(fsLogic.getFeedbackSessionsClosingWithinTimeLimit().isEmpty());
@@ -246,7 +246,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
 
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("Empty session", "idOfTypicalCourse1");
-        fsa.isPublishedEmailEnabled = false;
+        fsa.setPublishedEmailEnabled(false);
         fsLogic.updateFeedbackSession(fsa);
         fsLogic.scheduleFeedbackSessionPublishedEmails();
         

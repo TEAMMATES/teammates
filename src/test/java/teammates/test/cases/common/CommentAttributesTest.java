@@ -10,14 +10,14 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
+
+import com.google.appengine.api.datastore.Text;
 
 public class CommentAttributesTest extends BaseTestCase {
     private static String courseId;
@@ -95,10 +95,14 @@ public class CommentAttributesTest extends BaseTestCase {
                 );
         
         List<String> expectedErrorMessage = new ArrayList<String>();
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, incorrectEmail, FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-1", FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-3", FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-2", FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, incorrectEmail,
+                                               FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-1",
+                                               FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-3",
+                                               FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-2",
+                                               FieldValidator.REASON_INCORRECT_FORMAT));
         
         List<String> errorMemssage = comment.getInvalidityInfo();
         assertEquals(4, errorMemssage.size());

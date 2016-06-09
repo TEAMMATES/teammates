@@ -33,7 +33,8 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
         }
     }
     
-    private void repairDataForSession(String courseId, String sessionName) throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+    private void repairDataForSession(String courseId, String sessionName)
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(sessionName, courseId);
         for (FeedbackQuestionAttributes question : questions) {
             boolean needRepairGiverSection = isGiverContainingSection(question.giverType);
@@ -44,7 +45,9 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
         }
     }
     
-    private void repairResponsesForQuestion(FeedbackQuestionAttributes question, boolean needRepairGiverSection, boolean needRepairRecipientSection) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+    private void repairResponsesForQuestion(FeedbackQuestionAttributes question, boolean needRepairGiverSection,
+                                            boolean needRepairRecipientSection)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responses = logic.getFeedbackResponsesForQuestion(question.getId());
         for (FeedbackResponseAttributes response : responses) {
             boolean needUpdateResponse = false;
@@ -78,9 +81,9 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             }
             
             if (needUpdateResponse) {
-                System.out.println("Repairing giver section:" 
+                System.out.println("Repairing giver section:"
                         + originalGiverSection + "-->" + response.giverSection
-                        + " receiver section:" 
+                        + " receiver section:"
                         + originalRecipientSection + "-->" + response.recipientSection);
                 logic.updateFeedbackResponse(response);
             }

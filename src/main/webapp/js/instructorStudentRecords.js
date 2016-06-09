@@ -41,19 +41,19 @@ $(document).ready(function() {
         table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find('input[name="showcommentsto"]').val(visibilityOptions.toString());
+        form.find('input[name="showcommentsto"]').val(visibilityOptions.join(', '));
 
         visibilityOptions = [];
         table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find('input[name="showgiverto"]').val(visibilityOptions.toString());
+        form.find('input[name="showgiverto"]').val(visibilityOptions.join(', '));
 
         visibilityOptions = [];
         table.find('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find('input[name="showrecipientto"]').val(visibilityOptions.toString());
+        form.find('input[name="showrecipientto"]').val(visibilityOptions.join(', '));
     });
 
     readyStudentRecordsPage();
@@ -170,7 +170,8 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     $('.tooltip').hide();
     var targetDiv = $(sender).find('div[id^="target-feedback-"]');
     var fsNameForUrl = encodeURIComponent(fsName);
-    var url = '/page/instructorStudentRecordsAjaxPage?courseid=' + courseId + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
+    var url = '/page/instructorStudentRecordsAjaxPage?courseid=' + courseId
+              + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
     $(sender).find('div[class^="placeholder-img-loading"]').html('<img src="/images/ajax-loader.gif">');
     targetDiv.load(url, function(response, status) {
         if (status === 'success') {

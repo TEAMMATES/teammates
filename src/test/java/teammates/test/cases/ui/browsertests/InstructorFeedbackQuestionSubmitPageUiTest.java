@@ -94,7 +94,7 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                     "IFQSubmitUiT.instr@gmail.tmt",
                     "IFQSubmitUiT.instr@gmail.tmt").getResponseDetails().getAnswerString());
         
-        ______TS("edit existing response");        
+        ______TS("edit existing response");
         
         String editedResponse = "Edited self feedback.";
         submitPage.fillResponseTextBox(1, 0, editedResponse);
@@ -114,11 +114,11 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     
     private FeedbackQuestionSubmitPage loginToInstructorFeedbackQuestionSubmitPage(
             String instructorName, String fsName, String questionId) {
-        AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE).
-                withUserId(testData.instructors.get(instructorName).googleId).
-                withCourseId(testData.feedbackSessions.get(fsName).courseId).
-                withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName).
-                withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
+        AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
+                .withUserId(testData.instructors.get(instructorName).googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())
+                .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         return loginAdminToPage(browser, editUrl, FeedbackQuestionSubmitPage.class);
     }
     

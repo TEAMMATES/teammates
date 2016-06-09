@@ -1,9 +1,9 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,8 +30,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UselessFileDetector;
@@ -54,7 +54,7 @@ import teammates.test.driver.TestProperties;
  * provides ways to interact with it. Also contains methods to validate some
  * aspects of the page. .e.g, html page source. <br>
  * 
- * Note: We are using the PageObjects pattern here. 
+ * Note: We are using the PageObjects pattern here.
  * https://code.google.com/p/selenium/wiki/PageObjects
  * 
  */
@@ -63,8 +63,6 @@ public abstract class AppPage {
     private static final By MAIN_CONTENT = By.id("mainContent");
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
-    
-    static final long ONE_MINUTE_IN_MILLIS = 60000;
     
     /** Browser instance the page is loaded into */
     protected Browser browser;
@@ -79,9 +77,6 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[2]/a")
     protected WebElement instructorCoursesTab;
     
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[3]/a")
-    protected WebElement instructorEvaluationsTab;
-    
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
     protected WebElement instructorStudentsTab;
     
@@ -90,9 +85,6 @@ public abstract class AppPage {
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[7]/a")
     protected WebElement instructorHelpTab;
-    
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
-    protected WebElement instructorLogoutLink;
     
     @FindBy(id = "studentHomeNavLink")
     protected WebElement studentHomeTab;
@@ -109,9 +101,6 @@ public abstract class AppPage {
     @FindBy(id = "btnLogout")
     protected WebElement logoutButton;
     
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
-    protected WebElement studentLogoutLink;
-
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
      * given {@code browser} object. Fails if the page content does not match
@@ -149,7 +138,7 @@ public abstract class AppPage {
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
         currentBrowser.driver.get(url.toAbsoluteString());
-        return createNewPage(currentBrowser, typeOfPage);
+        return getNewPageInstance(currentBrowser, typeOfPage);
     }
 
     /**
@@ -157,7 +146,14 @@ public abstract class AppPage {
      * the type indicated by the parameter {@code typeOfPage}.
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage) {
-        return createNewPage(currentBrowser, typeOfPage);
+        try {
+            Constructor<T> constructor = typeOfPage.getConstructor(Browser.class);
+            T page = constructor.newInstance(currentBrowser);
+            PageFactory.initElements(currentBrowser.driver, page);
+            return page;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -168,15 +164,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Fails if the new page content does not match content expected in a page of
-     * the type indicated by the parameter {@code typeOfDestinationPage}.
-     */
-    public <T extends AppPage> T navigateTo(Url url, Class<T> typeOfDestinationPage) {
-        return getNewPageInstance(browser, url, typeOfDestinationPage);
-    }
-    
-    /**
-     * Simply loads the given URL. 
+     * Simply loads the given URL.
      */
     public AppPage navigateTo(Url url) {
         browser.driver.get(url.toAbsoluteString());
@@ -188,14 +176,23 @@ public abstract class AppPage {
      * the type indicated by the parameter {@code newPageType}.
      */
     public <T extends AppPage> T changePageType(Class<T> newPageType) {
-        return createNewPage(browser, newPageType);
+        return getNewPageInstance(browser, newPageType);
     }
 
+    /**
+     * Gives a {@link LoginPage} instance based on the given {@link Browser} and test configuration.
+     * Fails if the page content does not match the content of the expected login page.
+     */
+    public static LoginPage createCorrectLoginPageType(Browser browser) {
+        return getNewPageInstance(browser, TestProperties.isDevServer() ? DevServerLoginPage.class
+                                                                        : GoogleLoginPage.class);
+    }
+    
     /**
      * Waits until the page is fully loaded.
      */
     public void waitForPageToLoad() {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver d) {
@@ -210,7 +207,7 @@ public abstract class AppPage {
      * Waits until the element is not covered by any other element.
      */
     public void waitForElementNotCovered(final WebElement element) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver d) {
@@ -220,17 +217,17 @@ public abstract class AppPage {
     }
     
     public void waitForElementVisibility(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
     
     public void waitForElementToBeClickable(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public void waitForElementsVisibility(List<WebElement> elements) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOfAllElements(elements));
     }
 
@@ -238,7 +235,7 @@ public abstract class AppPage {
      * Waits for element to be invisible or not present, or timeout.
      */
     public void waitForElementToDisappear(By by) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
     
@@ -246,7 +243,7 @@ public abstract class AppPage {
      * Waits for a list of elements to be invisible or not present, or timeout.
      */
     public void waitForElementsToDisappear(List<WebElement> elements) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(invisibilityOfAllElements(elements));
     }
     
@@ -268,7 +265,8 @@ public abstract class AppPage {
                         if (element.isDisplayed()) {
                             return false;
                         }
-                    } catch (Exception e) { // NOPMD empty exception block as specified by Selenium's code
+                    } catch (Exception e) {
+                        // empty exception block as specified by Selenium's code
                     }
                 }
                 return true;
@@ -285,7 +283,7 @@ public abstract class AppPage {
      * Waits for an alert to appear on the page, up to the timeout specified.
      */
     public void waitForAlertPresence() {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.alertIsPresent());
     }
 
@@ -293,26 +291,15 @@ public abstract class AppPage {
      * Waits for the element to appear in the page, up to the timeout specified.
      */
     public void waitForElementPresence(By by) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
     /**
-     * Waits for the element to appear in the page, up to the timeout specified and can
-     * return early if the expected conditions has happened
-     * @param by
-     * @param timeToImplicitlyWaitInSeconds
-     */
-    public void waitForElementPresence(By by, int timeToImplicitlyWaitInSeconds) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, timeToImplicitlyWaitInSeconds);
-        wait.until(ExpectedConditions.presenceOfElementLocated(by));
-    }
-    
-    /**
      * Waits for text contained in the element to appear in the page, or timeout
      */
     public void waitForTextContainedInElementPresence(By by, String text) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(by, text));
     }
     
@@ -320,7 +307,7 @@ public abstract class AppPage {
      * Waits for text contained in the element to disappear from the page, or timeout
      */
     public void waitForTextContainedInElementAbsence(By by, String text) {
-        WebDriverWait wait =  new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
     }
     
@@ -354,20 +341,20 @@ public abstract class AppPage {
      * Equivalent to clicking the 'Courses' tab on the top menu of the page.
      * @return the loaded page.
      */
-    public AppPage loadCoursesTab() {
+    public InstructorCoursesPage loadCoursesTab() {
         instructorCoursesTab.click();
         waitForPageToLoad();
-        return this;
+        return changePageType(InstructorCoursesPage.class);
     }
     
     /**
      * Equivalent to clicking the 'Students' tab on the top menu of the page.
      * @return the loaded page.
      */
-    public AppPage loadStudentsTab() {
+    public InstructorStudentListPage loadStudentsTab() {
         instructorStudentsTab.click();
         waitForPageToLoad();
-        return this;
+        return changePageType(InstructorStudentListPage.class);
     }
     
     
@@ -375,42 +362,33 @@ public abstract class AppPage {
      * Equivalent to clicking the 'Home' tab on the top menu of the page.
      * @return the loaded page.
      */
-    public AppPage loadInstructorHomeTab() {
+    public InstructorHomePage loadInstructorHomeTab() {
         instructorHomeTab.click();
         waitForPageToLoad();
-        return this;
+        return changePageType(InstructorHomePage.class);
     }
     
     /**
      * Equivalent to clicking the 'Help' tab on the top menu of the page.
      * @return the loaded page.
      */
-    public AppPage loadInstructorHelpTab() {
+    public InstructorHelpPage loadInstructorHelpTab() {
         instructorHelpTab.click();
         waitForPageToLoad();
-        return this;
+        switchToNewWindow();
+        return changePageType(InstructorHelpPage.class);
     }
     
     /**
      * Equivalent to clicking the 'Comments' tab on the top menu of the page.
      * @return the loaded page.
      */
-    public AppPage loadInstructorCommentsTab() {
+    public InstructorCommentsPage loadInstructorCommentsTab() {
         instructorCommentsTab.click();
         waitForPageToLoad();
-        return this;
+        return changePageType(InstructorCommentsPage.class);
     }
 
-    /**
-     * Equivalent to clicking the 'Evaluations' tab on the top menu of the page.
-     * @return the loaded page.
-     */
-    public AppPage loadEvaluationsTab() {
-        instructorEvaluationsTab.click();
-        waitForPageToLoad();
-        return this;
-    }
-    
     /**
      * Equivalent of clicking the 'Profile' tab on the top menu of the page.
      * @return the loaded page
@@ -441,16 +419,17 @@ public abstract class AppPage {
         return changePageType(StudentCommentsPage.class);
     }
 
-    public LoginPage clickLoginAsStudentButton() {
-        WebElement loginButton = browser.driver.findElement(By.id("btnStudentLogin"));
-        loginButton.click();
+    /**
+     * Equivalent of clicking the 'Help' tab on the top menu of the page.
+     * @return the loaded page
+     */
+    public StudentHelpPage loadStudentHelpTab() {
+        studentHelpTab.click();
         waitForPageToLoad();
-        if (TestProperties.inst().isDevServer()) {
-            return changePageType(DevServerLoginPage.class);
-        }
-        return changePageType(GoogleLoginPage.class);
+        switchToNewWindow();
+        return changePageType(StudentHelpPage.class);
     }
-
+    
     /**
      * Click the 'logout' link in the top menu of the page.
      */
@@ -470,12 +449,12 @@ public abstract class AppPage {
     /**
      * This can be used to save pages which can later be used as the 'expected'
      * in UI test cases. After saving the file, remember to edit it manually and
-     *  replace the version number in the page footer with the string 
-     * "${version}". so that the test can insert the correct version number 
+     *  replace the version number in the page footer with the string
+     * "${version}". so that the test can insert the correct version number
      * before comparing the 'expected' with the 'actual.
      *  e.g., replace "V4.55" in the page footer by "V${version}".
      *  @param filePath If the full path is not given, it will be saved in the
-     *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
+     *  {@code TestProperties.TEST_PAGES_FOLDER} folder. In that case, the parameter
      *  value should start with "/". e.g., "/instructorHomePage.html".
      */
     public void saveCurrentPage(String filePath, String content) throws IOException {
@@ -533,7 +512,7 @@ public abstract class AppPage {
     }
 
     /** 
-     * Selection is based on the value shown to the user. 
+     * Selection is based on the value shown to the user.
      * Since selecting an option by clicking on the option doesn't work sometimes
      * in Firefox, we simulate a user typing the value to select the option
      * instead (i.e., we use the {@code sendKeys()} method). <br>
@@ -550,7 +529,7 @@ public abstract class AppPage {
     }
     
     /** 
-     * Selection is based on the actual value. 
+     * Selection is based on the actual value.
      * Since selecting an option by clicking on the option doesn't work sometimes
      * in Firefox, we simulate a user typing the value to select the option
      * instead (i.e., we use the {@code sendKeys()} method). <br>
@@ -567,7 +546,7 @@ public abstract class AppPage {
     }
 
     /**
-     * @return the status message in the page. Returns "" if there is no 
+     * @return the status message in the page. Returns "" if there is no
      * status message in the page.
      */
     public String getStatus() {
@@ -575,7 +554,7 @@ public abstract class AppPage {
     }
 
     /** 
-     * @return the value of the cell located at {@code (row,column)} 
+     * @return the value of the cell located at {@code (row,column)}
      * from the first table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int row, int column) {
@@ -583,7 +562,7 @@ public abstract class AppPage {
     }
     
     /** 
-     * @return the value of the cell located at {@code (row,column)} 
+     * @return the value of the cell located at {@code (row,column)}
      * from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int tableNum, int row, int column) {
@@ -594,7 +573,7 @@ public abstract class AppPage {
     }
     
     /** 
-     * @return the value of the header located at {@code (row,column)} 
+     * @return the value of the header located at {@code (row,column)}
      * from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
      */
     public String getHeaderValueFromDataTable(int tableNum, int row, int column) {
@@ -605,7 +584,7 @@ public abstract class AppPage {
     }
     
     /** 
-     * @return the number of rows from the nth(0-index-based) table 
+     * @return the number of rows from the nth(0-index-based) table
      * (which is of type {@code class=table}) in the page.
      */
     public int getNumberOfRowsFromDataTable(int tableNum) {
@@ -614,7 +593,7 @@ public abstract class AppPage {
     }
     
     /** 
-     * @return the number of columns from the header in the table 
+     * @return the number of columns from the header in the table
      * (which is of type {@code class=table}) in the page.
      */
     public int getNumberOfColumnsFromDataTable(int tableNum) {
@@ -624,7 +603,7 @@ public abstract class AppPage {
     }
     
     /** 
-     * @return the id of the table 
+     * @return the id of the table
      * (which is of type {@code class=table}) in the page.
      */
     public String getDataTableId(int tableNum) {
@@ -633,7 +612,7 @@ public abstract class AppPage {
     }
     
     /**
-     * Clicks the element and clicks 'Yes' in the follow up dialog box. 
+     * Clicks the element and clicks 'Yes' in the follow up dialog box.
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
@@ -644,7 +623,7 @@ public abstract class AppPage {
     }
     
     /**
-     * Clicks the hidden element and clicks 'Yes' in the follow up dialog box. 
+     * Clicks the hidden element and clicks 'Yes' in the follow up dialog box.
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
@@ -655,7 +634,7 @@ public abstract class AppPage {
     }
     
     /**
-     * Clicks the element and clicks 'No' in the follow up dialog box. 
+     * Clicks the element and clicks 'No' in the follow up dialog box.
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
@@ -665,7 +644,7 @@ public abstract class AppPage {
     }
     
     /**
-     * Clicks the hidden element and clicks 'No' in the follow up dialog box. 
+     * Clicks the hidden element and clicks 'No' in the follow up dialog box.
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
@@ -675,7 +654,7 @@ public abstract class AppPage {
     }
 
     /** @return True if the page contains some basic elements expected in a page of the
-     * specific type. e.g., the top heading. 
+     * specific type. e.g., the top heading.
      */
     protected abstract boolean containsExpectedPageContents();
 
@@ -792,20 +771,26 @@ public abstract class AppPage {
     }
     
     /**
-     * Verifies that the currently loaded page has the same HTML content as 
+     * Verifies that the currently loaded page has the same HTML content as
      * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence. 
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+     * The HTML is checked for logical equivalence, not text equivalence.
+     * @param filePath If this starts with "/" (e.g., "/expected.html"), the
+     * folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtml(String filePath) throws IOException {
-        return verifyHtml(null, filePath);
+        return verifyHtmlPart(null, filePath);
     }
 
-    private AppPage verifyHtml(By by, String filePathParam) throws IOException {
-        // TODO: improve this method by insert header and footer
-        //       to the file specified by filePath
+    /**
+     * Verifies that element specified in currently loaded page has the same HTML content as
+     * the content given in the file at {@code filePath}. <br>
+     * The HTML is checked for logical equivalence, not text equivalence.
+     * @param filePathParam If this starts with "/" (e.g., "/expected.html"), the
+     * folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
+     * @return The page (for chaining method calls).
+     */
+    public AppPage verifyHtmlPart(By by, String filePathParam) throws IOException {
         String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
         boolean isPart = by != null;
         String actual = getPageSource(by);
@@ -833,7 +818,7 @@ public abstract class AppPage {
             if (!testAndRunGodMode(filePath, actual, isPart)) {
                 throw e;
             }
-        } 
+        }
         
         return this;
     }
@@ -851,41 +836,37 @@ public abstract class AppPage {
     }
     
     private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) throws IOException {
-        if (content == null || content.isEmpty()) { 
+        if (content == null || content.isEmpty()) {
             return false;
         }
         
-        TestProperties.inst().verifyReadyForGodMode();
+        TestProperties.verifyReadyForGodMode();
         String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
         saveCurrentPage(filePath, processedPageSource);
         return true;
     }
     
     /**
-     * Verifies that element specified in currently loaded page has the same HTML content as 
+     * Verifies that main content specified id "mainContent" in currently
+     * loaded page has the same HTML content as
      * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence. 
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
-     * @return The page (for chaining method calls).
-     */
-    public AppPage verifyHtmlPart(By by, String filePath) throws IOException {
-        return verifyHtml(by, filePath);
-    }
-    
-    /**
-     * Verifies that main content specified id "mainContent" in currently 
-     * loaded page has the same HTML content as 
-     * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence. 
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+     * The HTML is checked for logical equivalence, not text equivalence.
+     * @param filePath If this starts with "/" (e.g., "/expected.html"), the
+     * folder is assumed to be {@link TestProperties.TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlMainContent(String filePath) throws IOException {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
     
+    /**
+     * Verifies that the title of the loaded page is the same as {@code expectedTitle}
+     * @param expectedTitle
+     */
+    public void verifyTitle(String expectedTitle) {
+        assertEquals(expectedTitle, browser.driver.getTitle());
+    }
+
     /**
      * Also supports the expression "{*}" which will match any text.
      * e.g. "team 1{*}team 2" will match "team 1 xyz team 2"
@@ -932,7 +913,7 @@ public abstract class AppPage {
      * not verify whether the file content is as expected. To be improved.
      */
     public void verifyDownloadLink(Url url) {
-        //TODO: implement a better way to download a file and check content 
+        //TODO: implement a better way to download a file and check content
         // (may be using HtmlUnit as the Webdriver?)
         String beforeReportDownloadUrl = browser.driver.getCurrentUrl();
         browser.driver.get(url.toAbsoluteString());
@@ -942,7 +923,7 @@ public abstract class AppPage {
     
     /**
      * Verify if a file is downloadable based on the given url. If its downloadable,
-     * download the file and get the SHA-1 hex of it and verify the hex with the given 
+     * download the file and get the SHA-1 hex of it and verify the hex with the given
      * expected hash.
      * 
      * Compute the expected hash of a file from http://onlinemd5.com/ (SHA-1)
@@ -954,10 +935,10 @@ public abstract class AppPage {
         String localDownloadPath = System.getProperty("java.io.tmpdir");
         File downloadedFile = new File(localDownloadPath + fileToDownload.getFile().replaceFirst("/|\\\\", ""));
         
-        if (downloadedFile.exists()) { 
+        if (downloadedFile.exists()) {
             downloadedFile.delete();
         }
-        if (!downloadedFile.canWrite()) { 
+        if (!downloadedFile.canWrite()) {
             downloadedFile.setWritable(true);
         }
         
@@ -1001,18 +982,6 @@ public abstract class AppPage {
         return this;
     }
     
-    private static <T extends AppPage> T createNewPage(Browser currentBrowser,    Class<T> typeOfPage) {
-        Constructor<T> constructor;
-        try {
-            constructor = typeOfPage.getConstructor(Browser.class);
-            T page = constructor.newInstance(currentBrowser);
-            PageFactory.initElements(currentBrowser.driver, page);
-            return page;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
         elementToClick.click();
         waitForAlertPresence();

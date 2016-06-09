@@ -58,11 +58,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
     private void testLinks() {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
-        submitPage.linkOnHomeLink();
+        submitPage.loadStudentHomeTab();
         submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
-        submitPage.linkOnProfileLink();
+        submitPage.loadProfileTab();
         submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
-        submitPage.linkOnCommentsLink();
+        submitPage.loadStudentCommentsTab();
 
         submitPage.logout();
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
@@ -103,8 +103,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         Calendar endDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         endDate.add(Calendar.MINUTE, -1);
-        fs.gracePeriod = 10;
-        fs.endTime = endDate.getTime();
+        fs.setGracePeriod(10);
+        fs.setEndTime(endDate.getTime());
         BackDoor.editFeedbackSession(fs);
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Grace Period Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageGracePeriod.html");
@@ -308,7 +308,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         //check new response
         fqPartial = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 4);
         assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
-                                                   aliceTeam, 
+                                                   aliceTeam,
                                                    "Team 2"));
 
         //check edited
@@ -340,13 +340,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("70, 30", frConstSum.getAnswerString());
 
         FeedbackConstantSumResponseDetails frConstSum1 = (FeedbackConstantSumResponseDetails)
-                BackDoor.getFeedbackResponse(fqConstSum2.getId(), 
+                BackDoor.getFeedbackResponse(fqConstSum2.getId(),
                                              aliceTeam,
                                              "Team 2").getResponseDetails();
         assertEquals("90", frConstSum1.getAnswerString());
 
         FeedbackConstantSumResponseDetails frConstSum2 = (FeedbackConstantSumResponseDetails)
-                BackDoor.getFeedbackResponse(fqConstSum2.getId(), 
+                BackDoor.getFeedbackResponse(fqConstSum2.getId(),
                                              aliceTeam,
                                              "Team 3").getResponseDetails();
         assertEquals("110", frConstSum2.getAnswerString());
@@ -580,7 +580,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         AppUrl submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                              .withCourseId(s.course)
                                              .withStudentEmail(s.email)
-                                             .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)
+                                             .withSessionName(testData.feedbackSessions.get(fsDataId).getFeedbackSessionName())
                                              .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email));
 
         return AppPage.getNewPageInstance(browser, submitUrl, FeedbackSubmitPage.class);
@@ -589,17 +589,18 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
-                                        .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                                        .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
     
-    private FeedbackSessionNotVisiblePage loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
+    private FeedbackSessionNotVisiblePage
+            loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
-                                        .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                                        .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
         return loginAdminToPage(browser, editUrl, FeedbackSessionNotVisiblePage.class);
     }

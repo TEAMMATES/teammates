@@ -270,11 +270,11 @@ public class BackDoorTest extends BaseTestCase {
         // keys.
         //
         // A key can be converted to a string by passing the Key object to
-        // str(). The string is "urlsafe"—it uses only characters valid for use in URLs. 
+        // str(). The string is "urlsafe"—it uses only characters valid for use in URLs.
         //
         // RFC3986 definition of a safe url pattern
         // Characters that are allowed in a URI but do not have a reserved
-        // purpose are called unreserved. 
+        // purpose are called unreserved.
         // unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
         String pattern = "(\\w|-|~|\\.)*";
 
@@ -294,7 +294,7 @@ public class BackDoorTest extends BaseTestCase {
     @Test
     public void testEditStudent() {
 
-        // check for successful edit        
+        // check for successful edit
         StudentAttributes student = dataBundle.students.get("student4InCourse1");
         // try to create the entity in case it does not exist
         BackDoor.createStudent(student);

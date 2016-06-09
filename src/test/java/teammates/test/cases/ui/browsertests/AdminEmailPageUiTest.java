@@ -17,19 +17,20 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
 public class AdminEmailPageUiTest extends BaseUiTestCase {
+    
+    private static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
+
     private static Browser browser;
     private static AdminEmailPage emailPage;
     
-    public static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
-
     @BeforeClass
     public static void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }
     
-    @Test 
-    public void allTests() {    
+    @Test
+    public void allTests() {
         testCompose();
         testSent();
         testDraft();
@@ -39,7 +40,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     private void testCompose() {
         ______TS("email compose page");
         
-        emailPage = loginAdminToPageForAdminUiTests(
+        emailPage = loginAdminToPage(
                         browser, createUrl(Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE), AdminEmailPage.class);
         assertTrue(isEmailComposeElementsPresent());
         
@@ -141,8 +142,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isEmailTrashDataDisplayCorrect() {
-        return emailPage.isElementPresent(By.className("table")) 
-            && isEmptyTrashButtonPresent() 
+        return emailPage.isElementPresent(By.className("table"))
+            && isEmptyTrashButtonPresent()
             && isEmailTableHeaderCorrect();
     }
 

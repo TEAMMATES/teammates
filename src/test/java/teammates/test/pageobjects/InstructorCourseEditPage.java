@@ -7,6 +7,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.Const;
+
 public class InstructorCourseEditPage extends AppPage {
     
     @FindBy(id = "courseid")
@@ -24,29 +26,14 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "courseDeleteLink")
     private WebElement deleteCourseLink;
     
-    @FindBy(id = "instrEditLink1")
-    private WebElement editInstructorLink;
-    
-    @FindBy(id = "instrRemindLink4")
-    private WebElement inviteInstructorLink;
-    
-    @FindBy(id = "instructorname1")
-    private WebElement editInstructorNameTextBox;
-    
-    @FindBy(id = "instructoremail1")
-    private WebElement editInstructorEmailTextBox;
-    
-    @FindBy(id = "btnSaveInstructor1")
-    private WebElement saveInstructorButton;
-    
     @FindBy(id = "btnShowNewInstructorForm")
     private WebElement showNewInstructorFormButton;
     
     @FindBy(id = "instructorname")
-    private WebElement instructorNameTextBox;
+    private WebElement newInstructorNameTextBox;
     
     @FindBy(id = "instructoremail")
-    private WebElement instructorEmailTextBox;
+    private WebElement newInstructorEmailTextBox;
     
     @FindBy(id = "btnAddInstructor")
     private WebElement addInstructorButton;
@@ -61,7 +48,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public String getCourseId() {
-        return browser.driver.findElement(By.id("courseid")).getAttribute("value");
+        return courseIdTextBox.getAttribute("value");
     }
 
     public InstructorCourseEditPage verifyIsCorrectPage(String courseId) {
@@ -72,21 +59,21 @@ public class InstructorCourseEditPage extends AppPage {
     public void addNewInstructor(String name, String email) {
         clickShowNewInstructorFormButton();
         
-        fillInstructorName(name);
-        fillInstructorEmail(email);
+        fillNewInstructorName(name);
+        fillNewInstructorEmail(email);
         
         addInstructorButton.click();
         waitForPageToLoad();
     }
 
-    public void editInstructor(String id, String name, String email) {
-        clickEditInstructorLink(1);
+    public void editInstructor(int instrNum, String name, String email, String role) {
+        clickEditInstructorLink(instrNum);
         
-        editInstructorName(name);
-        editInstructorEmail(email);
-        selectRoleForInstructor(1, "Co-owner");
+        editInstructorName(instrNum, name);
+        editInstructorEmail(instrNum, email);
+        selectRoleForInstructor(instrNum, role);
         
-        saveInstructorButton.click();
+        saveEditInstructor(instrNum);
         waitForPageToLoad();
     }
     
@@ -96,55 +83,46 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
     
-    public String editInstructorName(String value) {
-        fillTextBox(editInstructorNameTextBox, value);
-        return getTextBoxValue(editInstructorNameTextBox);
+    public String editInstructorName(int instrNum, String value) {
+        WebElement editPanelNameTextBox = getNameField(instrNum);
+        fillTextBox(editPanelNameTextBox, value);
+        return getTextBoxValue(editPanelNameTextBox);
     }
     
-    public String editInstructorEmail(String value) {
-        fillTextBox(editInstructorEmailTextBox, value);
-        return getTextBoxValue(editInstructorEmailTextBox);
+    public String editInstructorEmail(int instrNum, String value) {
+        WebElement editPanelEmailTextBox = getEmailField(instrNum);
+        fillTextBox(editPanelEmailTextBox, value);
+        return getTextBoxValue(editPanelEmailTextBox);
     }
     
-    public String fillInstructorName(String value) {
-        fillTextBox(instructorNameTextBox, value);
-        return getTextBoxValue(instructorNameTextBox);
+    public String fillNewInstructorName(String value) {
+        fillTextBox(newInstructorNameTextBox, value);
+        return getTextBoxValue(newInstructorNameTextBox);
     }
     
-    public String fillInstructorEmail(String value) {
-        fillTextBox(instructorEmailTextBox, value);
-        return getTextBoxValue(instructorEmailTextBox);
+    public String fillNewInstructorEmail(String value) {
+        fillTextBox(newInstructorEmailTextBox, value);
+        return getTextBoxValue(newInstructorEmailTextBox);
     }
     
     public boolean clickEditInstructorLink(int instrNum) {
-        boolean isEditable;
-        if (instrNum == 1) {
-            editInstructorLink.click();
-            waitForElementVisibility(saveInstructorButton);
-            isEditable = editInstructorNameTextBox.isEnabled()
-                        && editInstructorEmailTextBox.isEnabled()
-                        && saveInstructorButton.isDisplayed();
-        } else {
-            String instructorNum = String.valueOf(instrNum);
-            WebElement editLink = browser.driver.findElement(By.id("instrEditLink" + instructorNum));
-            editLink.click();
-            
-            WebElement saveButton = browser.driver.findElement(By.id("btnSaveInstructor" + instructorNum));
-            waitForElementVisibility(saveButton);
-            
-            WebElement editInstructorNameTextBox = browser.driver.findElement(By.id("instructorname" + instructorNum));
-            WebElement editInstructorEmailTextBox = browser.driver.findElement(By.id("instructoremail" + instructorNum));
-            
-            isEditable = editInstructorNameTextBox.isEnabled()
-                        && editInstructorEmailTextBox.isEnabled()
-                        && saveButton.isDisplayed();
-        }
+        getEditInstructorLink(instrNum).click();
+        
+        WebElement saveButton = getSaveInstructorButton(instrNum);
+        waitForElementVisibility(saveButton);
+        
+        WebElement editInstructorNameTextBox = getNameField(instrNum);
+        WebElement editInstructorEmailTextBox = getEmailField(instrNum);
+        
+        boolean isEditable = editInstructorNameTextBox.isEnabled()
+                             && editInstructorEmailTextBox.isEnabled()
+                             && saveButton.isDisplayed();
         
         return isEditable;
     }
     
-    public WebElement displayedToStudentCheckBox(int instrNum) {
-        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " > div:nth-child(4) > label:nth-child(1) > input:nth-child(1)"));
+    public void saveEditInstructor(int instrNum) {
+        getSaveInstructorButton(instrNum).click();
     }
     
     public void clickDisplayedToStudentCheckBox(int instrNum) {
@@ -166,9 +144,9 @@ public class InstructorCourseEditPage extends AppPage {
          *  Therefore the formula for the position of the details link of the group i-th (count from 1) is i * 3 - 1
          */
         int cssLinkNum = viewLinkNum * 3 - 1;
-        WebElement viewLink = 
+        WebElement viewLink =
                 browser.driver.findElement(
-                        By.cssSelector("#accessControlEditDivForInstr" + instrNum 
+                        By.cssSelector("#accessControlEditDivForInstr" + instrNum
                                        + " > div.form-group > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
         
         viewLink.click();
@@ -187,88 +165,68 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public boolean isPrivilegeCheckboxInModalChecked(String privilege) {
-        By selector = By.cssSelector("#tunePermissionsDivForInstructorAll input[type='checkbox'][name='" 
+        By selector = By.cssSelector("#tunePermissionsDivForInstructorAll input[type='checkbox'][name='"
                                      + privilege + "']");
         WebElement checkbox = browser.driver.findElement(selector);
         return checkbox.isSelected();
     }
     
     public boolean isPrivilegeCheckboxInPermissionDivChecked(int instructorIndex, String privilege) {
-        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instructorIndex 
+        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instructorIndex
                                      + " input[type='checkbox'][name='" + privilege + "']");
         WebElement checkbox = browser.driver.findElement(selector);
         return checkbox.isSelected();
     }
     
-    public WebElement courseLevelPanel(int instrNum) {
-        String permissionDivId = "tunePermissionsDivForInstructor" + instrNum;
-        return browser.driver.findElement(By.id(permissionDivId)).findElement(By.cssSelector("div.form-group>div>div.panel"));
-    }
-    
     public void clickCourseLevelPrivilegesLink(int instrNum, int linkNum) {
         WebElement coursePanel = this.courseLevelPanel(instrNum);
-        coursePanel.findElements(By.cssSelector("input[type=checkbox]")).get(linkNum - 1).click();
-    }
-    
-    public WebElement addSectionLevelPrivilegesLink(int instrNum) {
-        String idStr = "addSectionLevelForInstructor" + instrNum;
-        
-        return browser.driver.findElement(By.id(idStr));
+        coursePanel.findElements(By.cssSelector("input[type='checkbox']")).get(linkNum - 1).click();
     }
     
     public void clickAddSectionLevelPrivilegesLink(int instrNum) {
         this.addSectionLevelPrivilegesLink(instrNum).click();
     }
     
-    private WebElement sectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
-        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                + " input[name=sectiongroup" + sectionLevelNum + "section" + sectionNum + "]";
-        return browser.driver.findElement(By.cssSelector(cssSelector));
+    public void clickSectionSelectionCheckBox(int instrNum, int sectionLevelIndex, int sectionNum) {
+        this.sectionSelectionCheckBox(instrNum, sectionLevelIndex - 1, sectionNum - 1).click();
     }
     
-    public void clickSectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
-        this.sectionCheckBoxInSectionLevel(instrNum, sectionLevelNum - 1, sectionNum - 1).click();
+    public void clickViewStudentCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex) {
+        this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex,
+                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS).click();
     }
     
-    public void clickViewStudentCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                + " > div > div.panel-body > div.col-sm-6.border-right-gray > input[type=\"checkbox\"]:nth-child(1)";
-        browser.driver.findElement(By.cssSelector(cssSelector)).click();
+    public void clickViewOthersCommentsCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex) {
+        this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex,
+                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS).click();
     }
     
-    public void clickViewOthersCommentsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                + " > div > div.panel-body > div.col-sm-6.border-right-gray > input[type=\"checkbox\"]:nth-child(5)";
-        browser.driver.findElement(By.cssSelector(cssSelector)).click();
+    public void clickViewSessionResultsCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex) {
+        this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex,
+                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS).click();
     }
     
-    public void clickViewSessionResultsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                + " > div > div.panel-body > div.col-sm-5.col-sm-offset-1 > input[type=\"checkbox\"]:nth-child(3)";
-        browser.driver.findElement(By.cssSelector(cssSelector)).click();
+    public void clickModifySessionResultCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex) {
+        this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex,
+                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS).click();
     }
     
-    public void clickModifySessionResultCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
-        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
-                + " > div > div.panel-body > div.col-sm-5.col-sm-offset-1 > input[type=\"checkbox\"]:nth-child(5)";
-        browser.driver.findElement(By.cssSelector(cssSelector)).click();
-    }
-    
-    public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelNum) {
-        String linkId = "toggleSessionLevelInSection" + sectionLevelNum + "ForInstructor" + instrNum;
+    public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelIndex) {
+        String linkId = "toggleSessionLevelInSection" + sectionLevelIndex + "ForInstructor" + instrNum;
         browser.driver.findElement(By.id(linkId)).click();
     }
     
-    public boolean isTuneSessionPermissionsDivVisible(int instrNum, int sectionLevelNum) {
-        By sessionPermissionsDiv = By.id("tuneSessionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum);
-        return isElementVisible(sessionPermissionsDiv);
+    public boolean isTuneSessionPermissionsDivVisible(int instrNum, int sectionLevelIndex) {
+        String sessionPermissionsDivId = "tuneSessionPermissionsDiv" + sectionLevelIndex
+                                         + "ForInstructor" + instrNum;
+        return isElementVisible(By.id(sessionPermissionsDivId));
     }
     
     public boolean clickShowNewInstructorFormButton() {
         showNewInstructorFormButton.click();
         
-        boolean isFormShownCorrectly = instructorNameTextBox.isEnabled()
-                && instructorEmailTextBox.isEnabled()
+        boolean isFormShownCorrectly = newInstructorNameTextBox.isEnabled()
+                && newInstructorEmailTextBox.isEnabled()
                 && addInstructorButton.isDisplayed();
 
         return isFormShownCorrectly;
@@ -276,7 +234,7 @@ public class InstructorCourseEditPage extends AppPage {
     
     public boolean clickOnAccessLevelViewDetails(String role) {
         WebElement viewDetailsLink = browser.driver.findElement(By.cssSelector(
-                                            "a[onclick=\"showInstructorRoleModal(\'" + role + "\')\"]"));
+                                            "a[onclick=\"showInstructorRoleModal('" + role + "')\"]"));
         viewDetailsLink.click();
         
         WebElement viewDetailsModal = browser.driver.findElement(By.cssSelector(
@@ -295,8 +253,8 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickInviteInstructorLink() {
-        inviteInstructorLink.click();
+    public void clickInviteInstructorLink(int instrNum) {
+        getInviteInstructorLink(instrNum).click();
         waitForPageToLoad();
     }
     
@@ -334,8 +292,8 @@ public class InstructorCourseEditPage extends AppPage {
      * Click the delete instructor button at position {@code instrNum} and click "Yes" in the follow up dialog
      * @param instrNum is the position of the instructor (e.g. 1, 2, 3, ...)
      */
-    public void clickDeleteInstructorLinkAndConfirm(int instrNum) { 
-        WebElement deleteInstructorLink = browser.driver.findElement(By.id("instrDeleteLink" + instrNum));
+    public void clickDeleteInstructorLinkAndConfirm(int instrNum) {
+        WebElement deleteInstructorLink = getDeleteInstructorLink(instrNum);
         clickAndConfirm(deleteInstructorLink);
         waitForPageToLoad();
     }
@@ -345,21 +303,13 @@ public class InstructorCourseEditPage extends AppPage {
      * @param instrNum is the position of the instructor (e.g. 1, 2, 3, ...)
      */
     public void clickDeleteInstructorLinkAndCancel(int instrNum) {
-        WebElement deleteInstructorLink = browser.driver.findElement(By.id("instrDeleteLink" + instrNum));
+        WebElement deleteInstructorLink = getDeleteInstructorLink(instrNum);
         clickAndCancel(deleteInstructorLink);
     }
 
-    public WebElement getNameField(int instrNum) {
-        return browser.driver.findElement(By.id("instructorname" + instrNum));
-    }
-    
-    public WebElement getEmailField(int instrNum) {
-        return browser.driver.findElement(By.id("instructoremail" + instrNum));
-    }
-
     public boolean isCustomCheckboxChecked(String privilege, int instrNum) {
-        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instrNum + " input[type='checkbox'][name='" 
-                        + privilege + "']");
+        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instrNum
+                                     + " input[type='checkbox'][name='" + privilege + "']");
         WebElement checkbox = browser.driver.findElement(selector);
         return checkbox.isSelected();
     }
@@ -373,13 +323,69 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public void changeCourseIdInForm(int instrNum, String newCourseId) {
-        String selector = "$('#edit-" + instrNum + "').find('[name=\"courseid\"]')";
+        String selector = "$('#edit-" + instrNum + " input[name=\"" + Const.ParamsNames.COURSE_ID + "\"]')";
         String action = ".val('" + newCourseId + "')";
         ((JavascriptExecutor) browser.driver).executeScript(selector + action);
     }
     
-    public WebElement getFirstEditInstructorLink() {
-        return editInstructorLink;
+    // methods that return WebElements of the page go here
+    
+    public WebElement getEditInstructorLink(int instrNum) {
+        return browser.driver.findElement(By.id("instrEditLink" + instrNum));
+    }
+    
+    private WebElement getInviteInstructorLink(int instrNum) {
+        return browser.driver.findElement(By.id("instrRemindLink" + instrNum));
+    }
+    
+    public WebElement getDeleteInstructorLink(int instrNum) {
+        return browser.driver.findElement(By.id("instrDeleteLink" + instrNum));
+    }
+    
+    public WebElement getSaveInstructorButton(int instrNum) {
+        return browser.driver.findElement(By.id("btnSaveInstructor" + instrNum));
+    }
+
+    public WebElement getNameField(int instrNum) {
+        return browser.driver.findElement(By.id("instructorname" + instrNum));
+    }
+    
+    public WebElement getEmailField(int instrNum) {
+        return browser.driver.findElement(By.id("instructoremail" + instrNum));
+    }
+    
+    public WebElement displayedToStudentCheckBox(int instrNum) {
+        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " input[name='"
+                                                         + Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT
+                                                         + "']"));
+    }
+    
+    public WebElement courseLevelPanel(int instrNum) {
+        String permissionDivId = "tunePermissionsDivForInstructor" + instrNum;
+        return browser.driver.findElement(By.id(permissionDivId)).findElement(By.cssSelector("div.form-group>div>div.panel"));
+    }
+    
+    public WebElement addSectionLevelPrivilegesLink(int instrNum) {
+        return browser.driver.findElement(By.id("addSectionLevelForInstructor" + instrNum));
+    }
+    
+    public WebElement sectionLevelPanel(int instrNum, int sectionLevelIndex) {
+        String permissionDivId = "tuneSectionPermissionsDiv" + sectionLevelIndex + "ForInstructor" + instrNum;
+        return browser.driver.findElement(By.id(permissionDivId));
+    }
+    
+    private WebElement sectionSelectionCheckBox(int instrNum, int sectionLevelIndex, int sectionNum) {
+        WebElement sectionPanel = this.sectionLevelPanel(instrNum, sectionLevelIndex);
+        String cssSelector = "input[name='" + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP
+                             + sectionLevelIndex + Const.ParamsNames.INSTRUCTOR_SECTION + sectionNum + "']";
+        return sectionPanel.findElement(By.cssSelector(cssSelector));
+    }
+    
+    private WebElement sectionLevelPanelCheckBox(int instrNum, int sectionLevelIndex, String checkBoxName) {
+        WebElement sectionPanel = this.sectionLevelPanel(instrNum, sectionLevelIndex);
+        String cssSelector = "input[type='checkbox'][name='" + checkBoxName
+                             + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionLevelIndex + "']";
+        return sectionPanel.findElement(By.cssSelector(cssSelector));
     }
 
 }
