@@ -140,6 +140,19 @@ public class CommentsLogic {
         commentsDb.updateStudentEmail(courseId, oldStudentEmail, updatedStudentEmail);
     }
     
+    public void updateCommentsForChangingTeamName(String courseId, String oldTeamName, String newTeamName)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        List<CommentAttributes> commentsForTeam =
+                getCommentsForReceiver(courseId, CommentParticipantType.TEAM, oldTeamName);
+        
+        for (CommentAttributes comment : commentsForTeam) {
+            comment.recipients.remove(Sanitizer.sanitizeForHtml(oldTeamName));
+            comment.recipients.add(Sanitizer.sanitizeForHtml(newTeamName));
+            
+            updateComment(comment);
+        }
+    }
+    
     public void deleteCommentsForInstructor(String courseId, String instructorEmail) {
         commentsDb.deleteCommentsByInstructorEmail(courseId, instructorEmail);
     }
