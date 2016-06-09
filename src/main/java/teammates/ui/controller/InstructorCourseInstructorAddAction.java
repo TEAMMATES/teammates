@@ -209,7 +209,7 @@ public class InstructorCourseInstructorAddAction extends Action {
             
             //check if session-specific permissions are to be used
             String setSessionsStr = getRequestParamValue("is" + sectionGroupName + "sessionsset");
-            boolean isSessionsForSectionGroupSpecial = "true".equals(setSessionsStr);
+            boolean isSessionsForSectionGroupSpecial = Boolean.parseBoolean(setSessionsStr);
             if (isSessionsForSectionGroupSpecial) {
                 updateInstructorPrivilegesForSectionInSessionLevel(sectionGroupName,
                         specialSectionsInSectionGroup, feedbackNames, instructorToAdd);
@@ -275,7 +275,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         for (int i = 0; i < sectionNames.size(); i++) {
             String sectionGroupIsSetStr = getRequestParamValue("is"
                                                   + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + "set");
-            boolean isSectionGroupSpecial = "true".equals(sectionGroupIsSetStr);
+            boolean isSectionGroupSpecial = Boolean.parseBoolean(sectionGroupIsSetStr);
             
             for (int j = 0; j < sectionNames.size(); j++) {
                 String sectionNameFromParam = getRequestParamValue(
@@ -327,26 +327,26 @@ public class InstructorCourseInstructorAddAction extends Action {
             List<String> specialSectionsInSectionGroup, InstructorAttributes instructorToAdd) {
         boolean isViewStudentInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS
-                        + sectionGroupName) != null;
+                                     + sectionGroupName) != null;
         boolean isViewCommentInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS
-                        + sectionGroupName) != null;
+                                     + sectionGroupName) != null;
         boolean isGiveCommentInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS
-                        + sectionGroupName) != null;
+                                     + sectionGroupName) != null;
         boolean isModifyCommentInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS
-                        + sectionGroupName) != null;
+                                     + sectionGroupName) != null;
         
         boolean isViewSessionInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
-                        + sectionGroupName) != null;
+                                     + sectionGroupName) != null;
         boolean isSubmitSessionInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
-                        + sectionGroupName) != null;
+                                     + sectionGroupName) != null;
         boolean isModifySessionInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
-                        + sectionGroupName) != null;
+                                     + sectionGroupName) != null;
         
         for (String sectionName : specialSectionsInSectionGroup) {
             instructorToAdd.privileges.updatePrivilege(
@@ -383,13 +383,13 @@ public class InstructorCourseInstructorAddAction extends Action {
         for (String feedbackName : feedbackNames) {
             boolean isViewSessionInSectionsChecked =
                     getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
-                    + sectionGroupName + "feedback" + feedbackName) != null;
+                                         + sectionGroupName + "feedback" + feedbackName) != null;
             boolean isSubmitSessionInSectionsChecked =
                     getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
-                    + sectionGroupName + "feedback" + feedbackName) != null;
+                                         + sectionGroupName + "feedback" + feedbackName) != null;
             boolean isModifySessionInSectionsChecked =
                     getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
-                    + sectionGroupName + "feedback" + feedbackName) != null;
+                                         + sectionGroupName + "feedback" + feedbackName) != null;
             
             for (String sectionName : specialSectionsInSectionGroup) {
                 instructorToAdd.privileges.updatePrivilege(sectionName, feedbackName,
