@@ -139,6 +139,12 @@ Alternatively, run the tools via Gradle:
 where `{toolType}` = checkstyle, pmd, findbugs (lowercase), and `{sourceCodeType}` = Main, Test (Pascal Case).
 The reports can be found in the `build/reports/{toolType}/` directory.
 
+To run Macker analysis on all Java source files, run the following command:
+```
+./gradlew macker
+```
+The violations caught, if any, will be printed to the console itself.
+
 To run ESLint analysis on all JavaScript source files, run the following command:
 ```
 ./gradlew eslint
