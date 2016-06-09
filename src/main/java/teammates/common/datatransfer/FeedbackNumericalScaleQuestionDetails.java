@@ -121,7 +121,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 Slots.MIN_SCALE, Integer.toString(minScale),
                 Slots.MAX_SCALE, Integer.toString(maxScale),
                 Slots.STEP, StringHelper.toDecimalFormatString(step),
-                Slots.POSSIBLE_VALUES_STRING, getPossibleValuesStringEdit(),
+                Slots.POSSIBLE_VALUES, getPossibleValuesStringEdit(),
                 Slots.NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
                 Slots.NUMSCALE_MAX, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
                 Slots.NUMSCALE_STEP, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP,

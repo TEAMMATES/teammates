@@ -225,6 +225,7 @@ public final class Templates {
             public static final String FRAGMENTS = "${fragments}";
             public static final String EXISTING_ANSWER = "${existingAnswer}";
             public static final String POSSIBLE_VALUES_STRING = "${possibleValuesString}";
+            public static final String POSSIBLE_VALUES = "${possibleValues}";
             public static final String RECIPIENT_TEAM = "${recipientTeam}";
             public static final String RECIPIENT_NAME = "${recipientName}";
             public static final String SUMMARY_TITLE = "${summaryTitle}";
@@ -300,9 +301,9 @@ public final class Templates {
             public static final String CONSTSUM_OPTION_TABLE_VISIBILITY = "${constSumOptionTableVisibility}";
             public static final String CONSTSUM_DISTRIBUTE_UNEVENLY = "${distributeUnevenly}";
             public static final String CONSTSUM_POINTS = "${constSumPoints}";
-            public static final String CONSTSUM_TEAM = "${team}";
             public static final String CONSTSUM_POINTS_RECEIVED = "${pointsReceived}";
             public static final String CONSTSUM_AVERAGE_POINTS = "${averagePoints}";
+            public static final String CONSTSUM_PARAM_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}";
             public static final String CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
             public static final String CONSTSUM_POINTS_PER_OPTION =

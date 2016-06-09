@@ -28,7 +28,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> mcqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
-    
+
     public FeedbackMcqQuestionDetails() {
         super(FeedbackQuestionType.MCQ);
         

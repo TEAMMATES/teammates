@@ -338,6 +338,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                         Slots.RESPONSE_INDEX, responseNumberString,
                         Slots.COL, Integer.toString(j),
                         Slots.ROW, Integer.toString(i),
+                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                         Slots.DESCRIPTION, Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
                         Slots.CHECKED, isExistingResponse && frd.getAnswer(i) == j ? "checked" : "",
                         // Check if existing choice for sub-question == current

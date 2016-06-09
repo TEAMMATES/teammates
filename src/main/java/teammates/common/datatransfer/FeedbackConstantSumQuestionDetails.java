@@ -264,7 +264,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.ITERATOR, Integer.toString(i),
                             Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(constSumOptions.get(i)),
-                            Slots.CONSTSUM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
+                            Slots.CONSTSUM_PARAM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
@@ -278,7 +278,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
                 Slots.CONSTSUM_SELECTED_POINTS_PER_OPTION, pointsPerOption ? "selected" : "",
                 Slots.CONSTSUM_OPTION_TABLE_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
-                Slots.CONSTSUM_PARAM_POINTS, points == 0 ? "100" : Integer.toString(points),
+                Slots.CONSTSUM_POINTS, points == 0 ? "100" : Integer.toString(points),
                 Slots.OPTION_RECIPIENT_DISPLAY_NAME, distributeToRecipients ? "recipient" : "option",
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, forceUnevenDistribution ? "checked" : "",
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
@@ -371,7 +371,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
                         Slots.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
-                        Slots.CONSTSUM_TEAM, Sanitizer.sanitizeForHtml(teamName),
+                        Slots.TEAM, Sanitizer.sanitizeForHtml(teamName),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
             
