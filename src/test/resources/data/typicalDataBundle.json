@@ -875,6 +875,68 @@
             ]
             
         },
+        "qn5InSession1Course1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Which team do you think has the best feature?\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
+            },
+            "questionNumber":"5",
+            "questionType":"MCQ",
+            "giverType":"STUDENTS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ]
+        },
+        "qn6InSession1Course1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Choose the teams you were impressed by in the course.\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
+            },
+            "questionNumber":"6",
+            "questionType":"MSQ",
+            "giverType":"STUDENTS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ]
+        },
         "team.feedback":{
             "feedbackSessionName":"Second feedback session",
             "courseId":"idOfTypicalCourse1",
@@ -1214,6 +1276,32 @@
             "recipientSection":"None" 
             
         },
+        "response1ForQ5S1C1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "feedbackQuestionId":"5",
+            "feedbackQuestionType":"MCQ",
+            "giverEmail":"student1InCourse1@gmail.tmt",
+            "recipientEmail":"student1InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 1.2\", \"otherFieldContent\" : \"\"}"
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1"
+        },
+        "response1ForQ6S1C1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "feedbackQuestionId":"6",
+            "feedbackQuestionType":"MSQ",
+            "giverEmail":"student1InCourse1@gmail.tmt",
+            "recipientEmail":"student1InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Team 1.2\"]}"
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1"
+        },
         "response1ForQ1S2C1":{
             "feedbackSessionName":"Second feedback session",
             "courseId":"idOfTypicalCourse1",
@@ -1240,6 +1328,20 @@
             },
             "giverSection":"Section 1",
             "recipientSection":"Section 2" 
+            
+        },
+        "response3ForQ1S2C1":{
+            "feedbackSessionName":"Second feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"Team 1.2",
+            "recipientEmail":"Team 1.1</td></div>'\"",
+            "responseMetaData":{
+                "value":"Response from team 1.2 to team 1.1."
+            },
+            "giverSection":"Section 2",
+            "recipientSection":"Section 1" 
             
         },
         "response1GracePeriodFeedback":{

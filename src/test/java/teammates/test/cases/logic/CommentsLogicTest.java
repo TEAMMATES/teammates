@@ -1,6 +1,7 @@
 package teammates.test.cases.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +18,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Sanitizer;
 import teammates.logic.core.CommentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -369,6 +371,21 @@ public class CommentsLogicTest extends BaseComponentTestCase {
                                                      c.recipients.iterator().next());
         assertEquals(1, actual.size());
         assertEquals(c.commentText, actual.get(0).commentText);
+        
+        ______TS("Update team name for team comments");
+        CommentAttributes teamComment = dataBundle.comments.get("comment1FromI1C1toT1.1C1");
+        
+        teamComment.recipients = Sanitizer.sanitizeForHtml(teamComment.recipients);
+        
+        verifyPresentInDatastore(teamComment);
+        
+        commentsLogic.updateCommentsForChangingTeamName(teamComment.courseId, "Team 1.1</td></div>'\"", "Team 1.3");
+        
+        teamComment.recipients.remove(Sanitizer.sanitizeForHtml("Team 1.1</td></div>'\""));
+        teamComment.recipients.add(Sanitizer.sanitizeForHtml("Team 1.3"));
+        
+        verifyPresentInDatastore(teamComment);
+        
     }
 
     @Test
