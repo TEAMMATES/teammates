@@ -993,14 +993,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(),
                 newSession.getGracePeriod());
-        assertEquals(String.format(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                        "",
-                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                        FieldValidator.REASON_EMPTY,
-                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                        FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH,
-                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
+        assertEquals(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
+                         .replace("{userInput}", "")
+                         .replace("{fieldName}", FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME)
+                         .replace("{reason}", FieldValidator.REASON_EMPTY)
+                         .replace("{maxLength}", String.valueOf(FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH)),
                      feedbackPage.getStatus());
         assertTrue(feedbackPage.verifyVisible(By.id("timeFramePanel")));
         assertTrue(feedbackPage.verifyVisible(By.id("responsesVisibleFromColumn")));

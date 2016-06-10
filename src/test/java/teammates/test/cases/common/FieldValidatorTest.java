@@ -55,9 +55,10 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long",
-                String.format(
-                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                        tooLongName, typicalFieldName, REASON_TOO_LONG, typicalFieldName, maxLength),
+                SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", tooLongName)
+                                                          .replace("{fieldName}", typicalFieldName)
+                                                          .replace("{reason}", REASON_TOO_LONG)
+                                                          .replace("{maxLength}", String.valueOf(maxLength)),
                 validator.getValidityInfoForSizeCappedNonEmptyString(
                         typicalFieldName,
                         maxLength,
@@ -66,9 +67,10 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String emptyValue = "";
         assertEquals("invalid: empty",
-                String.format(
-                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                        emptyValue, typicalFieldName, REASON_EMPTY, typicalFieldName, maxLength),
+                SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", emptyValue)
+                                                          .replace("{fieldName}", typicalFieldName)
+                                                          .replace("{reason}", REASON_EMPTY)
+                                                          .replace("{maxLength}", String.valueOf(maxLength)),
                 validator.getValidityInfoForSizeCappedNonEmptyString(
                         typicalFieldName,
                         maxLength,
@@ -250,9 +252,10 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long",
-                String.format(
-                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                        tooLongName, typicalFieldName, REASON_TOO_LONG, typicalFieldName, maxLength),
+                SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", tooLongName)
+                                                          .replace("{fieldName}", typicalFieldName)
+                                                          .replace("{reason}", REASON_TOO_LONG)
+                                                          .replace("{maxLength}", String.valueOf(maxLength)),
                 validator.getValidityInfoForAllowedName(
                         typicalFieldName,
                         maxLength,
@@ -262,9 +265,10 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String emptyValue = "";
         assertEquals("invalid: empty",
-                String.format(
-                        SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                        emptyValue, typicalFieldName, REASON_EMPTY, typicalFieldName, maxLength),
+                SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", emptyValue)
+                                                          .replace("{fieldName}", typicalFieldName)
+                                                          .replace("{reason}", REASON_EMPTY)
+                                                          .replace("{maxLength}", String.valueOf(maxLength)),
                 validator.getValidityInfoForAllowedName(
                         typicalFieldName,
                         maxLength,

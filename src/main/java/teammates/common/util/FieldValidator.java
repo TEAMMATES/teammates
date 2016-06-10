@@ -289,8 +289,8 @@ public class FieldValidator {
     
     //TODO: move these out of this area
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. "
-            + "The value of %s should be no longer than %d characters. "
+            "\"{userInput}\" is not acceptable to TEAMMATES as {fieldName} because it {reason}. "
+            + "The value of {fieldName} should be no longer than {maxLength} characters. "
             + "It should not be empty.";
     
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE =
@@ -559,16 +559,20 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         
         if (value.isEmpty()) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName,
-                                 REASON_EMPTY, fieldName, maxLength);
+            return SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", value)
+                                                             .replace("{fieldName}", fieldName)
+                                                             .replace("{reason}", REASON_EMPTY)
+                                                             .replace("{maxLength}", String.valueOf(maxLength));
         }
         if (isUntrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > maxLength) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName,
-                                 REASON_TOO_LONG, fieldName, maxLength);
+            return SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
+                                                             .replace("{fieldName}", fieldName)
+                                                             .replace("{reason}", REASON_TOO_LONG)
+                                                             .replace("{maxLength}", String.valueOf(maxLength));
         }
         return "";
     }
@@ -593,16 +597,20 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         
         if (value.isEmpty()) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName,
-                                 REASON_EMPTY, fieldName, maxLength);
+            return SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", value)
+                                                             .replace("{fieldName}", fieldName)
+                                                             .replace("{reason}", REASON_EMPTY)
+                                                             .replace("{maxLength}", String.valueOf(maxLength));
         }
         if (isUntrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > maxLength) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName,
-                                 REASON_TOO_LONG, fieldName, maxLength);
+            return SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
+                                                             .replace("{fieldName}", fieldName)
+                                                             .replace("{reason}", REASON_TOO_LONG)
+                                                             .replace("{maxLength}", String.valueOf(maxLength));
         }
         if (!Character.isLetterOrDigit(value.codePointAt(0))) {
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
