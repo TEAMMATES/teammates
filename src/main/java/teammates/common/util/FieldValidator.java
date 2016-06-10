@@ -109,20 +109,6 @@ public class FieldValidator {
             + "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
             + "It cannot be longer than " + COURSE_ID_MAX_LENGTH + " characters. "
             + "It cannot be empty or contain spaces.";
-    /*
-     * =======================================================================
-     * Field instructor permission role
-     */
-    public static final String INSTRUCTOR_ROLE_ERROR_MESSAGE =
-            "\"%s\" is not accepted to TEAMMATES as a role %s."
-            + "Role can be one of the following: "
-            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER + ", "
-            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER + ", "
-            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER + ", "
-            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR + ", "
-            + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM + ", ";
-    public static final String INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING =
-            "it does not match the predifined roles";
 
     /*
      * =======================================================================
