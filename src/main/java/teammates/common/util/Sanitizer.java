@@ -1,7 +1,5 @@
 package teammates.common.util;
 
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -206,13 +204,6 @@ public final class Sanitizer {
     public static String desanitizeFromNextUrl(String url) {
         return url.replace("${amp}", "&").replace("${plus}", "%2B").replace("${hash}", "%23")
                   .replace(" ", "+");
-    }
-    
-    public static String sanitizeForRichText(String richText) {
-        if (richText == null) {
-            return null;
-        }
-        return escapeHtml4(richText);
     }
     
     /**
