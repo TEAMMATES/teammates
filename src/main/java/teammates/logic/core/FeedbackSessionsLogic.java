@@ -1174,24 +1174,6 @@ public class FeedbackSessionsLogic {
 
         fsDb.updateFeedbackSession(newSession);
     }
-
-    /**
-     * Returns true if the feedback session identified by {@code sessionName} and {@code courseId} contains
-     * any feedback response from student with email {@code studentEmail}
-     * @param studentEmail
-     * @param sessionName
-     * @param courseId
-     */
-    public boolean hasResponsesFromStudent(String studentEmail, String sessionName, String courseId) {
-        List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(sessionName,
-                                                                                            courseId);
-        for (FeedbackResponseAttributes response : responses) {
-            if (response.giver.equals(studentEmail)) {
-                return true;
-            }
-        }
-        return false;
-    }
     
     public void updateRespondantsForInstructor(String oldEmail, String newEmail, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
