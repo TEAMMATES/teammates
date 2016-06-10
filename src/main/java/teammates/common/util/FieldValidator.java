@@ -288,18 +288,27 @@ public class FieldValidator {
     public static final String REASON_START_WITH_NON_ALPHANUMERIC_CHAR = "starts with a non-alphanumeric character";
     
     //TODO: move these out of this area
+    public static final String ERROR_INFO =
+            "\"{userInput}\" is not acceptable to TEAMMATES as {fieldName} because it {reason}.";
+
+    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY =
+            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
+
+    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
+            "The value of {fieldName} should be no longer than {maxLength} characters.";
+
+    public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
+            "All {fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
+            + "(|) or percent sign (%%).";
+
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE =
-            "\"{userInput}\" is not acceptable to TEAMMATES as {fieldName} because it {reason}. "
-            + "The value of {fieldName} should be no longer than {maxLength} characters. "
-            + "It should not be empty.";
-    
+            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY;
+
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE =
-            "\"{userInput}\" is not acceptable to TEAMMATES as {fieldname} because it {reason}. "
-            + "The value of {fieldName} should be no longer than {maxLength} characters.";
+            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY;
     
     public static final String INVALID_NAME_ERROR_MESSAGE =
-            "\"{userInput}\" is not acceptable to TEAMMATES as {fieldName} because it {reason}. "
-            + "All {fieldName} must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
+            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME;
     
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided {fieldName} is not acceptable to TEAMMATES as it contains only whitespace "

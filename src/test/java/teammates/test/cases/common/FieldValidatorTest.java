@@ -196,9 +196,10 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String nameContainInvalidChars = "Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
-                     INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", Sanitizer.sanitizeForHtml(nameContainInvalidChars))
-                                               .replace("{fieldName}", typicalFieldName)
-                                               .replace("{reason}", REASON_CONTAINS_INVALID_CHAR),
+                     INVALID_NAME_ERROR_MESSAGE
+                         .replace("{userInput}", Sanitizer.sanitizeForHtml(nameContainInvalidChars))
+                         .replace("{fieldName}", typicalFieldName)
+                         .replace("{reason}", REASON_CONTAINS_INVALID_CHAR),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameContainInvalidChars));
         
@@ -206,9 +207,10 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
-                     INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", Sanitizer.sanitizeForHtml(nameStartedWithNonAlphaNumChar))
-                                               .replace("{fieldName}", typicalFieldName)
-                                               .replace("{reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
+                     INVALID_NAME_ERROR_MESSAGE
+                         .replace("{userInput}", Sanitizer.sanitizeForHtml(nameStartedWithNonAlphaNumChar))
+                         .replace("{fieldName}", typicalFieldName)
+                         .replace("{reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithNonAlphaNumChar));
         
@@ -216,9 +218,10 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String nameStartedWithBracesButHasInvalidChar = "{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
-                     INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", Sanitizer.sanitizeForHtml(nameStartedWithBracesButHasInvalidChar))
-                                               .replace("{fieldName}", typicalFieldName)
-                                               .replace("{reason}", REASON_CONTAINS_INVALID_CHAR),
+                     INVALID_NAME_ERROR_MESSAGE
+                         .replace("{userInput}", Sanitizer.sanitizeForHtml(nameStartedWithBracesButHasInvalidChar))
+                         .replace("{fieldName}", typicalFieldName)
+                         .replace("{reason}", REASON_CONTAINS_INVALID_CHAR),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithBracesButHasInvalidChar));
         
@@ -226,9 +229,10 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String nameStartedWithCurlyBracketButHasNoEnd = "{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)";
         assertEquals("invalid: typical length started with non-alphanumeric character",
-                     INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", Sanitizer.sanitizeForHtml(nameStartedWithCurlyBracketButHasNoEnd))
-                                               .replace("{fieldName}", typicalFieldName)
-                                               .replace("{reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
+                     INVALID_NAME_ERROR_MESSAGE
+                         .replace("{userInput}", Sanitizer.sanitizeForHtml(nameStartedWithCurlyBracketButHasNoEnd))
+                         .replace("{fieldName}", typicalFieldName)
+                         .replace("{reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithCurlyBracketButHasNoEnd));
         
