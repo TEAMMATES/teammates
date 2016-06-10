@@ -566,7 +566,7 @@ public class FeedbackResponsesLogic {
 
     private void updateSessionResponseRateForDeletingStudentResponse(String studentEmail, String sessionName,
             String courseId) throws InvalidParametersException, EntityDoesNotExistException {
-        if (!fsLogic.hasResponsesFromStudent(studentEmail, sessionName, courseId)) {
+        if (!hasGiverRespondedForSession(studentEmail, sessionName, courseId)) {
             fsLogic.deleteStudentFromRespondentList(studentEmail, sessionName, courseId);
         }
     }

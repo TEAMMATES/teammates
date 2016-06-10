@@ -176,8 +176,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         FeedbackQuestionAttributes question = getFeedbackQuestion(response);
         if (!isNameVisibleToInstructor(response, question.showGiverNameTo)
                 && question.giverType != FeedbackParticipantType.SELF) {
-            String hash = Integer.toString(Math.abs(name.hashCode()));
-            return "Anonymous " + question.giverType.toSingularFormString() + " " + hash;
+            return FeedbackSessionResultsBundle.getAnonName(question.giverType, name);
         }
         return name;
     }
@@ -187,8 +186,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         if (!isNameVisibleToInstructor(response, question.showRecipientNameTo)
                 && question.recipientType != FeedbackParticipantType.SELF
                 && question.recipientType != FeedbackParticipantType.NONE) {
-            String hash = Integer.toString(Math.abs(name.hashCode()));
-            return "Anonymous " + question.recipientType.toSingularFormString() + " " + hash;
+            return FeedbackSessionResultsBundle.getAnonName(question.recipientType, name);
         }
         return name;
     }
