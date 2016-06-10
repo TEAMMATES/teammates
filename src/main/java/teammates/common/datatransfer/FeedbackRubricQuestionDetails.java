@@ -340,8 +340,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                         Slots.ROW, Integer.toString(i),
                         Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                         Slots.DESCRIPTION, Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
-                        Slots.CHECKED, isExistingResponse && frd.getAnswer(i) == j ? "checked" : "",
                         // Check if existing choice for sub-question == current choice
+                        Slots.CHECKED, isExistingResponse && frd.getAnswer(i) == j ? "checked" : "",
                         Slots.RUBRIC_CHOICE_VALUE, Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
                         Slots.RUBRIC_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
@@ -423,7 +423,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.CURRENT_ROWS, Integer.toString(this.numOfRubricSubQuestions),
                 Slots.CURRENT_COLS, Integer.toString(this.numOfRubricChoices),
                 Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, tableHeaderFragmentHtml.toString(),
-                "${tableWeightRowFragmentHtml}", tableWeightFragmentHtml.toString(),
+                Slots.RUBRIC_TABLE_WEIGHT_ROW_FRAGMENT_HTML, tableWeightFragmentHtml.toString(),
                 Slots.TABLE_BODY_HTML, tableBodyHtml.toString(),
                 Slots.RUBRIC_PARAM_NUM_ROWS, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS,
                 Slots.RUBRIC_PARAM_NUM_COLS, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS,
@@ -578,7 +578,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String tableBodyAverageCell =
                         Templates.populateTemplate(tableBodyFragmentTemplate,
                                 Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
-                                dfAverage.format(rubricStats[j][numOfRubricChoices]));
+                                        dfAverage.format(rubricStats[j][numOfRubricChoices]));
                 tableBodyFragmentHtml.append(tableBodyAverageCell).append(Const.EOL);
             }
 

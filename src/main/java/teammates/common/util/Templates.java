@@ -368,6 +368,7 @@ public final class Templates {
             public static final String CHECK_ASSIGN_WEIGHTS = "${checkAssignWeights}";
             public static final String RUBRIC_WEIGHT = "${rubricWeight}";
             public static final String RUBRIC_CHOICE_VALUE = "${rubricChoiceValue}";
+            public static final String RUBRIC_TABLE_WEIGHT_ROW_FRAGMENT_HTML = "${tableWeightRowFragmentHtml}";
             public static final String RUBRIC_ADDITIONAL_INFO_FRAGMENTS = "${rubricAdditionalInfoFragments}";
             public static final String RUBRIC_TOOLTIPS_ASSIGN_WEIGHTS =
                     "${Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS}";
