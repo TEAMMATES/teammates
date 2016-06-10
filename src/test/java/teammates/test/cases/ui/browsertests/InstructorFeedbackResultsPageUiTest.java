@@ -12,7 +12,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
@@ -21,6 +20,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.util.Priority;
+import teammates.test.util.FileHelper;
 
 /**
  * Tests 'Feedback Results' view of instructors.

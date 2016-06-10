@@ -125,7 +125,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
 
         String questionTextOfFirstQuestion = dataBundle.feedbackQuestions
                                                        .get("qn1InSession1InCourse1")
-                                                       .getQuestionDetails().questionText;
+                                                       .getQuestionDetails().getQuestionText();
         assertEquals(questionTextOfFirstQuestion,
                      questionForms.get(0).getQuestionText());
         assertEquals(3, questionForms.get(0).getQuestionNumberOptions().size());
