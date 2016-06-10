@@ -274,29 +274,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
                          .withCourseId(fs.getCourseId())
                          .withSessionName(fs.getFeedbackSessionName()).toString(),
                      newQuestionForm.getDoneEditingLink());
-        
-        ______TS("instructor with insufficient permissions");
-        // setup
-        data = new InstructorFeedbackEditPageData(dataBundle.accounts.get("helperOfCourse1"));
-        fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        fs.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-        fs.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        
-        questions = new ArrayList<FeedbackQuestionAttributes>();
-        questions.add(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
-        questions.add(dataBundle.feedbackQuestions.get("qn2InSession1InCourse1"));
-        
-        questionHasResponses = new HashMap<String, Boolean>();
-        questionHasResponses.put(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").getId(), true);
-        
-        studentList = new ArrayList<StudentAttributes>();
-        studentList.add(dataBundle.students.get("student1InCourse1"));
-        
-        instructorList = new ArrayList<InstructorAttributes>();
-        instructorList.add(dataBundle.instructors.get("instructor1OfCourse1"));
-        
-        instructor = getInstructorFromBundle("helperOfCourse1");
-        
     }
     
     public InstructorAttributes getInstructorFromBundle(String instructor) {
