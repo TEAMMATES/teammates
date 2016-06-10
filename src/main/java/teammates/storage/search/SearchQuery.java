@@ -4,23 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Query;
-import com.google.appengine.api.search.QueryOptions;
-
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
+
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Query;
+import com.google.appengine.api.search.QueryOptions;
 
 /**
  * The SearchQuery object that defines how we query {@link Document}
  */
 public class SearchQuery {
 
-    protected static Logger log = Utils.getLogger();
     protected static final String AND = " AND ";
     protected static final String OR = " OR ";
     protected static final String NOT = " NOT ";
+    
+    private static final Logger log = Utils.getLogger();
     
     //to be defined by the inherited class
     protected String visibilityQueryString;
@@ -30,8 +31,8 @@ public class SearchQuery {
     private List<String> dateQueryStrings = new ArrayList<String>();
     
     protected SearchQuery() {
-        // Prevents instantiation of the base SearchQuery. 
-        // A SearchQuery specific to the search (e.g. StudentSearchQuery) should be used instead 
+        // Prevents instantiation of the base SearchQuery.
+        // A SearchQuery specific to the search (e.g. StudentSearchQuery) should be used instead
     }
     
     protected void setOptions(QueryOptions options) {
@@ -55,7 +56,7 @@ public class SearchQuery {
         if (FieldValidator.isValidEmailAddress(queryString)) {
             sanitizedQueryString = queryString.toLowerCase().trim();
         } else {
-            sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim(); 
+            sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim();
         }
         
         if (!sanitizedQueryString.isEmpty()) {

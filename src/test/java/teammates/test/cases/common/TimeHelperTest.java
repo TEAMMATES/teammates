@@ -1,6 +1,5 @@
 package teammates.test.cases.common;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -35,12 +34,12 @@ public class TimeHelperTest extends BaseTestCase {
     }
     
     @Test
-    public void testCombineDateTime() throws ParseException {
+    public void testCombineDateTime() {
         String testDate = "01/02/2013";
         String testTime = "0";
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.clear();
-        cal.set(2013, 1, 1, 0, 0, 0);        
+        cal.set(2013, 1, 1, 0, 0, 0);
         Date expectedOutput = cal.getTime();
         
         testTime = "0";

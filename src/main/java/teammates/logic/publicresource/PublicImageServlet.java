@@ -29,7 +29,7 @@ public class PublicImageServlet extends PublicResourcesServlet {
         requestParameters = req.getParameterMap();
         String blobKey = getBlobKeyFromRequest();
         
-        try {      
+        try {
             if (blobKey.isEmpty()) {
                 String message = "Failed to serve image with URL : blobKey is missing";
                 logMessage(req, message);
@@ -42,8 +42,8 @@ public class PublicImageServlet extends PublicResourcesServlet {
                 
                 String url = req.getRequestURL().toString() + "?blob-key=" + blobKey;
           
-                String message = "Public image request with URL: <br>" 
-                               + "<a href=\"" + url + "\" target=blank>" 
+                String message = "Public image request with URL: <br>"
+                               + "<a href=\"" + url + "\" target=blank>"
                                + url + "</a>";
                 logMessage(req, message);
             }

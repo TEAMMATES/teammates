@@ -22,7 +22,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         
         ______TS("success: delete entire account");
         
@@ -46,7 +46,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
                 
     }
 
-    private AdminAccountDeleteAction getAction(String... params) throws Exception {
+    private AdminAccountDeleteAction getAction(String... params) {
         return (AdminAccountDeleteAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

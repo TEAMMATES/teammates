@@ -24,12 +24,12 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
+        FeedbackQuestionAttributes q = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
@@ -38,8 +38,8 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
         verifyAssumptionFailure();
 
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
         };
 
         verifyAssumptionFailure(submissionParams);
@@ -47,8 +47,8 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
         ______TS("typical case");
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId()
         };
 
@@ -60,11 +60,11 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
 
         ______TS("trying to access questions not meant for the user");
 
-        q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        q = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId()
         };
 
@@ -80,11 +80,11 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
 
         gaeSimulation.loginAsAdmin("admin.user");
 
-        q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
+        q = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId(),
                 Const.ParamsNames.USER_ID, instructor.googleId
         };
@@ -102,11 +102,11 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        q = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId()
         };
 
@@ -123,11 +123,11 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        q = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
 
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId()
         };
 
@@ -138,7 +138,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends Base
         assertFalse(r.isError);
     }
 
-    private InstructorFeedbackQuestionSubmissionEditPageAction getAction(String... params) throws Exception {
+    private InstructorFeedbackQuestionSubmissionEditPageAction getAction(String... params) {
         return (InstructorFeedbackQuestionSubmissionEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

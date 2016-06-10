@@ -12,7 +12,7 @@ import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
     
-    public boolean areDuplicatesAllowed;
+    private boolean areDuplicatesAllowed;
 
     public FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);
@@ -26,7 +26,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                           FeedbackQuestionType questionType) {
         
-        String areDuplicatesAllowedString = 
+        String areDuplicatesAllowedString =
                 HttpRequestHelper.getValueFromParamMap(
                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED);
         boolean areDuplicatesAllowed = "on".equals(areDuplicatesAllowedString);
@@ -110,11 +110,11 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     }
    
     /**
-     * For a single set of ranking (options / feedback responses), 
+     * For a single set of ranking (options / feedback responses),
      * fix ties by assigning the MIN value of the ordering to all the tied options
      * e.g. the normalised ranks of the set of ranks (1,4,1,4) is (1,3,1,3)
      * @param rankOfOption  a map containing the original unfiltered answer for each options
-     * @param options  a list of options 
+     * @param options  a list of options
      * @return a map of the option to the normalised rank of the response
      */
     protected <K> Map<K, Integer> obtainMappingToNormalisedRanksForRanking(
@@ -122,7 +122,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                                                         List<K> options) {
         Map<K, Integer> normalisedRankForSingleSetOfRankings = new HashMap<>();
         
-        // group the options/feedback response by its rank 
+        // group the options/feedback response by its rank
         TreeMap<Integer, List<K>> rankToAnswersMap = new TreeMap<>();
         for (K answer : options) {
             int rankGiven = rankOfOption.get(answer);
@@ -148,6 +148,10 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         }
         
         return normalisedRankForSingleSetOfRankings;
+    }
+
+    public boolean isAreDuplicatesAllowed() {
+        return areDuplicatesAllowed;
     }
 
 }

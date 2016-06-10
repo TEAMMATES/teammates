@@ -83,7 +83,7 @@ public class LogicTest extends BaseComponentTestCase {
      */
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 

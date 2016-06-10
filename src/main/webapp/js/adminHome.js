@@ -75,7 +75,8 @@ function addInstructorByAjaxRecursively() {
             var rowText = createRowForResultTable('-', '-', '-', '-', false, 'Cannot send Ajax Request!');
             $('#addInstructorResultTable tbody').append(rowText);
             if (isInputFromFirstPanel) {
-                var instructorsToBeRetried = $('#addInstructorDetailsSingleLine').val() + instructorDetailsList[paramsCounter] + '\n';
+                var instructorsToBeRetried = $('#addInstructorDetailsSingleLine').val()
+                                             + instructorDetailsList[paramsCounter] + '\n';
                 $('#addInstructorDetailsSingleLine').val(instructorsToBeRetried);
             }
             paramsCounter++;
@@ -93,7 +94,8 @@ function addInstructorByAjaxRecursively() {
                                                   data.instructorAddingResultForAjax, data.statusForAjax);
             $('#addInstructorResultTable tbody').append(rowText);
             if (!data.instructorAddingResultForAjax && isInputFromFirstPanel) {
-                var instructorsToBeRetried = $('#addInstructorDetailsSingleLine').val() + instructorDetailsList[paramsCounter] + '\n';
+                var instructorsToBeRetried = $('#addInstructorDetailsSingleLine').val()
+                                             + instructorDetailsList[paramsCounter] + '\n';
                 $('#addInstructorDetailsSingleLine').val(instructorsToBeRetried);
             }
             paramsCounter++;
@@ -141,7 +143,8 @@ function addInstructorFromSecondFormByAjax() {
     $('#addInstructorResultPanel').show();    // show the hidden panel
     isInputFromFirstPanel = false;
     
-    var instructorDetails = $('#instructorName').val() + '|' + $('#instructorEmail').val() + '|' + $('#instructorInstitution').val();
+    var instructorDetails = $('#instructorName').val() + '|' + $('#instructorEmail').val()
+                            + '|' + $('#instructorInstitution').val();
     instructorDetailsList = [instructorDetails];
     var params = 'instructorshortname=' + $('#instructorShortName').val()
                + '&instructorname=' + $('#instructorName').val()

@@ -31,9 +31,21 @@ before_script:
   - export DISPLAY=:99.0
   - tar -xjf /tmp/firefox-38.0.5.tar.bz2 --directory $TRAVIS_BUILD_DIR/
   - export PATH="$TRAVIS_BUILD_DIR/firefox:$PATH"
+  - ./gradlew testClasses
   - npm install eslint
-  - gem install gist
+  - ./gradlew downloadStaticAnalysisTools --continue
+  - ./gradlew staticAnalysis --continue
 
 install: true
 script:
-  - ./gradlew -b travis.gradle
+  - ./gradlew appengineRun travisTests
+
+after_failure:
+  - gem install gist
+  - ./gradlew generateFailedCmd
+
+after_success:
+  - ./gradlew jacocoTestReport
+
+after_script:
+  - ./gradlew appengineStop

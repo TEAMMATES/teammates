@@ -1,9 +1,11 @@
 package teammates.common.util;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.TimeZone;
 
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import teammates.logic.core.Sendgrid;
@@ -18,19 +20,20 @@ public class EmailLogEntry {
     private String content;
     private long time;
     
-    public String logInfoAsHtml;
+    @SuppressWarnings("unused") // used by js
+    private String logInfoAsHtml;
     
-    public EmailLogEntry(MimeMessage msg) throws Exception {
+    public EmailLogEntry(MimeMessage msg) throws MessagingException, IOException {
         this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
         this.subject = msg.getSubject();
         this.content = (String) msg.getContent();
     }
     
-    public EmailLogEntry(Sendgrid msg) throws Exception {
+    public EmailLogEntry(Sendgrid msg) {
         
         this.receiver = msg.getTos().get(0);
         this.subject = msg.getSubject();
-        this.content = msg.getHtml(); 
+        this.content = msg.getHtml();
     }
     
     public EmailLogEntry(AppLogLine appLog) {
@@ -51,18 +54,31 @@ public class EmailLogEntry {
     }
     
     private String getLogInfoForTableRowAsHtml() {
-        return String.format(
-                "<tr class=\"log\"><td>%s</td><td>%s</td><td>%s</td></tr>"
-                + "<tr id=\"small\"><td colspan=\"3\"><ul class=\"list-group\">"
-                + "<li class=\"list-group-item list-group-item-info\">,"
-                + "<input type=\"text\" value=\"%s\" class=\"form-control\" readonly></li>"
-                + "</ul></td></tr>"
-                + "<tr id=\"big\" style=\"display:none;\">"
-                + "<td colspan=\"3\"><div class=\"well\"><ul class=\"list-group\"><li class=\"list-group-item list-group-item-success\">"
-                + "<small>%s</small>"
-                + "</li></ul></div></td>"
-                + "</tr>",
-                this.receiver, this.subject, this.getTimeForDisplay(), this.getContent(), this.content);
+        return "<tr class=\"log\">"
+                 + "<td>" + this.receiver + "</td>"
+                 + "<td>" + this.subject + "</td>"
+                 + "<td>" + this.getTimeForDisplay() + "</td>"
+             + "</tr>"
+             + "<tr id=\"small\">"
+                 + "<td colspan=\"3\">"
+                     + "<ul class=\"list-group\">"
+                         + "<li class=\"list-group-item list-group-item-info\">,"
+                             + "<input type=\"text\" value=\"" + this.getContent() + "\" class=\"form-control\" readonly>"
+                         + "</li>"
+                     + "</ul>"
+                 + "</td>"
+             + "</tr>"
+             + "<tr id=\"big\" style=\"display:none;\">"
+                 + "<td colspan=\"3\">"
+                     + "<div class=\"well\">"
+                         + "<ul class=\"list-group\">"
+                             + "<li class=\"list-group-item list-group-item-success\">"
+                                 + "<small>" + this.content + "</small>"
+                             + "</li>"
+                         + "</ul>"
+                     + "</div>"
+                 + "</td>"
+             + "</tr>";
     }
     
     /**
@@ -97,7 +113,7 @@ public class EmailLogEntry {
     public String getTimeForDisplay() {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         appCal.setTimeInMillis(time);
-        appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         return TimeHelper.formatTime12H(appCal.getTime());
     }
     
@@ -130,8 +146,8 @@ public class EmailLogEntry {
             if (highlightedText.toLowerCase().contains(stringToHighlight.toLowerCase())) {
                 
                 int startIndex = highlightedText.toLowerCase().indexOf(stringToHighlight.toLowerCase());
-                int endIndex = startIndex + stringToHighlight.length();                         
-                String realStringToHighlight = highlightedText.substring(startIndex, endIndex);               
+                int endIndex = startIndex + stringToHighlight.length();
+                String realStringToHighlight = highlightedText.substring(startIndex, endIndex);
                 highlightedText = highlightedText.replace(realStringToHighlight, "<mark>" + realStringToHighlight + "</mark>");
             }
         }

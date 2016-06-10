@@ -1,15 +1,15 @@
 package teammates.test.cases;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.testng.AssertJUnit;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.FileHelper;
 
 /** Base class for all test cases */
 public class BaseTestCase {
@@ -22,9 +22,11 @@ public class BaseTestCase {
      * @param description
      *            of the logical section. This will be printed.
      */
+    // CHECKSTYLE.OFF:AbbreviationAsWordInName|MethodName the weird name is for easy spotting.
     public static void ______TS(String description) {
         print(" * " + description);
     }
+    // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
     public static void printTestCaseHeader() {
         print("[TestCase]---:" + Thread.currentThread().getStackTrace()[2].getMethodName());
@@ -57,7 +59,7 @@ public class BaseTestCase {
                                   + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -78,7 +80,7 @@ public class BaseTestCase {
         backDoorLogic.persistDataBundle(dataBundle);
     }
     
-    protected static void removeTypicalDataInDatastore() throws Exception {
+    protected static void removeTypicalDataInDatastore() {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = getTypicalDataBundle();
         backDoorLogic.deleteExistingData(dataBundle);
@@ -87,7 +89,7 @@ public class BaseTestCase {
     /**
      * Creates in the datastore a fresh copy of data in the given json file
      */
-    protected static  void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
+    protected static void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = loadDataBundle(pathToJsonFile);
         backDoorLogic.persistDataBundle(dataBundle);

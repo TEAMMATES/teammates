@@ -45,9 +45,9 @@ public class InstructorFeedbackResultsPageAction extends Action {
             selectedSection = ALL_SECTION_OPTION;
         }
         
-        // this is for ajax loading of the html table in the modal 
+        // this is for ajax loading of the html table in the modal
         // "(Non-English characters not displayed properly in the downloaded file? click here)"
-        // TODO move into another action and another page data class 
+        // TODO move into another action and another page data class
         boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         if (isLoadingCsvResultsAsHtml) {
             return createAjaxResultForCsvTableLoadedInHtml(courseId, feedbackSessionName, instructor, data, selectedSection);
@@ -68,32 +68,33 @@ public class InstructorFeedbackResultsPageAction extends Action {
             // default view: sort by question, statistics shown, grouped by team.
             showStats = "on";
             groupByTeam = "on";
-            sortType = "question";
+            sortType = Const.FeedbackSessionResults.QUESTION_SORT_TYPE;
         }
         
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String isTestingAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
         int queryRange = isTestingAjax == null ? DEFAULT_QUERY_RANGE : QUERY_RANGE_FOR_AJAX_TESTING;
-        
-        if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null && !"question".equals(sortType)) {
-            // bundle for all questions and all sections  
+
+        if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null
+                && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
+            // bundle for all questions and all sections
             data.setBundle(
                      logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                                                            feedbackSessionName, courseId,
                                                                            instructor.email,
                                                                            queryRange, sortType));
-        } else if ("question".equals(sortType)) {
+        } else if (Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
             data.setBundle(getBundleForQuestionView(isTestingAjax, courseId, feedbackSessionName, instructor, data,
                                                     selectedSection, sortType, questionId));
-        } else if ("giver-question-recipient".equals(sortType)
-                || "giver-recipient-question".equals(sortType)) {
+        } else if (Const.FeedbackSessionResults.GQR_SORT_TYPE.equals(sortType)
+                || Const.FeedbackSessionResults.GRQ_SORT_TYPE.equals(sortType)) {
             data.setBundle(logic
                     .getFeedbackSessionResultsForInstructorFromSectionWithinRange(feedbackSessionName, courseId,
                                                                                   instructor.email,
                                                                                   selectedSection,
                                                                                   DEFAULT_SECTION_QUERY_RANGE));
-        } else if ("recipient-question-giver".equals(sortType)
-                || "recipient-giver-question".equals(sortType)) {
+        } else if (Const.FeedbackSessionResults.RQG_SORT_TYPE.equals(sortType)
+                || Const.FeedbackSessionResults.RGQ_SORT_TYPE.equals(sortType)) {
             data.setBundle(logic
                     .getFeedbackSessionResultsForInstructorToSectionWithinRange(feedbackSessionName, courseId,
                                                                                 instructor.email,
@@ -107,55 +108,56 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
 
         // Warning for section wise viewing in case of many responses.
-        boolean isShowSectionWarningForQuestionView = data.isLargeNumberOfRespondents() 
-                                                   && "question".equals(sortType);
+        boolean isShowSectionWarningForQuestionView = data.isLargeNumberOfRespondents()
+                                                   && Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType);
         boolean isShowSectionWarningForParticipantView = !data.getBundle().isComplete
-                                                   && !"question".equals(sortType);
+                                                   && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType);
         if (selectedSection.equals(ALL_SECTION_OPTION) && (isShowSectionWarningForParticipantView
                                                            || isShowSectionWarningForQuestionView)) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING,
+                                               StatusMessageColor.WARNING));
             isError = true;
         }
         
 
         switch (sortType) {
-        case "question":
+        case Const.FeedbackSessionResults.QUESTION_SORT_TYPE:
             data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
-        case "recipient-giver-question":
-            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam, 
+        case Const.FeedbackSessionResults.RGQ_SORT_TYPE:
+            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
                                           ViewType.RECIPIENT_GIVER_QUESTION);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
-        case "giver-recipient-question":
+        case Const.FeedbackSessionResults.GRQ_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
                                           ViewType.GIVER_RECIPIENT_QUESTION);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
-        case "recipient-question-giver":
+        case Const.FeedbackSessionResults.RQG_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
                                           ViewType.RECIPIENT_QUESTION_GIVER);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
-        case "giver-question-recipient":
-            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam, 
+        case Const.FeedbackSessionResults.GQR_SORT_TYPE:
+            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
                                           ViewType.GIVER_QUESTION_RECIPIENT);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
         default:
-            sortType = "recipient-giver-question";
-            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam, 
+            sortType = Const.FeedbackSessionResults.RGQ_SORT_TYPE;
+            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
                                           ViewType.RECIPIENT_GIVER_QUESTION);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }
     }
 
-    private FeedbackSessionResultsBundle getBundleForQuestionView(String needAjax, String courseId, String feedbackSessionName,
-                                                                  InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                                                  String selectedSection, String sortType, String questionId)
-                                                                  throws EntityDoesNotExistException {
+    private FeedbackSessionResultsBundle getBundleForQuestionView(
+            String needAjax, String courseId, String feedbackSessionName, InstructorAttributes instructor,
+            InstructorFeedbackResultsPageData data, String selectedSection, String sortType, String questionId)
+                    throws EntityDoesNotExistException {
         FeedbackSessionResultsBundle bundle;
         if (questionId == null) {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {
@@ -169,7 +171,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                feedbackSessionName, courseId,
                                                instructor.email,
                                                1, sortType);
-                // set isComplete to true to prevent behavior when there are too many responses, 
+                // set isComplete to true to prevent behavior when there are too many responses,
                 // such as the display of warning messages
                 bundle.isComplete = true;
             } else {
@@ -181,12 +183,12 @@ public class InstructorFeedbackResultsPageAction extends Action {
         } else {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {
                 // bundle for a specific question, with all sections
-                bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
+                bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId,
                                                                                   instructor.email, questionId);
             } else {
                 // bundle for a specific question and a specific section
                 bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
-                                                feedbackSessionName, courseId, 
+                                                feedbackSessionName, courseId,
                                                 instructor.email, questionId, selectedSection);
             }
         }
@@ -195,7 +197,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
     }
 
     private ActionResult createAjaxResultForCsvTableLoadedInHtml(String courseId, String feedbackSessionName,
-                                    InstructorAttributes instructor, InstructorFeedbackResultsPageData data, 
+                                    InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
                                     String selectedSection)
                                     throws EntityDoesNotExistException {
         try {

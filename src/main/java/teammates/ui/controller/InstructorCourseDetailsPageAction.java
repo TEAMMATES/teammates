@@ -8,9 +8,9 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -38,7 +38,7 @@ public class InstructorCourseDetailsPageAction extends Action {
             String courseStudentListAsCsv = logic.getCourseStudentListAsCsv(courseId, account.googleId);
             data.setStudentListHtmlTableAsString(StringHelper.csvToHtmlTable(courseStudentListAsCsv));
             
-            statusToAdmin = "instructorCourseDetails Page Ajax Html table Load<br>" 
+            statusToAdmin = "instructorCourseDetails Page Ajax Html table Load<br>"
                             + "Viewing Student List Table for Course <span class=\"bold\">[" + courseId + "]</span>";
             
             return createAjaxResult(data);
@@ -52,11 +52,12 @@ public class InstructorCourseDetailsPageAction extends Action {
         data.init(instructor, courseDetails, instructors, students);
         
         if (students.isEmpty()) {
-            String message = String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY, data.getInstructorCourseEnrollLink(courseId));
+            String message = String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY,
+                                           data.getInstructorCourseEnrollLink(courseId));
             statusToUser.add(new StatusMessage(message, StatusMessageColor.WARNING));
         }
         
-        statusToAdmin = "instructorCourseDetails Page Load<br>" 
+        statusToAdmin = "instructorCourseDetails Page Load<br>"
                         + "Viewing Course Details for Course <span class=\"bold\">[" + courseId + "]</span>";
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);

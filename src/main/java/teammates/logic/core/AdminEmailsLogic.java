@@ -2,17 +2,14 @@ package teammates.logic.core;
 
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Utils;
 import teammates.storage.api.AdminEmailsDb;
+
+import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Handles the logic related to admin emails
@@ -23,10 +20,6 @@ public class AdminEmailsLogic {
     private static AdminEmailsLogic instance;
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
     
-    @SuppressWarnings("unused")
-    // it is used, just not in here, do not remove
-    private static Logger log = Utils.getLogger();
-    
     public static AdminEmailsLogic inst() {
         if (instance == null) {
             instance = new AdminEmailsLogic();
@@ -36,7 +29,7 @@ public class AdminEmailsLogic {
 
     /**
      * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database. 
+     * @return the list of all adminEmails in the database.
      */
     @Deprecated
     public List<AdminEmailAttributes> getAllAdminEmails() {
@@ -103,7 +96,7 @@ public class AdminEmailsLogic {
      * Get all admin emails that have been sent and not in trash bin
      * @return empty list if no email found
      */
-    public List<AdminEmailAttributes> getSentAdminEmails() {      
+    public List<AdminEmailAttributes> getSentAdminEmails() {
         return adminEmailsDb.getSentAdminEmails();
     }
     
@@ -127,8 +120,9 @@ public class AdminEmailsLogic {
         return adminEmailsDb.creatAdminEmail(newAdminEmail);
     }
 
-    public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId) throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(emailId);    
+    public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(emailId);
         Assumption.assertNotNull(newAdminEmail);
         
         adminEmailsDb.updateAdminEmailById(newAdminEmail, emailId);
@@ -144,9 +138,8 @@ public class AdminEmailsLogic {
     /**
      * deletes files uploaded in admin email compose page
      * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
-     * @throws BlobstoreFailureException
      */
-    public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
+    public void deleteAdminEmailUploadedFile(BlobKey key) {
         adminEmailsDb.deleteAdminEmailUploadedFile(key);
     }
 }

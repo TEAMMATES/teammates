@@ -10,18 +10,18 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.template.Comment;
+import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.StudentProfile;
 
 public class InstructorStudentRecordsPageData extends PageData {
 
+    public StudentProfileAttributes spa; // used for testing admin message
     private String courseId;
     private String studentName;
     private String studentEmail;
     private String showCommentBox;
     private StudentProfile studentProfile;
-    public StudentProfileAttributes spa; // used for testing admin message
     private List<CommentsForStudentsTable> commentsForStudentTable;
     private List<String> sessionNames;
 
@@ -39,11 +39,11 @@ public class InstructorStudentRecordsPageData extends PageData {
             String pictureUrl = getPictureUrl(spa.pictureKey);
             this.studentProfile = new StudentProfile(student.name, spa, pictureUrl);
         }
-        List<Comment> commentDivs = new ArrayList<Comment>();
+        List<CommentRow> commentDivs = new ArrayList<CommentRow>();
         for (CommentAttributes comment : comments) {
             String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
             String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
-            Comment commentDiv = new Comment(comment, "You", unsanitizedRecipientDetails);
+            CommentRow commentDiv = new CommentRow(comment, "You", unsanitizedRecipientDetails);
             String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
             commentDiv.setVisibilityIcon(whoCanSeeComment);
             commentDiv.setEditDeleteEnabled(false);

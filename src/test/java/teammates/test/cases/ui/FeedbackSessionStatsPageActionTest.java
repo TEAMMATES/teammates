@@ -23,7 +23,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String[] submissionParams;
@@ -34,7 +34,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         
         FeedbackSessionAttributes accessableFeedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
         submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
         
@@ -72,7 +72,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         assertEquals("", r.getStatusMessage());
     }
     
-    private FeedbackSessionStatsPageAction getAction(String... params) throws Exception {
+    private FeedbackSessionStatsPageAction getAction(String... params) {
         return (FeedbackSessionStatsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

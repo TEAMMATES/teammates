@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
@@ -21,9 +22,11 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.UserType.Role;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -34,6 +37,7 @@ import com.google.appengine.api.datastore.Text;
 
 public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
+    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
@@ -54,51 +58,53 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         testGetViewableResponsesForQuestionInSection();
         testUpdateFeedbackResponse();
         testUpdateFeedbackResponsesForChangingTeam();
+        testUpdateFeedbackResponsesForChangingTeam_deleteLastResponse_decreaseResponseRate();
+        testUpdateFeedbackResponsesForChangingTeam_deleteNotLastResponse_sameResponseRate();
         testUpdateFeedbackResponsesForChangingEmail();
         testDeleteFeedbackResponsesForStudent();
         testSpecialCharactersInTeamName();
         testDeleteFeedbackResponsesForCourse();
     }
 
-    public void testSpecialCharactersInTeamName() throws Exception {
+    public void testSpecialCharactersInTeamName() {
         ______TS("test special characters");
         
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
-                "First Session", "FQLogicPCT.CS2104", 1); 
+                "First Session", "FQLogicPCT.CS2104", 1);
         
         // Alice will see 4 responses
         assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                question, 
-                "FQLogicPCT.alice.b@gmail.tmt", 
-                Role.STUDENT, 
+                question,
+                "FQLogicPCT.alice.b@gmail.tmt",
+                Role.STUDENT,
                 "First Session").size(), 4);
         
         // Benny will see 4 responses
         assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                question, 
-                "FQLogicPCT.benny.c@gmail.tmt", 
-                Role.STUDENT, 
+                question,
+                "FQLogicPCT.benny.c@gmail.tmt",
+                Role.STUDENT,
                 "First Session").size(), 4);
         
         // Charlie will see 3 responses
         assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                question, 
-                "FQLogicPCT.charlie.d@gmail.tmt", 
-                Role.STUDENT, 
+                question,
+                "FQLogicPCT.charlie.d@gmail.tmt",
+                Role.STUDENT,
                 "First Session").size(), 3);
         
         // Danny will see 3 responses
         assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                question, 
-                "FQLogicPCT.danny.e@gmail.tmt", 
-                Role.STUDENT, 
+                question,
+                "FQLogicPCT.danny.e@gmail.tmt",
+                Role.STUDENT,
                 "First Session").size(), 3);
         
         // Emily will see 1 response
         assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                question, 
-                "FQLogicPCT.emily.f@gmail.tmt", 
-                Role.STUDENT, 
+                question,
+                "FQLogicPCT.emily.f@gmail.tmt",
+                Role.STUDENT,
                 "First Session").size(), 1);
 
     }
@@ -111,7 +117,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         responseToUpdate.responseMetaData = new Text("Updated Response");
         responseToUpdate.feedbackSessionName = "copy over";
-        responseToUpdate.recipientEmail = null;
+        responseToUpdate.recipient = null;
         
         frLogic.updateFeedbackResponse(responseToUpdate);
         
@@ -119,20 +125,20 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         responseToUpdate.responseMetaData = new Text("Updated Response");
         
         assertEquals(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
+                responseToUpdate.feedbackQuestionId, responseToUpdate.giver, responseToUpdate.recipient).toString(),
                 responseToUpdate.toString());
         
         ______TS("failure: recipient one that is already exists");
         
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
   
-        FeedbackResponseAttributes existingResponse = 
+        FeedbackResponseAttributes existingResponse =
                 new FeedbackResponseAttributes(
-                        responseToUpdate.feedbackSessionName, 
-                        responseToUpdate.courseId, 
-                        responseToUpdate.feedbackQuestionId, 
-                        responseToUpdate.feedbackQuestionType, 
-                        responseToUpdate.giverEmail,
+                        responseToUpdate.feedbackSessionName,
+                        responseToUpdate.courseId,
+                        responseToUpdate.feedbackQuestionId,
+                        responseToUpdate.feedbackQuestionType,
+                        responseToUpdate.giver,
                         responseToUpdate.giverSection,
                         "student3InCourse1@gmail.tmt",
                         responseToUpdate.recipientSection,
@@ -140,7 +146,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         frLogic.createFeedbackResponse(existingResponse);
         
-        responseToUpdate.recipientEmail = "student3InCourse1@gmail.tmt";
+        responseToUpdate.recipient = "student3InCourse1@gmail.tmt";
         
         try {
             frLogic.updateFeedbackResponse(responseToUpdate);
@@ -162,26 +168,26 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         responseToUpdate.responseMetaData = new Text("Updated Response 2");
         
         assertEquals(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
+                responseToUpdate.feedbackQuestionId, responseToUpdate.giver, responseToUpdate.recipient).toString(),
                 responseToUpdate.toString());
         
         ______TS("success: recipient changed to something else");
         
-        responseToUpdate.recipientEmail = "student5InCourse1@gmail.tmt";
+        responseToUpdate.recipient = "student5InCourse1@gmail.tmt";
         
         frLogic.updateFeedbackResponse(responseToUpdate);
         
         assertEquals(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
+                responseToUpdate.feedbackQuestionId, responseToUpdate.giver, responseToUpdate.recipient).toString(),
                 responseToUpdate.toString());
         assertNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, "student2InCourse1@gmail.tmt"));
+                responseToUpdate.feedbackQuestionId, responseToUpdate.giver, "student2InCourse1@gmail.tmt"));
         
         ______TS("success: both giver and recipient changed (teammate changed response)");
         
         responseToUpdate = getResponseFromDatastore("response1GracePeriodFeedback");
-        responseToUpdate.giverEmail = "student5InCourse1@gmail.tmt";
-        responseToUpdate.recipientEmail = "Team 1.1";
+        responseToUpdate.giver = "student5InCourse1@gmail.tmt";
+        responseToUpdate.recipient = "Team 1.1";
         
         assertNotNull(frLogic.getFeedbackResponse(
                 responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
@@ -189,7 +195,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         frLogic.updateFeedbackResponse(responseToUpdate);
         
         assertEquals(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
+                responseToUpdate.feedbackQuestionId, responseToUpdate.giver, responseToUpdate.recipient).toString(),
                 responseToUpdate.toString());
         assertNull(frLogic.getFeedbackResponse(
                 responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
@@ -208,7 +214,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException("Should have detected that this response does not exist");
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains(
-                        "Trying to update a feedback response that does not exist.", 
+                        "Trying to update a feedback response that does not exist.",
                         e.getMessage());
         }
     }
@@ -232,11 +238,12 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
                 teamQuestion.getId(), studentToUpdate.email).size(), 1);
         
-        // Add one more non-team response 
-        FeedbackResponseAttributes responseToAdd = new FeedbackResponseAttributes("First feedback session",
-                                                        "idOfTypicalCourse1", getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
-                                                        FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
-                                                        studentToUpdate.email, "Section 1", new Text("New Response to self"));
+        // Add one more non-team response
+        FeedbackResponseAttributes responseToAdd =
+                new FeedbackResponseAttributes("First feedback session", "idOfTypicalCourse1",
+                                               getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
+                                               FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
+                                               studentToUpdate.email, "Section 1", new Text("New Response to self"));
         frLogic.createFeedbackResponse(responseToAdd);
         
         // All these responses should be gone after he changes teams
@@ -261,28 +268,110 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                             studentToUpdate.email).size(), 1);
         
         ______TS("test updateFeedbackResponseForChangingTeam for recipient type = giver's team members including giver");
-        FeedbackQuestionAttributes questionToTeamMembersAndSelf = 
+        FeedbackQuestionAttributes questionToTeamMembersAndSelf =
                                         getQuestionFromDatastore(questionTypeBundle, "qn1InContribSession2InCourse2");
         studentToUpdate = questionTypeBundle.students.get("student2InCourse2");
-        FeedbackResponseAttributes response = getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
-        StudentEnrollDetails studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
-                                        studentToUpdate.course, studentToUpdate.email, studentToUpdate.team, studentToUpdate.team + "tmp", studentToUpdate.section, studentToUpdate.section + "tmp");
+        FeedbackResponseAttributes responseToBeDeleted =
+                getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
+        StudentEnrollDetails studentDetails1 =
+                new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED, studentToUpdate.course,
+                                         studentToUpdate.email, studentToUpdate.team,
+                                         studentToUpdate.team + "tmp", studentToUpdate.section,
+                                         studentToUpdate.section + "tmp");
+
         
         assertNotNull(frLogic.getFeedbackResponse(questionToTeamMembersAndSelf.getId(),
-                                        response.giverEmail, 
-                                        response.recipientEmail));
-        assertTrue(frLogic.updateFeedbackResponseForChangingTeam(studentDetails1, response));
+                                                  responseToBeDeleted.giver,
+                                                  responseToBeDeleted.recipient));
+        assertTrue(frLogic.updateFeedbackResponseForChangingTeam(studentDetails1, responseToBeDeleted));
         assertNull(frLogic.getFeedbackResponse(questionToTeamMembersAndSelf.getId(),
-                                        response.giverEmail, 
-                                        response.recipientEmail));
+                                               responseToBeDeleted.giver,
+                                               responseToBeDeleted.recipient));
 
+        // restore DataStore so other tests are unaffected
+        restoreStudentFeedbackResponseToDatastore(responseToBeDeleted);
+    }
+
+    public void testUpdateFeedbackResponsesForChangingTeam_deleteLastResponse_decreaseResponseRate()
+            throws Exception {
+        FeedbackResponseAttributes responseToBeDeleted =
+                getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
+        // make sure it's the last response by the student
+        assertEquals(1, numResponsesFromGiverInSession(responseToBeDeleted.giver,
+                                                       responseToBeDeleted.feedbackSessionName,
+                                                       responseToBeDeleted.courseId));
+        StudentAttributes student = questionTypeBundle.students.get("student2InCourse2");
+        StudentEnrollDetails enrollmentDetailsToTriggerDeletion =
+                new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED, student.course,
+                                         student.email, student.team, student.team + "tmp", student.section,
+                                         student.section + "tmp");
+
+        int originalResponseRate = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                   responseToBeDeleted.courseId);
+        assertTrue(frLogic.updateFeedbackResponseForChangingTeam(enrollmentDetailsToTriggerDeletion,
+                                                                 responseToBeDeleted));
+        int responseRateAfterDeletion = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                        responseToBeDeleted.courseId);
+        assertEquals(originalResponseRate - 1, responseRateAfterDeletion);
+
+        // restore DataStore so other tests are unaffected
+        restoreStudentFeedbackResponseToDatastore(responseToBeDeleted);
+    }
+
+    public void testUpdateFeedbackResponsesForChangingTeam_deleteNotLastResponse_sameResponseRate()
+            throws Exception {
+        FeedbackResponseAttributes responseToBeDeleted =
+                getResponseFromDatastore(questionTypeBundle, "response1ForQ1S5C1");
+        // make sure it's not the last response by the student
+        assertTrue(1 < numResponsesFromGiverInSession(responseToBeDeleted.giver,
+                                                      responseToBeDeleted.feedbackSessionName,
+                                                      responseToBeDeleted.courseId));
+        StudentAttributes student = questionTypeBundle.students.get("student1InCourse1");
+        StudentEnrollDetails enrollmentDetailsToTriggerDeletion =
+                new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED, student.course,
+                                         student.email, student.team, student.team + "tmp", student.section,
+                                         student.section + "tmp");
+
+        int originalResponseRate = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                   responseToBeDeleted.courseId);
+        assertTrue(frLogic.updateFeedbackResponseForChangingTeam(enrollmentDetailsToTriggerDeletion,
+                                                                 responseToBeDeleted));
+        int responseRateAfterDeletion = getResponseRate(responseToBeDeleted.feedbackSessionName,
+                                                        responseToBeDeleted.courseId);
+        assertEquals(originalResponseRate, responseRateAfterDeletion);
+
+        // restore DataStore so other tests are unaffected
+        restoreStudentFeedbackResponseToDatastore(responseToBeDeleted);
+    }
+
+    private int numResponsesFromGiverInSession(String studentEmail, String sessionName, String courseId) {
+        int numResponses = 0;
+        for (FeedbackResponseAttributes response : questionTypeBundle.feedbackResponses.values()) {
+            if (response.giver.equals(studentEmail) && response.feedbackSessionName.equals(sessionName)
+                    && response.courseId.equals(courseId)) {
+                numResponses++;
+            }
+        }
+        return numResponses;
+    }
+
+    private int getResponseRate(String sessionName, String courseId) {
+        FeedbackSessionAttributes sessionFromDataStore = fsLogic.getFeedbackSession(sessionName, courseId);
+        return sessionFromDataStore.getRespondingInstructorList().size()
+                + sessionFromDataStore.getRespondingStudentList().size();
+    }
+
+    private void restoreStudentFeedbackResponseToDatastore(FeedbackResponseAttributes response)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        frLogic.createFeedbackResponse(response);
+        fsLogic.addStudentRespondant(response.giver, response.feedbackSessionName, response.courseId);
     }
     
     public void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
         ______TS("standard update email case");
         
         // Student 1 currently has 2 responses to him and 2 from himself.
-        // Student 1 currently has 1 response comment for responses to him 
+        // Student 1 currently has 1 response comment for responses to him
         // and 1 response comment from responses from himself.
         StudentAttributes studentToUpdate = typicalBundle.students.get("student1InCourse1");
         List<FeedbackResponseAttributes> responsesForReceiver =
@@ -295,11 +384,11 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 new ArrayList<FeedbackResponseAttributes>();
         responsesToAndFromStudent.addAll(responsesForReceiver);
         responsesToAndFromStudent.addAll(responsesFromGiver);
-        List<FeedbackResponseCommentAttributes> responseCommentsForStudent = 
+        List<FeedbackResponseCommentAttributes> responseCommentsForStudent =
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
         
         assertEquals(responsesForReceiver.size(), 2);
-        assertEquals(responsesFromGiver.size(), 2);        
+        assertEquals(responsesFromGiver.size(), 2);
         assertEquals(responseCommentsForStudent.size(), 2);
 
         frLogic.updateFeedbackResponsesForChangingEmail(
@@ -312,7 +401,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         responsesToAndFromStudent = new ArrayList<FeedbackResponseAttributes>();
         responsesToAndFromStudent.addAll(responsesForReceiver);
         responsesToAndFromStudent.addAll(responsesFromGiver);
-        responseCommentsForStudent = 
+        responseCommentsForStudent =
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
         
         assertEquals(responsesForReceiver.size(), 0);
@@ -326,7 +415,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         responsesToAndFromStudent = new ArrayList<FeedbackResponseAttributes>();
         responsesToAndFromStudent.addAll(responsesForReceiver);
         responsesToAndFromStudent.addAll(responsesFromGiver);
-        responseCommentsForStudent = 
+        responseCommentsForStudent =
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
         
         assertEquals(responsesForReceiver.size(), 2);
@@ -342,31 +431,34 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         ______TS("success: GetViewableResponsesForQuestion - instructor");
         
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1"); 
-        List<FeedbackResponseAttributes> responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, null);
+        FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1");
+        List<FeedbackResponseAttributes> responses =
+                frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, null);
         
         assertEquals(responses.size(), 1);
         
         ______TS("success: GetViewableResponsesForQuestionInSection - instructor");
         
         fq = getQuestionFromDatastore("qn2InSession1InCourse1");
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, "Section 1");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                fq, instructor.email, UserType.Role.INSTRUCTOR, "Section 1");
         
         assertEquals(responses.size(), 3);
         
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, "Section 2");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                fq, instructor.email, UserType.Role.INSTRUCTOR, "Section 2");
         
         assertEquals(responses.size(), 0);
 
         ______TS("success: GetViewableResponsesForQuestion - student");
         
-        StudentAttributes student = typicalBundle.students.get("student1InCourse1");        
-        fq = getQuestionFromDatastore("qn2InSession1InCourse1"); 
+        StudentAttributes student = typicalBundle.students.get("student1InCourse1");
+        fq = getQuestionFromDatastore("qn2InSession1InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         
         assertEquals(responses.size(), 2);
         
-        fq = getQuestionFromDatastore("qn3InSession1InCourse1"); 
+        fq = getQuestionFromDatastore("qn3InSession1InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         
         assertEquals(responses.size(), 1);
@@ -376,7 +468,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         fq.showResponsesTo.remove(FeedbackParticipantType.STUDENTS);
         FeedbackResponseAttributes fr = getResponseFromDatastore("response1ForQ3S1C1");
-        fr.recipientEmail = student.email;
+        fr.recipient = student.email;
         frLogic.updateFeedbackResponse(fr);
         
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
@@ -384,26 +476,26 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         assertEquals(responses.size(), 1);
 
         ______TS("success: Null student in response, should skip over null student");
-        fq = getQuestionFromDatastore("qn2InSession1InCourse1"); 
+        fq = getQuestionFromDatastore("qn2InSession1InCourse1");
         fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
        
         FeedbackResponseAttributes existingResponse = getResponseFromDatastore("response1ForQ2S1C1");
         
         //Create a "null" response to simulate trying to get a null student's response
-        FeedbackResponseAttributes newResponse = 
+        FeedbackResponseAttributes newResponse =
                 new FeedbackResponseAttributes(
-                        existingResponse.feedbackSessionName, 
-                        "nullCourse", 
-                        existingResponse.feedbackQuestionId, 
-                        existingResponse.feedbackQuestionType, 
-                        existingResponse.giverEmail,
+                        existingResponse.feedbackSessionName,
+                        "nullCourse",
+                        existingResponse.feedbackQuestionId,
+                        existingResponse.feedbackQuestionType,
+                        existingResponse.giver,
                         "Section 1",
-                        "nullRecipient@gmail.tmt", 
+                        "nullRecipient@gmail.tmt",
                         "Section 1",
                         existingResponse.responseMetaData);
       
         frLogic.createFeedbackResponse(newResponse);
-        student = typicalBundle.students.get("student2InCourse1");           
+        student = typicalBundle.students.get("student2InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         assertEquals(responses.size(), 4);
 
@@ -414,10 +506,10 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(e.getMessage(), "The role of the requesting use has to be Student or Instructor");
-        }   
+        }
     }
     
-    public void testIsNameVisibleTo() throws Exception {
+    public void testIsNameVisibleTo() {
 
         ______TS("testIsNameVisibleTo");
         
@@ -427,8 +519,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         StudentAttributes student3 = typicalBundle.students.get("student3InCourse1");
         StudentAttributes student5 = typicalBundle.students.get("student5InCourse1");
         
-        FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1"); 
-        FeedbackResponseAttributes fr = getResponseFromDatastore("response1ForQ3S1C1"); 
+        FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1");
+        FeedbackResponseAttributes fr = getResponseFromDatastore("response1ForQ3S1C1");
         
         CourseRoster roster = new CourseRoster(
                 new StudentsDb().getStudentsForCourse(fq.courseId),
@@ -440,7 +532,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         ______TS("test if visible to own team members");
         
-        fr.giverEmail = student.email;
+        fr.giver = student.email;
         assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
         
         ______TS("test if visible to receiver/reciever team members");
@@ -448,24 +540,24 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         fq.recipientType = FeedbackParticipantType.TEAMS;
         fq.showRecipientNameTo.clear();
         fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
-        fr.recipientEmail = student.team;
+        fr.recipient = student.team;
         assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleTo(fq, fr, student3.email, UserType.Role.STUDENT, false, roster));
         
         fq.recipientType = FeedbackParticipantType.STUDENTS;
-        fr.recipientEmail = student.email;
+        fr.recipient = student.email;
         assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
         assertFalse(frLogic.isNameVisibleTo(fq, fr, student2.email, UserType.Role.STUDENT, false, roster));
         
         fq.recipientType = FeedbackParticipantType.TEAMS;
         fq.showRecipientNameTo.clear();
         fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        fr.recipientEmail = student.team;
+        fr.recipient = student.team;
         assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleTo(fq, fr, student3.email, UserType.Role.STUDENT, false, roster));
         
         fq.recipientType = FeedbackParticipantType.STUDENTS;
-        fr.recipientEmail = student.email;
+        fr.recipient = student.email;
         assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleTo(fq, fr, student2.email, UserType.Role.STUDENT, false, roster));
         assertFalse(frLogic.isNameVisibleTo(fq, fr, student5.email, UserType.Role.STUDENT, false, roster));
@@ -476,7 +568,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         fq.showRecipientNameTo.clear();
         fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
         fq.showResponsesTo.add(FeedbackParticipantType.STUDENTS);
-        fr.recipientEmail = "Team 1.1";
+        fr.recipient = "Team 1.1";
         assertFalse(frLogic.isNameVisibleTo(fq, fr, student5.email, UserType.Role.STUDENT, false, roster));
 
         ______TS("null question");
@@ -485,7 +577,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
     }
 
-    public void testDeleteFeedbackResponsesForStudent() throws Exception {    
+    public void testDeleteFeedbackResponsesForStudent() throws Exception {
         
         ______TS("standard delete");
         
@@ -497,9 +589,11 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                         frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
         frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
         
-        List<FeedbackResponseAttributes> remainingResponses = new ArrayList<FeedbackResponseAttributes>();                
-        remainingResponses.addAll(frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
-        remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));        
+        List<FeedbackResponseAttributes> remainingResponses = new ArrayList<FeedbackResponseAttributes>();
+        remainingResponses.addAll(
+                frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(
+                frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
         assertEquals(remainingResponses.size(), 0);
         
         List<FeedbackResponseCommentAttributes> remainingComments = new ArrayList<FeedbackResponseCommentAttributes>();
@@ -519,9 +613,11 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 
         frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
         
-        remainingResponses.addAll(frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
-        remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));        
-        assertEquals(remainingResponses.size(), 0);                
+        remainingResponses.addAll(
+                frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(
+                frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
+        assertEquals(remainingResponses.size(), 0);
         
         ______TS("delete last person in team");
 
@@ -530,13 +626,15 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         studentToDelete = typicalBundle.students.get("student5InCourse1");
         
         frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
-        remainingResponses.addAll(frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
-        remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(
+                frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(
+                frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
         
         // check that team responses are gone too. already checked giver as it is stored by giver email not team id.
         remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, "Team 1.2"));
 
-        assertEquals(remainingResponses.size(), 0);    
+        assertEquals(remainingResponses.size(), 0);
     }
     
     public void testDeleteFeedbackResponsesForCourse() {
@@ -562,7 +660,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 
     private FeedbackQuestionAttributes getQuestionFromDatastore(DataBundle dataBundle, String jsonId) {
         FeedbackQuestionAttributes questionToGet = dataBundle.feedbackQuestions.get(jsonId);
-        questionToGet = fqLogic.getFeedbackQuestion(questionToGet.feedbackSessionName, 
+        questionToGet = fqLogic.getFeedbackQuestion(questionToGet.feedbackSessionName,
                                                     questionToGet.courseId,
                                                     questionToGet.questionNumber);
         
@@ -583,7 +681,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 response.feedbackSessionName, response.courseId, qnNumber).getId();
         
         return frLogic.getFeedbackResponse(
-                qnId, response.giverEmail, response.recipientEmail);
+                qnId, response.giver, response.recipient);
     }
     
     private FeedbackResponseAttributes getResponseFromDatastore(String jsonId) {
@@ -592,10 +690,10 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
     private List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponsesFromDatastore(
             List<FeedbackResponseAttributes> responses) {
-        List<FeedbackResponseCommentAttributes> responseComments = 
+        List<FeedbackResponseCommentAttributes> responseComments =
                 new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseAttributes response : responses) {
-            List<FeedbackResponseCommentAttributes> responseCommentsForResponse = 
+            List<FeedbackResponseCommentAttributes> responseCommentsForResponse =
                     frcLogic.getFeedbackResponseCommentForResponse(response.getId());
             responseComments.addAll(responseCommentsForResponse);
         }
@@ -603,7 +701,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

@@ -8,6 +8,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -24,7 +25,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/AdminAccountDetailsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -43,8 +44,9 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
         ______TS("content: typical page");
         
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE)
-            .withInstructorId("AAMgtUiT.instr2");
-        detailsPage = loginAdminToPageForAdminUiTests(browser, detailsPageUrl, AdminAccountDetailsPage.class);
+                .withInstructorId("AAMgtUiT.instr2")
+                .withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
+        detailsPage = loginAdminToPage(browser, detailsPageUrl, AdminAccountDetailsPage.class);
         
         detailsPage.verifyHtml("/adminAccountDetails.html");
     }
@@ -70,7 +72,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

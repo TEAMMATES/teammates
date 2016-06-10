@@ -1,7 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
@@ -13,7 +12,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
@@ -22,6 +20,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.util.Priority;
+import teammates.test.util.FileHelper;
 
 /**
  * Tests 'Feedback Results' view of instructors.
@@ -29,20 +28,19 @@ import teammates.test.util.Priority;
  */
 @Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
-    protected static Logger log = Utils.getLogger();
 
     private static DataBundle testData;
     private static Browser browser;
     private InstructorFeedbackResultsPage resultsPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }
 
     @BeforeMethod
-    public void refreshTestData() throws Exception {
+    public void refreshTestData() {
         testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -52,7 +50,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public void testHtmlContent() throws Exception {
         testContent();
         testModerateResponsesButton();
-        testLink();
     }
 
     @Test
@@ -104,17 +101,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         FeedbackQuestionAttributes firstQuestion = testData.feedbackQuestions.get("qn1InSession4");
         assertEquals(1, firstQuestion.questionNumber);
-        FeedbackQuestionAttributes firstQuestionFromDatastore = 
-                                        BackDoor.getFeedbackQuestion(firstQuestion.courseId, 
-                                                                     firstQuestion.feedbackSessionName, 
+        FeedbackQuestionAttributes firstQuestionFromDatastore =
+                                        BackDoor.getFeedbackQuestion(firstQuestion.courseId,
+                                                                     firstQuestion.feedbackSessionName,
                                                                      firstQuestion.questionNumber);
         
         FeedbackQuestionAttributes secondQuestion = testData.feedbackQuestions.get("qn2InSession4");
         assertEquals(2, secondQuestion.questionNumber);
         // need to retrieve question from datastore to get its questionId
-        FeedbackQuestionAttributes secondQuestionFromDatastore = 
-                                        BackDoor.getFeedbackQuestion(secondQuestion.courseId, 
-                                                                     secondQuestion.feedbackSessionName, 
+        FeedbackQuestionAttributes secondQuestionFromDatastore =
+                                        BackDoor.getFeedbackQuestion(secondQuestion.courseId,
+                                                                     secondQuestion.feedbackSessionName,
                                                                      secondQuestion.questionNumber);
         assertEquals(secondQuestion, secondQuestionFromDatastore);
         // make both questions have the same question number
@@ -127,16 +124,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // compare html for each question panel
         // to verify that the right responses are showing for each question
-        By firstQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='" 
-                                             + firstQuestionFromDatastore.getId() + "']]" 
+        By firstQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='"
+                                             + firstQuestionFromDatastore.getId() + "']]"
                                              + "//div[contains(@class, 'table-responsive')]");
-        resultsPage.verifyHtmlPart(firstQuestionPanelResponses, 
+        resultsPage.verifyHtmlPart(firstQuestionPanelResponses,
                                    "/instructorFeedbackResultsDuplicateQuestionNumberPanel1.html");
         
-        By secondQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='" 
-                                              + secondQuestionFromDatastore.getId() + "']]"  
+        By secondQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='"
+                                              + secondQuestionFromDatastore.getId() + "']]"
                                               + "//div[contains(@class, 'table-responsive')]");
-        resultsPage.verifyHtmlPart(secondQuestionPanelResponses, 
+        resultsPage.verifyHtmlPart(secondQuestionPanelResponses,
                                    "/instructorFeedbackResultsDuplicateQuestionNumberPanel2.html");
         
         
@@ -168,7 +165,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.waitForPageToLoad();
         
         ______TS("Typical case: test moderate responses button for instructors as givers");
-        verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt");
+        verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt",
+                                      "CFResultsUiT.instr@gmail.tmt");
         
     }
 
@@ -247,34 +245,34 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: test in-table sort");
 
-        verifySortingOrder(By.id("button_sortFeedback"), 
-                           "1 Response to Danny.", 
-                           "2 Response to Benny.", 
-                           "3 Response to Emily.", 
+        verifySortingOrder(By.id("button_sortFeedback"),
+                           "1 Response to Danny.",
+                           "2 Response to Benny.",
+                           "3 Response to Emily.",
                            "4 Response to Charlie.");
 
-        verifySortingOrder(By.id("button_sortFromName"), 
+        verifySortingOrder(By.id("button_sortFromName"),
                            "Alice Betsy",
                            "Benny Charles",
                            "Benny Charles",
                             "Charlie Dávis");
         
-        verifySortingOrder(By.id("button_sortFromTeam"), 
+        verifySortingOrder(By.id("button_sortFromTeam"),
                            "Team 1",
                            "Team 1",
                            "Team 2",
                            "Team 2");
 
-        verifySortingOrder(By.id("button_sortToName"), 
-                           "Benny Charles", 
-                           "Charlie Dávis", 
+        verifySortingOrder(By.id("button_sortToName"),
+                           "Benny Charles",
+                           "Charlie Dávis",
                            "Danny Engrid",
                            "Emily");
 
         /*
          * Omitted as unable to check both forward and reverse order in one go
          * TODO: split up verifySortingOrder to enable this test
-        verifySortingOrder(By.id("button_sortToTeam"), 
+        verifySortingOrder(By.id("button_sortToTeam"),
                 "Team 2{*}Team 3",
                 "Team 1</td></div>'\"{*}Team 2",
                 "Team 1</td></div>'\"{*}Team 2",
@@ -368,7 +366,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by questions");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewGiverPhotoOnTableCell(0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewGiverPhotoOnTableCell(
+                0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewRecipientPhotoOnTableCell(0, 0, "profile_picture_default.png");
 
         ______TS("Typical case: ajax for view by question for helper 1");
@@ -399,7 +398,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by giver > recipient > question");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading(
+                5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
         
@@ -411,7 +411,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("Typical case: ajax for view by giver > question > recipient");
         
-        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
+                                                                       "giver-question-recipient");
         
         resultsPage.clickAjaxLoadResponsesPanel(0);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGQR.html");
@@ -419,7 +420,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by giver > question > recipient");
         
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading(
+                5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.clickViewPhotoLink(5, "profile_picture_default.png");
 
         ______TS("Typical case: ajax for view by recipient > question > giver");
@@ -433,7 +435,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by recipient > question > giver");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading(
+                5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.clickViewPhotoLink(6, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         
         ______TS("Typical case: ajax for view by recipient > giver > question");
@@ -447,7 +450,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by recipient > giver > question");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading(
+                5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
     }
@@ -542,6 +546,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ThreadHelper.waitFor(1000);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionSearch.html");
 
+        ______TS("Verify that search works on RGQ view");
+        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.clickGroupByTeam();
+        resultsPage.fillSearchBox("team 2");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
+        
+        resultsPage.displayByQuestion();
     }
 
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.
@@ -632,40 +643,40 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         // If admin is an instructor, expected url is InstructorHomePage
         //                 otherwise, expected url is unauthorised.jsp
         assertTrue("Expected url is InstructorHomePage or Unauthorised page, but is " + afterReportDownloadUrl,
-                   afterReportDownloadUrl.contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
+                   afterReportDownloadUrl.contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
                    || afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
 
         // return to the previous page
         loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
     }
 
+    @Test
     public void testLink() {
-
-        ______TS("action: edit");
+        ______TS("action: test that edit link leads to correct edit page");
+        
         InstructorFeedbackEditPage editPage = resultsPage.clickEditLink();
         editPage.verifyContains("Edit Feedback Session");
-        editPage.verifyContains("CFResultsUiT.CS2104");
-        editPage.verifyContains("First Session");
-
+        assertEquals("CFResultsUiT.CS2104", editPage.getCourseId());
+        assertEquals("First Session", editPage.getFeedbackSessionName());
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 
     private void uploadPhotoForStudent(String googleId) throws Exception {
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
         String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
-        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]", 
+        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]",
                      BackDoor.uploadAndUpdateStudentProfilePicture(googleId, pictureData));
     }
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
         AppUrl resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                                 .withUserId(testData.instructors.get(instructorName).googleId)
-                                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         InstructorFeedbackResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
         resultsPage.waitForPageToLoad();
         return resultsPage;
@@ -676,8 +687,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                              boolean needAjax, String viewType) {
         AppUrl resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                                 .withUserId(testData.instructors.get(instructorName).googleId)
-                                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
         if (needAjax) {
             resultsUrl = resultsUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX,

@@ -21,7 +21,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackNumScaleQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -29,7 +29,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
@@ -51,19 +51,22 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
     }
 
+    @Override
     public void testNewQuestionFrame() {
         ______TS("NUMSCALE: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Numerical-scale question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("NUMSCALE");
+        
         assertTrue(feedbackEditPage.verifyNewNumScaleQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
         
         ______TS("empty options");
         
-        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionBox("NumScale qn");
         feedbackEditPage.fillMinNumScaleBox("", -1);
         feedbackEditPage.fillStepNumScaleBox("", -1);
         feedbackEditPage.fillMaxNumScaleBox("", -1);
@@ -78,7 +81,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("invalid options");
         
-        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionBox("NumScale qn");
         feedbackEditPage.fillMinNumScaleBox("1", -1);
         feedbackEditPage.fillStepNumScaleBox("0.3", -1);
         feedbackEditPage.fillMaxNumScaleBox("5", -1);
@@ -88,11 +91,12 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.clickAddQuestionButton();
         
-        assertEquals("Please enter valid options. The interval is not divisible by the specified increment.", feedbackEditPage.getStatus());
+        assertEquals("Please enter valid options. The interval is not divisible by the specified increment.",
+                     feedbackEditPage.getStatus());
         
         ______TS("possible floating point error");
         
-        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionBox("NumScale qn");
         feedbackEditPage.fillMinNumScaleBox("1", -1);
         feedbackEditPage.fillStepNumScaleBox("0.001", -1);
         feedbackEditPage.fillMaxNumScaleBox("5555", -1);
@@ -124,8 +128,9 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMaxNumScaleBox(5, -1);
     }
 
+    @Override
     public void testCustomizeOptions() {
-        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionBox("NumScale qn");
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
         feedbackEditPage.fillStepNumScaleBox(0.3, -1);
@@ -143,6 +148,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("NUMSCALE: add question action success");
 
@@ -154,10 +160,11 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("NUMSCALE: edit question success");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("edited numscale qn text", 1);
         feedbackEditPage.fillMinNumScaleBox(3, 1);
         feedbackEditPage.fillMaxNumScaleBox(4, 1);
@@ -170,6 +177,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionEditSuccess.html");
     }
     
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("NUMSCALE: qn delete then cancel");
 
@@ -201,7 +209,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

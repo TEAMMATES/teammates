@@ -6,10 +6,10 @@ package teammates.common.util;
  * If the version has fewer than 3 numbers, the numbers will be assigned to major then to minor (if possible).
  * Those without number will be null.
  * 
- * If the version has more than 3 numbers, the first number will be major, the second number 
+ * If the version has more than 3 numbers, the first number will be major, the second number
  * will be minor and the rest will be patch.
  * 
- * For example: 
+ * For example:
  * version = 15
  * major = "15", minor = null and patch = null
  * 
@@ -60,6 +60,7 @@ public class Version implements Comparable<Version> {
     /**
      * Compares by string representation.
      */
+    @Override
     public boolean equals(Object anotherVersion) {
         return toString().equals(anotherVersion.toString());
     }
@@ -67,6 +68,7 @@ public class Version implements Comparable<Version> {
     /**
      * Gets hash code for this version.
      */
+    @Override
     public int hashCode() {
         return toString().hashCode();
     }
@@ -74,6 +76,7 @@ public class Version implements Comparable<Version> {
     /**
      * Converts Version to String in format XX.XX.XXXX
      */
+    @Override
     public String toString() {
         return originalRepresentation.replace('-', '.');
     }
@@ -100,13 +103,17 @@ public class Version implements Comparable<Version> {
         if (s2 == null) {
             return -1;
         }
-        String convertedS1 = s1;
-        String convertedS2 = s2;
-        while (convertedS1.length() < convertedS2.length()) {
-            convertedS1 = "0" + convertedS1; // NOPMD
-        }
-        while (convertedS2.length() < convertedS1.length()) {
-            convertedS2 = "0" + convertedS2; // NOPMD
+        String convertedS1;
+        String convertedS2;
+        if (s1.length() == s2.length()) {
+            convertedS1 = s1;
+            convertedS2 = s2;
+        } else if (s1.length() > s2.length()) {
+            convertedS1 = s1;
+            convertedS2 = StringHelper.generateStringOfLength(s1.length() - s2.length(), '0') + s2;
+        } else {
+            convertedS1 = StringHelper.generateStringOfLength(s2.length() - s1.length(), '0') + s1;
+            convertedS2 = s2;
         }
         return convertedS2.compareTo(convertedS1);
     }

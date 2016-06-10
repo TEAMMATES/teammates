@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertTrue;
+
 import org.openqa.selenium.By;
 
 public class AdminAccountDetailsPage extends AppPage {

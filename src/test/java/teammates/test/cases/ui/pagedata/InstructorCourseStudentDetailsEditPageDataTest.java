@@ -3,9 +3,17 @@ package teammates.test.cases.ui.pagedata;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.ui.controller.InstructorCourseStudentDetailsPageData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.test.cases.BaseTestCase;
+import teammates.ui.controller.InstructorCourseStudentDetailsEditPageData;
+import teammates.ui.template.StudentInfoTable;
 
-public class InstructorCourseStudentDetailsEditPageDataTest extends InstructorCourseStudentDetailsPageDataTest {
+public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase {
+
+    private StudentAttributes inputStudent;
+    private boolean hasSection = true;
+
     @BeforeClass
     public static void classSetUp() {
         printTestClassHeader();
@@ -13,18 +21,39 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends InstructorCo
     
     @Test
     public void allTests() {
-        InstructorCourseStudentDetailsPageData data = createData();
+        InstructorCourseStudentDetailsEditPageData data = createData();
         
         ______TS("With no student profile (Details edit shows only the info table)");
         assertNull(data.getStudentProfile());
-        testStudentInfoTable(data.getStudentInfoTable());
+        
+        StudentInfoTable studentInfoTable = data.getStudentInfoTable();
+        assertNotNull(studentInfoTable);
+        
+        assertEquals(inputStudent.name, studentInfoTable.getName());
+        assertEquals(inputStudent.email, studentInfoTable.getEmail());
+        assertEquals(inputStudent.section, studentInfoTable.getSection());
+        assertEquals(inputStudent.team, studentInfoTable.getTeam());
+        assertEquals(inputStudent.comments, studentInfoTable.getComments());
+        assertEquals(inputStudent.course, studentInfoTable.getCourse());
+        assertEquals(hasSection, studentInfoTable.getHasSection());
     }
     
-    protected InstructorCourseStudentDetailsPageData createData() {
+    protected InstructorCourseStudentDetailsEditPageData createData() {
         String name = "John Doe";
         String email = "john@doe.com";
         
         createStudent(name, email);
-        return super.createData();
+        
+        return new InstructorCourseStudentDetailsEditPageData(new AccountAttributes(), inputStudent, email, hasSection);
     }
+    
+    protected void createStudent(String name, String email) {
+        String comments = "This is a comment for John Doe.";
+        String courseId = "CourseForJohnDoe";
+        String team = "TeamForJohnDoe";
+        String section = "SectionForJohnDoe";
+        
+        inputStudent = new StudentAttributes(null, email, name, comments, courseId, team, section);
+    }
+    
 }

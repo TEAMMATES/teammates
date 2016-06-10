@@ -1,9 +1,9 @@
 package teammates.test.cases;
 
+import java.io.IOException;
+
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-
-import com.google.gson.Gson;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -15,6 +15,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.AccountsDb;
@@ -27,6 +28,9 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.driver.GaeSimulation;
+import teammates.test.util.FileHelper;
+
+import com.google.gson.Gson;
 
 /** Base class for Component tests.
  * Automatically sets up the GAE Simulation @BeforeTest and tears it down @AfterTest
@@ -45,13 +49,18 @@ public class BaseComponentTestCase extends BaseTestCase {
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
 
-    private static final Gson gson = Utils.getTeammatesGson();
+    private static Gson gson = Utils.getTeammatesGson();
 
     @BeforeTest
-    public void testSetUp() throws Exception {
+    public void testSetUp() {
         gaeSimulation = GaeSimulation.inst();
         gaeSimulation.setup();
         
+    }
+    
+    protected static String writeFileToGcs(String googleId, String filename) throws IOException {
+        byte[] image = FileHelper.readFileAsBytes(filename);
+        return GoogleCloudStorageHelper.writeDataToGcs(googleId, image);
     }
     
     protected static void verifyAbsentInDatastore(AccountAttributes account) {
@@ -89,7 +98,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
 
     protected static void verifyAbsentInDatastore(FeedbackQuestionAttributes fq) {
-        assertNull(fqDb.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber));    
+        assertNull(fqDb.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber));
     }
     
     protected static void verifyPresentInDatastore(FeedbackQuestionAttributes expected) {
@@ -120,7 +129,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
    
     protected static void verifyAbsentInDatastore(FeedbackResponseAttributes fr) {
-        assertNull(frDb.getFeedbackResponse(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail));
+        assertNull(frDb.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient));
     }
     
     protected static void verifyPresentInDatastore(FeedbackResponseAttributes expected) {
@@ -129,7 +138,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     
     protected static void verifyPresentInDatastore(FeedbackResponseAttributes expected, boolean wildcardId) {
         FeedbackResponseAttributes actual = frDb.getFeedbackResponse(expected.feedbackQuestionId,
-                                                                     expected.giverEmail, expected.recipientEmail);
+                                                                     expected.giver, expected.recipient);
         if (wildcardId) {
             expected.setId(actual.getId());
         }
@@ -138,13 +147,13 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     protected static void verifyAbsentInDatastore(FeedbackSessionAttributes fs) {
-        assertNull(fsDb.getFeedbackSession(fs.courseId, fs.feedbackSessionName));    
+        assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
     }
     
     protected static void verifyPresentInDatastore(FeedbackSessionAttributes expected) {
-        FeedbackSessionAttributes actual = fsDb.getFeedbackSession(expected.courseId, expected.feedbackSessionName);
-        expected.respondingInstructorList = actual.respondingInstructorList;
-        expected.respondingStudentList = actual.respondingStudentList;
+        FeedbackSessionAttributes actual = fsDb.getFeedbackSession(expected.getCourseId(), expected.getFeedbackSessionName());
+        expected.setRespondingInstructorList(actual.getRespondingInstructorList());
+        expected.setRespondingStudentList(actual.getRespondingStudentList());
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
 
@@ -201,11 +210,11 @@ public class BaseComponentTestCase extends BaseTestCase {
         // and cannot be anticipated
         if (actualStudent.key != null) {
             expectedStudent.key = actualStudent.key;
-        }    
+        }
     }
     
     @AfterTest
-    public void testTearDown() throws Exception {
+    public void testTearDown() {
         gaeSimulation.tearDown();
     }
 }

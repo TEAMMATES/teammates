@@ -25,7 +25,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     @Override
     public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
-        this.answers = Arrays.asList(answer);      
+        this.answers = Arrays.asList(answer);
     }
 
     public void extractResponseDetails(FeedbackQuestionType questionType,
@@ -35,7 +35,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         
         // "1" if other is selected, "0" if other is not selected, null if other is disabled by the instructor
         String isOtherOptionAnswer = HttpRequestHelper.getValueFromParamMap(
-                                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER 
+                                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER
                                         + "-" + questionIndx + "-" + responseIndx);
         
         if ("1".equals(isOtherOptionAnswer)) {
@@ -47,7 +47,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             }
         }
         
-        extractResponseDetails(questionType, questionDetails, answer); 
+        extractResponseDetails(questionType, questionDetails, answer);
     }
 
     public boolean contains(String candidateAnswer) {
@@ -91,7 +91,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         if (isAnswerBlank()) {
             csvBuilder.append("");
         } else {
-            for (String choice : msqDetails.msqChoices) {
+            for (String choice : msqDetails.getMsqChoices()) {
                 csvBuilder.append(',');
                 if (this.contains(choice)) {
                     csvBuilder.append(Sanitizer.sanitizeForCsv(choice));

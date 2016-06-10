@@ -28,7 +28,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
     }
     
     @Test
-    public void testExcecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
@@ -79,7 +79,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         InstructorFeedbackResponseCommentDeleteAction action = getAction(submissionParams);
         AjaxResult result = (AjaxResult) action.executeAndPostProcess();
         
-        InstructorFeedbackResponseCommentAjaxPageData data = 
+        InstructorFeedbackResponseCommentAjaxPageData data =
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         
         assertFalse(data.isError);
@@ -142,7 +142,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         assertEquals("", result.getStatusMessage());
     }
     
-    private InstructorFeedbackResponseCommentDeleteAction getAction(String... params) throws Exception {
+    private InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
         return (InstructorFeedbackResponseCommentDeleteAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

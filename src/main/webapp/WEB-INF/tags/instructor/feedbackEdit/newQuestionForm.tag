@@ -13,36 +13,28 @@
     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
     name="form_addquestions" onsubmit="tallyCheckboxes('')" >
     <div class="well well-plain inputTable" id="addNewQuestionTable">
-        <div class="row margin-bottom-15px">
-            <div class="col-sm-12 row">
-                <div class="col-sm-3">
-                    <label for="questionTypeChoice" class="mobile-no-pull pull-right control-label padding-right-10px">
-                        Question Type
-                    </label>
-                </div>
-                <div class="col-sm-9">
-                    <select class="form-control questionType"
-                        name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TYPE %>"
-                        id="questionTypeChoice">
-                        ${fqForm.questionTypeOptions}
-                    </select>
-                    <a href="/instructorHelp.html#fbQuestionTypes" target="_blank">
-                        <i class="glyphicon glyphicon-info-sign"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
+       
         <div class="row">
             <div class="col-sm-12 row">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <a id="button_openframe" class="btn btn-primary margin-bottom-7px"
-                        onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
-                        Add New Question
-                    </a>
-                    <a id="button_copy" class="btn btn-primary margin-bottom-7px">
+
+                    <button
+                        id = "button_openframe"
+                        class="btn btn-primary margin-bottom-7px dropdown-toggle"
+                        type="button" data-toggle="dropdown">
+                        Add New Question <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        ${fqForm.questionTypeOptions}
+                    </ul>
+
+                    <a href="/instructorHelp.html#fbQuestionTypes"
+                        target="_blank"> <i
+                        class="glyphicon glyphicon-info-sign"></i>
+                    </a> <a id="button_copy" class="btn btn-primary margin-bottom-7px">
                         Copy Question
                     </a>
-                    <a class="btn btn-primary margin-bottom-7px"
+                    <a id="button_done_editing" class="btn btn-primary margin-bottom-7px"
                         href="${fqForm.doneEditingLink}">
                         Done Editing
                     </a>
@@ -110,6 +102,7 @@
         </div>
     </div>
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>" value="${nextQnNum}">
+    <input type="hidden" id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TYPE %>" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TYPE %>">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${fqForm.feedbackSessionName}">
     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fqForm.courseId}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO %>" >

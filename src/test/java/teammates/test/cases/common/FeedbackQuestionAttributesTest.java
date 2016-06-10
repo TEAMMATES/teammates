@@ -3,13 +3,12 @@ package teammates.test.cases.common;
 import static teammates.common.util.Const.EOL;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -19,11 +18,45 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
+import com.google.appengine.api.datastore.Text;
+
 public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
+    private class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
+        
+        private void setCreatedAt(Date createdAt) {
+            this.createdAt = createdAt;
+        }
+        
+        private void setUpdatedAt(Date updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+        
+    }
+    
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
+    }
+
+    @Test
+    public void testDefaultTimestamp() {
+        
+        FeedbackQuestionAttributesWithModifiableTimestamp fq =
+                new FeedbackQuestionAttributesWithModifiableTimestamp();
+        
+        fq.setCreatedAt(null);
+        fq.setUpdatedAt(null);
+        
+        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        
+        ______TS("success : defaultTimeStamp for createdAt date");
+
+        assertEquals(defaultTimeStamp, fq.getCreatedAt());
+
+        ______TS("success : defaultTimeStamp for updatedAt date");
+
+        assertEquals(defaultTimeStamp, fq.getUpdatedAt());
     }
 
     @Test
@@ -51,17 +84,27 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         assertFalse(fq.isValid());
 
-        String errorMessage = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, fq.creatorEmail, FieldValidator.REASON_EMPTY) + EOL
-                              + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, fq.courseId, FieldValidator.REASON_EMPTY) + EOL
-                              + String.format("Invalid creator's email: " + FieldValidator.EMAIL_ERROR_MESSAGE, fq.creatorEmail, FieldValidator.REASON_EMPTY) + EOL
-                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.giverType.toString(), FieldValidator.GIVER_TYPE_NAME) + EOL
-                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.recipientType.toString(), FieldValidator.RECIPIENT_TYPE_NAME) + EOL
-                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(), FieldValidator.VIEWER_TYPE_NAME) + EOL
+        String errorMessage = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, fq.creatorEmail,
+                                            FieldValidator.REASON_EMPTY) + EOL
+                              + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, fq.courseId,
+                                              FieldValidator.REASON_EMPTY) + EOL
+                              + String.format("Invalid creator's email: " + FieldValidator.EMAIL_ERROR_MESSAGE,
+                                              fq.creatorEmail, FieldValidator.REASON_EMPTY) + EOL
+                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.giverType.toString(),
+                                              FieldValidator.GIVER_TYPE_NAME) + EOL
+                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.recipientType.toString(),
+                                              FieldValidator.RECIPIENT_TYPE_NAME) + EOL
+                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(),
+                                              FieldValidator.VIEWER_TYPE_NAME) + EOL
                               + "Trying to show giver name to STUDENTS without showing response first." + EOL
-                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showRecipientNameTo.get(0).toString(), FieldValidator.VIEWER_TYPE_NAME) + EOL
+                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
+                                              fq.showRecipientNameTo.get(0).toString(),
+                                              FieldValidator.VIEWER_TYPE_NAME) + EOL
                               + "Trying to show recipient name to STUDENTS without showing response first." + EOL
-                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(), FieldValidator.VIEWER_TYPE_NAME) + EOL
-                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(), FieldValidator.VIEWER_TYPE_NAME);
+                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(),
+                                              FieldValidator.VIEWER_TYPE_NAME) + EOL
+                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(),
+                                              FieldValidator.VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
 
@@ -73,13 +116,19 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         assertFalse(fq.isValid());
 
-        errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE, fq.recipientType.toDisplayRecipientName(), fq.giverType.toDisplayGiverName()) + EOL
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(), FieldValidator.VIEWER_TYPE_NAME) + EOL
+        errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
+                                     fq.recipientType.toDisplayRecipientName(),
+                                     fq.giverType.toDisplayGiverName()) + EOL
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(),
+                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
                        + "Trying to show giver name to STUDENTS without showing response first." + EOL
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showRecipientNameTo.get(0).toString(), FieldValidator.VIEWER_TYPE_NAME) + EOL
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showRecipientNameTo.get(0).toString(),
+                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
                        + "Trying to show recipient name to STUDENTS without showing response first." + EOL
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(), FieldValidator.VIEWER_TYPE_NAME) + EOL
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(), FieldValidator.VIEWER_TYPE_NAME);
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(),
+                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(),
+                                       FieldValidator.VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
 
@@ -87,13 +136,19 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         assertFalse(fq.isValid());
 
-        errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE, fq.recipientType.toDisplayRecipientName(), fq.giverType.toDisplayGiverName()) + EOL
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(), FieldValidator.VIEWER_TYPE_NAME) + EOL
+        errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
+                                     fq.recipientType.toDisplayRecipientName(),
+                                     fq.giverType.toDisplayGiverName()) + EOL
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(),
+                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
                        + "Trying to show giver name to STUDENTS without showing response first." + EOL
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showRecipientNameTo.get(0).toString(), FieldValidator.VIEWER_TYPE_NAME) + EOL
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showRecipientNameTo.get(0).toString(),
+                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
                        + "Trying to show recipient name to STUDENTS without showing response first." + EOL
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(), FieldValidator.VIEWER_TYPE_NAME) + EOL
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(), FieldValidator.VIEWER_TYPE_NAME);
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(),
+                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(),
+                                       FieldValidator.VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
 
@@ -264,7 +319,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

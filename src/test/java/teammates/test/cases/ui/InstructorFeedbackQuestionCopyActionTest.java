@@ -18,7 +18,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     private DataBundle dataBundle;
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY;
     }
@@ -30,7 +30,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testAccessControl() throws Exception {
+    public void testAccessControl() {
         String[] params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
@@ -41,7 +41,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("Not enough parameters");
@@ -57,12 +57,12 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes question1 = FeedbackQuestionsLogic
                                                    .inst()
-                                                   .getFeedbackQuestion(session1.feedbackSessionName, 
-                                                                        session1.courseId, 1);
+                                                   .getFeedbackQuestion(session1.getFeedbackSessionName(),
+                                                                        session1.getCourseId(), 1);
         FeedbackQuestionAttributes question2 = FeedbackQuestionsLogic
                                                    .inst()
-                                                   .getFeedbackQuestion(session1.feedbackSessionName, 
-                                                                        session1.courseId, 2);
+                                                   .getFeedbackQuestion(session1.getFeedbackSessionName(),
+                                                                        session1.getCourseId(), 2);
 
         String[] params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
@@ -120,8 +120,8 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
 
         FeedbackQuestionAttributes question3 = FeedbackQuestionsLogic
                                                    .inst()
-                                                   .getFeedbackQuestion(session1.feedbackSessionName, 
-                                                                        session1.courseId, 3);
+                                                   .getFeedbackQuestion(session1.getFeedbackSessionName(),
+                                                                        session1.getCourseId(), 3);
         gaeSimulation.loginAsAdmin("admin.user");
 
         params = new String[]{
@@ -151,7 +151,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
 
-    private InstructorFeedbackQuestionCopyAction getAction(String... params) throws Exception {
+    private InstructorFeedbackQuestionCopyAction getAction(String... params) {
         return (InstructorFeedbackQuestionCopyAction) gaeSimulation.getActionObject(uri, params);
     }
 }
