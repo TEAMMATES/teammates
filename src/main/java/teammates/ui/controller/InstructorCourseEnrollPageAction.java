@@ -1,10 +1,5 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -45,27 +40,8 @@ public class InstructorCourseEnrollPageAction extends Action {
         }
     }
 
-    private boolean hasExistingResponses(String courseId) throws EntityDoesNotExistException {
-        List<FeedbackQuestionAttributes> questionsFromAllSessions = getQuestionsFromAllSessions(courseId);
-
-        for (FeedbackQuestionAttributes question : questionsFromAllSessions) {
-            if (logic.isQuestionHasResponses(question.getId())) {
-                return true;
-            }
-        }
-        return false;
+    private boolean hasExistingResponses(String courseId) {
+        return logic.isCourseHasResponses(courseId);
     }
 
-    private List<FeedbackQuestionAttributes> getQuestionsFromAllSessions(String courseId)
-            throws EntityDoesNotExistException {
-        List<FeedbackQuestionAttributes> questions = new ArrayList<FeedbackQuestionAttributes>();
-        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(courseId);
-
-        for (FeedbackSessionAttributes session : sessions) {
-            List<FeedbackQuestionAttributes> questionsFromOneSession =
-                    logic.getFeedbackQuestionsForSession(session.getFeedbackSessionName(), courseId);
-            questions.addAll(questionsFromOneSession);
-        }
-        return questions;
-    }
 }

@@ -26,7 +26,7 @@ public class FeedbackSubmissionEditQuestion {
         questionNumber = questionAttributes.questionNumber;
         this.qnIndx = qnIndx;
         questionId = questionAttributes.getId();
-        questionText = questionAttributes.getQuestionDetails().questionText;
+        questionText = questionAttributes.getQuestionDetails().getQuestionText();
         visibilityMessages = questionAttributes.getVisibilityMessage();
         questionType = questionAttributes.questionType;
         numberOfEntitiesToGiveFeedbackTo = questionAttributes.numberOfEntitiesToGiveFeedbackTo;
