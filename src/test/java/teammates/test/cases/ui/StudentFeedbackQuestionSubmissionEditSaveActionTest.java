@@ -98,7 +98,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0",
-                feedbackResponse.recipientEmail,
+                feedbackResponse.recipient,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1",
                 feedbackQuestion.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer",
@@ -115,7 +115,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 
         feedbackResponse = feedbackResponsesDb
                 .getFeedbackResponse(feedbackQuestion.getId(), student1InCourse1.email,
-                                     feedbackResponse.recipientEmail);
+                                     feedbackResponse.recipient);
         assertEquals("Qn Answer", feedbackResponse.responseMetaData.getValue());
 
         ______TS("delete answer");
@@ -128,7 +128,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0",
-                feedbackResponse.recipientEmail,
+                feedbackResponse.recipient,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1",
                 feedbackQuestion.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "",
@@ -144,7 +144,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, pageResult.getStatusMessage());
         assertNull(feedbackResponsesDb
                        .getFeedbackResponse(feedbackQuestion.getId(), student1InCourse1.email,
-                                            feedbackResponse.recipientEmail));
+                                            feedbackResponse.recipient));
 
         ______TS("skip question");
 
@@ -156,7 +156,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0",
-                feedbackResponse.recipientEmail,
+                feedbackResponse.recipient,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1",
                 feedbackQuestion.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
@@ -170,7 +170,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, pageResult.getStatusMessage());
         assertNull(feedbackResponsesDb
                        .getFeedbackResponse(feedbackQuestion.getId(), student1InCourse1.email,
-                                            feedbackResponse.recipientEmail));
+                                            feedbackResponse.recipient));
 
         ______TS("new response");
 
@@ -182,7 +182,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0",
-                feedbackResponse.recipientEmail,
+                feedbackResponse.recipient,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1",
                 feedbackQuestion.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0",
@@ -207,7 +207,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
          * Or add another variable as a copy of the original feedbackResponse
          */
         feedbackResponse = feedbackResponsesDb
-                .getFeedbackResponse(feedbackQuestion.getId(), student1InCourse1.email, feedbackResponse.recipientEmail);
+                .getFeedbackResponse(feedbackQuestion.getId(), student1InCourse1.email, feedbackResponse.recipient);
         assertEquals("new response", feedbackResponse.getResponseDetails().getAnswerString());
 
         ______TS("invalid feedback recipient");
@@ -248,7 +248,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
                 feedbackQuestion.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0",
-                feedbackResponse.recipientEmail,
+                feedbackResponse.recipient,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1",
                 feedbackQuestion.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer",
