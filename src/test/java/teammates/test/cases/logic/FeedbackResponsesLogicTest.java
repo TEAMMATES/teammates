@@ -456,8 +456,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     public void testUpdateFeedbackResponsesWithGeneratedOptions() throws Exception {
         ______TS("Update team name for responses with generated options");
         
-        FeedbackQuestionAttributes mcqQuestion = getQuestionFromDatastore("qn5InSession1Course1");
-        FeedbackQuestionAttributes msqQuestion = getQuestionFromDatastore("qn6InSession1Course1");
+        FeedbackQuestionAttributes mcqQuestion = getQuestionFromDatastore("qn5InSession1InCourse1");
+        FeedbackQuestionAttributes msqQuestion = getQuestionFromDatastore("qn6InSession1InCourse1");
         List<FeedbackResponseAttributes> feedbackResponsesForMcqQuestion =
                 frLogic.getFeedbackResponsesForQuestion(mcqQuestion.getId());
         List<FeedbackResponseAttributes> feedbackResponsesForMsqQuestion =

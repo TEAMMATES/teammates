@@ -346,15 +346,17 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("feedback session closing alerts");
 
         emails = new Emails().generateFeedbackSessionClosingEmails(fsa);
-        assertEquals(8, emails.size());
+        assertEquals(9, emails.size());
 
         prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING;
         status = "is closing soon";
         verifyEmail(s1, emails.get(0), prefix, status);
-        verifyEmail(s3, emails.get(1), prefix, status);
+        verifyEmail(s2, emails.get(1), prefix, status);
+        verifyEmail(s3, emails.get(2), prefix, status);
         String ignoreEmailMsg = "You may ignore this email if you have already submitted feedback.";
         verifyEmail(s1, emails.get(0), prefix, ignoreEmailMsg);
-        verifyEmail(s3, emails.get(1), prefix, ignoreEmailMsg);
+        verifyEmail(s2, emails.get(1), prefix, ignoreEmailMsg);
+        verifyEmail(s3, emails.get(2), prefix, ignoreEmailMsg);
 
         ______TS("feedback session published alerts");
 

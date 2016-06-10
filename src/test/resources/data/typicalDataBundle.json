@@ -875,7 +875,7 @@
             ]
             
         },
-        "qn5InSession1Course1":{
+        "qn5InSession1InCourse1":{
             "feedbackSessionName":"First feedback session",
             "courseId":"idOfTypicalCourse1",
             "creatorEmail":"instructor1@course1.tmt",
@@ -906,7 +906,7 @@
                 "INSTRUCTORS"
             ]
         },
-        "qn6InSession1Course1":{
+        "qn6InSession1InCourse1":{
             "feedbackSessionName":"First feedback session",
             "courseId":"idOfTypicalCourse1",
             "creatorEmail":"instructor1@course1.tmt",

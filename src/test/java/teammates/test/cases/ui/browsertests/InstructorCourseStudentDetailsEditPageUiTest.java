@@ -151,7 +151,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         student = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
                   "benny.c.tmms@gmail.tmt");
       
-        assertEquals("New team", student.team);
+        assertEquals("Team 1</td></div>'\"", student.team);
     }
 
     @AfterClass
