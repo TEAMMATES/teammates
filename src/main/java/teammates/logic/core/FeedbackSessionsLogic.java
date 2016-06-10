@@ -868,7 +868,7 @@ public class FeedbackSessionsLogic {
         StringBuilder exportBuilder = new StringBuilder();
         
         exportBuilder.append("Question " + Integer.toString(question.questionNumber) + ","
-                + Sanitizer.sanitizeForCsv(questionDetails.questionText)
+                + Sanitizer.sanitizeForCsv(questionDetails.getQuestionText())
                 + Const.EOL + Const.EOL);
         
         String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,

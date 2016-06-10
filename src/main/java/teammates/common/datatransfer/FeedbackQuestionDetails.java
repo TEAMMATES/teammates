@@ -19,8 +19,8 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
  * question type
  */
 public abstract class FeedbackQuestionDetails {
-    public FeedbackQuestionType questionType;
-    public String questionText;
+    private FeedbackQuestionType questionType;
+    private String questionText;
 
     protected FeedbackQuestionDetails(FeedbackQuestionType questionType) {
         this.questionType = questionType;
@@ -231,4 +231,12 @@ public abstract class FeedbackQuestionDetails {
     }
 
     public abstract Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder();
+
+    public FeedbackQuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
 }

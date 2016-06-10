@@ -305,7 +305,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertEquals(question1.questionType, copiedQuestion.questionType);
         assertEquals(question1.giverType, copiedQuestion.giverType);
         assertEquals(question1.recipientType, copiedQuestion.recipientType);
-        assertEquals(question1Details.questionText, copiedQuestionDetails.questionText);
+        assertEquals(question1Details.getQuestionText(), copiedQuestionDetails.getQuestionText());
         
     }
     

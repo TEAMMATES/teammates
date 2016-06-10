@@ -343,7 +343,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             FeedbackQuestionAttributes question2 = questions2.get(i);
             FeedbackQuestionDetails questionDetails2 = question2.getQuestionDetails();
             
-            assertEquals(questionDetails1.questionText, questionDetails2.questionText);
+            assertEquals(questionDetails1.getQuestionText(), questionDetails2.getQuestionText());
             assertEquals(question1.giverType, question2.giverType);
             assertEquals(question1.recipientType, question2.recipientType);
             assertEquals(question1.questionType, question2.questionType);
