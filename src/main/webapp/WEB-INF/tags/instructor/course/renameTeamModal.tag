@@ -30,11 +30,17 @@
                         <label for="new-team-name-input" class="col-sm-3 control-label">New Team Name</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="new-team-name-input" placeholder="New Team Name" name="<%= Const.ParamsNames.TEAM_NAME %>">
+                            <span id="team-able-to-merge-message" class="help-block hidden">
+                                <span class="text-danger">You are about to merge <i class="first-team"></i> with <i class="second-team"></i>.</span>
+                            </span>
+                            <span id="team-unable-to-merge-message" class="help-block hidden">
+                                <span class="text-danger">Unable to merge <i class="first-team"></i> with <i class="second-team"></i> as they are in different sections.</span>
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button id="rename-team-save-button" disabled type="submit" class="btn btn-primary">Save</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </form>
