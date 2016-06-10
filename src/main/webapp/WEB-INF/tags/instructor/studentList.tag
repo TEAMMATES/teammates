@@ -152,7 +152,8 @@
                                            title="<%= Const.Tooltips.COURSE_STUDENT_COMMENT %>"
                                            data-toggle="tooltip"
                                            data-placement="top"
-                                           href="javascript:;">
+                                           href="javascript:;"
+                                           <c:if test="${not section.allowedToGiveCommentInSection}">disabled</c:if>>
                                             Add Comment
                                         </a>
                                         <a class="btn btn-default btn-xs dropdown-toggle"
