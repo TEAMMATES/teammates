@@ -371,7 +371,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
     public void testUpdateFeedbackResponsesForChangingWholeTeam() throws Exception {
         
-        ______TS("Update team name for whole team");        
+        ______TS("Update team name for whole team");
         
         // Team 1.1</td></div>'\" has 1 team response to another team
         // and 1 team response from another team
@@ -453,7 +453,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 studentToUpdate.course, "new@email.tmt", studentToUpdate.email);
     }
     
-    public void testUpdateFeedbackResponsesWithGeneratedOptions() throws Exception{
+    public void testUpdateFeedbackResponsesWithGeneratedOptions() throws Exception {
         ______TS("Update team name for responses with generated options");
         
         FeedbackQuestionAttributes mcqQuestion = getQuestionFromDatastore("qn5InSession1Course1");

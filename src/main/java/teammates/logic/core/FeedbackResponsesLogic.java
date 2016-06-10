@@ -203,7 +203,7 @@ public class FeedbackResponsesLogic {
             String courseId, String teamName) {
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForGiverType(courseId, FeedbackParticipantType.TEAMS);
-        List<FeedbackResponseAttributes> responsesFromTeam = 
+        List<FeedbackResponseAttributes> responsesFromTeam =
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackQuestionAttributes question : questions) {
@@ -224,7 +224,7 @@ public class FeedbackResponsesLogic {
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForRecipientType(courseId, FeedbackParticipantType.TEAMS);
         questions.addAll(fqLogic.getFeedbackQuestionsForRecipientType(courseId, FeedbackParticipantType.OWN_TEAM));
-        List<FeedbackResponseAttributes> responsesForTeam = 
+        List<FeedbackResponseAttributes> responsesForTeam =
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackQuestionAttributes question : questions) {
@@ -643,7 +643,7 @@ public class FeedbackResponsesLogic {
     }
     
     public void updateFeedbackResponsesForChangingWholeTeam(
-            String courseId, String oldTeam, String newTeam) 
+            String courseId, String oldTeam, String newTeam)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         List<FeedbackResponseAttributes> responsesFromTeam =
@@ -711,7 +711,7 @@ public class FeedbackResponsesLogic {
     }
     
     public void updateFeedbackResponsesWithGeneratedOptions(
-            String courseId, String originalOption, String newOption, FeedbackParticipantType participantType) 
+            String courseId, String originalOption, String newOption, FeedbackParticipantType participantType)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         List<FeedbackQuestionAttributes> mcqQuestionsOfResponsesToUpdate =
                 fqLogic.getMcqQuestionsWithGeneratedOptions(courseId);
@@ -720,7 +720,7 @@ public class FeedbackResponsesLogic {
         
         for (FeedbackQuestionAttributes mcqQuestion : mcqQuestionsOfResponsesToUpdate) {
             if (((FeedbackMcqQuestionDetails) mcqQuestion.getQuestionDetails()).getGenerateOptionsFor() == participantType) {
-                List<FeedbackResponseAttributes> responses = 
+                List<FeedbackResponseAttributes> responses =
                         getFeedbackResponsesForQuestion(mcqQuestion.getId());
                 
                 for (FeedbackResponseAttributes response : responses) {
@@ -741,7 +741,7 @@ public class FeedbackResponsesLogic {
         
         for (FeedbackQuestionAttributes msqQuestion : msqQuestionsOfResponsesToUpdate) {
             if (((FeedbackMsqQuestionDetails) msqQuestion.getQuestionDetails()).getGenerateOptionsFor() == participantType) {
-                List<FeedbackResponseAttributes> responses = 
+                List<FeedbackResponseAttributes> responses =
                         getFeedbackResponsesForQuestion(msqQuestion.getId());
                 
                 for (FeedbackResponseAttributes response : responses) {

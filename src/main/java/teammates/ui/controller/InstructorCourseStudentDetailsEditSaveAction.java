@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.Arrays;
-import java.util.List;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;

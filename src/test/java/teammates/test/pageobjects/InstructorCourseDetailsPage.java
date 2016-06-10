@@ -65,7 +65,6 @@ public class InstructorCourseDetailsPage extends AppPage {
                 By.cssSelector("#team-unable-to-merge-message .second-team")).getText();
     }
 
-
     public InstructorCourseDetailsPage verifyIsCorrectPage(String courseId) {
         assertEquals(courseId, this.getCourseId());
         return this;
@@ -168,11 +167,11 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
     
     public void clickRenameTeamButton() {
-        renameTeamButton.click();        
+        renameTeamButton.click();
     }
     
     public void clickRenameTeamSaveButton() {
-        renameTeamSaveButton.click();        
+        renameTeamSaveButton.click();
     }
     
     public void clickRenameTeamSaveButtonAndConfirm() {

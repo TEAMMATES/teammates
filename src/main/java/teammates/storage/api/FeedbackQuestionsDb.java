@@ -117,7 +117,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverType);
 
-        List<FeedbackQuestion> questions = 
+        List<FeedbackQuestion> questions =
                 getFeedbackQuestionEntitiesForGiverType(courseId, giverType);
         List<FeedbackQuestionAttributes> fqList = new ArrayList<FeedbackQuestionAttributes>();
 
@@ -140,7 +140,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, recipientType);
 
-        List<FeedbackQuestion> questions = 
+        List<FeedbackQuestion> questions =
                 getFeedbackQuestionEntitiesForRecipientType(courseId, recipientType);
         List<FeedbackQuestionAttributes> fqList = new ArrayList<FeedbackQuestionAttributes>();
 

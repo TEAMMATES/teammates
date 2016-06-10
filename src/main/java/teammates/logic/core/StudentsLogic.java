@@ -283,7 +283,7 @@ public class StudentsLogic {
         }
     }
     
-    public void updateTeamNameCascade(String courseId, String originalTeamName, String newTeamName) 
+    public void updateTeamNameCascade(String courseId, String originalTeamName, String newTeamName)
             throws EntityDoesNotExistException, InvalidParametersException,
             EnrollException, EntityAlreadyExistsException {
         List<StudentAttributes> studentsInTeam = getStudentsForTeam(originalTeamName, courseId);
@@ -297,8 +297,9 @@ public class StudentsLogic {
             updateStudentCascadeWithSubmissionAdjustmentScheduled(studentInTeam.getEmail(), studentInTeam, true);
         }
         
-        frLogic.updateFeedbackResponsesForChangingWholeTeam(courseId, originalTeamName, newTeamName);        
-        frLogic.updateFeedbackResponsesWithGeneratedOptions(courseId, originalTeamName, newTeamName, FeedbackParticipantType.TEAMS);
+        frLogic.updateFeedbackResponsesForChangingWholeTeam(courseId, originalTeamName, newTeamName);
+        frLogic.updateFeedbackResponsesWithGeneratedOptions(
+                courseId, originalTeamName, newTeamName, FeedbackParticipantType.TEAMS);
         commentsLogic.updateCommentsForChangingTeamName(courseId, originalTeamName, newTeamName);
     }
     

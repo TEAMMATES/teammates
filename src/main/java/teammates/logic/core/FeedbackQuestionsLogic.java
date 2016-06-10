@@ -356,7 +356,7 @@ public class FeedbackQuestionsLogic {
     }
     
     public List<FeedbackQuestionAttributes> getMcqQuestionsWithGeneratedOptions(String courseId) {
-        List<FeedbackQuestionAttributes> mcqQuestions = 
+        List<FeedbackQuestionAttributes> mcqQuestions =
                 getFeedbackQuestionsOfType(courseId, FeedbackQuestionType.MCQ);
         List<FeedbackQuestionAttributes> mcqQuestionsWithGeneratedOptions =
                 new ArrayList<FeedbackQuestionAttributes>();
@@ -375,7 +375,7 @@ public class FeedbackQuestionsLogic {
     }
     
     public List<FeedbackQuestionAttributes> getMsqQuestionsWithGeneratedOptions(String courseId) {
-        List<FeedbackQuestionAttributes> msqQuestions = 
+        List<FeedbackQuestionAttributes> msqQuestions =
                 getFeedbackQuestionsOfType(courseId, FeedbackQuestionType.MSQ);
         List<FeedbackQuestionAttributes> msqQuestionsWithGeneratedOptions =
                 new ArrayList<FeedbackQuestionAttributes>();
