@@ -965,7 +965,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void waitForCopyTableToLoad() {
-        waitForElementPresence(By.cssSelector("#copyTableModal tr"));
+        By tableRowSelector = By.cssSelector("#copyTableModal tr");
+        waitForElementPresence(tableRowSelector);
+        waitForElementVisibility(browser.driver.findElement(tableRowSelector));
     }
     
     public void waitForCopyStatusMessageToLoad() {
