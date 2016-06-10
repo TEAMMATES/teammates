@@ -1,6 +1,6 @@
 $(document).ready(function() {
     function isRedirectToSpecificComment() {
-        return location.href.includes('#');
+        return location.href.indexOf('#') !== -1;
     }
     
     function getRedirectSpecificCommentRow() {
