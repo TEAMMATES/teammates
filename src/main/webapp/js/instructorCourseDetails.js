@@ -14,18 +14,17 @@ $(document).ready(function() {
     });
     
     $('#team-select option').each(function() {
-        teamNames.push($(this).val()); 
+        teamNames.push($(this).val());
     });
     
     if (isCourseHasSections()) {
         $('tr').each(function() {
             var team = $(this).find('td[id^="studentteam"]').text().trim();
-            console.log(team);
             if (!(team in teamNamesToSectionMap)) {
                 var section = $(this).find('td[id^="studentsection"]').text().trim();
                 teamNamesToSectionMap[team] = section;
             }
-        })
+        });
     }
     
     $('#new-team-name-input').keyup(function() {
@@ -36,16 +35,16 @@ $(document).ready(function() {
         prepareRenameTeamModalUi();
     });
     
-    $('#rename-team-save-button').click(function(e) {
+    $('#rename-team-save-button').click(function() {
         if (isNewTeamNameExists()) {
-            var isMergingTeams = confirm("You are about to merge two teams. Proceed?"); 
+            var isMergingTeams = confirm('You are about to merge two teams. Proceed?');
             if (isMergingTeams) {
                 $('#rename-team-form').submit();
             }
         } else {
             $('#rename-team-form').submit();
         }
-    })
+    });
 });
 
 function submitFormAjax() {
@@ -151,6 +150,7 @@ function isTeamNameChanged() {
 
 function prepareRenameTeamModalUi() {
     var teamNameInputValue = $('#new-team-name-input').val();
+    var teamSelectValue = $('#team-select').val();
     
     if (teamNameInputValue.length === 0 || !isTeamNameChanged() || isTryingToMergeTeamsInDifferentSections()) {
         $('#rename-team-save-button').attr('disabled', true);
@@ -159,8 +159,6 @@ function prepareRenameTeamModalUi() {
     }
     
     if (isTryingToMergeTeamsInDifferentSections()) {
-        var teamSelectValue = $('#team-select').val();
-        
         $('#team-unable-to-merge-message .first-team').text(teamSelectValue);
         $('#team-unable-to-merge-message .second-team').text(teamNameInputValue);
         $('#team-unable-to-merge-message').removeClass('hidden');
@@ -169,8 +167,6 @@ function prepareRenameTeamModalUi() {
     }
     
     if (isNewTeamNameExists() && isTeamNameChanged() && !isTryingToMergeTeamsInDifferentSections()) {
-        var teamSelectValue = $('#team-select').val();
-         
         $('#team-able-to-merge-message .first-team').text(teamSelectValue);
         $('#team-able-to-merge-message .second-team').text(teamNameInputValue);
         $('#team-able-to-merge-message').removeClass('hidden');
