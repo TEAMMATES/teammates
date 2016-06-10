@@ -302,7 +302,7 @@ public class FieldValidator {
             + "All {fieldName} must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
     
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
-            "The provided %s is not acceptable to TEAMMATES as it contains only whitespace "
+            "The provided {fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
             + "or contains extra spaces at the beginning or at the end of the text.";
     
     public static final String NON_HTML_FIELD_ERROR_MESSAGE =
@@ -353,7 +353,7 @@ public class FieldValidator {
         if (email.isEmpty()) {
             return String.format(EMAIL_ERROR_MESSAGE, email, REASON_EMPTY);
         } else if (isUntrimmed(email)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, EMAIL_FIELD_NAME);
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", EMAIL_FIELD_NAME);
         } else if (email.length() > EMAIL_MAX_LENGTH) {
             return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
@@ -383,7 +383,7 @@ public class FieldValidator {
         if (googleId.isEmpty()) {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, googleId, REASON_EMPTY);
         } else if (isUntrimmed(googleId)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, GOOGLE_ID_FIELD_NAME);
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", GOOGLE_ID_FIELD_NAME);
         } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
@@ -407,7 +407,7 @@ public class FieldValidator {
             return String.format(COURSE_ID_ERROR_MESSAGE, courseId, REASON_EMPTY);
         }
         if (isUntrimmed(courseId)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, COURSE_NAME_FIELD_NAME);
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", COURSE_NAME_FIELD_NAME);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(courseId);
         if (courseId.length() > COURSE_ID_MAX_LENGTH) {
@@ -564,7 +564,7 @@ public class FieldValidator {
                                                              .replace("{maxLength}", String.valueOf(maxLength));
         }
         if (isUntrimmed(value)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", fieldName);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > maxLength) {
@@ -602,7 +602,7 @@ public class FieldValidator {
                                                              .replace("{maxLength}", String.valueOf(maxLength));
         }
         if (isUntrimmed(value)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", fieldName);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > maxLength) {
@@ -651,7 +651,7 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         
         if (isUntrimmed(value)) {
-            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", fieldName);
         }
         if (value.length() > maxLength) {
             String sanitizedValue = Sanitizer.sanitizeForHtml(value);
