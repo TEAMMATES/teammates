@@ -165,8 +165,8 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         
         ______TS("NUMSCALE Response: typical case");
         FeedbackNumericalScaleQuestionDetails numericalScaleQuestionDetails = new FeedbackNumericalScaleQuestionDetails();
-        numericalScaleQuestionDetails.maxScale = 5;
-        numericalScaleQuestionDetails.minScale = -5;
+        numericalScaleQuestionDetails.setMaxScale(5);
+        numericalScaleQuestionDetails.setMinScale(-5);
         requestParameters.put("questiontype-6", new String[] { "NUMSCALE" });
         requestParameters.put("responsetext-6-0", new String[] { "-3.5" });
         requestParameters.put("numscalemin-6-0", new String[] { "-5" });
@@ -263,12 +263,12 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         requestParameters.clear();
         
         ______TS("RUBRIC Response: typical case");
-        rubricQuestionDetails.numOfRubricChoices++;
-        rubricQuestionDetails.rubricChoices.add("choice1");
-        rubricQuestionDetails.numOfRubricSubQuestions++;
-        rubricQuestionDetails.rubricSubQuestions.add("sub-qn1");
-        rubricQuestionDetails.numOfRubricSubQuestions++;
-        rubricQuestionDetails.rubricSubQuestions.add("sub-qn2");
+        rubricQuestionDetails.setNumOfRubricChoices(rubricQuestionDetails.getNumOfRubricChoices() + 1);
+        rubricQuestionDetails.getRubricChoices().add("choice1");
+        rubricQuestionDetails.setNumOfRubricSubQuestions(rubricQuestionDetails.getNumOfRubricSubQuestions() + 1);
+        rubricQuestionDetails.getRubricSubQuestions().add("sub-qn1");
+        rubricQuestionDetails.setNumOfRubricSubQuestions(rubricQuestionDetails.getNumOfRubricSubQuestions() + 1);
+        rubricQuestionDetails.getRubricSubQuestions().add("sub-qn2");
         
         requestParameters.put("questiontype-9", new String[] { "RUBRIC" });
         requestParameters.put("responsetext-9-0", new String[] { "0-0,1-0" });

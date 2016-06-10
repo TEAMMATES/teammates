@@ -18,6 +18,24 @@ function isPreview() {
 }
 
 $(document).ready(function() {
+
+    /**
+     * Handles Keyup and Keydown on Text question to display response length
+     */
+    $('textarea[id^="responsetext-"]').keyup(function() {
+        updateTextQuestionCharCount(this.id, $(this).data('lengthtextid'));
+    });
+
+    $('textarea[id^="responsetext-"]').keydown(function() {
+        updateTextQuestionCharCount(this.id, $(this).data('lengthtextid'));
+    });
+
+    /**
+     * Triggering keyup event for all text question type textfields, to call
+     * function that finds out input length.
+     */
+    $('textarea[id^="responsetext-"]').keyup();
+
     $('form[name="form_submit_response"], form[name="form_student_submit_response"]').submit(function() {
         formatRubricQuestions();
 
@@ -952,3 +970,12 @@ function getWarningMessage() {
     return $(WARNING_STATUS_MESSAGE).html().trim();
 }
 
+/**
+ * Updates the length of the textArea
+ * @param textAreaId - Id of text area for which char are to be counted
+ * @param charCountId - Id of Label to display length of text area
+ */
+function updateTextQuestionCharCount(textAreaId, charCountId) {
+    var cs = $('#' + textAreaId).val().length;
+    $('#' + charCountId).text(cs);
+}

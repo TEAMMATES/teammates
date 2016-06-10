@@ -264,9 +264,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     @Test
     public void testDeleteAccount() throws Exception {
         AccountAttributes a = createNewAccount();
-        a.studentProfile.pictureKey =
-                GoogleCloudStorageHelper.writeFileToGcs(a.googleId,
-                                                        "src/test/resources/images/profile_pic_default.png", "");
+        a.studentProfile.pictureKey = writeFileToGcs(a.googleId, "src/test/resources/images/profile_pic_default.png");
         profilesDb.updateStudentProfilePicture(a.googleId, a.studentProfile.pictureKey);
         
         ______TS("typical success case");

@@ -116,9 +116,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     continue;
                 }
                 
-                responsesRecipients.add(response.recipientEmail);
+                responsesRecipients.add(response.recipient);
                 // if the answer is not empty but the recipient is empty
-                if (response.recipientEmail.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
+                if (response.recipient.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MISSING_RECIPIENT, questionIndx));
                 }
                 
@@ -126,7 +126,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     // deletes the response since answer is empty
                     saveResponse(response);
                 } else {
-                    response.giverEmail = questionAttributes.giverType.isTeam() ? userTeamForCourse
+                    response.giver = questionAttributes.giverType.isTeam() ? userTeamForCourse
                                                                                 : userEmailForCourse;
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
@@ -203,7 +203,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         boolean isExistingResponse = response.getId() != null;
         if (isExistingResponse) {
             // Delete away response if any empty fields
-            if (response.responseMetaData.getValue().isEmpty() || response.recipientEmail.isEmpty()) {
+            if (response.responseMetaData.getValue().isEmpty() || response.recipient.isEmpty()) {
                 logic.deleteFeedbackResponse(response);
                 return;
             }
@@ -214,7 +214,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 setStatusForException(e);
             }
         } else if (!response.responseMetaData.getValue().isEmpty()
-                   && !response.recipientEmail.isEmpty()) {
+                   && !response.recipient.isEmpty()) {
             try {
                 logic.createFeedbackResponse(response);
                 hasValidResponse = true;
@@ -252,10 +252,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
         Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(), response.feedbackQuestionId);
         
-        response.recipientEmail = HttpRequestHelper.getValueFromParamMap(
+        response.recipient = HttpRequestHelper.getValueFromParamMap(
                 requestParameters,
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-" + responseIndx);
-        Assumption.assertNotNull("Null feedback recipientEmail", response.recipientEmail);
+        Assumption.assertNotNull("Null feedback recipientEmail", response.recipient);
         
         String feedbackQuestionType = HttpRequestHelper.getValueFromParamMap(
                 requestParameters,
@@ -267,9 +267,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if (recipientType == FeedbackParticipantType.INSTRUCTORS || recipientType == FeedbackParticipantType.NONE) {
             response.recipientSection = Const.DEFAULT_SECTION;
         } else if (recipientType == FeedbackParticipantType.TEAMS) {
-            response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipientEmail);
+            response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipient);
         } else if (recipientType == FeedbackParticipantType.STUDENTS) {
-            StudentAttributes student = logic.getStudentForEmail(courseId, response.recipientEmail);
+            StudentAttributes student = logic.getStudentForEmail(courseId, response.recipient);
             response.recipientSection = (student == null) ? Const.DEFAULT_SECTION : student.section;
         } else {
             response.recipientSection = getUserSectionForCourse();
@@ -283,7 +283,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             response.responseMetaData = new Text("");
         } else {
             FeedbackResponseDetails responseDetails =
-                    FeedbackResponseDetails.createResponseDetails(answer, questionDetails.questionType,
+                    FeedbackResponseDetails.createResponseDetails(answer, questionDetails.getQuestionType(),
                                                                   questionDetails, requestParameters,
                                                                   questionIndx, responseIndx);
             response.setResponseDetails(responseDetails);

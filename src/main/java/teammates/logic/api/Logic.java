@@ -2101,6 +2101,10 @@ public class Logic {
         return feedbackResponsesLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
     }
     
+    public boolean isCourseHasResponses(String courseId) {
+        return feedbackResponsesLogic.isCourseHasResponses(courseId);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.

@@ -81,7 +81,7 @@ public enum FeedbackQuestionType {
         }
 
         if (questionText != null && requestParameters != null) {
-            feedbackQuestionDetails.questionText = questionText;
+            feedbackQuestionDetails.setQuestionText(questionText);
             feedbackQuestionDetails.extractQuestionDetails(requestParameters, this);
         }
 
