@@ -310,7 +310,7 @@ public class FieldValidator {
                                       + " the following special html characters in brackets: (< > \\ / ' &)");
     
     public static final String NON_NULL_FIELD_ERROR_MESSAGE =
-            "The provided %s is not acceptable to TEAMMATES as it cannot be empty.";
+            "The provided {fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
     
     /**
      * Checks if {@code emailContent} is not null and not empty
@@ -796,7 +796,7 @@ public class FieldValidator {
     }
     
     public String getValidityInfoForNonNullField(String fieldName, Object value) {
-        return (value == null) ? String.format(NON_NULL_FIELD_ERROR_MESSAGE, fieldName) : "";
+        return (value == null) ? NON_NULL_FIELD_ERROR_MESSAGE.replace("{fieldName}", fieldName) : "";
     }
 
     private boolean isUntrimmed(String value) {
