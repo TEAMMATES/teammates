@@ -71,9 +71,10 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 "${rankToRecipientsValue}", "true",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 "${rankNumOptionValue}", Integer.toString(0),
+
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
                         Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed)
+                "${areDuplicatesAllowedValue}", Boolean.toString(isAreDuplicatesAllowed())
                 );
         
         return html;
@@ -110,7 +111,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 "${rankNumOptionValue}", Integer.toString(0),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
                         Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                "${areDuplicatesAllowedValue}", Boolean.toString(areDuplicatesAllowed));
+                "${areDuplicatesAllowedValue}", Boolean.toString(isAreDuplicatesAllowed()));
         
         return html;
     }
@@ -142,9 +143,10 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 FeedbackQuestionFormTemplates.RANK_EDIT_RECIPIENTS_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${optionRecipientDisplayName}", "recipient",
+
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}",
                         Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                "${areDuplicatesAllowedChecked}", areDuplicatesAllowed ? "checked" : "");
+                "${areDuplicatesAllowedChecked}", isAreDuplicatesAllowed() ? "checked" : "");
     
     }
 
@@ -258,7 +260,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         Map<String, List<Integer>> optionRanks = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
-            updateOptionRanksMapping(optionRanks, response.recipientEmail, normalisedRankOfResponse.get(response));
+            updateOptionRanksMapping(optionRanks, response.recipient, normalisedRankOfResponse.get(response));
         }
         
         return optionRanks;
@@ -275,11 +277,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         // collect each giver's responses
         Map<String, List<FeedbackResponseAttributes>> responsesGivenByPerson = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
-            if (!responsesGivenByPerson.containsKey(response.giverEmail)) {
-                responsesGivenByPerson.put(response.giverEmail, new ArrayList<FeedbackResponseAttributes>());
+            if (!responsesGivenByPerson.containsKey(response.giver)) {
+                responsesGivenByPerson.put(response.giver, new ArrayList<FeedbackResponseAttributes>());
             }
             
-            responsesGivenByPerson.get(response.giverEmail)
+            responsesGivenByPerson.get(response.giver)
                                   .add(response);
         }
         
@@ -327,7 +329,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             return new ArrayList<String>();
         }
         
-        if (areDuplicatesAllowed) {
+        if (isAreDuplicatesAllowed()) {
             return new ArrayList<String>();
         }
         List<String> errors = new ArrayList<>();
