@@ -24,12 +24,6 @@ public final class GoogleCloudStorageHelper {
         // utility class
     }
     
-    public static String writeFileToGcs(String googleId, String filename, String suffix) throws IOException {
-        byte[] image = FileHelper.readFile(filename).getBytes();
-        
-        return writeDataToGcs(googleId, image, suffix);
-    }
-    
     public static boolean doesFileExistInGcs(String googleId, boolean isGcsFilename) throws IOException {
         if (isGcsFilename) {
             GcsFilename name = new GcsFilename(Config.GCS_BUCKETNAME, googleId);
@@ -52,9 +46,8 @@ public final class GoogleCloudStorageHelper {
         }
     }
 
-    public static String writeDataToGcs(String googleId, byte[] pictureData,
-            String suffix) throws IOException {
-        GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId + suffix);
+    public static String writeDataToGcs(String googleId, byte[] pictureData) throws IOException {
+        GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId);
         gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
         GcsOutputChannel outputChannel =
                 gcsService.createOrReplace(gcsFilename, new GcsFileOptions.Builder().mimeType("image/png").build());
@@ -63,6 +56,6 @@ public final class GoogleCloudStorageHelper {
         outputChannel.close();
         
         return BlobstoreServiceFactory.getBlobstoreService()
-                .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + googleId + suffix).getKeyString();
+                .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + googleId).getKeyString();
     }
 }

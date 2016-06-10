@@ -50,7 +50,7 @@ public class FeedbackResponse implements StoreCallback {
     private String giverSection;
 
     @Persistent
-    private String receiver; //TODO: rename to receiverEmail, will require database conversion
+    private String receiver;
     
     @Persistent
     private String receiverSection;
