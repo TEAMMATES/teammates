@@ -6,7 +6,6 @@ import java.util.List;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionTableRow;
 
@@ -14,12 +13,11 @@ public class InstructorFeedbackQuestionCopyPageData extends PageData {
 
     private final List<FeedbackQuestionAttributes> questions;
     
-    public InstructorFeedbackQuestionCopyPageData(AccountAttributes account, 
+    public InstructorFeedbackQuestionCopyPageData(AccountAttributes account,
                                                   List<FeedbackQuestionAttributes> copiableQuestions) {
         super(account);
         questions = copiableQuestions;
     }
-    
     
     public FeedbackQuestionCopyTable getCopyQnForm() {
         List<FeedbackQuestionTableRow> copyQuestionRows = buildCopyQuestionsModalRows(questions);
@@ -40,13 +38,11 @@ public class InstructorFeedbackQuestionCopyPageData extends PageData {
             
             String qnId = question.getId();
             
-            FeedbackQuestionTableRow row = new FeedbackQuestionTableRow(courseId, fsName, 
+            FeedbackQuestionTableRow row = new FeedbackQuestionTableRow(courseId, fsName,
                                                                         qnType, qnText, qnId);
             copyQuestionRows.add(row);
         }
         
         return copyQuestionRows;
     }
-    
-    
 }

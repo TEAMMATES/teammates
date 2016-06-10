@@ -446,7 +446,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         feedbackEditPage.waitForCopyTableToLoad();
         
-        assertFalse("Unable to submit when there are no questions selected", 
+        assertFalse("Unable to submit when there are no questions selected",
                     feedbackEditPage.isCopySubmitButtonClickable());
         feedbackEditPage.clickCopyTableAtRow(0);
         
@@ -474,11 +474,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickCopyButton();
         feedbackEditPage.waitForCopyTableToLoad();
         feedbackEditPage.waitForCopyStatusMessageToLoad();
-        assertEquals("There is no feedback question to be copied.", 
+        assertEquals("There is no feedback question to be copied.",
                      feedbackEditPage.getCopyStatusMessageText());
         assertTrue(feedbackEditPage.isCopyStatusErrorMessage());
         
-        assertFalse("Should not be able to submit if there are no questions", 
+        assertFalse("Should not be able to submit if there are no questions",
                     feedbackEditPage.isCopySubmitButtonClickable());
                 
         ______TS("Fails gracefully with an error message");
@@ -488,10 +488,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickCopyButton();
 
         feedbackEditPage.waitForCopyStatusMessageToLoad();
-        assertEquals("Error retrieving questions. Please close the dialog window and try again.", 
+        assertEquals("Error retrieving questions. Please close the dialog window and try again.",
                      feedbackEditPage.getCopyStatusMessageText());
         assertTrue(feedbackEditPage.isCopyStatusErrorMessage());
-        assertFalse("Should not be able to submit if loading failed", 
+        assertFalse("Should not be able to submit if loading failed",
                     feedbackEditPage.isCopySubmitButtonClickable());
         
         // revert back to state expected by tests after this by deleting new copied questions

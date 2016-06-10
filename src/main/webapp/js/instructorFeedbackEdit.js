@@ -813,7 +813,7 @@ function setupQuestionCopyModal() {
             },
             error: function() {
                 $copyTableModal.html('');
-                $questionCopyStatusMessage.html("Error retrieving questions. "
+                $questionCopyStatusMessage.html('Error retrieving questions. '
                                                 + 'Please close the dialog window and try again.');
                 $questionCopyStatusMessage.addClass('alert alert-danger');
             },
