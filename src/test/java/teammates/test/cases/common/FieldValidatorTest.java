@@ -196,8 +196,9 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String nameContainInvalidChars = "Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
-                     String.format(INVALID_NAME_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(nameContainInvalidChars),
-                                   typicalFieldName, REASON_CONTAINS_INVALID_CHAR, typicalFieldName),
+                     INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", Sanitizer.sanitizeForHtml(nameContainInvalidChars))
+                                               .replace("{fieldName}", typicalFieldName)
+                                               .replace("{reason}", REASON_CONTAINS_INVALID_CHAR),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameContainInvalidChars));
         
@@ -205,9 +206,9 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
-                     String.format(INVALID_NAME_ERROR_MESSAGE,
-                                   Sanitizer.sanitizeForHtml(nameStartedWithNonAlphaNumChar),
-                                   typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
+                     INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", Sanitizer.sanitizeForHtml(nameStartedWithNonAlphaNumChar))
+                                               .replace("{fieldName}", typicalFieldName)
+                                               .replace("{reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithNonAlphaNumChar));
         
@@ -215,9 +216,9 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String nameStartedWithBracesButHasInvalidChar = "{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
-                     String.format(INVALID_NAME_ERROR_MESSAGE,
-                                   Sanitizer.sanitizeForHtml(nameStartedWithBracesButHasInvalidChar),
-                                   typicalFieldName, REASON_CONTAINS_INVALID_CHAR, typicalFieldName),
+                     INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", Sanitizer.sanitizeForHtml(nameStartedWithBracesButHasInvalidChar))
+                                               .replace("{fieldName}", typicalFieldName)
+                                               .replace("{reason}", REASON_CONTAINS_INVALID_CHAR),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithBracesButHasInvalidChar));
         
@@ -225,9 +226,9 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String nameStartedWithCurlyBracketButHasNoEnd = "{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)";
         assertEquals("invalid: typical length started with non-alphanumeric character",
-                     String.format(INVALID_NAME_ERROR_MESSAGE,
-                                   Sanitizer.sanitizeForHtml(nameStartedWithCurlyBracketButHasNoEnd),
-                                   typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
+                     INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", Sanitizer.sanitizeForHtml(nameStartedWithCurlyBracketButHasNoEnd))
+                                               .replace("{fieldName}", typicalFieldName)
+                                               .replace("{reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithCurlyBracketButHasNoEnd));
         
@@ -308,8 +309,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidNationality = "{ Invalid Char Nationality";
         String actual = validator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Invalid nationality (invalid char) should return error string that is specific to nationality",
-                      String.format(INVALID_NAME_ERROR_MESSAGE, invalidNationality, NATIONALITY_FIELD_NAME,
-                                    REASON_START_WITH_NON_ALPHANUMERIC_CHAR, NATIONALITY_FIELD_NAME),
+                      INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", invalidNationality)
+                                                .replace("{fieldName}", NATIONALITY_FIELD_NAME)
+                                                .replace("{reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
                       actual);
     }
 
@@ -326,8 +328,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidSectionName = "Percent Symbol % Section";
         String actual = validator.getInvalidityInfoForSectionName(invalidSectionName);
         assertEquals("Invalid section name (invalid char) should return error string that is specific to section name",
-                     String.format(INVALID_NAME_ERROR_MESSAGE, invalidSectionName, SECTION_NAME_FIELD_NAME,
-                                   REASON_CONTAINS_INVALID_CHAR, SECTION_NAME_FIELD_NAME),
+                     INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", invalidSectionName)
+                                               .replace("{fieldName}", SECTION_NAME_FIELD_NAME)
+                                               .replace("{reason}", REASON_CONTAINS_INVALID_CHAR),
                      actual);
     }
 
@@ -336,8 +339,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidCourseName = "Vertical Bar | Course";
         String actual = validator.getInvalidityInfoForCourseName(invalidCourseName);
         assertEquals("Invalid course name (invalid char) should return error string that is specific to course name",
-                     String.format(INVALID_NAME_ERROR_MESSAGE, invalidCourseName, COURSE_NAME_FIELD_NAME,
-                                   REASON_CONTAINS_INVALID_CHAR, COURSE_NAME_FIELD_NAME),
+                     INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", invalidCourseName)
+                                               .replace("{fieldName}", COURSE_NAME_FIELD_NAME)
+                                               .replace("{reason}", REASON_CONTAINS_INVALID_CHAR),
                      actual);
     }
 

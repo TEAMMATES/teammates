@@ -103,10 +103,10 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, courseName,
-                                      FieldValidator.COURSE_NAME_FIELD_NAME,
-                                      FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                                      FieldValidator.COURSE_NAME_FIELD_NAME);
+        statusMessage = FieldValidator.INVALID_NAME_ERROR_MESSAGE
+                            .replace("{userInput}", courseName)
+                            .replace("{fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME)
+                            .replace("{reason}", FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                      + "?error=true&user=" + instructorId + "&courseid=" + courseId,
@@ -124,10 +124,10 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, courseName,
-                                      FieldValidator.COURSE_NAME_FIELD_NAME,
-                                      FieldValidator.REASON_CONTAINS_INVALID_CHAR,
-                                      FieldValidator.COURSE_NAME_FIELD_NAME);
+        statusMessage = FieldValidator.INVALID_NAME_ERROR_MESSAGE
+                            .replace("{userInput}", courseName)
+                            .replace("{fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME)
+                            .replace("{reason}", FieldValidator.REASON_CONTAINS_INVALID_CHAR);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                      + "?error=true&user=" + instructorId + "&courseid=" + courseId,

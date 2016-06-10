@@ -298,9 +298,8 @@ public class FieldValidator {
             + "The value of {fieldName} should be no longer than {maxLength} characters.";
     
     public static final String INVALID_NAME_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. "
-            + "All %s must start with an alphanumeric character, "
-            + "and cannot contain any vertical bar (|) or percent sign (%%).";
+            "\"{userInput}\" is not acceptable to TEAMMATES as {fieldName} because it {reason}. "
+            + "All {fieldName} must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
     
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided %s is not acceptable to TEAMMATES as it contains only whitespace "
@@ -615,18 +614,21 @@ public class FieldValidator {
         if (!Character.isLetterOrDigit(value.codePointAt(0))) {
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
             if (!startsWithBraces) {
-                return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName,
-                                     REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
+                return INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
+                                                 .replace("{fieldName}", fieldName)
+                                                 .replace("{reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
             }
             if (!StringHelper.isMatching(value.substring(1), REGEX_NAME)) {
-                return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName,
-                                     REASON_CONTAINS_INVALID_CHAR, fieldName);
+                return INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
+                                                 .replace("{fieldName}", fieldName)
+                                                 .replace("{reason}", REASON_CONTAINS_INVALID_CHAR);
             }
             return "";
         }
         if (!StringHelper.isMatching(value, REGEX_NAME)) {
-            return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName,
-                                 REASON_CONTAINS_INVALID_CHAR, fieldName);
+            return INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
+                                             .replace("{fieldName}", fieldName)
+                                             .replace("{reason}", REASON_CONTAINS_INVALID_CHAR);
         }
         return "";
     }
