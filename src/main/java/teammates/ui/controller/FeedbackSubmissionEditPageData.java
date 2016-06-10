@@ -234,7 +234,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
-                                                           questionAttributes.getId(), existingResponse.recipientEmail);
+                                                           questionAttributes.getId(), existingResponse.recipient);
             
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                                             .getQuestionWithExistingResponseSubmissionFormHtml(

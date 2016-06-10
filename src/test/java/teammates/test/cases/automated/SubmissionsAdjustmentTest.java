@@ -329,7 +329,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
                     .getFeedbackResponsesForSession(eachSession.getFeedbackSessionName(), courseId);
             
             for (FeedbackResponseAttributes eachResponse : allResponses) {
-                if (eachResponse.recipientEmail.equals(email) || eachResponse.giverEmail.equals(email)) {
+                if (eachResponse.recipient.equals(email) || eachResponse.giver.equals(email)) {
                     fail("Cause : Feedback response for " + email + " found on system");
                 }
             }

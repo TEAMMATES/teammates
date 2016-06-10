@@ -596,11 +596,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             ElementTag rowAttributes = null;
             String displayableResponse = bundle.getResponseAnswerHtml(response, question);
 
-            String giverName = bundle.getNameForEmail(response.giverEmail);
-            String recipientName = bundle.getNameForEmail(response.recipientEmail);
+            String giverName = bundle.getNameForEmail(response.giver);
+            String recipientName = bundle.getNameForEmail(response.recipient);
             
-            String giverTeam = bundle.getTeamNameForEmail(response.giverEmail);
-            String recipientTeam = bundle.getTeamNameForEmail(response.recipientEmail);
+            String giverTeam = bundle.getTeamNameForEmail(response.giver);
+            String recipientTeam = bundle.getTeamNameForEmail(response.recipient);
             
             giverName = bundle.appendTeamNameToName(giverName, giverTeam);
             recipientName = bundle.appendTeamNameToName(recipientName, recipientTeam);
@@ -1282,33 +1282,33 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // keep track of possible givers who did not give a response
-            removeParticipantIdentifierFromList(possibleGiversWithoutResponses, response.giverEmail);
+            removeParticipantIdentifierFromList(possibleGiversWithoutResponses, response.giver);
             
-            boolean isNewGiver = !prevGiver.equals(response.giverEmail);
+            boolean isNewGiver = !prevGiver.equals(response.giver);
             if (isNewGiver) {
                 responseRows.addAll(buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
                                     question, possibleReceiversWithoutResponsesForGiver, prevGiver,
                                     bundle.getNameForEmail(prevGiver), bundle.getTeamNameForEmail(prevGiver)));
                 
-                String giverIdentifier = response.giverEmail;
+                String giverIdentifier = response.giver;
                             
                 possibleReceiversWithoutResponsesForGiver = bundle.getPossibleRecipients(question, giverIdentifier);
             }
             
             // keep track of possible recipients without a response from the current giver
-            removeParticipantIdentifierFromList(possibleReceiversWithoutResponsesForGiver, response.recipientEmail);
-            prevGiver = response.giverEmail;
+            removeParticipantIdentifierFromList(possibleReceiversWithoutResponsesForGiver, response.recipient);
+            prevGiver = response.giver;
             
             InstructorFeedbackResultsModerationButton moderationButton = buildModerationButtonForExistingResponse(
                                                                                 question, response);
             InstructorFeedbackResultsResponseRow responseRow = new InstructorFeedbackResultsResponseRow(
                                                                        bundle.getGiverNameForResponse(response),
-                                                                       bundle.getTeamNameForEmail(response.giverEmail),
+                                                                       bundle.getTeamNameForEmail(response.giver),
                                                                        bundle.getRecipientNameForResponse(response),
-                                                                       bundle.getTeamNameForEmail(response.recipientEmail),
+                                                                       bundle.getTeamNameForEmail(response.recipient),
                                                                        bundle.getResponseAnswerHtml(response, question),
                                                                        moderationButton);
-            configureResponseRow(prevGiver, response.recipientEmail, responseRow);
+            configureResponseRow(prevGiver, response.recipient, responseRow);
             responseRows.add(responseRow);
         }
         
@@ -1351,7 +1351,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // keep track of possible participant who did not give/receive a response to/from the participantIdentifier
-            String participantWithResponse = isFirstGroupedByGiver ? response.recipientEmail : response.giverEmail;
+            String participantWithResponse = isFirstGroupedByGiver ? response.recipient : response.giver;
             removeParticipantIdentifierFromList(possibleParticipantsWithoutResponses,
                                                 participantWithResponse);
 
@@ -1361,12 +1361,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsResponseRow responseRow =
                     new InstructorFeedbackResultsResponseRow(
                             bundle.getGiverNameForResponse(response),
-                            bundle.getTeamNameForEmail(response.giverEmail),
+                            bundle.getTeamNameForEmail(response.giver),
                             bundle.getRecipientNameForResponse(response),
-                            bundle.getTeamNameForEmail(response.recipientEmail),
+                            bundle.getTeamNameForEmail(response.recipient),
                             bundle.getResponseAnswerHtml(response, question), moderationButton);
 
-            configureResponseRow(response.giverEmail, response.recipientEmail, responseRow);
+            configureResponseRow(response.giver, response.recipient, responseRow);
                         
             responseRows.add(responseRow);
         }
@@ -1555,7 +1555,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                        || question.giverType == FeedbackParticipantType.TEAMS;
         
         if (isGiverStudentOrTeam || isGiverInstructor) {
-            return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs",
+            return buildModerationButtonForGiver(question, response.giver, "btn btn-default btn-xs",
                                                  MODERATE_SINGLE_RESPONSE);
         }
         return null;

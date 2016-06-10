@@ -1,5 +1,7 @@
 package teammates.test.cases;
 
+import java.io.IOException;
+
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -13,6 +15,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.AccountsDb;
@@ -25,6 +28,7 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.driver.GaeSimulation;
+import teammates.test.util.FileHelper;
 
 import com.google.gson.Gson;
 
@@ -52,6 +56,11 @@ public class BaseComponentTestCase extends BaseTestCase {
         gaeSimulation = GaeSimulation.inst();
         gaeSimulation.setup();
         
+    }
+    
+    protected static String writeFileToGcs(String googleId, String filename) throws IOException {
+        byte[] image = FileHelper.readFileAsBytes(filename);
+        return GoogleCloudStorageHelper.writeDataToGcs(googleId, image);
     }
     
     protected static void verifyAbsentInDatastore(AccountAttributes account) {
@@ -120,7 +129,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
    
     protected static void verifyAbsentInDatastore(FeedbackResponseAttributes fr) {
-        assertNull(frDb.getFeedbackResponse(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail));
+        assertNull(frDb.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient));
     }
     
     protected static void verifyPresentInDatastore(FeedbackResponseAttributes expected) {
@@ -129,7 +138,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     
     protected static void verifyPresentInDatastore(FeedbackResponseAttributes expected, boolean wildcardId) {
         FeedbackResponseAttributes actual = frDb.getFeedbackResponse(expected.feedbackQuestionId,
-                                                                     expected.giverEmail, expected.recipientEmail);
+                                                                     expected.giver, expected.recipient);
         if (wildcardId) {
             expected.setId(actual.getId());
         }

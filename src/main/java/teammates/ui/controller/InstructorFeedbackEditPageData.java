@@ -108,7 +108,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                 String courseId = question.courseId;
                 String fsName = question.feedbackSessionName;
                 String qnType = question.getQuestionDetails().getQuestionTypeDisplayName();
-                String qnText = question.getQuestionDetails().questionText;
+                String qnText = question.getQuestionDetails().getQuestionText();
                 String qnId = question.getId();
                 
                 FeedbackQuestionTableRow row = new FeedbackQuestionTableRow(courseId, fsName, qnType, qnText, qnId);
@@ -129,7 +129,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         qnForm.setFeedbackSessionName(feedbackSessionName);
-        qnForm.setQuestionText(questionDetails.questionText);
+        qnForm.setQuestionText(questionDetails.getQuestionText());
         qnForm.setQuestionNumberSuffix("-" + questionIndex);
         qnForm.setQuestionIndex(questionIndex);
         qnForm.setQuestionId(question.getId());

@@ -263,11 +263,11 @@ public class FeedbackResponsesLogic {
         // Early return if user is giver
         if (question.giverType == FeedbackParticipantType.TEAMS) {
             // if response is given by team, then anyone in the team can see the response
-            if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
+            if (roster.isStudentsInSameTeam(response.giver, userEmail)) {
                 return true;
             }
         } else {
-            if (response.giverEmail.equals(userEmail)) {
+            if (response.giver.equals(userEmail)) {
                 return true;
             }
         }
@@ -285,20 +285,20 @@ public class FeedbackResponsesLogic {
             case OWN_TEAM_MEMBERS:
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                 // Refers to Giver's Team Members
-                if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
+                if (roster.isStudentsInSameTeam(response.giver, userEmail)) {
                     return true;
                 }
                 break;
             case RECEIVER:
                 // Response to team
                 if (question.recipientType.isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, response.recipientEmail)) {
+                    if (roster.isStudentInTeam(userEmail, response.recipient)) {
                         // this is a team name
                         return true;
                     }
                     break;
                     // Response to individual
-                } else if (response.recipientEmail.equals(userEmail)) {
+                } else if (response.recipient.equals(userEmail)) {
                     return true;
                 } else {
                     break;
@@ -306,12 +306,12 @@ public class FeedbackResponsesLogic {
             case RECEIVER_TEAM_MEMBERS:
                 // Response to team; recipient = teamName
                 if (question.recipientType.isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, response.recipientEmail)) {
+                    if (roster.isStudentInTeam(userEmail, response.recipient)) {
                         // this is a team name
                         return true;
                     }
                     break;
-                } else if (roster.isStudentsInSameTeam(response.recipientEmail, userEmail)) {
+                } else if (roster.isStudentsInSameTeam(response.recipient, userEmail)) {
                     // Response to individual
                     return true;
                 }
@@ -379,7 +379,7 @@ public class FeedbackResponsesLogic {
         FeedbackResponse oldResponseEntity = null;
         if (newResponse.getId() == null) {
             oldResponseEntity = frDb.getFeedbackResponseEntityWithCheck(newResponse.feedbackQuestionId,
-                    newResponse.giverEmail, newResponse.recipientEmail);
+                    newResponse.giver, newResponse.recipient);
         } else {
             oldResponseEntity = frDb.getFeedbackResponseEntityWithCheck(newResponse.getId());
         }
@@ -429,11 +429,11 @@ public class FeedbackResponsesLogic {
         if (newResponse.responseMetaData == null) {
             newResponse.responseMetaData = oldResponse.responseMetaData;
         }
-        if (newResponse.giverEmail == null) {
-            newResponse.giverEmail = oldResponse.giverEmail;
+        if (newResponse.giver == null) {
+            newResponse.giver = oldResponse.giver;
         }
-        if (newResponse.recipientEmail == null) {
-            newResponse.recipientEmail = oldResponse.recipientEmail;
+        if (newResponse.recipient == null) {
+            newResponse.recipient = oldResponse.recipient;
         }
         if (newResponse.giverSection == null) {
             newResponse.giverSection = oldResponse.giverSection;
@@ -442,8 +442,8 @@ public class FeedbackResponsesLogic {
             newResponse.recipientSection = oldResponse.recipientSection;
         }
     
-        if (newResponse.recipientEmail.equals(oldResponse.recipientEmail)
-                && newResponse.giverEmail.equals(oldResponse.giverEmail)) {
+        if (newResponse.recipient.equals(oldResponse.recipient)
+                && newResponse.giver.equals(oldResponse.giver)) {
             try {
                 frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
             } catch (EntityDoesNotExistException e) {
@@ -541,9 +541,9 @@ public class FeedbackResponsesLogic {
         FeedbackQuestionAttributes question = fqLogic
                 .getFeedbackQuestion(response.feedbackQuestionId);
 
-        boolean isGiverSameForResponseAndEnrollment = response.giverEmail
+        boolean isGiverSameForResponseAndEnrollment = response.giver
                 .equals(enrollment.email);
-        boolean isReceiverSameForResponseAndEnrollment = response.recipientEmail
+        boolean isReceiverSameForResponseAndEnrollment = response.recipient
                 .equals(enrollment.email);
 
         boolean shouldDeleteByChangeOfGiver = isGiverSameForResponseAndEnrollment
@@ -613,7 +613,7 @@ public class FeedbackResponsesLogic {
                 getFeedbackResponsesFromGiverForCourse(courseId, oldEmail);
 
         for (FeedbackResponseAttributes response : responsesFromUser) {
-            response.giverEmail = newEmail;
+            response.giver = newEmail;
             try {
                 updateFeedbackResponse(response);
             } catch (EntityAlreadyExistsException e) {
@@ -627,7 +627,7 @@ public class FeedbackResponsesLogic {
                 getFeedbackResponsesForReceiverForCourse(courseId, oldEmail);
 
         for (FeedbackResponseAttributes response : responsesToUser) {
-            response.recipientEmail = newEmail;
+            response.recipient = newEmail;
             try {
                 updateFeedbackResponse(response);
             } catch (EntityAlreadyExistsException e) {
@@ -652,7 +652,7 @@ public class FeedbackResponsesLogic {
 
         for (FeedbackResponseAttributes response : responsesForQuestion) {
             this.deleteFeedbackResponseAndCascade(response);
-            emails.add(response.giverEmail);
+            emails.add(response.giver);
         }
 
         if (!hasResponseRateUpdate) {

@@ -12,7 +12,7 @@ import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
     
-    public boolean areDuplicatesAllowed;
+    private boolean areDuplicatesAllowed;
 
     public FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);
@@ -148,6 +148,10 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         }
         
         return normalisedRankForSingleSetOfRankings;
+    }
+
+    public boolean isAreDuplicatesAllowed() {
+        return areDuplicatesAllowed;
     }
 
 }

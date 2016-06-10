@@ -485,8 +485,8 @@
             "courseId":"comments.idOfTypicalCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"comments.student1InCourse1@gmail.tmt",
-            "recipientEmail":"comments.student1InCourse1@gmail.tmt",
+            "giver":"comments.student1InCourse1@gmail.tmt",
+            "recipient":"comments.student1InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Student 1 self feedback."
             },
@@ -498,8 +498,8 @@
             "courseId":"comments.idOfTypicalCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"comments.student2InCourse1@gmail.tmt",
-            "recipientEmail":"comments.student2InCourse1@gmail.tmt",
+            "giver":"comments.student2InCourse1@gmail.tmt",
+            "recipient":"comments.student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"I'm cool'"
             },
@@ -512,8 +512,8 @@
             "courseId":"comments.idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"comments.student2InCourse1@gmail.tmt",
-            "recipientEmail":"comments.student1InCourse1@gmail.tmt",
+            "giver":"comments.student2InCourse1@gmail.tmt",
+            "recipient":"comments.student1InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 2 to student 1."
             },
@@ -526,8 +526,8 @@
             "courseId":"comments.idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"comments.student1InCourse1@gmail.tmt",
-            "recipientEmail":"comments.student2InCourse1@gmail.tmt",
+            "giver":"comments.student1InCourse1@gmail.tmt",
+            "recipient":"comments.student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 1 to student 2."
             },
@@ -540,8 +540,8 @@
             "courseId":"comments.idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"comments.student3InCourse1@gmail.tmt",
-            "recipientEmail":"comments.student2InCourse1@gmail.tmt",
+            "giver":"comments.student3InCourse1@gmail.tmt",
+            "recipient":"comments.student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 3 \"to\" student 2.\r\nMultiline test."
             },
@@ -554,8 +554,8 @@
             "courseId":"comments.idOfTypicalCourse1",
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"comments.instructor1@course1.tmt",
-            "recipientEmail":"%GENERAL%",
+            "giver":"comments.instructor1@course1.tmt",
+            "recipient":"%GENERAL%",
             "responseMetaData":{
                 "value":"Good work, keep it up!"
             },
@@ -568,8 +568,8 @@
             "courseId":"comments.idOfUriCharsCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"comments.studentInCourseUri@gmail.tmt",
-            "recipientEmail":"comments.studentInCourseUri@gmail.tmt",
+            "giver":"comments.studentInCourseUri@gmail.tmt",
+            "recipient":"comments.studentInCourseUri@gmail.tmt",
             "responseMetaData":{
                 "value":"I like the feedback session name."
             },
