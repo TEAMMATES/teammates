@@ -6,10 +6,10 @@ import java.io.IOException;
 
 import org.testng.annotations.Test;
 
-import teammates.common.util.FileHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.FileHelper;
 
 public class HtmlHelperTest extends BaseTestCase {
     
@@ -22,7 +22,8 @@ public class HtmlHelperTest extends BaseTestCase {
         actual = "<html> </html>";
         HtmlHelper.assertSameHtml(expected, actual, false);
         
-        expected = "<HTML><HEAD><SCRIPT language=\"JavaScript\" src=\"a.js\" ></SCRIPT></HEAD><BODY id=\"5\"><P>abc</P><DIV id=\"frameBottom\"><DIV></DIV></DIV></BODY></HTML>";
+        expected = "<HTML><HEAD><SCRIPT language=\"JavaScript\" src=\"a.js\" ></SCRIPT></HEAD>"
+                   + "<BODY id=\"5\"><P>abc</P><DIV id=\"frameBottom\"><DIV></DIV></DIV></BODY></HTML>";
         actual = expected.replace("<HEAD>", "    <HEAD>    \t" + EOL);
         HtmlHelper.assertSameHtml(expected, actual, false);
         

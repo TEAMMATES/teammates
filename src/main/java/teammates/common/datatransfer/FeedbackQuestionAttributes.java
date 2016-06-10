@@ -6,7 +6,6 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackQuestion;
@@ -32,9 +31,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
+    protected transient Date createdAt;
+    protected transient Date updatedAt;
     private String feedbackQuestionId;
-    private transient Date createdAt;
-    private transient Date updatedAt;
 
     public FeedbackQuestionAttributes() {
         // attributes to be set after construction
@@ -132,7 +131,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        error = validator.getInvalidityInfoForCourseId(courseId);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -514,8 +513,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
         // For Text questions, the questionText simply contains the question, not a JSON
         // This is due to legacy data in the data store before there are multiple question types
-        if (questionDetails.questionType == FeedbackQuestionType.TEXT) {
-            questionMetaData = new Text(questionDetails.questionText);
+        if (questionDetails.getQuestionType() == FeedbackQuestionType.TEXT) {
+            questionMetaData = new Text(questionDetails.getQuestionText());
         } else {
             Gson gson = Utils.getTeammatesGson();
             questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
@@ -600,20 +599,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     public String getQuestionAdditionalInfoHtml() {
         return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
-    }
-    
-    /**
-     * Should only be used for testing
-     */
-    public void setCreatedAt_nonProduction(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-    
-    /**
-     * Should only be used for testing
-     */
-    public void setUpdatedAt_nonProduction(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
     
 }

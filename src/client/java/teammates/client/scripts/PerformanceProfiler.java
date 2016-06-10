@@ -3,7 +3,6 @@ package teammates.client.scripts;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,12 +23,12 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.FileHelper;
 
 import com.google.gson.Gson;
 /**
@@ -79,7 +78,7 @@ public class PerformanceProfiler extends Thread {
         String jsonString = "";
         try {
             jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         data = gson.fromJson(jsonString, DataBundle.class);
@@ -326,7 +325,9 @@ public class PerformanceProfiler extends Thread {
 
     @PerformanceTest(name = "Instructor course student detail page")
     public String instructorCourseStudentDetails() {
-        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0&studentemail=testingforteammates%40gmail.com");
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/instructorCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&studentemail=testingforteammates%40gmail.com");
         return "";
     }
     
@@ -361,13 +362,17 @@ public class PerformanceProfiler extends Thread {
     
     @PerformanceTest(name = "Instructor eval results")
     public String instructorEvalResults() {
-        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/instructorEvalResults?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
         return "";
     }
     
     @PerformanceTest(name = "Instructor view student eval ")
     public String instructorViewStuEval() {
-        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/instructorEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/instructorEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");
         return "";
     }
     
@@ -403,7 +408,9 @@ public class PerformanceProfiler extends Thread {
     
     @PerformanceTest(name = "Student edit submission page")
     public String stuEditSubmissionPage() {
-        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/studentEvalEdit?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/studentEvalEdit?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
         return "";
     }
     @PerformanceTest(name = "Student edit submission ")
@@ -413,7 +420,9 @@ public class PerformanceProfiler extends Thread {
     }
     @PerformanceTest(name = "Student eval result ")
     public String stuEvalResultPage() {
-        browser.goToUrl(TestProperties.TEAMMATES_URL + "/page/studentEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
+        browser.goToUrl(TestProperties.TEAMMATES_URL
+                        + "/page/studentEvalResults?courseid=idOf_Z2_Cou0_of_Coo0"
+                        + "&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
         return "";
     }
     

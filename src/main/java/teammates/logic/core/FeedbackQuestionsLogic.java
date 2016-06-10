@@ -170,7 +170,7 @@ public class FeedbackQuestionsLogic {
             List<FeedbackSessionAttributes> sessions = fsLogic.getFeedbackSessionsForCourse(course.getId());
             for (FeedbackSessionAttributes session : sessions) {
                 List<FeedbackQuestionAttributes> questions =
-                        getFeedbackQuestionsForSession(session.feedbackSessionName, course.getId());
+                        getFeedbackQuestionsForSession(session.getFeedbackSessionName(), course.getId());
                 copiableQuestions.addAll(questions);
             }
         }
@@ -198,7 +198,7 @@ public class FeedbackQuestionsLogic {
                     return order;
                 }
                 
-                return q1Details.questionText.compareTo(q2Details.questionText);
+                return q1Details.getQuestionText().compareTo(q2Details.getQuestionText());
             }
         });
         
@@ -259,8 +259,8 @@ public class FeedbackQuestionsLogic {
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
         
-        String feedbackSessionName = fsa.feedbackSessionName;
-        String courseId = fsa.courseId;
+        String feedbackSessionName = fsa.getFeedbackSessionName();
+        String courseId = fsa.getCourseId();
         
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
                                        feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));
@@ -474,7 +474,7 @@ public class FeedbackQuestionsLogic {
             List<FeedbackResponseAttributes> responses =
                     frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
             for (FeedbackResponseAttributes response : responses) {
-                if (response.giverEmail.equals(student.email)) {
+                if (response.giver.equals(student.email)) {
                     numberOfResponsesNeeded -= 1;
                 }
             }

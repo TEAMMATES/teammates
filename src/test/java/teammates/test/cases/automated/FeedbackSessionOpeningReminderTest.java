@@ -83,10 +83,10 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         // by closing and opening the session.
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
-        session1.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
-        session1.endTime = TimeHelper.getDateOffsetToCurrentTime(3);
+        session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(2));
+        session1.setEndTime(TimeHelper.getDateOffsetToCurrentTime(3));
         fsLogic.updateFeedbackSession(session1);
-        session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+        session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
         fsLogic.updateFeedbackSession(session1);
         verifyPresentInDatastore(session1);
         
@@ -96,11 +96,11 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         // will still be sent regardless.
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
                 .get("session2InCourse1");
-        session2.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
-        session2.endTime = TimeHelper.getDateOffsetToCurrentTime(3);
-        session2.isOpeningEmailEnabled = false;
+        session2.setStartTime(TimeHelper.getDateOffsetToCurrentTime(2));
+        session2.setEndTime(TimeHelper.getDateOffsetToCurrentTime(3));
+        session2.setOpeningEmailEnabled(false);
         fsLogic.updateFeedbackSession(session2);
-        session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+        session2.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
         fsLogic.updateFeedbackSession(session2);
         verifyPresentInDatastore(session2);
         
@@ -126,10 +126,10 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         // by closing and opening the session.
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
-        session1.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
-        session1.endTime = TimeHelper.getDateOffsetToCurrentTime(3);
+        session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(2));
+        session1.setEndTime(TimeHelper.getDateOffsetToCurrentTime(3));
         fsLogic.updateFeedbackSession(session1);
-        session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+        session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
         fsLogic.updateFeedbackSession(session1);
         
         // Modify session to set emails as unsent but still open
@@ -138,11 +138,11 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         // will still be sent regardless.
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
                 .get("session2InCourse1");
-        session2.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
-        session2.endTime = TimeHelper.getDateOffsetToCurrentTime(3);
-        session2.isOpeningEmailEnabled = false;
+        session2.setStartTime(TimeHelper.getDateOffsetToCurrentTime(2));
+        session2.setEndTime(TimeHelper.getDateOffsetToCurrentTime(3));
+        session2.setOpeningEmailEnabled(false);
         fsLogic.updateFeedbackSession(session2);
-        session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+        session2.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
         fsLogic.updateFeedbackSession(session2);
         
         int course1StudentCount = 5;
@@ -175,7 +175,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
 
         for (MimeMessage m : preparedEmails) {
             String subject = m.getSubject();
-            assertTrue(subject.contains(session.feedbackSessionName));
+            assertTrue(subject.contains(session.getFeedbackSessionName()));
             assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
         }
     }
@@ -185,8 +185,8 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         HashMap<String, String> paramMap = new HashMap<String, String>();
         
         paramMap.put(ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_OPENING.toString());
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.feedbackSessionName);
-        paramMap.put(ParamsNames.EMAIL_COURSE, fs.courseId);
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.getFeedbackSessionName());
+        paramMap.put(ParamsNames.EMAIL_COURSE, fs.getCourseId());
         
         return paramMap;
     }

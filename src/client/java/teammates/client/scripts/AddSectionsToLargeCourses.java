@@ -203,7 +203,8 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         student.setSectionName(sectionToChangeTo);
     }
 
-    private void updateFeedbackResponsesToBeInSection(List<FeedbackResponse> responses, StudentAttributes student, String sectionName) {
+    private void updateFeedbackResponsesToBeInSection(List<FeedbackResponse> responses,
+                                                      StudentAttributes student, String sectionName) {
         if (isPreview) {
             return;
         }
@@ -246,7 +247,9 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
                 + "PARAMETERS String emailParam, String teamParam, String courseParam";
      
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> responsesAsReceiver = (List<FeedbackResponse>) Datastore.getPersistenceManager().newQuery(q).execute(studentEmail, studentTeam, course);
+        List<FeedbackResponse> responsesAsReceiver =
+                (List<FeedbackResponse>) Datastore.getPersistenceManager().newQuery(q)
+                                                  .execute(studentEmail, studentTeam, course);
         
         List<FeedbackResponse> responses = new ArrayList<FeedbackResponse>();
         responses.addAll(responsesAsGiver);

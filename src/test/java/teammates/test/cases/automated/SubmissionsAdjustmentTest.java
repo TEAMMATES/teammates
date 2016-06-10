@@ -241,7 +241,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         //Verify pre-existing submissions and responses
         List<FeedbackResponseAttributes> oldResponsesForSession =
-                getAllResponsesForStudentForSession(student, session.feedbackSessionName);
+                getAllResponsesForStudentForSession(student, session.getFeedbackSessionName());
         assertFalse(oldResponsesForSession.isEmpty());
         
         String oldTeam = student.team;
@@ -263,7 +263,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         //Prepare parameter map
         HashMap<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.COURSE_ID, student.course);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
+        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName());
         paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
         
         studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student, false);
@@ -271,7 +271,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         assertTrue(responseAdjustmentAction.execute());
         
         int numberOfNewResponses =
-                getAllResponsesForStudentForSession(student, session.feedbackSessionName).size();
+                getAllResponsesForStudentForSession(student, session.getFeedbackSessionName()).size();
         assertEquals(0, numberOfNewResponses);
     }
 
@@ -326,10 +326,10 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         
         for (FeedbackSessionAttributes eachSession : allSessions) {
             List<FeedbackResponseAttributes> allResponses = frLogic
-                    .getFeedbackResponsesForSession(eachSession.feedbackSessionName, courseId);
+                    .getFeedbackResponsesForSession(eachSession.getFeedbackSessionName(), courseId);
             
             for (FeedbackResponseAttributes eachResponse : allResponses) {
-                if (eachResponse.recipientEmail.equals(email) || eachResponse.giverEmail.equals(email)) {
+                if (eachResponse.recipient.equals(email) || eachResponse.giver.equals(email)) {
                     fail("Cause : Feedback response for " + email + " found on system");
                 }
             }

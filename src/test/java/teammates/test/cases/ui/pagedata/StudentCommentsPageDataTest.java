@@ -73,7 +73,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         Map<String, FeedbackSessionResultsBundle> feedbackResultBundles =
                 new HashMap<String, FeedbackSessionResultsBundle>();
         FeedbackSessionResultsBundle bundle = getSingleFeedbackSessionResultsBundle(roster);
-        feedbackResultBundles.put(bundle.feedbackSession.feedbackSessionName, bundle);
+        feedbackResultBundles.put(bundle.feedbackSession.getFeedbackSessionName(), bundle);
         
         data.init(courseId, courseName, coursePaginationList, comments, roster, studentEmail, feedbackResultBundles);
         
@@ -131,11 +131,11 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
                     feedbackResponseCommentRows.add(feedbackResponseCommentRow);
                 }
                 String giverName = bundle.getGiverNameForResponse(response);
-                String giverTeamName = bundle.getTeamNameForEmail(response.giverEmail);
+                String giverTeamName = bundle.getTeamNameForEmail(response.giver);
                 giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
     
                 String recipientName = bundle.getRecipientNameForResponse(response);
-                String recipientTeamName = bundle.getTeamNameForEmail(response.recipientEmail);
+                String recipientTeamName = bundle.getTeamNameForEmail(response.recipient);
                 recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);
                 
                 String responseText = response.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
@@ -154,7 +154,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         }
         
         FeedbackSessionRow sessionRow =
-                new FeedbackSessionRow(session.feedbackSessionName, session.courseId, questionTables);
+                new FeedbackSessionRow(session.getFeedbackSessionName(), session.getCourseId(), questionTables);
     
         return sessionRow;
     }

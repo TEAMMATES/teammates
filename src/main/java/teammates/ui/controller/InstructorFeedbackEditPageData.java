@@ -52,7 +52,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         qnForms = new ArrayList<FeedbackQuestionEditForm>();
         for (int i = 0; i < questions.size(); i++) {
             FeedbackQuestionAttributes question = questions.get(i);
-            buildExistingQuestionForm(feedbackSession.feedbackSessionName,
+            buildExistingQuestionForm(feedbackSession.getFeedbackSessionName(),
                                       questions.size(), questionHasResponses,
                                       instructor.courseId, question, i + 1);
         }
@@ -67,7 +67,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     private void buildPreviewForm(FeedbackSessionAttributes feedbackSession,
                                     List<StudentAttributes> studentList,
                                     List<InstructorAttributes> instructorList) {
-        previewForm = new FeedbackSessionPreviewForm(feedbackSession.courseId, feedbackSession.feedbackSessionName,
+        previewForm = new FeedbackSessionPreviewForm(feedbackSession.getCourseId(), feedbackSession.getFeedbackSessionName(),
                                                      getPreviewAsStudentOptions(studentList),
                                                      getPreviewAsInstructorOptions(instructorList));
     }
@@ -76,15 +76,18 @@ public class InstructorFeedbackEditPageData extends PageData {
         buildBasicFsForm(feedbackSession, buildFsFormAdditionalSettings(feedbackSession));
     }
     
-    private void buildBasicFsForm(FeedbackSessionAttributes fsa, FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
-        String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.courseId, fsa.feedbackSessionName, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+    private void buildBasicFsForm(FeedbackSessionAttributes fsa,
+                                  FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
+        String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.getCourseId(), fsa.getFeedbackSessionName(),
+                                                              Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         String copyToLink = getInstructorFeedbackEditCopyLink();
         
         fsForm = FeedbackSessionsForm.getFsFormForExistingFs(fsa, additionalSettings,
                                                              fsDeleteLink, copyToLink);
     }
     
-    private FeedbackSessionsAdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
+    private FeedbackSessionsAdditionalSettingsFormSegment
+            buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
         return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
     }
 
@@ -93,7 +96,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                                     InstructorAttributes instructor) {
         List<FeedbackQuestionTableRow> copyQuestionRows = buildCopyQuestionsModalRows(copiableQuestions,
                                                                                       instructor);
-        copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.courseId, feedbackSession.feedbackSessionName,
+        copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.getCourseId(), feedbackSession.getFeedbackSessionName(),
                                                    copyQuestionRows);
     }
 
@@ -105,7 +108,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                 String courseId = question.courseId;
                 String fsName = question.feedbackSessionName;
                 String qnType = question.getQuestionDetails().getQuestionTypeDisplayName();
-                String qnText = question.getQuestionDetails().questionText;
+                String qnText = question.getQuestionDetails().getQuestionText();
                 String qnId = question.getId();
                 
                 FeedbackQuestionTableRow row = new FeedbackQuestionTableRow(courseId, fsName, qnType, qnText, qnId);
@@ -126,7 +129,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         qnForm.setFeedbackSessionName(feedbackSessionName);
-        qnForm.setQuestionText(questionDetails.questionText);
+        qnForm.setQuestionText(questionDetails.getQuestionText());
         qnForm.setQuestionNumberSuffix("-" + questionIndex);
         qnForm.setQuestionIndex(questionIndex);
         qnForm.setQuestionId(question.getId());
@@ -139,7 +142,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         feedbackPathSettings.setGiverParticipantOptions(getParticipantOptions(question, true));
         feedbackPathSettings.setRecipientParticipantOptions(getParticipantOptions(question, false));
         
-        boolean isNumberOfEntitiesToGiveFeedbackToChecked = question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
+        boolean isNumberOfEntitiesToGiveFeedbackToChecked =
+                question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
         feedbackPathSettings.setNumberOfEntitiesToGiveFeedbackToChecked(isNumberOfEntitiesToGiveFeedbackToChecked);
         feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(isNumberOfEntitiesToGiveFeedbackToChecked
                                                                    ? question.numberOfEntitiesToGiveFeedbackTo
@@ -180,8 +184,8 @@ public class InstructorFeedbackEditPageData extends PageData {
       
         String doneEditingLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                                 .withUserId(account.googleId)
-                                .withCourseId(feedbackSession.courseId)
-                                .withSessionName(feedbackSession.feedbackSessionName)
+                                .withCourseId(feedbackSession.getCourseId())
+                                .withSessionName(feedbackSession.getFeedbackSessionName())
                                 .toString();
         newQnForm = FeedbackQuestionEditForm.getNewQnForm(doneEditingLink, feedbackSession,
                                                           getQuestionTypeChoiceOptions(), getParticipantOptions(null, true),

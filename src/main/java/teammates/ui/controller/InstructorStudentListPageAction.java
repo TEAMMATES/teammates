@@ -13,7 +13,6 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
 import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
 
 public class InstructorStudentListPageAction extends Action {
@@ -44,7 +43,8 @@ public class InstructorStudentListPageAction extends Action {
         }
         
         if (courses.isEmpty()) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS,
+                                               StatusMessageColor.WARNING));
         }
 
         statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();
@@ -54,10 +54,10 @@ public class InstructorStudentListPageAction extends Action {
             InstructorAttributes instructor = instructors.get(course.getId());
             boolean isInstructorAllowedToModify = instructor.isAllowedForPrivilege(
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-            boolean isCourseArchived = Logic.isCourseArchived(course, instructor);
-            boolean isCourseDisplayed = displayArchive || !isCourseArchived;
+            
+            boolean isCourseDisplayed = displayArchive || !instructor.isArchived;
             if (isCourseDisplayed) {
-                coursesToDisplay.add(new InstructorStudentListPageCourseData(course, isCourseArchived,
+                coursesToDisplay.add(new InstructorStudentListPageCourseData(course, instructor.isArchived,
                                                                              isInstructorAllowedToModify));
             }
         }

@@ -25,7 +25,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
-    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd) throws InvalidParametersException {
+    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd)
+            throws InvalidParametersException {
         List<EntityAttributes> feedbackSessionsToUpdate = createEntities(feedbackSessionsToAdd);
         for (EntityAttributes entity : feedbackSessionsToUpdate) {
             FeedbackSessionAttributes session = (FeedbackSessionAttributes) entity;
@@ -88,11 +89,19 @@ public class FeedbackSessionsDb extends EntitiesDb {
             endCal.setTime(end);
             FeedbackSessionAttributes fs = new FeedbackSessionAttributes(feedbackSession);
             
-            Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.timeZone - zone).getTime();
-            Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.timeZone - zone).getTime();
+            Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.getTimeZone() - zone).getTime();
+            Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.getTimeZone() - zone).getTime();
             
-            boolean isStartTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.startTime, true, false);
-            boolean isEndTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.endTime, false, true);
+            boolean isStartTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart,
+                                                                           standardEnd,
+                                                                           fs.getStartTime(),
+                                                                           true,
+                                                                           false);
+            boolean isEndTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart,
+                                                                         standardEnd,
+                                                                         fs.getEndTime(),
+                                                                         false,
+                                                                         true);
 
             if (isStartTimeWithinRange || isEndTimeWithinRange) {
                 list.add(fs);
@@ -243,32 +252,34 @@ public class FeedbackSessionsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
-        fs.setInstructions(newAttributes.instructions);
-        fs.setStartTime(newAttributes.startTime);
-        fs.setEndTime(newAttributes.endTime);
-        fs.setSessionVisibleFromTime(newAttributes.sessionVisibleFromTime);
-        fs.setResultsVisibleFromTime(newAttributes.resultsVisibleFromTime);
-        fs.setTimeZone(newAttributes.timeZone);
-        fs.setGracePeriod(newAttributes.gracePeriod);
-        fs.setFeedbackSessionType(newAttributes.feedbackSessionType);
-        fs.setSentOpenEmail(newAttributes.sentOpenEmail);
-        fs.setSentPublishedEmail(newAttributes.sentPublishedEmail);
-        fs.setIsOpeningEmailEnabled(newAttributes.isOpeningEmailEnabled);
-        fs.setSendClosingEmail(newAttributes.isClosingEmailEnabled);
-        fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled);
+        fs.setInstructions(newAttributes.getInstructions());
+        fs.setStartTime(newAttributes.getStartTime());
+        fs.setEndTime(newAttributes.getEndTime());
+        fs.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
+        fs.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
+        fs.setTimeZone(newAttributes.getTimeZone());
+        fs.setGracePeriod(newAttributes.getGracePeriod());
+        fs.setFeedbackSessionType(newAttributes.getFeedbackSessionType());
+        fs.setSentOpenEmail(newAttributes.isSentOpenEmail());
+        fs.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
+        fs.setIsOpeningEmailEnabled(newAttributes.isOpeningEmailEnabled());
+        fs.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
+        fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
                 
         log.info(newAttributes.getBackupIdentifier());
         getPm().close();
     }
 
-    public void addInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+    public void addInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         List<String> emails = new ArrayList<String>();
         emails.add(email);
         addInstructorRespondants(emails, feedbackSession);
     }
 
-    public void addInstructorRespondants(List<String> emails, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+    public void addInstructorRespondants(List<String> emails, FeedbackSessionAttributes feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
@@ -291,7 +302,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void updateInstructorRespondant(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateInstructorRespondant(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newEmail);
@@ -318,7 +330,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void clearInstructorRespondants(FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+    public void clearInstructorRespondants(FeedbackSessionAttributes feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
 
@@ -340,14 +353,16 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void addStudentRespondant(String email, FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException, InvalidParametersException {
+    public void addStudentRespondant(String email, FeedbackSessionAttributes feedbackSession)
+            throws EntityDoesNotExistException, InvalidParametersException {
 
         List<String> emails = new ArrayList<String>();
         emails.add(email);
         addStudentRespondants(emails, feedbackSession);
     }
 
-    public void deleteInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+    public void deleteInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
@@ -370,7 +385,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void addStudentRespondants(List<String> emails, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+    public void addStudentRespondants(List<String> emails, FeedbackSessionAttributes feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
@@ -393,7 +409,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void updateStudentRespondant(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateStudentRespondant(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newEmail);
@@ -420,7 +437,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void clearStudentRespondants(FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+    public void clearStudentRespondants(FeedbackSessionAttributes feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
 
@@ -442,7 +460,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void deleteStudentRespondant(String email, FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException, InvalidParametersException {
+    public void deleteStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
+            throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
@@ -553,6 +572,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     @Override
     protected Object getEntity(EntityAttributes attributes) {
         FeedbackSessionAttributes feedbackSessionToGet = (FeedbackSessionAttributes) attributes;
-        return getFeedbackSessionEntity(feedbackSessionToGet.feedbackSessionName, feedbackSessionToGet.courseId);
+        return getFeedbackSessionEntity(feedbackSessionToGet.getFeedbackSessionName(),
+                                        feedbackSessionToGet.getCourseId());
     }
 }

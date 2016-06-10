@@ -76,12 +76,11 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         
         List<FeedbackResponseAttributes> allResponses =
                                         FeedbackResponsesLogic.inst().getFeedbackResponsesForSession(
-                                                                        feedbackSession.feedbackSessionName,
-                                                                        feedbackSession.courseId);
+                                                                        feedbackSession.getFeedbackSessionName(),
+                                                                        feedbackSession.getCourseId());
         Gson gsonParser = Utils.getTeammatesGson();
-        ArrayList<StudentEnrollDetails> enrollmentList = gsonParser
-                                                            .fromJson(enrollmentDetails, new TypeToken<ArrayList<StudentEnrollDetails>>(){}
-                                                            .getType());
+        ArrayList<StudentEnrollDetails> enrollmentList =
+                gsonParser.fromJson(enrollmentDetails, new TypeToken<ArrayList<StudentEnrollDetails>>(){}.getType());
         for (FeedbackResponseAttributes response : allResponses) {
             try {
                 StudentsLogic.inst().adjustFeedbackResponseForEnrollments(enrollmentList, response);

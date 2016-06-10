@@ -156,7 +156,7 @@ public class InstructorSearchPageData extends PageData {
         List<FeedbackSessionRow> rows = new ArrayList<FeedbackSessionRow>();
         
         for (String fsName : frcSearchResultBundle.questions.keySet()) {
-            String courseId = frcSearchResultBundle.sessions.get(fsName).courseId;
+            String courseId = frcSearchResultBundle.sessions.get(fsName).getCourseId();
             
             rows.add(new FeedbackSessionRow(fsName, courseId, createQuestionTables(
                                                                 fsName, frcSearchResultBundle)));
@@ -173,7 +173,7 @@ public class InstructorSearchPageData extends PageData {
         
         for (FeedbackQuestionAttributes question : questionList) {
             int questionNumber = question.questionNumber;
-            String questionText = question.getQuestionDetails().questionText;
+            String questionText = question.getQuestionDetails().getQuestionText();
             String additionalInfo = question.getQuestionDetails()
                                             .getQuestionAdditionalInfoHtml(questionNumber, "");
             
@@ -291,11 +291,14 @@ public class InstructorSearchPageData extends PageData {
         for (SectionDetailsBundle section : sections) {
             InstructorAttributes instructor = studentSearchResultBundle.courseIdInstructorMap.get(courseId);
             boolean isAllowedToViewStudentInSection =
-                                            instructor.isAllowedForPrivilege(section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
+                    instructor.isAllowedForPrivilege(
+                            section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
             boolean isAllowedToModifyStudent =
-                                            instructor.isAllowedForPrivilege(section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+                    instructor.isAllowedForPrivilege(
+                            section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
             boolean isAllowedToGiveCommentInSection =
-                                            instructor.isAllowedForPrivilege(section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+                    instructor.isAllowedForPrivilege(
+                            section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
             rows.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
                                                 isAllowedToModifyStudent, isAllowedToGiveCommentInSection,
                                                 emailToPhotoUrlMap, account.googleId));

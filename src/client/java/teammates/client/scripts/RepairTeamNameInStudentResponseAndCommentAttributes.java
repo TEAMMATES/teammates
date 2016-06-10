@@ -248,13 +248,13 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
             numberOfReponsesWithExtraSpacesInRecipient++;
             if (isPreview) {
                 System.out.println(numberOfReponsesWithExtraSpacesInRecipient
-                                   + ". From \"" + response.giverEmail + "\" "
-                                   + ". To \"" + response.recipientEmail + "\" "
+                                   + ". From \"" + response.giver + "\" "
+                                   + ". To \"" + response.recipient + "\" "
                                    + "courseId: " + response.courseId + " sessionName: "
                                    + response.feedbackSessionName);
             } else {
-                response.recipientEmail = StringHelper.removeExtraSpace(response.recipientEmail);
-                response.giverEmail = StringHelper.removeExtraSpace(response.giverEmail);
+                response.recipient = StringHelper.removeExtraSpace(response.recipient);
+                response.giver = StringHelper.removeExtraSpace(response.giver);
                 responsesLogic.updateFeedbackResponse(response);
             }
         }
@@ -284,6 +284,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
         
-        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments, true);
+        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section,
+                                 student.email, student.googleId, student.comments, true);
     }
 }

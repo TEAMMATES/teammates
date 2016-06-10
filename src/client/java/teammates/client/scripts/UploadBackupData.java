@@ -26,7 +26,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -40,6 +39,7 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
+import teammates.test.util.FileHelper;
 
 import com.google.gson.Gson;
 
@@ -62,7 +62,8 @@ public class UploadBackupData extends RemoteApiClient {
     private static String jsonString;
     
     private static Set<String> coursesPersisted = new HashSet<String>();
-    private static HashMap<String, FeedbackQuestionAttributes> feedbackQuestionsPersisted = new HashMap<String, FeedbackQuestionAttributes>();
+    private static HashMap<String, FeedbackQuestionAttributes> feedbackQuestionsPersisted =
+            new HashMap<String, FeedbackQuestionAttributes>();
     private static HashMap<String, String> feedbackQuestionIds = new HashMap<String, String>();
     
     private static Logic logic = new Logic();

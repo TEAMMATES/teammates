@@ -2,7 +2,6 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -181,7 +180,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
     
-    public void fillQuestionBox(String qnText) {
+    public void fillNewQuestionBox(String qnText) {
         fillTextBox(questionTextBox, qnText);
     }
     
@@ -192,6 +191,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void fillNumOfEntitiesToGiveFeedbackToBox(String num) {
         fillTextBox(numberOfRecipients, num);
+    }
+
+    public String getQuestionBoxText(int qnIndex) {
+        WebElement questionEditTextBox = browser.driver.findElement(By.id("questiontext-" + qnIndex));
+        return getTextBoxValue(questionEditTextBox);
     }
     
     private String getIdSuffix(int qnNumber) {
@@ -386,7 +390,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.xpath("//a[@onclick='cancelEdit(" + qnIndex + ")']"));
     }
     
-    public boolean checkCancelEditQuestionButtonVisibility(int qnIndex) {
+    public boolean isCancelEditButtonVisible(int qnIndex) {
         WebElement cancelEditButton =
                 browser.driver.findElement(By.xpath("//a[@onclick='cancelEdit(" + qnIndex + ")']"));
         
@@ -437,15 +441,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
     
-    public boolean clickEditQuestionButton(int qnNumber) {
+    public void clickEditQuestionButton(int qnNumber) {
         WebElement qnEditLink = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
         qnEditLink.click();
-        
-        // Check if links toggle properly.
-        WebElement qnSaveLink = browser.driver.findElement(By.id("questionsavechangestext-" + qnNumber));
-        return qnSaveLink.isDisplayed();
     }
     
+    public boolean isQuestionEnabled(int qnNumber) {
+        WebElement questionTextArea = browser.driver.findElement(By.id("questiontext-" + qnNumber));
+        return questionTextArea.isEnabled();
+    }
+
+    public boolean isOptionForSelectingNumberOfEntitiesVisible(int qnNumber) {
+        return isElementVisible(By.className("numberOfEntitiesElements" + qnNumber));
+    }
+
     public void clickSaveExistingQuestionButton(int qnNumber) {
         WebElement qnSaveLink = browser.driver.findElement(By.id("button_question_submit-" + qnNumber));
         qnSaveLink.click();
@@ -549,7 +558,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         // Navigate to the previous month
         if (!navigate(dateBox, previousMonth)) {
-            fail("Cannot navigate to the previous month");
+            return false;
         }
 
         // Check if the dates of previous, current and next month are enabled
@@ -695,6 +704,11 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void selectRecipientsToBeInstructors() {
         selectDropdownByVisibleValue(recipientDropdown, "Instructors in the course");
+    }
+
+    public void selectRecipientsToBeStudents(int qnNumber) {
+        WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
+        selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
     }
 
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
@@ -944,7 +958,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public WebElement getVisibilityOptionTableRow(int questionNumber, int optionRowNumber) {
-        return getVisibilityOptions(questionNumber).findElement(By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
+        return getVisibilityOptions(questionNumber).findElement(
+                By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
     }
 
     public WebElement getPreviewLabel(int questionNumber) {
