@@ -15,7 +15,7 @@
                 </button>
                 <h4 class="modal-title" id="copyModalTitle">Copy Questions</h4>
             </div>
-            <div class="modal-body padding-0">
+            <div class="modal-body">
                 <form class="form" id="copyModalForm" role="form" method="post"
                     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY %>">
                     
@@ -52,12 +52,12 @@
                     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
                     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${courseId}">
                 </form>
+                <div id="question-copy-modal-status"></div>
             </div>
             <div class="modal-footer margin-0">
                 <button type="button" class="btn btn-primary" id="button_copy_submit" disabled>Copy</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
-            <div id="question-copy-modal-status"></div>
         </div>
     </div>
 </div>

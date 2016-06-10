@@ -1961,7 +1961,7 @@
             Copy Questions
           </h4>
         </div>
-        <div class="modal-body padding-0">
+        <div class="modal-body">
           <form action="/page/instructorFeedbackQuestionCopy" class="form" id="copyModalForm" method="post" role="form">
             <table class="table-responsive table table-hover table-bordered margin-0" id="copyTableModal">
               <thead class="fill-primary">
@@ -1996,6 +1996,8 @@
             <input name="user" type="hidden" value="FNumScaleQnUiT.instructor">
             <input name="courseid" type="hidden" value="FNumScaleQnUiT.CS2104">
           </form>
+          <div id="question-copy-modal-status">
+          </div>
         </div>
         <div class="modal-footer margin-0">
           <button class="btn btn-primary" disabled="" id="button_copy_submit" type="button">
@@ -2004,8 +2006,6 @@
           <button class="btn btn-default" data-dismiss="modal" type="button">
             Cancel
           </button>
-        </div>
-        <div id="question-copy-modal-status">
         </div>
       </div>
     </div>

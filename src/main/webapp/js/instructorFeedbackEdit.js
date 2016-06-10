@@ -829,7 +829,7 @@ function setupQuestionCopyModal() {
                     $questionCopyStatusMessage.html('');
                 } else {
                     $questionCopyStatusMessage.addClass('alert alert-danger');
-                    $questionCopyStatusMessage.text(FEEDBACK_QUESTION_COPY_INVALID);
+                    $questionCopyStatusMessage.prepend('<br>').html(FEEDBACK_QUESTION_COPY_INVALID);
                 }
             }
         });
