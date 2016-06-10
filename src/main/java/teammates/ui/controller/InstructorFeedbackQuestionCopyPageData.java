@@ -36,7 +36,7 @@ public class InstructorFeedbackQuestionCopyPageData extends PageData {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             
             String qnType = questionDetails.getQuestionTypeDisplayName();
-            String qnText = questionDetails.questionText;
+            String qnText = questionDetails.getQuestionText();
             
             String qnId = question.getId();
             

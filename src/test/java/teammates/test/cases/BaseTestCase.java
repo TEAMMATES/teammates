@@ -1,15 +1,15 @@
 package teammates.test.cases;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.testng.AssertJUnit;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.FileHelper;
 
 /** Base class for all test cases */
 public class BaseTestCase {
@@ -59,7 +59,7 @@ public class BaseTestCase {
                                   + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

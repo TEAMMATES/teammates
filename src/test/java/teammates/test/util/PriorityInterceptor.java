@@ -1,6 +1,6 @@
 package teammates.test.util;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -9,8 +9,6 @@ import java.util.List;
 import org.testng.IMethodInstance;
 import org.testng.IMethodInterceptor;
 import org.testng.ITestContext;
-
-import teammates.common.util.FileHelper;
 
 /**
  * By default, testng runs all methods in a test in lexical order.
@@ -31,7 +29,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
     static {
         try {
             packageOrder = FileHelper.readFile("src/test/testng-travis.xml");
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
