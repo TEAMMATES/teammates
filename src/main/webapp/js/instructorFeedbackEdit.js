@@ -799,28 +799,31 @@ function setupQuestionCopyModal() {
         var fsname = button.data('fsname');
         
         var $questionCopyStatusMessage = $('#question-copy-modal-status');
+        var $copyTableModal = $('#copyTableModal');
         $.ajax({
             type: 'GET',
-            url: actionlink + '?courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname),
+            url: actionlink + '&courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname),
             beforeSend: function() {
                 $('#button_copy_submit').prop('disabled', true);
-                $('#copyTableModal').html('Loading possible questions to copy. Please wait ...<br>'
+                $copyTableModal.html('Loading possible questions to copy. Please wait ...<br>'
                                           + "<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
+                $questionCopyStatusMessage.removeClass('alert alert-danger');
             },
             error: function() {
-                $questionCopyStatusMessage.html("<p id='fs-copy-modal-error'>Error retrieving questions list."
-                                          + 'Please close the dialog window and try again.</p>');
+                $copyTableModal.html('');
+                $questionCopyStatusMessage.html("Error retrieving questions. "
+                                                + 'Please close the dialog window and try again.');
+                $questionCopyStatusMessage.addClass('alert alert-danger');
             },
             success: function(data) {
-                $('#copyTableModal').replaceWith($(data).find('#copyTableModal'));
+                $copyTableModal.replaceWith($(data).find('#copyTableModal'));
                 
                 var questionRows = $('#copyTableModal > tbody > tr');
-                if (!questionRows.length) {
-                
+                if (questionRows.length) {
+                    $questionCopyStatusMessage.html('');
+                } else {
                     $questionCopyStatusMessage.addClass('alert alert-danger');
                     $questionCopyStatusMessage.text(FEEDBACK_QUESTION_COPY_INVALID);
-                } else {
-                    $questionCopyStatusMessage.html('');
                 }
             }
         });
