@@ -50,7 +50,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public void testHtmlContent() throws Exception {
         testContent();
         testModerateResponsesButton();
-        testLink();
     }
 
     @Test
@@ -651,14 +650,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
     }
 
+    @Test
     public void testLink() {
-
-        ______TS("action: edit");
+        ______TS("action: test that edit link leads to correct edit page");
+        
         InstructorFeedbackEditPage editPage = resultsPage.clickEditLink();
         editPage.verifyContains("Edit Feedback Session");
-        editPage.verifyContains("CFResultsUiT.CS2104");
-        editPage.verifyContains("First Session");
-
+        assertEquals("CFResultsUiT.CS2104", editPage.getCourseId());
+        assertEquals("First Session", editPage.getFeedbackSessionName());
     }
 
     @AfterClass
