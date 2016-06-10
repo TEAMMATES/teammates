@@ -84,6 +84,7 @@
             <input name="user" type="hidden" value="CCDetailsUiT.instr">
             <input name="courseid" type="hidden" value="CCDetailsUiT.CS2104">
           </form>
+          <input class="btn btn-primary" data-target="#rename-team-modal" data-toggle="modal" id="rename-team-button" type="button" value="Rename Team">
           <div>
             <span class="help-block">
               Non-English characters not displayed properly in the downloaded file?
@@ -532,4 +533,79 @@
   <br>
   <br>
   <br>
+  <div aria-labelledby="rename-team-modal-label" class="modal fade" id="rename-team-modal" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form action="/page/instructorCourseRenameTeam" class="form-horizontal" id="rename-team-form" method="post">
+          <input name="courseid" type="hidden" value="CCDetailsUiT.CS2104">
+          <input name="user" type="hidden" value="CCDetailsUiT.instr">
+          <div class="modal-header">
+            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+              <span aria-hidden="true">
+                ×
+              </span>
+            </button>
+            <h4 class="modal-title" id="rename-team-modal-Label">
+              Rename a Team
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label class="col-sm-3 control-label" for="team-select">
+                Team to Rename
+              </label>
+              <div class="col-sm-9">
+                <select class="form-control" id="team-select" name="teamtoedit">
+                  <option value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
+                    Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                  </option>
+                  <option value="Team 2">
+                    Team 2
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label" for="new-team-name-input">
+                New Team Name
+              </label>
+              <div class="col-sm-9">
+                <input class="form-control" id="new-team-name-input" name="teamname" placeholder="New Team Name" type="text">
+                <span class="help-block hidden" id="team-able-to-merge-message">
+                  <span class="text-danger">
+                    You are about to merge
+                    <i class="first-team">
+                    </i>
+                    with
+                    <i class="second-team">
+                    </i>
+                    .
+                  </span>
+                </span>
+                <span class="help-block hidden" id="team-unable-to-merge-message">
+                  <span class="text-danger">
+                    Unable to merge
+                    <i class="first-team">
+                    </i>
+                    with
+                    <i class="second-team">
+                    </i>
+                    as they are in different sections.
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" disabled="" id="rename-team-save-button" type="submit">
+              Save
+            </button>
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
