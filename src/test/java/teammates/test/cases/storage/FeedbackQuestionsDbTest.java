@@ -57,7 +57,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         feedbackQuestion.questionNumber++;
         fqDb.updateFeedbackQuestion(feedbackQuestion);
         
-        FeedbackQuestionAttributes updatedFq = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
+        FeedbackQuestionAttributes updatedFq =
+                fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
         
         // Assert lastUpdate has changed, and is now.
         assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
@@ -68,7 +69,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         feedbackQuestion.questionNumber++;
         fqDb.updateFeedbackQuestion(feedbackQuestion, true);
 
-        FeedbackQuestionAttributes updatedFqTwo = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
+        FeedbackQuestionAttributes updatedFqTwo =
+                fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
         
         // Assert lastUpdate has NOT changed.
         assertEquals(updatedFq.getUpdatedAt(), updatedFqTwo.getUpdatedAt());
@@ -334,7 +336,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                                                     modifiedQuestion.courseId,
                                                     modifiedQuestion.questionNumber);
         FeedbackQuestionDetails fqd = modifiedQuestion.getQuestionDetails();
-        fqd.questionText = "New question text!";
+        fqd.setQuestionText("New question text!");
         modifiedQuestion.setQuestionDetails(fqd);
         fqDb.updateFeedbackQuestion(modifiedQuestion);
 
@@ -342,7 +344,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
                                                     modifiedQuestion.courseId,
                                                     modifiedQuestion.questionNumber);
-        assertEquals("New question text!", modifiedQuestion.getQuestionDetails().questionText);
+        assertEquals("New question text!", modifiedQuestion.getQuestionDetails().getQuestionText());
 
         fqDb.deleteEntity(modifiedQuestion);
     }

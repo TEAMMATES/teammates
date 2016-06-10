@@ -76,7 +76,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         buildBasicFsForm(feedbackSession, buildFsFormAdditionalSettings(feedbackSession));
     }
     
-    private void buildBasicFsForm(FeedbackSessionAttributes fsa, FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
+    private void buildBasicFsForm(FeedbackSessionAttributes fsa,
+                                  FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.getCourseId(), fsa.getFeedbackSessionName(),
                                                               Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         String copyToLink = getInstructorFeedbackEditCopyLink();
@@ -85,7 +86,8 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                              fsDeleteLink, copyToLink);
     }
     
-    private FeedbackSessionsAdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
+    private FeedbackSessionsAdditionalSettingsFormSegment
+            buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
         return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
     }
 
@@ -106,7 +108,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                 String courseId = question.courseId;
                 String fsName = question.feedbackSessionName;
                 String qnType = question.getQuestionDetails().getQuestionTypeDisplayName();
-                String qnText = question.getQuestionDetails().questionText;
+                String qnText = question.getQuestionDetails().getQuestionText();
                 String qnId = question.getId();
                 
                 FeedbackQuestionTableRow row = new FeedbackQuestionTableRow(courseId, fsName, qnType, qnText, qnId);
@@ -127,7 +129,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         qnForm.setFeedbackSessionName(feedbackSessionName);
-        qnForm.setQuestionText(questionDetails.questionText);
+        qnForm.setQuestionText(questionDetails.getQuestionText());
         qnForm.setQuestionNumberSuffix("-" + questionIndex);
         qnForm.setQuestionIndex(questionIndex);
         qnForm.setQuestionId(question.getId());
@@ -140,7 +142,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         feedbackPathSettings.setGiverParticipantOptions(getParticipantOptions(question, true));
         feedbackPathSettings.setRecipientParticipantOptions(getParticipantOptions(question, false));
         
-        boolean isNumberOfEntitiesToGiveFeedbackToChecked = question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
+        boolean isNumberOfEntitiesToGiveFeedbackToChecked =
+                question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
         feedbackPathSettings.setNumberOfEntitiesToGiveFeedbackToChecked(isNumberOfEntitiesToGiveFeedbackToChecked);
         feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(isNumberOfEntitiesToGiveFeedbackToChecked
                                                                    ? question.numberOfEntitiesToGiveFeedbackTo

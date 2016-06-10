@@ -309,7 +309,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         
-        InstructorAttributes instructor = new InstructorAttributes(null, courseId, name, email, role, role, new InstructorPrivileges(role));
+        InstructorAttributes instructor =
+                new InstructorAttributes(null, courseId, name, email, role, role, new InstructorPrivileges(role));
 
         instructorsLogic.createInstructor(instructor);
     }
@@ -1022,7 +1023,8 @@ public class Logic {
      * * All parameters are non-null
      * @throws EntityDoesNotExistException
      */
-    public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses) throws EntityDoesNotExistException {
+    public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses)
+            throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courses);
         return coursesLogic.getCourseIdToSectionNamesMap(courses);
     }
@@ -1462,7 +1464,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         
-        return feedbackSessionsLogic.getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, questionId, userEmail);
+        return feedbackSessionsLogic
+                   .getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, questionId, userEmail);
     }
     
     /**
@@ -2113,6 +2116,10 @@ public class Logic {
         return feedbackResponsesLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
     }
     
+    public boolean isCourseHasResponses(String courseId) {
+        return feedbackResponsesLogic.isCourseHasResponses(courseId);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -2588,7 +2595,8 @@ public class Logic {
         return emailManager.sendErrorReport(req, error);
     }
 
-    public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
+    public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,
+                                             Map<String, InstructorAttributes> instructorsForCourses) {
         Assumption.assertNotNull(allCourses);
         Assumption.assertNotNull(instructorsForCourses);
         return coursesLogic.getArchivedCourseIds(allCourses, instructorsForCourses);

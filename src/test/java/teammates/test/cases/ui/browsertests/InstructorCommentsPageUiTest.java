@@ -91,7 +91,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         if (commentsPage.getPageSource().contains("added response comment")
                 || commentsPage.getPageSource().contains("edited response comment")) {
             commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
-            commentsPage.clickCommentsPageLinkInHeader();
+            commentsPage.loadInstructorCommentsTab();
         }
     }
     
@@ -156,7 +156,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("Typical case: panels expand/collapse");
         
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
         
         commentsPage.clickCommentsForStudentsPanelHeading();
         commentsPage.waitForCommentsForStudentsPanelsToCollapse();
@@ -236,7 +236,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         ______TS("search: empty string");
         commentsPage.search("");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchEmpty.html");
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
         
         ______TS("search: typical successful case");
         //prepare search document
@@ -248,17 +248,17 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.loadResponseComments();
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
         commentsPage.saveResponseComment(1, 1, 1, 1);
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
         
         commentsPage.search("comments");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchNormal.html");
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
     }
     
     private void testEmailPendingComments() {
-        InstructorHomePage homePage = commentsPage.clickHomePageLinkInHeader();
+        InstructorHomePage homePage = commentsPage.loadInstructorHomeTab();
         homePage.verifyContains("Send email notification to recipients of 2 pending comments");
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.loadInstructorCommentsTab();
         commentsPage.clickSendEmailNotificationButton();
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_CLEARED);
     }

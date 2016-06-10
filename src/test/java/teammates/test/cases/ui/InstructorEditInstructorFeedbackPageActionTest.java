@@ -53,11 +53,12 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
                      showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
-        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage"
-                + "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||"
-                + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>"
-                + "Session Name: First feedback session<br>Course ID: IEIFPTCourse|||"
-                + "/page/instructorEditInstructorFeedbackPage",
+        AssertHelper.assertLogMessageEquals(
+                "TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage"
+                    + "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||"
+                    + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>"
+                    + "Session Name: First feedback session<br>Course ID: IEIFPTCourse|||"
+                    + "/page/instructorEditInstructorFeedbackPage",
                 editInstructorFpAction.getLogMessage());
         
         ______TS("success: another feedback");
@@ -74,12 +75,13 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
                      showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
-        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage"
-                + "|||true|||Instructor|||IEIFPTCourseinstr|||IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||"
-                + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>"
-                + "Session Name: Another feedback session<br>Course ID: IEIFPTCourse|||"
-                + "/page/instructorEditInstructorFeedbackPage",
-                editInstructorFpAction.getLogMessage());
+        String logMessage = "TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||"
+                            + "instructorEditInstructorFeedbackPage|||true|||Instructor|||IEIFPTCourseinstr|||"
+                            + "IEIFPTCourseinstr|||IEIFPTCourseintr@course1.tmt|||"
+                            + "Moderating feedback session for instructor (" + moderatedInstructor.email + ")<br>"
+                            + "Session Name: Another feedback session<br>Course ID: IEIFPTCourse|||"
+                            + "/page/instructorEditInstructorFeedbackPage";
+        AssertHelper.assertLogMessageEquals(logMessage, editInstructorFpAction.getLogMessage());
         
         ______TS("failure: does not have privilege (helper can't moderate instructor)");
         gaeSimulation.loginAsInstructor(moderatedInstructor.googleId);

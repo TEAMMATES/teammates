@@ -34,7 +34,7 @@ public class InstructorCourseDetailsPageData extends PageData {
     }
     
     public void init(InstructorAttributes currentInstructor, CourseDetailsBundle courseDetails,
-                     List<InstructorAttributes> instructors, List<StudentAttributes> students) {
+                     List<InstructorAttributes> instructors) {
         this.currentInstructor = currentInstructor;
         this.courseDetails = courseDetails;
         this.instructors = instructors;

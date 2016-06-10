@@ -545,8 +545,8 @@
             "courseId":"ISR.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"alice.b.tmms@gmail.tmt",
-            "recipientEmail":"alice.b.tmms@gmail.tmt",
+            "giver":"alice.b.tmms@gmail.tmt",
+            "recipient":"alice.b.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"My product is light."
             }
@@ -556,8 +556,8 @@
             "courseId":"ISR.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"alice.b.tmms@gmail.tmt",
-            "recipientEmail":"benny.c.tmms@gmail.tmt",
+            "giver":"alice.b.tmms@gmail.tmt",
+            "recipient":"benny.c.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Benny is a good student."
             }
@@ -567,8 +567,8 @@
             "courseId":"ISR.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"benny.c.tmms@gmail.tmt",
-            "recipientEmail":"danny.e.tmms@gmail.tmt",
+            "giver":"benny.c.tmms@gmail.tmt",
+            "recipient":"danny.e.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Danny starts with D."
             }
@@ -578,8 +578,8 @@
             "courseId":"ISR.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"charlie.d.tmms@gmail.tmt",
-            "recipientEmail":"alice.b.tmms@gmail.tmt",
+            "giver":"charlie.d.tmms@gmail.tmt",
+            "recipient":"alice.b.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Alice is a good girl coder."
             }
@@ -589,8 +589,8 @@
             "courseId":"ISR.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"benny.c.tmms@gmail.tmt",
-            "recipientEmail":"charlie.d.tmms@gmail.tmt",
+            "giver":"benny.c.tmms@gmail.tmt",
+            "recipient":"charlie.d.tmms@gmail.tmt",
             "responseMetaData":{
                 "value":"Charlie did alot of work."
             }

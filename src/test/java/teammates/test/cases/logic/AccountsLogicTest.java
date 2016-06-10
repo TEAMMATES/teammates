@@ -93,8 +93,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         ______TS("update picture");
         
-        expectedSpa.pictureKey = GoogleCloudStorageHelper
-                .writeFileToGcs(expectedSpa.googleId, "src/test/resources/images/profile_pic.png", "");
+        expectedSpa.pictureKey = writeFileToGcs(expectedSpa.googleId, "src/test/resources/images/profile_pic.png");
         accountsLogic.updateStudentProfilePicture(expectedSpa.googleId, expectedSpa.pictureKey);
         actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
@@ -116,7 +115,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     
     @Test
     public void testDeletePicture() throws Exception {
-        String keyString = GoogleCloudStorageHelper.writeFileToGcs("accountsLogicTestid", "src/test/resources/images/profile_pic.png", "");
+        String keyString = writeFileToGcs("accountsLogicTestid", "src/test/resources/images/profile_pic.png");
         BlobKey key = new BlobKey(keyString);
         accountsLogic.deletePicture(key);
         assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(key));
@@ -433,7 +432,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: instructor joined but account already exists");
         
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
-        InstructorAttributes newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        InstructorAttributes newIns =
+                new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);

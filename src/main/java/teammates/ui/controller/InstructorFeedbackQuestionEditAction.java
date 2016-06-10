@@ -100,7 +100,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                           + updatedQuestion.courseId + "]</span> edited.<br>"
                           + "<span class=\"bold\">"
                           + updatedQuestionDetails.getQuestionTypeDisplayName() + ":</span> "
-                          + updatedQuestionDetails.questionText;
+                          + updatedQuestionDetails.getQuestionText();
         } else {
             statusToUser.addAll(questionDetailsErrorsMessages);
             isError = true;

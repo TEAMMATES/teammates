@@ -214,7 +214,8 @@ public class AccountsLogic {
         }
         
         //check if this Google ID has already joined this course
-        InstructorAttributes existingInstructor = InstructorsLogic.inst().getInstructorForGoogleId(instructorForKey.courseId, googleId);
+        InstructorAttributes existingInstructor =
+                InstructorsLogic.inst().getInstructorForGoogleId(instructorForKey.courseId, googleId);
         
         if (existingInstructor != null) {
             throw new JoinCourseException(

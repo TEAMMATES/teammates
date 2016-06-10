@@ -140,9 +140,11 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
-                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
+                              "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
                 + "<br />"
-                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
+                                "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
                 + "<br />"
                 + Const.StatusMessages.STUDENT_UPDATE_PROFILE,
                 redirectResult.getStatusMessage());
@@ -180,9 +182,11 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
-                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
+                              "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
                 + "<br />"
-                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
+                                "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
                 + "<br />"
                 + Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE,
                 redirectResult.getStatusMessage());
@@ -220,9 +224,11 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
-                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
+                              "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
                 + "<br />"
-                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals"),
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
+                                "[idOfCourseNoEvals] Typical Course 3 with 0 Evals"),
                 redirectResult.getStatusMessage());
 
         
@@ -260,7 +266,8 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
-                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfTypicalCourse1] Typical Course 1 with 2 Evals"),
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
+                              "[idOfTypicalCourse1] Typical Course 1 with 2 Evals"),
                 redirectResult.getStatusMessage());
 
     }

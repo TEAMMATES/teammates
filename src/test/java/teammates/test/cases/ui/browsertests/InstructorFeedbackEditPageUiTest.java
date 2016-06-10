@@ -17,6 +17,7 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
@@ -295,7 +296,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         // use getAttribute("textContent") instead of getText
         // because of the row of Recipient's Team Members is not displayed
-        assertEquals("Recipient's Team Members", feedbackEditPage.getVisibilityOptionTableRow(2, 4).getAttribute("textContent").trim());
+        assertEquals("Recipient's Team Members",
+                     feedbackEditPage.getVisibilityOptionTableRow(2, 4).getAttribute("textContent").trim());
         assertFalse(feedbackEditPage.getVisibilityOptionTableRow(2, 4).isDisplayed());
                 
         ______TS("test visibility preview of question 2");
@@ -388,6 +390,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         String qnTextAfterCancelEdit = feedbackEditPage.getQuestionBoxText(qnIndex);
         assertEquals(qnTextOriginal, qnTextAfterCancelEdit);
         
+        ______TS("Try re-editing a question after cancelling, making sure that form controls still work");
+        feedbackEditPage.clickEditQuestionButton(qnIndex);
+        feedbackEditPage.selectRecipientsToBeStudents(qnIndex);
+        assertTrue(feedbackEditPage.isOptionForSelectingNumberOfEntitiesVisible(qnIndex));
+
         // Delete it to reset the status for the following tests
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(qnIndex));
     }
@@ -568,7 +575,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private InstructorFeedbacksPage navigateToInstructorFeedbacksPage() {
         
         AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
-        InstructorFeedbacksPage feedbacksPage = feedbackEditPage.navigateTo(feedbacksPageUrl, InstructorFeedbacksPage.class);
+        InstructorFeedbacksPage feedbacksPage =
+                AppPage.getNewPageInstance(browser, feedbacksPageUrl, InstructorFeedbacksPage.class);
         feedbacksPage.waitForPageToLoad();
         return feedbacksPage;
     }

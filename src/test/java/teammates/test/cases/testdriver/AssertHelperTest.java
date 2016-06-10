@@ -2,10 +2,10 @@ package teammates.test.cases.testdriver;
 
 import org.testng.annotations.Test;
 
-import teammates.common.util.FileHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.FileHelper;
 
 public class AssertHelperTest extends BaseTestCase {
 

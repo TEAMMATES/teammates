@@ -777,7 +777,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Instructor with 2 courses");
     
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
-        HashMap<String, CourseDetailsBundle> courseList = coursesLogic.getCourseSummariesForInstructor(instructor.googleId, false);
+        HashMap<String, CourseDetailsBundle> courseList =
+                coursesLogic.getCourseSummariesForInstructor(instructor.googleId, false);
         assertEquals(2, courseList.size());
         for (CourseDetailsBundle cdd : courseList.values()) {
             // check if course belongs to this instructor
@@ -1126,7 +1127,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                                                    courseWithDuplicateInstructor.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
+            AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course",
+                                        e.getMessage());
         }
         verifyAbsentInDatastore(courseWithDuplicateInstructor);
 
@@ -1139,7 +1141,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                                                    courseWithDuplicateInstructor.getName());
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
+            AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course",
+                                        e.getMessage());
         }
         verifyAbsentInDatastore(courseWithDuplicateInstructor);
        

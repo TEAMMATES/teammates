@@ -11,7 +11,6 @@ import java.util.Set;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
@@ -106,7 +105,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         List<String> errors = new ArrayList<String>();
         String error;
 
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        error = validator.getInvalidityInfoForCourseId(courseId);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -144,7 +143,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
                 break;
             case COURSE :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfo(FieldType.COURSE_ID, recipientId);
+                    error = validator.getInvalidityInfoForCourseId(recipientId);
                     if (!error.isEmpty()) {
                         errors.add(error);
                     }

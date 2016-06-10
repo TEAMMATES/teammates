@@ -245,7 +245,8 @@ public class StudentsLogic {
         }
 
         if (isSectionChanged(originalStudent.section, student.section)) {
-            frLogic.updateFeedbackResponsesForChangingSection(student.course, finalEmail, originalStudent.section, student.section);
+            frLogic.updateFeedbackResponsesForChangingSection(student.course, finalEmail, originalStudent.section,
+                                                              student.section);
         }
         
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
@@ -741,8 +742,10 @@ public class StudentsLogic {
                 }
                 
                 if (isStudentEmailDuplicated(student.email, studentEmailList)) {
-                    String info = StringHelper.toString(getInvalidityInfoInDuplicatedEmail(student.email, studentEmailList, linesArray),
-                                                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+                    String info =
+                            StringHelper.toString(
+                                    getInvalidityInfoInDuplicatedEmail(student.email, studentEmailList, linesArray),
+                                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
                 }
                 

@@ -540,11 +540,14 @@ public class ActivityLogEntry {
         String message;
         
         try {
-            message = "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span><br>"
-                    + "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() + "');\">Show/Hide Details >></a>"
+            message = "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span>"
+                    + "<br>"
+                    + "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() + "');\">"
+                        + "Show/Hide Details >>"
+                    + "</a>"
                     + "<br>"
                     + "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">"
-                    + errorEmail.getContent().toString()
+                        + errorEmail.getContent().toString()
                     + "</span>";
         } catch (Exception e) {
             message = "System Error: Unable to retrieve Email Report: "

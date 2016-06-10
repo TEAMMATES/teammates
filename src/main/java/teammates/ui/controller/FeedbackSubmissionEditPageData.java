@@ -233,7 +233,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
-                                                           questionAttributes.getId(), existingResponse.recipientEmail);
+                                                           questionAttributes.getId(), existingResponse.recipient);
             
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                                             .getQuestionWithExistingResponseSubmissionFormHtml(
@@ -253,7 +253,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                                 isSessionOpenForSubmission, qnIndx, responseIndx,
                                                 questionAttributes.courseId, numOfResponseBoxes);
             
-            responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion, submissionFormHtml, ""));
+            responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
+                                                             submissionFormHtml, ""));
             responseIndx++;
         }
         

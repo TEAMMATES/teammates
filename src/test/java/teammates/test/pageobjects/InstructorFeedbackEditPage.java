@@ -2,7 +2,6 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -452,6 +451,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         return questionTextArea.isEnabled();
     }
 
+    public boolean isOptionForSelectingNumberOfEntitiesVisible(int qnNumber) {
+        return isElementVisible(By.className("numberOfEntitiesElements" + qnNumber));
+    }
+
     public void clickSaveExistingQuestionButton(int qnNumber) {
         WebElement qnSaveLink = browser.driver.findElement(By.id("button_question_submit-" + qnNumber));
         qnSaveLink.click();
@@ -555,7 +558,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         // Navigate to the previous month
         if (!navigate(dateBox, previousMonth)) {
-            fail("Cannot navigate to the previous month");
+            return false;
         }
 
         // Check if the dates of previous, current and next month are enabled
@@ -701,6 +704,11 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void selectRecipientsToBeInstructors() {
         selectDropdownByVisibleValue(recipientDropdown, "Instructors in the course");
+    }
+
+    public void selectRecipientsToBeStudents(int qnNumber) {
+        WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
+        selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
     }
 
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
@@ -950,7 +958,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public WebElement getVisibilityOptionTableRow(int questionNumber, int optionRowNumber) {
-        return getVisibilityOptions(questionNumber).findElement(By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
+        return getVisibilityOptions(questionNumber).findElement(
+                By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
     }
 
     public WebElement getPreviewLabel(int questionNumber) {

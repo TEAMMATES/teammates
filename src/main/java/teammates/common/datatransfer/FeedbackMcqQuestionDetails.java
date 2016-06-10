@@ -81,9 +81,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 }
             }
             
-            this.setMcqQuestionDetails(numOfMcqChoices, mcqChoices, mcqOtherEnabled);
+            setMcqQuestionDetails(numOfMcqChoices, mcqChoices, mcqOtherEnabled);
         } else {
-            this.setMcqQuestionDetails(FeedbackParticipantType.valueOf(generatedMcqOptions));
+            setMcqQuestionDetails(FeedbackParticipantType.valueOf(generatedMcqOptions));
         }
         return true;
     }
@@ -288,11 +288,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 FeedbackQuestionFormTemplates.MCQ_EDIT_FORM,
                 "${mcqEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfMcqChoices}", Integer.toString(numOfMcqChoices),
                 "${checkedOtherOptionEnabled}", otherEnabled ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}", Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG,
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}", Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 "${generateOptionsForValue}", generateOptionsFor.toString(),
@@ -309,12 +311,12 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         // Add two empty options by default
-        this.numOfMcqChoices = 2;
-        this.mcqChoices.add("");
-        this.mcqChoices.add("");
+        numOfMcqChoices = 2;
+        mcqChoices.add("");
+        mcqChoices.add("");
         
         return "<div id=\"mcqForm\">"
-                  + this.getQuestionSpecificEditFormHtml(-1)
+                  + getQuestionSpecificEditFormHtml(-1)
              + "</div>";
     }
 
@@ -323,7 +325,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder optionListHtml = new StringBuilder(200);
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_ADDITIONAL_INFO_FRAGMENT;
         
-        if (this.generateOptionsFor != FeedbackParticipantType.NONE) {
+        if (generateOptionsFor != FeedbackParticipantType.NONE) {
             String optionHelpText = String.format(
                     "<br>The options for this question is automatically generated from the list of all %s in this course.",
                     generateOptionsFor.toString().toLowerCase());
@@ -349,7 +351,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         String additionalInfo = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.MCQ_ADDITIONAL_INFO,
-                "${questionTypeName}", this.getQuestionTypeDisplayName(),
+                "${questionTypeName}", getQuestionTypeDisplayName(),
                 "${mcqAdditionalInfoFragments}", optionListHtml.toString());
         
         String html = Templates.populateTemplate(

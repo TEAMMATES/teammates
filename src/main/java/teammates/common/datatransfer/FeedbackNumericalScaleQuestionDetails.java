@@ -20,9 +20,9 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackQuestionDetails {
-    public int minScale;
-    public int maxScale;
-    public double step;
+    private int minScale;
+    private int maxScale;
+    private double step;
     
     public FeedbackNumericalScaleQuestionDetails() {
         super(FeedbackQuestionType.NUMSCALE);
@@ -36,19 +36,25 @@ public class FeedbackNumericalScaleQuestionDetails extends
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
         
-        String minScaleString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN);
+        String minScaleString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN);
         Assumption.assertNotNull("Null minimum scale", minScaleString);
         int minScale = Integer.parseInt(minScaleString);
         
-        String maxScaleString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX);
+        String maxScaleString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX);
         Assumption.assertNotNull("Null maximum scale", maxScaleString);
         int maxScale = Integer.parseInt(maxScaleString);
         
-        String stepString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
+        String stepString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
         Assumption.assertNotNull("Null step", stepString);
         Double step = Double.parseDouble(stepString);
 
-        this.setNumericalScaleQuestionDetails(minScale, maxScale, step);
+        setNumericalScaleQuestionDetails(minScale, maxScale, step);
         
         return true;
     }
@@ -126,9 +132,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         // Set default values
-        this.minScale = 1;
-        this.maxScale = 5;
-        this.step = 1;
+        minScale = 1;
+        maxScale = 5;
+        step = 1;
         
         return "<div id=\"numScaleForm\">"
                   + this.getQuestionSpecificEditFormHtml(-1)
@@ -336,7 +342,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             averageScore = average.get(recipient);
             averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
             
-            String averageScoreExcludingSelfText = getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
+            String averageScoreExcludingSelfText =
+                    getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
             
             String recipientFragmentHtml = Templates.populateTemplate(
                     fragmentTemplateToUse,
@@ -477,7 +484,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             boolean isRecipientGeneral = recipient.equals(Const.GENERAL_QUESTION);
             
             Double averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
-            String averageScoreExcludingSelfText = getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
+            String averageScoreExcludingSelfText =
+                    getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
             
             csvBody.append(Sanitizer.sanitizeForCsv(recipientTeam) + ','
                            + Sanitizer.sanitizeForCsv(isRecipientGeneral
@@ -521,10 +529,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
             Map<String, Integer> numResponsesExcludingSelf) {
         
         for (FeedbackResponseAttributes response : responses) {
-            FeedbackNumericalScaleResponseDetails responseDetails = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
+            FeedbackNumericalScaleResponseDetails responseDetails =
+                    (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             double answer = responseDetails.getAnswer();
-            String giverEmail = response.giverEmail;
-            String recipientEmail = response.recipientEmail;
+            String giverEmail = response.giver;
+            String recipientEmail = response.recipient;
 
             // Compute number of responses including user's self response
             if (!numResponses.containsKey(recipientEmail)) {
@@ -572,7 +581,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 Double totalScoreExcludingSelf = totalExcludingSelf.get(recipientEmail);
                 
                 // totalScoreExcludingSelf == null when the user has only self response
-                totalExcludingSelf.put(recipientEmail, totalScoreExcludingSelf == null ? answer : totalScoreExcludingSelf + answer);
+                totalExcludingSelf.put(recipientEmail,
+                                       totalScoreExcludingSelf == null ? answer : totalScoreExcludingSelf + answer);
             }
 
             // Compute average score received
@@ -605,7 +615,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                     && type != FeedbackParticipantType.SELF
                     && type != FeedbackParticipantType.NONE) {
                 
-                hiddenRecipients.add(response.recipientEmail);
+                hiddenRecipients.add(response.recipient);
             }
         }
         return hiddenRecipients;
@@ -745,4 +755,25 @@ public class FeedbackNumericalScaleQuestionDetails extends
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
+
+    public int getMinScale() {
+        return minScale;
+    }
+
+    public void setMinScale(int minScale) {
+        this.minScale = minScale;
+    }
+
+    public int getMaxScale() {
+        return maxScale;
+    }
+
+    public void setMaxScale(int maxScale) {
+        this.maxScale = maxScale;
+    }
+
+    public double getStep() {
+        return step;
+    }
+
 }
