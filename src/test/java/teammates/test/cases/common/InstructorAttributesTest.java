@@ -131,7 +131,10 @@ public class InstructorAttributesTest extends BaseTestCase {
                     .replace("{fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
                     .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
                 + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, i.courseId, FieldValidator.REASON_EMPTY) + EOL
-                + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, i.name, FieldValidator.REASON_EMPTY) + EOL
+                + FieldValidator.PERSON_NAME_ERROR_MESSAGE
+                    .replace("{userInput}", i.name)
+                    .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                    .replace("{reason}", FieldValidator.REASON_EMPTY) + EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("{userInput}", i.email)
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
@@ -143,7 +146,10 @@ public class InstructorAttributesTest extends BaseTestCase {
         assertFalse("invalid value", i.isValid());
         errorMessage =
                 String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, i.courseId, FieldValidator.REASON_EMPTY) + EOL
-                + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, i.name, FieldValidator.REASON_EMPTY) + EOL
+                + FieldValidator.PERSON_NAME_ERROR_MESSAGE
+                    .replace("{userInput}", i.name)
+                    .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                    .replace("{reason}", FieldValidator.REASON_EMPTY) + EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("{userInput}", i.email)
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)

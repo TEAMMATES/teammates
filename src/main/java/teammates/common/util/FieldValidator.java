@@ -81,10 +81,10 @@ public class FieldValidator {
      */
     public static final String PERSON_NAME_FIELD_NAME = "a person name";
     public static final int PERSON_NAME_MAX_LENGTH = 100;
+    public static final String HINT_FOR_CORRECT_PERSON_NAME =
+            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
     public static final String PERSON_NAME_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as " + PERSON_NAME_FIELD_NAME + " because it %s. "
-            + "The value of " + PERSON_NAME_FIELD_NAME + " should be no longer than "
-            + PERSON_NAME_MAX_LENGTH + " characters. It should not be empty.";
+            ERROR_INFO + " " + HINT_FOR_CORRECT_PERSON_NAME;
 
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Specific types //////////////////////////////////////

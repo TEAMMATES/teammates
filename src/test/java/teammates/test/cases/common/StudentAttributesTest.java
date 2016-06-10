@@ -110,7 +110,10 @@ public class StudentAttributesTest extends BaseTestCase {
                                                "c", courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(invalidStudent.getInvalidityInfo().get(0),
-                     String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY));
+                     FieldValidator.PERSON_NAME_ERROR_MESSAGE
+                         .replace("{userInput}", "")
+                         .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                         .replace("{reason}", FieldValidator.REASON_EMPTY));
 
         ______TS("Failure case: empty email");
         invalidStudent = new StudentAttributes("sect", "t1", "n", "", "c", courseId);
@@ -143,8 +146,10 @@ public class StudentAttributesTest extends BaseTestCase {
                 .generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes("sect", "t1", longStudentName, "e@e.com", "c", courseId);
         assertFalse(invalidStudent.isValid());
-        assertEquals(String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE,
-                                   longStudentName, FieldValidator.REASON_TOO_LONG),
+        assertEquals(FieldValidator.PERSON_NAME_ERROR_MESSAGE
+                         .replace("{userInput}", longStudentName)
+                         .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                         .replace("{reason}", FieldValidator.REASON_TOO_LONG),
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: invalid email");
@@ -197,7 +202,10 @@ public class StudentAttributesTest extends BaseTestCase {
                                 FieldValidator.REASON_TOO_LONG) + Const.EOL
                 + String.format(FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, s.comments,
                                 FieldValidator.REASON_TOO_LONG) + Const.EOL
-                + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY);
+                + FieldValidator.PERSON_NAME_ERROR_MESSAGE
+                    .replace("{userInput}", "")
+                    .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                    .replace("{reason}", FieldValidator.REASON_EMPTY);
         assertEquals("invalid value", errorMessage, StringHelper.toString(s.getInvalidityInfo()));
     }
 

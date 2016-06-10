@@ -68,6 +68,10 @@ public class FieldValidatorTest extends BaseTestCase {
             + "Google ID because it is not in the correct format. A Google ID must be a valid id already "
             + "registered with Google. It cannot be longer than 254 characters. It cannot be empty.";
 
+    public static final String ERROR_MESSAGE_PERSON_NAME_EMPTY =
+            "\"\" is not acceptable to TEAMMATES as a person name because it is empty. The value of a person "
+            + "name should be no longer than 100 characters. It should not be empty.";
+
     public FieldValidator validator = new FieldValidator();
     
     @BeforeClass
@@ -346,7 +350,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidPersonName = "";
         String actual = validator.getInvalidityInfoForPersonName(invalidPersonName);
         assertEquals("Invalid person name (empty) should return error message that is specific to person name",
-                     String.format(PERSON_NAME_ERROR_MESSAGE, invalidPersonName, REASON_EMPTY), actual);
+                     ERROR_MESSAGE_PERSON_NAME_EMPTY,
+                     actual);
     }
 
     @Test
