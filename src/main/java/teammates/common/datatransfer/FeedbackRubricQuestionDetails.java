@@ -341,11 +341,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                         Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                         Slots.DESCRIPTION, Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
                         Slots.CHECKED, isExistingResponse && frd.getAnswer(i) == j ? "checked" : "",
-                        // Check if existing choice for sub-question == current
-                        // choice
+                        // Check if existing choice for sub-question == current choice
                         Slots.RUBRIC_CHOICE_VALUE, Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
-                        Slots.RUBRIC_PARAM_CHOICE,
-                        Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
+                        Slots.RUBRIC_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
             }
             String panel = Templates.populateTemplate(mobilePanelTemplate,
@@ -371,8 +369,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             Slots.QUESTION_INDEX, questionNumberString,
                             Slots.COL, Integer.toString(i),
                             Slots.RUBRIC_CHOICE_VALUE, Sanitizer.sanitizeForHtml(rubricChoices.get(i)),
-                            Slots.RUBRIC_PARAM_CHOICE,
-                                    Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
+                            Slots.RUBRIC_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
             tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
         }
         
@@ -572,8 +569,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             for (int i = 0; i < numOfRubricChoices; i++) {
                 String tableBodyCell =
                         Templates.populateTemplate(tableBodyFragmentTemplate,
-                                Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE, df.format(rubricStats[j][i] * 100) + "%"
-                                                                   + " (" + responseFrequency[j][i] + ")");
+                                Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
+                                        df.format(rubricStats[j][i] * 100) + "% (" + responseFrequency[j][i] + ")");
                 tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
             }
 

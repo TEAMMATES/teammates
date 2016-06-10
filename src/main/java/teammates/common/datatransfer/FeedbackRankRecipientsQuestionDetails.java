@@ -188,11 +188,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             
             fragments.append(Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
-                                                                        Slots.RANK_OPTION_VALUE,
-                                                                        Sanitizer.sanitizeForHtml(name),
-                                                                        Slots.TEAM, Sanitizer.sanitizeForHtml(teamName),
-                                                                        Slots.RANK_RECIEVED, ranksReceived,
-                                                                        Slots.RANK_AVERAGE, df.format(average)));
+                    Slots.RANK_OPTION_VALUE,
+                    Sanitizer.sanitizeForHtml(name),
+                    Slots.TEAM, Sanitizer.sanitizeForHtml(teamName),
+                    Slots.RANK_RECIEVED, ranksReceived,
+                    Slots.RANK_AVERAGE, df.format(average)));
 
         }
      
