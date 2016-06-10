@@ -513,8 +513,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
         // For Text questions, the questionText simply contains the question, not a JSON
         // This is due to legacy data in the data store before there are multiple question types
-        if (questionDetails.questionType == FeedbackQuestionType.TEXT) {
-            questionMetaData = new Text(questionDetails.questionText);
+        if (questionDetails.getQuestionType() == FeedbackQuestionType.TEXT) {
+            questionMetaData = new Text(questionDetails.getQuestionText());
         } else {
             Gson gson = Utils.getTeammatesGson();
             questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));

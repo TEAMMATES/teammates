@@ -62,7 +62,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         Set<String> addedEmailSet = new HashSet<String>();
         if (relatedQuestion.giverType == FeedbackParticipantType.INSTRUCTORS
                 || relatedQuestion.giverType == FeedbackParticipantType.SELF) {
-            InstructorAttributes ins = logic.getInstructorForEmail(comment.courseId, relatedResponse.giverEmail);
+            InstructorAttributes ins = logic.getInstructorForEmail(comment.courseId, relatedResponse.giver);
             if (ins == null || addedEmailSet.contains(ins.email)) {
                 responseGiverName = Const.USER_UNKNOWN_TEXT;
             } else {
@@ -71,7 +71,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 responseGiverName = ins.name + " (" + ins.displayedName + ")";
             }
         } else {
-            StudentAttributes stu = logic.getStudentForEmail(comment.courseId, relatedResponse.giverEmail);
+            StudentAttributes stu = logic.getStudentForEmail(comment.courseId, relatedResponse.giver);
             if (stu == null || addedEmailSet.contains(stu.email)) {
                 responseGiverName = Const.USER_UNKNOWN_TEXT;
             } else {
@@ -82,7 +82,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         }
         
         if (relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS) {
-            InstructorAttributes ins = logic.getInstructorForEmail(comment.courseId, relatedResponse.recipientEmail);
+            InstructorAttributes ins = logic.getInstructorForEmail(comment.courseId, relatedResponse.recipient);
             if (ins != null && !addedEmailSet.contains(ins.email)) {
                 relatedInstructors.add(ins);
                 addedEmailSet.add(ins.email);
@@ -93,15 +93,15 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         } else if (relatedQuestion.recipientType == FeedbackParticipantType.NONE) {
             responseRecipientName = Const.USER_NOBODY_TEXT;
         } else {
-            StudentAttributes stu = logic.getStudentForEmail(comment.courseId, relatedResponse.recipientEmail);
+            StudentAttributes stu = logic.getStudentForEmail(comment.courseId, relatedResponse.recipient);
             if (stu != null && !addedEmailSet.contains(stu.email)) {
                 relatedStudents.add(stu);
                 addedEmailSet.add(stu.email);
                 responseRecipientName = stu.name + " (" + stu.team + ")";
             }
-            List<StudentAttributes> team = logic.getStudentsForTeam(relatedResponse.recipientEmail, comment.courseId);
+            List<StudentAttributes> team = logic.getStudentsForTeam(relatedResponse.recipient, comment.courseId);
             if (team != null) {
-                responseRecipientName = relatedResponse.recipientEmail; //it's actually a team name here
+                responseRecipientName = relatedResponse.recipient; //it's actually a team name here
                 for (StudentAttributes studentInTeam : team) {
                     if (!addedEmailSet.contains(studentInTeam.email)) {
                         relatedStudents.add(studentInTeam);
@@ -154,7 +154,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                              .append(course == null ? "" : course.getName()).append(delim)
                              .append(relatedSession.getFeedbackSessionName()).append(delim)
                              .append("question ").append(relatedQuestion.questionNumber).append(delim)
-                             .append(relatedQuestion.getQuestionDetails().questionText).append(delim)
+                             .append(relatedQuestion.getQuestionDetails().getQuestionText()).append(delim)
                              .append(relatedResponse.getResponseDetails().getAnswerString()).append(delim)
                              .append(comment.giverEmail).append(delim)
                              .append(giverAsInstructor == null ? "" : giverAsInstructor.name).append(delim)
@@ -183,11 +183,11 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL)
                                             .setText(comment.giverEmail))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL)
-                                            .setText(relatedResponse.giverEmail))
+                                            .setText(relatedResponse.giver))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_SECTION)
                                             .setText(relatedResponse.giverSection))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_EMAIL)
-                                            .setText(relatedResponse.recipientEmail))
+                                            .setText(relatedResponse.recipient))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_SECTION)
                                             .setText(relatedResponse.recipientSection))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_GIVER)

@@ -20,9 +20,9 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackQuestionDetails {
-    public int minScale;
-    public int maxScale;
-    public double step;
+    private int minScale;
+    private int maxScale;
+    private double step;
     
     public FeedbackNumericalScaleQuestionDetails() {
         super(FeedbackQuestionType.NUMSCALE);
@@ -54,7 +54,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         Assumption.assertNotNull("Null step", stepString);
         Double step = Double.parseDouble(stepString);
 
-        this.setNumericalScaleQuestionDetails(minScale, maxScale, step);
+        setNumericalScaleQuestionDetails(minScale, maxScale, step);
         
         return true;
     }
@@ -132,9 +132,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         // Set default values
-        this.minScale = 1;
-        this.maxScale = 5;
-        this.step = 1;
+        minScale = 1;
+        maxScale = 5;
+        step = 1;
         
         return "<div id=\"numScaleForm\">"
                   + this.getQuestionSpecificEditFormHtml(-1)
@@ -532,8 +532,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             FeedbackNumericalScaleResponseDetails responseDetails =
                     (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             double answer = responseDetails.getAnswer();
-            String giverEmail = response.giverEmail;
-            String recipientEmail = response.recipientEmail;
+            String giverEmail = response.giver;
+            String recipientEmail = response.recipient;
 
             // Compute number of responses including user's self response
             if (!numResponses.containsKey(recipientEmail)) {
@@ -615,7 +615,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                     && type != FeedbackParticipantType.SELF
                     && type != FeedbackParticipantType.NONE) {
                 
-                hiddenRecipients.add(response.recipientEmail);
+                hiddenRecipients.add(response.recipient);
             }
         }
         return hiddenRecipients;
@@ -755,4 +755,25 @@ public class FeedbackNumericalScaleQuestionDetails extends
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
+
+    public int getMinScale() {
+        return minScale;
+    }
+
+    public void setMinScale(int minScale) {
+        this.minScale = minScale;
+    }
+
+    public int getMaxScale() {
+        return maxScale;
+    }
+
+    public void setMaxScale(int maxScale) {
+        this.maxScale = maxScale;
+    }
+
+    public double getStep() {
+        return step;
+    }
+
 }

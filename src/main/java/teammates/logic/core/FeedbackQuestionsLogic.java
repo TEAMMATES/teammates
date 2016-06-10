@@ -198,7 +198,7 @@ public class FeedbackQuestionsLogic {
                     return order;
                 }
                 
-                return q1Details.questionText.compareTo(q2Details.questionText);
+                return q1Details.getQuestionText().compareTo(q2Details.getQuestionText());
             }
         });
         
@@ -474,7 +474,7 @@ public class FeedbackQuestionsLogic {
             List<FeedbackResponseAttributes> responses =
                     frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
             for (FeedbackResponseAttributes response : responses) {
-                if (response.giverEmail.equals(student.email)) {
+                if (response.giver.equals(student.email)) {
                     numberOfResponsesNeeded -= 1;
                 }
             }

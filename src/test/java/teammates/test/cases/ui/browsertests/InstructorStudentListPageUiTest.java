@@ -11,7 +11,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.FileHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
@@ -24,6 +23,7 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorStudentListPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
+import teammates.test.util.FileHelper;
 import teammates.test.util.Priority;
 
 /**
