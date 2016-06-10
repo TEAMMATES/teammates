@@ -108,7 +108,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String testFieldName = "Inconsequential test field name";
         String actual = validator.getValidityInfoForNonHtmlField(testFieldName, unsanitizedInput);
         assertEquals("Invalid unsanitized input should return error string",
-                     String.format(NON_HTML_FIELD_ERROR_MESSAGE, testFieldName), actual);
+                     NON_HTML_FIELD_ERROR_MESSAGE.replace("{fieldName}", testFieldName), actual);
     }
 
     public void testGetValidityInfoForSizeCappedPossiblyEmptyString() {

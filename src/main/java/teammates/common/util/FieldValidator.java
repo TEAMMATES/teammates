@@ -306,7 +306,7 @@ public class FieldValidator {
             + "or contains extra spaces at the beginning or at the end of the text.";
     
     public static final String NON_HTML_FIELD_ERROR_MESSAGE =
-            Sanitizer.sanitizeForHtml("The provided %s is not acceptable to TEAMMATES as it cannot contain"
+            Sanitizer.sanitizeForHtml("The provided {fieldName} is not acceptable to TEAMMATES as it cannot contain"
                                       + " the following special html characters in brackets: (< > \\ / ' &)");
     
     public static final String NON_NULL_FIELD_ERROR_MESSAGE =
@@ -792,7 +792,7 @@ public class FieldValidator {
             //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
             .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
         //Fails if sanitized value is not same as value
-        return value.equals(sanitizedValue) ? "" : String.format(NON_HTML_FIELD_ERROR_MESSAGE, fieldName);
+        return value.equals(sanitizedValue) ? "" : NON_HTML_FIELD_ERROR_MESSAGE.replace("{fieldName}", fieldName);
     }
     
     public String getValidityInfoForNonNullField(String fieldName, Object value) {
