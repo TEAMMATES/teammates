@@ -126,8 +126,10 @@ public class InstructorAttributesTest extends BaseTestCase {
         
         assertFalse("invalid value", i.isValid());
         String errorMessage =
-                String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
-                              FieldValidator.REASON_INCORRECT_FORMAT) + EOL
+                FieldValidator.GOOGLE_ID_ERROR_MESSAGE
+                    .replace("{userInput}", i.googleId)
+                    .replace("{fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
+                    .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
                 + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, i.courseId, FieldValidator.REASON_EMPTY) + EOL
                 + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, i.name, FieldValidator.REASON_EMPTY) + EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE

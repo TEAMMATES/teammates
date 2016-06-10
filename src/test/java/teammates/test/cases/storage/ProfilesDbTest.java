@@ -72,7 +72,10 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             profilesDb.updateStudentProfile(new StudentProfileAttributes());
             signalFailureToDetectException(" - InvalidParametersException");
         } catch (InvalidParametersException ipe) {
-            assertEquals(String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY),
+            assertEquals(FieldValidator.GOOGLE_ID_ERROR_MESSAGE
+                             .replace("{userInput}", "")
+                             .replace("{fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
+                             .replace("{reason}", FieldValidator.REASON_EMPTY),
                     ipe.getMessage());
         }
     }

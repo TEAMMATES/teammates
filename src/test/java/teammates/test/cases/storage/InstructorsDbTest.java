@@ -84,9 +84,12 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             instructorsDb.createEntity(i);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
-                                                      FieldValidator.REASON_INCORRECT_FORMAT),
-                                        e.getMessage());
+            AssertHelper.assertContains(
+                    FieldValidator.GOOGLE_ID_ERROR_MESSAGE
+                        .replace("{userInput}", i.googleId)
+                        .replace("{fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
+                        .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT),
+                    e.getMessage());
         }
         
         i.googleId = "valid.fresh.id";
@@ -382,8 +385,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId,
-                                  FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
+                    FieldValidator.GOOGLE_ID_ERROR_MESSAGE
+                            .replace("{userInput}", instructorToEdit.googleId)
+                            .replace("{fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
+                            .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
                         + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name,
                                         FieldValidator.REASON_EMPTY),
                     e.getMessage());

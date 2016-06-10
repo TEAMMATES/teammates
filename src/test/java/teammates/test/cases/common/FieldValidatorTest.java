@@ -46,6 +46,28 @@ public class FieldValidatorTest extends BaseTestCase {
             + "format. An email address contains some text followed by one '@' sign followed by some more "
             + "text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces.";
 
+    public static final String ERROR_MESSAGE_GOOGLE_ID_EMPTY =
+            "\"\" is not acceptable to TEAMMATES as Google ID because it is empty. A Google ID must be a "
+            + "valid id already registered with Google. It cannot be longer than 254 characters. It cannot "
+            + "be empty.";
+
+    public static final String ERROR_MESSAGE_GOOGLE_ID_TOO_LONG =
+            "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to "
+            + "TEAMMATES as Google ID because it is too long. A Google ID must be a valid id already "
+            + "registered with Google. It cannot be longer than 254 characters. It cannot be empty.";
+
+    public static final String ERROR_MESSAGE_GOOGLE_ID_INCORRECT_FORMAT_CONTAINS_SPACES =
+            "\"invalid google id with spaces\" is not acceptable to TEAMMATES as Google ID because it is not "
+            + "in the correct format. A Google ID must be a valid id already registered with Google. It "
+            + "cannot be longer than 254 characters. It cannot be empty.";
+
+    public static final String ERROR_MESSAGE_GOOGLE_ID_INCORRECT_FORMAT_CONTAINS_HTML_CHAR =
+            "\"invalid google id with HTML&#x2f;&lt; special characters\" is not acceptable to TEAMMATES as "
+            + "Google ID because it is not in the correct format. A Google ID must be a valid id already "
+            + "registered with Google. It cannot be longer than 254 characters. It cannot be empty.";
+
     public FieldValidator validator = new FieldValidator();
     
     @BeforeClass
@@ -461,7 +483,7 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForGoogleId_invalid_returnErrorString() {
         String emptyId = "";
         assertEquals("Invalid Google ID (empty) should return appropriate error message",
-                     String.format(GOOGLE_ID_ERROR_MESSAGE, emptyId, REASON_EMPTY),
+                     ERROR_MESSAGE_GOOGLE_ID_EMPTY,
                      validator.getInvalidityInfoForGoogleId(emptyId));
 
         String whitespaceId = "     ";
@@ -476,18 +498,17 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String tooLongId = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Google ID (too long) should return appropriate error message",
-                     String.format(GOOGLE_ID_ERROR_MESSAGE, tooLongId, REASON_TOO_LONG),
+                     ERROR_MESSAGE_GOOGLE_ID_TOO_LONG,
                      validator.getInvalidityInfoForGoogleId(tooLongId));
 
         String idWithSpaces = "invalid google id with spaces";
         assertEquals("Invalid Google ID (with spaces) should return appropriate error message",
-                     String.format(GOOGLE_ID_ERROR_MESSAGE, idWithSpaces, REASON_INCORRECT_FORMAT),
+                     ERROR_MESSAGE_GOOGLE_ID_INCORRECT_FORMAT_CONTAINS_SPACES,
                      validator.getInvalidityInfoForGoogleId(idWithSpaces));
 
         String idWithInvalidHtmlChar = "invalid google id with HTML/< special characters";
         assertEquals("Invalid Google ID (contains HTML characters) should return appropriate error message",
-                     String.format(GOOGLE_ID_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(idWithInvalidHtmlChar),
-                                   REASON_INCORRECT_FORMAT),
+                     ERROR_MESSAGE_GOOGLE_ID_INCORRECT_FORMAT_CONTAINS_HTML_CHAR,
                      validator.getInvalidityInfoForGoogleId(idWithInvalidHtmlChar));
     }
     

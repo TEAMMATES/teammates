@@ -183,8 +183,10 @@ public class StudentAttributesTest extends BaseTestCase {
         s.team = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
 
         assertFalse("invalid value", s.isValid());
-        String errorMessage = String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid@google@id",
-                                            FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
+        String errorMessage = FieldValidator.GOOGLE_ID_ERROR_MESSAGE
+                                  .replace("{userInput}", "invalid@google@id")
+                                  .replace("{fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
+                                  .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
                 + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY) + Const.EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("{userInput}", "invalid email")

@@ -181,11 +181,13 @@ public class FieldValidator {
      */
     public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
-    public static final String GOOGLE_ID_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as a Google ID because it %s. "
-            + "A Google ID must be a valid id already registered with Google. "
+    public static final String HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID =
+            "A Google ID must be a valid id already registered with Google. "
             + "It cannot be longer than " + GOOGLE_ID_MAX_LENGTH + " characters. "
             + "It cannot be empty.";
+
+    public static final String GOOGLE_ID_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
     
     /*
      * =======================================================================
@@ -398,13 +400,19 @@ public class FieldValidator {
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
 
         if (googleId.isEmpty()) {
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, googleId, REASON_EMPTY);
+            return GOOGLE_ID_ERROR_MESSAGE.replace("{userInput}", googleId)
+                                          .replace("{fieldName}", GOOGLE_ID_FIELD_NAME)
+                                          .replace("{reason}", REASON_EMPTY);
         } else if (isUntrimmed(googleId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", GOOGLE_ID_FIELD_NAME);
         } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
+            return GOOGLE_ID_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
+                                          .replace("{fieldName}", GOOGLE_ID_FIELD_NAME)
+                                          .replace("{reason}", REASON_TOO_LONG);
         } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
+            return GOOGLE_ID_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
+                                          .replace("{fieldName}", GOOGLE_ID_FIELD_NAME)
+                                          .replace("{reason}", REASON_INCORRECT_FORMAT);
         }
         return "";
     }

@@ -45,8 +45,10 @@ public class AccountAttributesTest extends BaseTestCase {
         
         account = createInvalidAccountAttributesObject();
         String expectedError = String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY) + EOL
-                + String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
-                                FieldValidator.REASON_INCORRECT_FORMAT) + EOL
+                + FieldValidator.GOOGLE_ID_ERROR_MESSAGE
+                      .replace("{userInput}", "invalid google id")
+                      .replace("{fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
+                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("{userInput}", "invalid@email@com")
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
