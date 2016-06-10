@@ -154,7 +154,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                              .append(course == null ? "" : course.getName()).append(delim)
                              .append(relatedSession.getFeedbackSessionName()).append(delim)
                              .append("question ").append(relatedQuestion.questionNumber).append(delim)
-                             .append(relatedQuestion.getQuestionDetails().questionText).append(delim)
+                             .append(relatedQuestion.getQuestionDetails().getQuestionText()).append(delim)
                              .append(relatedResponse.getResponseDetails().getAnswerString()).append(delim)
                              .append(comment.giverEmail).append(delim)
                              .append(giverAsInstructor == null ? "" : giverAsInstructor.name).append(delim)

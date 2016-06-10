@@ -100,7 +100,7 @@ public class StudentFeedbackResultsPageData extends PageData {
                                     FeedbackQuestionDetails questionDetailsBundle,
                                     List<FeedbackResponseAttributes> responsesBundle) {
         
-        String questionText = questionDetailsBundle.questionText;
+        String questionText = questionDetailsBundle.getQuestionText();
         String additionalInfo = questionDetailsBundle.getQuestionAdditionalInfoHtml(questionIndex, "");
         String studentEmail = student == null ? null : student.email;
         String questionResultStatistics = questionDetailsBundle.getQuestionResultStatisticsHtml(

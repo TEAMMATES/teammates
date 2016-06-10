@@ -26,7 +26,9 @@ public class FeedbackConstantSumResponseDetails extends
             }
         }
         FeedbackConstantSumQuestionDetails constSumQd = (FeedbackConstantSumQuestionDetails) questionDetails;
-        this.setConstantSumResponseDetails(constSumAnswer, constSumQd.constSumOptions, constSumQd.distributeToRecipients);
+        this.setConstantSumResponseDetails(constSumAnswer,
+                                           constSumQd.getConstSumOptions(),
+                                           constSumQd.isDistributeToRecipients());
     }
 
     /**
@@ -45,14 +47,14 @@ public class FeedbackConstantSumResponseDetails extends
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackConstantSumQuestionDetails csQd = (FeedbackConstantSumQuestionDetails) questionDetails;
-        if (csQd.distributeToRecipients) {
+        if (csQd.isDistributeToRecipients()) {
             return getAnswerString();
         }
         StringBuilder htmlBuilder = new StringBuilder(100);
         htmlBuilder.append("<ul>");
         for (int i = 0; i < answers.size(); i++) {
             String answerString = answers.get(i).toString();
-            String optionString = csQd.constSumOptions.get(i);
+            String optionString = csQd.getConstSumOptions().get(i);
             
             htmlBuilder.append("<li>");
             htmlBuilder.append(optionString).append(": ").append(Sanitizer.sanitizeForHtml(answerString));
@@ -67,7 +69,7 @@ public class FeedbackConstantSumResponseDetails extends
         StringBuilder csvBuilder = new StringBuilder();
         
         for (int i = 0; i < answers.size(); i++) {
-            if (!((FeedbackConstantSumQuestionDetails) questionDetails).distributeToRecipients) {
+            if (!((FeedbackConstantSumQuestionDetails) questionDetails).isDistributeToRecipients()) {
                 csvBuilder.append(',');
             }
             csvBuilder.append(answers.get(i));
