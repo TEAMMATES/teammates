@@ -211,7 +211,7 @@ public class FeedbackResponsesLogic {
                     getFeedbackResponsesForQuestion(question.getId());
             
             for (FeedbackResponseAttributes response : responsesForQuestion) {
-                if (response.giverEmail.equals(teamName)) {
+                if (response.giver.equals(teamName)) {
                     responsesFromTeam.add(response);
                 }
             }
@@ -232,7 +232,7 @@ public class FeedbackResponsesLogic {
                     getFeedbackResponsesForQuestion(question.getId());
             
             for (FeedbackResponseAttributes response : responsesForQuestion) {
-                if (response.recipientEmail.equals(teamName)) {
+                if (response.recipient.equals(teamName)) {
                     responsesForTeam.add(response);
                 }
             }
@@ -654,7 +654,7 @@ public class FeedbackResponsesLogic {
                 getFeedbackResponsesFromTeamForCourse(courseId, oldTeam);
 
         for (FeedbackResponseAttributes response : responsesFromTeam) {
-            response.giverEmail = newTeam;
+            response.giver = newTeam;
             try {
                 updateFeedbackResponse(response);
             } catch (EntityAlreadyExistsException e) {
@@ -667,7 +667,7 @@ public class FeedbackResponsesLogic {
                 getFeedbackResponsesForTeamForCourse(courseId, oldTeam);
 
         for (FeedbackResponseAttributes response : responsesToTeam) {
-            response.recipientEmail = newTeam;
+            response.recipient = newTeam;
             try {
                 updateFeedbackResponse(response);
             } catch (EntityAlreadyExistsException e) {
