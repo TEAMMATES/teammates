@@ -180,10 +180,13 @@ public class StudentAttributesTest extends BaseTestCase {
         String errorMessage = String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid@google@id",
                                             FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
                 + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY) + Const.EOL
-                + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email", FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
+                + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
+                                FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
                 + String.format(FieldValidator.TEAM_NAME_ERROR_MESSAGE,
-                                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", FieldValidator.REASON_TOO_LONG) + Const.EOL
-                + String.format(FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, s.comments, FieldValidator.REASON_TOO_LONG) + Const.EOL
+                                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                                FieldValidator.REASON_TOO_LONG) + Const.EOL
+                + String.format(FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, s.comments,
+                                FieldValidator.REASON_TOO_LONG) + Const.EOL
                 + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY);
         assertEquals("invalid value", errorMessage, StringHelper.toString(s.getInvalidityInfo()));
     }

@@ -103,7 +103,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
         
         if (feedbackSessions.isEmpty()) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY,
+                                               StatusMessageColor.WARNING));
         }
         
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);

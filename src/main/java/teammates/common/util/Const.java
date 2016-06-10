@@ -151,7 +151,8 @@ public final class Const {
                                 "feedback-submission-adjust-queue";
         
         public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
-        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE = "feedback-remind-email-particular-users-queue";
+        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE =
+                "feedback-remind-email-particular-users-queue";
         public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
@@ -225,7 +226,8 @@ public final class Const {
                 "Archive the course so that it will not be shown in the home page any more "
                 + "(you can still access it from the 'Courses' tab)";
         public static final String COURSE_ADD_FEEDBACKSESSION = "Add a feedback session for the course";
-        public static final String COURSE_EMAIL_PENDING_COMMENTS = "Send email notification to recipients of %s pending comment%s";
+        public static final String COURSE_EMAIL_PENDING_COMMENTS =
+                "Send email notification to recipients of %s pending comment%s";
         public static final String CLAIMED = "This is the student's own estimation of his/her contributions";
         public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
     
@@ -235,57 +237,74 @@ public final class Const {
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
         
         public static final String COURSE_STUDENT_DETAILS = "View the details of the student";
-        public static final String COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students"
+        public static final String COURSE_STUDENT_EDIT =
+                "Use this to edit the details of this student. <br>To edit multiple students"
                 + " in one go, you can use the enroll page: <br>"
                 + "Simply enroll students using the updated data and existing data will be updated accordingly";
-        public static final String COURSE_STUDENT_REMIND = "Email an invitation to the student requesting him/her to join the course using his/her "
+        public static final String COURSE_STUDENT_REMIND =
+                "Email an invitation to the student requesting him/her to join the course using his/her "
                 + "Google Account. Note: Students can use TEAMMATES without ‘joining’, "
                 + "but a joined student can access extra features e.g. set up a user profile";
         public static final String COURSE_STUDENT_DELETE = "Delete the student and the corresponding submissions from the course";
         public static final String COURSE_STUDENT_RECORDS = "View all data about this student";
         public static final String COURSE_STUDENT_COMMENT = "Give a comment for this student, his/her team/section";
         
-        public static final String COURSE_REMIND = "Email an invitation to all students yet to join requesting them to join the course"
-                + " using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access"
-                + " extra features e.g. set up a user profile";
+        public static final String COURSE_REMIND =
+                "Email an invitation to all students yet to join requesting them to join the course "
+                + "using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, "
+                + "but a joined student can access extra features e.g. set up a user profile";
 
-        public static final String INSTRUCTOR_DISPLAYED_TO_STUDENT = "If this is unselected, the instructor will be completely invisible to students."
+        public static final String INSTRUCTOR_DISPLAYED_TO_STUDENT =
+                "If this is unselected, the instructor will be completely invisible to students."
                 + " E.g. to give access to a colleague for ‘auditing’ your course";
         
-        public static final String INSTRUCTOR_DISPLAYED_AS = "Specify the role of this instructor in this course as shown to the students";
+        public static final String INSTRUCTOR_DISPLAYED_AS =
+                "Specify the role of this instructor in this course as shown to the students";
     
         public static final String STUDENT_COURSE_DETAILS = "View and edit information regarding your team";
     
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_AWAITING =
                 "The session is not open for submission at this time. It is expected to open later.";
-        public static final String STUDENT_FEEDBACK_SESSION_STATUS_PENDING = "The feedback session is yet to be completed by you.";
-        public static final String STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED = "You have submitted your feedback for this session.";
+        public static final String STUDENT_FEEDBACK_SESSION_STATUS_PENDING =
+                "The feedback session is yet to be completed by you.";
+        public static final String STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED =
+                "You have submitted your feedback for this session.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_CLOSED = "<br />The session is now closed for submissions.";
-        public static final String STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED = "<br />The responses for the session can now be viewed.";
+        public static final String STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED =
+                "<br />The responses for the session can now be viewed.";
 
         public static final String FEEDBACK_CONTRIBUTION_DIFF = "Perceived Contribution - Claimed Contribution";
-        public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED = "The list of points that this student received from others";
+        public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED =
+                "The list of points that this student received from others";
 
-        public static final String FEEDBACK_CONTRIBUTION_NOT_AVAILABLE = "Not Available: There is no data for this or the data is not enough";
+        public static final String FEEDBACK_CONTRIBUTION_NOT_AVAILABLE =
+                "Not Available: There is no data for this or the data is not enough";
         public static final String FEEDBACK_CONTRIBUTION_NOT_SURE = "Not sure about the contribution";
 
-        public static final String FEEDBACK_SESSION_COURSE = "Please select the course for which the feedback session is to be created.";
-        public static final String FEEDBACK_SESSION_INPUT_NAME = "Enter the name of the feedback session e.g. Feedback Session 1.";
+        public static final String FEEDBACK_SESSION_COURSE =
+                "Please select the course for which the feedback session is to be created.";
+        public static final String FEEDBACK_SESSION_INPUT_NAME =
+                "Enter the name of the feedback session e.g. Feedback Session 1.";
         public static final String FEEDBACK_SESSION_STARTDATE =
                 "Please select the date and time for which users can start submitting responses for the feedback session.";
         public static final String FEEDBACK_SESSION_ENDDATE =
                 "Please select the date and time after which the feedback session will no longer accept submissions from users.";
         public static final String FEEDBACK_SESSION_VISIBLEDATE =
                 "Select this option to enter in a custom date and time for which the feedback session will become visible.<br />"
-                + "Note that you can make a session visible before it is open for submissions so that users can preview the questions.";
-        public static final String FEEDBACK_SESSION_PUBLISHDATE = "Select this option to enter in a custom date and time for which</br>"
+                + "Note that you can make a session visible before it is open for submissions "
+                + "so that users can preview the questions.";
+        public static final String FEEDBACK_SESSION_PUBLISHDATE =
+                "Select this option to enter in a custom date and time for which</br>"
                 + "the responses for this feedback session will become visible.";
         public static final String FEEDBACK_SESSION_SESSIONVISIBLELABEL =
-                "Please select when you want the questions for the feedback session to be visible to users who need to participate. "
+                "Please select when you want the questions for the feedback session to be visible to "
+                + "users who need to participate. "
                 + "Note that users cannot submit their responses until the submissions opening time set below.";
-        public static final String FEEDBACK_SESSION_SESSIONVISIBLEATOPEN = "Select this option to have the feedback session become visible "
+        public static final String FEEDBACK_SESSION_SESSIONVISIBLEATOPEN =
+                "Select this option to have the feedback session become visible "
                 + "when it is open for submissions (as selected above).";
-        public static final String FEEDBACK_SESSION_SESSIONVISIBLENEVER = "Select this option if you want the feedback session to never be visible. "
+        public static final String FEEDBACK_SESSION_SESSIONVISIBLENEVER =
+                "Select this option if you want the feedback session to never be visible. "
                 + "Use this option if you want to use this as a private feedback session.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELABEL =
                 "Please select when the responses for the feedback session will be visible to the designated recipients."
@@ -301,11 +320,14 @@ public final class Const {
         public static final String FEEDBACK_SESSION_RESULTSVISIBLENEVER =
                 "Select this option if you intend never to publish the responses.";
         public static final String FEEDBACK_SESSION_SENDOPENEMAIL =
-                "Select this option to automatically send an email to students to notify them when the session is open for submission.";
+                "Select this option to automatically send an email to students to notify them "
+                + "when the session is open for submission.";
         public static final String FEEDBACK_SESSION_SENDCLOSINGEMAIL =
-                "Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session.";
+                "Select this option to automatically send an email to students to remind them to submit "
+                + "24 hours before the end of the session.";
         public static final String FEEDBACK_SESSION_SENDPUBLISHEDEMAIL =
-                "Select this option to automatically send an email to students to notify them when the session results is published.";
+                "Select this option to automatically send an email to students to notify them "
+                + "when the session results is published.";
         public static final String FEEDBACK_SESSION_INSTRUCTIONS =
                 "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> "
                 + "It will be displayed at the top of the page when users respond to the session.";
@@ -341,7 +363,8 @@ public final class Const {
         public static final String FEEDBACK_SESSION_RECIPIENT = "Who the feedback is about";
         public static final String FEEDBACK_SESSION_GIVER = "Who will give feedback";
         
-        public static final String FEEDBACK_SESSION_EDIT_SAVE = "You can save your responses at any time and come back later to continue.";
+        public static final String FEEDBACK_SESSION_EDIT_SAVE =
+                "You can save your responses at any time and come back later to continue.";
         
         public static final String FEEDBACK_SESSION_MODERATE_FEEDBACK = "Edit the responses given by this student";
 
@@ -364,7 +387,8 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
-        public static final String FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS = "Assign weights to the columns for calculating statistics.";
+        public static final String FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS =
+                "Assign weights to the columns for calculating statistics.";
         
         public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture";
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
@@ -376,7 +400,8 @@ public final class Const {
         
         public static final String VISIBILITY_OPTIONS_RECIPIENT = "Control what feedback recipient(s) can view";
         public static final String VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS = "Control what team members of feedback giver can view";
-        public static final String VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS = "Control what team members of feedback recipients can view";
+        public static final String VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS =
+                "Control what team members of feedback recipients can view";
         public static final String VISIBILITY_OPTIONS_OTHER_STUDENTS = "Control what other students can view";
         public static final String VISIBILITY_OPTIONS_INSTRUCTORS = "Control what instructors can view";
         
@@ -392,24 +417,29 @@ public final class Const {
     
         // Mcq
         public static final int MCQ_MIN_NUM_OF_CHOICES = 2;
-        public static final String MCQ_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for " + Const.FeedbackQuestionTypeNames.MCQ
-                                                          + ". Minimum number of options is: ";
-        public static final String MCQ_ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MCQ + ".";
+        public static final String MCQ_ERROR_NOT_ENOUGH_CHOICES =
+                "Too little choices for " + Const.FeedbackQuestionTypeNames.MCQ + ". Minimum number of options is: ";
+        public static final String MCQ_ERROR_INVALID_OPTION =
+                " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MCQ + ".";
         
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
         public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES =
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
-        public static final String MSQ_ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
+        public static final String MSQ_ERROR_INVALID_OPTION =
+                " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
         
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =
                 "Minimum value must be < maximum value for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
-        public static final String NUMSCALE_ERROR_STEP = "Step value must be > 0 for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
-        public static final String NUMSCALE_ERROR_OUT_OF_RANGE = " is out of the range for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
+        public static final String NUMSCALE_ERROR_STEP =
+                "Step value must be > 0 for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
+        public static final String NUMSCALE_ERROR_OUT_OF_RANGE =
+                " is out of the range for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
         
         // Contribution
-        public static final String CONTRIB_ERROR_INVALID_OPTION = "Invalid option for the " + Const.FeedbackQuestionTypeNames.CONTRIB + ".";
+        public static final String CONTRIB_ERROR_INVALID_OPTION =
+                "Invalid option for the " + Const.FeedbackQuestionTypeNames.CONTRIB + ".";
         public static final String CONTRIB_ERROR_INVALID_FEEDBACK_PATH =
                 Const.FeedbackQuestionTypeNames.CONTRIB + " must have "
                 + FeedbackParticipantType.STUDENTS.toDisplayGiverName()
@@ -425,7 +455,8 @@ public final class Const {
         public static final String CONST_SUM_ERROR_NOT_ENOUGH_POINTS =
                 "Too little points for " + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + ". Minimum number of points is: ";
         public static final String CONST_SUM_ERROR_MISMATCH =
-                "Please distribute all the points for distribution questions. To skip a distribution question, leave the boxes blank.";
+                "Please distribute all the points for distribution questions. "
+                + "To skip a distribution question, leave the boxes blank.";
         public static final String CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
         public static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
     
@@ -435,8 +466,10 @@ public final class Const {
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of options is: ";
         public static final int RUBRIC_MIN_NUM_OF_SUB_QUESTIONS = 1;
         public static final String RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS =
-                "Too little sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of sub-questions is: ";
-        public static final String RUBRIC_ERROR_DESC_INVALID_SIZE = "Invalid number of descriptions for " + Const.FeedbackQuestionTypeNames.RUBRIC;
+                "Too little sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". "
+                + "Minimum number of sub-questions is: ";
+        public static final String RUBRIC_ERROR_DESC_INVALID_SIZE =
+                "Invalid number of descriptions for " + Const.FeedbackQuestionTypeNames.RUBRIC;
         public static final String RUBRIC_ERROR_EMPTY_SUB_QUESTION =
                 "Sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
         public static final String RUBRIC_ERROR_INVALID_WEIGHT =
@@ -806,8 +839,10 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_COPY = "/page/instructorFeedbackCopy";
         public static final String INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
         public static final String INSTRUCTOR_FEEDBACK_REMIND = "/page/instructorFeedbackRemind";
-        public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE = "/page/instructorFeedbackRemindParticularStudentsPage";
-        public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS = "/page/instructorFeedbackRemindParticularStudents";
+        public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE =
+                "/page/instructorFeedbackRemindParticularStudentsPage";
+        public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS =
+                "/page/instructorFeedbackRemindParticularStudents";
         public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE = "/page/instructorFeedbackEditCopyPage";
@@ -822,7 +857,8 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_COPY = "/page/instructorFeedbackQuestionCopy";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE = "/page/instructorFeedbackQuestionvisibilityMessage";
+        public static final String INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE =
+                "/page/instructorFeedbackQuestionvisibilityMessage";
         
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
@@ -834,8 +870,10 @@ public final class Const {
         
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackQuestionSubmissionEditPage";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackQuestionSubmissionEditSave";
+        public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE =
+                "/page/instructorFeedbackQuestionSubmissionEditPage";
+        public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE =
+                "/page/instructorFeedbackQuestionSubmissionEditSave";
         
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
@@ -846,8 +884,10 @@ public final class Const {
         
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
-        public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackQuestionSubmissionEditPage";
-        public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackQuestionSubmissionEditSave";
+        public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE =
+                "/page/studentFeedbackQuestionSubmissionEditPage";
+        public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE =
+                "/page/studentFeedbackQuestionSubmissionEditSave";
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
@@ -879,7 +919,8 @@ public final class Const {
         public static final String ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL = "/admin/adminEmailCreateImageUploadUrl";
         
         public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD = "/admin/adminEmailGroupReceiverListUpload";
-        public static final String ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL = "/admin/adminEmailCreateGroupReceiverListUploadUrl";
+        public static final String ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL =
+                "/admin/adminEmailCreateGroupReceiverListUploadUrl";
         
         public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
@@ -959,7 +1000,8 @@ public final class Const {
                 "/jsp/instructorFeedbackResultsByRecipientQuestionGiver.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION = "/jsp/instructorFeedbackResultsByQuestion.jsp";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/instructorFeedbackQuestionSubmissionEdit.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT =
+                "/jsp/instructorFeedbackQuestionSubmissionEdit.jsp";
         public static final String INSTRUCTOR_SEARCH = "/jsp/instructorSearch.jsp";
         public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
         public static final String INSTRUCTOR_STUDENT_LIST_AJAX = "/jsp/instructorStudentListAjax.jsp";
@@ -1019,7 +1061,8 @@ public final class Const {
                 + "<br/><br/>It seems you are not a registered user of TEAMMATES. "
                 + "To use TEAMMATES, a course instructor has to add you to a course first. "
                 + "After that, TEAMMATES will send you an email containing the link to 'join' that course. "
-                + "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? These are the possible reasons:"
+                + "<br/><br/>Not a stranger to TEAMMATES? "
+                + "Could log in before, but not any more? These are the possible reasons:"
                 + "<br/>1. You used a different Google account to access TEAMMATES in the past. "
                 + "In that case, you need to use the same Google account to access TEAMMATES again. "
                 + "Logout and re-login using the other Google account. "
@@ -1030,7 +1073,8 @@ public final class Const {
                 + "so that we can reconfigure your account to use the new Gmail address."
                 + "<br/>3. You joined this course just a few seconds ago and your data "
                 + "may be still in the process of propagating through our servers. "
-                + "In that case, please click on the <a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
+                + "In that case, please click on the "
+                + "<a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
                 + "</div>";
 
         public static final String COURSE_ADDED =
@@ -1041,8 +1085,10 @@ public final class Const {
                 "A course by the same ID already exists in the system, possibly created by another user. "
                 + "Please choose a different course ID";
         public static final String COURSE_EDITED = "The course has been edited.";
-        public static final String COURSE_ARCHIVED = "The course %s has been archived. It will not appear in the home page any more.";
-        //TODO: Let undo process to be in the Course page for now. Should implement to be able to undo the archiving from the home page later.
+        public static final String COURSE_ARCHIVED =
+                "The course %s has been archived. It will not appear in the home page any more.";
+        // TODO: Let undo process to be in the Course page for now.
+        // Should implement to be able to undo the archiving from the home page later.
         public static final String COURSE_ARCHIVED_FROM_HOMEPAGE =
                 COURSE_ARCHIVED + " You can access archived courses from the 'Courses' tab.<br>"
                 + "Go there to undo the archiving and bring the course back to the home page.";
@@ -1068,7 +1114,8 @@ public final class Const {
 
         public static final String TEAM_INVALID_SECTION_EDIT =
                 "The team \"%s\" is in multiple sections. "
-                + "The team ID should be unique across the entire course and a team cannot be spread across multiple sections.<br>";
+                + "The team ID should be unique across the entire course "
+                + "and a team cannot be spread across multiple sections.<br>";
         public static final String SECTION_QUOTA_EXCEED =
                 "You are trying enroll more than 100 students in section \"%s\". "
                 + "To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";
@@ -1078,21 +1125,24 @@ public final class Const {
         
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
-        public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same email address already exists in the course.";
+        public static final String COURSE_INSTRUCTOR_EXISTS =
+                "An instructor with the same email address already exists in the course.";
         public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor %s has been updated.";
         public static final String COURSE_INSTRUCTOR_DELETED = "The instructor has been deleted from the course.";
         public static final String COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED =
                 "The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.";
         
-        public static final String JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER = "The join link used belongs to a different user whose Google ID is "
+        public static final String JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER =
+                "The join link used belongs to a different user whose Google ID is "
                 + "%s (only part of the Google ID is shown to protect privacy). "
                 + "If that Google ID is owned by you, please logout and re-login "
                 + "using that Google account. If it doesn’t belong to you, please "
                 + "<a href=\"mailto:teammates@comp.nus.edu.sg?"
                 + "body=Your name:%%0AYour course:%%0AYour university:\">"
                 + "contact us</a> so that we can investigate.";
-        public static final String JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER = "The Google ID %s belongs to an existing user in the course."
+        public static final String JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER =
+                "The Google ID %s belongs to an existing user in the course."
                 + "Please login again using a different Google account, and try to join the course again.";
         
         public static final String STUDENT_GOOGLEID_RESET = "The student's google id has been reset";
@@ -1103,7 +1153,8 @@ public final class Const {
                 + "try again in a few more minutes as the student may still be being saved.";
         
         public static final String STUDENT_EDITED = "The student has been edited successfully";
-        public static final String STUDENT_NOT_FOUND_FOR_EDIT = "The student you tried to edit does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
+        public static final String STUDENT_NOT_FOUND_FOR_EDIT =
+                "The student you tried to edit does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
         public static final String STUDENT_DELETED = "The student has been removed from the course";
         public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
         public static final String STUDENT_PROFILE_PICTURE_SAVED = "Your profile picture has been saved successfully";
@@ -1117,22 +1168,27 @@ public final class Const {
                 + "Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
         public static final String FEEDBACK_SESSION_ADD_DB_INCONSISTENCY =
                 "If you do not see existing feedback sessions in the list below, please refresh the page after a few moments";
-        public static final String FEEDBACK_SESSION_COPIED = "The feedback session has been copied. Please modify settings/questions as necessary.";
-        public static final String FEEDBACK_SESSION_COPY_NONESELECTED = "You have not selected any course to copy the feedback session to";
+        public static final String FEEDBACK_SESSION_COPIED =
+                "The feedback session has been copied. Please modify settings/questions as necessary.";
+        public static final String FEEDBACK_SESSION_COPY_NONESELECTED =
+                "You have not selected any course to copy the feedback session to";
         public static final String FEEDBACK_SESSION_COPY_ALREADYEXISTS =
                 "A feedback session with the name \"%s\" already exists in the following course(s): %s.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
-        public static final String FEEDBACK_SESSION_DELETED_NO_ACCESS = "The feedback session has been deleted and is no longer accessible.";
+        public static final String FEEDBACK_SESSION_DELETED_NO_ACCESS =
+                "The feedback session has been deleted and is no longer accessible.";
         public static final String FEEDBACK_SESSION_PUBLISHED =
-                "The feedback session has been published. Please allow up to 1 hour for all the notification emails to be sent out.";
+                "The feedback session has been published. "
+                + "Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
         public static final String FEEDBACK_SESSION_REMINDERSSENT =
                 "Reminder e-mails have been sent out to those students and instructors. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT = "You have not selected any student to remind.";
         public static final String FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";
-        public static final String FEEDBACK_SESSION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
+        public static final String FEEDBACK_SESSION_EMPTY =
+                "You have not created any sessions yet. Use the form above to create a session.";
     
         public static final String FEEDBACK_QUESTION_ADDED = "The question has been added to this feedback session.";
         public static final String FEEDBACK_QUESTION_EDITED = "The changes to the question has been updated.";
@@ -1142,19 +1198,24 @@ public final class Const {
                 + "Click the button below to add a feedback question.";
         public static final String FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
                 "Please enter the maximum number of recipients each respondants should give feedback to.";
-        public static final String FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
+        public static final String FEEDBACK_QUESTION_TEXTINVALID =
+                "Please enter a valid question. The question text cannot be empty.";
         
         public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted successfully!";
-        public static final String FEEDBACK_RESPONSES_MISSING_RECIPIENT = "You did not specify a recipient for your response in question %s.";
-        public static final String FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE = "Incorrect question type for response in question %s.";
+        public static final String FEEDBACK_RESPONSES_MISSING_RECIPIENT =
+                "You did not specify a recipient for your response in question %s.";
+        public static final String FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE =
+                "Incorrect question type for response in question %s.";
         public static final String FEEDBACK_RESPONSES_INVALID_ID = "You are modifying an invalid response in question %s";
         
         public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
-        public static final String FEEDBACK_RESPONSE_INVALID_RECIPIENT = "Trying to update recipient to an invalid recipient for question %d.";
+        public static final String FEEDBACK_RESPONSE_INVALID_RECIPIENT =
+                "Trying to update recipient to an invalid recipient for question %d.";
         
         public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN =
                 "<strong>The feedback session is currently not open for submissions.</strong> "
-                + "You can view the questions and any submitted responses for this feedback session but cannot submit new responses.";
+                + "You can view the questions and any submitted responses for this feedback session "
+                + "but cannot submit new responses.";
         
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW = "You have received feedback from others. Please see below.";
         public static final String FEEDBACK_RESULTS_NOTHINGNEW =
@@ -1171,8 +1232,10 @@ public final class Const {
                 "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">%s</span></span>"
                 + "<br><span class=\"problemDetail\">" + ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " %s</span></p>";
         
-        public static final String EVENTUAL_CONSISTENCY_MESSAGE_STUDENT = "You have successfully joined the course %1$s. "
-                + "<br>Updating of the course data on our servers is currently in progress and will be completed in a few minutes. "
+        public static final String EVENTUAL_CONSISTENCY_MESSAGE_STUDENT =
+                "You have successfully joined the course %1$s. "
+                + "<br>Updating of the course data on our servers is currently in progress "
+                + "and will be completed in a few minutes. "
                 + "<br>Please refresh this page in a few minutes to see the course %1$s in the list below.";
         
         public static final String NULL_POST_PARAMETER_MESSAGE =
@@ -1190,16 +1253,18 @@ public final class Const {
         public static final String INSTRUCTOR_PERSISTENCE_ISSUE = "Account creation is still in progress. Please reload the page"
                 + " after sometime.";
         public static final String INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS =
-                                   "No permission to modify any sessions in un-archived courses";
+                "No permission to modify any sessions in un-archived courses";
         public static final String INSTRUCTOR_NO_ACTIVE_COURSES = "No un-archived courses";
-        public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
+        public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS =
+                "There are no course or students information to be displayed";
         public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";
         public static final String INSTRUCTOR_SEARCH_NO_RESULTS = "No results found.";
         public static final String INSTRUCTOR_SEARCH_TIPS =
                 "Search Tips:<br>"
                 + "<ul>"
                     + "<li>Put more keywords to search for more precise results.</li>"
-                    + "<li>Put quotation marks around words <b>\"[any word]\"</b> to search for an exact phrase in an exact order.</li>"
+                    + "<li>Put quotation marks around words <b>\"[any word]\"</b>"
+                            + " to search for an exact phrase in an exact order.</li>"
                 + "</ul>";
         
         public static final String COMMENT_ADDED = "New comment has been added";
@@ -1247,7 +1312,8 @@ public final class Const {
                 + "Please upload another picture to begin editing";
         public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "Normally, we would show the student’s profile here. "
                 + "However, this student has not created a profile yet";
-        public static final String STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR = "Normally, we would show the student’s profile here. "
+        public static final String STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR =
+                "Normally, we would show the student’s profile here. "
                 + "However, you do not have access to view this student's profile";
         
         public static final String UNREGISTERED_STUDENT_MESSAGE = "You may submit feedback for sessions "

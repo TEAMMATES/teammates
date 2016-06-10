@@ -305,7 +305,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertEquals(question1.questionType, copiedQuestion.questionType);
         assertEquals(question1.giverType, copiedQuestion.giverType);
         assertEquals(question1.recipientType, copiedQuestion.recipientType);
-        assertEquals(question1Details.questionText, copiedQuestionDetails.questionText);
+        assertEquals(question1Details.getQuestionText(), copiedQuestionDetails.getQuestionText());
         
     }
     
@@ -405,7 +405,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes deletedQuestion = getQuestionFromDatastore("qn1InSession2InCourse2");
         assertNotNull(deletedQuestion);
         
-        List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForSession("Instructor feedback session", courseId);
+        List<FeedbackQuestionAttributes> questions =
+                fqLogic.getFeedbackQuestionsForSession("Instructor feedback session", courseId);
         assertFalse(questions.isEmpty());
         questions = fqLogic.getFeedbackQuestionsForSession("Private feedback session", courseId);
         assertFalse(questions.isEmpty());
@@ -435,7 +436,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
         actualQuestions =
-                    fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1", "instructor1@course1.tmt");
+                fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1",
+                                                          "instructor1@course1.tmt");
         
         assertEquals(actualQuestions, expectedQuestions);
                 
@@ -444,7 +446,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
         expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
         actualQuestions =
-                    fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1", "instructor2@course1.tmt");
+                fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1",
+                                                          "instructor2@course1.tmt");
 
         assertEquals(actualQuestions, expectedQuestions);
         
@@ -455,21 +458,23 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         expectedQuestions.add(getQuestionFromDatastore("qn2InSession2InCourse2"));
         
         actualQuestions =
-                    fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2", "instructor1@course2.tmt");
+                fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2",
+                                                          "instructor1@course2.tmt");
         
         assertEquals(actualQuestions, expectedQuestions);
         
         ______TS("Get questions for creator instructor, verifies that the two methods return the same questions");
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>(actualQuestions);
         actualQuestions =
-                 fqLogic.getFeedbackQuestionsForCreatorInstructor("Instructor feedback session", "idOfTypicalCourse2");
+                fqLogic.getFeedbackQuestionsForCreatorInstructor("Instructor feedback session", "idOfTypicalCourse2");
                             
         assertEquals(actualQuestions, expectedQuestions);
         
         ______TS("Get questions created for instructors not by the creating instructor");
         
         actualQuestions =
-                fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2", "instructor2@course2.tmt");
+                fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2",
+                                                          "instructor2@course2.tmt");
     
         assertEquals(actualQuestions, expectedQuestions);
         
@@ -484,7 +489,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         ______TS("Failure: Getting questions for a non-existent session");
         
         try {
-            fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse1", "instructor1@course1.tmt");
+            fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse1",
+                                                      "instructor1@course1.tmt");
             signalFailureToDetectException("Allowed to get questions for a feedback session that does not exist.");
         } catch (EntityDoesNotExistException e) {
             assertEquals(e.getMessage(), "Trying to get questions for a feedback session that does not exist.");

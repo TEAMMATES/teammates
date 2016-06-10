@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
 
@@ -78,23 +79,37 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             if (order != 0) {
                 return order;
             }
+            
+            boolean isGiverVisible1 = isGiverVisible(o1);
+            boolean isGiverVisible2 = isGiverVisible(o2);
 
-            String giverName1 = emailNameTable.get(o1.giverEmail);
-            String giverName2 = emailNameTable.get(o2.giverEmail);
-            order = compareByNames(giverName1, giverName2);
+            String giverName1 = emailNameTable.get(o1.giver);
+            String giverName2 = emailNameTable.get(o2.giver);
+            order = compareByNames(giverName1, giverName2, isGiverVisible1, isGiverVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            order = compareByNames(recipientName1, recipientName2);
+            boolean isRecipientVisible1 = isRecipientVisible(o1);
+            boolean isRecipientVisible2 = isRecipientVisible(o2);
+            
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
+            order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
             order = compareByQuestionNumber(o1, o2);
-            return order;
+            if (order != 0) {
+                return order;
+            }
+            order = compareByResponseString(o1, o2);
+            if (order != 0) {
+                return order;
+            }
+            
+            return o1.getId().compareTo(o2.getId());
         }
     };
 
@@ -103,24 +118,33 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1, FeedbackResponseAttributes o2) {
-            String giverName1 = emailNameTable.get(o1.giverEmail);
-            String giverName2 = emailNameTable.get(o2.giverEmail);
-            int order = compareByNames(giverName1, giverName2);
+            
+            boolean isGiverVisible1 = isGiverVisible(o1);
+            boolean isGiverVisible2 = isGiverVisible(o2);
+            
+            String giverName1 = emailNameTable.get(o1.giver);
+            String giverName2 = emailNameTable.get(o2.giver);
+            int order = compareByNames(giverName1, giverName2, isGiverVisible1, isGiverVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            order = compareByNames(recipientName1, recipientName2);
+            boolean isRecipientVisible1 = isRecipientVisible(o1);
+            boolean isRecipientVisible2 = isRecipientVisible(o2);
+
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
+            order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String resp1 = o1.getResponseDetails().getAnswerString();
-            String resp2 = o2.getResponseDetails().getAnswerString();
-            order = compareByNames(resp1, resp2);
-            return order;
+            order = compareByResponseString(o1, o2);
+            if (order != 0) {
+                return order;
+            }
+            
+            return o1.getId().compareTo(o2.getId());
         }
     };
 
@@ -136,31 +160,45 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String t1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
-                                                                     : getTeamNameForEmail(o1.giverEmail);
-            String t2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
-                                                                     : getTeamNameForEmail(o2.giverEmail);
-            order = t1.compareTo(t2);
+            boolean isGiverVisible1 = isGiverVisible(o1);
+            boolean isGiverVisible2 = isGiverVisible(o2);
+            
+            String t1 = getTeamNameForEmail(o1.giver).isEmpty() ? getNameForEmail(o1.giver)
+                                                                     : getTeamNameForEmail(o1.giver);
+            String t2 = getTeamNameForEmail(o2.giver).isEmpty() ? getNameForEmail(o2.giver)
+                                                                     : getTeamNameForEmail(o2.giver);
+            order = compareByNames(t1, t2, isGiverVisible1, isGiverVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String giverName1 = emailNameTable.get(o1.giverEmail);
-            String giverName2 = emailNameTable.get(o2.giverEmail);
-            order = compareByNames(giverName1, giverName2);
+            String giverName1 = emailNameTable.get(o1.giver);
+            String giverName2 = emailNameTable.get(o2.giver);
+            order = compareByNames(giverName1, giverName2, isGiverVisible1, isGiverVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            order = compareByNames(recipientName1, recipientName2);
+            boolean isRecipientVisible1 = isRecipientVisible(o1);
+            boolean isRecipientVisible2 = isRecipientVisible(o2);
+
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
+            order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
             order = compareByQuestionNumber(o1, o2);
-            return order;
+            if (order != 0) {
+                return order;
+            }
+            order = compareByResponseString(o1, o2);
+            if (order != 0) {
+                return order;
+            }
+            
+            return o1.getId().compareTo(o2.getId());
         }
     };
 
@@ -175,23 +213,38 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             if (order != 0) {
                 return order;
             }
+            
+            boolean isRecipientVisible1 = isRecipientVisible(o1);
+            boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            order = compareByNames(recipientName1, recipientName2);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
+            order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
+            
 
-            String giverName1 = emailNameTable.get(o1.giverEmail);
-            String giverName2 = emailNameTable.get(o2.giverEmail);
-            order = compareByNames(giverName1, giverName2);
+            boolean isGiverVisible1 = isGiverVisible(o1);
+            boolean isGiverVisible2 = isGiverVisible(o2);
+
+            String giverName1 = emailNameTable.get(o1.giver);
+            String giverName2 = emailNameTable.get(o2.giver);
+            order = compareByNames(giverName1, giverName2, isGiverVisible1, isGiverVisible2);
             if (order != 0) {
                 return order;
             }
 
             order = compareByQuestionNumber(o1, o2);
-            return order;
+            if (order != 0) {
+                return order;
+            }
+            order = compareByResponseString(o1, o2);
+            if (order != 0) {
+                return order;
+            }
+            
+            return o1.getId().compareTo(o2.getId());
         }
     };
 
@@ -206,32 +259,46 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             if (order != 0) {
                 return order;
             }
+            
+            boolean isRecipientVisible1 = isRecipientVisible(o1);
+            boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-            String t1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
-                                                                         : getTeamNameForEmail(o1.recipientEmail);
-            String t2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
-                                                                         : getTeamNameForEmail(o2.recipientEmail);
-            order = t1.compareTo(t2);
+            String t1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                                                                          : getTeamNameForEmail(o1.recipient);
+            String t2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                                                                          : getTeamNameForEmail(o2.recipient);
+            order = compareByNames(t1, t2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            order = compareByNames(recipientName1, recipientName2);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
+            order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String giverName1 = emailNameTable.get(o1.giverEmail);
-            String giverName2 = emailNameTable.get(o2.giverEmail);
-            order = compareByNames(giverName1, giverName2);
+            boolean isGiverVisible1 = isGiverVisible(o1);
+            boolean isGiverVisible2 = isGiverVisible(o2);
+            
+            String giverName1 = emailNameTable.get(o1.giver);
+            String giverName2 = emailNameTable.get(o2.giver);
+            order = compareByNames(giverName1, giverName2, isGiverVisible1, isGiverVisible2);
             if (order != 0) {
                 return order;
             }
-
+            
             order = compareByQuestionNumber(o1, o2);
-            return order;
+            if (order != 0) {
+                return order;
+            }
+            order = compareByResponseString(o1, o2);
+            if (order != 0) {
+                return order;
+            }
+            
+            return o1.getId().compareTo(o2.getId());
         }
     };
 
@@ -247,9 +314,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String giverName1 = emailNameTable.get(o1.giverEmail);
-            String giverName2 = emailNameTable.get(o2.giverEmail);
-            order = compareByNames(giverName1, giverName2);
+            boolean isGiverVisible1 = isGiverVisible(o1);
+            boolean isGiverVisible2 = isGiverVisible(o2);
+            
+            String giverName1 = emailNameTable.get(o1.giver);
+            String giverName2 = emailNameTable.get(o2.giver);
+            order = compareByNames(giverName1, giverName2, isGiverVisible1, isGiverVisible2);
             if (order != 0) {
                 return order;
             }
@@ -258,20 +328,32 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             if (order != 0) {
                 return order;
             }
+            
+            boolean isRecipientVisible1 = isRecipientVisible(o1);
+            boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-            String t1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
-                                                                         : getTeamNameForEmail(o1.recipientEmail);
-            String t2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
-                                                                         : getTeamNameForEmail(o2.recipientEmail);
-            order = t1.compareTo(t2);
+            String t1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                                                                          : getTeamNameForEmail(o1.recipient);
+            String t2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                                                                          : getTeamNameForEmail(o2.recipient);
+            order = compareByNames(t1, t2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            order = compareByNames(recipientName1, recipientName2);
-            return order;
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
+            order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
+            
+            if (order != 0) {
+                return order;
+            }
+            order = compareByResponseString(o1, o2);
+            if (order != 0) {
+                return order;
+            }
+            
+            return o1.getId().compareTo(o2.getId());
         }
     };
 
@@ -287,18 +369,22 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String giverTeam1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
-                                                                             : getTeamNameForEmail(o1.giverEmail);
-            String giverTeam2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
-                                                                             : getTeamNameForEmail(o2.giverEmail);
-            order = giverTeam1.compareTo(giverTeam2);
+            boolean isGiverVisible1 = isGiverVisible(o1);
+            boolean isGiverVisible2 = isGiverVisible(o2);
+
+
+            String giverTeam1 = getTeamNameForEmail(o1.giver).isEmpty() ? getNameForEmail(o1.giver)
+                                                                             : getTeamNameForEmail(o1.giver);
+            String giverTeam2 = getTeamNameForEmail(o2.giver).isEmpty() ? getNameForEmail(o2.giver)
+                                                                             : getTeamNameForEmail(o2.giver);
+            order = compareByNames(giverTeam1, giverTeam2, isGiverVisible1, isGiverVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String giverName1 = emailNameTable.get(o1.giverEmail);
-            String giverName2 = emailNameTable.get(o2.giverEmail);
-            order = compareByNames(giverName1, giverName2);
+            String giverName1 = emailNameTable.get(o1.giver);
+            String giverName2 = emailNameTable.get(o2.giver);
+            order = compareByNames(giverName1, giverName2, isGiverVisible1, isGiverVisible2);
             if (order != 0) {
                 return order;
             }
@@ -307,20 +393,32 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             if (order != 0) {
                 return order;
             }
+            
+            boolean isRecipientVisible1 = isRecipientVisible(o1);
+            boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-            String receiverTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
-                                                                                    : getTeamNameForEmail(o1.recipientEmail);
-            String receiverTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
-                                                                                    : getTeamNameForEmail(o2.recipientEmail);
-            order = receiverTeam1.compareTo(receiverTeam2);
+            String receiverTeam1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                                                                                     : getTeamNameForEmail(o1.recipient);
+            String receiverTeam2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                                                                                     : getTeamNameForEmail(o2.recipient);
+            order = compareByNames(receiverTeam1, receiverTeam2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            order = compareByNames(recipientName1, recipientName2);
-            return order;
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
+            order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
+            
+            if (order != 0) {
+                return order;
+            }
+            order = compareByResponseString(o1, o2);
+            if (order != 0) {
+                return order;
+            }
+            
+            return o1.getId().compareTo(o2.getId());
         }
     };
 
@@ -336,9 +434,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            order = compareByNames(recipientName1, recipientName2);
+            boolean isRecipientVisible1 = isRecipientVisible(o1);
+            boolean isRecipientVisible2 = isRecipientVisible(o2);
+
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
+            order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
@@ -348,19 +449,31 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String t1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
-                                                                     : getTeamNameForEmail(o1.giverEmail);
-            String t2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
-                                                                     : getTeamNameForEmail(o2.giverEmail);
-            order = t1.compareTo(t2);
+            boolean isGiverVisible1 = isGiverVisible(o1);
+            boolean isGiverVisible2 = isGiverVisible(o2);
+            
+            String t1 = getTeamNameForEmail(o1.giver).isEmpty() ? getNameForEmail(o1.giver)
+                                                                     : getTeamNameForEmail(o1.giver);
+            String t2 = getTeamNameForEmail(o2.giver).isEmpty() ? getNameForEmail(o2.giver)
+                                                                     : getTeamNameForEmail(o2.giver);
+            order = compareByNames(t1, t2, isGiverVisible1, isGiverVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String giverName1 = emailNameTable.get(o1.giverEmail);
-            String giverName2 = emailNameTable.get(o2.giverEmail);
-            order = compareByNames(giverName1, giverName2);
-            return order;
+            String giverName1 = emailNameTable.get(o1.giver);
+            String giverName2 = emailNameTable.get(o2.giver);
+            order = compareByNames(giverName1, giverName2, isGiverVisible1, isGiverVisible2);
+            if (order != 0) {
+                return order;
+            }
+            order = compareByResponseString(o1, o2);
+            if (order != 0) {
+                return order;
+            }
+            
+            return o1.getId().compareTo(o2.getId());
+
         }
     };
 
@@ -369,6 +482,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1, FeedbackResponseAttributes o2) {
+            
             String recipientSection1 = o1.recipientSection;
             String recipientSection2 = o2.recipientSection;
             int order = recipientSection1.compareTo(recipientSection2);
@@ -376,18 +490,20 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String recipientTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
-                                                                                     : getTeamNameForEmail(o1.recipientEmail);
-            String recipientTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
-                                                                                     : getTeamNameForEmail(o2.recipientEmail);
-            order = recipientTeam1.compareTo(recipientTeam2);
+            boolean isRecipientVisible1 = isRecipientVisible(o1);
+            boolean isRecipientVisible2 = isRecipientVisible(o2);
+            String recipientTeam1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                                                                                      : getTeamNameForEmail(o1.recipient);
+            String recipientTeam2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                                                                                      : getTeamNameForEmail(o2.recipient);
+            order = compareByNames(recipientTeam1, recipientTeam2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            order = compareByNames(recipientName1, recipientName2);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
+            order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
@@ -397,19 +513,30 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String giverTeam1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
-                                                                             : getTeamNameForEmail(o1.giverEmail);
-            String giverTeam2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
-                                                                             : getTeamNameForEmail(o2.giverEmail);
-            order = giverTeam1.compareTo(giverTeam2);
+            boolean isGiverVisible1 = isGiverVisible(o1);
+            boolean isGiverVisible2 = isGiverVisible(o2);
+       
+            String giverTeam1 = getTeamNameForEmail(o1.giver).isEmpty() ? getNameForEmail(o1.giver)
+                                                                             : getTeamNameForEmail(o1.giver);
+            String giverTeam2 = getTeamNameForEmail(o2.giver).isEmpty() ? getNameForEmail(o2.giver)
+                                                                             : getTeamNameForEmail(o2.giver);
+            order = compareByNames(giverTeam1, giverTeam2, isGiverVisible1, isGiverVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String giverName1 = emailNameTable.get(o1.giverEmail);
-            String giverName2 = emailNameTable.get(o2.giverEmail);
-            order = compareByNames(giverName1, giverName2);
-            return order;
+            String giverName1 = emailNameTable.get(o1.giver);
+            String giverName2 = emailNameTable.get(o2.giver);
+            order = compareByNames(giverName1, giverName2, isGiverVisible1, isGiverVisible2);
+            if (order != 0) {
+                return order;
+            }
+            order = compareByResponseString(o1, o2);
+            if (order != 0) {
+                return order;
+            }
+            
+            return o1.getId().compareTo(o2.getId());
         }
     };
 
@@ -418,11 +545,13 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1, FeedbackResponseAttributes o2) {
-            String recipientTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
-                                                                                     : getTeamNameForEmail(o1.recipientEmail);
-            String recipientTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
-                                                                                     : getTeamNameForEmail(o2.recipientEmail);
-            int order = recipientTeam1.compareTo(recipientTeam2);
+            boolean isRecipientVisible1 = isRecipientVisible(o1);
+            boolean isRecipientVisible2 = isRecipientVisible(o2);
+            String recipientTeam1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                                                                                     : getTeamNameForEmail(o1.recipient);
+            String recipientTeam2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                                                                                     : getTeamNameForEmail(o2.recipient);
+            int order = compareByNames(recipientTeam1, recipientTeam2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
@@ -432,26 +561,37 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            order = compareByNames(recipientName1, recipientName2);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
+            order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String giverTeam1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
-                                                                             : getTeamNameForEmail(o1.giverEmail);
-            String giverTeam2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
-                                                                             : getTeamNameForEmail(o2.giverEmail);
-            order = giverTeam1.compareTo(giverTeam2);
+            String giverTeam1 = getTeamNameForEmail(o1.giver).isEmpty() ? getNameForEmail(o1.giver)
+                                                                             : getTeamNameForEmail(o1.giver);
+            String giverTeam2 = getTeamNameForEmail(o2.giver).isEmpty() ? getNameForEmail(o2.giver)
+                                                                             : getTeamNameForEmail(o2.giver);
+            order = compareByNames(giverTeam1, giverTeam2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String giverName1 = emailNameTable.get(o1.giverEmail);
-            String giverName2 = emailNameTable.get(o2.giverEmail);
-            order = compareByNames(giverName1, giverName2);
-            return order;
+            boolean isGiverVisible1 = isGiverVisible(o1);
+            boolean isGiverVisible2 = isGiverVisible(o2);
+            String giverName1 = emailNameTable.get(o1.giver);
+            String giverName2 = emailNameTable.get(o2.giver);
+            order = compareByNames(giverName1, giverName2, isGiverVisible1, isGiverVisible2);
+            if (order != 0) {
+                return order;
+            }
+            
+            order = compareByResponseString(o1, o2);
+            if (order != 0) {
+                return order;
+            }
+            
+            return o1.getId().compareTo(o2.getId());
         }
     };
 
@@ -460,11 +600,14 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1, FeedbackResponseAttributes o2) {
-            String giverTeam1 = getTeamNameForEmail(o1.giverEmail).isEmpty() ? getNameForEmail(o1.giverEmail)
-                                                                             : getTeamNameForEmail(o1.giverEmail);
-            String giverTeam2 = getTeamNameForEmail(o2.giverEmail).isEmpty() ? getNameForEmail(o2.giverEmail)
-                                                                             : getTeamNameForEmail(o2.giverEmail);
-            int order = giverTeam1.compareTo(giverTeam2);
+            boolean isGiverVisible1 = isGiverVisible(o1);
+            boolean isGiverVisible2 = isGiverVisible(o2);
+            
+            String giverTeam1 = getTeamNameForEmail(o1.giver).isEmpty() ? getNameForEmail(o1.giver)
+                                                                             : getTeamNameForEmail(o1.giver);
+            String giverTeam2 = getTeamNameForEmail(o2.giver).isEmpty() ? getNameForEmail(o2.giver)
+                                                                             : getTeamNameForEmail(o2.giver);
+            int order = compareByNames(giverTeam1, giverTeam2, isGiverVisible1, isGiverVisible2);
             if (order != 0) {
                 return order;
             }
@@ -474,26 +617,39 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 return order;
             }
 
-            String giverName1 = emailNameTable.get(o1.giverEmail);
-            String giverName2 = emailNameTable.get(o2.giverEmail);
-            order = compareByNames(giverName1, giverName2);
+            String giverName1 = emailNameTable.get(o1.giver);
+            String giverName2 = emailNameTable.get(o2.giver);
+            order = compareByNames(giverName1, giverName2, isGiverVisible1, isGiverVisible2);
+            if (order != 0) {
+                return order;
+            }
+            
+            boolean isRecipientVisible1 = isRecipientVisible(o1);
+            boolean isRecipientVisible2 = isRecipientVisible(o2);
+
+            String receiverTeam1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                                                                                     : getTeamNameForEmail(o1.recipient);
+            String receiverTeam2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                                                                                     : getTeamNameForEmail(o2.recipient);
+            order = compareByNames(receiverTeam1, receiverTeam2, isRecipientVisible1, isRecipientVisible2);
             if (order != 0) {
                 return order;
             }
 
-            String receiverTeam1 = getTeamNameForEmail(o1.recipientEmail).isEmpty() ? getNameForEmail(o1.recipientEmail)
-                                                                                    : getTeamNameForEmail(o1.recipientEmail);
-            String receiverTeam2 = getTeamNameForEmail(o2.recipientEmail).isEmpty() ? getNameForEmail(o2.recipientEmail)
-                                                                                    : getTeamNameForEmail(o2.recipientEmail);
-            order = receiverTeam1.compareTo(receiverTeam2);
+            String recipientName1 = emailNameTable.get(o1.recipient);
+            String recipientName2 = emailNameTable.get(o2.recipient);
+            order = compareByNames(recipientName1, recipientName2, isRecipientVisible1, isRecipientVisible2);
+            
             if (order != 0) {
                 return order;
             }
-
-            String recipientName1 = emailNameTable.get(o1.recipientEmail);
-            String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            order = compareByNames(recipientName1, recipientName2);
-            return order;
+            
+            order = compareByResponseString(o1, o2);
+            if (order != 0) {
+                return order;
+            }
+            
+            return o1.getId().compareTo(o2.getId());
         }
     };
 
@@ -502,33 +658,48 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1, FeedbackResponseAttributes o2) {
+            
+            boolean isRecipientVisible1 = isRecipientVisible(o1);
+            boolean isRecipientVisible2 = isRecipientVisible(o2);
             // Compare by Recipient Name
-            int recipientNameCompareResult = compareByNames(getNameForEmail(o1.recipientEmail),
-                                                            getNameForEmail(o2.recipientEmail));
+            int recipientNameCompareResult = compareByNames(getNameForEmail(o1.recipient),
+                                                            getNameForEmail(o2.recipient),
+                                                            isRecipientVisible1, isRecipientVisible2);
             if (recipientNameCompareResult != 0) {
                 return recipientNameCompareResult;
             }
             
             // Compare by Recipient Email
-            int recipientEmailCompareResult = compareByNames(o1.recipientEmail, o2.recipientEmail);
+            int recipientEmailCompareResult = compareByNames(o1.recipient, o2.recipient,
+                                                             isRecipientVisible1, isRecipientVisible2);
             if (recipientEmailCompareResult != 0) {
                 return recipientEmailCompareResult;
             }
             
+            boolean isGiverVisible1 = isGiverVisible(o1);
+            boolean isGiverVisible2 = isGiverVisible(o2);
             // Compare by Giver Name
-            int giverNameCompareResult = compareByNames(getNameForEmail(o1.giverEmail),
-                                                        getNameForEmail(o2.giverEmail));
+            int giverNameCompareResult = compareByNames(getNameForEmail(o1.giver),
+                                                        getNameForEmail(o2.giver),
+                                                        isGiverVisible1, isGiverVisible2);
             if (giverNameCompareResult != 0) {
                 return giverNameCompareResult;
             }
             
             // Compare by Giver Email
-            int giverEmailCompareResult = compareByNames(o1.giverEmail, o2.giverEmail);
+            int giverEmailCompareResult = compareByNames(o1.giver, o2.giver,
+                                                         isGiverVisible1, isGiverVisible2);
             if (giverEmailCompareResult != 0) {
                 return giverEmailCompareResult;
             }
             
-            return 0;
+            
+            int responseStringResult = compareByResponseString(o1, o2);
+            if (responseStringResult != 0) {
+                return responseStringResult;
+            }
+            
+            return o1.getId().compareTo(o2.getId());
         }
     };
 
@@ -575,11 +746,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         // We change user email to team name here for display purposes.
         for (FeedbackResponseAttributes response : responses) {
             if (questions.get(response.feedbackQuestionId).giverType == FeedbackParticipantType.TEAMS
-                    && roster.isStudentInCourse(response.giverEmail)) {
+                    && roster.isStudentInCourse(response.giver)) {
                 // for TEAMS giver type, for older responses,
                 // the giverEmail is stored as the student giver's email in the database
                 // so we convert it to the team name for use in FeedbackSessionResultsBundle
-                response.giverEmail = emailNameTable.get(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER);
+                response.giver = emailNameTable.get(response.giver + Const.TEAM_OF_EMAIL_OWNER);
             }
             // Copy the data before hiding response recipient and giver.
             FeedbackResponseAttributes fraCopy = new FeedbackResponseAttributes(response);
@@ -603,7 +774,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     private void hideResponsesGiverRecipient() {
         for (FeedbackResponseAttributes response : responses) {
             // Hide recipient details if its not visible to the current user
-            String name = emailNameTable.get(response.recipientEmail);
+            String name = emailNameTable.get(response.recipient);
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
             FeedbackParticipantType participantType = question.recipientType;
 
@@ -614,11 +785,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 emailNameTable.put(anonEmail, name);
                 emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
 
-                response.recipientEmail = anonEmail;
+                response.recipient = anonEmail;
             }
 
             // Hide giver details if its not visible to the current user
-            name = emailNameTable.get(response.giverEmail);
+            name = emailNameTable.get(response.giver);
             participantType = question.giverType;
 
             if (!isGiverVisible(response)) {
@@ -630,7 +801,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 if (participantType == FeedbackParticipantType.TEAMS) {
                     emailTeamNameTable.put(anonEmail, name);
                 }
-                response.giverEmail = anonEmail;
+                response.giver = anonEmail;
             }
         }
     }
@@ -673,7 +844,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return isFeedbackParticipantVisible(true, response);
     }
 
-    private String getAnonEmail(FeedbackParticipantType type, String name) {
+    public static String getAnonEmail(FeedbackParticipantType type, String name) {
         String anonName = getAnonName(type, name);
         return anonName + "@@" + anonName + ".com";
     }
@@ -687,14 +858,18 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return "Anonymous " + type.toSingularFormString();
     }
 
-    private String getAnonName(FeedbackParticipantType type, String name) {
-        String hash = getHashOfName(name);
-        String typeSingularForm = type.toSingularFormString();
-        return "Anonymous " + typeSingularForm + " " + hash;
+    public static String getAnonName(FeedbackParticipantType type, String name) {
+        String hashedEncryptedName = getHashOfName(getEncryptedName(name));
+        String participantType = type.toSingularFormString();
+        return String.format("Anonymous %s %s", participantType, hashedEncryptedName);
+    }
+    
+    private static String getEncryptedName(String name) {
+        return StringHelper.encrypt(name);
     }
 
-    private String getHashOfName(String name) {
-        return Integer.toString(Math.abs(name.hashCode()));
+    private static String getHashOfName(String name) {
+        return Long.toString(Math.abs((long) name.hashCode()));
     }
 
     private String getNameFromRoster(String participantIdentifier, boolean isFullName) {
@@ -1404,9 +1579,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public String getDisplayableEmail(boolean isGiver, FeedbackResponseAttributes response) {
         String participantIdentifier;
         if (isGiver) {
-            participantIdentifier = response.giverEmail;
+            participantIdentifier = response.giver;
         } else {
-            participantIdentifier = response.recipientEmail;
+            participantIdentifier = response.recipient;
         }
 
         if (isEmailOfPerson(participantIdentifier) && isFeedbackParticipantVisible(isGiver, response)) {
@@ -1456,7 +1631,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
     
     public String getRecipientNameForResponse(FeedbackResponseAttributes response) {
-        String name = emailNameTable.get(response.recipientEmail);
+        String name = emailNameTable.get(response.recipient);
         if (name == null || name.equals(Const.USER_IS_MISSING)) {
             return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
@@ -1467,7 +1642,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
 
     public String getGiverNameForResponse(FeedbackResponseAttributes response) {
-        String name = emailNameTable.get(response.giverEmail);
+        String name = emailNameTable.get(response.giver);
         if (name == null || name.equals(Const.USER_IS_MISSING)) {
             return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
@@ -1492,7 +1667,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public String getQuestionText(String feedbackQuestionId) {
         return Sanitizer.sanitizeForHtml(questions.get(feedbackQuestionId)
                                                   .getQuestionDetails()
-                                                  .questionText);
+                                                  .getQuestionText());
     }
 
     // TODO: make responses to the student calling this method always on top.
@@ -1563,51 +1738,30 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             getQuestionResponseMapByRecipientTeam() {
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForOneRecipient = null;
-        List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion = null;
 
         Collections.sort(responses, compareByTeamQuestionRecipientTeamGiver);
 
-        String recipientTeam = null;
-        String questionId = null;
-
         for (FeedbackResponseAttributes response : responses) {
-            if (recipientTeam == null
-                    || !(getTeamNameForEmail(response.recipientEmail).isEmpty()
-                            ? getNameForEmail(response.recipientEmail).equals(recipientTeam)
-                            : getTeamNameForEmail(response.recipientEmail).equals(recipientTeam))) {
-                if (questionId != null && responsesForOneRecipientOneQuestion != null
-                        && responsesForOneRecipient != null) {
-                    responsesForOneRecipient.put(questions.get(questionId),
-                                                 responsesForOneRecipientOneQuestion);
-                }
-                if (recipientTeam != null && responsesForOneRecipient != null) {
-                    sortedMap.put(recipientTeam, responsesForOneRecipient);
-                }
-                responsesForOneRecipient = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-                recipientTeam = getTeamNameForEmail(response.recipientEmail);
-                if (recipientTeam.isEmpty()) {
-                    recipientTeam = getNameForEmail(response.recipientEmail);
-                }
-                questionId = null;
+            String recipientTeam = getTeamNameForEmail(response.recipient);
+            if (recipientTeam.isEmpty()) {
+                recipientTeam = getNameForEmail(response.recipient);
             }
-            if (questionId == null || !response.feedbackQuestionId.equals(questionId)) {
-                if (questionId != null && responsesForOneRecipientOneQuestion != null) {
-                    responsesForOneRecipient.put(questions.get(questionId),
-                                                 responsesForOneRecipientOneQuestion);
-                }
-                responsesForOneRecipientOneQuestion = new ArrayList<FeedbackResponseAttributes>();
-                questionId = response.feedbackQuestionId;
+            
+            if (!sortedMap.containsKey(recipientTeam)) {
+                sortedMap.put(recipientTeam,
+                        new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>());
             }
+            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForOneRecipient =
+                                            sortedMap.get(recipientTeam);
+            
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            if (!responsesForOneRecipient.containsKey(question)) {
+                responsesForOneRecipient.put(question, new ArrayList<FeedbackResponseAttributes>());
+            }
+            
+            List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion =
+                                            responsesForOneRecipient.get(question);
             responsesForOneRecipientOneQuestion.add(response);
-        }
-        if (questionId != null && responsesForOneRecipientOneQuestion != null
-                && responsesForOneRecipient != null) {
-            responsesForOneRecipient.put(questions.get(questionId),
-                                         responsesForOneRecipientOneQuestion);
-        }
-        if (recipientTeam != null && responsesForOneRecipient != null) {
-            sortedMap.put(recipientTeam, responsesForOneRecipient);
         }
 
         return sortedMap;
@@ -1617,53 +1771,33 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             getQuestionResponseMapByGiverTeam() {
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
-        LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver = null;
-        List<FeedbackResponseAttributes> responsesFromOneGiverOneQuestion = null;
+        
 
         Collections.sort(responses, compareByTeamQuestionGiverTeamRecipient);
 
-        String giverTeam = null;
-        String questionId = null;
 
         for (FeedbackResponseAttributes response : responses) {
-            if (giverTeam == null
-                    || !(getTeamNameForEmail(response.giverEmail).isEmpty()
-                            ? getNameForEmail(response.giverEmail).equals(giverTeam)
-                            : getTeamNameForEmail(response.giverEmail).equals(giverTeam))) {
-                if (questionId != null && responsesFromOneGiverOneQuestion != null
-                        && responsesFromOneGiver != null) {
-                    responsesFromOneGiver.put(questions.get(questionId),
-                                              responsesFromOneGiverOneQuestion);
-                }
-                if (giverTeam != null && responsesFromOneGiver != null) {
-                    sortedMap.put(giverTeam, responsesFromOneGiver);
-                }
-                responsesFromOneGiver = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-                giverTeam = getTeamNameForEmail(response.giverEmail);
-                if (giverTeam.isEmpty()) {
-                    giverTeam = getNameForEmail(response.giverEmail);
-                }
-                questionId = null;
+            String giverTeam = getTeamNameForEmail(response.giver);
+            if (giverTeam.isEmpty()) {
+                giverTeam = getNameForEmail(response.giver);
             }
-            if (questionId == null || !response.feedbackQuestionId.equals(questionId)) {
-                if (questionId != null && responsesFromOneGiverOneQuestion != null) {
-                    responsesFromOneGiver.put(questions.get(questionId),
-                                              responsesFromOneGiverOneQuestion);
-                }
-                responsesFromOneGiverOneQuestion = new ArrayList<FeedbackResponseAttributes>();
-                questionId = response.feedbackQuestionId;
+            
+            if (!sortedMap.containsKey(giverTeam)) {
+                sortedMap.put(giverTeam,
+                        new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>());
             }
+            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver =
+                                            sortedMap.get(giverTeam);
+            
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            if (!responsesFromOneGiver.containsKey(question)) {
+                responsesFromOneGiver.put(question, new ArrayList<FeedbackResponseAttributes>());
+            }
+            
+            List<FeedbackResponseAttributes> responsesFromOneGiverOneQuestion = responsesFromOneGiver.get(question);
             responsesFromOneGiverOneQuestion.add(response);
         }
-        if (questionId != null && responsesFromOneGiverOneQuestion != null
-                && responsesFromOneGiver != null) {
-            responsesFromOneGiver.put(questions.get(questionId),
-                                      responsesFromOneGiverOneQuestion);
-        }
-        if (giverTeam != null && responsesFromOneGiver != null) {
-            sortedMap.put(giverTeam, responsesFromOneGiver);
-        }
-
+    
         return sortedMap;
     }
     
@@ -1677,58 +1811,38 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             getResponsesSortedByRecipientQuestionGiver(boolean sortByTeam) {
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForOneRecipient = null;
-        List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion = null;
 
         if (sortByTeam) {
-            Collections
-                    .sort(responses, compareByTeamRecipientQuestionTeamGiver);
+            Collections.sort(responses, compareByTeamRecipientQuestionTeamGiver);
         } else {
             Collections.sort(responses, compareByRecipientQuestionTeamGiver);
         }
-
-        String recipient = null;
-        String questionId = null;
-
+        
         for (FeedbackResponseAttributes response : responses) {
-            if (recipient == null || !response.recipientEmail.equals(recipient)) {
-                if (questionId != null && responsesForOneRecipientOneQuestion != null
-                        && responsesForOneRecipient != null) {
-                    responsesForOneRecipient.put(questions.get(questionId),
-                                                 responsesForOneRecipientOneQuestion);
-                }
-                if (recipient != null && responsesForOneRecipient != null) {
-                    sortedMap.put(recipient, responsesForOneRecipient);
-                }
-                responsesForOneRecipient = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-                recipient = response.recipientEmail;
-                
-                questionId = null;
+            String recipientEmail = response.recipient;
+            if (!sortedMap.containsKey(recipientEmail)) {
+                sortedMap.put(recipientEmail,
+                              new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>());
             }
-            if (questionId == null || !response.feedbackQuestionId.equals(questionId)) {
-                if (questionId != null && responsesForOneRecipientOneQuestion != null) {
-                    responsesForOneRecipient.put(questions.get(questionId),
-                                                 responsesForOneRecipientOneQuestion);
-                }
-                responsesForOneRecipientOneQuestion = new ArrayList<FeedbackResponseAttributes>();
-                questionId = response.feedbackQuestionId;
+            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForOneRecipient =
+                                            sortedMap.get(recipientEmail);
+            
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            if (!responsesForOneRecipient.containsKey(question)) {
+                responsesForOneRecipient.put(question, new ArrayList<FeedbackResponseAttributes>());
             }
+            List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion =
+                                            responsesForOneRecipient.get(question);
             responsesForOneRecipientOneQuestion.add(response);
         }
-        if (questionId != null && responsesForOneRecipientOneQuestion != null
-                && responsesForOneRecipient != null) {
-            responsesForOneRecipient.put(questions.get(questionId),
-                                         responsesForOneRecipientOneQuestion);
-        }
-        if (recipient != null && responsesForOneRecipient != null) {
-            sortedMap.put(recipient, responsesForOneRecipient);
-        }
+ 
 
         return sortedMap;
     }
 
     /**
-     * Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
+     * Returns the responses in this bundle as a {@code Tree} structure with no base node
+     * using a {@code LinkedHashMap} implementation.
      * <br>The tree is sorted by recipientName > giverName > questionNumber.
      * <br>The key of each map represents the parent node, while the value represents the leaf.
      * <br>The top-most parent {@code String recipientName} is the recipient's name of all it's leafs.
@@ -1752,62 +1866,34 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             Collections.sort(responses, compareByRecipientGiverQuestion);
         }
         
-        String prevGiver = null;
-        String prevRecipient = null;
-        String recipientName = null;
-        String giverName = null;
-        String recipientTeamName = null;
-        String giverTeamName = null;
-        
-        List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
-                new ArrayList<FeedbackResponseAttributes>();
-        Map<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
-                new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
-        
         for (FeedbackResponseAttributes response : responses) {
-            
-            boolean isNewRecipient = !response.recipientEmail.equals(prevRecipient) && prevRecipient != null;
-            boolean isNewGiver = !response.giverEmail.equals(prevGiver) && prevGiver != null;
-            
-            if (isNewRecipient) {
-                // Put previous giver responses into inner map.
-                responsesToOneRecipient.put(giverName, responsesFromOneGiverToOneRecipient);
-                // Put all responses for previous recipient into outer map.
-                sortedMap.put(recipientName, responsesToOneRecipient);
-                // Clear responses
-                responsesToOneRecipient = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
-                responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            } else if (isNewGiver) {
-                // New giver, add giver responses to response package for one recipient
-                responsesToOneRecipient.put(giverName, responsesFromOneGiverToOneRecipient);
-                // Clear response list
-                responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
+            String recipientName = this.getRecipientNameForResponse(response);
+            String recipientTeamName = this.getTeamNameForEmail(response.recipient);
+            String recipientNameWithTeam = this.appendTeamNameToName(recipientName, recipientTeamName);
+            if (!sortedMap.containsKey(recipientNameWithTeam)) {
+                sortedMap.put(recipientNameWithTeam,
+                        new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
             }
-        
+            Map<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
+                                            sortedMap.get(recipientNameWithTeam);
+            
+            String giverName = this.getGiverNameForResponse(response);
+            String giverTeamName = this.getTeamNameForEmail(response.giver);
+            String giverNameWithTeam = this.appendTeamNameToName(giverName, giverTeamName);
+            if (!responsesToOneRecipient.containsKey(giverNameWithTeam)) {
+                responsesToOneRecipient.put(giverNameWithTeam, new ArrayList<FeedbackResponseAttributes>());
+            }
+            List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
+                                            responsesToOneRecipient.get(giverNameWithTeam);
             responsesFromOneGiverToOneRecipient.add(response);
-        
-            prevGiver = response.giverEmail;
-            prevRecipient = response.recipientEmail;
-            recipientName = this.getRecipientNameForResponse(response);
-            recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
-            recipientName = this.appendTeamNameToName(recipientName,
-                                                      recipientTeamName);
-            giverName = this.getGiverNameForResponse(response);
-            giverTeamName = this.getTeamNameForEmail(response.giverEmail);
-            giverName = this.appendTeamNameToName(giverName, giverTeamName);
-        }
-        
-        if (!(responses.isEmpty())) {
-            // Put responses for final giver
-            responsesToOneRecipient.put(giverName, responsesFromOneGiverToOneRecipient);
-            sortedMap.put(recipientName, responsesToOneRecipient);
         }
         
         return sortedMap;
     }
     
     /**
-     * Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
+     * Returns the responses in this bundle as a {@code Tree} structure with no base node
+     * using a {@code LinkedHashMap} implementation.
      * <br>The tree is sorted by recipientName > giverName > questionNumber.
      * <br>The key of each map represents the parent node, while the value represents the leaf.
      * <br>The top-most parent {@code String recipientName} is the recipient's name of all it's leafs.
@@ -1818,56 +1904,33 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * @see {@link getResponsesSortedByRecipient}.
      */
     public LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>
-            getResponsesSortedByRecipientGiverQuestion() {
+            getResponsesSortedByRecipientGiverQuestion(boolean sortByTeam) {
         
         LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
 
-        Collections.sort(responses, compareByTeamRecipientGiverQuestion);
-   
-        
-        String prevGiver = null;
-        String prevRecipient = null;
-        String recipient = null;
-        String giver = null;
-        
-        List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
-                new ArrayList<FeedbackResponseAttributes>();
-        LinkedHashMap<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
-                new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
-        
-        for (FeedbackResponseAttributes response : responses) {
-            // New recipient, add response package to map.
-            boolean isNewRecipient = !response.recipientEmail.equals(prevRecipient) && prevRecipient != null;
-            boolean isNewGiver = !(response.giverEmail.equals(prevGiver)) && prevGiver != null;
-            if (isNewRecipient) {
-                // Put previous giver responses into inner map.
-                responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
-                // Put all responses for previous recipient into outer map.
-                sortedMap.put(recipient, responsesToOneRecipient);
-                // Clear responses
-                responsesToOneRecipient = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
-                responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            } else if (isNewGiver) {
-                // New giver, add giver responses to response package for one recipient
-                responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
-                // Clear response list
-                responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            }
-        
-            responsesFromOneGiverToOneRecipient.add(response);
-        
-            prevGiver = response.giverEmail;
-            prevRecipient = response.recipientEmail;
-            
-            recipient = response.recipientEmail;
-            giver = response.giverEmail;
+        if (sortByTeam) {
+            Collections.sort(responses, compareByTeamRecipientGiverQuestion);
+        } else {
+            Collections.sort(responses, compareByRecipientGiverQuestion);
         }
         
-        if (!(responses.isEmpty())) {
-            // Put responses for final giver
-            responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
-            sortedMap.put(recipient, responsesToOneRecipient);
+        for (FeedbackResponseAttributes response : responses) {
+            String recipientEmail = response.recipient;
+            if (!sortedMap.containsKey(recipientEmail)) {
+                sortedMap.put(recipientEmail,
+                              new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
+            }
+            Map<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
+                                            sortedMap.get(recipientEmail);
+            
+            String giverEmail = response.giver;
+            if (!responsesToOneRecipient.containsKey(giverEmail)) {
+                responsesToOneRecipient.put(giverEmail, new ArrayList<FeedbackResponseAttributes>());
+            }
+            List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
+                                            responsesToOneRecipient.get(giverEmail);
+            responsesFromOneGiverToOneRecipient.add(response);
         }
         
         return sortedMap;
@@ -1883,8 +1946,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 getResponsesSortedByGiverQuestionRecipient(boolean sortByTeam) {
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver = null;
-        List<FeedbackResponseAttributes> responsesFromOneGiverOneQuestion = null;
 
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamGiverQuestionTeamRecipient);
@@ -1892,48 +1953,30 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             Collections.sort(responses, compareByGiverQuestionTeamRecipient);
         }
 
-        String giver = null;
-        String questionId = null;
-
         for (FeedbackResponseAttributes response : responses) {
-            if (giver == null || !response.giverEmail.equals(giver)) {
-                if (questionId != null && responsesFromOneGiverOneQuestion != null
-                        && responsesFromOneGiver != null) {
-                    responsesFromOneGiver.put(questions.get(questionId),
-                                              responsesFromOneGiverOneQuestion);
-                }
-                if (giver != null && responsesFromOneGiver != null) {
-                    sortedMap.put(giver, responsesFromOneGiver);
-                }
-                responsesFromOneGiver = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-                giver = response.giverEmail;
+            String giverEmail = response.giver;
+            if (!sortedMap.containsKey(giverEmail)) {
+                sortedMap.put(giverEmail,
+                        new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>());
+            }
+            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver =
+                                            sortedMap.get(giverEmail);
             
-                questionId = null;
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            if (!responsesFromOneGiver.containsKey(question)) {
+                responsesFromOneGiver.put(question, new ArrayList<FeedbackResponseAttributes>());
             }
-            if (questionId == null || !response.feedbackQuestionId.equals(questionId)) {
-                if (questionId != null && responsesFromOneGiverOneQuestion != null) {
-                    responsesFromOneGiver.put(questions.get(questionId),
-                                              responsesFromOneGiverOneQuestion);
-                }
-                responsesFromOneGiverOneQuestion = new ArrayList<FeedbackResponseAttributes>();
-                questionId = response.feedbackQuestionId;
-            }
+            List<FeedbackResponseAttributes> responsesFromOneGiverOneQuestion =
+                                            responsesFromOneGiver.get(question);
             responsesFromOneGiverOneQuestion.add(response);
-        }
-        if (questionId != null && responsesFromOneGiverOneQuestion != null
-                && responsesFromOneGiver != null) {
-            responsesFromOneGiver.put(questions.get(questionId),
-                                      responsesFromOneGiverOneQuestion);
-        }
-        if (giver != null && responsesFromOneGiver != null) {
-            sortedMap.put(giver, responsesFromOneGiver);
         }
 
         return sortedMap;
     }
     
     /**
-     * Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
+     * Returns the responses in this bundle as a {@code Tree} structure with no base node
+     * using a {@code LinkedHashMap} implementation.
      * <br>The tree is sorted by giverName > recipientName > questionNumber.
      * <br>The key of each map represents the parent node, while the value represents the leaf.
      * <br>The top-most parent {@code String giverName} is the recipient's name of all it's leafs.
@@ -1957,60 +2000,35 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             Collections.sort(responses, compareByGiverRecipientQuestion);
         }
         
-        String prevRecipient = null;
-        String prevGiver = null;
-        String recipientName = null;
-        String giverName = null;
-        String recipientTeamName = null;
-        String giverTeamName = null;
-        
-        List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
-                new ArrayList<FeedbackResponseAttributes>();
-        Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver =
-                new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
         
         for (FeedbackResponseAttributes response : responses) {
-            // New recipient, add response package to map.
-            boolean isNewGiver = !(response.giverEmail.equals(prevGiver)) && prevGiver != null;
-            boolean isNewRecipient = !(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null;
-            if (isNewGiver) {
-                // Put previous recipient responses into inner map.
-                responsesFromOneGiver.put(recipientName, responsesFromOneGiverToOneRecipient);
-                // Put all responses for previous giver into outer map.
-                sortedMap.put(giverName, responsesFromOneGiver);
-                // Clear responses
-                responsesFromOneGiver = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
-                responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            } else if (isNewRecipient) {
-                // New recipient, add recipient responses to response package for one giver
-                responsesFromOneGiver.put(recipientName, responsesFromOneGiverToOneRecipient);
-                // Clear response list
-                responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
+            String giverName = this.getGiverNameForResponse(response);
+            String giverTeamName = this.getTeamNameForEmail(response.giver);
+            String giverNameWithTeam = this.appendTeamNameToName(giverName, giverTeamName);
+            if (!sortedMap.containsKey(giverNameWithTeam)) {
+                sortedMap.put(giverNameWithTeam,
+                              new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
             }
-        
+            Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver = sortedMap.get(giverNameWithTeam);
+            
+            String recipientName = this.getRecipientNameForResponse(response);
+            String recipientTeamName = this.getTeamNameForEmail(response.recipient);
+            String recipientNameWithTeam = this.appendTeamNameToName(recipientName, recipientTeamName);
+            if (!responsesFromOneGiver.containsKey(recipientNameWithTeam)) {
+                responsesFromOneGiver.put(recipientNameWithTeam,
+                                          new ArrayList<FeedbackResponseAttributes>());
+            }
+            List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
+                    responsesFromOneGiver.get(recipientNameWithTeam);
             responsesFromOneGiverToOneRecipient.add(response);
-        
-            prevRecipient = response.recipientEmail;
-            prevGiver = response.giverEmail;
-            recipientName = this.getRecipientNameForResponse(response);
-            recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
-            recipientName = this.appendTeamNameToName(recipientName, recipientTeamName);
-            giverName = this.getGiverNameForResponse(response);
-            giverTeamName = this.getTeamNameForEmail(response.giverEmail);
-            giverName = this.appendTeamNameToName(giverName, giverTeamName);
-        }
-        
-        if (!(responses.isEmpty())) {
-            // Put responses for final recipient
-            responsesFromOneGiver.put(recipientName, responsesFromOneGiverToOneRecipient);
-            sortedMap.put(giverName, responsesFromOneGiver);
         }
         
         return sortedMap;
     }
     
     /**
-     *  Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
+     * Returns the responses in this bundle as a {@code Tree} structure with no base node
+     * using a {@code LinkedHashMap} implementation.
      * <br>The tree is sorted by giverName > recipientName > questionNumber.
      * <br>The key of each map represents the parent node, while the value represents the leaf.
      * <br>The top-most parent {@code String giverName} is the recipient's name of all it's leafs.
@@ -2021,50 +2039,32 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * @see {@link getResponsesSortedByGiver}.
      */
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
-                getResponsesSortedByGiverRecipientQuestion() {
-        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
-        Collections.sort(responses, compareByTeamGiverRecipientQuestion);
-        
-        
-        String prevRecipient = null;
-        String prevGiver = null;
-        
-        
-        List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
-                new ArrayList<FeedbackResponseAttributes>();
-        Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver =
-                new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
-        
-        for (FeedbackResponseAttributes response : responses) {
-            // New recipient, add response package to map.
-            boolean isNewGiver = !(response.giverEmail.equals(prevGiver)) && prevGiver != null;
-            boolean isNewRecipient = !(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null;
-            if (isNewGiver) {
-                // Put previous recipient responses into inner map.
-                responsesFromOneGiver.put(prevRecipient, responsesFromOneGiverToOneRecipient);
-                // Put all responses for previous giver into outer map.
-                sortedMap.put(prevGiver, responsesFromOneGiver);
-                // Clear responses
-                responsesFromOneGiver = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
-                responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            } else if (isNewRecipient) {
-                // New recipient, add recipient responses to response package for one giver
-                responsesFromOneGiver.put(prevRecipient, responsesFromOneGiverToOneRecipient);
-                // Clear response list
-                responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
-            }
-        
-            responsesFromOneGiverToOneRecipient.add(response);
-        
-            prevRecipient = response.recipientEmail;
-            prevGiver = response.giverEmail;
+                getResponsesSortedByGiverRecipientQuestion(boolean sortByTeam) {
+        if (sortByTeam) {
+            Collections.sort(responses, compareByTeamGiverRecipientQuestion);
+        } else {
+            Collections.sort(responses, compareByGiverRecipientQuestion);
         }
         
-        if (!(responses.isEmpty())) {
-            // Put responses for final recipient
-            responsesFromOneGiver.put(prevRecipient, responsesFromOneGiverToOneRecipient);
-            sortedMap.put(prevGiver, responsesFromOneGiver);
+        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
+                                        new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
+        
+        for (FeedbackResponseAttributes response : responses) {
+            String giverEmail = response.giver;
+            if (!sortedMap.containsKey(giverEmail)) {
+                sortedMap.put(giverEmail,
+                              new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
+            }
+            Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver = sortedMap.get(giverEmail);
+            
+            String recipientEmail = response.recipient;
+            if (!responsesFromOneGiver.containsKey(recipientEmail)) {
+                responsesFromOneGiver.put(recipientEmail,
+                                          new ArrayList<FeedbackResponseAttributes>());
+            }
+            List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
+                                            responsesFromOneGiver.get(recipientEmail);
+            responsesFromOneGiverToOneRecipient.add(response);
         }
         
         return sortedMap;
@@ -2074,7 +2074,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         for (FeedbackResponseAttributes response : responses) {
             // There is a response not written by the student
             // which is visible to the student
-            if (!response.giverEmail.equals(student.email)) {
+            if (!response.giver.equals(student.email)) {
                 return true;
             }
             // There is a response comment visible to the student
@@ -2147,24 +2147,51 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return q1.compareTo(q2);
     }
 
-    private int compareByNames(String n1, String n2) {
+    /**
+     * Compares the values of {@code name1} and {@code name2}.
+     * Anonymous names are ordered later than non-anonymous names.
+     * @param name1
+     * @param name2
+     * @param isFirstNameVisible  true if the first name should be visible to the user
+     * @param isSecondNameVisible true if the second name should be visible to the user
+     */
+    private int compareByNames(String name1, String name2,
+                               boolean isFirstNameVisible, boolean isSecondNameVisible) {
+        if (!isFirstNameVisible && !isSecondNameVisible) {
+            return 0;
+        }
+        if (!isFirstNameVisible && isSecondNameVisible) {
+            return 1;
+        } else if (isFirstNameVisible && !isSecondNameVisible) {
+            return -1;
+        }
+    
+        
         // Make class feedback always appear on top, and team responses at bottom.
         int n1Priority = 0;
         int n2Priority = 0;
 
-        if (n1.equals(Const.USER_IS_NOBODY)) {
+        if (name1.equals(Const.USER_IS_NOBODY)) {
             n1Priority = -1;
-        } else if (n1.equals(Const.USER_IS_TEAM)) {
+        } else if (name1.equals(Const.USER_IS_TEAM)) {
             n1Priority = 1;
         }
-        if (n2.equals(Const.USER_IS_NOBODY)) {
+        if (name2.equals(Const.USER_IS_NOBODY)) {
             n2Priority = -1;
-        } else if (n2.equals(Const.USER_IS_TEAM)) {
+        } else if (name2.equals(Const.USER_IS_TEAM)) {
             n2Priority = 1;
         }
 
         int order = Integer.compare(n1Priority, n2Priority);
-        return order == 0 ? n1.compareTo(n2) : order;
+        return order == 0 ? name1.compareTo(name2) : order;
+    }
+    
+    private int compareByResponseString(FeedbackResponseAttributes o1, FeedbackResponseAttributes o2) {
+        String responseAnswer1 = o1.getResponseDetails().getAnswerString();
+        
+        String responseAnswer2 = o2.getResponseDetails().getAnswerString();
+        
+        return responseAnswer1.compareTo(responseAnswer2);
     }
 
     public FeedbackSessionAttributes getFeedbackSession() {

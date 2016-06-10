@@ -52,7 +52,8 @@ public class StudentProfilePictureUploadAction extends Action {
                 blobKey = blobInfo.getBlobKey();
                 pictureKey = renameFileToGoogleId(blobInfo);
                 logic.updateStudentProfilePicture(account.googleId, pictureKey);
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, StatusMessageColor.SUCCESS));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED,
+                                                   StatusMessageColor.SUCCESS));
                 r.addResponseParam(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "true");
             }
         } catch (BlobstoreFailureException | IOException bfe) {
@@ -118,7 +119,8 @@ public class StudentProfilePictureUploadAction extends Action {
                                                                           .getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PHOTO);
             if (blobs == null || blobs.isEmpty()) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN, StatusMessageColor.DANGER));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN,
+                                                   StatusMessageColor.DANGER));
                 isError = true;
                 return null;
             }

@@ -248,7 +248,8 @@ public class OfflineBackup extends RemoteApiClient {
     protected void retrieveAndSaveFeedbackResponseCommentsByCourse(String courseId) {
         
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
-        List<FeedbackResponseCommentAttributes> feedbackResponseComments = feedbackResponseCommentsDb.getFeedbackResponseCommentsForCourse(courseId);
+        List<FeedbackResponseCommentAttributes> feedbackResponseComments =
+                feedbackResponseCommentsDb.getFeedbackResponseCommentsForCourse(courseId);
 
         appendToFile(currentFileName, "\t\"feedbackResponseComments\":{\n");
         
@@ -399,12 +400,15 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     protected void saveFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
-        appendToFile(currentFileName, formatJsonString(feedbackResponseComment.getJsonString(), feedbackResponseComment.getId().toString()));
+        appendToFile(currentFileName,
+                     formatJsonString(feedbackResponseComment.getJsonString(),
+                                      feedbackResponseComment.getId().toString()));
     }
     
     protected void saveFeedbackSession(FeedbackSessionAttributes feedbackSession) {
-        appendToFile(currentFileName, formatJsonString(feedbackSession.getJsonString(),
-                feedbackSession.getFeedbackSessionName() + "%" + feedbackSession.getCourseId()));
+        appendToFile(currentFileName,
+                     formatJsonString(feedbackSession.getJsonString(),
+                                      feedbackSession.getFeedbackSessionName() + "%" + feedbackSession.getCourseId()));
     }
     
     protected void saveInstructor(InstructorAttributes instructor) {

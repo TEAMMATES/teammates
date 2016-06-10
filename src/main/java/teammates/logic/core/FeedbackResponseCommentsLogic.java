@@ -225,12 +225,12 @@ public class FeedbackResponseCommentsLogic {
         }
         
         String responseGiverTeam = "giverTeam";
-        if (roster.getStudentForEmail(response.giverEmail) != null) {
-            responseGiverTeam = roster.getStudentForEmail(response.giverEmail).team;
+        if (roster.getStudentForEmail(response.giver) != null) {
+            responseGiverTeam = roster.getStudentForEmail(response.giver).team;
         }
         String responseRecipientTeam = "recipientTeam";
-        if (roster.getStudentForEmail(response.recipientEmail) != null) {
-            responseRecipientTeam = roster.getStudentForEmail(response.recipientEmail).team;
+        if (roster.getStudentForEmail(response.recipient) != null) {
+            responseRecipientTeam = roster.getStudentForEmail(response.recipient).team;
         }
         String currentUserTeam = "currentUserTeam";
         if (roster.getStudentForEmail(userEmail) != null) {
@@ -238,11 +238,11 @@ public class FeedbackResponseCommentsLogic {
         }
         
         for (FeedbackParticipantType type : showNameTo) {
-            if (type == FeedbackParticipantType.GIVER && userEmail.equals(response.giverEmail)) {
+            if (type == FeedbackParticipantType.GIVER && userEmail.equals(response.giver)) {
                 return true;
             } else if (type == FeedbackParticipantType.INSTRUCTORS && roster.getInstructorForEmail(userEmail) != null) {
                 return true;
-            } else if (type == FeedbackParticipantType.RECEIVER && userEmail.equals(response.recipientEmail)) {
+            } else if (type == FeedbackParticipantType.RECEIVER && userEmail.equals(response.recipient)) {
                 return true;
             } else if (type == FeedbackParticipantType.OWN_TEAM_MEMBERS && responseGiverTeam.equals(currentUserTeam)) {
                 return true;
@@ -282,10 +282,10 @@ public class FeedbackResponseCommentsLogic {
                 userIsInstructor && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                                                FeedbackParticipantType.INSTRUCTORS);
         boolean userIsResponseRecipientAndRelatedResponseCommentIsVisibleToRecipients =
-                response.recipientEmail.equals(userEmail) && isResponseCommentVisibleTo(relatedQuestion,
+                response.recipient.equals(userEmail) && isResponseCommentVisibleTo(relatedQuestion,
                                                                      relatedComment, FeedbackParticipantType.RECEIVER);
         boolean userIsResponseGiverAndRelatedResponseCommentIsVisibleToGivers =
-                response.giverEmail.equals(userEmail) && isVisibleToGiver;
+                response.giver.equals(userEmail) && isVisibleToGiver;
         boolean userIsRelatedResponseCommentGiver = relatedComment.giverEmail.equals(userEmail);
         boolean userIsStudentAndRelatedResponseCommentIsVisibleToStudents =
                 userIsStudent && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
@@ -296,16 +296,16 @@ public class FeedbackResponseCommentsLogic {
                 && relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
                 && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.RECEIVER)
-                && response.recipientEmail.equals(student.team);
+                && response.recipient.equals(student.team);
         boolean userIsInResponseGiverTeamAndRelatedResponseCommentIsVisibleToGiversTeamMembers =
                 (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
                 || isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.OWN_TEAM_MEMBERS))
-                && studentsEmailInTeam.contains(response.giverEmail);
+                && studentsEmailInTeam.contains(response.giver);
         boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipientsTeamMembers =
                 isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                            FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                && studentsEmailInTeam.contains(response.recipientEmail);
+                && studentsEmailInTeam.contains(response.recipient);
         
         if (userIsInstructorAndRelatedResponseCommentIsVisibleToInstructors
                 || userIsResponseRecipientAndRelatedResponseCommentIsVisibleToRecipients

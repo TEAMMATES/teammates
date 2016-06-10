@@ -232,10 +232,12 @@ public class ActivityLogEntry {
             //TODO the branch for old logs can be removed after V5.64
             // this branch is needed to support older style logs when we did not have the log id
             if (isOldLog) {
-                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
+                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||
+                // MESSAGE(IN HTML)|||URL|||TIME_TAKEN
                 timeTaken = Long.parseLong(tokens[POSITION_OF_TIMETAKEN_IN_OLD_LOGS].trim());
             } else {
-                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
+                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||
+                // MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
                 id = tokens[POSITION_OF_ID];
                 timeTaken = tokens.length == 12 ? Long.parseLong(tokens[POSITION_OF_TIMETAKEN].trim())
                                                 : null;
@@ -538,11 +540,14 @@ public class ActivityLogEntry {
         String message;
         
         try {
-            message = "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span><br>"
-                    + "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() + "');\">Show/Hide Details >></a>"
+            message = "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span>"
+                    + "<br>"
+                    + "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() + "');\">"
+                        + "Show/Hide Details >>"
+                    + "</a>"
                     + "<br>"
                     + "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">"
-                    + errorEmail.getContent().toString()
+                        + errorEmail.getContent().toString()
                     + "</span>";
         } catch (Exception e) {
             message = "System Error: Unable to retrieve Email Report: "
@@ -572,23 +577,34 @@ public class ActivityLogEntry {
 
     public String getLogInfoForTableRowAsHtml() {
         return "<tr" + (isFirstRow ? " id=\"first-row\"" : "") + ">"
-               + "<td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
-               + "<span><a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">" + getDateInfo() + "</a>"
-               + "<p class=\"localTime\"></p></span>"
-               + "<p class=\"" + getColorCode(getTimeTaken()) + "\">"
-               + "<strong>" + TimeHelper.convertToStandardDuration(getTimeTaken()) + "</strong>"
-               + "</p> </td> <td class=\"" + getTableCellColorCode(timeTaken) + "\">"
-               + "<form method=\"get\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
-               + "<h4 class=\"list-group-item-heading\">"
-               + getIconRoleForShow() + "&nbsp;" + getActionInfo() + "&nbsp;"
-               + "<small> id:" + id + " " + getPersonInfo() + "</span>" + "&nbsp;"
-               + "<button type=\"submit\" class=\"btn " + getLogEntryActionsButtonClass() + " btn-xs\">"
-               + "<span class=\"glyphicon glyphicon-zoom-in\"></span>"
-               + "</button> <input type=\"hidden\" name=\"filterQuery\" value=\"person:" + getAvailableIdenficationString() + "\">"
-               + "<input class=\"ifShowAll_for_person\" type=\"hidden\" name=\"all\" value=\"false\">"
-               + "<input class=\"ifShowTestData_for_person\" type=\"hidden\" name=\"testdata\" value=\"false\">"
-               + "</small> </h4> <div>" + getMessageInfo()
-               + "</div> </form> </td> </tr>";
+                 + "<td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
+                     + "<a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">"
+                         + getDateInfo()
+                     + "</a>"
+                     + "<p class=\"localTime\"></p>"
+                     + "<p class=\"" + getColorCode(getTimeTaken()) + "\">"
+                         + "<strong>" + TimeHelper.convertToStandardDuration(getTimeTaken()) + "</strong>"
+                     + "</p>"
+                 + "</td>"
+                 + "<td class=\"" + getTableCellColorCode(timeTaken) + "\">"
+                     + "<form method=\"get\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\">"
+                         + "<h4 class=\"list-group-item-heading\">"
+                             + getIconRoleForShow() + "&nbsp;" + getActionInfo() + "&nbsp;"
+                             + "<small> id:" + id + " " + getPersonInfo() + "</small>" + "&nbsp;"
+                             + "<button type=\"submit\" class=\"btn " + getLogEntryActionsButtonClass() + " btn-xs\">"
+                                 + "<span class=\"glyphicon glyphicon-zoom-in\"></span>"
+                             + "</button>"
+                             + "<input type=\"hidden\" name=\"filterQuery\""
+                                     + " value=\"person:" + getAvailableIdenficationString() + "\">"
+                             + "<input class=\"ifShowAll_for_person\" type=\"hidden\" name=\"all\""
+                                     + " value=\"false\">"
+                             + "<input class=\"ifShowTestData_for_person\" type=\"hidden\" name=\"testdata\""
+                                     + " value=\"false\">"
+                         + "</h4>"
+                         + "<div>" + getMessageInfo() + "</div>"
+                     + "</form>"
+                 + "</td>"
+             + "</tr>";
     }
     
     private String getAvailableIdenficationString() {

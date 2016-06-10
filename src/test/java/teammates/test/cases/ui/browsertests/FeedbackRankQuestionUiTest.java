@@ -129,7 +129,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         // try to submit with error
         submitPage.clickSubmitButton();
-        assertEquals("Please fix the error(s) for rank question(s) 5. To skip a rank question, leave all the boxes blank.", submitPage.getStatus());
+        assertEquals("Please fix the error(s) for rank question(s) 5. To skip a rank question, leave all the boxes blank.",
+                     submitPage.getStatus());
         
         submitPage.selectResponseTextDropdown(5, 1, 0, "1");
         assertEquals("Please rank the above recipients.", submitPage.getRankMessage(5, 3));
@@ -247,22 +248,26 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankQuestionView.html");
 
         ______TS("Rank instructor results : Giver > Recipient > Question");
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "giver-recipient-question");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "giver-recipient-question");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGRQView.html");
         
         ______TS("Rank instructor results : Giver > Question > Recipient");
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "giver-question-recipient");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "giver-question-recipient");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGQRView.html");
         
         ______TS("Rank instructor results : Recipient > Question > Giver ");
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "recipient-question-giver");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "recipient-question-giver");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRQGView.html");
         
         ______TS("Rank instructor results : Recipient > Giver > Question");
-        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "recipient-giver-question");
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "recipient-giver-question");
         instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRGQView.html");
     }
@@ -320,7 +325,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
         
-        feedbackEditPage.fillQuestionBox("Rank qn");
+        feedbackEditPage.fillNewQuestionBox("Rank qn");
         feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1 <>");
         
         assertEquals(2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
@@ -333,7 +338,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
         
-        feedbackEditPage.fillQuestionBox("Rank qn");
+        feedbackEditPage.fillNewQuestionBox("Rank qn");
         
         // blank option at the start and end, to check they are removed
         feedbackEditPage.clickAddMoreRankOptionLinkForNewQn();
@@ -358,7 +363,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(0);
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(1);
-        feedbackEditPage.fillQuestionBox("Rank recipients qn");
+        feedbackEditPage.fillNewQuestionBox("Rank recipients qn");
         
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
@@ -370,7 +375,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("rank edit: edit rank options question success");
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         
         // Verify that fields are editable
         feedbackEditPage.verifyHtmlPart(By.id("questionTable1"),
@@ -398,7 +403,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRankQuestionEditSuccess.html");
 
         ______TS("rank edit: edit rank recipients question success");
-        assertTrue(feedbackEditPage.clickEditQuestionButton(2));
+        feedbackEditPage.clickEditQuestionButton(2);
         
         feedbackEditPage.tickDuplicatesAllowedCheckboxForQuestion(2);
         feedbackEditPage.clickSaveExistingQuestionButton(2);
@@ -421,7 +426,9 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
-                                        .withUserId(instructorId).withCourseId(instructorCourseId).withSessionName(instructorEditFSName);
+                        .withUserId(instructorId)
+                        .withCourseId(instructorCourseId)
+                        .withSessionName(instructorEditFSName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

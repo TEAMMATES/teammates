@@ -233,13 +233,13 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
-                                                           questionAttributes.getId(), existingResponse.recipientEmail);
+                                                           questionAttributes.getId(), existingResponse.recipient);
             
             String submissionFormHtml = questionAttributes.getQuestionDetails()
-                                            .getQuestionWithExistingResponseSubmissionFormHtml(isSessionOpenForSubmission,
-                                                                                               qnIndx, responseIndx, questionAttributes.courseId,
-                                                                                               numOfResponseBoxes,
-                                                                                               existingResponse.getResponseDetails());
+                                            .getQuestionWithExistingResponseSubmissionFormHtml(
+                                                isSessionOpenForSubmission, qnIndx, responseIndx,
+                                                questionAttributes.courseId, numOfResponseBoxes,
+                                                existingResponse.getResponseDetails());
             
             responses.add(new FeedbackSubmissionEditResponse(responseIndx, true, recipientOptionsForQuestion,
                                                                  submissionFormHtml, existingResponse.getId()));
@@ -249,11 +249,12 @@ public class FeedbackSubmissionEditPageData extends PageData {
         while (responseIndx < numOfResponseBoxes) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(questionAttributes.getId(), null);
             String submissionFormHtml = questionAttributes.getQuestionDetails()
-                                            .getQuestionWithoutExistingResponseSubmissionFormHtml(isSessionOpenForSubmission,
-                                                                                                  qnIndx, responseIndx, questionAttributes.courseId,
-                                                                                                  numOfResponseBoxes);
+                                            .getQuestionWithoutExistingResponseSubmissionFormHtml(
+                                                isSessionOpenForSubmission, qnIndx, responseIndx,
+                                                questionAttributes.courseId, numOfResponseBoxes);
             
-            responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion, submissionFormHtml, ""));
+            responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
+                                                             submissionFormHtml, ""));
             responseIndx++;
         }
         

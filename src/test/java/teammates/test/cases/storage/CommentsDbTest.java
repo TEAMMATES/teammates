@@ -150,7 +150,8 @@ public class CommentsDbTest extends BaseComponentTestCase {
         retrievedComment.giverEmail = null;
         retrievedComment.recipients = null;
         try {
-            commentsDb.getCommentsForReceiver(retrievedComment.courseId, retrievedComment.recipientType, retrievedComment.giverEmail);
+            commentsDb.getCommentsForReceiver(retrievedComment.courseId, retrievedComment.recipientType,
+                                              retrievedComment.giverEmail);
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }

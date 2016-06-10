@@ -2,16 +2,19 @@ package teammates.test.cases.common;
 
 // CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
 import static teammates.common.util.FieldValidator.*;
-// CHECKSTYLE.ON:AvoidStarImport
+
+import java.util.Date;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.util.Const;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class FieldValidatorTest extends BaseTestCase {
@@ -344,6 +347,14 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
+    public void testGetInvalidityInfoForEmailSubject_invalid_returnSpecificErrorString() {
+        String invalidEmailSubject = "";
+        String actual = validator.getInvalidityInfoForEmailSubject(invalidEmailSubject);
+        assertEquals("Invalid email subject (empty) should return error message that is specific to email subject",
+                     String.format(EMAIL_SUBJECT_ERROR_MESSAGE, invalidEmailSubject, REASON_EMPTY), actual);
+    }
+
+    @Test
     public void invalidityInfoFor_validGender_returnEmptyString() {
         String validGender = "other";
         String actual = validator.getInvalidityInfoForGender(validGender);
@@ -438,23 +449,6 @@ public class FieldValidatorTest extends BaseTestCase {
                      String.format(GOOGLE_ID_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(idWithInvalidHtmlChar),
                                    REASON_INCORRECT_FORMAT));
     }
-
-    @Test
-    public void testGetValidityInfoInstructorRole() {
-        
-        verifyAssertError("not null", FieldType.INTRUCTOR_ROLE, null);
-        
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, "");
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER, "");
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR, "");
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, "");
-        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, "");
-        String emptyValue = "";
-        testOnce("empty value", FieldType.INTRUCTOR_ROLE, emptyValue, String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
-        String invalidValue = "invalid value";
-        testOnce(invalidValue, FieldType.INTRUCTOR_ROLE, invalidValue, String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE,
-                invalidValue, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING));
-    }
     
     @Test
     public void testGetInvalidityInfoForEmail_null_throwException() {
@@ -521,64 +515,143 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetValidityInfoCourseId() {
-        
-        verifyAssertError("null value", FieldType.COURSE_ID, null);
-        
-        
-        testOnce("valid: typical value",
-                FieldType.COURSE_ID,
-                "$cs1101-sem1.2_",
-                "");
-        
-        testOnce("valid: minimal",
-                FieldType.COURSE_ID,
-                "c",
-                "");
-        
-        String maxLengthValue = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH);
-        testOnce("valid: max length",
-                FieldType.COURSE_ID,
-                maxLengthValue,
-                "");
+    public void testGetInvalidityInfoForEmailContent_null_throwException() {
+        String errorMessage = "Did not throw the expected AssertionError for null Email Content";
+        try {
+            validator.getInvalidityInfoForEmailContent(null);
+            signalFailureToDetectException(errorMessage);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+    }
 
-        String emptyValue = "";
-        testOnce("invalid: empty string",
-                FieldType.COURSE_ID,
-                emptyValue,
-                String.format(COURSE_ID_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
+    @Test
+    public void testGetInvalidityInfoForEmailContent_invalid_returnEmptyString() {
+        Text emptyEmailContent = new Text("");
+        assertEquals("Valid Email Content should return empty string",
+                     EMAIL_CONTENT_ERROR_MESSAGE,
+                     validator.getInvalidityInfoForEmailContent(emptyEmailContent));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForEmailContent_valid_returnEmptyString() {
+        Text validEmailContent = new Text("Hello! I'm a Email Content.");
+        assertEquals("Valid Email Content should return empty string", "",
+                     validator.getInvalidityInfoForEmailContent(validEmailContent));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForCourseId_null_throwException() {
+        String errorMessage = "Did not throw the expected AssertionError for null Course ID";
+        try {
+            validator.getInvalidityInfoForCourseId(null);
+            signalFailureToDetectException(errorMessage);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+    }
+
+    @Test
+    public void testGetInvalidityInfoForCourseId_valid_returnEmptyString() {
+        String typicalCourseId = "cs1101-sem1.2_";
+        assertEquals("Valid Course ID (typical) should return empty string", "",
+                     validator.getInvalidityInfoForCourseId(typicalCourseId));
         
-        String untrimmedValue = " $cs1101-sem1.2_ ";
-        testOnce("invalid: untrimmed",
-                FieldType.COURSE_ID,
-                untrimmedValue,
-                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID"));
-        
-        String whitespaceOnlyValue = "    ";
-        testOnce("invalid: whitespace only",
-                FieldType.COURSE_ID,
-                whitespaceOnlyValue,
-                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID"));
-        
-        String tooLongValue = maxLengthValue + "x";
-        testOnce("invalid: too long",
-                FieldType.COURSE_ID,
-                tooLongValue,
-                String.format(COURSE_ID_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
-        
-        String valueWithDisallowedChar = "my course id";
-        testOnce("invalid: disallowed char (space)",
-                FieldType.COURSE_ID,
-                valueWithDisallowedChar,
-                String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
-        
-        valueWithDisallowedChar = "cour@s*hy#";
-        testOnce("invalid: multiple disallowed chars",
-                FieldType.COURSE_ID,
-                valueWithDisallowedChar,
-                String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
+        String shortCourseId  = "c";
+        assertEquals("Valid Course ID (short) should return empty string", "",
+                     validator.getInvalidityInfoForCourseId(shortCourseId));
+
+        String maxLengthCourseId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH);
+        assertEquals("Valid Course ID (max length) should return empty string", "",
+                     validator.getInvalidityInfoForCourseId(maxLengthCourseId));
     }
     
+    @Test
+    public void testGetInvalidityInfoForCourseId_invalid_returnErrorString() {
+        String emptyCourseId = "";
+        assertEquals("Invalid Course ID (empty) should return appropriate error string",
+                     String.format(COURSE_ID_ERROR_MESSAGE, emptyCourseId, REASON_EMPTY),
+                     validator.getInvalidityInfoForCourseId(emptyCourseId));
+
+        String untrimmedCourseId = " $cs1101-sem1.2_ ";
+        assertEquals("Invalid Course ID (untrimmed) should return appropriate error string",
+                     String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, COURSE_NAME_FIELD_NAME),
+                     validator.getInvalidityInfoForCourseId(untrimmedCourseId));
+
+        String whitespaceOnlyCourseId = "    ";
+        assertEquals("Invalid Course ID (whitespace only) should return appropriate error string",
+                     String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, COURSE_NAME_FIELD_NAME),
+                     validator.getInvalidityInfoForCourseId(whitespaceOnlyCourseId));
+
+        String tooLongCourseId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);
+        assertEquals("Invalid Course ID (too long) should return appropriate error string",
+                     String.format(COURSE_ID_ERROR_MESSAGE, tooLongCourseId, REASON_TOO_LONG),
+                     validator.getInvalidityInfoForCourseId(tooLongCourseId));
+
+        String courseIdWithSpaces = "my course id with spaces";
+        assertEquals("Invalid Course ID (contains spaces) should return appropriate error string",
+                     String.format(COURSE_ID_ERROR_MESSAGE, courseIdWithSpaces, REASON_INCORRECT_FORMAT),
+                     validator.getInvalidityInfoForCourseId(courseIdWithSpaces));
+
+        String courseIdWithInvalidChar = "cour@s*hy#";
+        assertEquals("Invalid Course ID (invalid char) should return appropriate error string",
+                     String.format(COURSE_ID_ERROR_MESSAGE, courseIdWithInvalidChar, REASON_INCORRECT_FORMAT),
+                     validator.getInvalidityInfoForCourseId(courseIdWithInvalidChar));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForSessionStartAndEnd_valid_returnEmptyString() {
+        Date sessionStart = TimeHelper.getHoursOffsetToCurrentTime(-1);
+        Date sessionEnd = TimeHelper.getHoursOffsetToCurrentTime(1);
+        assertEquals("", validator.getInvalidityInfoForTimeForSessionStartAndEnd(sessionStart, sessionEnd));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForSessionStartAndEnd_invalid_returnErrorString() {
+        Date sessionStart = TimeHelper.getHoursOffsetToCurrentTime(1);
+        Date sessionEnd = TimeHelper.getHoursOffsetToCurrentTime(-1);
+        assertEquals("The end time for this feedback session cannot be earlier than the start time.",
+                     validator.getInvalidityInfoForTimeForSessionStartAndEnd(sessionStart, sessionEnd));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForVisibilityStartAndSessionStart_valid_returnEmptyString() {
+        Date visibilityStart = TimeHelper.getHoursOffsetToCurrentTime(-1);
+        Date sessionStart = TimeHelper.getHoursOffsetToCurrentTime(1);
+        assertEquals("",
+                     validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                         visibilityStart, sessionStart));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForVisibilityStartAndSessionStart_invalid_returnErrorString() {
+        Date visibilityStart = TimeHelper.getHoursOffsetToCurrentTime(1);
+        Date sessionStart = TimeHelper.getHoursOffsetToCurrentTime(-1);
+        assertEquals("The start time for this feedback session cannot be earlier than the time when the "
+                         + "session will be visible.",
+                     validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                         visibilityStart, sessionStart));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForVisibilityStartAndResultsPublish_valid_returnEmptyString() {
+        Date visibilityStart = TimeHelper.getHoursOffsetToCurrentTime(-1);
+        Date resultsPublish = TimeHelper.getHoursOffsetToCurrentTime(1);
+        assertEquals("",
+                     validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+                         visibilityStart, resultsPublish));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForVisibilityStartAndResultsPublish_invalid_returnErrorString() {
+        Date visibilityStart = TimeHelper.getHoursOffsetToCurrentTime(1);
+        Date resultsPublish = TimeHelper.getHoursOffsetToCurrentTime(-1);
+        assertEquals("The time when the results will be visible for this feedback session cannot be "
+                         + "earlier than the time when the session will be visible.",
+                     validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+                         visibilityStart, resultsPublish));
+    }
+
     @Test
     public void testRegexName() {
         ______TS("success: typical name");
@@ -672,21 +745,6 @@ public class FieldValidatorTest extends BaseTestCase {
         ______TS("failure: contains invalid character");
         googleId = "teammates.$instr";
         assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
-    }
-
-    private void testOnce(String description, FieldType fieldType, String value, String expected) {
-        assertEquals(description, expected,
-                validator.getInvalidityInfo(fieldType, value));
-    }
-
-    private void verifyAssertError(String description, FieldType fieldType, String value) {
-        String errorMessage = "Did not throw the expected AssertionError for " + description;
-        try {
-            validator.getInvalidityInfo(fieldType, value);
-            signalFailureToDetectException(errorMessage);
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
     }
     
     @AfterClass
