@@ -14,6 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
 
@@ -120,14 +121,14 @@ public class InstructorsLogic {
         return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
     }
     
-    public String getKeyForInstructor(String courseId, String email)
+    public String getEncryptedKeyForInstructor(String courseId, String email)
             throws EntityDoesNotExistException {
         
         verifyIsEmailOfInstructorOfCourse(email, courseId);
         
         InstructorAttributes instructor = getInstructorForEmail(courseId, email);
     
-        return instructor.key;
+        return StringHelper.encrypt(instructor.key);
     }
     
     public List<InstructorAttributes> getInstructorsForEmail(String email) {
