@@ -66,6 +66,12 @@ public class FeedbackSubmitPage extends AppPage {
         return element.getAttribute("value");
     }
     
+    public int getResponseTextBoxLengthLabelValue(int qnNumber, int responseNumber) {
+        WebElement element = browser.driver.findElement(
+                By.id("responseLength" + "-" + qnNumber + "-" + responseNumber));
+        return Integer.parseInt(element.getText());
+    }
+    
     public void selectResponseTextDropdown(int qnNumber, int responseNumber, int responseSubNumber, String text) {
         WebElement element = browser.driver.findElement(
                 By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-"
