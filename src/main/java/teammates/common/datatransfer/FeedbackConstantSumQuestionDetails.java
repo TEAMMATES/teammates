@@ -23,12 +23,12 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
-    public int numOfConstSumOptions;
-    public boolean distributeToRecipients;
-    public boolean pointsPerOption;
-    public int points;
-    List<String> constSumOptions;
+    private int numOfConstSumOptions;
+    private List<String> constSumOptions;
+    private boolean distributeToRecipients;
+    private boolean pointsPerOption;
     private boolean forceUnevenDistribution;
+    private int points;
     
     public FeedbackConstantSumQuestionDetails() {
         super(FeedbackQuestionType.CONSTSUM);
@@ -307,8 +307,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String optionFragmentTemplate = FormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         StringBuilder additionalInfo = new StringBuilder();
 
-        if (this.distributeToRecipients) {
-            additionalInfo.append(this.getQuestionTypeDisplayName()).append("<br>");
+        if (distributeToRecipients) {
+            additionalInfo.append(getQuestionTypeDisplayName()).append("<br>");
         } else if (numOfConstSumOptions > 0) {
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
             for (int i = 0; i < numOfConstSumOptions; i++) {
@@ -446,7 +446,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
             for (int i = 0; i < frd.getAnswerList().size(); i++) {
                 String optionReceivingPoints =
-                        distributeToRecipients ? response.recipientEmail : String.valueOf(i);
+                        distributeToRecipients ? response.recipient : String.valueOf(i);
                 
                 int pointsReceived = frd.getAnswerList().get(i);
                 updateOptionPointsMapping(optionPoints, optionReceivingPoints, pointsReceived);
@@ -648,6 +648,26 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
+    }
+
+    public int getNumOfConstSumOptions() {
+        return numOfConstSumOptions;
+    }
+
+    public List<String> getConstSumOptions() {
+        return constSumOptions;
+    }
+
+    public boolean isDistributeToRecipients() {
+        return distributeToRecipients;
+    }
+
+    public boolean isPointsPerOption() {
+        return pointsPerOption;
+    }
+    
+    public int getPoints() {
+        return points;
     }
 
 }

@@ -25,8 +25,8 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
-    public int numOfMsqChoices;
-    public List<String> msqChoices;
+    private int numOfMsqChoices;
+    private List<String> msqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
     
@@ -75,9 +75,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 }
             }
         
-            this.setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled);
+            setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled);
         } else {
-            this.setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions));
+            setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions));
         }
         return true;
     }
@@ -329,12 +329,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         // Add two empty options by default
-        this.numOfMsqChoices = 2;
-        this.msqChoices.add("");
-        this.msqChoices.add("");
+        numOfMsqChoices = 2;
+        msqChoices.add("");
+        msqChoices.add("");
         
         return "<div id=\"msqForm\">"
-                  + this.getQuestionSpecificEditFormHtml(-1)
+                  + getQuestionSpecificEditFormHtml(-1)
              + "</div>";
     }
 
@@ -343,7 +343,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder optionListHtml = new StringBuilder(200);
         String optionFragmentTemplate = FormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         
-        if (this.generateOptionsFor != FeedbackParticipantType.NONE) {
+        if (generateOptionsFor != FeedbackParticipantType.NONE) {
             String optionHelpText = String.format(
                     "<br>The options for this question is automatically generated from the list of all %s in this course.",
                     generateOptionsFor.toString().toLowerCase());
@@ -597,4 +597,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
+
+    public int getNumOfMsqChoices() {
+        return numOfMsqChoices;
+    }
+
+    public List<String> getMsqChoices() {
+        return msqChoices;
+    }
+
 }

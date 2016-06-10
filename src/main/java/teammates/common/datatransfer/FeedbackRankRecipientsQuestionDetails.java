@@ -63,7 +63,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_PARAM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 Slots.RANK_NUM_OPTION_VALUE, Integer.toString(0),
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(areDuplicatesAllowed)
+                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed())
                 );
         
         return html;
@@ -99,7 +99,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_PARAM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 Slots.RANK_NUM_OPTION_VALUE, Integer.toString(0),
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(areDuplicatesAllowed));
+                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()));
     }
 
     private String getSubmissionOptionsHtmlForRankingRecipients(int totalNumRecipients, int rankGiven) {
@@ -131,7 +131,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.OPTION_RECIPIENT_DISPLAY_NAME, "recipient",
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED,
                         Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, areDuplicatesAllowed ? "checked" : "");
+                Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, isAreDuplicatesAllowed() ? "checked" : "");
     
     }
 
@@ -246,7 +246,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         Map<String, List<Integer>> optionRanks = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
-            updateOptionRanksMapping(optionRanks, response.recipientEmail, normalisedRankOfResponse.get(response));
+            updateOptionRanksMapping(optionRanks, response.recipient, normalisedRankOfResponse.get(response));
         }
         
         return optionRanks;
@@ -263,11 +263,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         // collect each giver's responses
         Map<String, List<FeedbackResponseAttributes>> responsesGivenByPerson = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
-            if (!responsesGivenByPerson.containsKey(response.giverEmail)) {
-                responsesGivenByPerson.put(response.giverEmail, new ArrayList<FeedbackResponseAttributes>());
+            if (!responsesGivenByPerson.containsKey(response.giver)) {
+                responsesGivenByPerson.put(response.giver, new ArrayList<FeedbackResponseAttributes>());
             }
             
-            responsesGivenByPerson.get(response.giverEmail)
+            responsesGivenByPerson.get(response.giver)
                                   .add(response);
         }
         
@@ -315,7 +315,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             return new ArrayList<String>();
         }
         
-        if (areDuplicatesAllowed) {
+        if (isAreDuplicatesAllowed()) {
             return new ArrayList<String>();
         }
         List<String> errors = new ArrayList<>();

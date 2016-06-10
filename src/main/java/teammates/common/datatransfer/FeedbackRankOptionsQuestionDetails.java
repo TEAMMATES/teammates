@@ -105,7 +105,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_PARAM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 Slots.RANK_NUM_OPTION_VALUE, Integer.toString(options.size()),
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(areDuplicatesAllowed)
+                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed())
                 );
     }
 
@@ -141,7 +141,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_PARAM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 Slots.RANK_NUM_OPTION_VALUE, Integer.toString(options.size()),
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(areDuplicatesAllowed));
+                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()));
     }
     
     private String getSubmissionOptionsHtmlForRankingOptions(int rankGiven) {
@@ -186,7 +186,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_NUM_OPTIONS, String.valueOf(options.size()),
                 Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "option",
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, areDuplicatesAllowed ? "checked" : "");
+                Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, isAreDuplicatesAllowed() ? "checked" : "");
     
     }
 
@@ -378,7 +378,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             return new ArrayList<String>();
         }
         
-        if (areDuplicatesAllowed) {
+        if (isAreDuplicatesAllowed()) {
             return new ArrayList<String>();
         }
         List<String> errors = new ArrayList<>();

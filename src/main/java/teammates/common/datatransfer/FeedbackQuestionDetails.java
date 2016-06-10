@@ -19,8 +19,8 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
  * question type
  */
 public abstract class FeedbackQuestionDetails {
-    public FeedbackQuestionType questionType;
-    public String questionText;
+    private FeedbackQuestionType questionType;
+    private String questionText;
 
     protected FeedbackQuestionDetails(FeedbackQuestionType questionType) {
         this.questionType = questionType;
@@ -75,15 +75,15 @@ public abstract class FeedbackQuestionDetails {
                                              FeedbackResponseAttributes feedbackResponseAttributes,
                                              FeedbackQuestionAttributes question) {
         // Retrieve giver details
-        String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giverEmail);
-        String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giverEmail);
-        String giverTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
+        String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giver);
+        String giverTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giver);
         String giverEmail = fsrBundle.getDisplayableEmailGiver(feedbackResponseAttributes);
 
         // Retrieve recipient details
-        String recipientLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.recipientEmail);
-        String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipientEmail);
-        String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.recipient);
+        String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipient);
+        String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
 
         return Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
@@ -231,4 +231,12 @@ public abstract class FeedbackQuestionDetails {
     }
 
     public abstract Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder();
+
+    public FeedbackQuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
 }

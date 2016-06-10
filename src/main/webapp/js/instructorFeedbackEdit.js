@@ -404,6 +404,9 @@ function discardChanges(questionNum) {
         $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('');
         $('#button_question_submit-' + questionNum).hide();
     }
+
+    // re-attach onChange event to show/hide numEntitiesBox according to recipient type
+    $('#' + FEEDBACK_QUESTION_RECIPIENTTYPE + '-' + questionNum).change(updateVisibilityOfNumEntitiesBox);
 }
 
 function hideNewQuestionAndShowNewQuestionForm() {
@@ -412,10 +415,10 @@ function hideNewQuestionAndShowNewQuestionForm() {
 }
 
 /**
- * Formats all questions to hide the 'Number of Recipients Box'
- * when participant type is not STUDENTS OR TEAMS, and show
- * it when it is. Formats the label for the number box to fit
- * the selection as well.
+ * 1. Disallow non-numeric input to all inputs expecting numbers
+ * 2. Initialize the visibility of 'Number of Recipients Box' according to the participant type (visible only
+ * when participant type is STUDENTS OR TEAMS)
+ * 3. Bind onChange of recipientType to modify numEntityBox visibility
  */
 function formatNumberBoxes() {
     disallowNonNumericEntries($('input.numberOfEntitiesBox'), false, false);
@@ -425,19 +428,18 @@ function formatNumberBoxes() {
     disallowNonNumericEntries($('input.pointsBox'), false, false);
     disallowNonNumericEntries($('input[id^="rubricWeight"]'), true, true);
     
-    // Binds onChange of recipientType to modify numEntityBox visibility
-    var modifyVisibility = function() {
-        var questionNum = $(this).prop('id').split('-')[1];
-        questionNum = questionNum || '';
-        
-        var value = $(this).val();
-        
-        formatNumberBox(value, questionNum);
-    };
-    $('select[name=' + FEEDBACK_QUESTION_RECIPIENTTYPE + ']').each(modifyVisibility)
-                                                             .change(modifyVisibility);
-    
+    $('select[name=' + FEEDBACK_QUESTION_RECIPIENTTYPE + ']').each(updateVisibilityOfNumEntitiesBox)
+                                                             .change(updateVisibilityOfNumEntitiesBox);
 }
+
+var updateVisibilityOfNumEntitiesBox = function() {
+    var questionNum = $(this).prop('id').split('-')[1];
+    questionNum = questionNum || '';
+
+    var value = $(this).val();
+
+    formatNumberBox(value, questionNum);
+};
 
 /**
  * Hides/shows the "Number of Recipients Box" of the question
