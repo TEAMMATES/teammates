@@ -33,6 +33,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UselessFileDetector;
 import org.openqa.selenium.support.FindBy;
@@ -470,6 +471,10 @@ public abstract class AppPage {
     
     public String getElementAttribute(By locator, String attrName) {
         return browser.driver.findElement(locator).getAttribute(attrName);
+    }
+    
+    protected void triggerKeyUp(WebElement element) {
+        new Actions(browser.driver).keyUp(element, Keys.CONTROL).perform();
     }
     
     protected void fillTextBox(WebElement textBoxElement, String value) {

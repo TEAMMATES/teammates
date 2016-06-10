@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
 
@@ -21,7 +22,16 @@ public class InstructorCourseDetailsPage extends AppPage {
     
     @FindBy (id = "button_remind")
     private WebElement remindAllButton;
+    
+    @FindBy (id = "rename-team-button")
+    private WebElement renameTeamButton;
+    
+    @FindBy (id = "rename-team-save-button")
+    private WebElement renameTeamSaveButton;
 
+    @FindBy (id = "new-team-name-input")
+    private WebElement newTeamNameInput;
+    
     public InstructorCourseDetailsPage(Browser browser) {
         super(browser);
     }
@@ -34,6 +44,27 @@ public class InstructorCourseDetailsPage extends AppPage {
     public String getCourseId() {
         return browser.driver.findElement(By.id("courseid")).getText();
     }
+    
+    public String getFirstTeamInTeamAbleToMergeMessage() {
+        return browser.driver.findElement(
+                By.cssSelector("#team-able-to-merge-message .first-team")).getText();
+    }
+    
+    public String getSecondTeamInTeamAbleToMergeMessage() {
+        return browser.driver.findElement(
+                By.cssSelector("#team-able-to-merge-message .second-team")).getText();
+    }
+    
+    public String getFirstTeamInTeamUnableToMergeMessage() {
+        return browser.driver.findElement(
+                By.cssSelector("#team-unable-to-merge-message .first-team")).getText();
+    }
+    
+    public String getSecondTeamInTeamUnableToMergeMessage() {
+        return browser.driver.findElement(
+                By.cssSelector("#team-unable-to-merge-message .second-team")).getText();
+    }
+
 
     public InstructorCourseDetailsPage verifyIsCorrectPage(String courseId) {
         assertEquals(courseId, this.getCourseId());
@@ -136,6 +167,41 @@ public class InstructorCourseDetailsPage extends AppPage {
         return this;
     }
     
+    public void clickRenameTeamButton() {
+        renameTeamButton.click();        
+    }
+    
+    public void clickRenameTeamSaveButton() {
+        renameTeamSaveButton.click();        
+    }
+    
+    public void clickRenameTeamSaveButtonAndConfirm() {
+        clickAndConfirm(renameTeamSaveButton);
+    }
+    
+    public void selectTeamToRename(String teamName) {
+        Select teamNameSelect = new Select(browser.driver.findElement(By.id("team-select")));
+        teamNameSelect.selectByVisibleText(teamName);
+    }
+    
+    public void enterNewTeamName(String teamName) {
+        waitForElementVisibility(newTeamNameInput);
+        fillTextBox(newTeamNameInput, teamName);
+        triggerKeyUp(newTeamNameInput);
+    }
+    
+    public boolean isRenameTeamSaveButtonEnabled() {
+        return isElementEnabled("rename-team-save-button");
+    }
+    
+    public boolean isTeamAbleToMergeMessageVisible() {
+        return isElementVisible("team-able-to-merge-message");
+    }
+    
+    public boolean isTeamUnableToMergeMessageVisible() {
+        return isElementVisible("team-unable-to-merge-message");
+    }
+
     private WebElement getViewLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(1)"));

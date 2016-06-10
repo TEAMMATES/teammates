@@ -56,7 +56,7 @@ public class InstructorCourseDetailsPageData extends PageData {
                           + sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId())) + "';";
         courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null,
                                           Const.Tooltips.COURSE_REMIND, "tooltip", null, onClick, isDisabled);
-        renameTeamButton = createButton(null, "btn btn-primary", null, null,
+        renameTeamButton = createButton(null, "btn btn-primary", "rename-team-button", null,
                                         null, "modal", "#rename-team-modal", null, isDisabled);
         
         this.sections = new ArrayList<StudentListSectionData>();

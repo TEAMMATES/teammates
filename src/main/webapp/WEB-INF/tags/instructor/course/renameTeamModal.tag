@@ -8,8 +8,9 @@
 <div class="modal fade" id="rename-team-modal" tabindex="-1" role="dialog" aria-labelledby="rename-team-modal-label">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="<%= Const.ActionURIs.INSTRUCTOR_COURSE_RENAME_TEAM %>" class="form-horizontal">
-                <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseId}">
+            <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_COURSE_RENAME_TEAM %>" class="form-horizontal" id="rename-team-form">
+                <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${courseId}">
+                <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="rename-team-modal-Label">Rename a Team</h4>
