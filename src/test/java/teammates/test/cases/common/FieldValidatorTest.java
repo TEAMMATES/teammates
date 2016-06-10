@@ -18,6 +18,7 @@ import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class FieldValidatorTest extends BaseTestCase {
+
     public static final String ERROR_MESSAGE_EMAIL_EMPTY =
             "\"\" is not acceptable to TEAMMATES as an email because it is empty. An email address contains "
             + "some text followed by one '@' sign followed by some more text. It cannot be longer than 254 "
@@ -419,7 +420,11 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidEmailSubject = "";
         String actual = validator.getInvalidityInfoForEmailSubject(invalidEmailSubject);
         assertEquals("Invalid email subject (empty) should return error message that is specific to email subject",
-                     String.format(EMAIL_SUBJECT_ERROR_MESSAGE, invalidEmailSubject, REASON_EMPTY), actual);
+                     EMAIL_SUBJECT_ERROR_MESSAGE.replace("{userInput}", invalidEmailSubject)
+                                                .replace("{fieldName}", EMAIL_SUBJECT_FIELD_NAME)
+                                                .replace("{reason}", REASON_EMPTY)
+                                                .replace("{maxLength}", String.valueOf(EMAIL_SUBJECT_MAX_LENGTH)),
+                     actual);
     }
 
     @Test

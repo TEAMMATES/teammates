@@ -114,7 +114,11 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     
     private boolean hasStatusMessageNoSubject() {
         return emailPage.getStatus().equals(
-                String.format(FieldValidator.EMAIL_SUBJECT_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY));
+                FieldValidator.EMAIL_SUBJECT_ERROR_MESSAGE
+                    .replace("{userInput}", "")
+                    .replace("{fieldName}", FieldValidator.EMAIL_SUBJECT_FIELD_NAME)
+                    .replace("{reason}", FieldValidator.REASON_EMPTY)
+                    .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH)));
     }
     
     private boolean hasErrorMessage() {
