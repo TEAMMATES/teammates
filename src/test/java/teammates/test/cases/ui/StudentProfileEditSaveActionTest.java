@@ -57,9 +57,10 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                                       .replace("{userInput}", submissionParams[1])
                                       .replace("{fieldName}", "a person name")
                                       .replace("{reason}", FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR));
-        expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
-                                                submissionParams[3],
-                                                FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessages.add(FieldValidator.EMAIL_ERROR_MESSAGE
+                                      .replace("{userInput}", submissionParams[3])
+                                      .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT));
         
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
         

@@ -63,13 +63,14 @@ public class FieldValidator {
      * =======================================================================
      * Field: Email
      */
-    public static final String EMAIL_FIELD_NAME = "email";
+    public static final String EMAIL_FIELD_NAME = "an email";
     public static final int EMAIL_MAX_LENGTH = 254;
-    public static final String EMAIL_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as an email because it %s. "
-            + "An email address contains some text followed by one '@' sign followed by some more text. "
-            + "It cannot be longer than " + EMAIL_MAX_LENGTH + " characters. "
+    public static final String HINT_FOR_CORRECT_EMAIL =
+            "An email address contains some text followed by one '@' sign followed by some more text. "
+            + "It cannot be longer than {maxLength} characters. "
             + "It cannot be empty and it cannot have spaces.";
+    public static final String EMAIL_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
     
     public static final String EMAIL_TAKEN_MESSAGE =
             "Trying to update to an email that is already used by: %s/%s";
@@ -358,13 +359,22 @@ public class FieldValidator {
         String sanitizedValue = Sanitizer.sanitizeForHtml(email);
 
         if (email.isEmpty()) {
-            return String.format(EMAIL_ERROR_MESSAGE, email, REASON_EMPTY);
+            return EMAIL_ERROR_MESSAGE.replace("{userInput}", email)
+                                      .replace("{fieldName}", EMAIL_FIELD_NAME)
+                                      .replace("{reason}", REASON_EMPTY)
+                                      .replace("{maxLength}", String.valueOf(EMAIL_MAX_LENGTH));
         } else if (isUntrimmed(email)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", EMAIL_FIELD_NAME);
         } else if (email.length() > EMAIL_MAX_LENGTH) {
-            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
+            return EMAIL_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
+                                      .replace("{fieldName}", EMAIL_FIELD_NAME)
+                                      .replace("{reason}", REASON_TOO_LONG)
+                                      .replace("{maxLength}", String.valueOf(EMAIL_MAX_LENGTH));
         } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
-            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
+            return EMAIL_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
+                                      .replace("{fieldName}", EMAIL_FIELD_NAME)
+                                      .replace("{reason}", REASON_INCORRECT_FORMAT)
+                                      .replace("{maxLength}", String.valueOf(EMAIL_MAX_LENGTH));
         }
         return "";
     }

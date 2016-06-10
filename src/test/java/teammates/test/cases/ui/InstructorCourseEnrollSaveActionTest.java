@@ -190,9 +190,10 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                                             + "<br>"
                                             + "<span class=\"problemDetail\">&bull; "
                                                 + Sanitizer.sanitizeForHtml(
-                                                        String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
-                                                                      "invalid.email.tmt",
-                                                                      FieldValidator.REASON_INCORRECT_FORMAT))
+                                                        FieldValidator.EMAIL_ERROR_MESSAGE
+                                                            .replace("{userInput}", "invalid.email.tmt")
+                                                            .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                                                            .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT))
                                             + "</span>"
                                         + "</p>";
         assertEquals(expectedStatusMessage, pageResult.getStatusMessage());

@@ -95,14 +95,22 @@ public class CommentAttributesTest extends BaseTestCase {
                 );
         
         List<String> expectedErrorMessage = new ArrayList<String>();
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, incorrectEmail,
-                                               FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-1",
-                                               FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-3",
-                                               FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-2",
-                                               FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessage.add(FieldValidator.EMAIL_ERROR_MESSAGE
+                                     .replace("{userInput}", incorrectEmail)
+                                     .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                                     .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessage.add(FieldValidator.EMAIL_ERROR_MESSAGE
+                                     .replace("{userInput}", "recipient-1")
+                                     .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                                     .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessage.add(FieldValidator.EMAIL_ERROR_MESSAGE
+                                     .replace("{userInput}", "recipient-3")
+                                     .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                                     .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessage.add(FieldValidator.EMAIL_ERROR_MESSAGE
+                                     .replace("{userInput}", "recipient-2")
+                                     .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                                     .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT));
         
         List<String> errorMemssage = comment.getInvalidityInfo();
         assertEquals(4, errorMemssage.size());

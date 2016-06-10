@@ -189,8 +189,10 @@ public class StudentProfileAttributesTest extends BaseTestCase {
                                       .replace("{userInput}", profile.shortName)
                                       .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
                                       .replace("{reason}", FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR));
-        expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, profile.email,
-                                                FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessages.add(FieldValidator.EMAIL_ERROR_MESSAGE
+                                      .replace("{userInput}", profile.email)
+                                      .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT));
         expectedErrorMessages.add(String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE, profile.institute,
                                                 FieldValidator.REASON_TOO_LONG));
         expectedErrorMessages.add(FieldValidator.INVALID_NAME_ERROR_MESSAGE

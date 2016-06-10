@@ -19,6 +19,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.storage.api.CommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -186,7 +187,10 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try {
             commentsDb.updateComment(c);
         } catch (InvalidParametersException e) {
-            assertEquals(String.format(EMAIL_ERROR_MESSAGE, "invalid receiver email", REASON_INCORRECT_FORMAT),
+            assertEquals(EMAIL_ERROR_MESSAGE
+                             .replace("{userInput}", "invalid receiver email")
+                             .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                             .replace("{reason}", REASON_INCORRECT_FORMAT),
                     e.getLocalizedMessage());
         }
         

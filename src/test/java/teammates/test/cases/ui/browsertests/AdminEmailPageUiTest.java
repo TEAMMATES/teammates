@@ -106,7 +106,10 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     
     private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) {
         return emailPage.getStatus().contains(
-                String.format(FieldValidator.EMAIL_ERROR_MESSAGE, recipientName, FieldValidator.REASON_INCORRECT_FORMAT));
+                FieldValidator.EMAIL_ERROR_MESSAGE
+                         .replace("{userInput}", recipientName)
+                         .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                         .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT));
     }
     
     private boolean hasStatusMessageNoSubject() {

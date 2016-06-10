@@ -96,7 +96,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(FieldValidator.EMAIL_ERROR_MESSAGE, i.email, FieldValidator.REASON_INCORRECT_FORMAT),
+                    FieldValidator.EMAIL_ERROR_MESSAGE
+                        .replace("{userInput}", i.email)
+                        .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                        .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT),
                     e.getMessage());
         }
 
@@ -322,8 +325,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             AssertHelper.assertContains(
                     String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name,
                                   FieldValidator.REASON_EMPTY) + Const.EOL
-                        + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
-                                        FieldValidator.REASON_INCORRECT_FORMAT),
+                    + FieldValidator.EMAIL_ERROR_MESSAGE
+                          .replace("{userInput}", instructorToEdit.email)
+                          .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                          .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT),
                     e.getMessage());
         }
 

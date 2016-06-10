@@ -88,8 +88,11 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
                                             FieldValidator.REASON_EMPTY) + EOL
                               + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, fq.courseId,
                                               FieldValidator.REASON_EMPTY) + EOL
-                              + String.format("Invalid creator's email: " + FieldValidator.EMAIL_ERROR_MESSAGE,
-                                              fq.creatorEmail, FieldValidator.REASON_EMPTY) + EOL
+                              + "Invalid creator's email: "
+                                     + FieldValidator.EMAIL_ERROR_MESSAGE
+                                           .replace("{userInput}", fq.creatorEmail)
+                                           .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                                           .replace("{reason}", FieldValidator.REASON_EMPTY) + EOL
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.giverType.toString(),
                                               FieldValidator.GIVER_TYPE_NAME) + EOL
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.recipientType.toString(),

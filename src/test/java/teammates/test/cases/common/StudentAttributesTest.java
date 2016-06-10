@@ -115,7 +115,10 @@ public class StudentAttributesTest extends BaseTestCase {
         ______TS("Failure case: empty email");
         invalidStudent = new StudentAttributes("sect", "t1", "n", "", "c", courseId);
         assertFalse(invalidStudent.isValid());
-        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY),
+        assertEquals(FieldValidator.EMAIL_ERROR_MESSAGE
+                         .replace("{userInput}", "")
+                         .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                         .replace("{reason}", FieldValidator.REASON_EMPTY),
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: section name too long");
@@ -147,8 +150,10 @@ public class StudentAttributesTest extends BaseTestCase {
         ______TS("Failure case: invalid email");
         invalidStudent = new StudentAttributes("sect", "t1", "name", "ee.com", "c", courseId);
         assertFalse(invalidStudent.isValid());
-        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
-                                   "ee.com", FieldValidator.REASON_INCORRECT_FORMAT),
+        assertEquals(FieldValidator.EMAIL_ERROR_MESSAGE
+                         .replace("{userInput}", "ee.com")
+                         .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                         .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT),
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: comment too long");
@@ -181,8 +186,10 @@ public class StudentAttributesTest extends BaseTestCase {
         String errorMessage = String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid@google@id",
                                             FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
                 + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY) + Const.EOL
-                + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
-                                FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
+                + FieldValidator.EMAIL_ERROR_MESSAGE
+                      .replace("{userInput}", "invalid email")
+                      .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
                 + String.format(FieldValidator.TEAM_NAME_ERROR_MESSAGE,
                                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                                 FieldValidator.REASON_TOO_LONG) + Const.EOL

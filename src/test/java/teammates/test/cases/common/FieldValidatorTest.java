@@ -18,6 +18,34 @@ import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class FieldValidatorTest extends BaseTestCase {
+    public static final String ERROR_MESSAGE_EMAIL_EMPTY =
+            "\"\" is not acceptable to TEAMMATES as an email because it is empty. An email address contains "
+            + "some text followed by one '@' sign followed by some more text. It cannot be longer than 254 "
+            + "characters. It cannot be empty and it cannot have spaces.";
+
+    public static final String ERROR_MESSAGE_EMAIL_TOO_LONG =
+            "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@c.gov\" is not acceptable "
+            + "to TEAMMATES as an email because it is too long. An email address contains some text followed "
+            + "by one '@' sign followed by some more text. It cannot be longer than 254 characters. It "
+            + "cannot be empty and it cannot have spaces.";
+
+    public static final String ERROR_MESSAGE_EMAIL_INCORRECT_FORMAT_SPACE_AFTER_AT_SYMBOL =
+            "\"woMAN@com. sg\" is not acceptable to TEAMMATES as an email because it is not in the correct "
+            + "format. An email address contains some text followed by one '@' sign followed by some more "
+            + "text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces.";
+
+    public static final String ERROR_MESSAGE_EMAIL_INCORRECT_FORMAT_SPACE_BEFORE_AT_SYMBOL =
+            "\"man woman@com.sg\" is not acceptable to TEAMMATES as an email because it is not in the correct "
+            + "format. An email address contains some text followed by one '@' sign followed by some more "
+            + "text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces.";
+
+    public static final String ERROR_MESSAGE_EMAIL_INCORRECT_FORMAT_TWO_AT_SYMBOL =
+            "\"man@woman@com.lk\" is not acceptable to TEAMMATES as an email because it is not in the correct "
+            + "format. An email address contains some text followed by one '@' sign followed by some more "
+            + "text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces.";
+
     public FieldValidator validator = new FieldValidator();
     
     @BeforeClass
@@ -493,7 +521,7 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForEmail_invalid_returnErrorString() {
         String emptyEmail = "";
         assertEquals("Invalid email (empty) should return appropriate error string",
-                     String.format(EMAIL_ERROR_MESSAGE, emptyEmail, REASON_EMPTY),
+                     ERROR_MESSAGE_EMAIL_EMPTY,
                      validator.getInvalidityInfoForEmail(emptyEmail));
 
         String untrimmedEmail = "  untrimmed@email.com  ";
@@ -507,23 +535,23 @@ public class FieldValidatorTest extends BaseTestCase {
                      validator.getInvalidityInfoForEmail(whitespaceEmail));
 
         String tooLongEmail = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH + 1) + "@c.gov";
-        assertEquals("Invalid email (leading/trailing spaces) should return appropriate error string",
-                     String.format(EMAIL_ERROR_MESSAGE, tooLongEmail, REASON_TOO_LONG),
+        assertEquals("Invalid email (too long) should return appropriate error string",
+                     ERROR_MESSAGE_EMAIL_TOO_LONG,
                      validator.getInvalidityInfoForEmail(tooLongEmail));
 
         String emailWithSpaceAfterAtSymbol = "woMAN@com. sg";
         assertEquals("Invalid email (space character after '@') should return appropriate error string",
-                     String.format(EMAIL_ERROR_MESSAGE, emailWithSpaceAfterAtSymbol, REASON_INCORRECT_FORMAT),
+                     ERROR_MESSAGE_EMAIL_INCORRECT_FORMAT_SPACE_AFTER_AT_SYMBOL,
                      validator.getInvalidityInfoForEmail(emailWithSpaceAfterAtSymbol));
 
         String emailWithSpaceBeforeAtSymbol = "man woman@com.sg";
         assertEquals("Invalid email (space character before '@') should return appropriate error string",
-                     String.format(EMAIL_ERROR_MESSAGE, emailWithSpaceBeforeAtSymbol, REASON_INCORRECT_FORMAT),
+                     ERROR_MESSAGE_EMAIL_INCORRECT_FORMAT_SPACE_BEFORE_AT_SYMBOL,
                      validator.getInvalidityInfoForEmail(emailWithSpaceBeforeAtSymbol));
 
         String emailWithMultipleAtSymbol = "man@woman@com.lk";
         assertEquals("Invalid email (multiple '@' characters) should return appropriate error string",
-                     String.format(EMAIL_ERROR_MESSAGE, emailWithMultipleAtSymbol, REASON_INCORRECT_FORMAT),
+                     ERROR_MESSAGE_EMAIL_INCORRECT_FORMAT_TWO_AT_SYMBOL,
                      validator.getInvalidityInfoForEmail(emailWithMultipleAtSymbol));
     }
 
