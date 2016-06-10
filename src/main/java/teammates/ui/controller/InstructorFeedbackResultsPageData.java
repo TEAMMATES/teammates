@@ -728,23 +728,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
     }
 
-    private InstructorFeedbackResultsSectionPanel buildSectionPanel(String name, String nameForDisplay, boolean loadByAjax) {
-        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
-        sectionPanel.setSectionName(name);
-        sectionPanel.setSectionNameForDisplay(nameForDisplay);
-        sectionPanel.setLoadSectionResponsesByAjax(loadByAjax);
-        return sectionPanel;
-    }
-
     private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
 
-        InstructorFeedbackResultsSectionPanel sectionPanel = buildSectionPanel(
+        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
                 Const.DEFAULT_SECTION, DISPLAY_NAME_FOR_DEFAULT_SECTION, true);
         sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
 
         for (String section : sections) {
-            sectionPanel = buildSectionPanel(section, section, true);
+            sectionPanel = new InstructorFeedbackResultsSectionPanel(section, section, true);
             sectionPanels.put(section, sectionPanel);
         }
     }

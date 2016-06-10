@@ -10,6 +10,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -257,7 +258,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         for (WebElement element : webElements) {
             try {
                 waitForElementVisibility(element);
-            } catch (org.openqa.selenium.StaleElementReferenceException e) {
+            } catch (StaleElementReferenceException e) {
                 // Case when element has been removed after JS processing
             }
         }

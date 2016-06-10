@@ -1,5 +1,3 @@
-var numPanels = 0;
-
 $(document).ready(function() {
     var seeMoreRequest = function(e) {
         var panelHeading = $(this);
@@ -26,14 +24,10 @@ $(document).ready(function() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
             success: function(data) {
-                var sectionBody = panelBody[0];
-
-                if (numPanels === 0) {
-                    numPanels += $('.panel-collapse').length;
-                }
+                var $sectionBody = $(panelBody[0]);
 
                 if (typeof data === 'undefined') {
-                    $(sectionBody).html('The results is too large to be viewed. '
+                    $sectionBody.html('The results is too large to be viewed. '
                                       + 'Please choose to view the results by questions or download the results.');
                 } else {
                     var appendedSection = $(data).find('#sectionBody-0').html();
@@ -45,29 +39,28 @@ $(document).ready(function() {
                     }
                     $(data).remove();
                     if (typeof appendedSection === 'undefined') {
-                        $(sectionBody).html('There are no responses for this feedback session yet '
+                        $sectionBody.html('There are no responses for this feedback session yet '
                                           + 'or you do not have access to the responses collected so far.');
                     } else {
-                        $(sectionBody).html(appendedSection);
+                        $sectionBody.html(appendedSection);
                     }
                 }
 
-                bindErrorImages($(sectionBody).find('.profile-pic-icon-hover, .profile-pic-icon-click'));
+                bindErrorImages($sectionBody.find('.profile-pic-icon-hover, .profile-pic-icon-click'));
                 // bind the show picture onclick events
-                bindStudentPhotoLink($(sectionBody).find('.profile-pic-icon-click > .student-profile-pic-view-link'));
+                bindStudentPhotoLink($sectionBody.find('.profile-pic-icon-click > .student-profile-pic-view-link'));
                 // bind the show picture onhover events
-                bindStudentPhotoHoverLink($(sectionBody).find('.profile-pic-icon-hover'));
+                bindStudentPhotoHoverLink($sectionBody.find('.profile-pic-icon-hover'));
 
-                $(panelHeading).removeClass('ajax_submit');
                 $(panelHeading).removeClass('ajax_auto');
                 $(panelHeading).off('click');
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down"></span>');
-                var childrenPanels = $(sectionBody).find('div.panel');
+                var childrenPanels = $sectionBody.find('div.panel');
                 bindCollapseEvents(childrenPanels, 0);
 
-                $(sectionBody).find('form[class*="responseCommentAddForm"] > div > a').click(addCommentHandler);
-                $(sectionBody).find('form[class*="responseCommentEditForm"] > div > a').click(editCommentHandler);
-                $(sectionBody).find('form[class*="responseCommentDeleteForm"] > a').click(deleteCommentHandler);
+                $sectionBody.find('form[class*="responseCommentAddForm"] > div > a').click(addCommentHandler);
+                $sectionBody.find('form[class*="responseCommentEditForm"] > div > a').click(editCommentHandler);
+                $sectionBody.find('form[class*="responseCommentDeleteForm"] > a').click(deleteCommentHandler);
 
                 $('a[id^="collapse-panels-button-section-"],a[id^="collapse-panels-button-team-"]').off('click');
                 $('a[id^="collapse-panels-button-section-"]').on('click', function() {
@@ -90,7 +83,7 @@ $(document).ready(function() {
             }
         });
     };
-    var $sectionPanelHeadings = $('.ajax_submit,.ajax_auto');
+    var $sectionPanelHeadings = $('.ajax_auto');
     $sectionPanelHeadings.click(seeMoreRequest);
     $('.ajax_auto').click();
 });
