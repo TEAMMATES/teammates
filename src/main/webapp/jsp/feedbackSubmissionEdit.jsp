@@ -12,7 +12,7 @@
         <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
     </c:when>
     <c:otherwise>
-        <input type="hidden" name="<%=Const.ParamsNames.REGKEY %>" value="${data.student.key}">
+        <input type="hidden" name="<%=Const.ParamsNames.REGKEY %>" value="${data.encryptedRegkey}">
         <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL %>" value="${data.account.email}">
     </c:otherwise>
 </c:choose>
