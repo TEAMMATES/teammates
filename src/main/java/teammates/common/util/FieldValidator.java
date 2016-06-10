@@ -294,8 +294,8 @@ public class FieldValidator {
             + "It should not be empty.";
     
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. "
-            + "The value of %s should be no longer than %d characters.";
+            "\"{userInput}\" is not acceptable to TEAMMATES as {fieldname} because it {reason}. "
+            + "The value of {fieldName} should be no longer than {maxLength} characters.";
     
     public static final String INVALID_NAME_ERROR_MESSAGE =
             "\"%s\" is not acceptable to TEAMMATES as %s because it %s. "
@@ -653,8 +653,10 @@ public class FieldValidator {
         }
         if (value.length() > maxLength) {
             String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-            return String.format(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName,
-                                 REASON_TOO_LONG, fieldName, maxLength);
+            return SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
+                                                                  .replace("{fieldName}", fieldName)
+                                                                  .replace("{reason}", REASON_TOO_LONG)
+                                                                  .replace("{maxLength}", String.valueOf(maxLength));
         }
         return "";
     }
