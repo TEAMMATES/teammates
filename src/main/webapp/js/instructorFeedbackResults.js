@@ -210,6 +210,13 @@ function bindCollapseEvents(panels, nPanels) {
 
             var sectionIndex = '';
 
+            /*
+             * There is one call of bindCollapseEvents() for outer section panels and one call per request
+             * for every section's content.
+             * For outer section panels we add prefix in format "-section-<sectionIndex>".
+             * For panels inside section we add prefix in format "-<sectionIndex>-". This is done in order
+             * to have fixed IDs for panels regardless of asynchronous execution of requests.
+            */
             var isSectionPanel = true;
             var sectionBody = $(heading).next().find('[id^="sectionBody-"]');
 
@@ -247,6 +254,24 @@ function displayAjaxRetryMessageForPanelHeading($element) {
     var chevronDown = '<span class="glyphicon glyphicon-chevron-down"></span>';
     var ajaxErrorEnd = '</div>';
     $element.html(ajaxErrorStart + warningSign + errorMsg + chevronDown + ajaxErrorEnd);
+}
+
+/**
+ * Removes section if it is empty. Currently, it removes only 'None' section
+ */
+function removeEmptySection(id, content) {
+    var $heading = $('[id^=panelHeading-section-' + id + ']');
+
+    if (id == 0) {
+        var panelsInSection = content.find('div.panel');
+
+        if (panelsInSection.length === 0) {
+            $heading.parent().remove();
+            return 1;
+        }
+    }
+
+    return 0;
 }
 
 $(document).ready(function() {

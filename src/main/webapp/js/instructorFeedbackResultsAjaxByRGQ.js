@@ -30,19 +30,19 @@ $(document).ready(function() {
                     $sectionBody.html('The results is too large to be viewed. '
                                       + 'Please choose to view the results by questions or download the results.');
                 } else {
-                    var appendedSection = $(data).find('#sectionBody-0').html();
-                    var panelsInSection = $(appendedSection).find('div.panel');
+                    var $appendedSection = $(data).find('#sectionBody-0');
+                    var sectionId = $(panelHeading).attr('id').match(/section-(\d+)/)[1];
 
-                    if (panelsInSection.length === 0) {
-                        $(panelHeading).parent().remove();
+                    if (removeEmptySection(sectionId, $appendedSection)) {
                         return;
                     }
+
                     $(data).remove();
-                    if (typeof appendedSection === 'undefined') {
+                    if (typeof $appendedSection === 'undefined') {
                         $sectionBody.html('There are no responses for this feedback session yet '
                                           + 'or you do not have access to the responses collected so far.');
                     } else {
-                        $sectionBody.html(appendedSection);
+                        $sectionBody.html($appendedSection.html());
                     }
                 }
 
