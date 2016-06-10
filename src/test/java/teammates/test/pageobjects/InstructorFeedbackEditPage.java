@@ -138,6 +138,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_copy_submit")
     private WebElement copyQuestionSubmitButton;
     
+    @FindBy(id = "question-copy-modal-status")
+    private WebElement copyQuestionStatusMessage;
+    
     @FindBy(id = "button_preview_student")
     private WebElement previewAsStudentButton;
     
@@ -174,6 +177,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.name("fsname")).getAttribute("value");
     }
     
+    /**
+     * @return number of question edit forms + question add form
+     */
     public int getNumberOfQuestionEditForms() {
         return browser.driver.findElements(By.className("questionTable")).size();
     }
@@ -366,6 +372,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         fscopyButton.click();
     }
     
+    /**
+     * Changes the value of actionlink of the copy question button.
+     * @param actionLink value to change to
+     */
     public void changeActionLinkOnCopyButton(String actionLink) {
         String selector = "$('#button_copy')";
         String action = ".data('actionlink', '" + actionLink + "')";
@@ -376,7 +386,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         copyQuestionLoadButton.click();
     }
     
-    public boolean isCopySubmitButtonClickable() {
+    /**
+     * @return true if submission button of the 'copy question' modal is enabled
+     */
+    public boolean isCopySubmitButtonEnabled() {
         return copyQuestionSubmitButton.isEnabled();
     }
     
@@ -956,19 +969,15 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void waitForCopyStatusMessageToLoad() {
-        waitForElementVisibility(browser.driver.findElement(
-                By.cssSelector("#question-copy-modal-status")));
+        waitForElementVisibility(copyQuestionStatusMessage);
     }
     
     public String getCopyStatusMessageText() {
-        return browser.driver.findElement(
-                By.cssSelector("#question-copy-modal-status")).getText();
+        return copyQuestionStatusMessage.getText();
     }
     
     public boolean isCopyStatusErrorMessage() {
-        return browser.driver.findElement(
-                By.cssSelector("#question-copy-modal-status")).getAttribute("class")
-                .contains("alert-danger");
+        return copyQuestionStatusMessage.getAttribute("class").contains("alert-danger");
     }
     
     public void clickEditLabel(int questionNumber) {

@@ -793,6 +793,9 @@ function toParameterFormat(str) {
     return str.replace(/\s/g, '+');
 }
 
+/**
+ * Adds event handler to load 'copy question' modal contents by ajax.
+ */
 function setupQuestionCopyModal() {
     $('#copyModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
@@ -804,11 +807,12 @@ function setupQuestionCopyModal() {
         var $copyTableModal = $('#copyTableModal');
         $.ajax({
             type: 'GET',
-            url: actionlink + '&courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname),
+            url: actionlink + '&courseid=' + encodeURIComponent(courseid)
+                            + '&fsname=' + encodeURIComponent(fsname),
             beforeSend: function() {
                 $('#button_copy_submit').prop('disabled', true);
                 $copyTableModal.html('Loading possible questions to copy. Please wait ...<br>'
-                                          + "<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
+                                     + "<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
                 $questionCopyStatusMessage.removeClass('alert alert-danger');
             },
             error: function() {

@@ -447,10 +447,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForCopyTableToLoad();
         
         assertFalse("Unable to submit when there are no questions selected",
-                    feedbackEditPage.isCopySubmitButtonClickable());
+                    feedbackEditPage.isCopySubmitButtonEnabled());
         feedbackEditPage.clickCopyTableAtRow(0);
         
-        assertTrue("Can click after selecting", feedbackEditPage.isCopySubmitButtonClickable());
+        assertTrue("Can click after selecting", feedbackEditPage.isCopySubmitButtonEnabled());
         
         feedbackEditPage.clickCopySubmitButton();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackCopyQuestionSuccess.html");
@@ -479,7 +479,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackEditPage.isCopyStatusErrorMessage());
         
         assertFalse("Should not be able to submit if there are no questions",
-                    feedbackEditPage.isCopySubmitButtonClickable());
+                    feedbackEditPage.isCopySubmitButtonEnabled());
                 
         ______TS("Fails gracefully with an error message");
         feedbackEditPage = getFeedbackEditPage();
@@ -492,7 +492,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                      feedbackEditPage.getCopyStatusMessageText());
         assertTrue(feedbackEditPage.isCopyStatusErrorMessage());
         assertFalse("Should not be able to submit if loading failed",
-                    feedbackEditPage.isCopySubmitButtonClickable());
+                    feedbackEditPage.isCopySubmitButtonEnabled());
         
         // revert back to state expected by tests after this by deleting new copied questions
         String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 4).getId();

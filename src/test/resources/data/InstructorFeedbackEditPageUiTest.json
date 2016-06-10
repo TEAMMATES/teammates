@@ -15,12 +15,12 @@
   	  "institute": "TEAMMATES Test Institute 1"
   	},
   	"thirdInstructor": {
-      "googleId": "CFeedbackEditUiT.instructor3",
-      "name": "Instructor 3",
-      "isInstructor": true,
-      "email": "tmms.instr@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
-    },
+  	  "googleId": "CFeedbackEditUiT.instructor3",
+  	  "name": "Instructor 3",
+  	  "isInstructor": true,
+  	  "email": "tmms.instr@gmail.tmt",
+  	  "institute": "TEAMMATES Test Institute 1"
+  	},
   	"alice.tmms": {
   	  "googleId": "CFeedbackEditUiT.alice.tmms",
   	  "name": "Alice Betsy",
