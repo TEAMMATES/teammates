@@ -824,10 +824,11 @@ function setupQuestionCopyModal() {
             success: function(data) {
                 $copyTableModal.replaceWith($(data).find('#copyTableModal'));
                 
-                var questionRows = $('#copyTableModal > tbody > tr');
-                if (questionRows.length) {
+                var $questionRows = $('#copyTableModal > tbody > tr');
+                if ($questionRows.length) {
                     $questionCopyStatusMessage.html('');
                 } else {
+                    $('#copyTableModal').html('');
                     $questionCopyStatusMessage.addClass('alert alert-danger');
                     $questionCopyStatusMessage.prepend('<br>').html(FEEDBACK_QUESTION_COPY_INVALID);
                 }

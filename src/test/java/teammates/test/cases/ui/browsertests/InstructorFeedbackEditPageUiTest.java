@@ -472,7 +472,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         feedbackEditPage = getFeedbackEditPageOfCourseWithoutQuestions();
         feedbackEditPage.clickCopyButton();
-        feedbackEditPage.waitForCopyTableToLoad();
+        
         feedbackEditPage.waitForCopyStatusMessageToLoad();
         assertEquals("There is no feedback question to be copied.",
                      feedbackEditPage.getCopyStatusMessageText());
