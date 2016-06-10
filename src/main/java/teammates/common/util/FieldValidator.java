@@ -13,6 +13,48 @@ import com.google.appengine.api.datastore.Text;
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
  */
 public class FieldValidator {
+    // possible reasons for invalidity
+    public static final String REASON_EMPTY = "is empty";
+    public static final String REASON_TOO_LONG = "is too long";
+    public static final String REASON_INCORRECT_FORMAT = "is not in the correct format";
+    public static final String REASON_CONTAINS_INVALID_CHAR = "contains invalid characters";
+    public static final String REASON_START_WITH_NON_ALPHANUMERIC_CHAR = "starts with a non-alphanumeric character";
+
+    // error message components
+    public static final String ERROR_INFO =
+            "\"{userInput}\" is not acceptable to TEAMMATES as {fieldName} because it {reason}.";
+
+    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY =
+            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
+
+    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
+            "The value of {fieldName} should be no longer than {maxLength} characters.";
+
+    public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
+            "All {fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
+            + "(|) or percent sign (%%).";
+
+    // generic error messages
+    public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY;
+
+    public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY;
+
+    public static final String INVALID_NAME_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME;
+
+    public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
+            "The provided {fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
+            + "or contains extra spaces at the beginning or at the end of the text.";
+
+    public static final String NON_HTML_FIELD_ERROR_MESSAGE =
+            Sanitizer.sanitizeForHtml("The provided {fieldName} is not acceptable to TEAMMATES as it cannot contain"
+                                      + " the following special html characters in brackets: (< > \\ / ' &)");
+
+    public static final String NON_NULL_FIELD_ERROR_MESSAGE =
+            "The provided {fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
+
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Generic types ///////////////////////////////////////
     // ////////////////////////////////////////////////////////////////////////
@@ -276,50 +318,6 @@ public class FieldValidator {
             {"emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
              "e-mails?\\s+address(es)?", "contacts?"};
     public static final String[] REGEX_COLUMN_COMMENT = {"comments?", "notes?"};
-    /*
-     * =======================================================================
-     */
-    
-    //Reasons for not accepting a value. Used for constructing error messages.
-    public static final String REASON_EMPTY = "is empty";
-    public static final String REASON_TOO_LONG = "is too long";
-    public static final String REASON_INCORRECT_FORMAT = "is not in the correct format";
-    public static final String REASON_CONTAINS_INVALID_CHAR = "contains invalid characters";
-    public static final String REASON_START_WITH_NON_ALPHANUMERIC_CHAR = "starts with a non-alphanumeric character";
-    
-    //TODO: move these out of this area
-    public static final String ERROR_INFO =
-            "\"{userInput}\" is not acceptable to TEAMMATES as {fieldName} because it {reason}.";
-
-    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY =
-            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
-
-    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
-            "The value of {fieldName} should be no longer than {maxLength} characters.";
-
-    public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
-            "All {fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
-            + "(|) or percent sign (%%).";
-
-    public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY;
-
-    public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY;
-    
-    public static final String INVALID_NAME_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME;
-    
-    public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
-            "The provided {fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
-            + "or contains extra spaces at the beginning or at the end of the text.";
-    
-    public static final String NON_HTML_FIELD_ERROR_MESSAGE =
-            Sanitizer.sanitizeForHtml("The provided {fieldName} is not acceptable to TEAMMATES as it cannot contain"
-                                      + " the following special html characters in brackets: (< > \\ / ' &)");
-    
-    public static final String NON_NULL_FIELD_ERROR_MESSAGE =
-            "The provided {fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
     
     /**
      * Checks if {@code emailContent} is not null and not empty
