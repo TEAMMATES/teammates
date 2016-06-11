@@ -220,7 +220,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackQuestionSubmitPage goToStudentFeedbackQuestionSubmitPage(
             StudentAttributes s, String fsName, String questionId) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
-                .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
+                .withRegistrationKey(BackDoor.getEncryptedKeyForStudent(s.course, s.email))
                 .withStudentEmail(s.email)
                 .withCourseId(s.course)
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())

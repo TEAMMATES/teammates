@@ -86,7 +86,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         String courseId = testData.courses.get("ICJConfirmationUiT.CS1101").getId();
         String instructorEmail = testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email;
 
-        String regkey = StringHelper.encrypt(BackDoor.getKeyForInstructor(courseId, instructorEmail));
+        String regkey = BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
         joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(regkey)
                                         .toAbsoluteString();

@@ -868,7 +868,7 @@ public class FeedbackSessionsLogic {
         StringBuilder exportBuilder = new StringBuilder();
         
         exportBuilder.append("Question " + Integer.toString(question.questionNumber) + ","
-                + Sanitizer.sanitizeForCsv(questionDetails.questionText)
+                + Sanitizer.sanitizeForCsv(questionDetails.getQuestionText())
                 + Const.EOL + Const.EOL);
         
         String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
@@ -1173,24 +1173,6 @@ public class FeedbackSessionsLogic {
         makeEmailStateConsistent(oldSession, newSession);
 
         fsDb.updateFeedbackSession(newSession);
-    }
-
-    /**
-     * Returns true if the feedback session identified by {@code sessionName} and {@code courseId} contains
-     * any feedback response from student with email {@code studentEmail}
-     * @param studentEmail
-     * @param sessionName
-     * @param courseId
-     */
-    public boolean hasResponsesFromStudent(String studentEmail, String sessionName, String courseId) {
-        List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(sessionName,
-                                                                                            courseId);
-        for (FeedbackResponseAttributes response : responses) {
-            if (response.giver.equals(studentEmail)) {
-                return true;
-            }
-        }
-        return false;
     }
     
     public void updateRespondantsForInstructor(String oldEmail, String newEmail, String courseId)

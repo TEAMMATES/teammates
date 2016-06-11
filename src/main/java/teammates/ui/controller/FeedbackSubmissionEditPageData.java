@@ -195,6 +195,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return result;
     }
     
+    public String getEncryptedRegkey() {
+        return StringHelper.encrypt(student.key);
+    }
+    
     private void createQuestionsWithResponses() {
         questionsWithResponses = new ArrayList<StudentFeedbackSubmissionEditQuestionsWithResponses>();
         int qnIndx = 1;

@@ -283,7 +283,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             response.responseMetaData = new Text("");
         } else {
             FeedbackResponseDetails responseDetails =
-                    FeedbackResponseDetails.createResponseDetails(answer, questionDetails.questionType,
+                    FeedbackResponseDetails.createResponseDetails(answer, questionDetails.getQuestionType(),
                                                                   questionDetails, requestParameters,
                                                                   questionIndx, responseIndx);
             response.setResponseDetails(responseDetails);

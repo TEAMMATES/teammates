@@ -9,6 +9,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.driver.AssertHelper;
@@ -137,7 +138,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         params = new String[]{
                 Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
-                Const.ParamsNames.REGKEY, unregStudent.key,
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(unregStudent.key),
                 Const.ParamsNames.STUDENT_EMAIL, unregStudent.email
         };
 
