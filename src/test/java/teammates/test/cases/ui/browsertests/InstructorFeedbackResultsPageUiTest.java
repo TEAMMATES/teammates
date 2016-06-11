@@ -544,15 +544,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: Hide Missing Responses");
 
         assertEquals(resultsPage.indicateMissingResponsesCheckbox.getAttribute("checked"), null);
-        assertFalse(resultsPage.verifyMissingResponsesVisibility());
-
-        resultsPage.clickIndicateMissingResponses();
-        assertEquals(resultsPage.indicateMissingResponsesCheckbox.getAttribute("checked"), "true");
         assertTrue(resultsPage.verifyMissingResponsesVisibility());
 
         resultsPage.clickIndicateMissingResponses();
-        assertEquals(resultsPage.indicateMissingResponsesCheckbox.getAttribute("checked"), null);
+        assertEquals(resultsPage.indicateMissingResponsesCheckbox.getAttribute("checked"), "true");
         assertFalse(resultsPage.verifyMissingResponsesVisibility());
+
+        resultsPage.clickIndicateMissingResponses();
+        assertEquals(resultsPage.indicateMissingResponsesCheckbox.getAttribute("checked"), null);
+        assertTrue(resultsPage.verifyMissingResponsesVisibility());
 
     }
     

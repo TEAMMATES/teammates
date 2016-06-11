@@ -157,7 +157,7 @@
                   <option value="recipient-giver-question">
                     Group by - Recipient &gt; Giver &gt; Question
                   </option>
-                  <option selected="" value="giver-question-recipient">
+                  <option selected="selected" value="giver-question-recipient">
                     Group by - Giver &gt; Question &gt; Recipient
                   </option>
                   <option value="recipient-question-giver">
@@ -200,6 +200,12 @@
                 </label>
               </div>
             </div>
+            <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
+              <div class="checkbox padding-top-0 min-height-0">
+                <input id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" onchange="this.form.submit()" type="checkbox" value="true">
+                Indicate Missing Responses
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -210,7 +216,7 @@
               </label>
               <div class="col-sm-10">
                 <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
-                  <option selected="" value="All">
+                  <option selected="selected" value="All">
                     All
                   </option>
                   <option value="Section 1">
@@ -551,6 +557,17 @@
                               <tbody>
                                 <tr>
                                   <td>
+                                    Organisation
+                                  </td>
+                                  <td>
+                                    2 , 2
+                                  </td>
+                                  <td>
+                                    2
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
                                     Introduction
                                   </td>
                                   <td>
@@ -569,17 +586,6 @@
                                   </td>
                                   <td>
                                     1
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    Organisation
-                                  </td>
-                                  <td>
-                                    2 , 2
-                                  </td>
-                                  <td>
-                                    2
                                   </td>
                                 </tr>
                               </tbody>
@@ -1131,7 +1137,9 @@
           <tbody>
             <tr>
               <td>
-                <i>Instructors</i>
+                <i>
+                  Instructors
+                </i>
               </td>
               <td>
                 Teammates Helper who can only see section 1
