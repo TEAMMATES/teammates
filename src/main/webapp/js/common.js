@@ -126,7 +126,7 @@ var DISPLAY_FIELDS_EMPTY = 'Please fill in all the relevant fields.';
 
 // Used in instructorFeedback.js only
 var FEEDBACK_SESSION_COPY_INVALID = 'There is no feedback session to be copied.';
-var FEEDBACK_QUESTION_COPY_INVALID = 'There is no feedback question to be copied.';
+var FEEDBACK_QUESTION_COPY_INVALID = 'There are no questions to be copied.';
 var DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE =
         'This feedback session name already existed in this course. Please use another name.';
 var DISPLAY_FEEDBACK_SESSION_NAME_EMPTY = 'Feedback session name must not be empty.';

@@ -474,7 +474,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickCopyButton();
         
         feedbackEditPage.waitForCopyStatusMessageToLoad();
-        assertEquals("There is no feedback question to be copied.",
+        assertEquals("There are no questions to be copied.",
                      feedbackEditPage.getCopyStatusMessageText());
         assertTrue(feedbackEditPage.isCopyStatusErrorMessage());
         
