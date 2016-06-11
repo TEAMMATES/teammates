@@ -433,19 +433,18 @@ public class Logic {
     }
     
     /**
-     * Get the decrypted registration key for the instructor.
+     * Get the encrypted registration key for the instructor.
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @return null if the key doesn't exist.
      * @throws EntityDoesNotExistException
      */
-    public String getKeyForInstructor(String courseId, String email)
+    public String getEncryptedKeyForInstructor(String courseId, String email)
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
     
-        return instructorsLogic.getKeyForInstructor(courseId, email);
+        return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
     }
 
     /**
@@ -1069,20 +1068,6 @@ public class Logic {
         return studentsLogic.getTeamDetailsForStudent(student);
     }
 
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     * @throws EntityDoesNotExistException
-     */
-    public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
-    
-        return studentsLogic.getKeyForStudent(courseId, email);
-    }
-    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -2114,6 +2099,10 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
         return feedbackResponsesLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
+    }
+    
+    public boolean isCourseHasResponses(String courseId) {
+        return feedbackResponsesLogic.isCourseHasResponses(courseId);
     }
     
     /**

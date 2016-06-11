@@ -149,17 +149,6 @@ public class StudentsLogic {
         return accLogic.getStudentProfile(googleId);
     }
     
-    public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-        
-        StudentAttributes studentData = getStudentForEmail(courseId, email);
-    
-        if (studentData == null) {
-            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
-        }
-    
-        return studentData.key;
-    }
-    
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
         
         StudentAttributes studentData = getStudentForEmail(courseId, email);

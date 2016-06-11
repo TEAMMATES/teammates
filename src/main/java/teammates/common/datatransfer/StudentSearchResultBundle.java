@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.search.Cursor;
@@ -49,7 +50,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
                 studentsLogic.deleteDocument(student);
                 continue;
             }
-            if (studentsLogic.getStudentForRegistrationKey(student.key) == null) {
+            if (studentsLogic.getStudentForRegistrationKey(StringHelper.encrypt(student.key)) == null) {
                 studentsLogic.deleteDocument(student);
                 continue;
             }
@@ -83,7 +84,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
                     new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(),
                                                          StudentAttributes.class);
             
-            if (studentsLogic.getStudentForRegistrationKey(student.key) == null) {
+            if (studentsLogic.getStudentForRegistrationKey(StringHelper.encrypt(student.key)) == null) {
                 studentsLogic.deleteDocument(student);
                 continue;
             }

@@ -451,6 +451,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         return questionTextArea.isEnabled();
     }
 
+    public boolean isOptionForSelectingNumberOfEntitiesVisible(int qnNumber) {
+        return isElementVisible(By.className("numberOfEntitiesElements" + qnNumber));
+    }
+
     public void clickSaveExistingQuestionButton(int qnNumber) {
         WebElement qnSaveLink = browser.driver.findElement(By.id("button_question_submit-" + qnNumber));
         qnSaveLink.click();
@@ -700,6 +704,11 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void selectRecipientsToBeInstructors() {
         selectDropdownByVisibleValue(recipientDropdown, "Instructors in the course");
+    }
+
+    public void selectRecipientsToBeStudents(int qnNumber) {
+        WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
+        selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
     }
 
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {

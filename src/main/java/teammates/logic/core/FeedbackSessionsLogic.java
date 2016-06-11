@@ -540,7 +540,7 @@ public class FeedbackSessionsLogic {
 
                 FeedbackResponseAttributes response = iterResponse.next();
 
-                if (response.recipientEmail.equals(instructorEmail)) {
+                if (response.recipient.equals(instructorEmail)) {
                     iterResponse.remove();
                 }
             }
@@ -899,7 +899,7 @@ public class FeedbackSessionsLogic {
         StringBuilder exportBuilder = new StringBuilder();
         
         exportBuilder.append("Question " + Integer.toString(question.questionNumber) + ","
-                + Sanitizer.sanitizeForCsv(questionDetails.questionText)
+                + Sanitizer.sanitizeForCsv(questionDetails.getQuestionText())
                 + Const.EOL + Const.EOL);
         
         String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
@@ -925,24 +925,24 @@ public class FeedbackSessionsLogic {
             
             // keep track of possible recipients with no responses
             removeParticipantIdentifierFromList(question.giverType,
-                    possibleGiversWithoutResponses, response.giverEmail, fsrBundle);
+                    possibleGiversWithoutResponses, response.giver, fsrBundle);
             
-            boolean isNewGiver = !prevGiver.equals(response.giverEmail);
+            boolean isNewGiver = !prevGiver.equals(response.giver);
             // print missing responses from the current giver
             if (isNewGiver) {
                 exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(fsrBundle,
                         question, questionDetails,
                         possibleRecipientsForGiver, prevGiver));
                 String giverIdentifier = question.giverType == FeedbackParticipantType.TEAMS
-                                       ? fsrBundle.getFullNameFromRoster(response.giverEmail)
-                                       : response.giverEmail;
+                                             ? fsrBundle.getFullNameFromRoster(response.giver)
+                                             : response.giver;
                 
                 possibleRecipientsForGiver = fsrBundle.getPossibleRecipients(question, giverIdentifier);
             }
             
             removeParticipantIdentifierFromList(question.recipientType, possibleRecipientsForGiver,
-                                                response.recipientEmail, fsrBundle);
-            prevGiver = response.giverEmail;
+                                                response.recipient, fsrBundle);
+            prevGiver = response.giver;
             
             // Append row(s)
             exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question));
@@ -1205,24 +1205,6 @@ public class FeedbackSessionsLogic {
 
         fsDb.updateFeedbackSession(newSession);
     }
-
-    /**
-     * Returns true if the feedback session identified by {@code sessionName} and {@code courseId} contains
-     * any feedback response from student with email {@code studentEmail}
-     * @param studentEmail
-     * @param sessionName
-     * @param courseId
-     */
-    public boolean hasResponsesFromStudent(String studentEmail, String sessionName, String courseId) {
-        List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(sessionName,
-                                                                                            courseId);
-        for (FeedbackResponseAttributes response : responses) {
-            if (response.giverEmail.equals(studentEmail)) {
-                return true;
-            }
-        }
-        return false;
-    }
     
     public void updateRespondantsForInstructor(String oldEmail, String newEmail, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -1272,11 +1254,11 @@ public class FeedbackSessionsLogic {
         Set<String> respondingInstructorList = new HashSet<String>();
         List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
         for (FeedbackResponseAttributes response : responses) {
-            List<String> instructorQuestions = instructorQuestionsMap.get(response.giverEmail);
+            List<String> instructorQuestions = instructorQuestionsMap.get(response.giver);
             if (instructorQuestions != null && instructorQuestions.contains(response.feedbackQuestionId)) {
-                respondingInstructorList.add(response.giverEmail);
+                respondingInstructorList.add(response.giver);
             } else {
-                respondingStudentList.add(response.giverEmail);
+                respondingStudentList.add(response.giver);
             }
         }
         
@@ -2012,8 +1994,8 @@ public class FeedbackSessionsLogic {
                     if (thisQuestionHasResponses) {
                         for (FeedbackResponseAttributes response : responsesForThisQn) {
                             boolean isVisibleResponse = false;
-                            if (response.giverEmail.equals(userEmail)
-                                    || response.recipientEmail.equals(userEmail)
+                            if (response.giver.equals(userEmail)
+                                    || response.recipient.equals(userEmail)
                                             && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                                     || role == Role.INSTRUCTOR
                                             && question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
@@ -2251,24 +2233,24 @@ public class FeedbackSessionsLogic {
         
         boolean isVisibleResponse = false;
         if (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-                || response.recipientEmail.equals(userEmail)
+                || response.recipient.equals(userEmail)
                         && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                || response.giverEmail.equals(userEmail)
+                || response.giver.equals(userEmail)
                 || role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
         } else if (role == Role.STUDENT) {
             if (relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                    && response.recipientEmail.equals(student.team)) {
+                    && response.recipient.equals(student.team)) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
-                       && studentsEmailInTeam.contains(response.giverEmail)) {
+                       && studentsEmailInTeam.contains(response.giver)) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                       && studentsEmailInTeam.contains(response.giverEmail)) {
+                       && studentsEmailInTeam.contains(response.giver)) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                       && studentsEmailInTeam.contains(response.recipientEmail)) {
+                       && studentsEmailInTeam.contains(response.recipient)) {
                 isVisibleResponse = true;
             }
         }
@@ -2346,25 +2328,25 @@ public class FeedbackSessionsLogic {
             FeedbackQuestionAttributes question, CourseRoster roster,
             int pairType) {
         if (question.giverType == FeedbackParticipantType.TEAMS
-                && roster.isStudentInCourse(response.giverEmail)) {
-            if (!emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER)) {
+                && roster.isStudentInCourse(response.giver)) {
+            if (!emailNameTable.containsKey(response.giver + Const.TEAM_OF_EMAIL_OWNER)) {
                 emailNameTable.put(
-                        response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
+                        response.giver + Const.TEAM_OF_EMAIL_OWNER,
                         getNameTeamNamePairForEmail(question.giverType,
-                                response.giverEmail, roster)[pairType]);
+                                response.giver, roster)[pairType]);
             }
             
-            StudentAttributes studentGiver = roster.getStudentForEmail(response.giverEmail);
+            StudentAttributes studentGiver = roster.getStudentForEmail(response.giver);
             if (studentGiver != null && !emailNameTable.containsKey(studentGiver.team)) {
                 emailNameTable.put(studentGiver.team, getNameTeamNamePairForEmail(
                                                         question.giverType,
-                                                        response.giverEmail, roster)[pairType]);
+                                                        response.giver, roster)[pairType]);
             }
-        } else if (!emailNameTable.containsKey(response.giverEmail)) {
+        } else if (!emailNameTable.containsKey(response.giver)) {
             emailNameTable.put(
-                    response.giverEmail,
+                    response.giver,
                     getNameTeamNamePairForEmail(question.giverType,
-                            response.giverEmail, roster)[pairType]);
+                            response.giver, roster)[pairType]);
         }
 
         FeedbackParticipantType recipientType = null;
@@ -2373,11 +2355,11 @@ public class FeedbackSessionsLogic {
         } else {
             recipientType = question.recipientType;
         }
-        if (!emailNameTable.containsKey(response.recipientEmail)) {
+        if (!emailNameTable.containsKey(response.recipient)) {
             emailNameTable.put(
-                    response.recipientEmail,
+                    response.recipient,
                     getNameTeamNamePairForEmail(recipientType,
-                                                response.recipientEmail, roster)[pairType]);
+                                                response.recipient, roster)[pairType]);
             
         }
     }

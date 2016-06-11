@@ -175,8 +175,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         FeedbackQuestionAttributes question = getFeedbackQuestion(response);
         if (!isNameVisibleToInstructor(response, question.showGiverNameTo)
                 && question.giverType != FeedbackParticipantType.SELF) {
-            String hash = Integer.toString(Math.abs(name.hashCode()));
-            return "Anonymous " + question.giverType.toSingularFormString() + " " + hash;
+            return FeedbackSessionResultsBundle.getAnonName(question.giverType, name);
         }
         return name;
     }
@@ -186,8 +185,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         if (!isNameVisibleToInstructor(response, question.showRecipientNameTo)
                 && question.recipientType != FeedbackParticipantType.SELF
                 && question.recipientType != FeedbackParticipantType.NONE) {
-            String hash = Integer.toString(Math.abs(name.hashCode()));
-            return "Anonymous " + question.recipientType.toSingularFormString() + " " + hash;
+            return FeedbackSessionResultsBundle.getAnonName(question.recipientType, name);
         }
         return name;
     }
@@ -218,13 +216,13 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
         for (FeedbackParticipantType type : showNameTo) {
             if (type == FeedbackParticipantType.GIVER
-                    && instructorEmails.contains(response.giverEmail)) {
+                    && instructorEmails.contains(response.giver)) {
                 return true;
             } else if (type == FeedbackParticipantType.INSTRUCTORS
                     && instructorCourseIdList.contains(response.courseId)) {
                 return true;
             } else if (type == FeedbackParticipantType.RECEIVER
-                    && instructorEmails.contains(response.recipientEmail)) {
+                    && instructorEmails.contains(response.recipient)) {
                 return true;
             }
         }
@@ -233,7 +231,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     
     private boolean isNameVisibleToInstructor(FeedbackResponseAttributes response, List<FeedbackParticipantType> showNameTo) {
         //giver can always see
-        if (instructorEmails.contains(response.giverEmail)) {
+        if (instructorEmails.contains(response.giver)) {
             return true;
         }
         for (FeedbackParticipantType type : showNameTo) {
@@ -241,7 +239,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                     && instructorCourseIdList.contains(response.courseId)) {
                 return true;
             } else if (type == FeedbackParticipantType.RECEIVER
-                    && instructorEmails.contains(response.recipientEmail)) {
+                    && instructorEmails.contains(response.recipient)) {
                 return true;
             }
         }
