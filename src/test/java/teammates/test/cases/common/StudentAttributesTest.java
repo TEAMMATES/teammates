@@ -143,8 +143,11 @@ public class StudentAttributesTest extends BaseTestCase {
         String longTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes("sect", longTeamName, "name", "e@e.com", "c", courseId);
         assertFalse(invalidStudent.isValid());
-        assertEquals(String.format(FieldValidator.TEAM_NAME_ERROR_MESSAGE, longTeamName,
-                                   FieldValidator.REASON_TOO_LONG),
+        assertEquals(FieldValidator.TEAM_NAME_ERROR_MESSAGE
+                         .replace("{userInput}", longTeamName)
+                         .replace("{fieldName}", FieldValidator.TEAM_NAME_FIELD_NAME)
+                         .replace("{reason}", FieldValidator.REASON_TOO_LONG)
+                         .replace("{maxLength}", String.valueOf(FieldValidator.TEAM_NAME_MAX_LENGTH)),
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: student name too long");
@@ -211,9 +214,11 @@ public class StudentAttributesTest extends BaseTestCase {
                       .replace("{userInput}", "invalid email")
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
                       .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
-                + String.format(FieldValidator.TEAM_NAME_ERROR_MESSAGE,
-                                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                                FieldValidator.REASON_TOO_LONG) + Const.EOL
+                + FieldValidator.TEAM_NAME_ERROR_MESSAGE
+                      .replace("{userInput}", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                      .replace("{fieldName}", FieldValidator.TEAM_NAME_FIELD_NAME)
+                      .replace("{reason}", FieldValidator.REASON_TOO_LONG)
+                      .replace("{maxLength}", String.valueOf(FieldValidator.TEAM_NAME_MAX_LENGTH)) + Const.EOL
                 + FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE
                       .replace("{userInput}", s.comments)
                       .replace("{fieldName}", FieldValidator.STUDENT_ROLE_COMMENTS_FIELD_NAME)

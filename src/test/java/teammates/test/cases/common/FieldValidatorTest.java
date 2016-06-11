@@ -105,6 +105,10 @@ public class FieldValidatorTest extends BaseTestCase {
             + "TEAMMATES as an institute name because it is too long. The value of an institute name should "
             + "be no longer than 64 characters. It should not be empty.";
 
+    public static final String ERROR_MESSAGE_TEAM_NAME_EMPTY =
+            "\"\" is not acceptable to TEAMMATES as a team name because it is empty. The value of a team "
+            + "name should be no longer than 60 characters. It should not be empty.";
+
     public FieldValidator validator = new FieldValidator();
     
     @BeforeClass
@@ -412,7 +416,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidTeamName = "";
         String actual = validator.getInvalidityInfoForTeamName(invalidTeamName);
         assertEquals("Invalid team name (empty) should return error message that is specific to team name",
-                     String.format(TEAM_NAME_ERROR_MESSAGE, invalidTeamName, REASON_EMPTY), actual);
+                     ERROR_MESSAGE_TEAM_NAME_EMPTY, actual);
     }
 
     @Test
