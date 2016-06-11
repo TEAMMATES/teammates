@@ -172,10 +172,10 @@ public class FieldValidator {
     public static final String FEEDBACK_SESSION_NAME = "feedback session";
     public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
     public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
+    public static final String HINT_FOR_CORRECT_FEEDBACK_SESSION_NAME =
+            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
     public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as " + FEEDBACK_SESSION_NAME_FIELD_NAME + " because it %s. "
-            + "The value of " + FEEDBACK_SESSION_NAME_FIELD_NAME + " should be no longer than "
-            + FEEDBACK_SESSION_NAME_MAX_LENGTH + " characters. It should not be empty.";
+            ERROR_INFO + " " + HINT_FOR_CORRECT_FEEDBACK_SESSION_NAME;
     
     /*
      * =======================================================================

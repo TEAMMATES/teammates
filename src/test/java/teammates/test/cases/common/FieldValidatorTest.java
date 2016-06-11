@@ -95,6 +95,11 @@ public class FieldValidatorTest extends BaseTestCase {
             + "format. A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar "
             + "signs. It cannot be longer than 40 characters. It cannot be empty or contain spaces.";
 
+    public static final String ERROR_MESSAGE_FEEDBACK_SESSION_NAME_TOO_LONG =
+            "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as feedback session "
+            + "name because it is too long. The value of feedback session name should be no longer than 38 "
+            + "characters. It should not be empty.";
+
     public FieldValidator validator = new FieldValidator();
     
     @BeforeClass
@@ -432,8 +437,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidSessionName = StringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
         String actual = validator.getInvalidityInfoForFeedbackSessionName(invalidSessionName);
         assertEquals("Invalid feedback session name (too long) should return error message specfic to feedback session name",
-                     String.format(FEEDBACK_SESSION_NAME_ERROR_MESSAGE, invalidSessionName,
-                                   REASON_TOO_LONG),
+                     ERROR_MESSAGE_FEEDBACK_SESSION_NAME_TOO_LONG,
                      actual);
     }
 
