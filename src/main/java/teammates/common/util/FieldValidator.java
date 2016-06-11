@@ -222,10 +222,10 @@ public class FieldValidator {
      */
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
+    public static final String HINT_FOR_CORRECT_STUDENT_ROLE =
+            "The value of {fieldName} should be no longer than {maxLength} characters.";
     public static final String STUDENT_ROLE_COMMENTS_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as " + STUDENT_ROLE_COMMENTS_FIELD_NAME + " because it %s. "
-            + "The value of " + STUDENT_ROLE_COMMENTS_FIELD_NAME + " should be no longer than "
-            + STUDENT_ROLE_COMMENTS_MAX_LENGTH + " characters.";
+            ERROR_INFO + " " + HINT_FOR_CORRECT_STUDENT_ROLE;
     
     /*
      * =======================================================================

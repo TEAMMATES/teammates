@@ -172,9 +172,13 @@ public class StudentAttributesTest extends BaseTestCase {
                 .generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes("sect", "t1", "name", "e@e.com", longComment, courseId);
         assertFalse(invalidStudent.isValid());
-        assertEquals(String.format(FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE,
-                                   longComment, FieldValidator.REASON_TOO_LONG),
-                     invalidStudent.getInvalidityInfo().get(0));
+        assertEquals(
+                FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE
+                    .replace("{userInput}", longComment)
+                    .replace("{fieldName}", FieldValidator.STUDENT_ROLE_COMMENTS_FIELD_NAME)
+                    .replace("{reason}", FieldValidator.REASON_TOO_LONG)
+                    .replace("{maxLength}", String.valueOf(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH)),
+                invalidStudent.getInvalidityInfo().get(0));
 
         // Other invalid parameters cases are omitted because they are already
         // unit-tested in validate*() methods in Common.java
@@ -210,8 +214,11 @@ public class StudentAttributesTest extends BaseTestCase {
                 + String.format(FieldValidator.TEAM_NAME_ERROR_MESSAGE,
                                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                                 FieldValidator.REASON_TOO_LONG) + Const.EOL
-                + String.format(FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, s.comments,
-                                FieldValidator.REASON_TOO_LONG) + Const.EOL
+                + FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE
+                      .replace("{userInput}", s.comments)
+                      .replace("{fieldName}", FieldValidator.STUDENT_ROLE_COMMENTS_FIELD_NAME)
+                      .replace("{reason}", FieldValidator.REASON_TOO_LONG)
+                      .replace("{maxLength}", String.valueOf(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH)) + Const.EOL
                 + FieldValidator.PERSON_NAME_ERROR_MESSAGE
                     .replace("{userInput}", "")
                     .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
