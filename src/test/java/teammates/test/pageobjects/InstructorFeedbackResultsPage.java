@@ -33,6 +33,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
     
+    @FindBy(id = "indicate-missing-responses-checkbox")
+    public WebElement indicateMissingResponsesCheckbox;
+    
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
     }
@@ -130,6 +133,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         showStatsCheckbox.click();
     }
 
+    public void clickIndicateMissingResponses() {
+        indicateMissingResponsesCheckbox.click();
+    }
+    
     public void fillSearchBox(String s) {
         this.fillTextBox(browser.driver.findElement(By.id("results-search-box")), s);
     }
@@ -260,6 +267,16 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return true;
     }
 
+    public boolean verifyMissingResponsesVisibility(){
+        List<WebElement> pendingResponses = browser.driver.
+                                            findElements(By.className("pending_response_row"));
+        if (pendingResponses.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
         commentRow.findElement(By.tagName("form")).findElement(By.tagName("a")).click();

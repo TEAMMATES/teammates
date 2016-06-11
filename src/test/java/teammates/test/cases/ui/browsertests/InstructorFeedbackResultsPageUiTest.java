@@ -538,6 +538,24 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
+    @Test
+    public void testIndicateMissingResponses() {
+
+        ______TS("Typical case: Hide Missing Responses");
+
+        assertEquals(resultsPage.indicateMissingResponsesCheckbox.getAttribute("checked"), null);
+        assertFalse(resultsPage.verifyMissingResponsesVisibility());
+
+        resultsPage.clickIndicateMissingResponses();
+        assertEquals(resultsPage.indicateMissingResponsesCheckbox.getAttribute("checked"), "true");
+        assertTrue(resultsPage.verifyMissingResponsesVisibility());
+
+        resultsPage.clickIndicateMissingResponses();
+        assertEquals(resultsPage.indicateMissingResponsesCheckbox.getAttribute("checked"), null);
+        assertFalse(resultsPage.verifyMissingResponsesVisibility());
+
+    }
+    
     public void testSearchScript() throws Exception {
 
         ______TS("Typical case: test search/filter script");
