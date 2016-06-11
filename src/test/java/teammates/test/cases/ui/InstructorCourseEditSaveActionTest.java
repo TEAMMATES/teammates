@@ -85,7 +85,11 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, courseName, FieldValidator.REASON_EMPTY);
+        statusMessage = FieldValidator.COURSE_NAME_ERROR_MESSAGE
+                  .replace("{userInput}", courseName)
+                  .replace("{fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME)
+                  .replace("{reason}", FieldValidator.REASON_EMPTY)
+                  .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_NAME_MAX_LENGTH));
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                      + "?error=true&user=" + instructorId + "&courseid=" + courseId,

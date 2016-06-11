@@ -122,10 +122,10 @@ public class FieldValidator {
      */
     public static final String COURSE_NAME_FIELD_NAME = "a course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
+    public static final String HINT_FOR_CORRECT_COURSE_NAME =
+            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
     public static final String COURSE_NAME_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as " + COURSE_NAME_FIELD_NAME + " because it %s. "
-            + "The value of " + COURSE_NAME_FIELD_NAME + " should be no longer than "
-            + COURSE_NAME_MAX_LENGTH + " characters. It should not be empty.";
+            ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_NAME;
     
     /*
      * =======================================================================

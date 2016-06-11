@@ -36,8 +36,11 @@ public class CourseAttributesTest extends BaseTestCase {
         String errorMessage =
                 String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(),
                               FieldValidator.REASON_TOO_LONG) + EOL
-                + String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, invalidCourse.getName(),
-                                FieldValidator.REASON_EMPTY);
+                + FieldValidator.COURSE_NAME_ERROR_MESSAGE
+                      .replace("{userInput}", invalidCourse.getName())
+                      .replace("{fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME)
+                      .replace("{reason}", FieldValidator.REASON_EMPTY)
+                      .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_NAME_MAX_LENGTH));
         assertEquals("invalid value", errorMessage, StringHelper.toString(invalidCourse.getInvalidityInfo()));
     }
 
