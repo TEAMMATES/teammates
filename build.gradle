@@ -7,9 +7,6 @@ apply plugin: "findbugs"
 apply plugin: "jacoco"
 
 def appengineVersion = "1.9.27"
-def libsVersion = "5.60"
-def libsUrl = "http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV${libsVersion}.zip"
-def libsPath = "libs/libsV${libsVersion}.zip"
 
 buildscript {
     repositories {
@@ -22,11 +19,13 @@ buildscript {
 
 configurations {
     enhancer
+    exclude
+    testExclude
 }
 
 configurations.all {
     resolutionStrategy {
-        force "commons-codec:commons-codec:1.6"
+        force "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
     }
 }
 
@@ -37,52 +36,45 @@ repositories {
 dependencies {
     appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
 
-    compile         "com.fasterxml.jackson.core:jackson-core:2.1.3",
-                    "com.google.api-client:google-api-client-appengine:1.18.0-rc",
-                    "com.google.api-client:google-api-client:1.18.0-rc",
-                    "com.google.apis:google-api-services-storage:v1beta2-rev47-1.18.0-rc",
-                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
-                    "com.google.appengine.tools:appengine-gcs-client:0.3.13",
-                    "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
+    compile         "com.google.appengine.tools:appengine-gcs-client:0.3.13",
+                    "com.google.appengine:appengine-api-labs:${appengineVersion}",
+                    "com.google.code.gson:gson:2.2.2",
+                    "org.apache.taglibs:taglibs-standard-impl:1.2.5",
+                    "org.jsoup:jsoup:1.9.2"
+
+    exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints:${appengineVersion}",
                     "com.google.appengine:appengine-jsr107cache:${appengineVersion}",
-                    "com.google.code.gson:gson:2.2.2",
-                    "com.google.guava:guava:15.0",
-                    "commons-fileupload:commons-fileupload:1.3.1",
+                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
                     "javax.jdo:jdo2-api:2.3-eb",
+                    "net.sf.jsr107cache:jsr107cache:1.1",
                     "org.apache.geronimo.specs:geronimo-jpa_3.0_spec:1.1.1",
                     "org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1",
                     "org.datanucleus:datanucleus-core:1.1.5",
                     "org.datanucleus:datanucleus-jpa:1.1.5",
                     "xerces:xercesImpl:2.9.1"
 
+    runtime         configurations.exclude
+
     enhancer        "javax.jdo:jdo2-api:2.3-eb",
-                    "com.google.code.gson:gson:2.2.2",
                     "com.google.appengine.orm:datanucleus-appengine:1.0.10",
                     "org.datanucleus:datanucleus-core:1.1.5",
                     "org.datanucleus:datanucleus-jpa:1.1.5",
                     "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
 
-    providedCompile "com.google.appengine:appengine-api-labs:${appengineVersion}",
-                    "com.google.appengine:appengine-api-stubs:${appengineVersion}",
+    testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
                     "com.google.appengine:appengine-testing:${appengineVersion}",
                     "httpunit:httpunit:1.7",
                     "javax.mail:mail:1.4.5",
+                    "org.seleniumhq.selenium:selenium-java:2.46.0",
                     "org.testng:testng:6.8.7"
 
-    testRuntime     "com.google.appengine:appengine-tools-sdk:${appengineVersion}",
-                    "org.seleniumhq.selenium:selenium-java:2.46.0"
+    testExclude     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
 
-    // Hack to get selenium-server-standalone from URL
-    def f = file("libs/selenium-server-standalone-2.46.jar")
-    f.getParentFile().mkdirs()
-    if (!f.exists()) {
-        new URL("http://selenium-release.storage.googleapis.com/2.46/selenium-server-standalone-2.46.0.jar")
-            .withInputStream{i -> f.withOutputStream{ it << i }}
-    }
-    providedCompile fileTree(dir: "libs", include: ["*.jar"])
+    testRuntime     configurations.testExclude
+
 }
 
 sourceSets {
@@ -117,6 +109,8 @@ sourceSets {
 
 // SETUP TASKS
 
+import org.gradle.plugins.ide.eclipse.model.SourceFolder
+
 eclipse {
     project {
         natures "org.eclipse.jdt.core.javanature", "com.google.appengine.eclipse.core.gaeNature", "org.eclipse.wst.jsdt.core.jsNature"
@@ -126,6 +120,26 @@ eclipse {
         buildCommand "com.google.appengine.eclipse.core.projectValidator"
         buildCommand "org.eclipse.wst.validation.validationbuilder"
     }
+    classpath {
+        containers "com.google.appengine.eclipse.core.GAE_CONTAINER"
+        defaultOutputDir = file("src/main/webapp/WEB-INF/classes")
+        sourceSets = [sourceSets.main, sourceSets.test]
+        minusConfigurations = [configurations.exclude, configurations.testExclude]
+        file {
+            whenMerged { cp ->
+                cp.entries.findAll {
+                    it instanceof SourceFolder && !it.path.startsWith("src/main/")
+                }*.output = "target/test-classes"
+
+                // Method to put mail.jar on top of the classpath
+                def nonMailEntries = cp.entries.findAll{ entry ->
+                    !entry.path.contains("mail-1.4.5")
+                }
+                cp.entries.removeAll(nonMailEntries)
+                cp.entries.addAll(nonMailEntries)
+            }
+        }
+    }
 }
 
 eclipseProject {
@@ -134,67 +148,47 @@ eclipseProject {
     }
 }
 
-task copyTemplateConfigs << {
+eclipseClasspath {
+    onlyIf {
+        !(new File(".classpath")).exists()
+    }
+}
+
+task createConfigs << {
     def templatesToCopy = [
+        "gradle.template.properties",
         "src/main/resources/build.template.properties",
         "src/test/resources/test.template.properties",
-        "src/main/webapp/WEB-INF/appengine-web.template.xml",
-        ".settings/com.google.gdt.eclipse.core.template.prefs"
+        "src/main/webapp/WEB-INF/appengine-web.template.xml"
     ]
     templatesToCopy.findAll {
         !(new File(it.replace(".template", ""))).exists()
     }.each {
         filename -> copy {
             from filename
-            into new File(filename).getParent()
+            into filename.startsWith("src/") ? new File(filename).getParent() : "${projectDir}"
             rename '(.*).template(.*)', '$1$2'
         }
     }
 }
 
-task populateProjectDir << {
-    def filesToPopulate = [
-        ".settings/com.google.gdt.eclipse.core.template.prefs"
-    ]
-    filesToPopulate.each { filename ->
-        filename = filename.replace(".template", "")
-        def filecontents = new File(filename).getText('UTF-8')
-        new File(filename).text = filecontents.replaceAll(/\*/, projectDir.canonicalPath)
-    }
+task copyDepsToWebInfLib(type: Copy) {
+    from configurations.runtime
+    into "src/main/webapp/WEB-INF/lib/"
+    rename("datanucleus-appengine-1.0.10.jar", "datanucleus-appengine-1.0.10.final.jar")
+    rename("appengine-endpoints-deps-1.9.27.jar", "appengine-endpoints-deps.jar")
+    rename("appengine-endpoints-1.9.27.jar", "appengine-endpoints.jar")
+    rename("appengine-api-labs-1.9.27.jar", "appengine-api-labs.jar")
 }
 
-task createConfigs {
-    dependsOn copyTemplateConfigs, populateProjectDir
-}
-
-task downloadLibs {
-    onlyIf {
-        !(new File(libsPath)).exists()
-    }
+task resetEclipseDeps {
+    description "Updates the project's dependencies to be used by Eclipse configurations"
+    group "Setup"
     doFirst {
-        def currentDependencies = new File(libsPath)
-        currentDependencies.getParentFile().mkdirs()
-        new URL(libsUrl).withInputStream{i -> currentDependencies.withOutputStream{ it << i }}
+        delete  ".classpath",
+                "src/main/webapp/WEB-INF/lib"
     }
-}
-
-task updateLibs {
-    def zipFile = new File(libsPath)
-    def libsDir = new File(zipFile.getParentFile(), 'src')
-    doFirst {
-        copy {
-            from zipTree(zipFile)
-            into zipFile.getParentFile()
-        }
-        copy {
-            from libsDir
-            into new File(projectDir, 'src')
-        }
-    }
-    doLast {
-        libsDir.deleteDir()
-    }
-    dependsOn downloadLibs
+    finalizedBy eclipseClasspath, copyDepsToWebInfLib
 }
 
 task printUserHomeDir << {
@@ -204,7 +198,7 @@ task printUserHomeDir << {
 task setup {
     description "Sets up the project by obtaining necessary files and configurations points."
     group "Setup"
-    dependsOn eclipseProject, updateLibs, createConfigs
+    dependsOn eclipseProject, eclipseClasspath, copyDepsToWebInfLib, createConfigs
 }
 
 // RUN SERVER TASKS
@@ -228,6 +222,15 @@ appengineRun {
         daemon = true
     }
 }
+
+task removeDuplicateLibs(type: Delete) {
+    delete  "${buildDir}/exploded-app/WEB-INF/lib/datanucleus-appengine-1.0.10.final.jar",
+            "${buildDir}/exploded-app/WEB-INF/lib/appengine-endpoints-deps.jar",
+            "${buildDir}/exploded-app/WEB-INF/lib/appengine-endpoints.jar",
+            "${buildDir}/exploded-app/WEB-INF/lib/appengine-api-labs.jar"
+}
+
+appengineExplodeApp.finalizedBy removeDuplicateLibs
 
 task enhancerRun << {
     def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-${appengineVersion}/lib/appengine-tools-api.jar"

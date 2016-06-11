@@ -49,8 +49,8 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_GET_STUDENTPROFILE_AS_JSON = "OPERATION_GET_STUDENTPROFILE_AS_JSON";
     public static final String OPERATION_GET_COURSE_AS_JSON = "OPERATION_GET_COURSE_AS_JSON";
     public static final String OPERATION_GET_STUDENT_AS_JSON = "OPERATION_GET_STUDENT_AS_JSON";
-    public static final String OPERATION_GET_KEY_FOR_INSTRUCTOR = "OPERATION_GET_KEY_FOR_INSTRUCTOR";
-    public static final String OPERATION_GET_KEY_FOR_STUDENT = "OPERATION_GET_KEY_FOR_STUDENT";
+    public static final String OPERATION_GET_ENCRYPTED_KEY_FOR_INSTRUCTOR = "OPERATION_GET_ENCRYPTED_KEY_FOR_INSTRUCTOR";
+    public static final String OPERATION_GET_ENCRYPTED_KEY_FOR_STUDENT = "OPERATION_GET_ENCRYPTED_KEY_FOR_STUDENT";
     public static final String OPERATION_GET_ALL_STUDENTS_AS_JSON = "OPERATION_GET_ALL_STUDENTS";
     public static final String OPERATION_GET_TEAM_FORMING_LOG_AS_JSON = "OPERATION_GET_TEAM_FORMING_LOG_AS_JSON";
     public static final String OPERATION_GET_TEAM_PROFILE_AS_JSON = "OPERATION_GET_TEAM_PROFILE_AS_JSON";
@@ -180,14 +180,14 @@ public class BackDoorServlet extends HttpServlet {
         } else if (action.equals(OPERATION_GET_ALL_STUDENTS_AS_JSON)) {
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             return backDoorLogic.getAllStudentsAsJson(courseId);
-        } else if (action.equals(OPERATION_GET_KEY_FOR_INSTRUCTOR)) {
+        } else if (action.equals(OPERATION_GET_ENCRYPTED_KEY_FOR_INSTRUCTOR)) {
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             String email = req.getParameter(PARAMETER_INSTRUCTOR_EMAIL);
-            return backDoorLogic.getKeyForInstructor(courseId, email);
-        } else if (action.equals(OPERATION_GET_KEY_FOR_STUDENT)) {
+            return backDoorLogic.getEncryptedKeyForInstructor(courseId, email);
+        } else if (action.equals(OPERATION_GET_ENCRYPTED_KEY_FOR_STUDENT)) {
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
-            return backDoorLogic.getKeyForStudent(courseId, email);
+            return backDoorLogic.getEncryptedKeyForStudent(courseId, email);
         } else if (action.equals(OPERATION_PERSIST_DATABUNDLE)) {
             String dataBundleJsonString = req
                     .getParameter(PARAMETER_DATABUNDLE_JSON);

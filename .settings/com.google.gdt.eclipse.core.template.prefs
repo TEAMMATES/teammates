@@ -1,4 +1,0 @@
-eclipse.preferences.version=1
-jarsExcludedFromWebInfLib=*/src/test/resources/lib/appengine/appengine-api-labs.jar|*/src/test/resources/lib/appengine/appengine-api-stubs.jar|*/src/test/resources/lib/appengine/appengine-api.jar|*/src/test/resources/lib/appengine/appengine-remote-api.jar|*/src/test/resources/lib/appengine/appengine-testing.jar|*/src/test/resources/lib/httpunit/httpunit.jar|*/src/test/resources/lib/javamail/mail.jar|*/src/test/resources/lib/selenium/selenium-server-standalone-2.46.0.jar
-warSrcDir=src/main/webapp
-warSrcDirIsOutput=true

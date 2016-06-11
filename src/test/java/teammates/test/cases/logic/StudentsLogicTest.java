@@ -73,7 +73,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         testGetStudentsForGoogleId();
         testGetStudentForCourseIdAndGoogleId();
         testGetStudentsForCourse();
-        testGetKeyForStudent();
         testGetEncryptedKeyForStudent();
         testIsStudentInAnyCourse();
         testIsStudentInCourse();
@@ -851,7 +850,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         String studentKey = studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key;
-        StudentAttributes actualStudent = studentsLogic.getStudentForRegistrationKey(studentKey);
+        StudentAttributes actualStudent = studentsLogic.getStudentForRegistrationKey(StringHelper.encrypt(studentKey));
         assertEquals(student1InCourse1.googleId, actualStudent.googleId);
     }
 
@@ -999,41 +998,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
     }
 
-    public void testGetKeyForStudent() throws Exception {
-    
-        ______TS("null parameters");
-    
-        try {
-            studentsLogic.getKeyForStudent("valid.course.id", null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
-    
-        
-        ______TS("non-existent student");
-        
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        String nonExistStudentEmail = "non@existent";
-        try {
-            studentsLogic.getKeyForStudent(student1InCourse1.course, nonExistStudentEmail);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            String expectedErrorMsg = "Student does not exist: [" + student1InCourse1.course + "/" + nonExistStudentEmail + "]";
-            assertEquals(expectedErrorMsg, e.getMessage());
-        }
-        
-        
-        // the typical case below seems unnecessary though--it is not useful for now
-        // as the method itself is too simple
-        ______TS("typical case");
-        
-        String course1Id = dataBundle.courses.get("typicalCourse1").getId();
-        String actualKey = studentsLogic.getKeyForStudent(course1Id, student1InCourse1.email);
-        String expectedKey = studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key;
-        assertEquals(expectedKey, actualKey);
-    }
-    
     public void testGetEncryptedKeyForStudent() throws Exception {
         
         ______TS("null parameters");

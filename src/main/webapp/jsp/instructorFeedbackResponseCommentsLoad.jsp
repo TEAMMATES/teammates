@@ -31,13 +31,13 @@
                 <table class="table">
                     <tbody>
                         <c:forEach items="${questionCommentsEntry.value}" var="response" varStatus="responseStatus">
-                            <tr>
+                            <tr class="feedback-response-giver-recipient-row table-row-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}">
                                 <td><b>From:</b> ${fn:escapeXml(response.giverName)} <b>To:</b> ${fn:escapeXml(response.recipientName)}</td>
                             </tr>
-                            <tr>
+                            <tr class="table-row-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}">
                                 <td><strong>Response: </strong>${response.answerHtml}</td>
                             </tr>
-                            <tr class="active">
+                            <tr class="active table-row-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}">
                                 <td>Comment(s):
                                     <button type="button"
                                             class="btn btn-default btn-xs icon-button pull-right"
@@ -50,7 +50,7 @@
                                     </button>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="table-row-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}">
                                 <td>
                                     <ul class="list-group comments"
                                         id="responseCommentTable-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
