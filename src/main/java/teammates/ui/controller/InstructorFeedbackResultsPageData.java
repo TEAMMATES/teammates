@@ -1526,13 +1526,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                 String prevGiver) {
         List<InstructorFeedbackResultsResponseRow> responseRows = new ArrayList<InstructorFeedbackResultsResponseRow>();
         
-        if (possibleRecipientsForGiver != null) {
-            if (isMissingResponsesShown) {
-                responseRows.addAll(buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
-                                                question, possibleRecipientsForGiver,
-                                                prevGiver, bundle.getNameForEmail(prevGiver),
-                                                bundle.getTeamNameForEmail(prevGiver)));
-            }
+        if (possibleRecipientsForGiver != null && isMissingResponsesShown) {
+            responseRows.addAll(buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
+                                            question, possibleRecipientsForGiver,
+                                            prevGiver, bundle.getNameForEmail(prevGiver),
+                                            bundle.getTeamNameForEmail(prevGiver))); 
         }
         
         removeParticipantIdentifierFromList(remainingPossibleGivers, prevGiver);
