@@ -25,8 +25,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        boolean isMissingResponsesShown = getRequestParamAsBoolean(
-                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
 
@@ -121,7 +119,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
             isError = true;
         }
         
-
+        boolean isMissingResponsesShown = getRequestParamAsBoolean(
+                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
         switch (sortType) {
         case Const.FeedbackSessionResults.QUESTION_SORT_TYPE:
             data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam, isMissingResponsesShown);
