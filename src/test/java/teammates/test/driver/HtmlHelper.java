@@ -27,7 +27,8 @@ public final class HtmlHelper {
     private static final String REGEX_CONTINUE_URL = ".*?";
     private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = "[A-F0-9]{32,}";
     private static final String REGEX_ENCRYPTED_COURSE_ID = "[A-F0-9]{32,}";
-    private static final String REGEX_ENCRYPTED_REGKEY = "[a-zA-Z0-9-_]{10,}";
+    private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
+    private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
@@ -387,6 +388,9 @@ public final class HtmlHelper {
                                   + " value=\"" + REGEX_ENCRYPTED_REGKEY + "\"){3}",
                                   " name=\"" + Const.ParamsNames.REGKEY + "\""
                                   + " type=\"hidden\" value=\"\\${regkey\\.enc}\"")
+                      // anonymous student identifier on results page
+                      .replaceAll("Anonymous (student|instructor|team) " + REGEX_ANONYMOUS_PARTICIPANT_HASH,
+                                  "Anonymous $1 \\${participant\\.hash}")
                       // questionid as value
                       .replaceAll("value=\"" + REGEX_QUESTION_ID + "\"", "value=\"\\${question\\.id}\"")
                       // questionid as part of responseid

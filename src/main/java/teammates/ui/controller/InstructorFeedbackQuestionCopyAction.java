@@ -40,7 +40,7 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
                                  + feedbackQuestion.courseId + "]</span> created.<br>"
                                  + "<span class=\"bold\">"
                                  + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
-                                 + ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
+                                 + ":</span> " + feedbackQuestion.getQuestionDetails().getQuestionText();
             }
 
             if (index > 0) {

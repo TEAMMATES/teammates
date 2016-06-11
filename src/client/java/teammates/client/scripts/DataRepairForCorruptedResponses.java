@@ -54,7 +54,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             String originalGiverSection = "";
             String originalRecipientSection = "";
             if (needRepairGiverSection) {
-                StudentAttributes student = logic.getStudentForEmail(question.courseId, response.giverEmail);
+                StudentAttributes student = logic.getStudentForEmail(question.courseId, response.giver);
                 if (!response.giverSection.equals(student.section)) {
                     originalGiverSection = response.giverSection;
                     response.giverSection = student.section;
@@ -64,14 +64,14 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             
             if (needRepairRecipientSection) {
                 if (isTeamRecipient(question.recipientType)) {
-                    String recipientSection = logic.getStudentsForTeam(response.recipientEmail, question.courseId).get(0).section;
+                    String recipientSection = logic.getStudentsForTeam(response.recipient, question.courseId).get(0).section;
                     if (!recipientSection.equals(response.recipientSection)) {
                         originalRecipientSection = response.recipientSection;
                         response.recipientSection = recipientSection;
                         needUpdateResponse = true;
                     }
                 } else {
-                    StudentAttributes student = logic.getStudentForEmail(question.courseId, response.recipientEmail);
+                    StudentAttributes student = logic.getStudentForEmail(question.courseId, response.recipient);
                     if (!response.recipientSection.equals(student.section)) {
                         originalRecipientSection = response.recipientSection;
                         response.recipientSection = student.section;
