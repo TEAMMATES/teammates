@@ -203,7 +203,8 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         student.setSectionName(sectionToChangeTo);
     }
 
-    private void updateFeedbackResponsesToBeInSection(List<FeedbackResponse> responses, StudentAttributes student, String sectionName) {
+    private void updateFeedbackResponsesToBeInSection(List<FeedbackResponse> responses,
+                                                      StudentAttributes student, String sectionName) {
         if (isPreview) {
             return;
         }

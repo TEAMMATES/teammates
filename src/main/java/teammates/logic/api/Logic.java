@@ -309,7 +309,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         
-        InstructorAttributes instructor = new InstructorAttributes(null, courseId, name, email, role, role, new InstructorPrivileges(role));
+        InstructorAttributes instructor =
+                new InstructorAttributes(null, courseId, name, email, role, role, new InstructorPrivileges(role));
 
         instructorsLogic.createInstructor(instructor);
     }
@@ -432,19 +433,18 @@ public class Logic {
     }
     
     /**
-     * Get the decrypted registration key for the instructor.
+     * Get the encrypted registration key for the instructor.
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @return null if the key doesn't exist.
      * @throws EntityDoesNotExistException
      */
-    public String getKeyForInstructor(String courseId, String email)
+    public String getEncryptedKeyForInstructor(String courseId, String email)
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
     
-        return instructorsLogic.getKeyForInstructor(courseId, email);
+        return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
     }
 
     /**
@@ -750,32 +750,6 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      * 
-     * @return true if the course has been archived by the instructor specified
-     */
-    public static boolean isCourseArchived(String courseId, String instructorGoogleId) {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorGoogleId);
-        
-        return coursesLogic.isCourseArchived(courseId, instructorGoogleId);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     * @return true if the course has been archived by the instructor specified
-     */
-    public static boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
-        
-        return coursesLogic.isCourseArchived(course, instructor);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
      * @return Details of courses the student is in. CourseData objects
      *         returned contain details of feedback sessions too (except the ones
      *         still AWAITING).
@@ -1048,7 +1022,8 @@ public class Logic {
      * * All parameters are non-null
      * @throws EntityDoesNotExistException
      */
-    public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses) throws EntityDoesNotExistException {
+    public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses)
+            throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courses);
         return coursesLogic.getCourseIdToSectionNamesMap(courses);
     }
@@ -1093,20 +1068,6 @@ public class Logic {
         return studentsLogic.getTeamDetailsForStudent(student);
     }
 
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     * @throws EntityDoesNotExistException
-     */
-    public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
-    
-        return studentsLogic.getKeyForStudent(courseId, email);
-    }
-    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1488,7 +1449,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         
-        return feedbackSessionsLogic.getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, questionId, userEmail);
+        return feedbackSessionsLogic
+                   .getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, questionId, userEmail);
     }
     
     /**
@@ -1660,7 +1622,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        feedbackSessionsLogic.deleteStudentRespondant(email, feedbackSessionName, courseId);
+        feedbackSessionsLogic.deleteStudentFromRespondentList(email, feedbackSessionName, courseId);
     }
     
     /**
@@ -2139,6 +2101,10 @@ public class Logic {
         return feedbackResponsesLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
     }
     
+    public boolean isCourseHasResponses(String courseId) {
+        return feedbackResponsesLogic.isCourseHasResponses(courseId);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -2613,20 +2579,9 @@ public class Logic {
     public MimeMessage emailErrorReport(HttpServletRequest req, Throwable error) {
         return emailManager.sendErrorReport(req, error);
     }
-    
-    public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
-        Assumption.assertNotNull(courseBundles);
-        Assumption.assertNotNull(googleId);
-        return coursesLogic.extractActiveCourses(courseBundles, googleId);
-    }
-    
-    public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
-        Assumption.assertNotNull(courseBundles);
-        Assumption.assertNotNull(googleId);
-        return coursesLogic.extractArchivedCourses(courseBundles, googleId);
-    }
 
-    public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
+    public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,
+                                             Map<String, InstructorAttributes> instructorsForCourses) {
         Assumption.assertNotNull(allCourses);
         Assumption.assertNotNull(instructorsForCourses);
         return coursesLogic.getArchivedCourseIds(allCourses, instructorsForCourses);

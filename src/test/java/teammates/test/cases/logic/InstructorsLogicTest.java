@@ -72,7 +72,8 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         String email = "ILT.instr@email.tmt";
         String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
-        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorPrivileges privileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorAttributes instr = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         
         instructorsLogic.createInstructor(instr);
@@ -325,14 +326,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
         InstructorAttributes instructor = instructorsDb.getInstructorForEmail(courseId, email);
         
-        String key = instructorsLogic.getKeyForInstructor(instructor.courseId, instructor.email);
-        String expected = instructor.key;
+        String key = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email);
+        String expected = StringHelper.encrypt(instructor.key);
         assertEquals(expected, key);
         
         ______TS("failure: non-existent instructor");
 
         try {
-            instructorsLogic.getKeyForInstructor(courseId, "non-existent@email.tmt");
+            instructorsLogic.getEncryptedKeyForInstructor(courseId, "non-existent@email.tmt");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             assertEquals("Instructor " + "non-existent@email.tmt"
@@ -342,14 +343,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         ______TS("failure: null parameter");
 
         try {
-            instructorsLogic.getKeyForInstructor(courseId, null);
+            instructorsLogic.getEncryptedKeyForInstructor(courseId, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
 
         try {
-            instructorsLogic.getKeyForInstructor(null, email);
+            instructorsLogic.getEncryptedKeyForInstructor(null, email);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());

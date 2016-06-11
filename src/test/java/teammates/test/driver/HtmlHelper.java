@@ -27,7 +27,8 @@ public final class HtmlHelper {
     private static final String REGEX_CONTINUE_URL = ".*?";
     private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = "[A-F0-9]{32,}";
     private static final String REGEX_ENCRYPTED_COURSE_ID = "[A-F0-9]{32,}";
-    private static final String REGEX_ENCRYPTED_REGKEY = "[a-zA-Z0-9-_]{10,}";
+    private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
+    private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
@@ -387,6 +388,9 @@ public final class HtmlHelper {
                                   + " value=\"" + REGEX_ENCRYPTED_REGKEY + "\"){3}",
                                   " name=\"" + Const.ParamsNames.REGKEY + "\""
                                   + " type=\"hidden\" value=\"\\${regkey\\.enc}\"")
+                      // anonymous student identifier on results page
+                      .replaceAll("Anonymous (student|instructor|team) " + REGEX_ANONYMOUS_PARTICIPANT_HASH,
+                                  "Anonymous $1 \\${participant\\.hash}")
                       // questionid as value
                       .replaceAll("value=\"" + REGEX_QUESTION_ID + "\"", "value=\"\\${question\\.id}\"")
                       // questionid as part of responseid
@@ -406,7 +410,8 @@ public final class HtmlHelper {
                       // jQuery js file
                       .replace(Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()), "${lib.path}/jquery.min.js")
                       // jQuery-ui js file
-                      .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()), "${lib.path}/jquery-ui.min.js")
+                      .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()),
+                               "${lib.path}/jquery-ui.min.js")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -453,7 +458,8 @@ public final class HtmlHelper {
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now))
                       .replace("<!-- filepath.jquery -->", Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()))
-                      .replace("<!-- filepath.jquery-ui -->", Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()));
+                      .replace("<!-- filepath.jquery-ui -->",
+                               Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()));
     }
 
 }

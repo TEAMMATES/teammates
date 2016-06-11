@@ -69,10 +69,10 @@ public class BackDoorTest extends BaseTestCase {
         FeedbackQuestionAttributes fq = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ2S1C1");
         fq = BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
-        fr = BackDoor.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        fr = BackDoor.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         
         verifyPresentInDatastore(fr);
-        status = BackDoor.deleteFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        status = BackDoor.deleteFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(fr);
         
@@ -257,13 +257,13 @@ public class BackDoorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetKeyForStudent() {
+    public void testGetEncryptedKeyForStudent() {
 
         StudentAttributes student = new StudentAttributes("sect1", "t1", "name of tgsr student", "tgsr@gmail.tmt", "", "course1");
         BackDoor.createStudent(student);
         String key = "[BACKDOOR_STATUS_FAILURE]";
         while (key.startsWith("[BACKDOOR_STATUS_FAILURE]")) {
-            key = BackDoor.getKeyForStudent(student.course, student.email);
+            key = BackDoor.getEncryptedKeyForStudent(student.course, student.email);
         }
 
         // The following is the google app engine description about generating
@@ -339,15 +339,15 @@ public class BackDoorTest extends BaseTestCase {
         fr.courseId = fq.courseId;
         fr.feedbackQuestionId = fq.getId();
         fr.feedbackQuestionType = fq.questionType;
-        fr.giverEmail = student.email;
+        fr.giver = student.email;
         fr.giverSection = student.section;
-        fr.recipientEmail = student.email;
+        fr.recipient = student.email;
         fr.recipientSection = student.section;
         fr.responseMetaData = new Text("Student 3 self feedback");
-        fr.setId(fq.getId() + "%" + fr.giverEmail + "%" + fr.recipientEmail);
+        fr.setId(fq.getId() + "%" + fr.giver + "%" + fr.recipient);
 
         // Make sure not already inside
-        BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail);
+        BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
         verifyAbsentInDatastore(fr);
 
         // Perform creation
@@ -355,7 +355,7 @@ public class BackDoorTest extends BaseTestCase {
         verifyPresentInDatastore(fr);
 
         // Clean up
-        BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail);
+        BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
         verifyAbsentInDatastore(fr);
     }
     
@@ -381,7 +381,7 @@ public class BackDoorTest extends BaseTestCase {
     }
     
     private void verifyAbsentInDatastore(FeedbackResponseAttributes fr) {
-        assertEquals("null", BackDoor.getFeedbackResponseAsJson(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail));
+        assertEquals("null", BackDoor.getFeedbackResponseAsJson(fr.feedbackQuestionId, fr.giver, fr.recipient));
     }
 
     private void verifyPresentInDatastore(String dataBundleJsonString) {
@@ -472,8 +472,8 @@ public class BackDoorTest extends BaseTestCase {
 
     private void verifyPresentInDatastore(FeedbackResponseAttributes expectedResponse) {
         String responseJsonString = BackDoor.getFeedbackResponseAsJson(expectedResponse.feedbackQuestionId,
-                                                                       expectedResponse.giverEmail,
-                                                                       expectedResponse.recipientEmail);
+                                                                       expectedResponse.giver,
+                                                                       expectedResponse.recipient);
         FeedbackResponseAttributes actualResponse = gson.fromJson(responseJsonString, FeedbackResponseAttributes.class);
 
         assertEquals(gson.toJson(expectedResponse), gson.toJson(actualResponse));

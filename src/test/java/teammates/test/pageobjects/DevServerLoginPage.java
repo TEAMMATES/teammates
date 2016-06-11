@@ -20,11 +20,7 @@ public class DevServerLoginPage extends LoginPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return containsExpectedPageContents(getPageSource());
-    }
-    
-    public static boolean containsExpectedPageContents(String pageSource) {
-        return pageSource.contains("<h3>Not logged in</h3>");
+        return getPageSource().contains("<h3>Not logged in</h3>");
     }
 
     @Override

@@ -86,7 +86,8 @@ public class CoursesLogic {
         AccountAttributes courseCreator = accountsLogic.getAccount(instructorGoogleId);
         Assumption.assertNotNull("Trying to create a course for a non-existent instructor :" + instructorGoogleId,
                                  courseCreator);
-        Assumption.assertTrue("Trying to create a course for a person who doesn't have instructor privileges :" + instructorGoogleId,
+        Assumption.assertTrue("Trying to create a course for a person who doesn't have instructor privileges :"
+                                  + instructorGoogleId,
                               courseCreator.isInstructor);
         
         createCourse(courseId, courseName);
@@ -651,7 +652,8 @@ public class CoursesLogic {
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
      * Does not include details within the course, such as feedback sessions.
      */
-    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(List<InstructorAttributes> instructorAttributesList) {
+    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(
+            List<InstructorAttributes> instructorAttributesList) {
         
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
         List<String> courseIdList = new ArrayList<String>();
@@ -741,8 +743,7 @@ public class CoursesLogic {
                 log.warning("Course was deleted but the Instructor still exists: " + Const.EOL
                             + instructor.toString());
             } else {
-                boolean isCourseArchived = isCourseArchived(instructor.courseId, instructor.googleId);
-                if (isCourseArchived) {
+                if (instructor.isArchived) {
                     courseList.add(course);
                 }
             }
@@ -884,16 +885,6 @@ public class CoursesLogic {
         }
         return false;
     }
-
-    public boolean isCourseArchived(String courseId, String instructorGoogleId) {
-        CourseAttributes course = getCourse(courseId);
-        InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorGoogleId);
-        return isCourseArchived(course, instructor);
-    }
-    
-    public boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
-        return instructor.isArchived == null ? course.isArchived : instructor.isArchived;
-    }
     
     /**
      * Maps sections to relevant course id.
@@ -912,51 +903,17 @@ public class CoursesLogic {
         return courseIdToSectionName;
     }
     
-    // TODO: Optimize extractActiveCourses() and extractArchivedCourses() to reduce the number of repeated calls of
-    // isCourseArchived(), which retrieves information from the database
-    
-    /**
-     * @param courseBundles all courses
-     * @param googleId The Google ID of the instructor
-     * @return a list of {@link CourseDetailsBundle course details} for all
-     *         active courses mapped to a particular instructor
-     */
-    public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
-        List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
-        for (CourseDetailsBundle courseBundle : courseBundles) {
-            if (!isCourseArchived(courseBundle.course.getId(), googleId)) {
-                result.add(courseBundle);
-            }
-        }
-        return result;
-    }
-    
-    /**
-     * @param courseBundles all courses
-     * @param googleId The Google ID of the instructor
-     * @return a list of {@link CourseDetailsBundle course details} for all
-     *         archived courses mapped to a particular instructor
-     */
-    public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
-        List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
-        for (CourseDetailsBundle courseBundle : courseBundles) {
-            if (isCourseArchived(courseBundle.course.getId(), googleId)) {
-                result.add(courseBundle);
-            }
-        }
-        return result;
-    }
-    
     /**
      * @param allCourses
      * @param instructorsForCourses
      * @return a list of courseIds for all archived courses for all instructors
      */
-    public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
+    public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,
+                                             Map<String, InstructorAttributes> instructorsForCourses) {
         List<String> archivedCourseIds = new ArrayList<String>();
         for (CourseAttributes course : allCourses) {
             InstructorAttributes instructor = instructorsForCourses.get(course.getId());
-            if (isCourseArchived(course, instructor)) {
+            if (instructor.isArchived) {
                 archivedCourseIds.add(course.getId());
             }
         }

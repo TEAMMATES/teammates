@@ -58,7 +58,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         StudentAttributes unregStudent = testData.students.get("Unregistered");
         submitPage = goToStudentFeedbackQuestionSubmitPage(unregStudent, "Open Session", fqOpen.getId());
 
-        // This is the full HTML verification for Unregistered Student Feedback Question Submit Page, the rest can all be verifyMainHtml
+        // This is the full HTML verification for Unregistered Student Feedback Question Submit Page,
+        // the rest can all be verifyMainHtml
         submitPage.verifyHtml("/unregisteredStudentFeedbackQuestionSubmitPageOpen.html");
         
         // closed session
@@ -70,7 +71,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Awaiting Session", 1);
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Awaiting Session", fq.getId());
 
-        // This is the full HTML verification for Registered Student Feedback Question Submit Page, the rest can all be verifyMainHtml
+        // This is the full HTML verification for Registered Student Feedback Question Submit Page,
+        // the rest can all be verifyMainHtml
         submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageAwaiting.html");
         
         ______TS("Open session");
@@ -218,7 +220,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackQuestionSubmitPage goToStudentFeedbackQuestionSubmitPage(
             StudentAttributes s, String fsName, String questionId) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
-                .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
+                .withRegistrationKey(BackDoor.getEncryptedKeyForStudent(s.course, s.email))
                 .withStudentEmail(s.email)
                 .withCourseId(s.course)
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())

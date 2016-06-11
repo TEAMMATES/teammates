@@ -86,7 +86,8 @@ public class InstructorSearchPageAction extends Action {
             removeQuestionsAndResponsesWithoutComments(frCommentSearchResults);
             
             if (totalResultsSize == 0) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS, StatusMessageColor.WARNING));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS,
+                                                   StatusMessageColor.WARNING));
             }
         }
         
@@ -115,10 +116,12 @@ public class InstructorSearchPageAction extends Action {
                 boolean isVisibleResponse = true;
                 boolean isNotAllowedForInstructor =
                             instructor == null
-                            || !(instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName,
-                                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                            || !(instructor.isAllowedForPrivilege(response.recipientSection, response.feedbackSessionName,
-                                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                            || !(instructor.isAllowedForPrivilege(
+                                    response.giverSection, response.feedbackSessionName,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
+                            || !(instructor.isAllowedForPrivilege(
+                                    response.recipientSection, response.feedbackSessionName,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
                 
                 if (isNotAllowedForInstructor) {
                     isVisibleResponse = false;
@@ -158,7 +161,7 @@ public class InstructorSearchPageAction extends Action {
                         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
                                                  || comment.isVisibleTo(FeedbackParticipantType.GIVER);
 
-                        if (isVisibleToGiver && emailList.contains(response.giverEmail)) {
+                        if (isVisibleToGiver && emailList.contains(response.giver)) {
                             continue;
                         }
 
@@ -166,7 +169,7 @@ public class InstructorSearchPageAction extends Action {
                                                     ? question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                                                     : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
 
-                        if (isVisibleToReceiver && emailList.contains(response.recipientEmail)) {
+                        if (isVisibleToReceiver && emailList.contains(response.recipient)) {
                             continue;
                         }
 
@@ -196,7 +199,8 @@ public class InstructorSearchPageAction extends Action {
     }
     
     private void removeQuestionsAndResponsesWithoutComments(FeedbackResponseCommentSearchResultBundle frCommentSearchResults) {
-        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> fqsIter = frCommentSearchResults.questions.entrySet().iterator();
+        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> fqsIter =
+                frCommentSearchResults.questions.entrySet().iterator();
         
         while (fqsIter.hasNext()) {
             Iterator<FeedbackQuestionAttributes> fqIter = fqsIter.next().getValue().iterator();
@@ -276,7 +280,8 @@ public class InstructorSearchPageAction extends Action {
                 }
                 
                 if (isForSection) {
-                    return instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
+                    return instructor.isAllowedForPrivilege(
+                            section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
                 }
                 return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
             }

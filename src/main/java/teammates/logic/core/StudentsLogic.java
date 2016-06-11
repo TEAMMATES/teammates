@@ -149,17 +149,6 @@ public class StudentsLogic {
         return accLogic.getStudentProfile(googleId);
     }
     
-    public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-        
-        StudentAttributes studentData = getStudentForEmail(courseId, email);
-    
-        if (studentData == null) {
-            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
-        }
-    
-        return studentData.key;
-    }
-    
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
         
         StudentAttributes studentData = getStudentForEmail(courseId, email);
@@ -245,7 +234,8 @@ public class StudentsLogic {
         }
 
         if (isSectionChanged(originalStudent.section, student.section)) {
-            frLogic.updateFeedbackResponsesForChangingSection(student.course, finalEmail, originalStudent.section, student.section);
+            frLogic.updateFeedbackResponsesForChangingSection(student.course, finalEmail, originalStudent.section,
+                                                              student.section);
         }
         
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
@@ -664,14 +654,16 @@ public class StudentsLogic {
             ArrayList<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for (StudentEnrollDetails enrollment : enrollmentList) {
+            if (enrollment.updateStatus != UpdateStatus.MODIFIED) {
+                continue;
+            }
+
             boolean isResponseDeleted = false;
-            if (enrollment.updateStatus == UpdateStatus.MODIFIED
-                    && isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
+            if (isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
                 isResponseDeleted = frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
             }
         
-            if (!isResponseDeleted && enrollment.updateStatus == UpdateStatus.MODIFIED
-                    && isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
+            if (!isResponseDeleted && isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
                 frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
             }
         }
@@ -739,8 +731,10 @@ public class StudentsLogic {
                 }
                 
                 if (isStudentEmailDuplicated(student.email, studentEmailList)) {
-                    String info = StringHelper.toString(getInvalidityInfoInDuplicatedEmail(student.email, studentEmailList, linesArray),
-                                                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+                    String info =
+                            StringHelper.toString(
+                                    getInvalidityInfoInDuplicatedEmail(student.email, studentEmailList, linesArray),
+                                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
                 }
                 

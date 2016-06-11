@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import teammates.common.util.Assumption;
@@ -24,16 +23,16 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private static final Logger log = Utils.getLogger();
     
-    public boolean isNotSureAllowed;
+    private boolean isNotSureAllowed;
     
     public FeedbackContributionQuestionDetails() {
         super(FeedbackQuestionType.CONTRIB);
-        this.isNotSureAllowed = true;
+        isNotSureAllowed = true;
     }
 
     public FeedbackContributionQuestionDetails(String questionText) {
         super(FeedbackQuestionType.CONTRIB, questionText);
-        this.isNotSureAllowed = true;
+        isNotSureAllowed = true;
     }
     
     private void setContributionQuestionDetails(boolean isNotSureAllowed) {
@@ -116,10 +115,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
-        this.isNotSureAllowed = true;
+        isNotSureAllowed = true;
         
         return "<div id=\"contribForm\">"
-                  + this.getQuestionSpecificEditFormHtml(-1)
+                  + getQuestionSpecificEditFormHtml(-1)
              + "</div>";
     }
 
@@ -276,9 +275,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
             String displayName = name;
             String displayTeam = team;
+
             if (hideRecipient) {
-                String hash = Integer.toString(Math.abs(name.hashCode()));
-                displayName = "Anonymous " + type.toSingularFormString() + " " + hash;
+                displayName = FeedbackSessionResultsBundle.getAnonName(type, name);
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
             }
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
@@ -355,7 +354,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         StringBuilder contribFragments = new StringBuilder();
 
-        Map<String, String> sortedMap = new TreeMap<String, String>();
+        Map<String, String> sortedMap = new LinkedHashMap<String, String>();
         
         for (Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()) {
             StudentResultSummary summary = entry.getValue();
@@ -371,8 +370,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String displayTeam;
             String displayEmail;
             if (hideRecipient) {
-                String hash = Integer.toString(Math.abs(name.hashCode()));
-                displayName = "Anonymous " + type.toSingularFormString() + " " + hash;
+                displayName = FeedbackSessionResultsBundle.getAnonName(type, name);
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
                 displayEmail = Const.USER_NOBODY_TEXT;
             } else {
@@ -387,16 +385,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
                      
             String contribFragmentString = Sanitizer.sanitizeForCsv(displayTeam) + ","
-                             + Sanitizer.sanitizeForCsv(displayName) + ","
-                             + Sanitizer.sanitizeForCsv(displayEmail) + ","
-                             + Sanitizer.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
-                             + Sanitizer.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
-                             + Sanitizer.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx)) + Const.EOL;
+                    + Sanitizer.sanitizeForCsv(displayName) + ","
+                    + Sanitizer.sanitizeForCsv(displayEmail) + ","
+                    + Sanitizer.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
+                    + Sanitizer.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
+                    + Sanitizer.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx)) + Const.EOL;
         
             // Replace all Unset values
             contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.INT_UNINITIALIZED), "N/A");
             contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.POINTS_NOT_SURE), "Not Sure");
-            contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.POINTS_NOT_SUBMITTED), "Not Submitted");
+            contribFragmentString =
+                    contribFragmentString.replaceAll(Integer.toString(Const.POINTS_NOT_SUBMITTED), "Not Submitted");
             
             //For sorting purposes
             sortedMap.put(displayTeam + "-%-" + displayName, contribFragmentString);
@@ -422,6 +421,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for (Set<String> teamNamesForSection : bundle.sectionTeamNameTable.values()) {
             teamNames.addAll(teamNamesForSection);
         }
+        Collections.sort(teamNames);
         return teamNames;
     }
 
@@ -522,8 +522,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<FeedbackResponseAttributes> teamResponseList = teamResponses.get(team);
             List<String> memberEmailList = teamMembersEmail.get(team);
             for (FeedbackResponseAttributes response : teamResponseList) {
-                int giverIndx = memberEmailList.indexOf(response.giverEmail);
-                int recipientIndx = memberEmailList.indexOf(response.recipientEmail);
+                int giverIndx = memberEmailList.indexOf(response.giver);
+                int recipientIndx = memberEmailList.indexOf(response.recipient);
                 if (giverIndx == -1 || recipientIndx == -1) {
                     continue;
                 }
@@ -543,7 +543,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>());
         }
         for (FeedbackResponseAttributes response : responses) {
-            String team = bundle.emailTeamNameTable.get(response.giverEmail);
+            String team = bundle.emailTeamNameTable.get(response.giver);
             if (teamResponses.containsKey(team)) {
                 teamResponses.get(team).add(response);
             }
@@ -556,6 +556,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         Map<String, List<String>> teamMembersEmail = new LinkedHashMap<String, List<String>>();
         for (String teamName : teamNames) {
             List<String> memberEmails = new ArrayList<String>(bundle.rosterTeamNameMembersTable.get(teamName));
+            Collections.sort(memberEmails);
             teamMembersEmail.put(teamName, memberEmails);
         }
         return teamMembersEmail;
@@ -566,7 +567,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle) {
         List<String> teamNames = new ArrayList<String>();
         for (FeedbackResponseAttributes response : responses) {
-            String teamNameOfResponseGiver = bundle.getTeamNameForEmail(response.giverEmail);
+            String teamNameOfResponseGiver = bundle.getTeamNameForEmail(response.giver);
             if (!teamNames.contains(teamNameOfResponseGiver)) {
                 teamNames.add(teamNameOfResponseGiver);
             }
@@ -586,6 +587,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 responses.add(response);
             }
         }
+        Collections.sort(responses, bundle.compareByGiverRecipientQuestion);
         return responses;
     }
     
@@ -777,15 +779,18 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             StudentResultSummary studentResult = stats.get(targetEmail);
             int pc = studentResult.perceivedToInstructor;
             
-            String perceivedContributionHtml = FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
+            String perceivedContributionHtml =
+                    FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
             
             return perceivedContributionHtml;
         }
         return "";
     }
     
-    private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
-        Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
+    private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question,
+                                             FeedbackSessionResultsBundle bundle) {
+        Map<String, StudentResultSummary> stats =
+                FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
         return stats.containsKey(email);
     }
     

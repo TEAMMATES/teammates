@@ -39,7 +39,8 @@ public class AdminSessionsPageData extends PageData {
     public void init(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap,
             int totalOngoingSessions, int totalOpenStatusSessions, int totalClosedStatusSessions,
-            int totalWaitToOpenStatusSessions, int totalInstitutes, Date rangeStart, Date rangeEnd, double zone, boolean isShowAll) {
+            int totalWaitToOpenStatusSessions, int totalInstitutes, Date rangeStart, Date rangeEnd,
+            double zone, boolean isShowAll) {
 
         this.totalOngoingSessions = totalOngoingSessions;
         this.totalOpenStatusSessions = totalOpenStatusSessions;

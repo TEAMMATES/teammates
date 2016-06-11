@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import java.lang.reflect.Constructor;
-
-import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -15,11 +12,8 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.DevServerLoginPage;
-import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorHomePage;
-import teammates.test.pageobjects.LoginPage;
 
 public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     private static Browser browser;
@@ -70,7 +64,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                                         .toAbsoluteString();
         logout(browser);
         browser.driver.get(joinLink);
-        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
+        confirmationPage = AppPage.createCorrectLoginPageType(browser)
                            .loginAsJoiningInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
                                                      TestProperties.TEST_INSTRUCTOR_PASSWORD);
         
@@ -79,7 +73,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         ______TS("Click join link then confirm: fail: invalid key");
         
         browser.driver.get(joinLink);
-        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
+        confirmationPage = AppPage.createCorrectLoginPageType(browser)
                            .loginAsJoiningInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
                                                      TestProperties.TEST_INSTRUCTOR_PASSWORD);
         
@@ -92,13 +86,13 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         String courseId = testData.courses.get("ICJConfirmationUiT.CS1101").getId();
         String instructorEmail = testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email;
 
-        String regkey = StringHelper.encrypt(BackDoor.getKeyForInstructor(courseId, instructorEmail));
+        String regkey = BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
         joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(regkey)
                                         .toAbsoluteString();
         
         browser.driver.get(joinLink);
-        confirmationPage = createNewPage(browser, InstructorCourseJoinConfirmationPage.class);
+        confirmationPage = AppPage.getNewPageInstance(browser, InstructorCourseJoinConfirmationPage.class);
         
         // test content here to make test finish faster
         ______TS("test instructor confirmation page content");
@@ -112,7 +106,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         ______TS("Already joined, no confirmation page");
                 
         browser.driver.get(joinLink);
-        instructorHome = createNewPage(browser, InstructorHomePage.class);
+        instructorHome = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         instructorHome.verifyStatus(TestProperties.TEST_INSTRUCTOR_ACCOUNT + " has already joined this course");
     }
     
@@ -121,25 +115,4 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
     
-    private LoginPage createCorrectLoginPageType(String pageSource) {
-        if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
-            return (LoginPage) createNewPage(browser, DevServerLoginPage.class);
-        } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
-            return (LoginPage) createNewPage(browser, GoogleLoginPage.class);
-        } else {
-            throw new IllegalStateException("Not a valid login page :" + pageSource);
-        }
-    }
-
-    private <T extends AppPage> T createNewPage(Browser browser, Class<T> typeOfPage) {
-        Constructor<T> constructor;
-        try {
-            constructor = typeOfPage.getConstructor(Browser.class);
-            T page = constructor.newInstance(browser);
-            PageFactory.initElements(browser.driver, page);
-            return page;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

@@ -52,7 +52,8 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void fillResponseTextBox(int qnNumber, int responseNumber, int responseSubNumber, String text) {
         WebElement element = browser.driver.findElement(
-                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
+                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
+                      + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
         element.click();
         fillTextBox(element, text);
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
@@ -63,6 +64,12 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         return element.getAttribute("value");
+    }
+    
+    public int getResponseTextBoxLengthLabelValue(int qnNumber, int responseNumber) {
+        WebElement element = browser.driver.findElement(
+                By.id("responseLength" + "-" + qnNumber + "-" + responseNumber));
+        return Integer.parseInt(element.getText());
     }
     
     public void selectResponseTextDropdown(int qnNumber, int responseNumber, int responseSubNumber, String text) {
@@ -84,7 +91,8 @@ public class FeedbackSubmitPage extends AppPage {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
         String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
-        WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
+        WebElement element = browser.driver.findElement(
+                By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         element.click();
     }
     
@@ -92,7 +100,8 @@ public class FeedbackSubmitPage extends AppPage {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
         String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
-        WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
+        WebElement element = browser.driver.findElement(
+                By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         element.click();
     }
     
@@ -153,23 +162,6 @@ public class FeedbackSubmitPage extends AppPage {
 
     public WebElement getSubmitButton() {
         return browser.driver.findElement(By.id("response_submit_button"));
-    }
-    
-    public void linkOnHomeLink() {
-        studentHomeTab.click();
-        AppPage.getNewPageInstance(browser, StudentHomePage.class);
-    }
-
-    public void linkOnProfileLink() {
-        studentProfileTab.click();
-        AppPage.getNewPageInstance(browser, StudentProfilePage.class);
-        
-    }
-
-    public void linkOnCommentsLink() {
-        studentCommentsTab.click();
-        AppPage.getNewPageInstance(browser, StudentCommentsPage.class);
-        
     }
     
     public void waitForCellHoverToDisappear() {

@@ -25,7 +25,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
-    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd) throws InvalidParametersException {
+    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd)
+            throws InvalidParametersException {
         List<EntityAttributes> feedbackSessionsToUpdate = createEntities(feedbackSessionsToAdd);
         for (EntityAttributes entity : feedbackSessionsToUpdate) {
             FeedbackSessionAttributes session = (FeedbackSessionAttributes) entity;
@@ -459,7 +460,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPm().close();
     }
 
-    public void deleteStudentRespondant(String email, FeedbackSessionAttributes feedbackSession)
+    public void deleteStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);

@@ -24,10 +24,10 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
-    public int numOfMsqChoices;
-    public List<String> msqChoices;
-    public boolean otherEnabled;
-    FeedbackParticipantType generateOptionsFor;
+    private int numOfMsqChoices;
+    private List<String> msqChoices;
+    private boolean otherEnabled;
+    private FeedbackParticipantType generateOptionsFor;
     
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);
@@ -74,9 +74,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 }
             }
         
-            this.setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled);
+            setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled);
         } else {
-            this.setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions));
+            setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions));
         }
         return true;
     }
@@ -314,11 +314,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 FeedbackQuestionFormTemplates.MSQ_EDIT_FORM,
                 "${msqEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfMsqChoices}", Integer.toString(numOfMsqChoices),
                 "${checkedOtherOptionEnabled}", otherEnabled ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}", Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}",
+                        Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG,
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}", Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 "${generateOptionsForValue}", generateOptionsFor.toString(),
@@ -334,12 +336,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         // Add two empty options by default
-        this.numOfMsqChoices = 2;
-        this.msqChoices.add("");
-        this.msqChoices.add("");
+        numOfMsqChoices = 2;
+        msqChoices.add("");
+        msqChoices.add("");
         
         return "<div id=\"msqForm\">"
-                  + this.getQuestionSpecificEditFormHtml(-1)
+                  + getQuestionSpecificEditFormHtml(-1)
              + "</div>";
     }
 
@@ -348,7 +350,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder optionListHtml = new StringBuilder(200);
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         
-        if (this.generateOptionsFor != FeedbackParticipantType.NONE) {
+        if (generateOptionsFor != FeedbackParticipantType.NONE) {
             String optionHelpText = String.format(
                     "<br>The options for this question is automatically generated from the list of all %s in this course.",
                     generateOptionsFor.toString().toLowerCase());
@@ -376,7 +378,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         String additionalInfo = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO,
-                "${questionTypeName}", this.getQuestionTypeDisplayName(),
+                "${questionTypeName}", getQuestionTypeDisplayName(),
                 "${msqAdditionalInfoFragments}", optionListHtml.toString());
         
         String html = Templates.populateTemplate(
@@ -605,4 +607,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
+
+    public int getNumOfMsqChoices() {
+        return numOfMsqChoices;
+    }
+
+    public List<String> getMsqChoices() {
+        return msqChoices;
+    }
+
 }

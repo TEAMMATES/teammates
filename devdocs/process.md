@@ -19,7 +19,7 @@ the organization structure of the TEAMMATES dev community.
 * `Project Advisor`
 
 Those who are at the rank of `Committer` or above are considered a core member if they are 'active'. 
-An *active* member is someone who contributes to almost every release cycle, thereby helping to maintin the 
+An *active* member is someone who contributes to almost every release cycle, thereby helping to maintain the 
 project velocity. An active member is expected to *pledge* at least one issue to each release, at the beginning of 
 the release cycle. They are also strongly encouraged to pick at least one high priority issue for each release cycle. 
 
@@ -93,6 +93,9 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
        git checkout {branch-name}
        git merge master
        ```
+
+   * If there are updates to the dependencies on the build configuration, you should update your local
+   copies accordingly. The details on the steps can be found on [this document](dependencies.md).
 
 9. When the work is ready for review:
    * Format the code: Select the code segments you modified and apply the code 
@@ -197,31 +200,33 @@ Role: PM
 
 
 ###Applying a fix
-Role: committer
+Role: dev (with push permission), or reviewer
 
-  * Do not merge online. Always merge locally and push to the repo. If you 
-    merge online, you will not be able to run tests or use the required format
-    for the commit message.
-  * Fetch code from upstream: <br>
-    `git fetch origin`<br>
-  * Checkout the branch and update with latest master<br>
-    `git checkout -b 2287-add-sample-course-test origin/2287-add-sample-course-test`<br>
-    `git merge master` <br>
-  * Test the code by running the `Local tests` and ensure that the all tests pass on Travis.
-  * If green, 
-    * Merge to master and push.<br>
-      `git checkout master` <br>
-       Merge the branch. Format of the commit message: 
-       `[Issue number] Issue title as given in the original issue`<br>
-       e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`
-    * Remove any status labels from the pull request. Delete the branch (from GitHub UI).
-    * Remove any status labels from the corresponding issue and close it.
-    * Optionally, apply an `e.` label to the issue (not the PR) to indicate 
-      the estimated effort required to fix the issue.
-  * If not green,
-    * Delete the merge commit, if any.
-    * Change the pull request status to `s.Ongoing`
-    * Add a comment to mention the test failure.
+  * Merging can be done via GitHub. Make sure that GitHub gives a green light for merging.
+    There are a few scenarios where GitHub can prevent merging from proceeding:
+    * **Merge conflict**: The PR is conflicting with the current `master` branch; the author will
+      need to resolve the conflicts before proceeding.
+    * **Outdated branch**: The PR is not in sync with the current `master` branch; the author will
+      need to sync it before proceeding. This can be done via GitHub with the "Update branch" button.
+    
+    The dev will need to resolve them before merging can proceed. It is up to the dev/reviewer's discretion
+    on whether the merge conflict or outdated branch needs another review to be called for.
+    In general, unless the changeset is functionally conflicting, there is no need for another review.
+  * When GitHub gives a green light for merging,
+    * Checkout to the PR branch, merge with the current `master` branch, and test the code locally by running the "Local tests".<br>
+      `git checkout -b 2287-add-sample-course-test origin/2287-add-sample-course-test`<br>
+      `git merge master`<br>
+    * If green,
+      * Merge with "squash and merge" option (preferable). Format of the commit message:<br>
+        `[Issue number] Issue title as given in the original issue`<br>
+        e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`<br>
+        The additional descriptions can be left as is.
+      * Optionally, apply an `e.*` label to the issue (not the PR) to indicate 
+        the estimated effort required to fix the issue, and another `e.*` label to the PR
+        to indicate the estimated effort required to review the PR.
+    * If not green,
+      * Change the pull request status to `s.Ongoing`.
+      * Add a comment to mention the test failure.
 
 ###Assigning labels, reviewers, and milestones
 Roles: PM (Project Manager) + RL (Release Lead)

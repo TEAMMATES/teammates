@@ -18,6 +18,24 @@ function isPreview() {
 }
 
 $(document).ready(function() {
+
+    /**
+     * Handles Keyup and Keydown on Text question to display response length
+     */
+    $('textarea[id^="responsetext-"]').keyup(function() {
+        updateTextQuestionCharCount(this.id, $(this).data('lengthtextid'));
+    });
+
+    $('textarea[id^="responsetext-"]').keydown(function() {
+        updateTextQuestionCharCount(this.id, $(this).data('lengthtextid'));
+    });
+
+    /**
+     * Triggering keyup event for all text question type textfields, to call
+     * function that finds out input length.
+     */
+    $('textarea[id^="responsetext-"]').keyup();
+
     $('form[name="form_submit_response"], form[name="form_student_submit_response"]').submit(function() {
         formatRubricQuestions();
 
@@ -228,8 +246,9 @@ function prepareMSQQuestions() {
 
         // reset other options when "none of the above" is clicked
         noneOfTheAboveOption.click(function() {
-            var $options = $(this).closest('table').find(
-                           'input[name^="responsetext-"][value!=""], input[name^="responsetext-"][data-text]'); // includes 'other'
+            var $options = $(this).closest('table')
+                                  .find('input[name^="responsetext-"][value!=""], '
+                                        + 'input[name^="responsetext-"][data-text]'); // includes 'other'
             var name = $(this).attr('name');
             var indexSuffix = name.substring(name.indexOf('-'));
             
@@ -524,7 +543,8 @@ function updateConstSumMessageQn(qnNum) {
         var message = '';
 
         if (allNotNumbers) {
-            message = 'Please distribute ' + points + ' points among the above ' + (distributeToRecipients ? 'recipients.' : 'options.');
+            message = 'Please distribute ' + points + ' points among the above '
+                      + (distributeToRecipients ? 'recipients.' : 'options.');
             messageElement.addClass('text-color-blue');
             messageElement.removeClass('text-color-red');
             messageElement.removeClass('text-color-green');
@@ -950,3 +970,12 @@ function getWarningMessage() {
     return $(WARNING_STATUS_MESSAGE).html().trim();
 }
 
+/**
+ * Updates the length of the textArea
+ * @param textAreaId - Id of text area for which char are to be counted
+ * @param charCountId - Id of Label to display length of text area
+ */
+function updateTextQuestionCharCount(textAreaId, charCountId) {
+    var cs = $('#' + textAreaId).val().length;
+    $('#' + charCountId).text(cs);
+}

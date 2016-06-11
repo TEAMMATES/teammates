@@ -15,7 +15,8 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
         
         new GateKeeper().verifyAdminPrivileges(account);
         
-        AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData data = new AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData(account);
+        AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData data =
+                new AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData(account);
         
         data.nextUploadUrl = getNewUploadUrl();
         

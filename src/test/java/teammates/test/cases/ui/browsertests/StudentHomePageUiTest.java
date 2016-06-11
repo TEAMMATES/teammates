@@ -116,7 +116,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         ______TS("link: help page");
         
-        StudentHelpPage helpPage = studentHomePage.clickHelpLink();
+        StudentHelpPage helpPage = studentHomePage.loadStudentHelpTab();
         helpPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: view team link");
@@ -127,7 +127,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
                 .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS1101").googleId)
                 .withCourseId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS1101").course);
         assertEquals(detailsPageUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
-        studentHomePage.clickHomeTab();
+        studentHomePage.loadStudentHomeTab();
         
         ______TS("link: link of published feedback");
 
@@ -137,7 +137,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         assertTrue(pageSource.contains("Feedback Results"));
         assertTrue(pageSource.contains("SHomeUiT.CS2104"));
         assertTrue(pageSource.contains("Closed Feedback Session"));
-        studentHomePage.clickHomeTab();
+        studentHomePage.loadStudentHomeTab();
 
         studentHomePage.getSubmitFeedbackButton("Closed Feedback Session").click();
         studentHomePage.reloadPage();
@@ -146,11 +146,11 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         assertTrue(pageSource.contains("SHomeUiT.CS2104"));
         assertTrue(pageSource.contains("Closed Feedback Session"));
         assertTrue(pageSource.contains(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN));
-        studentHomePage.clickHomeTab();
+        studentHomePage.loadStudentHomeTab();
 
         ______TS("link: link of Grace period feedback");
         
-        assertTrue(Boolean.parseBoolean(studentHomePage.getViewFeedbackButton("Graced Feedback Session").getAttribute("disabled")));
+        assertEquals("true", studentHomePage.getViewFeedbackButton("Graced Feedback Session").getAttribute("disabled"));
         
         studentHomePage.getSubmitFeedbackButton("Graced Feedback Session").click();
         studentHomePage.reloadPage();
@@ -159,11 +159,11 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         assertTrue(pageSource.contains("SHomeUiT.CS2104"));
         assertTrue(pageSource.contains("Graced Feedback Session"));
         assertTrue(pageSource.contains(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN));
-        studentHomePage.clickHomeTab();
+        studentHomePage.loadStudentHomeTab();
 
         ______TS("link: link of pending feedback");
         
-        assertTrue(Boolean.parseBoolean(studentHomePage.getViewFeedbackButton("First Feedback Session").getAttribute("disabled")));
+        assertEquals("true", studentHomePage.getViewFeedbackButton("First Feedback Session").getAttribute("disabled"));
         
         studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
         studentHomePage.reloadPage();
@@ -171,7 +171,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         assertTrue(pageSource.contains("Submit Feedback"));
         assertTrue(pageSource.contains("SHomeUiT.CS2104"));
         assertTrue(pageSource.contains("First Feedback Session"));
-        studentHomePage.clickHomeTab();
+        studentHomePage.loadStudentHomeTab();
     }
 
     private void testLinkAndContentAfterDelete() throws Exception {

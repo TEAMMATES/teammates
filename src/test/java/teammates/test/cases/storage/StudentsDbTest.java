@@ -129,21 +129,22 @@ public class StudentsDbTest extends BaseComponentTestCase {
         StudentAttributes s = createNewStudent();
         s.googleId = "validGoogleId";
         s.team = "validTeam";
-        studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team, s.section, s.email, s.googleId, s.comments);
+        studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team, s.section,
+                                                     s.email, s.googleId, s.comments);
         
         ______TS("typical success case: existent");
         StudentAttributes retrieved = studentsDb.getStudentForEmail(s.course, s.email);
         assertNotNull(retrieved);
-        assertNotNull(studentsDb.getStudentForRegistrationKey(retrieved.key));
         assertNotNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(retrieved.key)));
-        assertNull(studentsDb.getStudentForRegistrationKey("notExistingKey"));
+        assertNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt("notExistingKey")));
         ______TS("non existant student case");
         retrieved = studentsDb.getStudentForEmail("any-course-id", "non-existent@email.com");
         assertNull(retrieved);
         
         StudentAttributes s2 = createNewStudent("one.new@gmail.com");
         s2.googleId = "validGoogleId2";
-        studentsDb.updateStudentWithoutSearchability(s2.course, s2.email, s2.name, s2.team, s2.section, s2.email, s2.googleId, s2.comments);
+        studentsDb.updateStudentWithoutSearchability(s2.course, s2.email, s2.name, s2.team, s2.section,
+                                                     s2.email, s2.googleId, s2.comments);
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(s2.googleId);
         assertNull(studentsDb.getStudentForGoogleId(s2.course, s2.googleId));
         
@@ -232,7 +233,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.email = "new-email-2";
         s.googleId = "new-id-2";
         s.comments = "this are new comments";
-        studentsDb.updateStudentWithoutSearchability(s.course, originalEmail, s.name, s.team, s.section, s.email, s.googleId, s.comments);
+        studentsDb.updateStudentWithoutSearchability(s.course, originalEmail, s.name, s.team, s.section,
+                                                     s.email, s.googleId, s.comments);
         
         StudentAttributes updatedStudent = studentsDb.getStudentForEmail(s.course, s.email);
         assertTrue(updatedStudent.isEnrollInfoSameAs(s));
@@ -243,7 +245,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
     public void testDeleteStudent() throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes s = createNewStudent();
         s.googleId = "validGoogleId";
-        studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team, s.section, s.email, s.googleId, s.comments);
+        studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team, s.section,
+                                                     s.email, s.googleId, s.comments);
         // Delete
         studentsDb.deleteStudentWithoutDocument(s.course, s.email);
         

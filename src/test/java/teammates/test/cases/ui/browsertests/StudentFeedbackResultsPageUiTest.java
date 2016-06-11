@@ -13,6 +13,7 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
@@ -125,7 +126,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         String student1Password = TestProperties.TEST_STUDENT1_PASSWORD;
         
         logout(browser);
-        LoginPage loginPage = resultsPage.clickLoginAsStudentButton();
+        LoginPage loginPage = AppPage.getNewPageInstance(browser, HomePage.class).clickStudentLogin();
         loginPage.loginAsStudent(student1Username, student1Password);
 
         StudentCourseJoinConfirmationPage confirmationPage =
@@ -141,7 +142,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("unreg student logged in as a student in another course: registered without logging out");
         
         logout(browser);
-        loginPage = resultsPage.clickLoginAsStudentButton();
+        loginPage = AppPage.getNewPageInstance(browser, HomePage.class).clickStudentLogin();
         loginPage.loginAsStudent(student1Username, student1Password);
 
         confirmationPage =
@@ -173,7 +174,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
                                             .withCourseId(s.course)
                                             .withStudentEmail(s.email)
                                             .withSessionName(testData.feedbackSessions.get(fsDataId).getFeedbackSessionName())
-                                            .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email));
+                                            .withRegistrationKey(BackDoor.getEncryptedKeyForStudent(s.course, s.email));
         return AppPage.getNewPageInstance(browser, submitUrl, typeOfPage);
     }
 }
