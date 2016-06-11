@@ -472,8 +472,8 @@ public class FieldValidator {
 
     /**
      * Checks if {@code feedbackSessionName} is a non-null non-empty string no longer than the specified length
-     * {@code COURSE_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %), and has no unsantized
-     * HTML characters
+     * {@code FEEDBACK_SESSION_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %), and has no
+     * unsantized HTML characters
      * @param feedbackSessionName
      * @return An explanation of why the {@code feedbackSessionName} is not acceptable.
      *         Returns an empty string if the {@code feedbackSessionName} is acceptable.
