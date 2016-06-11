@@ -519,7 +519,8 @@ public final class InstructorPrivileges {
     
     /**
      * validate the privileges in course level, section level and session level
-     * make sure there is nothing wrong with privileges hierarchy
+     * make sure there is nothing wrong with privileges hierarchy by adding the
+     * prerequisite privileges if they have not been granted yet
      */
     public void validatePrivileges() {
         if (this.courseLevel.containsKey(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)
