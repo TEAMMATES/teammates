@@ -267,14 +267,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return true;
     }
 
-    public boolean verifyMissingResponsesVisibility(){
-        List<WebElement> pendingResponses = browser.driver.
-                                            findElements(By.className("pending_response_row"));
-        if (pendingResponses.isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean verifyMissingResponsesVisibility() {
+        List<WebElement> pendingResponses = browser.driver
+                                                   .findElements(By.className("pending_response_row"));
+        return pendingResponses.isEmpty();
     }
     
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
