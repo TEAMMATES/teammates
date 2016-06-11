@@ -51,7 +51,11 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try {
             commentsDb.createEntity(c);
         } catch (InvalidParametersException e) {
-            assertEquals(String.format(COURSE_ID_ERROR_MESSAGE, c.courseId, REASON_INCORRECT_FORMAT),
+            assertEquals(COURSE_ID_ERROR_MESSAGE
+                             .replace("{userInput}", c.courseId)
+                             .replace("{fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                             .replace("{reason}", REASON_INCORRECT_FORMAT)
+                             .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
                     e.getLocalizedMessage());
         }
 

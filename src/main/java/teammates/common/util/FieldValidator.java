@@ -146,12 +146,14 @@ public class FieldValidator {
      * problematic if we allow multiple instructors for a single course.
      * TODO: make case insensitive
      */
+    public static final String COURSE_ID_FIELD_NAME = "a Course ID";
     public static final int COURSE_ID_MAX_LENGTH = 40;
-    public static final String COURSE_ID_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as a Course ID because it %s. "
-            + "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
-            + "It cannot be longer than " + COURSE_ID_MAX_LENGTH + " characters. "
+    public static final String HINT_FOR_CORRECT_COURSE_ID =
+            "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
+            + "It cannot be longer than {maxLength} characters. "
             + "It cannot be empty or contain spaces.";
+    public static final String COURSE_ID_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
 
     /*
      * =======================================================================
@@ -429,17 +431,26 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", courseId != null);
 
         if (courseId.isEmpty()) {
-            return String.format(COURSE_ID_ERROR_MESSAGE, courseId, REASON_EMPTY);
+            return COURSE_ID_ERROR_MESSAGE.replace("{userInput}", courseId)
+                                          .replace("{fieldName}", COURSE_ID_FIELD_NAME)
+                                          .replace("{reason}", REASON_EMPTY)
+                                          .replace("{maxLength}", String.valueOf(COURSE_ID_MAX_LENGTH));
         }
         if (isUntrimmed(courseId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", COURSE_NAME_FIELD_NAME);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(courseId);
         if (courseId.length() > COURSE_ID_MAX_LENGTH) {
-            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
+            return COURSE_ID_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
+                                          .replace("{fieldName}", COURSE_ID_FIELD_NAME)
+                                          .replace("{reason}", REASON_TOO_LONG)
+                                          .replace("{maxLength}", String.valueOf(COURSE_ID_MAX_LENGTH));
         }
         if (!StringHelper.isMatching(courseId, REGEX_COURSE_ID)) {
-            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
+            return COURSE_ID_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
+                                          .replace("{fieldName}", COURSE_ID_FIELD_NAME)
+                                          .replace("{reason}", REASON_INCORRECT_FORMAT)
+                                          .replace("{maxLength}", String.valueOf(COURSE_ID_MAX_LENGTH));
         }
         return "";
     }

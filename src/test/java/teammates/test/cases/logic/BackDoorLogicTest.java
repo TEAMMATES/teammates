@@ -60,9 +60,12 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
             logic.persistDataBundle(dataBundle);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            assertTrue(e.getMessage().equals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE,
-                                                           "invalid id",
-                                                           FieldValidator.REASON_INCORRECT_FORMAT)));
+            assertTrue(e.getMessage().equals(
+                    FieldValidator.COURSE_ID_ERROR_MESSAGE
+                        .replace("{userInput}", "invalid id")
+                        .replace("{fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                        .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                        .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH))));
         }
 
         // Not checking for invalid values in other entities because they

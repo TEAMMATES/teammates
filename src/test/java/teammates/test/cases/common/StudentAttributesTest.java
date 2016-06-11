@@ -94,15 +94,21 @@ public class StudentAttributesTest extends BaseTestCase {
         ______TS("Failure case: empty course id");
         invalidStudent = new StudentAttributes("section", "team", "name", "e@e.com", "c", "");
         assertFalse(invalidStudent.isValid());
-        assertEquals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE,
-                                   invalidStudent.course, FieldValidator.REASON_EMPTY),
+        assertEquals(FieldValidator.COURSE_ID_ERROR_MESSAGE
+                         .replace("{userInput}", invalidStudent.course)
+                         .replace("{fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                         .replace("{reason}", FieldValidator.REASON_EMPTY)
+                         .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: invalid course id");
         invalidStudent = new StudentAttributes("section", "team", "name", "e@e.com", "c", "Course Id with space");
         assertFalse(invalidStudent.isValid());
-        assertEquals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE,
-                                   invalidStudent.course, FieldValidator.REASON_INCORRECT_FORMAT),
+        assertEquals(FieldValidator.COURSE_ID_ERROR_MESSAGE
+                         .replace("{userInput}", invalidStudent.course)
+                         .replace("{fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                         .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                         .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: empty name");
@@ -192,7 +198,11 @@ public class StudentAttributesTest extends BaseTestCase {
                                   .replace("{userInput}", "invalid@google@id")
                                   .replace("{fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
                                   .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
-                + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY) + Const.EOL
+                + FieldValidator.COURSE_ID_ERROR_MESSAGE
+                      .replace("{userInput}", "")
+                      .replace("{fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                      .replace("{reason}", FieldValidator.REASON_EMPTY)
+                      .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)) + Const.EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("{userInput}", "invalid email")
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)

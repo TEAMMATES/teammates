@@ -73,6 +73,28 @@ public class FieldValidatorTest extends BaseTestCase {
             "\"\" is not acceptable to TEAMMATES as a person name because it is empty. The value of a person "
             + "name should be no longer than 100 characters. It should not be empty.";
 
+    public static final String ERROR_MESSAGE_COURSE_ID_EMPTY =
+            "\"\" is not acceptable to TEAMMATES as a Course ID because it is empty. A Course ID can contain "
+            + "letters, numbers, fullstops, hyphens, underscores, and dollar signs. It cannot be longer than "
+            + "40 characters. It cannot be empty or contain spaces.";
+
+    public static final String ERROR_MESSAGE_COURSE_ID_TOO_LONG =
+            "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a Course ID "
+            + "because it is too long. A Course ID can contain letters, numbers, fullstops, hyphens, "
+            + "underscores, and dollar signs. It cannot be longer than 40 characters. It cannot be empty or "
+            + "contain spaces.";
+
+    public static final String ERROR_MESSAGE_COURSE_ID_INCORRECT_FORMAT_CONTAINS_SPACES =
+            "\"my course id with spaces\" is not acceptable to TEAMMATES as a Course ID because it is not in "
+            + "the correct format. A Course ID can contain letters, numbers, fullstops, hyphens, "
+            + "underscores, and dollar signs. It cannot be longer than 40 characters. It cannot be empty or "
+            + "contain spaces.";
+
+    public static final String ERROR_MESSAGE_COURSE_ID_INCORRECT_FORMAT_CONTAINS_INVALID_CHAR =
+            "\"cour@s*hy#\" is not acceptable to TEAMMATES as a Course ID because it is not in the correct "
+            + "format. A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar "
+            + "signs. It cannot be longer than 40 characters. It cannot be empty or contain spaces.";
+
     public FieldValidator validator = new FieldValidator();
     
     @BeforeClass
@@ -642,7 +664,7 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForCourseId_invalid_returnErrorString() {
         String emptyCourseId = "";
         assertEquals("Invalid Course ID (empty) should return appropriate error string",
-                     String.format(COURSE_ID_ERROR_MESSAGE, emptyCourseId, REASON_EMPTY),
+                     ERROR_MESSAGE_COURSE_ID_EMPTY,
                      validator.getInvalidityInfoForCourseId(emptyCourseId));
 
         String untrimmedCourseId = " $cs1101-sem1.2_ ";
@@ -657,17 +679,17 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String tooLongCourseId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Course ID (too long) should return appropriate error string",
-                     String.format(COURSE_ID_ERROR_MESSAGE, tooLongCourseId, REASON_TOO_LONG),
+                     ERROR_MESSAGE_COURSE_ID_TOO_LONG,
                      validator.getInvalidityInfoForCourseId(tooLongCourseId));
 
         String courseIdWithSpaces = "my course id with spaces";
         assertEquals("Invalid Course ID (contains spaces) should return appropriate error string",
-                     String.format(COURSE_ID_ERROR_MESSAGE, courseIdWithSpaces, REASON_INCORRECT_FORMAT),
+                     ERROR_MESSAGE_COURSE_ID_INCORRECT_FORMAT_CONTAINS_SPACES,
                      validator.getInvalidityInfoForCourseId(courseIdWithSpaces));
 
         String courseIdWithInvalidChar = "cour@s*hy#";
         assertEquals("Invalid Course ID (invalid char) should return appropriate error string",
-                     String.format(COURSE_ID_ERROR_MESSAGE, courseIdWithInvalidChar, REASON_INCORRECT_FORMAT),
+                     ERROR_MESSAGE_COURSE_ID_INCORRECT_FORMAT_CONTAINS_INVALID_CHAR,
                      validator.getInvalidityInfoForCourseId(courseIdWithInvalidChar));
     }
 

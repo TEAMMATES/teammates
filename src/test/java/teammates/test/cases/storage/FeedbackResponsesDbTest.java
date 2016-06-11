@@ -141,9 +141,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             frDb.createEntity(fra);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE,
-                                                      "invalid course id!", FieldValidator.REASON_INCORRECT_FORMAT),
-                                        e.getLocalizedMessage());
+            AssertHelper.assertContains(
+                    FieldValidator.COURSE_ID_ERROR_MESSAGE
+                        .replace("{userInput}", "invalid course id!")
+                        .replace("{fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                        .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                        .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
+                    e.getLocalizedMessage());
         }
         
     }
@@ -773,9 +777,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             frDb.updateFeedbackResponse(invalidFra);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE,
-                                            "invalid course_", FieldValidator.REASON_INCORRECT_FORMAT),
-                                        e.getLocalizedMessage());
+            AssertHelper.assertContains(
+                    FieldValidator.COURSE_ID_ERROR_MESSAGE
+                        .replace("{userInput}", "invalid course_")
+                        .replace("{fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                        .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                        .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
+                    e.getLocalizedMessage());
         }
         
         ______TS("feedback response does not exist");
