@@ -270,7 +270,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public boolean verifyMissingResponsesVisibility(){
         List<WebElement> pendingResponses = browser.driver.
                                             findElements(By.className("pending_response_row"));
-        if (pendingResponses.size() > 0) {
+        if (pendingResponses.isEmpty()) {
             return true;
         } else {
             return false;
