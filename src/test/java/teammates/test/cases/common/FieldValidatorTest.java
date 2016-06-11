@@ -429,34 +429,34 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForGoogleId_invalid_returnErrorString() {
         String emptyId = "";
         assertEquals("Invalid Google ID (empty) should return appropriate error message",
-                     validator.getInvalidityInfoForGoogleId(emptyId),
-                     String.format(GOOGLE_ID_ERROR_MESSAGE, emptyId, REASON_EMPTY));
+                     String.format(GOOGLE_ID_ERROR_MESSAGE, emptyId, REASON_EMPTY),
+                     validator.getInvalidityInfoForGoogleId(emptyId));
 
         String whitespaceId = "     ";
         assertEquals("Invalid Google ID (contains whitespaces only) should return appropriate error message",
-                     validator.getInvalidityInfoForGoogleId(whitespaceId),
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", GOOGLE_ID_FIELD_NAME));
+                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", GOOGLE_ID_FIELD_NAME),
+                     validator.getInvalidityInfoForGoogleId(whitespaceId));
 
         String untrimmedId = "  googleIdWithSpacesAround    ";
         assertEquals("Invalid Google ID (leading/trailing whitespaces) should return appropriate error message",
-                     validator.getInvalidityInfoForGoogleId(untrimmedId),
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", GOOGLE_ID_FIELD_NAME));
+                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", GOOGLE_ID_FIELD_NAME),
+                     validator.getInvalidityInfoForGoogleId(untrimmedId));
 
         String tooLongId = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Google ID (too long) should return appropriate error message",
-                     validator.getInvalidityInfoForGoogleId(tooLongId),
-                     String.format(GOOGLE_ID_ERROR_MESSAGE, tooLongId, REASON_TOO_LONG));
+                     String.format(GOOGLE_ID_ERROR_MESSAGE, tooLongId, REASON_TOO_LONG),
+                     validator.getInvalidityInfoForGoogleId(tooLongId));
 
         String idWithSpaces = "invalid google id with spaces";
         assertEquals("Invalid Google ID (with spaces) should return appropriate error message",
-                     validator.getInvalidityInfoForGoogleId(idWithSpaces),
-                     String.format(GOOGLE_ID_ERROR_MESSAGE, idWithSpaces, REASON_INCORRECT_FORMAT));
+                     String.format(GOOGLE_ID_ERROR_MESSAGE, idWithSpaces, REASON_INCORRECT_FORMAT),
+                     validator.getInvalidityInfoForGoogleId(idWithSpaces));
 
         String idWithInvalidHtmlChar = "invalid google id with HTML/< special characters";
         assertEquals("Invalid Google ID (contains HTML characters) should return appropriate error message",
-                     validator.getInvalidityInfoForGoogleId(idWithInvalidHtmlChar),
                      String.format(GOOGLE_ID_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(idWithInvalidHtmlChar),
-                                   REASON_INCORRECT_FORMAT));
+                                   REASON_INCORRECT_FORMAT),
+                     validator.getInvalidityInfoForGoogleId(idWithInvalidHtmlChar));
     }
     
     @Test
