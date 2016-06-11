@@ -21,7 +21,7 @@ import teammates.test.pageobjects.LoginPage;
 public abstract class BaseUiTestCase extends BaseTestCase {
 
     /** indicates if the test-run is to use GodMode */
-    protected static Boolean enableGodMode = false;
+    protected static Boolean enableGodMode = true;
 
     /**
      * Checks if the current test-run should use godmode,
