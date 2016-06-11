@@ -257,10 +257,10 @@ public class FieldValidator {
      */
     public static final String SECTION_NAME_FIELD_NAME = "a section name";
     public static final int SECTION_NAME_MAX_LENGTH = 60;
+    public static final String HINT_FOR_CORRECT_SECTION_NAME =
+            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
     public static final String SECTION_NAME_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as " + SECTION_NAME_FIELD_NAME + " because it %s. "
-            + "The value of " + SECTION_NAME_FIELD_NAME + " should be no longer than "
-            + SECTION_NAME_MAX_LENGTH + " characters. It should not be empty.";
+            ERROR_INFO + " " + HINT_FOR_CORRECT_SECTION_NAME;
 
     // ////////////////////////////////////////////////////////////////////////
     // ///////////////////End of field type info //////////////////////////////
