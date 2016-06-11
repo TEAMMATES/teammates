@@ -195,6 +195,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return result;
     }
     
+    public String getEncryptedRegkey() {
+        return StringHelper.encrypt(student.key);
+    }
+    
     private void createQuestionsWithResponses() {
         questionsWithResponses = new ArrayList<StudentFeedbackSubmissionEditQuestionsWithResponses>();
         int qnIndx = 1;
@@ -233,7 +237,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
-                                                           questionAttributes.getId(), existingResponse.recipientEmail);
+                                                           questionAttributes.getId(), existingResponse.recipient);
             
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                                             .getQuestionWithExistingResponseSubmissionFormHtml(

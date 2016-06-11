@@ -8,7 +8,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.EmailAccount;
@@ -248,7 +247,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     
     private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword)
                                             throws Exception {
-        String keyToSend = StringHelper.encrypt(BackDoor.getKeyForStudent(courseId, studentEmail));
+        String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
     
         ThreadHelper.waitFor(5000); //TODO: replace this with a more efficient check
         String keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(studentEmail, studentPassword, courseId);

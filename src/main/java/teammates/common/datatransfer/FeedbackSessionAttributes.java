@@ -12,7 +12,6 @@ import java.util.TimeZone;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
@@ -212,7 +211,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        error = validator.getInvalidityInfoForCourseId(courseId);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -247,16 +246,13 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             return errors;
         }
 
-        error = validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
-                                                      FieldType.START_TIME, FieldType.END_TIME,
-                                                      startTime, endTime);
+        error = validator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime);
         if (!error.isEmpty()) {
             errors.add(error);
         }
 
-        error = validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
-                                                      FieldType.SESSION_VISIBLE_TIME, FieldType.START_TIME,
-                                                      sessionVisibleFromTime, startTime);
+        error = validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                              sessionVisibleFromTime, startTime);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -267,9 +263,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             actualSessionVisibleFromTime = startTime;
         }
 
-        error = validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
-                                                      FieldType.SESSION_VISIBLE_TIME, FieldType.RESULTS_VISIBLE_TIME,
-                                                      actualSessionVisibleFromTime, resultsVisibleFromTime);
+        error = validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+                              actualSessionVisibleFromTime, resultsVisibleFromTime);
         if (!error.isEmpty()) {
             errors.add(error);
         }
