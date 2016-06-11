@@ -57,9 +57,11 @@ public class AccountAttributesTest extends BaseTestCase {
                       .replace("{userInput}", "invalid@email@com")
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
                       .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
-                + String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE,
-                                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                                FieldValidator.REASON_TOO_LONG);
+                + FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE
+                      .replace("{userInput}", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                      .replace("{fieldName}", FieldValidator.INSTITUTE_NAME_FIELD_NAME)
+                      .replace("{reason}", FieldValidator.REASON_TOO_LONG)
+                      .replace("{maxLength}", String.valueOf(FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
         assertFalse("all valid values", account.isValid());
         assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
         

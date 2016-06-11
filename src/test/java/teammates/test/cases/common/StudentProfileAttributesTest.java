@@ -193,8 +193,12 @@ public class StudentProfileAttributesTest extends BaseTestCase {
                                       .replace("{userInput}", profile.email)
                                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
                                       .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessages.add(String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE, profile.institute,
-                                                FieldValidator.REASON_TOO_LONG));
+        expectedErrorMessages.add(
+                FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE
+                    .replace("{userInput}", profile.institute)
+                    .replace("{fieldName}", FieldValidator.INSTITUTE_NAME_FIELD_NAME)
+                    .replace("{reason}", FieldValidator.REASON_TOO_LONG)
+                    .replace("{maxLength}", String.valueOf(FieldValidator.INSTITUTE_NAME_MAX_LENGTH)));
         expectedErrorMessages.add(FieldValidator.INVALID_NAME_ERROR_MESSAGE
                                       .replace("{userInput}", profile.nationality)
                                       .replace("{fieldName}", FieldValidator.NATIONALITY_FIELD_NAME)

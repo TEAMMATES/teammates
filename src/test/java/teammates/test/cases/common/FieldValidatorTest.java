@@ -100,6 +100,11 @@ public class FieldValidatorTest extends BaseTestCase {
             + "name because it is too long. The value of feedback session name should be no longer than 38 "
             + "characters. It should not be empty.";
 
+    public static final String ERROR_MESSAGE_INSTITUTE_NAME_TOO_LONG =
+            "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to "
+            + "TEAMMATES as an institute name because it is too long. The value of an institute name should "
+            + "be no longer than 64 characters. It should not be empty.";
+
     public FieldValidator validator = new FieldValidator();
     
     @BeforeClass
@@ -387,7 +392,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidInstituteName = StringHelper.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
         String actual = validator.getInvalidityInfoForInstituteName(invalidInstituteName);
         assertEquals("Invalid institute name (too long) should return error message that is specific to institute name",
-                     String.format(INSTITUTE_NAME_ERROR_MESSAGE, invalidInstituteName, REASON_TOO_LONG),
+                     ERROR_MESSAGE_INSTITUTE_NAME_TOO_LONG,
                      actual);
     }
 
