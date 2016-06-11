@@ -56,10 +56,8 @@ public class FeedbackSessionsLogic {
     private static final String ERROR_NUMBER_OF_RESPONSES_EXCEEDS_RANGE = "Number of responses exceeds the limited range";
     private static final String ERROR_SENDING_EMAILS = "Error while sending emails :";
     private static final String ERROR_SESSION_UNPUBLISH_ALREADY = "Session is already unpublished.";
-    private static final String ERROR_SESSION_UNPUBLISH_NON_EXISTENT = "Trying to unpublish a non-existent session.";
     private static final String ERROR_SESSION_UNPUBLISH_PRIVATE = "Private session can't be unpublished.";
     private static final String ERROR_SESSION_PUBLISH_ALREADY = "Session is already published.";
-    private static final String ERROR_SESSION_PUBLISH_NON_EXISTENT = "Trying to publish a non-existent session.";
     private static final String ERROR_SESSION_PUBLISH_PRIVATE = "Private session can't be published.";
     private static final String KEY_FROM_SECTION = "fromSection";
     private static final String KEY_IN_SECTION = "inSection";
@@ -77,6 +75,8 @@ public class FeedbackSessionsLogic {
     private static final String ERROR_NON_EXISTENT_FS_CHECK = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "check");
     private static final String ERROR_NON_EXISTENT_FS_REMIND = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "remind");
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
+    private static final String ERROR_NON_EXISTENT_FS_PUBLISH = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "publish");
+    private static final String ERROR_NON_EXISTENT_FS_UNPUBLISH = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "unpublish");
     
     private static FeedbackSessionsLogic instance;
 
@@ -1415,7 +1415,7 @@ public class FeedbackSessionsLogic {
                 getFeedbackSession(feedbackSessionName, courseId);
 
         if (sessionToPublish == null) {
-            throw new EntityDoesNotExistException(ERROR_SESSION_PUBLISH_NON_EXISTENT);
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_PUBLISH + courseId + "/" + feedbackSessionName);
         }
 
         if (sessionToPublish.isPrivateSession()) {
@@ -1451,7 +1451,7 @@ public class FeedbackSessionsLogic {
                 getFeedbackSession(feedbackSessionName, courseId);
 
         if (sessionToUnpublish == null) {
-            throw new EntityDoesNotExistException(ERROR_SESSION_UNPUBLISH_NON_EXISTENT);
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UNPUBLISH + courseId + "/" + feedbackSessionName);
         }
 
         if (sessionToUnpublish.isPrivateSession()) {
