@@ -69,21 +69,14 @@ public class FeedbackSessionsLogic {
     private static final String KEY_SECTION = "section";
     private static final String KEY_TO_SECTION = "toSection";
     private static final String KEY_VIEW_TYPE = "viewType";
-    private static final String VALUE_FALSE = "false";
-    private static final String VALUE_TRUE = "true";
-    private static final String ERROR_NON_EXISTENT_FS_STRING_FORMAT = "Trying to %s a non-existent feedback session: %s/%s";
-    private static final String ERROR_NON_EXISTENT_TARGET_STRING_FORMAT = "Error getting feedback session(s): %s does not exist.";
-    private static final String TARGET_STUDENT = "Student";
-    private static final String TARGET_COURSE = "Course";
-    private static final String ERROR_NON_EXISTENT_FS_GET_FOR_COURSE = String.format(ERROR_NON_EXISTENT_TARGET_STRING_FORMAT,
-                                                                                     TARGET_COURSE);
-    private static final String ERROR_NON_EXISTENT_FS_GET_FOR_STUDENT = String.format(ERROR_NON_EXISTENT_TARGET_STRING_FORMAT,
-                                                                                      TARGET_STUDENT);
-    private static final String ACTION_GET = "get";
-    private static final String ACTION_UPDATE = "update";
-    private static final String ACTION_CHECK = "check";
-    private static final String ACTION_REMIND = "remind";
-    private static final String ACTION_VIEW = "view";
+    private static final String ERROR_NON_EXISTENT_COURSE = "Error getting feedback session(s): Course does not exist.";
+    private static final String ERROR_NON_EXISTENT_STUDENT = "Error getting feedback session(s): Student does not exist.";
+    private static final String ERROR_NON_EXISTENT_FS_STRING_FORMAT = "Trying to %s a non-existent feedback session: ";
+    private static final String ERROR_NON_EXISTENT_FS_GET = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "get");
+    private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
+    private static final String ERROR_NON_EXISTENT_FS_CHECK = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "check");
+    private static final String ERROR_NON_EXISTENT_FS_REMIND = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "remind");
+    private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
     
     private static FeedbackSessionsLogic instance;
 
@@ -171,7 +164,7 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
 
         if (!coursesLogic.isCoursePresent(courseId)) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_GET_FOR_COURSE);
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_COURSE);
         }
         return getFeedbackSessionsForUserInCourseSkipCheck(courseId, userEmail);
     }
@@ -295,8 +288,7 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
 
         if (fsa == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_GET, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_GET + courseId + "/" + feedbackSessionName);
         }
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
@@ -329,8 +321,7 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
 
         if (fsa == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_GET, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_GET + courseId + "/" + feedbackSessionName);
         }
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
@@ -408,12 +399,11 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
 
         if (fsa == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_GET, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_GET + courseId + "/" + feedbackSessionName);
         }
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
         if (student == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_GET_FOR_STUDENT);
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_STUDENT);
         }
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
@@ -449,13 +439,12 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
         
         if (fsa == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_GET, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_GET + courseId + "/" + feedbackSessionName);
         }
         
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
         if (student == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_GET_FOR_STUDENT);
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_STUDENT);
         }
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
@@ -576,8 +565,7 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
 
         if (session == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_VIEW, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_VIEW + courseId + "/" + feedbackSessionName);
         }
 
         List<FeedbackQuestionAttributes> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName,
@@ -604,10 +592,10 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
-        params.put(KEY_IN_SECTION, VALUE_FALSE);
-        params.put(KEY_FROM_SECTION, VALUE_FALSE);
-        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, "true");
+        params.put(KEY_IN_SECTION, "false");
+        params.put(KEY_FROM_SECTION, "false");
+        params.put(KEY_TO_SECTION, "false");
         params.put(KEY_QUESTION_ID, questionId);
         
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
@@ -629,10 +617,10 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
-        params.put(KEY_IN_SECTION, VALUE_TRUE);
-        params.put(KEY_FROM_SECTION, VALUE_FALSE);
-        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, "true");
+        params.put(KEY_IN_SECTION, "true");
+        params.put(KEY_FROM_SECTION, "false");
+        params.put(KEY_TO_SECTION, "false");
         params.put(KEY_QUESTION_ID, questionId);
         params.put(KEY_SECTION, selectedSection);
         
@@ -664,10 +652,10 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
-        params.put(KEY_IN_SECTION, VALUE_TRUE);
-        params.put(KEY_FROM_SECTION, VALUE_FALSE);
-        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, "true");
+        params.put(KEY_IN_SECTION, "true");
+        params.put(KEY_FROM_SECTION, "false");
+        params.put(KEY_TO_SECTION, "false");
         params.put(KEY_SECTION, section);
         if (range > 0) {
             params.put(KEY_RANGE, String.valueOf(range));
@@ -690,10 +678,10 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
-        params.put(KEY_IN_SECTION, VALUE_FALSE);
-        params.put(KEY_FROM_SECTION, VALUE_TRUE);
-        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, "true");
+        params.put(KEY_IN_SECTION, "false");
+        params.put(KEY_FROM_SECTION, "true");
+        params.put(KEY_TO_SECTION, "false");
         params.put(KEY_SECTION, section);
         if (range > 0) {
             params.put(KEY_RANGE, String.valueOf(range));
@@ -714,10 +702,10 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
-        params.put(KEY_IN_SECTION, VALUE_FALSE);
-        params.put(KEY_FROM_SECTION, VALUE_FALSE);
-        params.put(KEY_TO_SECTION, VALUE_TRUE);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, "true");
+        params.put(KEY_IN_SECTION, "false");
+        params.put(KEY_FROM_SECTION, "false");
+        params.put(KEY_TO_SECTION, "true");
         params.put(KEY_SECTION, section);
         if (range > 0) {
             params.put(KEY_RANGE, String.valueOf(range));
@@ -749,10 +737,10 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
-        params.put(KEY_IN_SECTION, VALUE_TRUE);
-        params.put(KEY_FROM_SECTION, VALUE_FALSE);
-        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, "true");
+        params.put(KEY_IN_SECTION, "true");
+        params.put(KEY_FROM_SECTION, "false");
+        params.put(KEY_TO_SECTION, "false");
         params.put(KEY_SECTION, section);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
@@ -771,10 +759,10 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_FALSE);
-        params.put(KEY_IN_SECTION, VALUE_FALSE);
-        params.put(KEY_FROM_SECTION, VALUE_TRUE);
-        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, "false");
+        params.put(KEY_IN_SECTION, "false");
+        params.put(KEY_FROM_SECTION, "true");
+        params.put(KEY_TO_SECTION, "false");
         params.put(KEY_SECTION, section);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
@@ -793,10 +781,10 @@ public class FeedbackSessionsLogic {
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
-        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, VALUE_TRUE);
-        params.put(KEY_IN_SECTION, VALUE_FALSE);
-        params.put(KEY_FROM_SECTION, VALUE_FALSE);
-        params.put(KEY_TO_SECTION, VALUE_TRUE);
+        params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, "true");
+        params.put(KEY_IN_SECTION, "false");
+        params.put(KEY_FROM_SECTION, "false");
+        params.put(KEY_TO_SECTION, "true");
         params.put(KEY_SECTION, section);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
@@ -812,9 +800,9 @@ public class FeedbackSessionsLogic {
         
         Map<String, String> params = new HashMap<String, String>();
         params.put(KEY_IS_INCLUDE_RESPONSE_STATUS, String.valueOf(isIncludeResponseStatus));
-        params.put(KEY_IN_SECTION, VALUE_TRUE);
-        params.put(KEY_FROM_SECTION, VALUE_FALSE);
-        params.put(KEY_TO_SECTION, VALUE_FALSE);
+        params.put(KEY_IN_SECTION, "true");
+        params.put(KEY_FROM_SECTION, "false");
+        params.put(KEY_TO_SECTION, "false");
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail,
                 UserType.Role.INSTRUCTOR, roster, params);
@@ -1114,8 +1102,7 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName,
             String courseId) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_CHECK, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
@@ -1147,8 +1134,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes fsa = this.getFeedbackSession(feedbackSessionName, courseId);
         if (fsa == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_CHECK, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
         }
         
         if (fsa.getRespondingInstructorList().contains(userEmail)) {
@@ -1173,8 +1159,8 @@ public class FeedbackSessionsLogic {
                         newSession.getFeedbackSessionName());
 
         if (oldSession == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                    ACTION_UPDATE, newSession.getCourseId(), newSession.getFeedbackSessionName()));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + newSession.getCourseId()
+                                                  + "/" + newSession.getFeedbackSessionName());
         }
 
         // These can't be changed anyway. Copy values to defensively avoid
@@ -1307,8 +1293,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_UPDATE, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
         }
 
         fsDb.addInstructorRespondant(email, sessionToUpdate);
@@ -1323,8 +1308,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_UPDATE, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
         }
 
         fsDb.addInstructorRespondants(emails, sessionToUpdate);
@@ -1338,8 +1322,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_UPDATE, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
         }
 
         fsDb.clearInstructorRespondants(sessionToUpdate);
@@ -1354,8 +1337,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_UPDATE, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
         }
 
         fsDb.addStudentRespondant(email, sessionToUpdate);
@@ -1370,8 +1352,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_UPDATE, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
         }
 
         fsDb.addStudentRespondants(emails, sessionToUpdate);
@@ -1385,8 +1366,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_UPDATE, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
         }
 
         fsDb.clearStudentRespondants(sessionToUpdate);
@@ -1401,8 +1381,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_UPDATE, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
         }
 
         fsDb.deleteInstructorRespondant(email, sessionToUpdate);
@@ -1417,8 +1396,7 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_UPDATE, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
         }
 
         fsDb.deleteStudentRespondent(email, sessionToUpdate);
@@ -1492,9 +1470,7 @@ public class FeedbackSessionsLogic {
     public List<MimeMessage> sendReminderForFeedbackSession(String courseId,
             String feedbackSessionName) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(
-                    String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                  ACTION_REMIND, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_REMIND + courseId + "/" + feedbackSessionName);
         }
 
         FeedbackSessionAttributes session = getFeedbackSession(
@@ -1540,9 +1516,7 @@ public class FeedbackSessionsLogic {
     public List<MimeMessage> sendReminderForFeedbackSessionParticularUsers(String courseId,
             String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(
-                    String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                  ACTION_REMIND, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_REMIND + courseId + "/" + feedbackSessionName);
         }
 
         FeedbackSessionAttributes session = getFeedbackSession(
@@ -1780,8 +1754,7 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
 
         if (session == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_VIEW, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_VIEW + courseId + "/" + feedbackSessionName);
         }
 
         // create empty data containers to store results
@@ -1915,8 +1888,7 @@ public class FeedbackSessionsLogic {
                 courseId, feedbackSessionName);
 
         if (session == null) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_VIEW, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_VIEW + courseId + "/" + feedbackSessionName);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
@@ -2500,8 +2472,7 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
 
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_CHECK, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
@@ -2524,8 +2495,7 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
 
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                ACTION_CHECK, courseId, feedbackSessionName));
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
