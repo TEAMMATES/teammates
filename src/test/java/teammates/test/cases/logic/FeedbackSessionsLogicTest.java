@@ -1873,7 +1873,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException(
                     "Did not catch exception signalling that session is already published.");
         } catch (InvalidParametersException e) {
-            assertEquals("Session is already published.", e.getMessage());
+            assertEquals("Error publishing feedback session: Session has already been published.", e.getMessage());
         }
         
         ______TS("success: unpublish");
@@ -1896,7 +1896,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException(
                     "Did not catch exception signalling that session is not published.");
         } catch (InvalidParametersException e) {
-            assertEquals("Session is already unpublished.", e.getMessage());
+            assertEquals("Error unpublishing feedback session: Session has already been unpublished.", e.getMessage());
         }
         
         ______TS("failure: private session");
@@ -1909,7 +1909,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                     "Did not catch exception signalling that private session can't "
                     + "be published.");
         } catch (InvalidParametersException e) {
-            assertEquals("Private session can't be published.", e.getMessage());
+            assertEquals("Error publishing feedback session: Session is private and can't be published.", e.getMessage());
         }
         
         try {
@@ -1918,7 +1918,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                     "Did not catch exception signalling that private session should "
                     + "not be published");
         } catch (InvalidParametersException e) {
-            assertEquals("Private session can't be unpublished.", e.getMessage());
+            assertEquals("Error unpublishing feedback session: Session is private and can't be unpublished.", e.getMessage());
         }
                 
         ______TS("failure: session does not exist");

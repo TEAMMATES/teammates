@@ -90,16 +90,14 @@ public class FeedbackSessionsLogic {
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
     private static final String ERROR_NON_EXISTENT_FS_PUBLISH = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "publish");
     private static final String ERROR_NON_EXISTENT_FS_UNPUBLISH = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "unpublish");
-    private static final String ERROR_PUBLISH_UNPUBLISH_SESSION_STRING_FORMAT = "Error %1sing feedback session: "
-                                                                                + "Session %2sed.";
-    private static final String ERROR_SESSION_PUBLISH_ALREADY = String.format(ERROR_PUBLISH_UNPUBLISH_SESSION_STRING_FORMAT,
-                                                                              "publish", "has already been ");
-    private static final String ERROR_SESSION_PUBLISH_PRIVATE = String.format(ERROR_PUBLISH_UNPUBLISH_SESSION_STRING_FORMAT,
-                                                                              "publish", "is private and can't be ");
-    private static final String ERROR_SESSION_UNPUBLISH_ALREADY = String.format(ERROR_PUBLISH_UNPUBLISH_SESSION_STRING_FORMAT,
-                                                                                "unpublish", "has already been ");
-    private static final String ERROR_SESSION_UNPUBLISH_PRIVATE = String.format(ERROR_PUBLISH_UNPUBLISH_SESSION_STRING_FORMAT,
-                                                                                "unpublish", "is private and can't be ");
+    private static final String ERROR_FS_ALREADY_PUBLISH_STRING_FORMAT = "Error %1$sing feedback session: "
+                                                                         + "Session has already been %1$sed.";
+    private static final String ERROR_FS_ALREADY_PUBLISH = String.format(ERROR_FS_ALREADY_PUBLISH_STRING_FORMAT, "publish");
+    private static final String ERROR_FS_ALREADY_UNPUBLISH = String.format(ERROR_FS_ALREADY_PUBLISH_STRING_FORMAT, "unpublish");
+    private static final String ERROR_FS_PRIVATE_STRING_FORMAT = "Error %1$sing feedback session: "
+                                                                 + "Session is private and can't be %1$sed.";
+    private static final String ERROR_FS_PRIVATE_PUBLISH = String.format(ERROR_FS_PRIVATE_STRING_FORMAT, "publish");
+    private static final String ERROR_FS_PRIVATE_UNPUBLISH = String.format(ERROR_FS_PRIVATE_STRING_FORMAT, "unpublish");
 
     public static FeedbackSessionsLogic inst() {
         if (instance == null) {
@@ -1426,11 +1424,11 @@ public class FeedbackSessionsLogic {
         }
 
         if (sessionToPublish.isPrivateSession()) {
-            throw new InvalidParametersException(ERROR_SESSION_PUBLISH_PRIVATE);
+            throw new InvalidParametersException(ERROR_FS_PRIVATE_PUBLISH);
         }
 
         if (sessionToPublish.isPublished()) {
-            throw new InvalidParametersException(ERROR_SESSION_PUBLISH_ALREADY);
+            throw new InvalidParametersException(ERROR_FS_ALREADY_PUBLISH);
         }
 
         sessionToPublish.setResultsVisibleFromTime(currentDateTime(sessionToPublish));
@@ -1462,11 +1460,11 @@ public class FeedbackSessionsLogic {
         }
 
         if (sessionToUnpublish.isPrivateSession()) {
-            throw new InvalidParametersException(ERROR_SESSION_UNPUBLISH_PRIVATE);
+            throw new InvalidParametersException(ERROR_FS_PRIVATE_UNPUBLISH);
         }
 
         if (!sessionToUnpublish.isPublished()) {
-            throw new InvalidParametersException(ERROR_SESSION_UNPUBLISH_ALREADY);
+            throw new InvalidParametersException(ERROR_FS_ALREADY_UNPUBLISH);
         }
 
         sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
