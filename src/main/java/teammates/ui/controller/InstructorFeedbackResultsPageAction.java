@@ -59,7 +59,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
-        
+        boolean isMissingResponsesShown = getRequestParamAsBoolean(Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
+
         if (startIndex != null) {
             data.setStartIndex(Integer.parseInt(startIndex));
         }
@@ -69,6 +70,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
             showStats = "on";
             groupByTeam = "on";
             sortType = Const.FeedbackSessionResults.QUESTION_SORT_TYPE;
+            isMissingResponsesShown = true;
         }
         
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
@@ -119,8 +121,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
             isError = true;
         }
         
-        boolean isMissingResponsesShown = getRequestParamAsBoolean(
-                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
         switch (sortType) {
         case Const.FeedbackSessionResults.QUESTION_SORT_TYPE:
             data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam, isMissingResponsesShown);
