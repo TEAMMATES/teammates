@@ -90,14 +90,14 @@ public class FeedbackSessionsLogic {
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
     private static final String ERROR_NON_EXISTENT_FS_PUBLISH = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "publish");
     private static final String ERROR_NON_EXISTENT_FS_UNPUBLISH = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "unpublish");
-    private static final String ERROR_FS_ALREADY_PUBLISH_STRING_FORMAT = "Error %1$sing feedback session: "
-                                                                         + "Session has already been %1$sed.";
-    private static final String ERROR_FS_ALREADY_PUBLISH = String.format(ERROR_FS_ALREADY_PUBLISH_STRING_FORMAT, "publish");
-    private static final String ERROR_FS_ALREADY_UNPUBLISH = String.format(ERROR_FS_ALREADY_PUBLISH_STRING_FORMAT, "unpublish");
-    private static final String ERROR_FS_PRIVATE_STRING_FORMAT = "Error %1$sing feedback session: "
-                                                                 + "Session is private and can't be %1$sed.";
-    private static final String ERROR_FS_PRIVATE_PUBLISH = String.format(ERROR_FS_PRIVATE_STRING_FORMAT, "publish");
-    private static final String ERROR_FS_PRIVATE_UNPUBLISH = String.format(ERROR_FS_PRIVATE_STRING_FORMAT, "unpublish");
+    private static final String ERROR_FS_ALREADY_PUBLISH = "Error publishing feedback session: "
+                                                           + "Session has already been published.";
+    private static final String ERROR_FS_ALREADY_UNPUBLISH = "Error unpublishing feedback session: "
+                                                             + "Session has already been unpublished.";
+    private static final String ERROR_FS_PRIVATE_PUBLISH = "Error publishing feedback session: "
+                                                           + "Session is private and can't be published.";
+    private static final String ERROR_FS_PRIVATE_UNPUBLISH = "Error unpublishing feedback session: "
+                                                             + "Session is private and can't be unpublished.";
 
     public static FeedbackSessionsLogic inst() {
         if (instance == null) {
