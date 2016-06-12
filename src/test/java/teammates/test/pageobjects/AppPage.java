@@ -291,18 +291,18 @@ public abstract class AppPage {
      * Waits for an alert modal to appear and dismisses it
      */
     public void waitForAndDismissAlertModal() {
-        waitForModalPresence();
-        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
-        waitForElementToBeClickable(okayButton);
-        okayButton.click();
-        waitForModalToDisappear();
+        waitForConfirmationModalAndClickOk();
     }
 
     /**
      * Waits for a confirmation modal to appear and click the confirm button
      */
     public void waitForConfirmationModalAndClickOk() {
-        waitForAndDismissAlertModal();
+        waitForModalPresence();
+        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
+        waitForElementToBeClickable(okayButton);
+        okayButton.click();
+        waitForModalToDisappear();
     }
 
     /**
