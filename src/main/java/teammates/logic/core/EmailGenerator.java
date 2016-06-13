@@ -200,7 +200,7 @@ public class EmailGenerator {
         return emails;
     }
     
-    public MimeMessage generateFeedbackSessionEmailBaseForStudents(
+    private MimeMessage generateFeedbackSessionEmailBaseForStudents(
             CourseAttributes course, FeedbackSessionAttributes session, StudentAttributes student, String template,
             String subject)
                     throws MessagingException, IOException {
@@ -235,7 +235,7 @@ public class EmailGenerator {
         return email;
     }
     
-    public MimeMessage generateFeedbackSessionEmailBaseForInstructors(
+    private MimeMessage generateFeedbackSessionEmailBaseForInstructors(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, String subject)
                     throws MessagingException, IOException {

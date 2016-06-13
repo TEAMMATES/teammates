@@ -19,7 +19,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
-import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.Emails;
@@ -85,17 +84,9 @@ public class EmailsTest extends BaseComponentTestCase {
         s.key = "skxxxxxxxxxks";
         s.email = "student@email.tmt";
 
-        ______TS("Generate feedback email base");
-
-        String template = EmailTemplates.USER_FEEDBACK_SESSION;
-        MimeMessage email = new EmailGenerator().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template, "");
-        Sendgrid sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
-
-        testEmailAttributes(email, sendgridEmail);
-
         ______TS("Generate student course join email");
-        email = new EmailGenerator().generateStudentCourseJoinEmail(c, s);
-        sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
+        MimeMessage email = new EmailGenerator().generateStudentCourseJoinEmail(c, s);
+        Sendgrid sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
 
         testEmailAttributes(email, sendgridEmail);
 
