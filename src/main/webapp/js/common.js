@@ -878,11 +878,11 @@ function hideSingleCollapse(e) {
  */
 var BootboxWrapper = {
     DEFAULT_OK_TEXT: 'OK',
-    DEFAULT_CANCEL_TEXT: 'CANCEL',
+    DEFAULT_CANCEL_TEXT: 'Cancel',
 
     /**
      * Custom alert dialog to replace default alert() function
-     * Required params: titleText and messegeText
+     * Required params: titleText and messageText
      * Optional params: okButtonText (defaults to "OK")
      *                  color (defaults to StatusType.DEFAULT)
      */
@@ -903,7 +903,7 @@ var BootboxWrapper = {
 
     /**
      * Custom confirmation dialog to replace default confirm() function
-     * Required params: titleText, messegeText and okCallback
+     * Required params: titleText, messageText and okCallback
      * Optional params: cancelCallBack (defaults to null)
      *                  okButtonText (defaults to "OK")
      *                  cancelButtonText (defaults to "Cancel")
