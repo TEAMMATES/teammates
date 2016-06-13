@@ -27,6 +27,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -35,7 +36,6 @@ import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.TestProperties;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 
@@ -112,7 +112,7 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("generic template, student yet to join");
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
-        MimeMessage email = new Emails().generateFeedbackSessionEmailBaseForStudents(c, fsa, s,
+        MimeMessage email = new EmailGenerator().generateFeedbackSessionEmailBaseForStudents(c, fsa, s,
                 template);
 
         // check receiver
@@ -153,7 +153,7 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("published template, student yet to join");
 
         template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
-        email = new Emails().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template);
+        email = new EmailGenerator().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template);
 
         emailBody = email.getContent().toString();
 
@@ -178,7 +178,7 @@ public class EmailsTest extends BaseComponentTestCase {
         s.googleId = "student1id"; // set student id to make him "joined"
         template = EmailTemplates.USER_FEEDBACK_SESSION;
 
-        email = new Emails().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template);
+        email = new EmailGenerator().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template);
 
         emailBody = email.getContent().toString();
 
@@ -191,7 +191,7 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("published template, student joined");
 
         template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
-        email = new Emails().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template);
+        email = new EmailGenerator().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template);
 
         emailBody = email.getContent().toString();
 
@@ -205,7 +205,7 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("generic template, sent to instructors");
         
         template = EmailTemplates.USER_FEEDBACK_SESSION;
-        email = new Emails().generateFeedbackSessionEmailBaseForInstructors(c, fsa, i, template);
+        email = new EmailGenerator().generateFeedbackSessionEmailBaseForInstructors(c, fsa, i, template);
 
         emailBody = email.getContent().toString();
 
@@ -224,7 +224,7 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("published template, sent to instructors");
         
         template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
-        email = new Emails().generateFeedbackSessionEmailBaseForInstructors(c, fsa, i, template);
+        email = new EmailGenerator().generateFeedbackSessionEmailBaseForInstructors(c, fsa, i, template);
 
         emailBody = email.getContent().toString();
 
@@ -252,7 +252,7 @@ public class EmailsTest extends BaseComponentTestCase {
         s.key = "skxxxxxxxxxks";
         s.email = "student@email.tmt";
 
-        MimeMessage email = new Emails().generateStudentCourseJoinEmail(c, s);
+        MimeMessage email = new EmailGenerator().generateStudentCourseJoinEmail(c, s);
 
         // check receiver
         assertEquals(s.email, email.getAllRecipients()[0].toString());
@@ -324,31 +324,30 @@ public class EmailsTest extends BaseComponentTestCase {
         
         ______TS("feedback session opening emails");
 
-        List<MimeMessage> emails = new Emails()
-                .generateFeedbackSessionOpeningEmails(fsa);
+        List<MimeMessage> emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(fsa);
         assertEquals(10, emails.size());
 
-        String prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING;
+        String prefix = EmailGenerator.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING;
         String status = "is now open";
         verifyEmail(s1, emails.get(0), prefix, status);
         verifyEmail(s2, emails.get(1), prefix, status);
         
         ______TS("feedback session reminders");
 
-        emails = new Emails().generateFeedbackSessionReminderEmails(c, fsa, students, instructors, instructors);
+        emails = new EmailGenerator().generateFeedbackSessionReminderEmails(c, fsa, students, instructors, instructors);
         assertEquals(15, emails.size());
 
-        prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER;
+        prefix = EmailGenerator.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER;
         status = "is still open for submissions";
         verifyEmail(i1, emails.get(1), prefix, status);
         verifyEmail(i2, emails.get(2), prefix, status);
         
         ______TS("feedback session closing alerts");
 
-        emails = new Emails().generateFeedbackSessionClosingEmails(fsa);
+        emails = new EmailGenerator().generateFeedbackSessionClosingEmails(fsa);
         assertEquals(8, emails.size());
 
-        prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING;
+        prefix = EmailGenerator.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING;
         status = "is closing soon";
         verifyEmail(s1, emails.get(0), prefix, status);
         verifyEmail(s3, emails.get(1), prefix, status);
@@ -358,10 +357,10 @@ public class EmailsTest extends BaseComponentTestCase {
 
         ______TS("feedback session published alerts");
 
-        emails = new Emails().generateFeedbackSessionPublishedEmails(fsa);
+        emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(fsa);
         assertEquals(10, emails.size());
 
-        prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED;
+        prefix = EmailGenerator.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED;
         status = "The feedback responses for the following feedback session is now open for viewing.";
         verifyEmail(s1, emails.get(0), prefix, status);
         verifyEmail(s2, emails.get(1), prefix, status);
@@ -386,10 +385,9 @@ public class EmailsTest extends BaseComponentTestCase {
         String requestUrl = "/page/studentHome/";
         String requestParam = "{}";
 
-        MimeMessage email = new Emails().generateSystemErrorEmail(
-                                        error, requestMethod, requestUserAgent,
-                                        requestPath, requestUrl, requestParam,
-                                        TestProperties.TEAMMATES_VERSION);
+        MimeMessage email =
+                new EmailGenerator().generateSystemErrorEmail(error, requestMethod, requestUserAgent,
+                                                              requestPath, requestUrl, requestParam);
 
         // check receiver
         String recipient = Config.SUPPORT_EMAIL;
@@ -455,14 +453,13 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("Generate feedback email base");
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
-        MimeMessage email = new Emails().generateFeedbackSessionEmailBaseForStudents(
-                                        c, fsa, s, template);
+        MimeMessage email = new EmailGenerator().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template);
         Sendgrid sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
 
         testEmailAttributes(email, sendgridEmail);
 
         ______TS("Generate student course join email");
-        email = new Emails().generateStudentCourseJoinEmail(c, s);
+        email = new EmailGenerator().generateStudentCourseJoinEmail(c, s);
         sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
 
         testEmailAttributes(email, sendgridEmail);
@@ -481,9 +478,8 @@ public class EmailsTest extends BaseComponentTestCase {
         String requestUrl = "/page/studentHome/";
         String requestParam = "{}";
 
-        email = new Emails().generateSystemErrorEmail(error, requestMethod, requestUserAgent,
-                                                      requestPath, requestUrl, requestParam,
-                                                      TestProperties.TEAMMATES_VERSION);
+        email = new EmailGenerator().generateSystemErrorEmail(error, requestMethod, requestUserAgent,
+                                                              requestPath, requestUrl, requestParam);
         sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
 
         testEmailAttributes(email, sendgridEmail);

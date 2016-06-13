@@ -16,7 +16,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
 import teammates.logic.core.CommentsLogic;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 
 /**
@@ -68,7 +68,7 @@ public class PendingCommentClearedMailAction extends EmailAction {
             log.severe("Recipient emails for pending comments in course : " + courseId
                        + " could not be fetched");
         }
-        return new Emails().generatePendingCommentsClearedEmails(courseId, recipients);
+        return new EmailGenerator().generatePendingCommentsClearedEmails(courseId, recipients);
     }
 
     private void initializeNameAndDescription() {

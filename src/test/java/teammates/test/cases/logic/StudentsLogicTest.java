@@ -38,6 +38,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -1216,7 +1217,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     private void verifyJoinInviteToStudent(StudentAttributes student, MimeMessage email)
                                     throws MessagingException {
         assertEquals(student.email, email.getAllRecipients()[0].toString());
-        AssertHelper.assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN, email.getSubject());
+        AssertHelper.assertContains(EmailGenerator.SUBJECT_PREFIX_STUDENT_COURSE_JOIN, email.getSubject());
         AssertHelper.assertContains(student.course, email.getSubject());
     }
     

@@ -17,7 +17,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionPublishedMailAction;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.Emails.EmailType;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.util.Priority;
@@ -171,7 +171,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         for (MimeMessage m : preparedEmails) {
             String subject = m.getSubject();
             assertTrue(subject.contains(session1.getFeedbackSessionName()));
-            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
+            assertTrue(subject.contains(EmailGenerator.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
         }
         
         ______TS("testing whether no more mails are sent");

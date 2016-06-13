@@ -1498,18 +1498,15 @@ public class FeedbackSessionsLogic {
         }
 
         CourseAttributes course = coursesLogic.getCourse(courseId);
-        List<MimeMessage> emails;
-        Emails emailMgr = new Emails();
+        
         try {
-            emails = emailMgr.generateFeedbackSessionReminderEmails(course,
-                    session, studentsToRemindList, instructorsToRemindList,
-                    instructorList);
-            emailMgr.sendEmails(emails);
+            List<MimeMessage> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
+                    course, session, studentsToRemindList, instructorsToRemindList, instructorList);
+            new Emails().sendEmails(emails);
+            return emails;
         } catch (Exception e) {
             throw new RuntimeException("Error while sending emails :", e);
         }
-
-        return emails;
     }
     
     public List<MimeMessage> sendReminderForFeedbackSessionParticularUsers(String courseId,
@@ -1543,18 +1540,14 @@ public class FeedbackSessionsLogic {
         }
 
         CourseAttributes course = coursesLogic.getCourse(courseId);
-        List<MimeMessage> emails;
-        Emails emailMgr = new Emails();
         try {
-            emails = emailMgr.generateFeedbackSessionReminderEmails(course,
-                    session, studentsToRemindList, instructorsToRemindList,
-                    instructorList);
-            emailMgr.sendEmails(emails);
+            List<MimeMessage> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
+                    course, session, studentsToRemindList, instructorsToRemindList, instructorList);
+            new Emails().sendEmails(emails);
+            return emails;
         } catch (Exception e) {
             throw new RuntimeException("Error while sending emails :", e);
         }
-
-        return emails;
     }
 
     public void scheduleFeedbackRemindEmails(String courseId, String feedbackSessionName) {

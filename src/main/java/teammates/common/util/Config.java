@@ -72,7 +72,8 @@ public final class Config {
      * instead of '-' e.g., "4.53"
      */
     public static String getAppVersion() {
-        return SystemProperty.applicationVersion.get().split("\\.")[0].replace("-", ".");
+        String appVersion = SystemProperty.applicationVersion.get();
+        return appVersion == null ? null : appVersion.split("\\.")[0].replace("-", ".");
     }
 
     /**

@@ -18,7 +18,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionOpeningMailAction;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.Emails.EmailType;
 import teammates.logic.core.FeedbackSessionsLogic;
 
@@ -176,7 +176,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         for (MimeMessage m : preparedEmails) {
             String subject = m.getSubject();
             assertTrue(subject.contains(session.getFeedbackSessionName()));
-            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+            assertTrue(subject.contains(EmailGenerator.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
         }
     }
 

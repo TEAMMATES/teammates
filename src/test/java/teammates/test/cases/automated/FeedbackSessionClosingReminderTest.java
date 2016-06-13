@@ -17,7 +17,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionClosingMailAction;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.Emails.EmailType;
 import teammates.logic.core.FeedbackSessionsLogic;
 
@@ -149,7 +149,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         for (MimeMessage m : preparedEmails) {
             String subject = m.getSubject();
             assertTrue(subject.contains(session1.getFeedbackSessionName()));
-            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+            assertTrue(subject.contains(EmailGenerator.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
         }
         
         // Reuse an existing session to create a new one that is
@@ -185,7 +185,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         for (MimeMessage m : preparedEmails) {
             String subject = m.getSubject();
             assertTrue(subject.contains(session2.getFeedbackSessionName()));
-            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+            assertTrue(subject.contains(EmailGenerator.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
         }
     }
     
