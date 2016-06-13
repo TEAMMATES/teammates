@@ -19,6 +19,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailLogEntry;
+import teammates.common.util.EmailType;
 import teammates.common.util.Utils;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
@@ -30,13 +31,6 @@ public class Emails {
     //TODO: methods in this class throw too many exceptions. Reduce using a wrapper exception?
 
     private static final Logger log = Utils.getLogger();
-    
-    public enum EmailType {
-        FEEDBACK_CLOSING,
-        FEEDBACK_OPENING,
-        FEEDBACK_PUBLISHED,
-        PENDING_COMMENT_CLEARED
-    }
     
     public static String getEmailInfo(MimeMessage message)
             throws MessagingException {

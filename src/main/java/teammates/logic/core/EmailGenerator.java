@@ -26,6 +26,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
@@ -33,24 +34,6 @@ import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.Utils;
 
 public class EmailGenerator {
-    
-    public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING = "TEAMMATES: Feedback session now open";
-    public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER = "TEAMMATES: Feedback session reminder";
-    public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING = "TEAMMATES: Feedback session closing soon";
-    public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED = "TEAMMATES: Feedback session results published";
-    
-    public static final String SUBJECT_PREFIX_PENDING_COMMENTS_CLEARED = "TEAMMATES: You have new comments";
-    
-    public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT = "TEAMMATES: Welcome to TEAMMATES!";
-    
-    public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
-    public static final String SUBJECT_PREFIX_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
-            "TEAMMATES: Your account has been reset for course";
-    public static final String SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN = "TEAMMATES: Invitation to join course as an instructor";
-    
-    private static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
-    
-    private static final String SUBJECT_PREFIX_SEVERE_LOGS_COMPILATION = "TEAMMATES (%s): Severe Error Logs Compilation";
     
     private static final Logger log = Utils.getLogger();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -79,9 +62,9 @@ public class EmailGenerator {
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<StudentAttributes>();
         
-        List<MimeMessage> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template);
+        List<MimeMessage> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+                                                                     EmailType.FEEDBACK_OPENING.getSubject());
         for (MimeMessage email : emails) {
-            email.setSubject(email.getSubject().replace("${subjectPrefix}", SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
             email.setContent(email.getContent().toString().replace("${status}", "is now open"), "text/html");
         }
         return emails;
@@ -94,11 +77,12 @@ public class EmailGenerator {
         
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
         List<MimeMessage> emails =
-                generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template);
-        emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify, template));
+                generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
+                                                                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
+        emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify, template,
+                                                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject()));
         
         for (MimeMessage email : emails) {
-            email.setSubject(email.getSubject().replace("${subjectPrefix}", SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER));
             email.setContent(email.getContent().toString().replace("${status}", "is still open for submissions"),
                              "text/html");
         }
@@ -107,19 +91,20 @@ public class EmailGenerator {
     
     private List<MimeMessage> generateFeedbackSessionEmailBasesForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, List<InstructorAttributes> instructors,
-            String template)
+            String template, String subject)
                     throws MessagingException, IOException {
         
         List<MimeMessage> emails = new ArrayList<MimeMessage>();
         for (InstructorAttributes instructor : instructors) {
-            emails.add(generateFeedbackSessionEmailBaseForInstructorReminders(course, session, instructor, template));
+            emails.add(generateFeedbackSessionEmailBaseForInstructorReminders(course, session, instructor,
+                                                                              template, subject));
         }
         return emails;
     }
     
     private MimeMessage generateFeedbackSessionEmailBaseForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
-            String template)
+            String template, String subject)
                     throws MessagingException, IOException {
         
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -143,8 +128,7 @@ public class EmailGenerator {
                 "${reportUrl}", reportUrl);
         
         MimeMessage email = getEmptyEmailAddressedToEmail(instructor.email);
-        email.setSubject(String.format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                                       course.getName(), session.getFeedbackSessionName()));
+        email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
         email.setContent(emailBody, "text/html");
         return email;
     }
@@ -177,9 +161,9 @@ public class EmailGenerator {
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
         
-        List<MimeMessage> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template);
+        List<MimeMessage> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+                                                                     EmailType.FEEDBACK_CLOSING.getSubject());
         for (MimeMessage email : emails) {
-            email.setSubject(email.getSubject().replace("${subjectPrefix}", SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
             email.setContent(email.getContent().toString().replace("${status}", "is closing soon"), "text/html");
         }
         return emails;
@@ -196,30 +180,29 @@ public class EmailGenerator {
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<StudentAttributes>();
         
-        List<MimeMessage> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template);
-        for (MimeMessage email : emails) {
-            email.setSubject(email.getSubject().replace("${subjectPrefix}", SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
-        }
+        List<MimeMessage> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+                                                                     EmailType.FEEDBACK_PUBLISHED.getSubject());
         return emails;
     }
     
     private List<MimeMessage> generateFeedbackSessionEmailBases(
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
-            List<InstructorAttributes> instructors, String template)
+            List<InstructorAttributes> instructors, String template, String subject)
                     throws MessagingException, IOException {
         
         List<MimeMessage> emails = new ArrayList<MimeMessage>();
         for (StudentAttributes student : students) {
-            emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, student, template));
+            emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, student, template, subject));
         }
         for (InstructorAttributes instructor : instructors) {
-            emails.add(generateFeedbackSessionEmailBaseForInstructors(course, session, instructor, template));
+            emails.add(generateFeedbackSessionEmailBaseForInstructors(course, session, instructor, template, subject));
         }
         return emails;
     }
     
     public MimeMessage generateFeedbackSessionEmailBaseForStudents(
-            CourseAttributes course, FeedbackSessionAttributes session, StudentAttributes student, String template)
+            CourseAttributes course, FeedbackSessionAttributes session, StudentAttributes student, String template,
+            String subject)
                     throws MessagingException, IOException {
         
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -247,15 +230,14 @@ public class EmailGenerator {
                 "${reportUrl}", reportUrl);
         
         MimeMessage email = getEmptyEmailAddressedToEmail(student.email);
-        email.setSubject(String.format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                                       course.getName(), session.getFeedbackSessionName()));
+        email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
         email.setContent(emailBody, "text/html");
         return email;
     }
     
     public MimeMessage generateFeedbackSessionEmailBaseForInstructors(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
-            String template)
+            String template, String subject)
                     throws MessagingException, IOException {
         
         String emailBody = Templates.populateTemplate(template,
@@ -270,8 +252,7 @@ public class EmailGenerator {
                 "${reportUrl}", "{The student's unique results url appears here}");
         
         MimeMessage email = getEmptyEmailAddressedToEmail(instructor.email);
-        email.setSubject(String.format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
-                                       course.getName(), session.getFeedbackSessionName()));
+        email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
         email.setContent(emailBody, "text/html");
         return email;
     }
@@ -295,7 +276,6 @@ public class EmailGenerator {
                 continue;
             }
             MimeMessage email = generatePendingCommentsClearedEmailBaseForStudent(course, student, template);
-            email.setSubject(email.getSubject().replace("${subjectPrefix}", SUBJECT_PREFIX_PENDING_COMMENTS_CLEARED));
             emails.add(email);
         }
         return emails;
@@ -318,7 +298,8 @@ public class EmailGenerator {
                 "${commentsPageUrl}", commentsPageUrl);
         
         MimeMessage email = getEmptyEmailAddressedToEmail(student.email);
-        email.setSubject(String.format("${subjectPrefix} [Course: %s]", course.getId()));
+        email.setSubject(String.format(EmailType.PENDING_COMMENT_CLEARED.getSubject(),
+                                       course.getName(), course.getId()));
         email.setContent(emailBody, "text/html");
         return email;
     }
@@ -339,7 +320,7 @@ public class EmailGenerator {
         
         MimeMessage email = getEmptyEmailAddressedToEmail(instructor.email);
         email = addBccRecipientToEmail(email, Config.SUPPORT_EMAIL);
-        email.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT + " " + shortName));
+        email.setSubject(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), shortName));
         email.setContent(emailBody, "text/html");
         return email;
     }
@@ -371,7 +352,7 @@ public class EmailGenerator {
                 "${courseName}", course.getName());
         
         MimeMessage email = getEmptyEmailAddressedToEmail(student.email);
-        email.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN + " [%s][Course ID: %s]",
+        email.setSubject(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(),
                                        course.getName(), course.getId()));
         email.setContent(emailBody, "text/html");
         return email;
@@ -387,8 +368,7 @@ public class EmailGenerator {
                 "${courseName}", course.getName());
         
         MimeMessage email = getEmptyEmailAddressedToEmail(student.email);
-        email.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET
-                                               + " [%s][Course ID: %s]",
+        email.setSubject(String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                                        course.getName(), course.getId()));
         email.setContent(emailBody, "text/html");
         return email;
@@ -403,7 +383,7 @@ public class EmailGenerator {
                 "${courseName}", course.getName());
         
         MimeMessage email = getEmptyEmailAddressedToEmail(instructor.email);
-        email.setSubject(String.format(SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN + " [%s][Course ID: %s]",
+        email.setSubject(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(),
                                        course.getName(), course.getId()));
         email.setContent(emailBody, "text/html");
         return email;
@@ -473,7 +453,7 @@ public class EmailGenerator {
                 "${stackTrace}", stackTrace);
         
         MimeMessage email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
-        email.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR, Config.getAppVersion(), errorMessage));
+        email.setSubject(String.format(EmailType.ADMIN_SYSTEM_ERROR.getSubject(), Config.getAppVersion(), errorMessage));
         email.setContent(emailBody, "text/html");
         return email;
     }
@@ -484,7 +464,7 @@ public class EmailGenerator {
         String emailBody = logs.replace("\n", "<br>");
         
         MimeMessage email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
-        email.setSubject(String.format(SUBJECT_PREFIX_SEVERE_LOGS_COMPILATION, Config.getAppVersion()));
+        email.setSubject(String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.getAppVersion()));
         email.setContent(emailBody, "text/html");
         return email;
     }

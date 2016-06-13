@@ -8,11 +8,11 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.EmailType;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.ThreadHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.Emails;
-import teammates.logic.core.Emails.EmailType;
 
 /**
  * Action: Clear pending {@link CommentAttributes} and {@link FeedbackResponseCommentAttributes},

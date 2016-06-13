@@ -14,7 +14,7 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
-import teammates.logic.core.EmailGenerator;
+import teammates.common.util.EmailType;
 
 public final class EmailAccount {
     
@@ -62,7 +62,7 @@ public final class EmailAccount {
         String subject = message.getSubject();
 
         if (subject != null) {
-            isRegistrationEmail = subject.contains(EmailGenerator.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
+            isRegistrationEmail = subject.contains(EmailType.STUDENT_COURSE_JOIN.getSubject())
                                   && subject.contains(courseId);
         }
 

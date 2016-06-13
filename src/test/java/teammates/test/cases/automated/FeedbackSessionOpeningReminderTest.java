@@ -14,12 +14,12 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailType;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionOpeningMailAction;
-import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.Emails.EmailType;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
@@ -168,15 +168,16 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     private void prepareAndSendOpeningMailForSession(FeedbackSessionAttributes session, int studentCount,
                                                      int instructorCount) throws MessagingException {
         HashMap<String, String> paramMap = createParamMapForAction(session);
+        String courseName = CoursesLogic.inst().getCourse(session.getCourseId()).getName();
         EmailAction fsOpeningAction = new FeedbackSessionOpeningMailAction(paramMap);
 
         List<MimeMessage> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(studentCount + instructorCount, preparedEmails.size());
 
         for (MimeMessage m : preparedEmails) {
-            String subject = m.getSubject();
-            assertTrue(subject.contains(session.getFeedbackSessionName()));
-            assertTrue(subject.contains(EmailGenerator.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+            assertEquals(String.format(EmailType.FEEDBACK_OPENING.getSubject(), courseName,
+                                       session.getFeedbackSessionName()),
+                         m.getSubject());
         }
     }
 

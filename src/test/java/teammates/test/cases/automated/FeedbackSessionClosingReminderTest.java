@@ -13,12 +13,12 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailType;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionClosingMailAction;
-import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.Emails.EmailType;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
@@ -138,6 +138,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         session1.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
         fsLogic.updateFeedbackSession(session1);
         HashMap<String, String> paramMap = createParamMapForAction(session1);
+        String course1Name = CoursesLogic.inst().getCourse(session1.getCourseId()).getName();
         
         EmailAction fsClosingAction = new FeedbackSessionClosingMailAction(paramMap);
         int course1StudentCount = 5 - 2; // 2 students have already completed the session
@@ -147,9 +148,9 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
         
         for (MimeMessage m : preparedEmails) {
-            String subject = m.getSubject();
-            assertTrue(subject.contains(session1.getFeedbackSessionName()));
-            assertTrue(subject.contains(EmailGenerator.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+            assertEquals(String.format(EmailType.FEEDBACK_CLOSING.getSubject(), course1Name,
+                                       session1.getFeedbackSessionName()),
+                         m.getSubject());
         }
         
         // Reuse an existing session to create a new one that is
@@ -178,14 +179,15 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         fsClosingAction = new FeedbackSessionClosingMailAction(paramMap);
         int course2StudentCount = 0; // there are no questions, so no students can see the session
         int course2InstructorCount = 3;
+        String course2Name = CoursesLogic.inst().getCourse(session2.getCourseId()).getName();
         
         preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course2StudentCount + course2InstructorCount, preparedEmails.size());
         
         for (MimeMessage m : preparedEmails) {
-            String subject = m.getSubject();
-            assertTrue(subject.contains(session2.getFeedbackSessionName()));
-            assertTrue(subject.contains(EmailGenerator.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+            assertEquals(String.format(EmailType.FEEDBACK_CLOSING.getSubject(), course2Name,
+                                       session2.getFeedbackSessionName()),
+                         m.getSubject());
         }
     }
     

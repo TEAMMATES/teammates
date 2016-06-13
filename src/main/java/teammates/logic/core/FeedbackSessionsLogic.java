@@ -41,6 +41,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.EmailType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -1579,8 +1580,7 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackSessionAttributes session : sessions) {
             Emails emails = new Emails();
-            emails.addFeedbackSessionReminderToEmailsQueue(session,
-                    Emails.EmailType.FEEDBACK_OPENING);
+            emails.addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_OPENING);
         }
     }
 
@@ -1607,7 +1607,7 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackSessionAttributes session : sessions) {
             Emails emails = new Emails();
-            emails.addFeedbackSessionReminderToEmailsQueue(session, Emails.EmailType.FEEDBACK_CLOSING);
+            emails.addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_CLOSING);
         }
     }
 
@@ -2607,8 +2607,7 @@ public class FeedbackSessionsLogic {
     private void sendFeedbackSessionPublishedEmail(
             FeedbackSessionAttributes session) {
         Emails emails = new Emails();
-        emails.addFeedbackSessionReminderToEmailsQueue(session,
-                Emails.EmailType.FEEDBACK_PUBLISHED);
+        emails.addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_PUBLISHED);
     }
 
 }
