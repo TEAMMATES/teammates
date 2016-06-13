@@ -191,12 +191,24 @@ public class Emails {
         }
     }
     
+    /**
+     * Sends the given {@code errorReport}.
+     */
     public void sendErrorReport(MimeMessage errorReport) throws MessagingException {
         forceSendEmailThroughGaeWithoutLogging(errorReport);
         log.info("Sent crash report: " + Emails.getEmailInfo(errorReport));
     }
     
-    public void sendBackupErrorReport(MimeMessage errorReport, Throwable error, Exception e) {
+    /**
+     * Reports that a system {@code error} has occurred and the {@code errorReport} that is
+     * supposed to report it has failed to sent.<br>
+     * This method can be used when the usual error report sending fails to make sure that
+     * no stack traces are lost in the process.
+     * @param error the original error to be reported in {@code errorReport}
+     * @param errorReport the report that fails to send
+     * @param e the exception which causes {@code errorReport} to fail to send
+     */
+    public void reportErrorWithBackupChannel(Throwable error, MimeMessage errorReport, Exception e) {
         log.severe("Crash report failed to send. Detailed error stack trace: "
                    + TeammatesException.toStringWithStackTrace(error));
         logSevereForErrorInSendingItem("crash report", errorReport, e);

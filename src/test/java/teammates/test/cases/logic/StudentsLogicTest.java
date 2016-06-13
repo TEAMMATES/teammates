@@ -340,7 +340,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         String courseName = coursesLogic.getCourse(courseId).getName();
         MimeMessage msgToStudent = studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
         assertEquals(studentEmail, msgToStudent.getRecipients(Message.RecipientType.TO)[0].toString());
-        assertEquals("TEAMMATES Admin <Admin@null.appspotmail.com>", msgToStudent.getFrom()[0].toString());
         assertEquals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), courseName, courseId),
                      msgToStudent.getSubject());
         

@@ -2458,9 +2458,12 @@ public class Logic {
         return commentsLogic.getCommentsForSendingState(courseId, sendingState);
     }
     
-    public void sendCommentReminder(String courseId) {
+    /**
+     * @see CommentsLogic#sendCommentNotification(String)
+     */
+    public void sendCommentNotification(String courseId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        commentsLogic.sendCommentReminder(courseId);
+        commentsLogic.sendCommentNotification(courseId);
     }
 
     /**
@@ -2582,6 +2585,9 @@ public class Logic {
         adminEmailsLogic.deleteAdminEmailUploadedFile(key);
     }
 
+    /**
+     * Generates and emails an error report based on the supplied {@link Throwable} {@code error}.
+     */
     public MimeMessage emailErrorReport(String requestMethod, String requestUserAgent, String requestPath,
                                         String requestUrl, String requestParams, UserType userType,
                                         Throwable error) {
@@ -2592,10 +2598,10 @@ public class Logic {
             try {
                 emailManager.sendErrorReport(errorReport);
             } catch (Exception e) {
-                emailManager.sendBackupErrorReport(errorReport, error, e);
+                emailManager.reportErrorWithBackupChannel(error, errorReport, e);
             }
         } catch (Exception e) {
-            emailManager.sendBackupErrorReport(null, error, e);
+            emailManager.reportErrorWithBackupChannel(error, null, e);
         }
         return errorReport;
     }

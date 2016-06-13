@@ -1,5 +1,8 @@
 package teammates.common.util;
 
+/**
+ * The type object that defines an email type based on its purpose.
+ */
 public enum EmailType {
     
     FEEDBACK_OPENING("TEAMMATES: Feedback session now open [Course: %s][Feedback Session: %s]"),
@@ -20,6 +23,9 @@ public enum EmailType {
         this.subject = subject;
     }
     
+    /**
+     * Gets the subject heading of this email type.
+     */
     public String getSubject() {
         return subject;
     }

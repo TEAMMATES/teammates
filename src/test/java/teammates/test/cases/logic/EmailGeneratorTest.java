@@ -29,6 +29,9 @@ import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+/**
+ * SUT: {@link EmailGenerator}
+ */
 public class EmailGeneratorTest extends BaseComponentTestCase {
     
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();

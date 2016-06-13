@@ -877,7 +877,11 @@ public class CommentsLogic {
         return commentsDb.getAllComments();
     }
     
-    public void sendCommentReminder(String courseId) {
+    /**
+     * Sends notifications to students in course {@code courseId}
+     * who have received comments and/or feedback response comments and not yet been notified.
+     */
+    public void sendCommentNotification(String courseId) {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(Const.ParamsNames.EMAIL_COURSE, courseId);
         paramMap.put(Const.ParamsNames.EMAIL_TYPE, EmailType.PENDING_COMMENT_CLEARED.toString());

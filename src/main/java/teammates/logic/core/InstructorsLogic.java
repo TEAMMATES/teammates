@@ -300,12 +300,12 @@ public class InstructorsLogic {
     
     public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) {
         
-        EmailGenerator emailGen = new EmailGenerator();
+        EmailGenerator emailGenerator = new EmailGenerator();
 
         try {
-            MimeMessage email = emailGen.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
+            MimeMessage email = emailGenerator.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
             new Emails().sendEmailWithLogging(email);
-            return emailGen.generateNewInstructorAccountJoinLink(instructor, institute);
+            return emailGenerator.generateNewInstructorAccountJoinLink(instructor, institute);
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
         }
