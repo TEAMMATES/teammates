@@ -38,7 +38,7 @@ public class InstructorFeedbackQuestionCopyPageData extends PageData {
             
             String qnId = question.getId();
             
-            FeedbackQuestionTableRow row = 
+            FeedbackQuestionTableRow row =
                     new FeedbackQuestionTableRow(courseId, fsName, qnType, qnText, qnId);
             copyQuestionRows.add(row);
         }

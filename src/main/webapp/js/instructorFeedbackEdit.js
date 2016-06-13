@@ -811,9 +811,11 @@ function setupQuestionCopyModal() {
                             + '&fsname=' + encodeURIComponent(fsname),
             beforeSend: function() {
                 $('#button_copy_submit').prop('disabled', true);
-                $copyTableModal.html('Loading possible questions to copy. Please wait ...<br>'
-                                     + "<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
+                $copyTableModal.html('');
                 $questionCopyStatusMessage.removeClass('alert alert-danger');
+                $questionCopyStatusMessage.html(
+                        'Loading possible questions to copy. Please wait ...<br>'
+                      + "<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
             error: function() {
                 $copyTableModal.html('');
@@ -822,13 +824,12 @@ function setupQuestionCopyModal() {
                 $questionCopyStatusMessage.addClass('alert alert-danger');
             },
             success: function(data) {
-                $copyTableModal.replaceWith($(data).find('#copyTableModal'));
-                
-                var $questionRows = $('#copyTableModal > tbody > tr');
+                var $questionRows = $(data).find('#copyTableModal > tbody > tr');
                 if ($questionRows.length) {
+                    $copyTableModal.replaceWith($(data).find('#copyTableModal'));
                     $questionCopyStatusMessage.html('');
                 } else {
-                    $('#copyTableModal').html('');
+                    $copyTableModal.html('');
                     $questionCopyStatusMessage.addClass('alert alert-danger');
                     $questionCopyStatusMessage.prepend('<br>').html(FEEDBACK_QUESTION_COPY_INVALID);
                 }
