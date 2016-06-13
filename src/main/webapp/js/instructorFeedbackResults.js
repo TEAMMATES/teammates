@@ -262,7 +262,7 @@ function displayAjaxRetryMessageForPanelHeading($element) {
 function removeEmptySection(id, content) {
     var $heading = $('[id^=panelHeading-section-' + id + ']');
 
-    if (id == 0) {
+    if (parseInt(id, 10) === 0) {
         var panelsInSection = content.find('div.panel');
 
         if (panelsInSection.length === 0) {

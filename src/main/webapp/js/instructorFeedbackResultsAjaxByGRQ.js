@@ -58,10 +58,6 @@ $(document).ready(function() {
                 var childrenPanels = $sectionBody.find('div.panel');
                 bindCollapseEvents(childrenPanels, 0);
 
-                $sectionBody.find('form[class*="responseCommentAddForm"] > div > a').click(addCommentHandler);
-                $sectionBody.find('form[class*="responseCommentEditForm"] > div > a').click(editCommentHandler);
-                $sectionBody.find('form[class*="responseCommentDeleteForm"] > a').click(deleteCommentHandler);
-
                 $('a[id^="collapse-panels-button-section-"],a[id^="collapse-panels-button-team-"]').off('click');
                 $('a[id^="collapse-panels-button-section-"]').on('click', function() {
                     var isGroupByTeam = $('#frgroupbyteam').prop('checked');

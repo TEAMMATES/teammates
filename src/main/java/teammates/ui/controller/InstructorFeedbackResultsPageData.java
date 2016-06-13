@@ -9,6 +9,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -350,8 +352,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 viewType.isPrimaryGroupingOfGiverType() ? bundle.getQuestionResponseMapByGiverTeam()
                                                         : bundle.getQuestionResponseMapByRecipientTeam();
 
-
-
         String prevTeam = "";
 
         String sectionPrefix = String.format("section-%s-", getSectionPosition(section));
@@ -541,11 +541,18 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                         response.feedbackSessionName,
                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
             
+            int sectionId = 0;
+            Pattern pattern = Pattern.compile("^section-(\\d+)");
+            Matcher matcher = pattern.matcher(additionalInfoId);
+            if (matcher.find()) {
+                sectionId = Integer.parseInt(matcher.group(1));
+            }
+
             InstructorFeedbackResultsResponsePanel responsePanel =
                     new InstructorFeedbackResultsResponsePanel(
-                            question, response, questionText, additionalInfoText, rowAttributes,
+                            question, response, questionText, sectionId, additionalInfoText, rowAttributes,
                             displayableResponse, comments, isAllowedToSubmitSessionsInBothSection);
-            
+
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
             Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
             FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
