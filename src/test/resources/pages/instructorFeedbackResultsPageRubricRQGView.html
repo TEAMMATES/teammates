@@ -200,12 +200,6 @@
                 </label>
               </div>
             </div>
-            <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
-              <div class="checkbox padding-top-0 min-height-0">
-                <input id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" onchange="this.form.submit()" type="checkbox" value="true">
-                Indicate Missing Responses
-              </div>
-            </div>
           </div>
         </div>
         <div class="row">
@@ -442,6 +436,36 @@
                                 <input name="fsname" type="hidden" value="Second Session">
                                 <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                 <input name="moderatedperson" type="hidden" value="benny.c.tmms@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                          <tr class="pending_response_row">
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="middlealign color_neutral">
+                              Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                            </td>
+                            <td class="middlealign color_neutral">
+                              Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="text-preserve-space color_neutral">
+                              <i>
+                                No Response
+                              </i>
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+                                <input name="fsname" type="hidden" value="Second Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="alice.b.tmms@gmail.tmt">
                               </form>
                             </td>
                           </tr>
