@@ -2457,6 +2457,11 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return commentsLogic.getCommentsForSendingState(courseId, sendingState);
     }
+    
+    public void sendCommentReminder(String courseId) {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        commentsLogic.sendCommentReminder(courseId);
+    }
 
     /**
      * This method is not scalable. Not to be used unless for admin features.

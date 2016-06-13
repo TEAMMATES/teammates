@@ -1579,8 +1579,7 @@ public class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
         for (FeedbackSessionAttributes session : sessions) {
-            Emails emails = new Emails();
-            emails.addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_OPENING);
+            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_OPENING);
         }
     }
 
@@ -1606,8 +1605,7 @@ public class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> sessions = getFeedbackSessionsClosingWithinTimeLimit();
 
         for (FeedbackSessionAttributes session : sessions) {
-            Emails emails = new Emails();
-            emails.addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_CLOSING);
+            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_CLOSING);
         }
     }
 
@@ -2604,10 +2602,18 @@ public class FeedbackSessionsLogic {
         }
     }
 
-    private void sendFeedbackSessionPublishedEmail(
-            FeedbackSessionAttributes session) {
-        Emails emails = new Emails();
-        emails.addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_PUBLISHED);
+    private void sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
+        addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_PUBLISHED);
     }
 
+    private void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes session, EmailType emailType) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, session.getFeedbackSessionName());
+        paramMap.put(ParamsNames.EMAIL_COURSE, session.getCourseId());
+        paramMap.put(ParamsNames.EMAIL_TYPE, emailType.toString());
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        taskQueueLogic.createAndAddTask(SystemParams.EMAIL_TASK_QUEUE, Const.ActionURIs.EMAIL_WORKER, paramMap);
+    }
+    
 }

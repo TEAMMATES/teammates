@@ -8,11 +8,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
-import teammates.common.util.EmailType;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.ThreadHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.core.Emails;
 
 /**
  * Action: Clear pending {@link CommentAttributes} and {@link FeedbackResponseCommentAttributes},
@@ -50,8 +48,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
                 log.info("Operation did not persist in time: update comments from state PENDING to SENDING");
             } else {
                 //Set up emails notification
-                Emails emails = new Emails();
-                emails.addCommentReminderToEmailsQueue(courseId, EmailType.PENDING_COMMENT_CLEARED);
+                logic.sendCommentReminder(courseId);
             }
         }
         

@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.mail.Message;
@@ -12,14 +13,12 @@ import javax.mail.internet.MimeMessage;
 
 import org.jsoup.Jsoup;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailLogEntry;
-import teammates.common.util.EmailType;
 import teammates.common.util.Utils;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
@@ -51,30 +50,6 @@ public class Emails {
         return messageInfo.toString();
     }
     
-    public void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes feedback,
-            EmailType typeOfEmail) {
-        
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedback.getFeedbackSessionName());
-        paramMap.put(ParamsNames.EMAIL_COURSE, feedback.getCourseId());
-        paramMap.put(ParamsNames.EMAIL_TYPE, typeOfEmail.toString());
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.EMAIL_TASK_QUEUE,
-                Const.ActionURIs.EMAIL_WORKER, paramMap);
-    }
-    
-    public void addCommentReminderToEmailsQueue(String courseId, EmailType typeOfEmail) {
-        
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.EMAIL_COURSE, courseId);
-        paramMap.put(ParamsNames.EMAIL_TYPE, typeOfEmail.toString());
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.EMAIL_TASK_QUEUE,
-                Const.ActionURIs.EMAIL_WORKER, paramMap);
-    }
-    
     public void sendEmails(List<MimeMessage> messages) {
         if (messages.isEmpty()) {
             return;
@@ -100,13 +75,13 @@ public class Emails {
 
     }
 
-    public void addEmailToTaskQueue(MimeMessage message, long emailDelayTimer) throws MessagingException {
+    private void addEmailToTaskQueue(MimeMessage message, long emailDelayTimer) throws MessagingException {
         String emailSubject = message.getSubject();
         String emailSender = message.getFrom()[0].toString();
         String emailReceiver = message.getRecipients(Message.RecipientType.TO)[0].toString();
         String emailReplyToAddress = message.getReplyTo()[0].toString();
         try {
-            HashMap<String, String> paramMap = new HashMap<String, String>();
+            Map<String, String> paramMap = new HashMap<String, String>();
             paramMap.put(ParamsNames.EMAIL_SUBJECT, emailSubject);
             paramMap.put(ParamsNames.EMAIL_CONTENT, message.getContent().toString());
             paramMap.put(ParamsNames.EMAIL_SENDER, emailSender);
