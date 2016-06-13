@@ -890,8 +890,7 @@ var BootboxWrapper = {
             buttons: {
                 okay: {
                     label: okButtonText || 'OK',
-                    className: 'modal-btn-ok '
-                               + 'btn-' + color || StatusType.INFO
+                    className: 'modal-btn-ok ' + 'btn-' + color || StatusType.INFO
                 }
             }
         })
@@ -915,14 +914,12 @@ var BootboxWrapper = {
             buttons: {
                 cancel: {
                     label: cancelButtonText || 'Cancel',
-                    className: 'modal-btn-cancel '
-                               + 'btn-default',
+                    className: 'modal-btn-cancel ' + 'btn-default',
                     callback: cancelCallback || null
                 },
                 ok: {
                     label: okButtonText || 'OK',
-                    className: 'modal-btn-ok '
-                               + 'btn-' + color || StatusType.INFO,
+                    className: 'modal-btn-ok ' + 'btn-' + color || StatusType.INFO,
                     callback: okCallback
                 }
             }
