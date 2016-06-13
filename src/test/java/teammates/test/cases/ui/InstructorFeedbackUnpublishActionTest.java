@@ -92,7 +92,8 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?error=true"
                               + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertEquals("Session is already unpublished.", result.getStatusMessage());
+        assertEquals("Error unpublishing feedback session: Session has already been unpublished.",
+                     result.getStatusMessage());
         assertTrue(result.isError);
 
         makeFeedbackSessionPublished(session);
