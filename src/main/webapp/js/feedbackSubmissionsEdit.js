@@ -23,11 +23,11 @@ $(document).ready(function() {
      * Handles Keyup and Keydown on Text question to display response length
      */
     $('textarea[id^="responsetext-"]').keyup(function() {
-        updateTextQuestionCharCount(this.id, $(this).data('lengthtextid'));
+        updateTextQuestionCharCount(this.id, $(this).data('lengthtextid'), $(this).data('recommendedtext'));
     });
 
     $('textarea[id^="responsetext-"]').keydown(function() {
-        updateTextQuestionCharCount(this.id, $(this).data('lengthtextid'));
+        updateTextQuestionCharCount(this.id, $(this).data('lengthtextid'), $(this).data('recommendedtext'));
     });
 
     /**
@@ -975,7 +975,17 @@ function getWarningMessage() {
  * @param textAreaId - Id of text area for which char are to be counted
  * @param charCountId - Id of Label to display length of text area
  */
-function updateTextQuestionCharCount(textAreaId, charCountId) {
+function updateTextQuestionCharCount(textAreaId, charCountId, recommendedLength) {
     var cs = $('#' + textAreaId).val().length;
     $('#' + charCountId).text(cs);
-}
+    
+    var upperLimit = recommendedLength + (recommendedLength * 0.1);
+    var lowerLimit = recommendedLength - (recommendedLength * 0.1);
+    
+	if ($('#' + charCountId).text() >  lowerLimit && $('#' + charCountId).text() <  upperLimit) {
+		$('#' + charCountId).css("color", "green");
+	} else {
+		$('#' + charCountId).css("color", "gray");
+	}
+	}
+

@@ -1,9 +1,15 @@
 <textarea rows="4" cols="100%" class="form-control"
     ${disabled} id="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
     name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
-    data-lengthTextId="responseLength-${qnIdx}-${responseIdx}">${existingResponse}</textarea>
-<div class="pull-right margin-top-7px">
-    <label class="text-color-gray font-weight-normal">Response length: </label>
-    <label class="text-color-gray font-weight-normal" id="responseLength-${qnIdx}-${responseIdx}">0</label>
-    <label class="text-color-gray font-weight-normal"> characters</label>
+    data-lengthTextId="responseLength-${qnIdx}-${responseIdx}" data-recommendedText="${recommendedLength}">${existingResponse}</textarea>
+<div class="margin-top-7px">
+    <div class="col-md-6" ${recommendedLengthDisplay}>
+        <label class="text-color-gray font-weight-normal">Recommended text length: </label>
+        <label class="text-color-gray font-weight-normal" id="recommendedLength-${qnIdx}-${responseIdx}">${recommendedLength}</label>
+    </div>
+    <div class="pull-right">
+        <label class="text-color-gray font-weight-normal">Response length: </label>
+        <label class="text-color-gray font-weight-normal" id="responseLength-${qnIdx}-${responseIdx}">0</label>
+        <label class="text-color-gray font-weight-normal"> characters</label>
+    </div>
 </div>
