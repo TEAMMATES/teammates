@@ -93,6 +93,7 @@ var StatusType = {
                || type === StatusType.WARNING || type === StatusType.DANGER;
     }
 };
+StatusType.DEFAULT = StatusType.INFO;
 
 // Display messages
 // Used for validating input
@@ -881,7 +882,7 @@ var BootboxWrapper = {
      * Custom alert dialog to replace default alert() function
      * Required params: titleText and messegeText
      * Optional params: okButtonText (defaults to "OK")
-     *                  color (defaults to StatusType.INFO)
+     *                  color (defaults to StatusType.DEFAULT)
      */
     showModalAlert: function(titleText, messageText, okButtonText, color) {
         bootbox.dialog({
@@ -890,12 +891,12 @@ var BootboxWrapper = {
             buttons: {
                 okay: {
                     label: okButtonText || 'OK',
-                    className: 'modal-btn-ok ' + 'btn-' + color || StatusType.INFO
+                    className: 'modal-btn-ok ' + 'btn-' + color || StatusType.DEFAULT
                 }
             }
         })
         // applies bootstrap color to title background
-        .find('.modal-header').addClass('alert-' + color || StatusType.INFO);
+        .find('.modal-header').addClass('alert-' + color || StatusType.DEFAULT);
     },
 
     /**
@@ -919,12 +920,12 @@ var BootboxWrapper = {
                 },
                 ok: {
                     label: okButtonText || 'OK',
-                    className: 'modal-btn-ok ' + 'btn-' + color || StatusType.INFO,
+                    className: 'modal-btn-ok ' + 'btn-' + color || StatusType.DEFAULT,
                     callback: okCallback
                 }
             }
         })
         // applies bootstrap color to title background
-        .find('.modal-header').addClass('alert-' + color || StatusType.INFO);
+        .find('.modal-header').addClass('alert-' + color || StatusType.DEFAULT);
     }
 };
