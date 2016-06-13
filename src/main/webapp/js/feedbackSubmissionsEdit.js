@@ -5,7 +5,6 @@ var WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
 
 // text displayed to user
 var SESSION_NOT_OPEN = 'Feedback Session Not Open';
-var OKAY = 'Okay';
 
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
@@ -927,7 +926,8 @@ function updateRankMessageQn(qnNum) {
 
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
-        BootboxWrapper.showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), OKAY, StatusType.WARNING);
+        BootboxWrapper.showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), BootboxWrapper.DEFAULT_OK_TEXT,
+                                      StatusType.WARNING);
     }
 }
 

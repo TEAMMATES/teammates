@@ -877,6 +877,8 @@ function hideSingleCollapse(e) {
  *  Bootstrap modals"
  */
 var BootboxWrapper = {
+    DEFAULT_OK_TEXT: 'OK',
+    DEFAULT_CANCEL_TEXT: 'CANCEL',
 
     /**
      * Custom alert dialog to replace default alert() function
@@ -890,7 +892,7 @@ var BootboxWrapper = {
             message: messageText,
             buttons: {
                 okay: {
-                    label: okButtonText || 'OK',
+                    label: okButtonText || BootboxWrapper.DEFAULT_OK_TEXT,
                     className: 'modal-btn-ok ' + 'btn-' + color || StatusType.DEFAULT
                 }
             }
@@ -914,12 +916,12 @@ var BootboxWrapper = {
             message: messageText,
             buttons: {
                 cancel: {
-                    label: cancelButtonText || 'Cancel',
+                    label: cancelButtonText || BootboxWrapper.DEFAULT_CANCEL_TEXT,
                     className: 'modal-btn-cancel ' + 'btn-default',
                     callback: cancelCallback || null
                 },
                 ok: {
-                    label: okButtonText || 'OK',
+                    label: okButtonText || BootboxWrapper.DEFAULT_OK_TEXT,
                     className: 'modal-btn-ok ' + 'btn-' + color || StatusType.DEFAULT,
                     callback: okCallback
                 }

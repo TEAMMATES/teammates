@@ -9,7 +9,6 @@ $(document).ready(function() {
     hideUncommonPanels();
 });
 
-var DEFAULT_CANCEL_BUTTON_TEXT = 'Cancel';
 var WARNING_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
 var CONFIRMATION_BODY =
         '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
@@ -38,8 +37,9 @@ function readyFeedbackEditPage() {
             var okCallback = function() {
                 event.currentTarget.submit();
             };
-            BootboxWrapper.showModalConfirmation(WARNING_DELETE_RESPONSES, CONFIRMATION_BODY, okCallback, null,
-                                                 CONFIRM_DELETE, DEFAULT_CANCEL_BUTTON_TEXT, StatusType.DANGER);
+            BootboxWrapper.showModalConfirmation(
+                    WARNING_DELETE_RESPONSES, CONFIRMATION_BODY, okCallback, null,
+                    CONFIRM_DELETE, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
         }
     });
 
