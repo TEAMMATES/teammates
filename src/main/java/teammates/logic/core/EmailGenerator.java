@@ -164,8 +164,8 @@ public class EmailGenerator {
                         students.add(student);
                     }
                 } catch (EntityDoesNotExistException e) {
-                    log.warning("Course " + session.getCourseId() + " does not exist or "
-                                + "session " + session.getFeedbackSessionName() + " does not exist");
+                    log.severe("Course " + session.getCourseId() + " does not exist or "
+                               + "session " + session.getFeedbackSessionName() + " does not exist");
                     // Course or session cannot be found for one student => it will be the case for all students
                     // Do not waste time looping through all students
                     break;
