@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.HashMap;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
@@ -19,14 +20,17 @@ import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentRecordsPageAction extends Action {
+    
+    private String courseId;
+    private InstructorAttributes instructor;
 
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
 
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
         
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
@@ -42,16 +46,10 @@ public class InstructorStudentRecordsPageAction extends Action {
         
         String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
 
-        List<CommentAttributes> comments = logic.getCommentsForReceiver(courseId, instructor.email,
-                                                                        CommentParticipantType.PERSON, studentEmail);
-        Iterator<CommentAttributes> iterator = comments.iterator();
-        while (iterator.hasNext()) {
-            CommentAttributes c = iterator.next();
-            if (!c.giverEmail.equals(instructor.email)) {
-                // not covered as this won't happen unless there's error in logic layer
-                iterator.remove();
-            }
-        }
+        List<CommentAttributes> comments = logic.getCommentsForReceiver(courseId, CommentParticipantType.PERSON,
+                                                                        studentEmail);
+        
+        HashMap<String, List<CommentAttributes>> giverEmailToCommentsMap = mapCommentsToGiverEmail(comments);
 
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId);
 
@@ -90,7 +88,8 @@ public class InstructorStudentRecordsPageAction extends Action {
         InstructorStudentRecordsPageData data =
                                         new InstructorStudentRecordsPageData(account, student, courseId,
                                                                              showCommentBox, studentProfile,
-                                                                             comments, sessionNames, instructor);
+                                                                             giverEmailToCommentsMap,
+                                                                             sessionNames, instructor);
 
         statusToAdmin = "instructorStudentRecords Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
@@ -112,6 +111,58 @@ public class InstructorStudentRecordsPageAction extends Action {
                                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                 iterFs.remove();
             }
+        }
+    }
+    
+    private HashMap<String, List<CommentAttributes>> mapCommentsToGiverEmail(List<CommentAttributes> comments) {
+        HashMap<String, List<CommentAttributes>> giverEmailToCommentsMap =
+                new HashMap<String, List<CommentAttributes>>();
+        for (CommentAttributes comment : comments) {
+            boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
+            String key = isCurrentInstructorGiver
+                       ? InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST
+                       : comment.giverEmail;
+
+            List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
+            if (commentList == null) {
+                commentList = new ArrayList<CommentAttributes>();
+                giverEmailToCommentsMap.put(key, commentList);
+            }
+            updateCommentList(comment, isCurrentInstructorGiver, commentList);
+        }
+        return giverEmailToCommentsMap;
+    }
+
+    private void updateCommentList(CommentAttributes comment,
+                                   boolean isCurrentInstructorGiver,
+                                   List<CommentAttributes> commentList) {
+        if (isCurrentInstructorGiver || 
+                isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId,
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+            commentList.add(comment);
+        }
+    }
+    
+    private boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, InstructorAttributes instructor,
+                                                             String courseId, String privilegeName) {
+        
+        // student records only shows comments targeted at the student, and not team/section
+        if (instructor == null || comment.recipientType != CommentParticipantType.PERSON) {
+            return false;
+        }
+        
+        String studentEmail = "";
+        String section = "";
+        if (!comment.recipients.isEmpty()) {
+            Iterator<String> iterator = comment.recipients.iterator();
+            studentEmail = iterator.next();
+        }
+        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+        if (student != null) {
+            section = student.section;
+            return instructor.isAllowedForPrivilege(section, privilegeName);
+        } else {
+            return false;
         }
     }
 

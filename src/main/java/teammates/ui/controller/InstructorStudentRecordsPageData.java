@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -27,8 +28,8 @@ public class InstructorStudentRecordsPageData extends PageData {
 
     public InstructorStudentRecordsPageData(AccountAttributes account, StudentAttributes student,
                                             String courseId, String showCommentBox, StudentProfileAttributes spa,
-                                            List<CommentAttributes> comments, List<String> sessionNames,
-                                            InstructorAttributes instructor) {
+                                            Map<String, List<CommentAttributes>> giverEmailToCommentsMap,
+                                            List<String> sessionNames, InstructorAttributes instructor) {
         super(account, student);
         this.courseId = courseId;
         this.studentName = student.name;
@@ -39,24 +40,28 @@ public class InstructorStudentRecordsPageData extends PageData {
             String pictureUrl = getPictureUrl(spa.pictureKey);
             this.studentProfile = new StudentProfile(student.name, spa, pictureUrl);
         }
-        List<CommentRow> commentDivs = new ArrayList<CommentRow>();
-        for (CommentAttributes comment : comments) {
-            String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
-            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
-            CommentRow commentDiv = new CommentRow(comment, "You", unsanitizedRecipientDetails);
-            String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
-            commentDiv.setVisibilityIcon(whoCanSeeComment);
-            commentDiv.setEditDeleteEnabled(false);
-            commentDiv.setNotFromCommentsPage(student.email);
-            commentDiv.setNumComments(comments.size());
-            commentDivs.add(commentDiv);
-        }
         this.commentsForStudentTable = new ArrayList<CommentsForStudentsTable>();
-        CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable("You", commentDivs);
-        commentsForStudent.setInstructorAllowedToGiveComment(
-                                        instructor.isAllowedForPrivilege(student.section,
-                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-        commentsForStudentTable.add(commentsForStudent);
+        for (String giverEmail : giverEmailToCommentsMap.keySet()) {
+            List<CommentRow> commentDivs = new ArrayList<CommentRow>();
+            List<CommentAttributes> comments = giverEmailToCommentsMap.get(giverEmail);
+            System.out.println(giverEmail + " " + comments.size());
+            for (CommentAttributes comment : comments) {
+                String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
+                String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
+                CommentRow commentDiv = new CommentRow(comment, "You", unsanitizedRecipientDetails);
+                String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
+                commentDiv.setVisibilityIcon(whoCanSeeComment);
+                commentDiv.setEditDeleteEnabled(false);
+                commentDiv.setNotFromCommentsPage(student.email);
+                commentDiv.setNumComments(comments.size());
+                commentDivs.add(commentDiv);
+            }
+            CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable(giverEmail, commentDivs);
+            commentsForStudent.setInstructorAllowedToGiveComment(
+                    instructor.isAllowedForPrivilege(student.section,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+            commentsForStudentTable.add(commentsForStudent);
+        }
         this.sessionNames = sessionNames;
     }
 
