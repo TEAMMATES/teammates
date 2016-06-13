@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -1498,11 +1497,9 @@ public class FeedbackSessionsLogic {
             }
         }
 
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        
         try {
             List<MimeMessage> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
-                    course, session, studentsToRemindList, instructorsToRemindList, instructorList);
+                    session, studentsToRemindList, instructorsToRemindList, instructorList);
             new Emails().sendEmails(emails);
             return emails;
         } catch (Exception e) {
@@ -1540,10 +1537,9 @@ public class FeedbackSessionsLogic {
             }
         }
 
-        CourseAttributes course = coursesLogic.getCourse(courseId);
         try {
             List<MimeMessage> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
-                    course, session, studentsToRemindList, instructorsToRemindList, instructorList);
+                    session, studentsToRemindList, instructorsToRemindList, instructorList);
             new Emails().sendEmails(emails);
             return emails;
         } catch (Exception e) {

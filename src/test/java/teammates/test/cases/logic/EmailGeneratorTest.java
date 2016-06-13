@@ -98,7 +98,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         ______TS("feedback session reminders");
         
-        emails = new EmailGenerator().generateFeedbackSessionReminderEmails(course, session, students, instructors, instructors);
+        emails = new EmailGenerator().generateFeedbackSessionReminderEmails(session, students, instructors, instructors);
         assertEquals(15, emails.size());
         
         subject = String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),

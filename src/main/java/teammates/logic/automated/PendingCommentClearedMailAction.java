@@ -3,7 +3,6 @@ package teammates.logic.automated;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -58,17 +57,9 @@ public class PendingCommentClearedMailAction extends EmailAction {
     }
 
     @Override
-    protected List<MimeMessage> prepareMailToBeSent()
-            throws MessagingException, IOException, EntityDoesNotExistException {
-        log.info("Fetching recipient emails for pending comments in course : "
-                + courseId);
-        Set<String> recipients = commentsLogic.getRecipientEmailsForSendingComments(courseId);
-        
-        if (recipients == null) {
-            log.severe("Recipient emails for pending comments in course : " + courseId
-                       + " could not be fetched");
-        }
-        return new EmailGenerator().generatePendingCommentsClearedEmails(courseId, recipients);
+    protected List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException {
+        log.info("Fetching recipient emails for pending comments in course : " + courseId);
+        return new EmailGenerator().generatePendingCommentsClearedEmails(courseId);
     }
 
     private void initializeNameAndDescription() {
