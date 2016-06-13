@@ -12,7 +12,8 @@ If that is the case, [open a new issue][new issue]. Make sure to include a clear
 
 ### Submitting a pull request
 Make sure that the pull request addresses an open issue in the issue tracker.  
-Remember to follow the [TEAMMATES Development Process][dev], especially the naming conventions for pull request titles and branch names.
+Remember to follow the [TEAMMATES Development Process][dev]. In particular, make sure you follow the naming
+conventions for pull request titles and branch names.
 
 [dev]: /devdocs/process.md
 
