@@ -224,11 +224,6 @@ public abstract class AppPage {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
-    
-    public void waitForElementToBeClickable(String elementId) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.elementToBeClickable(browser.driver.findElement(By.id(elementId))));
-    }
 
     public void waitForElementsVisibility(List<WebElement> elements) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
@@ -726,10 +721,6 @@ public abstract class AppPage {
 
     public void verifyUnclickable(WebElement element) {
         assertNotNull(element.getAttribute("disabled"));
-    }
-    
-    public void verifyUnclickable(String elementId) {
-        assertNotNull(browser.driver.findElement(By.id(elementId)).getAttribute("disabled"));
     }
 
     /**

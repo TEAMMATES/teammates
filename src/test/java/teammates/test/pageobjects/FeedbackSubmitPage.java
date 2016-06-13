@@ -176,6 +176,12 @@ public class FeedbackSubmitPage extends AppPage {
         return browser.driver.findElement(By.id("response_submit_button"));
     }
     
+    public void verifyOtherOptionTextUnclickable(int qnNumber, int responseNumber) {
+        WebElement element = browser.driver.findElement(
+                By.cssSelector("input[id$='OptionText-" + qnNumber + "-" + responseNumber + "']"));
+        verifyUnclickable(element);
+    }
+    
     public void waitForCellHoverToDisappear() {
         waitForElementToDisappear(By.className("cell-hover"));
     }
@@ -187,5 +193,11 @@ public class FeedbackSubmitPage extends AppPage {
 
         By warningModalOverlay = By.id("warning-modal");
         waitForElementToDisappear(warningModalOverlay);
+    }
+    
+    public void waitForOtherOptionTextToBeClickable(int qnNumber, int responseNumber) {
+        WebElement element = browser.driver.findElement(
+                By.cssSelector("input[id$='OptionText-" + qnNumber + "-" + responseNumber + "']"));
+        waitForElementToBeClickable(element);
     }
 }
