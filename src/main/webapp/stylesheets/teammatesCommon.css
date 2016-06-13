@@ -219,6 +219,10 @@ Apply to thead to make headers not bold.
     padding-right: 25px !important;
 }
 
+.padding-left-25px {
+    padding-right: 25px;
+}
+
 .padding-top-0 {
     padding-top: 0;
 }
