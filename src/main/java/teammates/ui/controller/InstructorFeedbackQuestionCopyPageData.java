@@ -13,8 +13,8 @@ public class InstructorFeedbackQuestionCopyPageData extends PageData {
 
     private final List<FeedbackQuestionAttributes> questions;
     
-    public InstructorFeedbackQuestionCopyPageData(AccountAttributes account,
-                                                  List<FeedbackQuestionAttributes> copiableQuestions) {
+    public InstructorFeedbackQuestionCopyPageData(
+            AccountAttributes account, List<FeedbackQuestionAttributes> copiableQuestions) {
         super(account);
         questions = copiableQuestions;
     }
@@ -38,8 +38,8 @@ public class InstructorFeedbackQuestionCopyPageData extends PageData {
             
             String qnId = question.getId();
             
-            FeedbackQuestionTableRow row = new FeedbackQuestionTableRow(courseId, fsName,
-                                                                        qnType, qnText, qnId);
+            FeedbackQuestionTableRow row = 
+                    new FeedbackQuestionTableRow(courseId, fsName, qnType, qnText, qnId);
             copyQuestionRows.add(row);
         }
         

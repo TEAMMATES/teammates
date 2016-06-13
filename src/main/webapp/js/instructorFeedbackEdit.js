@@ -817,8 +817,8 @@ function setupQuestionCopyModal() {
             },
             error: function() {
                 $copyTableModal.html('');
-                $questionCopyStatusMessage.html('Error retrieving questions. '
-                                                + 'Please close the dialog window and try again.');
+                $questionCopyStatusMessage.html(
+                        'Error retrieving questions. Please close the dialog window and try again.');
                 $questionCopyStatusMessage.addClass('alert alert-danger');
             },
             success: function(data) {
@@ -839,7 +839,7 @@ function setupQuestionCopyModal() {
 
 function bindCopyButton() {
 
-    $('body').on('click', '#button_copy_submit', function(e) {
+    $('#button_copy_submit').click(function(e) {
         e.preventDefault();
 
         var index = 0;
@@ -872,7 +872,7 @@ var numRowsSelected = 0;
 
 function bindCopyEvents() {
 
-    $('body').on('click', '#copyTableModal >tbody>tr', function(e) {
+    $('body').on('click', '#copyTableModal > tbody > tr', function(e) {
         e.preventDefault();
         
         if ($(this).hasClass('row-selected')) {
