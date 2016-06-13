@@ -241,7 +241,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         AssertHelper.assertContainsRegex(textInEmail, emailBody);
         
         // check email body for no left placeholders
-        assertFalse(emailBody.contains("$"));
+        assertFalse(emailBody.contains("${"));
     }
     
     @AfterClass
