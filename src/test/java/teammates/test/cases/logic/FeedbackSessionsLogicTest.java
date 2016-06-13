@@ -125,8 +125,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.isFeedbackSessionHasQuestionForStudents("nOnEXistEnT session", "someCourse");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to check a feedback session that does not exist.",
-                    edne.getMessage());
+            assertEquals("Trying to check a non-existent feedback session: "
+                         + "someCourse" + "/" + "nOnEXistEnT session",
+                         edne.getMessage());
         }
         
         ______TS("session contains students");
@@ -533,7 +534,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.getFeedbackSessionsForUserInCourse("NonExistentCourseId", "randomUserId");
             signalFailureToDetectException("Did not detect that course does not exist.");
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to get feedback sessions for a course that does not exist.", edne.getMessage());
+            assertEquals("Error getting feedback session(s): Course does not exist.", edne.getMessage());
         }
         
         ______TS("Student viewing: 2 visible, 1 awaiting, 1 no questions");
@@ -687,7 +688,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                     "invalid session", "idOfTypicalCourse1", "student3InCourse1@gmail.tmt");
             signalFailureToDetectException("Did not detect that session does not exist.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to get a feedback session that does not exist.", e.getMessage());
+            assertEquals("Trying to get a non-existent feedback session: "
+                         + "idOfTypicalCourse1" + "/" + "invalid session",
+                         e.getMessage());
         }
         
         ______TS("failure: non-existent student");
@@ -697,7 +700,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                     "Second feedback session", "idOfTypicalCourse1", "randomUserId");
             signalFailureToDetectException("Did not detect that student does not exist.");
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to get a feedback session for student that does not exist.", edne.getMessage());
+            assertEquals("Error getting feedback session(s): Student does not exist.", edne.getMessage());
         }
 
     }
@@ -754,7 +757,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                     "invalid session", "idOfTypicalCourse1", "instructor1@course1.tmt");
             signalFailureToDetectException("Did not detect that session does not exist.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to get a feedback session that does not exist.", e.getMessage());
+            assertEquals("Trying to get a non-existent feedback session: "
+                         + "idOfTypicalCourse1" + "/" + "invalid session",
+                         e.getMessage());
         }
     }
     
@@ -1120,7 +1125,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.getFeedbackSessionResultsForInstructor("invalid session", session.getCourseId(), instructor.email);
             signalFailureToDetectException("Did not detect that session does not exist.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to view non-existent feedback session.", e.getMessage());
+            assertEquals("Trying to view a non-existent feedback session: "
+                         + session.getCourseId() + "/" + "invalid session",
+                         e.getMessage());
         }
         //TODO: check for cases where a person is both a student and an instructor
     }
@@ -1756,7 +1763,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.getFeedbackSessionResultsSummaryAsCsv("non.existent", "no course", instructor.email);
             signalFailureToDetectException("Failed to detect non-existent feedback session.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals(e.getMessage(), "Trying to view non-existent feedback session.");
+            assertEquals("Trying to view a non-existent feedback session: "
+                         + "no course" + "/" + "non.existent",
+                         e.getMessage());
         }
     }
     
@@ -1812,7 +1821,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.updateFeedbackSession(fsa);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to update a feedback session that does not exist.", edne.getMessage());
+            assertEquals("Trying to update a non-existent feedback session: "
+                         + fsa.getCourseId() + "/" + fsa.getFeedbackSessionName(),
+                         edne.getMessage());
         }
         
         ______TS("success 1: all changeable values sent are null");
@@ -1862,7 +1873,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException(
                     "Did not catch exception signalling that session is already published.");
         } catch (InvalidParametersException e) {
-            assertEquals("Session is already published.", e.getMessage());
+            assertEquals("Error publishing feedback session: Session has already been published.", e.getMessage());
         }
         
         ______TS("success: unpublish");
@@ -1885,7 +1896,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException(
                     "Did not catch exception signalling that session is not published.");
         } catch (InvalidParametersException e) {
-            assertEquals("Session is already unpublished.", e.getMessage());
+            assertEquals("Error unpublishing feedback session: Session has already been unpublished.", e.getMessage());
         }
         
         ______TS("failure: private session");
@@ -1898,7 +1909,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                     "Did not catch exception signalling that private session can't "
                     + "be published.");
         } catch (InvalidParametersException e) {
-            assertEquals("Private session can't be published.", e.getMessage());
+            assertEquals("Error publishing feedback session: Session is private and can't be published.", e.getMessage());
         }
         
         try {
@@ -1907,7 +1918,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                     "Did not catch exception signalling that private session should "
                     + "not be published");
         } catch (InvalidParametersException e) {
-            assertEquals("Private session can't be unpublished.", e.getMessage());
+            assertEquals("Error unpublishing feedback session: Session is private and can't be unpublished.", e.getMessage());
         }
                 
         ______TS("failure: session does not exist");
@@ -1919,7 +1930,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException(
                     "Did not catch exception signalling that session does not exist.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to publish a non-existant session.", e.getMessage());
+            assertEquals("Trying to publish a non-existent feedback session: " + sessionUnderTest.getCourseId()
+                         + "/" + sessionUnderTest.getFeedbackSessionName(), e.getMessage());
         }
         
         try {
@@ -1927,7 +1939,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException(
                     "Did not catch exception signalling that session does not exist.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to unpublish a non-existant session.", e.getMessage());
+            assertEquals("Trying to unpublish a non-existent feedback session: " + sessionUnderTest.getCourseId()
+                         + "/" + sessionUnderTest.getFeedbackSessionName(), e.getMessage());
         }
     }
     
@@ -1939,10 +1952,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         ______TS("failure: non-existent feedback session for instructor");
         
         try {
-            fsLogic.isFeedbackSessionCompletedByInstructor(fs.getCourseId(), "nonExistentFSName", "random.instructor@email");
+            fsLogic.isFeedbackSessionCompletedByInstructor("nonExistentFSName", fs.getCourseId(), "random.instructor@email");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to check a feedback session that does not exist.",
+            assertEquals("Trying to check a non-existent feedback session: "
+                         + fs.getCourseId() + "/" + "nonExistentFSName",
                          edne.getMessage());
         }
         
@@ -1976,10 +1990,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         ______TS("failure: non-existent feedback session for student");
         
         try {
-            fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getCourseId(), "nonExistentFSName", "random.student@email");
+            fsLogic.isFeedbackSessionFullyCompletedByStudent("nonExistentFSName", fs.getCourseId(), "random.student@email");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to check a feedback session that does not exist.",
+            assertEquals("Trying to check a non-existent feedback session: "
+                         + fs.getCourseId() + "/" + "nonExistentFSName",
                          edne.getMessage());
         }
         
@@ -2071,8 +2086,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.sendReminderForFeedbackSession(fs.getCourseId(), nonExistentFsName);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to remind non-existent feedback session "
-                            + fs.getCourseId() + "/" + nonExistentFsName,
+            assertEquals("Trying to remind a non-existent feedback session: "
+                         + fs.getCourseId() + "/" + nonExistentFsName,
                          edne.getMessage());
         }
         
@@ -2141,8 +2156,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                     fs.getCourseId(), nonExistentFsName, usersToRemind);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to remind non-existent feedback session "
-                            + fs.getCourseId() + "/" + nonExistentFsName,
+            assertEquals("Trying to remind a non-existent feedback session: "
+                         + fs.getCourseId() + "/" + nonExistentFsName,
                          edne.getMessage());
         }
         
