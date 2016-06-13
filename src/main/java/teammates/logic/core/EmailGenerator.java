@@ -30,7 +30,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Templates.EmailTemplates;
-import teammates.logic.api.GateKeeper;
 import teammates.common.util.Utils;
 
 public class EmailGenerator {
@@ -443,8 +442,8 @@ public class EmailGenerator {
     }
     
     public MimeMessage generateSystemErrorEmail(
-            Throwable error, String requestMethod, String requestUserAgent, String requestPath,
-            String requestUrl, String requestParams)
+            String requestMethod, String requestUserAgent, String requestPath, String requestUrl,
+            String requestParams, UserType userType, Throwable error)
                     throws AddressException, MessagingException, IOException {
         
         String errorMessage = error.getMessage();
@@ -461,7 +460,6 @@ public class EmailGenerator {
             }
         }
         
-        UserType userType = GateKeeper.inst().getCurrentUser();
         String actualUser = userType == null || userType.id == null ? "Not logged in" : userType.id;
         
         String emailBody = Templates.populateTemplate(EmailTemplates.SYSTEM_ERROR,

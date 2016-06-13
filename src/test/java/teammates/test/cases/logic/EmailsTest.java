@@ -20,6 +20,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -384,10 +385,11 @@ public class EmailsTest extends BaseComponentTestCase {
         String requestPath = "/page/studentHome";
         String requestUrl = "/page/studentHome/";
         String requestParam = "{}";
+        UserType userType = new UserType("Not logged in");
 
         MimeMessage email =
-                new EmailGenerator().generateSystemErrorEmail(error, requestMethod, requestUserAgent,
-                                                              requestPath, requestUrl, requestParam);
+                new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
+                                                              requestUrl, requestParam, userType, error);
 
         // check receiver
         String recipient = Config.SUPPORT_EMAIL;
@@ -477,9 +479,10 @@ public class EmailsTest extends BaseComponentTestCase {
         String requestPath = "/page/studentHome";
         String requestUrl = "/page/studentHome/";
         String requestParam = "{}";
+        UserType userType = new UserType("");
 
-        email = new EmailGenerator().generateSystemErrorEmail(error, requestMethod, requestUserAgent,
-                                                              requestPath, requestUrl, requestParam);
+        email = new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
+                                                              requestUrl, requestParam, userType, error);
         sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
 
         testEmailAttributes(email, sendgridEmail);

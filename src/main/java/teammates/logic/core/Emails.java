@@ -9,7 +9,6 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 
 import org.jsoup.Jsoup;
 
@@ -20,7 +19,6 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailLogEntry;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
@@ -224,25 +222,15 @@ public class Emails {
         }
     }
     
-    public MimeMessage sendErrorReport(HttpServletRequest req, Throwable error) {
-        MimeMessage email = null;
-        try {
-            String requestMethod = req.getMethod();
-            String requestUserAgent = req.getHeader("User-Agent");
-            String requestPath = req.getServletPath();
-            String requestUrl = req.getRequestURL().toString();
-            String requestParam = HttpRequestHelper.printRequestParameters(req);
-            email = new EmailGenerator().generateSystemErrorEmail(error, requestMethod, requestUserAgent,
-                                                                  requestPath, requestUrl, requestParam);
-            forceSendEmailThroughGaeWithoutLogging(email);
-            log.severe("Sent crash report: " + Emails.getEmailInfo(email));
-        } catch (Exception e) {
-            log.severe("Crash report failed to send. Detailed error stack trace: "
-                     + TeammatesException.toStringWithStackTrace(error));
-            logSevereForErrorInSendingItem("crash report", email, e);
-        }
+    public void sendErrorReport(MimeMessage errorReport) throws MessagingException {
+        forceSendEmailThroughGaeWithoutLogging(errorReport);
+        log.info("Sent crash report: " + Emails.getEmailInfo(errorReport));
+    }
     
-        return email;
+    public void sendBackupErrorReport(MimeMessage errorReport, Throwable error, Exception e) {
+        log.severe("Crash report failed to send. Detailed error stack trace: "
+                   + TeammatesException.toStringWithStackTrace(error));
+        logSevereForErrorInSendingItem("crash report", errorReport, e);
     }
 
     public MimeMessage sendLogReport(MimeMessage message) {
