@@ -84,8 +84,9 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
             return result;
         }
         
+        return createRedirectResult("http://localhost:8888/page/studentFeedbackSubmissionEditPage?courseid=tarun14110.iii-demo1&fsname=dsds&user=test%40example.com");
         // Return to student home page if there is no error and user is registered
-        return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+        //return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
     }
 
     protected StudentAttributes getStudent() {

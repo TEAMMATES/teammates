@@ -979,3 +979,71 @@ function updateTextQuestionCharCount(textAreaId, charCountId) {
     var cs = $('#' + textAreaId).val().length;
     $('#' + charCountId).text(cs);
 }
+
+var t;
+$(document).ready(function() {
+	t = setTimeout("autosave()", 6000); // set timer to run every 60 seconds
+});
+
+function autosave(last)
+{
+	console.log('yo tarun');
+	
+	if (typeof t!="undefined") {clearTimeout(t);} // reset timer
+	var data = new Object();
+	var interests = new Object();
+	var interestscount = 0;
+	console.log('bs bhai tarun');
+	$('form input,form textarea,form select').each(function(index) {
+		if ($(this).is(':submit')){
+			// ignore submit buttons
+		} else {
+			if ($(this).is(':checkbox')){
+				if ($(this).attr('checked')){
+					data[$(this).attr('name')] = $(this).val();
+				} else {
+					data[$(this).attr('name')] = '0';
+				}
+			} else {
+				if ($(this).attr('name') == 'interests[]'){ // if input is an array
+					interests[interestscount] = $(this).val();
+					interestscount = interestscount + 1;
+				} else { // if normal input
+					data[$(this).attr('name')] = $(this).val();
+				}
+			}
+		}
+		data['interests'] = interests;
+	});
+	console.log('na hon tarun');
+	/*$.ajax(
+	{
+		type: "POST",
+		url: "/page/studentFeedbackSubmissionEditSave",
+		data: data,
+		cache: false,
+		success: function(message)
+		{
+			console.log('in ajax tarun');
+			if (message == '1'){ // show success saved
+				console.log('yaya ajax tarun');
+				t = setTimeout("autosave()", 6000); // set timer for next autosave
+			} else if (message == '2'){ // show error
+				var answer = confirm("Your session has timed out. Please login again to continue");
+				console.log('nana ajax tarun');
+				if (answer){
+					window.location = "/signin";
+				}
+			} else { // an error has occured
+				console.log('sasa ajax tarun');
+				t = setTimeout("autosave()", 8000); // set the time for a larger amount
+			}
+			//alert(message); // for testing purposes
+		}document.getElementById("myCheck").click()
+	});*/
+	document.getElementById("response_submit_button").click();
+	console.log('go tarun');
+}
+
+
+
