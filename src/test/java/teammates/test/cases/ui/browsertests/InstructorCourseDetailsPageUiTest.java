@@ -183,6 +183,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
     public void testRemindAction() throws Exception {
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();
+        String courseName = testData.courses.get("CCDetailsUiT.CS2104").getName();
         StudentAttributes student1 = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
         StudentAttributes student2 = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
 
@@ -195,12 +196,12 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         detailsPage.clickRemindStudentAndCancel(student2.name);
         if (isEmailEnabled) {
-            assertFalse(didStudentReceiveReminder(courseId, student2.email, student2Password));
+            assertFalse(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
         }
 
         detailsPage.clickRemindStudentAndConfirm(student2.name);
         if (isEmailEnabled) {
-            assertTrue(didStudentReceiveReminder(courseId, student2.email, student2Password));
+            assertTrue(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
         }
         
         // Hiding of the 'Send invite' link is already covered by content test.
@@ -213,9 +214,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         if (isEmailEnabled) {
             // verify an unregistered student received reminder
-            assertTrue(didStudentReceiveReminder(courseId, student2.email, student2Password));
+            assertTrue(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
             // verify a registered student did not receive a reminder
-            assertFalse(didStudentReceiveReminder(courseId, student1.email, student1Password));
+            assertFalse(didStudentReceiveReminder(courseName, courseId, student1.email, student1Password));
         }
     }
 
@@ -245,12 +246,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
     }
     
-    private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword)
-                                            throws Exception {
+    private boolean didStudentReceiveReminder(String courseName, String courseId, String studentEmail,
+                                              String studentPassword)
+            throws Exception {
         String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
     
         ThreadHelper.waitFor(5000); //TODO: replace this with a more efficient check
-        String keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(studentEmail, studentPassword, courseId);
+        String keyReceivedInEmail =
+                EmailAccount.getRegistrationKeyFromGmail(studentEmail, studentPassword, courseName, courseId);
         return keyToSend.equals(keyReceivedInEmail);
     }
 
