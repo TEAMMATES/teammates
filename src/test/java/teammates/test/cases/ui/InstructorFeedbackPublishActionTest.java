@@ -97,7 +97,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
                               + "&user=idOfInstructor1OfCourse1";
         
         assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertEquals("Session is already published.", result.getStatusMessage());
+        assertEquals("Error publishing feedback session: Session has already been published.",
+                     result.getStatusMessage());
         assertTrue(result.isError);
         
         makeFeedbackSessionUnpublished(session);
