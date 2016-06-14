@@ -36,14 +36,14 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailType;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionPublishedMailAction;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.logic.core.Emails;
-import teammates.logic.core.Emails.EmailType;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -2026,6 +2026,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         ______TS("typical success case");
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        String courseName = CoursesLogic.inst().getCourse(fs.getCourseId()).getName();
 
         List<MimeMessage> emailsSent =
                 fsLogic.sendReminderForFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
@@ -2042,9 +2043,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             } else {
                 String errorMessage = "No email sent to " + s.email + " when he hasn't completed the session.";
                 assertNotNull(errorMessage, emailToStudent);
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailToStudent.getSubject());
-                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailToStudent.getSubject());
+                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
+                                           fs.getFeedbackSessionName()),
+                             emailToStudent.getSubject());
             }
         }
         
@@ -2057,9 +2058,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 // Only send notification (no reminder) if instructor already completed the session
                 assertEquals(1, emailsToInstructor.size());
                 AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailsToInstructor.get(0).getSubject());
+                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
+                                           fs.getFeedbackSessionName()),
+                             emailsToInstructor.get(0).getSubject());
             } else {
                 // Send both notification and reminder if the instructor hasn't completed the session
                 assertEquals(2, emailsToInstructor.size());
@@ -2068,12 +2069,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                             || emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
                 assertTrue(!emailsToInstructor.get(0).getContent().toString().contains(notificationHeader)
                             || !emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailsToInstructor.get(1).getSubject());
-                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailsToInstructor.get(1).getSubject());
+                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
+                                           fs.getFeedbackSessionName()),
+                             emailsToInstructor.get(0).getSubject());
+                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
+                                           fs.getFeedbackSessionName()),
+                             emailsToInstructor.get(1).getSubject());
             }
 
         }
@@ -2103,6 +2104,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         InstructorAttributes instrToRemind = dataBundle.instructors.get("helperOfCourse1");
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        String courseName = CoursesLogic.inst().getCourse(fs.getCourseId()).getName();
         String[] usersToRemind = new String[] {studentToRemind.email, instrToRemind.email};
 
         List<MimeMessage> emailsSent =
@@ -2113,10 +2115,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         MimeMessage emailToStudent = getEmailToStudent(studentToRemind, emailsSent);
         String errorMessage = "No email sent to selected student " + studentToRemind.email;
         assertNotNull(errorMessage, emailToStudent);
-        AssertHelper.assertContains(
-                Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                emailToStudent.getSubject());
-        AssertHelper.assertContains(fs.getFeedbackSessionName(), emailToStudent.getSubject());
+        assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
+                                   fs.getFeedbackSessionName()),
+                     emailToStudent.getSubject());
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.getCourseId());
         String notificationHeader = "The email below has been sent to students of course: " + fs.getCourseId();
@@ -2131,19 +2132,19 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                             || emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
                 assertTrue(!emailsToInstructor.get(0).getContent().toString().contains(notificationHeader)
                             || !emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailsToInstructor.get(1).getSubject());
-                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailsToInstructor.get(1).getSubject());
+                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
+                                           fs.getFeedbackSessionName()),
+                             emailsToInstructor.get(0).getSubject());
+                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
+                                           fs.getFeedbackSessionName()),
+                             emailsToInstructor.get(1).getSubject());
             } else {
                 // Only send notification (no reminder) if instructor is not selected
                 assertEquals(1, emailsToInstructor.size());
                 AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(fs.getFeedbackSessionName(), emailsToInstructor.get(0).getSubject());
+                assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
+                                           fs.getFeedbackSessionName()),
+                             emailsToInstructor.get(0).getSubject());
             }
         }
         
