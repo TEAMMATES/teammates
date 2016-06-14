@@ -1,10 +1,13 @@
 package teammates.storage.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.Order;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -96,7 +99,6 @@ public class FeedbackSession {
     @Persistent
     private boolean sentPublishedEmail;
 
-    //TODO change to primitive types and update getter
     @Persistent
     private Boolean isOpeningEmailEnabled;
     
@@ -106,23 +108,28 @@ public class FeedbackSession {
     @Persistent
     private Boolean isPublishedEmailEnabled;
     
+    @Order(extensions = @Extension(vendorName="datanucleus",key="list-ordering", value="questionNumber asc"))
+    private List<Question> feedbackQuestions;
+    
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
             Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
-        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
-             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
-             feedbackSessionType, sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled,
-             isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
+        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime, 
+             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType, 
+             sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled, isClosingEmailEnabled, 
+             isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>(), 
+             new ArrayList<Question>());
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
             Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
-            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
-            Set<String> instructorList, Set<String> studentList) {
+            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, 
+            Set<String> instructorList, Set<String> studentList,
+            List<Question> questions) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
@@ -144,6 +151,7 @@ public class FeedbackSession {
         this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
         this.respondingInstructorList = instructorList;
         this.respondingStudentList = studentList;
+        this.feedbackQuestions = questions;
     }
 
     public String getFeedbackSessionName() {
@@ -322,6 +330,10 @@ public class FeedbackSession {
 
     public void setRespodingStudentList(Set<String> studentList) {
         this.respondingStudentList = studentList;
+    }
+    
+    public List<Question> getFeedbackQuestions() {
+        return feedbackQuestions;
     }
 
     @Override

@@ -1,13 +1,17 @@
 package teammates.common.datatransfer;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.Question;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
@@ -58,6 +62,38 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         
         removeIrrelevantVisibilityOptions();
     }
+    
+    public FeedbackQuestionAttributes(Question fq) {
+        this.feedbackQuestionId = fq.getId();
+        this.feedbackSessionName = fq.getFeedbackSessionName();
+        this.courseId = fq.getCourseId();
+        this.creatorEmail = fq.getCreatorEmail();
+        this.questionMetaData = fq.getQuestionMetaData();
+        this.questionNumber = fq.getQuestionNumber();
+        this.questionType = fq.getQuestionType();
+        this.giverType = fq.getGiverType();
+        this.recipientType = fq.getRecipientType();
+        this.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
+        this.showResponsesTo = fq.getShowResponsesTo() == null 
+                             ? new ArrayList<FeedbackParticipantType>() 
+                             : new ArrayList<FeedbackParticipantType>(fq.getShowResponsesTo());
+        this.showGiverNameTo = fq.getShowGiverNameTo() == null 
+                             ? new ArrayList<FeedbackParticipantType>()
+                             : new ArrayList<FeedbackParticipantType>(fq.getShowGiverNameTo());
+        this.showRecipientNameTo = fq.getShowRecipientNameTo() == null
+                                 ? new ArrayList<FeedbackParticipantType>()
+                                 : new ArrayList<FeedbackParticipantType>(fq.getShowRecipientNameTo());
+        
+        this.createdAt = fq.getCreatedAt();
+        this.updatedAt = fq.getUpdatedAt();
+     
+        removeIrrelevantVisibilityOptions();
+    }
+    
+    // copy constructor
+    public FeedbackQuestionAttributes(FeedbackQuestionAttributes fqa) {
+        this(fqa.toEntity());
+    }
 
     public Date getCreatedAt() {
         return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
@@ -73,15 +109,32 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     /** NOTE: Only use this to match and search for the ID of a known existing question entity. */
     public void setId(String id) {
+        if (id == null) {
+            Assumption.fail("id should not be null since we stopped relying on the database to generate id");
+        }
         this.feedbackQuestionId = id;
+    }
+    
+    public String makeId() {
+        return Sanitizer.sanitizeForUri(courseId)
+               + "/" + Sanitizer.sanitizeForUri(feedbackSessionName)
+               + "/" + questionNumber
+               + "/" + formatTimeForId(new Date());
+    }
+    
+    private String formatTimeForId(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        return sdf.format(date.getTime());
     }
 
     @Override
-    public FeedbackQuestion toEntity() {
-        return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
-                                    questionMetaData, questionNumber, questionType, giverType,
-                                    recipientType, numberOfEntitiesToGiveFeedbackTo,
-                                    showResponsesTo, showGiverNameTo, showRecipientNameTo);
+    public Question toEntity() {
+        String questionId = getId() == null || getId().isEmpty() ? makeId() : getId();
+        return new Question(questionId,
+                            feedbackSessionName, courseId, creatorEmail,
+                            questionMetaData, questionNumber, questionType, giverType,
+                            recipientType, numberOfEntitiesToGiveFeedbackTo,
+                            showResponsesTo, showGiverNameTo, showRecipientNameTo);
     }
 
     @Override
@@ -134,7 +187,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         if (!error.isEmpty()) {
             errors.add(error);
         }
-
+        
         error = validator.getInvalidityInfoForEmail(creatorEmail);
         if (!error.isEmpty()) {
             errors.add("Invalid creator's email: " + error);
@@ -498,7 +551,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public void sanitizeForSaving() {
-        // nothing to sanitize
+        this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
+        this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
+        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.creatorEmail = Sanitizer.sanitizeEmail(creatorEmail);
     }
 
     /** 
