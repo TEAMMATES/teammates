@@ -9,10 +9,10 @@ import com.google.appengine.labs.repackaged.org.json.JSONException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
 
-public class SendgridService extends EmailSenderService {
+public class SendgridService implements EmailSenderService {
     
     @Override
-    protected Sendgrid parseToEmail(EmailWrapper wrapper) throws JSONException {
+    public Sendgrid parseToEmail(EmailWrapper wrapper) throws JSONException {
         Sendgrid email = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
         email.setFrom(wrapper.getSenderEmail());
         email.setFromName(wrapper.getSenderName());
@@ -21,7 +21,7 @@ public class SendgridService extends EmailSenderService {
             email.addTo(recipient);
         }
         if (!wrapper.getBccList().isEmpty()) {
-            // Sendgrid does not support multiple BCCs somehow
+            // Sendgrid does not support multiple BCCs
             email.setBcc(wrapper.getBccList().get(0));
         }
         email.setSubject(wrapper.getSubject());

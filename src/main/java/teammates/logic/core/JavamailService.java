@@ -14,10 +14,10 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.util.EmailWrapper;
 
-public class JavamailService extends EmailSenderService {
+public class JavamailService implements EmailSenderService {
     
     @Override
-    protected MimeMessage parseToEmail(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
+    public MimeMessage parseToEmail(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
         Session session = Session.getDefaultInstance(new Properties(), null);
         MimeMessage email = new MimeMessage(session);
         email.setFrom(new InternetAddress(wrapper.getSenderEmail(), wrapper.getSenderName()));
