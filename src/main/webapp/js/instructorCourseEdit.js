@@ -49,6 +49,7 @@ function enableEditInstructor(event) {
 function enableFormEditInstructor(number) {
     $('#instructorTable' + number).find(':input').not('.immutable').prop('disabled', false);
     $('#instrEditLink' + number).hide();
+    $('#instrCancelLink' + number).show();
     $('#accessControlInfoForInstr' + number).hide();
     $('#accessControlEditDivForInstr' + number).show();
     $('#btnSaveInstructor' + number).show();
@@ -62,6 +63,7 @@ function enableFormEditInstructor(number) {
 function disableFormEditInstructor(number) {
     $('#instructorTable' + number).find(':input').not('.immutable').prop('disabled', true);
     $('#instrEditLink' + number).show();
+    $('#instrCancelLink' + number).hide();
     $('#accessControlInfoForInstr' + number).show();
     $('#accessControlEditDivForInstr' + number).hide();
     $('#btnSaveInstructor' + number).hide();
@@ -365,6 +367,11 @@ function editCourse() {
 
 $(document).ready(function() {
     $('#courseEditLink').click(editCourse);
+    $('a[id^="instrCancelLink"]').hide();
+    $('a[id^="instrCancelLink"]').click(function() {        
+        var instrNum = $(this).attr('id').substring('instrCancelLink'.length);        
+        disableFormEditInstructor(instrNum);
+    });
     var index = $('#new-instructor-index').val();
     bindChangingRole(index);
 });
