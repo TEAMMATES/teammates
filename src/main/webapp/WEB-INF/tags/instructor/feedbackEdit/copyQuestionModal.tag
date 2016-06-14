@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 
-<%@ attribute name="feedbackSessionName" %>
-<%@ attribute name="courseId" %>
+<%@ attribute name="feedbackSessionName" required="true"%>
+<%@ attribute name="courseId" required="true"%>
 
 <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg">

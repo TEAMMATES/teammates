@@ -804,7 +804,6 @@ function setupQuestionCopyModal() {
         var fsname = button.data('fsname');
         
         var $questionCopyStatusMessage = $('#question-copy-modal-status');
-        var $copyModalForm = $('#copyModalForm');
         $.ajax({
             type: 'GET',
             url: actionlink + '&courseid=' + encodeURIComponent(courseid)
@@ -825,10 +824,9 @@ function setupQuestionCopyModal() {
             success: function(data) {
                 var $questionRows = $(data).find('tbody > tr');
                 if ($questionRows.length) {
-                    $copyModalForm.prepend(data);
+                    $('#copyModalForm').prepend(data);
                     $questionCopyStatusMessage.html('');
                 } else {
-                    $copyModalForm.html('');
                     $questionCopyStatusMessage.addClass('alert alert-danger');
                     $questionCopyStatusMessage.prepend('<br>').html(FEEDBACK_QUESTION_COPY_INVALID);
                 }

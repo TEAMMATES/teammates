@@ -21,12 +21,12 @@
     </thead>
     <c:forEach items="${data.copyQnForm.questionRows}" var="row">
         <tr style="cursor:pointer;">
-                <td><input type="checkbox"></td>
-                <td>${row.courseId}</td>
-                <td>${row.fsName}</td>
-                <td>${row.qnType}</td>
-                <td>${row.qnText}</td>
-                <input type="hidden" value="${row.qnId}">
+            <td><input type="checkbox"></td>
+            <td>${row.courseId}</td>
+            <td>${row.fsName}</td>
+            <td>${row.qnType}</td>
+            <td>${row.qnText}</td>
+            <input type="hidden" value="${row.qnId}">
         </tr>
     </c:forEach>
 </table>
