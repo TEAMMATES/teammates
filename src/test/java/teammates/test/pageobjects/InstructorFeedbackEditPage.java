@@ -138,9 +138,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_copy_submit")
     private WebElement copyQuestionSubmitButton;
     
-    @FindBy(id = "question-copy-modal-status")
-    private WebElement copyQuestionStatusMessage;
-    
     @FindBy(id = "button_preview_student")
     private WebElement previewAsStudentButton;
     
@@ -970,16 +967,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForElementVisibility(browser.driver.findElement(tableRowSelector));
     }
     
-    public void waitForCopyStatusMessageToLoad() {
-        waitForElementVisibility(copyQuestionStatusMessage);
+    public void waitForCopyErrorMessageToLoad() {
+        waitForElementPresence(By.cssSelector("#question-copy-modal-status.alert-danger"));
     }
     
-    public String getCopyStatusMessageText() {
-        return copyQuestionStatusMessage.getText();
-    }
-    
-    public boolean isCopyStatusErrorMessage() {
-        return copyQuestionStatusMessage.getAttribute("class").contains("alert-danger");
+    public String getCopyErrorMessageText() {
+        return browser.driver.findElement(
+                By.cssSelector("#question-copy-modal-status.alert-danger")).getText();
     }
     
     public void clickEditLabel(int questionNumber) {

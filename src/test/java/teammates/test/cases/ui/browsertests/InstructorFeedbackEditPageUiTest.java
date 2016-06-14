@@ -448,6 +448,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         assertFalse("Unable to submit when there are no questions selected",
                     feedbackEditPage.isCopySubmitButtonEnabled());
+        feedbackEditPage.verifyHtmlPart(By.id("copyModal"), "/instructorFeedbackCopyQuestionModal.html");
         feedbackEditPage.clickCopyTableAtRow(0);
         
         assertTrue("Can click after selecting", feedbackEditPage.isCopySubmitButtonEnabled());
@@ -473,10 +474,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPageOfCourseWithoutQuestions();
         feedbackEditPage.clickCopyButton();
         
-        feedbackEditPage.waitForCopyStatusMessageToLoad();
+        feedbackEditPage.waitForCopyErrorMessageToLoad();
         assertEquals("There are no questions to be copied.",
-                     feedbackEditPage.getCopyStatusMessageText());
-        assertTrue(feedbackEditPage.isCopyStatusErrorMessage());
+                     feedbackEditPage.getCopyErrorMessageText());
         
         assertFalse("Should not be able to submit if there are no questions",
                     feedbackEditPage.isCopySubmitButtonEnabled());
@@ -487,10 +487,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.changeActionLinkOnCopyButton("INVALID URL");
         feedbackEditPage.clickCopyButton();
 
-        feedbackEditPage.waitForCopyStatusMessageToLoad();
+        feedbackEditPage.waitForCopyErrorMessageToLoad();
         assertEquals("Error retrieving questions. Please close the dialog window and try again.",
-                     feedbackEditPage.getCopyStatusMessageText());
-        assertTrue(feedbackEditPage.isCopyStatusErrorMessage());
+                     feedbackEditPage.getCopyErrorMessageText());
+        
         assertFalse("Should not be able to submit if loading failed",
                     feedbackEditPage.isCopySubmitButtonEnabled());
         
