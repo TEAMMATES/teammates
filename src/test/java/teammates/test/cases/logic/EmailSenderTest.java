@@ -20,7 +20,10 @@ import teammates.logic.core.Sendgrid;
 import teammates.logic.core.SendgridService;
 import teammates.test.cases.BaseComponentTestCase;
 
-public class EmailsTest extends BaseComponentTestCase {
+/**
+ * SUT: {@link EmailSender}
+ */
+public class EmailSenderTest extends BaseComponentTestCase {
     
     @BeforeClass
     public static void classSetUp() {
