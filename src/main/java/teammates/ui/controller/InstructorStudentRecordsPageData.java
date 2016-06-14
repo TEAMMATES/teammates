@@ -42,25 +42,7 @@ public class InstructorStudentRecordsPageData extends PageData {
         }
         this.commentsForStudentTable = new ArrayList<CommentsForStudentsTable>();
         for (String giverEmail : giverEmailToCommentsMap.keySet()) {
-            List<CommentRow> commentDivs = new ArrayList<CommentRow>();
-            List<CommentAttributes> comments = giverEmailToCommentsMap.get(giverEmail);
-            System.out.println(giverEmail + " " + comments.size());
-            for (CommentAttributes comment : comments) {
-                String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
-                String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
-                CommentRow commentDiv = new CommentRow(comment, "You", unsanitizedRecipientDetails);
-                String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
-                commentDiv.setVisibilityIcon(whoCanSeeComment);
-                commentDiv.setEditDeleteEnabled(false);
-                commentDiv.setNotFromCommentsPage(student.email);
-                commentDiv.setNumComments(comments.size());
-                commentDivs.add(commentDiv);
-            }
-            CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable(giverEmail, commentDivs);
-            commentsForStudent.setInstructorAllowedToGiveComment(
-                    instructor.isAllowedForPrivilege(student.section,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-            commentsForStudentTable.add(commentsForStudent);
+            addCommentsToTable(student, giverEmailToCommentsMap, instructor, giverEmail);
         }
         this.sessionNames = sessionNames;
     }
@@ -95,6 +77,29 @@ public class InstructorStudentRecordsPageData extends PageData {
 
     public List<String> getSessionNames() {
         return sessionNames;
+    }
+
+    private void addCommentsToTable(StudentAttributes student,
+            Map<String, List<CommentAttributes>> giverEmailToCommentsMap, InstructorAttributes instructor,
+            String giverEmail) {
+        List<CommentRow> commentDivs = new ArrayList<CommentRow>();
+        List<CommentAttributes> comments = giverEmailToCommentsMap.get(giverEmail);
+        for (CommentAttributes comment : comments) {
+            String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
+            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
+            CommentRow commentDiv = new CommentRow(comment, giverEmail, unsanitizedRecipientDetails);
+            String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
+            commentDiv.setVisibilityIcon(whoCanSeeComment);
+            commentDiv.setEditDeleteEnabled(false);
+            commentDiv.setNotFromCommentsPage(student.email);
+            commentDiv.setNumComments(comments.size());
+            commentDivs.add(commentDiv);
+        }
+        CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable(giverEmail, commentDivs);
+        commentsForStudent.setInstructorAllowedToGiveComment(
+                instructor.isAllowedForPrivilege(student.section,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+        commentsForStudentTable.add(commentsForStudent);
     }
 
 }

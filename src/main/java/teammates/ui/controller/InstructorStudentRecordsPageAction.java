@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
@@ -46,10 +46,11 @@ public class InstructorStudentRecordsPageAction extends Action {
         
         String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
 
-        List<CommentAttributes> comments = logic.getCommentsForReceiver(courseId, CommentParticipantType.PERSON,
-                                                                        studentEmail);
+        List<CommentAttributes> comments = logic.getCommentsForReceiverVisibleToInstructor(
+                                                   courseId, CommentParticipantType.PERSON,
+                                                   studentEmail, instructor.email);
         
-        HashMap<String, List<CommentAttributes>> giverEmailToCommentsMap = mapCommentsToGiverEmail(comments);
+        TreeMap<String, List<CommentAttributes>> giverEmailToCommentsMap = mapCommentsToGiverEmail(comments);
 
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId);
 
@@ -114,13 +115,14 @@ public class InstructorStudentRecordsPageAction extends Action {
         }
     }
     
-    private HashMap<String, List<CommentAttributes>> mapCommentsToGiverEmail(List<CommentAttributes> comments) {
-        HashMap<String, List<CommentAttributes>> giverEmailToCommentsMap =
-                new HashMap<String, List<CommentAttributes>>();
+    private TreeMap<String, List<CommentAttributes>> mapCommentsToGiverEmail(List<CommentAttributes> comments) {
+        TreeMap<String, List<CommentAttributes>> giverEmailToCommentsMap =
+                new TreeMap<String, List<CommentAttributes>>();
+        giverEmailToCommentsMap.put("0You", new ArrayList<CommentAttributes>());
         for (CommentAttributes comment : comments) {
             boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
             String key = isCurrentInstructorGiver
-                       ? InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST
+                       ? "0You"
                        : comment.giverEmail;
 
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
@@ -138,7 +140,8 @@ public class InstructorStudentRecordsPageAction extends Action {
                                    List<CommentAttributes> commentList) {
         if (isCurrentInstructorGiver || 
                 isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId,
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)
+                && true) {
             commentList.add(comment);
         }
     }

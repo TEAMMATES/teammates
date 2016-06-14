@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -99,6 +100,31 @@ public class CommentsLogic {
                                                           throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId, "get");
         return commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
+    }
+
+    public List<CommentAttributes> getCommentsForReceiverVisibleToInstructor(
+            String courseId, CommentParticipantType recipientType, String receiverEmail, String instructorEmail)
+            throws EntityDoesNotExistException {
+        verifyIsCoursePresent(courseId, "get");
+        verifyIsInstructorOfCourse(courseId, instructorEmail);
+        List<CommentAttributes> commentsFromLogic = commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
+        Iterator<CommentAttributes> iterator = commentsFromLogic.iterator();
+        List<CommentAttributes> comments = new LinkedList<CommentAttributes>();
+        HashSet<String> commentsVisitedSet = new HashSet<String>();
+        
+        // add in the instructor's own comments to the list
+        while (iterator.hasNext()) {
+            CommentAttributes c = iterator.next();
+            if (c.giverEmail == instructorEmail) {
+                comments.add(c);
+                preventAppendingThisCommentAgain(commentsVisitedSet, c);
+                iterator.remove();
+            }
+        }
+        
+        // add in other instructor's comments, but only if they are visible
+        removeNonVisibleCommentsForInstructor(commentsFromLogic, commentsVisitedSet, comments);
+        return comments;
     }
     
     public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState sendingState)
