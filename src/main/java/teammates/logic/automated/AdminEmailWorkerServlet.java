@@ -12,7 +12,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailSender;
 
 /**
  * Retrieves admin email content and subject by email id and sends email to the receiver
@@ -61,7 +61,7 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         EmailWrapper email =
                 new EmailGenerator().generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),
                                                         subject, receiverEmail);
-        new Emails().sendEmailWithoutLogging(email);
+        new EmailSender().sendEmailWithoutLogging(email);
        
     }
 

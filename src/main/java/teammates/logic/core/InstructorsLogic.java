@@ -261,7 +261,7 @@ public class InstructorsLogic {
 
         try {
             EmailWrapper email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructorData);
-            new Emails().sendEmailWithLogging(email);
+            new EmailSender().sendEmailWithLogging(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
@@ -289,7 +289,7 @@ public class InstructorsLogic {
 
         try {
             EmailWrapper email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
-            new Emails().sendEmailWithLogging(email);
+            new EmailSender().sendEmailWithLogging(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
@@ -303,7 +303,7 @@ public class InstructorsLogic {
 
         try {
             EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
-            new Emails().sendEmailWithLogging(email);
+            new EmailSender().sendEmailWithLogging(email);
             return emailGenerator.generateNewInstructorAccountJoinLink(instructor, institute);
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);

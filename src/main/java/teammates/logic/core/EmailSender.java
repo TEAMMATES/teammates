@@ -15,15 +15,15 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.Utils;
 
 /**
- * Handles operations related to sending e-mails.
+ * Handles operations related to sending emails.
  */
-public class Emails {
-
+public class EmailSender {
+    
     private static final Logger log = Utils.getLogger();
     
     private EmailSenderService service;
     
-    public Emails() {
+    public EmailSender() {
         if (Config.isUsingSendgrid()) {
             service = new SendgridService();
         } else {
@@ -43,7 +43,7 @@ public class Emails {
         // Sets interval to a maximum of 5 seconds if the interval is too large
         int oneHourInMillis = 60 * 60 * 1000;
         int emailIntervalMillis = Math.min(5000, oneHourInMillis / messages.size());
-
+        
         int numberOfEmailsSent = 0;
         for (EmailWrapper m : messages) {
             long emailDelayTimer = numberOfEmailsSent * emailIntervalMillis;
@@ -51,7 +51,7 @@ public class Emails {
             numberOfEmailsSent++;
         }
     }
-
+    
     private void addEmailToTaskQueue(EmailWrapper message, long emailDelayTimer) {
         String emailSubject = message.getSubject();
         String emailSender = message.getSenderEmail();

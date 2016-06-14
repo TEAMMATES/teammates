@@ -1505,7 +1505,7 @@ public class FeedbackSessionsLogic {
         try {
             List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
                     session, studentsToRemindList, instructorsToRemindList, instructorList);
-            new Emails().sendEmails(emails);
+            new EmailSender().sendEmails(emails);
             return emails;
         } catch (Exception e) {
             throw new RuntimeException(ERROR_SENDING_EMAILS, e);
@@ -1543,7 +1543,7 @@ public class FeedbackSessionsLogic {
         try {
             List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
                     session, studentsToRemindList, instructorsToRemindList, instructorList);
-            new Emails().sendEmails(emails);
+            new EmailSender().sendEmails(emails);
             return emails;
         } catch (Exception e) {
             throw new RuntimeException(ERROR_SENDING_EMAILS, e);

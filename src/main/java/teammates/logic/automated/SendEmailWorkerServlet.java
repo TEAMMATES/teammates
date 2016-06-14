@@ -8,7 +8,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailSender;
 
 @SuppressWarnings("serial")
 public class SendEmailWorkerServlet extends WorkerServlet {
@@ -38,7 +38,7 @@ public class SendEmailWorkerServlet extends WorkerServlet {
         message.setReplyTo(emailReply);
         
         try {
-            new Emails().sendEmailWithLogging(message);
+            new EmailSender().sendEmailWithLogging(message);
         } catch (Exception e) {
             log.severe("Error while sending email via servlet: " + TeammatesException.toStringWithStackTrace(e));
             

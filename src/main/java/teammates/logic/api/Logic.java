@@ -48,7 +48,7 @@ import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.EmailGenerator;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailSender;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -73,7 +73,7 @@ public class Logic {
     public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
     
     protected static GateKeeper gateKeeper = GateKeeper.inst();
-    protected static Emails emailManager = new Emails();
+    protected static EmailSender emailSender = new EmailSender();
     protected static EmailGenerator emailGenerator = new EmailGenerator();
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -2594,9 +2594,9 @@ public class Logic {
                 emailGenerator.generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
                                                         requestUrl, requestParams, userType, error);
         try {
-            emailManager.sendErrorReport(errorReport);
+            emailSender.sendErrorReport(errorReport);
         } catch (Exception e) {
-            emailManager.reportErrorWithBackupChannel(error, errorReport, e);
+            emailSender.reportErrorWithBackupChannel(error, errorReport, e);
         }
         return errorReport;
     }

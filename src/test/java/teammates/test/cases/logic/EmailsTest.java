@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.EmailWrapper;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailSender;
 import teammates.test.cases.BaseComponentTestCase;
 
 public class EmailsTest extends BaseComponentTestCase {
@@ -19,7 +19,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
     @Test
     public void testNoExceptionThrownWhenNoMessagesToSend() {
-        new Emails().sendEmails(new ArrayList<EmailWrapper>());
+        new EmailSender().sendEmails(new ArrayList<EmailWrapper>());
     }
     
     @AfterClass

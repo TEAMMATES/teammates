@@ -17,7 +17,7 @@ import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailSender;
 
 public abstract class EmailAction {
 
@@ -47,8 +47,7 @@ public abstract class EmailAction {
             emailsToBeSent = prepareMailToBeSent();
             
             //actually send the mail
-            Emails emailManager = new Emails();
-            emailManager.sendEmails(emailsToBeSent);
+            new EmailSender().sendEmails(emailsToBeSent);
             doPostProcessingForSuccesfulSend();
             
             //carry this out if mail is successfully sent
