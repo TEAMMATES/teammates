@@ -24,7 +24,7 @@
                         type="button" data-toggle="dropdown">
                         Add New Question <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul id="add-new-question-dropdown" class="dropdown-menu">
                         ${fqForm.questionTypeOptions}
                     </ul>
 
