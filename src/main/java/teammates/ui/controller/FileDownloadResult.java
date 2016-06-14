@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 
 public class FileDownloadResult extends ActionResult {
@@ -36,10 +37,23 @@ public class FileDownloadResult extends ActionResult {
          *     to make the servlet aware of the specified charset encoding
          */
         resp.setContentType("text/csv; charset=UTF-8");
-        resp.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + ".csv\"");
+        resp.setHeader("Content-Disposition", getContentDispositionHeader());
         PrintWriter writer = resp.getWriter();
         writer.write("\uFEFF");
         writer.append(fileContent);
+    }
+    
+    public String getContentDispositionHeader() {
+        return "attachment; filename=\"" + getAsciiOnlyCsvFileName() + "\";" +
+                "filename*= UTF-8''" + getUrlEscapedCsvFileName();
+    }
+    
+    private String getAsciiOnlyCsvFileName() {
+        return Sanitizer.removeNonAscii(fileName) + ".csv";
+    }
+    
+    private String getUrlEscapedCsvFileName() {
+        return Sanitizer.sanitizeForUri(fileName) + ".csv"; 
     }
     
     public String getFileName() {

@@ -297,4 +297,8 @@ public final class Sanitizer {
         }
         return "concat(" + result.toString() + "'')";
     }
+
+    public static String removeNonAscii(String text) {
+        return text.replaceAll("[^\\x00-\\x7F]", "");
+    }
 }
