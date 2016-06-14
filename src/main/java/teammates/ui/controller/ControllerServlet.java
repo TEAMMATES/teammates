@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.NullPostParameterException;
@@ -21,6 +22,7 @@ import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Utils;
+import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
@@ -119,8 +121,15 @@ public class ControllerServlet extends HttpServlet {
                 cleanUpStatusMessageInSession(req);
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
-        } catch (Throwable e) {
-            MimeMessage email = new Logic().emailErrorReport(req, e);
+        } catch (Throwable t) {
+            String requestMethod = req.getMethod();
+            String requestUserAgent = req.getHeader("User-Agent");
+            String requestPath = req.getServletPath();
+            String requestUrl = req.getRequestURL().toString();
+            String requestParams = HttpRequestHelper.printRequestParameters(req);
+            UserType userType = new GateKeeper().getCurrentUser();
+            MimeMessage email = new Logic().emailErrorReport(requestMethod, requestUserAgent, requestPath,
+                                                             requestUrl, requestParams, userType, t);
             if (email != null) {
                 log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email));
             }

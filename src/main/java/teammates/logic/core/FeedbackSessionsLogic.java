@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -41,6 +40,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.EmailType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -1503,19 +1503,14 @@ public class FeedbackSessionsLogic {
             }
         }
 
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        List<MimeMessage> emails;
-        Emails emailMgr = new Emails();
         try {
-            emails = emailMgr.generateFeedbackSessionReminderEmails(course,
-                    session, studentsToRemindList, instructorsToRemindList,
-                    instructorList);
-            emailMgr.sendEmails(emails);
+            List<MimeMessage> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
+                    session, studentsToRemindList, instructorsToRemindList, instructorList);
+            new Emails().sendEmails(emails);
+            return emails;
         } catch (Exception e) {
             throw new RuntimeException(ERROR_SENDING_EMAILS, e);
         }
-
-        return emails;
     }
     
     public List<MimeMessage> sendReminderForFeedbackSessionParticularUsers(String courseId,
@@ -1546,19 +1541,14 @@ public class FeedbackSessionsLogic {
             }
         }
 
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        List<MimeMessage> emails;
-        Emails emailMgr = new Emails();
         try {
-            emails = emailMgr.generateFeedbackSessionReminderEmails(course,
-                    session, studentsToRemindList, instructorsToRemindList,
-                    instructorList);
-            emailMgr.sendEmails(emails);
+            List<MimeMessage> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
+                    session, studentsToRemindList, instructorsToRemindList, instructorList);
+            new Emails().sendEmails(emails);
+            return emails;
         } catch (Exception e) {
             throw new RuntimeException(ERROR_SENDING_EMAILS, e);
         }
-
-        return emails;
     }
 
     public void scheduleFeedbackRemindEmails(String courseId, String feedbackSessionName) {
@@ -1589,9 +1579,7 @@ public class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
         for (FeedbackSessionAttributes session : sessions) {
-            Emails emails = new Emails();
-            emails.addFeedbackSessionReminderToEmailsQueue(session,
-                    Emails.EmailType.FEEDBACK_OPENING);
+            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_OPENING);
         }
     }
 
@@ -1617,8 +1605,7 @@ public class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> sessions = getFeedbackSessionsClosingWithinTimeLimit();
 
         for (FeedbackSessionAttributes session : sessions) {
-            Emails emails = new Emails();
-            emails.addFeedbackSessionReminderToEmailsQueue(session, Emails.EmailType.FEEDBACK_CLOSING);
+            addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_CLOSING);
         }
     }
 
@@ -2611,11 +2598,18 @@ public class FeedbackSessionsLogic {
         }
     }
 
-    private void sendFeedbackSessionPublishedEmail(
-            FeedbackSessionAttributes session) {
-        Emails emails = new Emails();
-        emails.addFeedbackSessionReminderToEmailsQueue(session,
-                Emails.EmailType.FEEDBACK_PUBLISHED);
+    private void sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
+        addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_PUBLISHED);
     }
 
+    private void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes session, EmailType emailType) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, session.getFeedbackSessionName());
+        paramMap.put(ParamsNames.EMAIL_COURSE, session.getCourseId());
+        paramMap.put(ParamsNames.EMAIL_TYPE, emailType.toString());
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        taskQueueLogic.createAndAddTask(SystemParams.EMAIL_TASK_QUEUE, Const.ActionURIs.EMAIL_WORKER, paramMap);
+    }
+    
 }

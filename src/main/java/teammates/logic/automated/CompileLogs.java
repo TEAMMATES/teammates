@@ -1,6 +1,6 @@
 package teammates.logic.automated;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -9,6 +9,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.util.Utils;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.Emails;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -62,12 +63,10 @@ public class CompileLogs {
     public void sendEmail(String logs) {
         // Do not send any emails if there are no severe logs; prevents spamming
         if (!logs.isEmpty()) {
-            Emails emails = new Emails();
-            MimeMessage message;
             try {
-                message = emails.generateCompiledLogsEmail(logs);
-                emails.sendLogReport(message);
-            } catch (UnsupportedEncodingException | MessagingException e) {
+                MimeMessage message = new EmailGenerator().generateCompiledLogsEmail(logs);
+                new Emails().sendLogReport(message);
+            } catch (IOException | MessagingException e) {
                 log.severe(e.getMessage());
             }
         }
