@@ -232,8 +232,10 @@ public class InstructorCourseEditPage extends AppPage {
         return isFormShownCorrectly;
     }
     
-    public boolean clickOnAccessLevelViewDetails(String role) {
-        WebElement viewDetailsLink = browser.driver.findElement(By.cssSelector(
+    public boolean clickOnAccessLevelViewDetails(String formId, String role) {
+        WebElement instructorForm = browser.driver.findElement(By.id(formId));
+        
+        WebElement viewDetailsLink = instructorForm.findElement(By.cssSelector(
                                             "a[onclick=\"showInstructorRoleModal('" + role + "')\"]"));
         viewDetailsLink.click();
         

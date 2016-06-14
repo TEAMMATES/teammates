@@ -112,10 +112,10 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("add new instructor link");
         assertTrue(courseEditPage.clickShowNewInstructorFormButton());
         
-        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Co-owner"));
-        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Manager"));
-        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Observer"));
-        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("Tutor"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("formAddInstructor", "Co-owner"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("formAddInstructor", "Manager"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("formAddInstructor", "Observer"));
+        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("formAddInstructor", "Tutor"));
     }
 
     private void testInputValidation() {
@@ -130,9 +130,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH),
                      courseEditPage.fillNewInstructorName(longInstructorName));
         // Edit instructor
-        assertEquals(maxLengthInstructorName, courseEditPage.fillNewInstructorName(maxLengthInstructorName));
+        assertEquals(maxLengthInstructorName, courseEditPage.editInstructorName(1, maxLengthInstructorName));
         assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH),
-                     courseEditPage.fillNewInstructorName(longInstructorName));
+                     courseEditPage.editInstructorName(1, longInstructorName));
         
 
         String maxLengthEmail = StringHelper.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH);
