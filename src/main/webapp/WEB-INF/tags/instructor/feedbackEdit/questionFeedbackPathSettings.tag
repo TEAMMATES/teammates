@@ -56,7 +56,7 @@
     <div class="feedback-path-others">
         <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px"
             data-toggle="tooltip" data-placement="top"
-            title="<%= Const.Tooltips.FEEDBACK_SESSION_GIVER %>">  
+            title="<%= Const.Tooltips.FEEDBACK_SESSION_GIVER %>">
             <label class="col-sm-4 col-lg-5 control-label">
                 Who will give the feedback:
             </label>
@@ -104,8 +104,8 @@
                         value="custom" <c:if test="${!fqForm.editable}">disabled</c:if>>
                     <input class="nonDestructive numberOfEntitiesBox width-75-pc" type="number"
                         name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>"
-                        id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>${fqForm.questionNumberSuffix}" 
-                        value="${fqForm.feedbackPathSettings.numOfEntitiesToGiveFeedbackToValue}" 
+                        id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>${fqForm.questionNumberSuffix}"
+                        value="${fqForm.feedbackPathSettings.numOfEntitiesToGiveFeedbackToValue}"
                         min="1" max="250" <c:if test="${!fqForm.editable}">disabled</c:if>>
                 </div>
                 <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
