@@ -93,8 +93,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         ______TS("update picture");
         
-        expectedSpa.pictureKey = GoogleCloudStorageHelper
-                .writeFileToGcs(expectedSpa.googleId, "src/test/resources/images/profile_pic.png", "");
+        expectedSpa.pictureKey = writeFileToGcs(expectedSpa.googleId, "src/test/resources/images/profile_pic.png");
         accountsLogic.updateStudentProfilePicture(expectedSpa.googleId, expectedSpa.pictureKey);
         actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
@@ -116,8 +115,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     
     @Test
     public void testDeletePicture() throws Exception {
-        String keyString = GoogleCloudStorageHelper.writeFileToGcs("accountsLogicTestid",
-                                                                   "src/test/resources/images/profile_pic.png", "");
+        String keyString = writeFileToGcs("accountsLogicTestid", "src/test/resources/images/profile_pic.png");
         BlobKey key = new BlobKey(keyString);
         accountsLogic.deletePicture(key);
         assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(key));
@@ -259,7 +257,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("failure: wrong key");
 
         try {
-            accountsLogic.joinCourseForStudent("wrongkey", correctStudentId);
+            accountsLogic.joinCourseForStudent(StringHelper.encrypt("wrongkey"), correctStudentId);
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals(
@@ -270,7 +268,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("failure: invalid parameters");
 
         try {
-            accountsLogic.joinCourseForStudent(studentData.key, "wrong student");
+            accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), "wrong student");
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
@@ -285,7 +283,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         studentsLogic.createStudentCascadeWithoutDocument(existingStudent);
         
         try {
-            accountsLogic.joinCourseForStudent(studentData.key, existingId);
+            accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), existingId);
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
@@ -301,7 +299,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
                 "nameABC", false, "real@gmail.com", "nus", spa);
         
         accountsLogic.createAccount(accountData);
-        accountsLogic.joinCourseForStudent(studentData.key, correctStudentId);
+        accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), correctStudentId);
 
         studentData.googleId = accountData.googleId;
         verifyPresentInDatastore(studentData);
@@ -312,7 +310,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("failure: already joined");
 
         try {
-            accountsLogic.joinCourseForStudent(studentData.key, correctStudentId);
+            accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), correctStudentId);
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals("You (" + correctStudentId + ") have already joined this course",
@@ -322,7 +320,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("failure: valid key belongs to a different user");
 
         try {
-            accountsLogic.joinCourseForStudent(studentData.key, "wrongstudent");
+            accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), "wrongstudent");
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals("The join link used belongs to a different user whose "
@@ -390,8 +388,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         String loggedInGoogleId = "AccLogicT.instr.id";
-        String key = instructorsLogic.getKeyForInstructor(instructor.courseId, instructor.email);
-        String encryptedKey = StringHelper.encrypt(key);
+        String encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email);
         
         ______TS("failure: googleID belongs to an existing instructor in the course");
 
@@ -438,8 +435,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
                 new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
-        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
-        encryptedKey = StringHelper.encrypt(key);
+        encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         assertFalse(accountsLogic.getAccount(nonInstrAccount.googleId).isInstructor);
         
         accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId);
@@ -465,8 +461,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
-        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
-        encryptedKey = StringHelper.encrypt(key);
+        encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         
         accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId);
         
@@ -485,8 +480,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
         instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         
-        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
-        encryptedKey = StringHelper.encrypt(key);
+        encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         
         try {

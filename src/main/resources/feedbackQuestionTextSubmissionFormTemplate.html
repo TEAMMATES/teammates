@@ -1,3 +1,9 @@
 <textarea rows="4" cols="100%" class="form-control"
-    ${disabled}
-    name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}">${existingResponse}</textarea>
+    ${disabled} id="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
+    name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
+    data-lengthTextId="responseLength-${qnIdx}-${responseIdx}">${existingResponse}</textarea>
+<div class="pull-right margin-top-7px">
+    <label class="text-color-gray font-weight-normal">Response length: </label>
+    <label class="text-color-gray font-weight-normal" id="responseLength-${qnIdx}-${responseIdx}">0</label>
+    <label class="text-color-gray font-weight-normal"> characters</label>
+</div>

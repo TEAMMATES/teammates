@@ -3,8 +3,6 @@ package teammates.logic.automated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.seleniumhq.jetty7.server.Response;
-
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
@@ -21,7 +19,7 @@ public class EmailWorkerServlet extends WorkerServlet {
         Assumption.assertNotNull(typeOfMail);
         
         EmailAction emailObj = null;
-        int responseCode = Response.SC_OK;
+        int responseCode = HttpServletResponse.SC_OK;
         
         log.info("Email worker activated for :" + HttpRequestHelper.printRequestParameters(req));
         
@@ -40,13 +38,13 @@ public class EmailWorkerServlet extends WorkerServlet {
             break;
         default:
             log.severe("Type of email is null");
-            responseCode = Response.SC_INTERNAL_SERVER_ERROR;
+            responseCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
             break;
         }
         
         if (emailObj == null) {
             log.severe("Email object is null");
-            responseCode = Response.SC_INTERNAL_SERVER_ERROR;
+            responseCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
         } else {
             emailObj.sendEmails();
         }

@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackResultsQuestionDetails;
 import teammates.ui.template.FeedbackResultsResponse;
@@ -32,7 +33,7 @@ public class StudentFeedbackResultsPageData extends PageData {
     public void init(Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
         
         String joinUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                                                   .withRegistrationKey(student.key)
+                                                   .withRegistrationKey(StringHelper.encrypt(student.key))
                                                    .withStudentEmail(student.email)
                                                    .withCourseId(student.course)
                                                    .toString();
@@ -100,7 +101,7 @@ public class StudentFeedbackResultsPageData extends PageData {
                                     FeedbackQuestionDetails questionDetailsBundle,
                                     List<FeedbackResponseAttributes> responsesBundle) {
         
-        String questionText = questionDetailsBundle.questionText;
+        String questionText = questionDetailsBundle.getQuestionText();
         String additionalInfo = questionDetailsBundle.getQuestionAdditionalInfoHtml(questionIndex, "");
         String studentEmail = student == null ? null : student.email;
         String questionResultStatistics = questionDetailsBundle.getQuestionResultStatisticsHtml(
@@ -126,8 +127,8 @@ public class StudentFeedbackResultsPageData extends PageData {
         List<String> recipients = new ArrayList<String>();
         
         for (FeedbackResponseAttributes singleResponse : responsesBundle) {
-            if (!recipients.contains(singleResponse.recipientEmail)) {
-                recipients.add(singleResponse.recipientEmail);
+            if (!recipients.contains(singleResponse.recipient)) {
+                recipients.add(singleResponse.recipient);
             }
         }
         
@@ -172,7 +173,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             String displayedGiverName;
             
             /* Change display name to 'You' or 'Your team' if necessary */
-            boolean isUserGiver = student.email.equals(response.giverEmail);
+            boolean isUserGiver = student.email.equals(response.giver);
             boolean isUserPartOfGiverTeam = student.team.equals(giverName);
             if (question.giverType == FeedbackParticipantType.TEAMS && isUserPartOfGiverTeam) {
                 displayedGiverName = "Your Team (" + giverName + ")";
@@ -182,11 +183,11 @@ public class StudentFeedbackResultsPageData extends PageData {
                 displayedGiverName = giverName;
             }
             
-            boolean isUserRecipient = student.email.equals(response.recipientEmail);
+            boolean isUserRecipient = student.email.equals(response.recipient);
             if (isUserGiver && !isUserRecipient) {
                 // If the giver is the user, show the real name of the recipient
                 // since the giver would know which recipient he/she gave the response to
-                recipientName = bundle.getNameForEmail(response.recipientEmail);
+                recipientName = bundle.getNameForEmail(response.recipient);
             } else if (!isUserGiver
                        && !bundle.isRecipientVisible(response)) {
                 // Hide anonymous recipient entirely to prevent student from guessing the identity
@@ -234,7 +235,7 @@ public class StudentFeedbackResultsPageData extends PageData {
         List<FeedbackResponseAttributes> responsesForRecipient = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponseAttributes singleResponse : responsesBundle) {
-            if (singleResponse.recipientEmail.equals(recipientEmail)) {
+            if (singleResponse.recipient.equals(recipientEmail)) {
                 responsesForRecipient.add(singleResponse);
             }
         }

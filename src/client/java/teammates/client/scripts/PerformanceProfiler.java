@@ -3,7 +3,6 @@ package teammates.client.scripts;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,12 +23,12 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.FileHelper;
 
 import com.google.gson.Gson;
 /**
@@ -79,7 +78,7 @@ public class PerformanceProfiler extends Thread {
         String jsonString = "";
         try {
             jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         data = gson.fromJson(jsonString, DataBundle.class);
@@ -535,7 +534,7 @@ public class PerformanceProfiler extends Thread {
         Set<String> set = data.students.keySet();
         for (String studentKey : set) {
             StudentAttributes student = data.students.get(studentKey);
-            status.append(' ').append(BackDoor.getKeyForStudent(student.course, student.email));
+            status.append(' ').append(BackDoor.getEncryptedKeyForStudent(student.course, student.email));
         }
         return status.toString();
     }
