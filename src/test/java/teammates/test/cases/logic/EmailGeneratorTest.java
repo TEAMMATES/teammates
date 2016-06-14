@@ -186,7 +186,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         // check email body
         String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
-        String textInEmail = "Hello " + student.name + "{*}course <i>" + course.getName()
+        String textInEmail = "Hello " + student.name + "{*}" + course.getName()
                              + "{*}" + joinUrl + "{*}" + joinUrl + "{*}";
         
         verifyEmail(email, student.email, subject, textInEmail);
