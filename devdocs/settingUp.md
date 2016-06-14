@@ -59,7 +59,6 @@ Important: When a version is specified, please install that version instead of t
 4. Run the command `./gradlew setup`.<br>
    This creates the main config files {These are not under revision control because their content vary from developer to developer}.
    * `.project`<br>
-   * `.classpath`<br>
    * `gradle.properties`<br>
    If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.<br>
    This value must be a valid **JDK 1.7** directory.<br>
