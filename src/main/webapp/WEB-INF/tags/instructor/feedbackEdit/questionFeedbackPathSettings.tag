@@ -19,34 +19,34 @@
                 <a>I will give feedback on...</a>
                 <ul class="dropdown-menu">
                     <li><a data-feedback-path-description="I will give feedback on --> the class in general">the class in general</a></li>
-                    <li><a>myself</a></li>
-                    <li><a>each instructors in the course</a></li>
+                    <li><a data-feedback-path-description="I will give feedback on --> myself">myself</a></li>
+                    <li><a data-feedback-path-description="I will give feedback on --> every individual instructor in the course">every individual instructor in the course</a></li>
                 </ul>
             </li>
             <li class="dropdown-submenu">
                 <a>Each student in the course will give feedback on...</a>
                 <ul class="dropdown-menu">
-                    <li><a>the class in general</a></li>
-                    <li><a>himself/herself</a></li>
-                    <li><a>each instructors in the course</a></li>
-                    <li><a>each of his/her teammates</a></li>
-                    <li><a>each of his/her teammates (including himself/herself)</a></li>
+                    <li><a data-feedback-path-description="Each student in the course will give feedback on --> the class in general">the class in general</a></li>
+                    <li><a data-feedback-path-description="Each student in the course will give feedback on --> himself/herself">himself/herself</a></li>
+                    <li><a data-feedback-path-description="Each student in the course will give feedback on --> every individual instructor in the course">every individual instructor in the course</a></li>
+                    <li><a data-feedback-path-description="Each student in the course will give feedback on --> each of his/her teammates">each of his/her teammates</a></li>
+                    <li><a data-feedback-path-description="Each student in the course will give feedback on --> each of his/her teammates (including himself/herself)">each of his/her teammates (including himself/herself)</a></li>
                 </ul>
             </li>
             <li class="dropdown-submenu">
                 <a>Each instructor in the course will give feedback on...</a>
                 <ul class="dropdown-menu">
-                    <li><a>the class in general</a></li>
-                    <li><a>himself/herself</a></li>
-                    <li><a>each instructors in the course</a></li>
-                    <li><a>all instructors in general</a></li>
+                    <li><a data-feedback-path-description="Each instructor in the course will give feedback on --> the class in general">the class in general</a></li>
+                    <li><a data-feedback-path-description="Each instructor in the course will give feedback on --> himself/herself">himself/herself</a></li>
+                    <li><a data-feedback-path-description="Each instructor in the course will give feedback on --> every individual instructor in the course">every individual instructor in the course</a></li>
+                    <li><a data-feedback-path-description="Each instructor in the course will give feedback on --> all instructors in general">all instructors in general</a></li>
                 </ul>
             </li>
             <li class="dropdown-submenu">
                 <a>Each team in the course will give feedback on...</a>
                 <ul class="dropdown-menu">
-                    <li><a>each instructors in the course</a></li>
-                    <li><a>the team itself</a></li>
+                    <li><a data-feedback-path-description="Each team in the course will give feedback on --> every individual instructor in the course">every individual instructor in the course</a></li>
+                    <li><a data-feedback-path-description="Each team in the course will give feedback on --> the team itself">the team itself</a></li>
                 </ul>
             </li>
             <li role="separator" class="divider"></li>
