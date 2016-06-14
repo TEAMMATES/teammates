@@ -52,4 +52,13 @@
     <br>
     <br>
     <shared:confirmationModal/>
+    <style>
+        .feedback-path-dropdown {
+            width: 100%;
+        }
+        .feedback-path-others {
+            display: none;
+        }
+    </style>
+
 </ti:instructorPage>

@@ -10,6 +10,49 @@
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
     </div>
+    <div class="feedback-path-dropdown btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Please select a feedback path&nbsp;<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li class="dropdown-submenu">
+                <a>I will give feedback on...</a>
+                <ul class="dropdown-menu">
+                    <li><a data-feedback-path-description="I will give feedback on --> the class in general">the class in general</a></li>
+                    <li><a>myself</a></li>
+                    <li><a>each instructors in the course</a></li>
+                </ul>
+            </li>
+            <li class="dropdown-submenu">
+                <a>Each student in the course will give feedback on...</a>
+                <ul class="dropdown-menu">
+                    <li><a>the class in general</a></li>
+                    <li><a>himself/herself</a></li>
+                    <li><a>each instructors in the course</a></li>
+                    <li><a>each of his/her teammates</a></li>
+                    <li><a>each of his/her teammates (including himself/herself)</a></li>
+                </ul>
+            </li>
+            <li class="dropdown-submenu">
+                <a>Each instructor in the course will give feedback on...</a>
+                <ul class="dropdown-menu">
+                    <li><a>the class in general</a></li>
+                    <li><a>himself/herself</a></li>
+                    <li><a>each instructors in the course</a></li>
+                    <li><a>all instructors in general</a></li>
+                </ul>
+            </li>
+            <li class="dropdown-submenu">
+                <a>Each team in the course will give feedback on...</a>
+                <ul class="dropdown-menu">
+                    <li><a>each instructors in the course</a></li>
+                    <li><a>the team itself</a></li>
+                </ul>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li><a class="others-button">Other</a></li>
+        </ul>
+    </div>
     <div class="feedback-path-others">
         <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px"
             data-toggle="tooltip" data-placement="top"
