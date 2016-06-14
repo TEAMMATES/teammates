@@ -1,5 +1,5 @@
 <%@ tag description="Generic TEAMMATES Error Page" %>
-<%@ tag import="teammates.common.util.Const" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +27,6 @@
     <div class="container" id="mainContent">
         <jsp:doBody />
     </div>
-    <jsp:include page="<%= Const.ViewURIs.FOOTER %>" />
+    <t:bodyFooter />
 </body>
 </html>
