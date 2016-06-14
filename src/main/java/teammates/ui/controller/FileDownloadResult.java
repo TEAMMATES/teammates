@@ -44,8 +44,8 @@ public class FileDownloadResult extends ActionResult {
     }
     
     public String getContentDispositionHeader() {
-        return "attachment; filename=\"" + getAsciiOnlyCsvFileName() + "\";" +
-                "filename*= UTF-8''" + getUrlEscapedCsvFileName();
+        return "attachment; filename=\"" + getAsciiOnlyCsvFileName() + "\";"
+               + "filename*= UTF-8''" + getUrlEscapedCsvFileName();
     }
     
     private String getAsciiOnlyCsvFileName() {
@@ -53,7 +53,7 @@ public class FileDownloadResult extends ActionResult {
     }
     
     private String getUrlEscapedCsvFileName() {
-        return Sanitizer.sanitizeForUri(fileName) + ".csv"; 
+        return Sanitizer.sanitizeForUri(fileName) + ".csv";
     }
     
     public String getFileName() {

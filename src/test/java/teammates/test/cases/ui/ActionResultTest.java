@@ -20,17 +20,17 @@ public class ActionResultTest extends BaseTestCase {
     
     @Test
     public void fileDownloadResult() {
-        FileDownloadResult download = new FileDownloadResult("/page/instructorFeedbackResultsDownload", 
+        FileDownloadResult download = new FileDownloadResult("/page/instructorFeedbackResultsDownload",
                                                             null, null, "Normal name", "abcabc");
-        assertEquals("attachment; filename=\"Normal name.csv\";filename*= UTF-8''Normal+name.csv", 
+        assertEquals("attachment; filename=\"Normal name.csv\";filename*= UTF-8''Normal+name.csv",
                      download.getContentDispositionHeader());
     }
     
     @Test
     public void fileDownloadResult_fileNameWithUnicodeCharacters_hasCorrectContentDesposition() {
-        FileDownloadResult download = new FileDownloadResult("/page/instructorFeedbackResultsDownload", 
+        FileDownloadResult download = new FileDownloadResult("/page/instructorFeedbackResultsDownload",
                                                             null, null, "£ rates", "abcabc");
-        assertEquals("attachment; filename=\" rates.csv\";filename*= UTF-8''%C2%A3+rates.csv", 
+        assertEquals("attachment; filename=\" rates.csv\";filename*= UTF-8''%C2%A3+rates.csv",
                      download.getContentDispositionHeader());
     }
 
