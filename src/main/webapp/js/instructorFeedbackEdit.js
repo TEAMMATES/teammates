@@ -500,7 +500,7 @@ function showNewQuestionFrame(type) {
 }
 
 function hideAllNewQuestionForms() {
-	$('#textForm').hide();
+    $('#textForm').hide();
     $('#mcqForm').hide();
     $('#msqForm').hide();
     $('#numScaleForm').hide();

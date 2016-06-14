@@ -33,7 +33,8 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         String recommendedLengthString = HttpRequestHelper.getValueFromParamMap(requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT_RECOMMENDEDLENGTH);
 
-        this.recommendedLength = (recommendedLengthString == null || recommendedLengthString.isEmpty()) ? 0 : Integer.parseInt(recommendedLengthString);
+        this.recommendedLength = recommendedLengthString == null || recommendedLengthString.isEmpty() ? 0
+                : Integer.parseInt(recommendedLengthString);
         return true;
     }
 

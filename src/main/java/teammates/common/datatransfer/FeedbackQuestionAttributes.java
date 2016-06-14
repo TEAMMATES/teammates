@@ -531,7 +531,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
         Gson gson = Utils.getTeammatesGson();
         questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
-        }
+    }
 
     /** 
      * This method retrieves the Feedback*QuestionDetails object for this question
