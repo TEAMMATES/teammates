@@ -968,7 +968,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void waitForCopyErrorMessageToLoad() {
-        waitForElementPresence(By.cssSelector("#question-copy-modal-status.alert-danger"));
+        By errorMessageSelector = By.cssSelector("#question-copy-modal-status.alert-danger");
+        waitForElementPresence(errorMessageSelector);
+        waitForElementVisibility(browser.driver.findElement(errorMessageSelector));
     }
     
     public String getCopyErrorMessageText() {
