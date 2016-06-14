@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 
-<%@ attribute name="copyQnForm" type="teammates.ui.template.FeedbackQuestionCopyTable" %>
 <%@ attribute name="feedbackSessionName" %>
 <%@ attribute name="courseId" %>
 
@@ -19,35 +18,6 @@
                 <form class="form" id="copyModalForm" role="form" method="post"
                     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY %>">
                     
-                    <table class="table-responsive table table-hover table-bordered margin-0" id="copyTableModal">
-                        <thead class="fill-primary">
-                            <tr>
-                                <th style="width:30px;">&nbsp;</th>
-                                <th onclick="toggleSort(this);" id="button_sortid" class="button-sort-ascending"> 
-                                    Course <span class="icon-sort sorted-ascending"></span>
-                                </th>
-                                <th onclick="toggleSort(this);" id="button_sortfsname" class="button-sort-none" style="width:17%;">
-                                    Session Name <span class="icon-sort unsorted"></span>
-                                </th>
-                                <th onclick="toggleSort(this);" id="button_sortfqtype" class="button-sort-none"> 
-                                    Question Type <span class="icon-sort unsorted"></span>
-                                </th>
-                                <th onclick="toggleSort(this);" id="button_sortfqtext" class="button-sort-none"> 
-                                    Question Text <span class="icon-sort unsorted"></span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <c:forEach items="${copyQnForm.questionRows}" var="row">
-                            <tr style="cursor:pointer;">
-                                    <td><input type="checkbox"></td>
-                                    <td>${row.courseId}</td>
-                                    <td>${row.fsName}</td>
-                                    <td>${row.qnType}</td>
-                                    <td>${row.qnText}</td>
-                                    <input type="hidden" value="${row.qnId}">
-                            </tr>
-                        </c:forEach>
-                    </table>
                     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${feedbackSessionName}">
                     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
                     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${courseId}">

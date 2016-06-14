@@ -804,32 +804,31 @@ function setupQuestionCopyModal() {
         var fsname = button.data('fsname');
         
         var $questionCopyStatusMessage = $('#question-copy-modal-status');
-        var $copyTableModal = $('#copyTableModal');
+        var $copyModalForm = $('#copyModalForm');
         $.ajax({
             type: 'GET',
             url: actionlink + '&courseid=' + encodeURIComponent(courseid)
                             + '&fsname=' + encodeURIComponent(fsname),
             beforeSend: function() {
                 $('#button_copy_submit').prop('disabled', true);
-                $copyTableModal.html('');
+                $('#copyTableModal').remove();
                 $questionCopyStatusMessage.removeClass('alert alert-danger');
                 $questionCopyStatusMessage.html(
                         'Loading possible questions to copy. Please wait ...<br>'
                       + "<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
             error: function() {
-                $copyTableModal.html('');
                 $questionCopyStatusMessage.html(
                         'Error retrieving questions. Please close the dialog window and try again.');
                 $questionCopyStatusMessage.addClass('alert alert-danger');
             },
             success: function(data) {
-                var $questionRows = $(data).find('#copyTableModal > tbody > tr');
+                var $questionRows = $(data).find('tbody > tr');
                 if ($questionRows.length) {
-                    $copyTableModal.replaceWith($(data).find('#copyTableModal'));
+                    $copyModalForm.prepend(data);
                     $questionCopyStatusMessage.html('');
                 } else {
-                    $copyTableModal.html('');
+                    $copyModalForm.html('');
                     $questionCopyStatusMessage.addClass('alert alert-danger');
                     $questionCopyStatusMessage.prepend('<br>').html(FEEDBACK_QUESTION_COPY_INVALID);
                 }
