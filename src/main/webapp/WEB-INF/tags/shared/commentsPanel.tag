@@ -33,7 +33,7 @@
         <c:set var="commentIndex" value="${0}"/>
         <c:forEach items="${commentsForStudentsTables}" var="commentsForStudentsTable">
             <div class="panel panel-info student-record-comments${commentsForStudentsTable.extraClass}"
-                 <c:if test="${empty commentsForStudentsTable.rows && not forRecordsPage}">style="display: none;"</c:if>>
+                 <c:if test="${empty commentsForStudentsTable.rows && (not forRecordsPage || commentsForStudentsTable.giverDetails != '0You')}">style="display: none;"</c:if>>
                 <div class="panel-heading">
                     From <b>${fn:escapeXml(commentsForStudentsTable.giverDetails)}<c:if test="${not empty courseId}"> (${courseId})</c:if></b>
                     <c:if test="${forRecordsPage}">
@@ -55,7 +55,7 @@
                         <shared:commentRow comment="${commentRow}" commentIndex="${commentIndex}" />
                     </c:forEach>
                     <c:if test="${forRecordsPage}">
-                        <c:if test="${empty commentsForStudentsTable.rows}">
+                        <c:if test="${empty commentsForStudentsTable.rows && commentsForStudentsTable.giverDetails == '0You'}">
                             <li class="list-group-item text-muted">
                                 <i>You don't have any comments on this student.</i>
                             </li>

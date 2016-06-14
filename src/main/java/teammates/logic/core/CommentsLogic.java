@@ -115,7 +115,7 @@ public class CommentsLogic {
         // add in the instructor's own comments to the list
         while (iterator.hasNext()) {
             CommentAttributes c = iterator.next();
-            if (c.giverEmail == instructorEmail) {
+            if (c.giverEmail.equals(instructorEmail)) {
                 comments.add(c);
                 preventAppendingThisCommentAgain(commentsVisitedSet, c);
                 iterator.remove();
