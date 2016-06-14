@@ -1795,3 +1795,48 @@ function checkForConfirmation(event) {
         event.currentTarget.submit();
     });
 }
+
+var hot;
+function toggleCustom(elem) {
+    if ($('#custom').is(":visible")) {
+        $('#custom').hide();
+        $(elem).text('Show details and further customizations');
+    } else {
+        $('#custom').show();
+        
+
+        var container = document.getElementById('example');
+            hot = new Handsontable(container, {
+            data: Handsontable.helper.createSpreadsheetData(20, 10),
+            rowHeaders: true,
+            colHeaders: true,
+            manualColumnResize: true,
+            manualRowResize: true,
+            stretchH: 'all'
+        });
+        $(elem).text('Hide details and further customizations');
+    }
+}
+
+function addNewRowsAndCols() {
+    var numRows = parseInt($('#rows').val());
+    var numCols = parseInt($('#cols').val());
+    $('#rows').val("");
+    $('#cols').val("");
+    var numRows = isNaN(numRows) ? 0 : numRows;
+    var numCols = isNaN(numCols) ? 0 : numCols;
+    var totalRows = hot.countRows() + numRows;
+    totalRows = totalRows >= 1 ? totalRows : 1;
+    var totalCols = hot.countCols() + numCols;
+    totalCols = totalCols >= 2 ? totalCols : 2;
+    var container = document.getElementById('example');
+    hot = new Handsontable(container, {
+        data: Handsontable.helper.createSpreadsheetData(totalRows, totalCols),
+        rowHeaders: true,
+        colHeaders: true,
+        manualColumnResize: true,
+        manualRowResize: true,
+        stretchH: 'all'
+    });
+    
+}
