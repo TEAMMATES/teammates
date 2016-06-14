@@ -1,7 +1,7 @@
 package teammates.common.util;
 
 /**
- * The type object that defines an email type based on its purpose.
+ * The type object that defines an email based on its purpose.
  */
 public enum EmailType {
     
