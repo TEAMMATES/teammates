@@ -146,13 +146,13 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
     @Test
     public void testFeedbackSessionPublishedMailAction() throws Exception {
 
-        ______TS("MimeMessage Test : activate all sessions with mails sent");
+        ______TS("Emails Test : activate all sessions with mails sent");
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
             fs.setSentPublishedEmail(true);
             fsLogic.updateFeedbackSession(fs);
             assertTrue(fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId()).isSentPublishedEmail());
         }
-        ______TS("MimeMessage Test : set session 1 to unsent emails and publish");
+        ______TS("Emails Test : set session 1 to unsent emails and publish");
         // Modify session to set as published but emails unsent
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
         String courseName = CoursesLogic.inst().getCourse(session1.getCourseId()).getName();

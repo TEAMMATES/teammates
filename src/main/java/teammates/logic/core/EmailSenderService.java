@@ -8,6 +8,6 @@ public abstract class EmailSenderService {
     
     protected abstract Object parseToEmail(EmailWrapper wrapper);
     
-    protected abstract void sendEmail();
+    public abstract void sendEmail(EmailWrapper message);
     
 }

@@ -66,4 +66,8 @@ public class EmailWrapper {
         this.content = content;
     }
     
+    public String getInfoForLogging() {
+        return "";
+    }
+    
 }

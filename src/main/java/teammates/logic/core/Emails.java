@@ -1,17 +1,9 @@
 package teammates.logic.core;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Transport;
-import javax.mail.internet.MimeMessage;
-
-import org.jsoup.Jsoup;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
@@ -22,54 +14,42 @@ import teammates.common.util.EmailLogEntry;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Utils;
 
-import com.google.appengine.labs.repackaged.org.json.JSONException;
-
 /**
  * Handles operations related to sending e-mails.
  */
 public class Emails {
-    //TODO: methods in this class throw too many exceptions. Reduce using a wrapper exception?
 
     private static final Logger log = Utils.getLogger();
     
-    public static String getEmailInfo(MimeMessage message)
-            throws MessagingException {
-        StringBuilder messageInfo = new StringBuilder(100);
-        messageInfo.append("[Email sent]to=")
-                   .append(message.getRecipients(Message.RecipientType.TO)[0]
-                                .toString())
-                   .append("|from=").append(message.getFrom()[0].toString())
-                   .append("|subject=").append(message.getSubject());
-        return messageInfo.toString();
+    private EmailSenderService service;
+    
+    public Emails() {
+        if (Config.isUsingSendgrid()) {
+            // TODO
+        } else {
+            // TODO
+        }
     }
     
-    public static String getEmailInfo(Sendgrid message) {
-        StringBuilder messageInfo = new StringBuilder(100);
-        messageInfo.append("[Email sent]to=").append(message.getTos().get(0))
-                   .append("|from=").append(message.getFrom())
-                   .append("|subject=").append(message.getSubject());
-        return messageInfo.toString();
-    }
-    
+    /**
+     * Sends the given list of {@code messages}.
+     */
     public void sendEmails(List<EmailWrapper> messages) {
         if (messages.isEmpty()) {
             return;
         }
         
         // Equally spread out the emails to be sent over 1 hour
-        int numberOfEmailsSent = 0;
-        int emailIntervalMillis = (1000 * 60 * 60) / messages.size();
-
         // Sets interval to a maximum of 5 seconds if the interval is too large
-        int maxIntervalMillis = 5000;
-        emailIntervalMillis = emailIntervalMillis > maxIntervalMillis ? maxIntervalMillis : emailIntervalMillis;
+        int oneHourInMillis = 60 * 60 * 1000;
+        int emailIntervalMillis = Math.min(5000, oneHourInMillis / messages.size());
 
+        int numberOfEmailsSent = 0;
         for (EmailWrapper m : messages) {
             long emailDelayTimer = numberOfEmailsSent * emailIntervalMillis;
             addEmailToTaskQueue(m, emailDelayTimer);
             numberOfEmailsSent++;
         }
-
     }
 
     private void addEmailToTaskQueue(EmailWrapper message, long emailDelayTimer) {
@@ -95,125 +75,45 @@ public class Emails {
                        + "Email subject: " + emailSubject + "\n"
                        + "Email reply to address: " + emailReplyToAddress);
         }
-        
     }
     
-    public void sendEmailWithLogging(MimeMessage message) throws MessagingException, JSONException, IOException {
+    /**
+     * Sends the given {@code message} and generates a log report.
+     */
+    public void sendEmailWithLogging(EmailWrapper message) {
         sendEmail(message, true);
     }
     
-    public void sendEmailWithoutLogging(MimeMessage message) throws MessagingException, JSONException, IOException {
+    /**
+     * Sends the given {@code message} without generating a log report.
+     */
+    public void sendEmailWithoutLogging(EmailWrapper message) {
         sendEmail(message, false);
     }
     
-    public void sendEmailWithLogging(EmailWrapper message) {
-        // TODO
-    }
-    
-    public void sendEmailWithoutLogging(EmailWrapper message) {
-        // TODO
-    }
-    
-    public void forceSendEmailThroughGaeWithLogging(EmailWrapper message) {
-        // TODO
-    }
-    
-    public void forceSendEmailThroughGaeWithoutLogging(EmailWrapper message) {
-        // TODO
-    }
-    
-    /**
-     * Sends email through GAE irrespective of config properties
-     * Does not generate log report
-     * @param message
-     * @throws MessagingException
-     */
-    public void forceSendEmailThroughGaeWithoutLogging(MimeMessage message) throws MessagingException {
-        sendUsingGae(message);
-    }
-    
-    /**
-     * Sends email through GAE irrespective of config properties
-     * Generates log report
-     * @param message
-     * @throws MessagingException
-     */
-    public void forceSendEmailThroughGaeWithLogging(MimeMessage message) throws MessagingException {
-        sendUsingGae(message);
-        generateLogReport(message);
-    }
-
-    /**
-     * This method sends the email and has an option to log its receiver, subject and content
-     * @param message
-     * @param isWithLogging
-     * @throws MessagingException
-     * @throws IOException
-     * @throws JSONException
-     */
-    private void sendEmail(MimeMessage message, boolean isWithLogging) throws MessagingException, JSONException, IOException {
-        if (Config.isUsingSendgrid()) {
-            sendUsingSendgrid(message);
-            
-            if (isWithLogging) {
-                generateLogReport(parseMimeMessageToSendgrid(message));
-            }
-        } else {
-            sendUsingGae(message);
-            
-            if (isWithLogging) {
-                generateLogReport(message);
-            }
+    private void sendEmail(EmailWrapper message, boolean isWithLogging) {
+        service.sendEmail(message);
+        if (isWithLogging) {
+            generateLogReport(message);
         }
     }
     
-    private void sendUsingGae(MimeMessage message) throws MessagingException {
-        log.info(getEmailInfo(message));
-        Transport.send(message);
-    }
-
-    private void sendUsingSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
-        Sendgrid email = parseMimeMessageToSendgrid(message);
-        log.info(getEmailInfo(email));
-        
-        try {
-            email.send();
-        } catch (Exception e) {
-            log.severe("Sendgrid failed, sending with GAE mail");
-            Transport.send(message);
-        }
-    }
-    
-    private void generateLogReport(Sendgrid message) {
+    private void generateLogReport(EmailWrapper message) {
         try {
             EmailLogEntry newEntry = new EmailLogEntry(message);
             String emailLogInfo = newEntry.generateLogMessage();
             log.info(emailLogInfo);
         } catch (Exception e) {
-            log.severe("Failed to generate log for email: " + getEmailInfo(message));
-        }
-    }
-    
-    private void generateLogReport(MimeMessage message) throws MessagingException {
-        try {
-            EmailLogEntry newEntry = new EmailLogEntry(message);
-            String emailLogInfo = newEntry.generateLogMessage();
-            log.info(emailLogInfo);
-        } catch (Exception e) {
-            log.severe("Failed to generate log for email: " + getEmailInfo(message));
+            log.severe("Failed to generate log for email: " + message.getInfoForLogging());
         }
     }
     
     /**
      * Sends the given {@code errorReport}.
      */
-    public void sendErrorReport(MimeMessage errorReport) throws MessagingException {
-        forceSendEmailThroughGaeWithoutLogging(errorReport);
-        log.info("Sent crash report: " + Emails.getEmailInfo(errorReport));
-    }
-    
     public void sendErrorReport(EmailWrapper errorReport) {
-        // TODO
+        sendEmailWithoutLogging(errorReport); // TODO force Javamail
+        log.info("Sent crash report: " + errorReport.getInfoForLogging());
     }
     
     /**
@@ -231,11 +131,14 @@ public class Emails {
         logSevereForErrorInSendingItem("crash report", errorReport, e);
     }
     
-    public void sendLogReport(EmailWrapper message) {
+    /**
+     * Sends the given {@code logReport}
+     */
+    public void sendLogReport(EmailWrapper logReport) {
         try {
-            forceSendEmailThroughGaeWithoutLogging(message);
+            sendEmailWithoutLogging(logReport); // TODO force Javamail
         } catch (Exception e) {
-            logSevereForErrorInSendingItem("log report", message, e);
+            logSevereForErrorInSendingItem("log report", logReport, e);
         }
     }
     
@@ -244,42 +147,4 @@ public class Emails {
                    + "\nCause: " + TeammatesException.toStringWithStackTrace(e));
     }
     
-    public Sendgrid parseMimeMessageToSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
-        Sendgrid email = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
-        
-        for (int i = 0; i < message.getRecipients(Message.RecipientType.TO).length; i++) {
-            email.addTo(message.getRecipients(Message.RecipientType.TO)[i].toString());
-        }
-        
-        String from = extractSenderEmail(message.getFrom()[0].toString());
-        String html = message.getContent().toString();
-        
-        email.setFrom(from)
-             .setSubject(message.getSubject())
-             .setHtml(html)
-             .setText(Jsoup.parse(html).text());
-        
-        if (message.getRecipients(Message.RecipientType.BCC) != null
-                                        && message.getRecipients(Message.RecipientType.BCC).length > 0) {
-            email.setBcc(message.getRecipients(Message.RecipientType.BCC)[0].toString());
-        }
-        
-        if (message.getReplyTo() != null && message.getReplyTo().length > 0) {
-            email.setReplyTo(message.getReplyTo()[0].toString());
-        }
-        
-        return email;
-    }
-
-    /**
-     * Extracts sender email from the string with name and email in the format: Name <Email>
-     * @param from String with sender information in the format: Name <Email>
-     * @return Sender email
-     */
-    public String extractSenderEmail(String from) {
-        if (from.contains("<") && from.contains(">")) {
-            return from.substring(from.indexOf('<') + 1, from.indexOf('>'));
-        }
-        return from;
-    }
 }

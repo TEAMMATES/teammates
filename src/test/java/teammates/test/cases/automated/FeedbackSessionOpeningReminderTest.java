@@ -118,7 +118,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     @Test
     public void testFeedbackSessionOpeningMailAction() throws Exception {
         
-        ______TS("MimeMessage Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "
+        ______TS("Emails Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "
                 + "1 session opened without emails sent with sending open email disabled");
         // Modify session to set emails as unsent but still open
         // by closing and opening the session.

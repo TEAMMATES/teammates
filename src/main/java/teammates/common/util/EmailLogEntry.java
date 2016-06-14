@@ -1,14 +1,7 @@
 package teammates.common.util;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.TimeZone;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
-import teammates.logic.core.Sendgrid;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -23,17 +16,10 @@ public class EmailLogEntry {
     @SuppressWarnings("unused") // used by js
     private String logInfoAsHtml;
     
-    public EmailLogEntry(MimeMessage msg) throws MessagingException, IOException {
-        this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
+    public EmailLogEntry(EmailWrapper msg) {
+        this.receiver = msg.getFirstRecipient();
         this.subject = msg.getSubject();
-        this.content = (String) msg.getContent();
-    }
-    
-    public EmailLogEntry(Sendgrid msg) {
-        
-        this.receiver = msg.getTos().get(0);
-        this.subject = msg.getSubject();
-        this.content = msg.getHtml();
+        this.content = msg.getContent();
     }
     
     public EmailLogEntry(AppLogLine appLog) {
