@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -37,6 +34,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
@@ -2028,7 +2026,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         String courseName = CoursesLogic.inst().getCourse(fs.getCourseId()).getName();
 
-        List<MimeMessage> emailsSent =
+        List<EmailWrapper> emailsSent =
                 fsLogic.sendReminderForFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
         assertEquals(11, emailsSent.size());
 
@@ -2036,7 +2034,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.getCourseId());
         for (StudentAttributes s : studentList) {
-            MimeMessage emailToStudent = getEmailToStudent(s, emailsSent);
+            EmailWrapper emailToStudent = getEmailToStudent(s, emailsSent);
             if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s.email)) {
                 String errorMessage = "Email sent to " + s.email + " when he already completed the session.";
                 assertNull(errorMessage, emailToStudent);
@@ -2052,7 +2050,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.getCourseId());
         String notificationHeader = "The email below has been sent to students of course: " + fs.getCourseId();
         for (InstructorAttributes i : instructorList) {
-            List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
+            List<EmailWrapper> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
             if (fsLogic.isFeedbackSessionCompletedByInstructor(fs.getFeedbackSessionName(), fs.getCourseId(), i.email)) {
                 // Only send notification (no reminder) if instructor already completed the session
@@ -2107,12 +2105,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         String courseName = CoursesLogic.inst().getCourse(fs.getCourseId()).getName();
         String[] usersToRemind = new String[] {studentToRemind.email, instrToRemind.email};
 
-        List<MimeMessage> emailsSent =
+        List<EmailWrapper> emailsSent =
                 fsLogic.sendReminderForFeedbackSessionParticularUsers(
                         fs.getCourseId(), fs.getFeedbackSessionName(), usersToRemind);
         assertEquals(7, emailsSent.size());
 
-        MimeMessage emailToStudent = getEmailToStudent(studentToRemind, emailsSent);
+        EmailWrapper emailToStudent = getEmailToStudent(studentToRemind, emailsSent);
         String errorMessage = "No email sent to selected student " + studentToRemind.email;
         assertNotNull(errorMessage, emailToStudent);
         assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
@@ -2122,7 +2120,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.getCourseId());
         String notificationHeader = "The email below has been sent to students of course: " + fs.getCourseId();
         for (InstructorAttributes i : instructorList) {
-            List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
+            List<EmailWrapper> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
             if (i.email.equals(instrToRemind.email)) {
                 // Send both notification and reminder if the instructor is selected
@@ -2259,10 +2257,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         return paramMap;
     }
     
-    private MimeMessage getEmailToStudent(StudentAttributes s, List<MimeMessage> emailsSent)
-                                    throws MessagingException {
-        for (MimeMessage m : emailsSent) {
-            boolean emailSentToThisStudent = m.getAllRecipients()[0].toString().equalsIgnoreCase(s.email);
+    private EmailWrapper getEmailToStudent(StudentAttributes s, List<EmailWrapper> emailsSent) {
+        for (EmailWrapper m : emailsSent) {
+            boolean emailSentToThisStudent = m.getFirstRecipient().equalsIgnoreCase(s.email);
             if (emailSentToThisStudent) {
                 print("email sent to:" + s.email);
                 return m;
@@ -2271,11 +2268,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         return null;
     }
 
-    private List<MimeMessage> getEmailsToInstructor(InstructorAttributes i, List<MimeMessage> emailsSent)
-                                    throws MessagingException {
-        List<MimeMessage> emailsToInstructor = new ArrayList<MimeMessage>();
-        for (MimeMessage m : emailsSent) {
-            boolean emailSentToThisInstructor = m.getAllRecipients()[0].toString().equalsIgnoreCase(i.email);
+    private List<EmailWrapper> getEmailsToInstructor(InstructorAttributes i, List<EmailWrapper> emailsSent) {
+        List<EmailWrapper> emailsToInstructor = new ArrayList<EmailWrapper>();
+        for (EmailWrapper m : emailsSent) {
+            boolean emailSentToThisInstructor = m.getFirstRecipient().equalsIgnoreCase(i.email);
             if (emailSentToThisInstructor) {
                 print("email sent to:" + i.email);
                 emailsToInstructor.add(m);

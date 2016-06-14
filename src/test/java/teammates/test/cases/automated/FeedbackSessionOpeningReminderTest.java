@@ -3,9 +3,6 @@ package teammates.test.cases.automated;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -15,6 +12,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.automated.EmailAction;
@@ -166,15 +164,15 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     }
     
     private void prepareAndSendOpeningMailForSession(FeedbackSessionAttributes session, int studentCount,
-                                                     int instructorCount) throws MessagingException {
+                                                     int instructorCount) {
         HashMap<String, String> paramMap = createParamMapForAction(session);
         String courseName = CoursesLogic.inst().getCourse(session.getCourseId()).getName();
         EmailAction fsOpeningAction = new FeedbackSessionOpeningMailAction(paramMap);
 
-        List<MimeMessage> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
+        List<EmailWrapper> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(studentCount + instructorCount, preparedEmails.size());
 
-        for (MimeMessage m : preparedEmails) {
+        for (EmailWrapper m : preparedEmails) {
             assertEquals(String.format(EmailType.FEEDBACK_OPENING.getSubject(), courseName,
                                        session.getFeedbackSessionName()),
                          m.getSubject());

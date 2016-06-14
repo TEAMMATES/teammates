@@ -3,8 +3,6 @@ package teammates.test.cases.automated;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,6 +12,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.automated.EmailAction;
@@ -144,10 +143,10 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         int course1StudentCount = 5 - 2; // 2 students have already completed the session
         int course1InstructorCount = 5;
         
-        List<MimeMessage> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
+        List<EmailWrapper> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
         
-        for (MimeMessage m : preparedEmails) {
+        for (EmailWrapper m : preparedEmails) {
             assertEquals(String.format(EmailType.FEEDBACK_CLOSING.getSubject(), course1Name,
                                        session1.getFeedbackSessionName()),
                          m.getSubject());
@@ -184,7 +183,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course2StudentCount + course2InstructorCount, preparedEmails.size());
         
-        for (MimeMessage m : preparedEmails) {
+        for (EmailWrapper m : preparedEmails) {
             assertEquals(String.format(EmailType.FEEDBACK_CLOSING.getSubject(), course2Name,
                                        session2.getFeedbackSessionName()),
                          m.getSubject());

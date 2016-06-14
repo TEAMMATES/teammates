@@ -7,6 +7,7 @@ public class EmailWrapper {
     
     private String senderName;
     private String senderEmail;
+    private String replyTo;
     private List<String> recipientsList = new ArrayList<String>();
     private String subject;
     private String content;
@@ -25,6 +26,14 @@ public class EmailWrapper {
     
     public void setSenderEmail(String senderEmail) {
         this.senderEmail = senderEmail;
+    }
+    
+    public String getReplyTo() {
+        return replyTo;
+    }
+    
+    public void setReplyTo(String replyTo) {
+        this.replyTo = replyTo;
     }
     
     public List<String> getRecipientsList() {

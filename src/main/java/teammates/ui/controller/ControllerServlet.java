@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +18,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Utils;
@@ -128,8 +128,8 @@ public class ControllerServlet extends HttpServlet {
             String requestUrl = req.getRequestURL().toString();
             String requestParams = HttpRequestHelper.printRequestParameters(req);
             UserType userType = new GateKeeper().getCurrentUser();
-            MimeMessage email = new Logic().emailErrorReport(requestMethod, requestUserAgent, requestPath,
-                                                             requestUrl, requestParams, userType, t);
+            EmailWrapper email = new Logic().emailErrorReport(requestMethod, requestUserAgent, requestPath,
+                                                              requestUrl, requestParams, userType, t);
             if (email != null) {
                 log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email));
             }

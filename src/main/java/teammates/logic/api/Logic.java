@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.mail.internet.MimeMessage;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -44,6 +42,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CommentsLogic;
@@ -563,7 +562,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail)
+    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, String instructorEmail)
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -572,7 +571,7 @@ public class Logic {
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
     }
     
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor)
+    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor)
             throws EntityDoesNotExistException {
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructor);
     }
@@ -1167,7 +1166,7 @@ public class Logic {
      * @return The list of emails sent. These can be used for
      *         verification.
      */
-    public List<MimeMessage> sendRegistrationInviteForCourse(String courseId) {
+    public List<EmailWrapper> sendRegistrationInviteForCourse(String courseId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return studentsLogic.sendRegistrationInviteForCourse(courseId);
     }
@@ -1176,7 +1175,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail)
+    public EmailWrapper sendRegistrationInviteToStudent(String courseId, String studentEmail)
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1193,7 +1192,7 @@ public class Logic {
      * @return
      * @throws EntityDoesNotExistException
      */
-    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
+    public EmailWrapper sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -2588,20 +2587,16 @@ public class Logic {
     /**
      * Generates and emails an error report based on the supplied {@link Throwable} {@code error}.
      */
-    public MimeMessage emailErrorReport(String requestMethod, String requestUserAgent, String requestPath,
-                                        String requestUrl, String requestParams, UserType userType,
-                                        Throwable error) {
-        MimeMessage errorReport = null;
+    public EmailWrapper emailErrorReport(String requestMethod, String requestUserAgent, String requestPath,
+                                         String requestUrl, String requestParams, UserType userType,
+                                         Throwable error) {
+        EmailWrapper errorReport =
+                emailGenerator.generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
+                                                        requestUrl, requestParams, userType, error);
         try {
-            errorReport = emailGenerator.generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
-                                                                  requestUrl, requestParams, userType, error);
-            try {
-                emailManager.sendErrorReport(errorReport);
-            } catch (Exception e) {
-                emailManager.reportErrorWithBackupChannel(error, errorReport, e);
-            }
+            emailManager.sendErrorReport(errorReport);
         } catch (Exception e) {
-            emailManager.reportErrorWithBackupChannel(error, null, e);
+            emailManager.reportErrorWithBackupChannel(error, errorReport, e);
         }
         return errorReport;
     }

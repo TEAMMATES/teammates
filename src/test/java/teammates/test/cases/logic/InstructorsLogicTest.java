@@ -3,9 +3,6 @@ package teammates.test.cases.logic;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -17,6 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -735,7 +733,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         String courseName = coursesLogic.getCourse(instructor.courseId).getName();
-        MimeMessage email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
+        EmailWrapper email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
     
         verifyJoinInviteToInstructor(instructor, email, courseName, instructor.courseId);
         
@@ -792,10 +790,9 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         assertEquals(instructor1.email, instructor2.email);
     }
     
-    private void verifyJoinInviteToInstructor(InstructorAttributes instr, MimeMessage email, String courseName,
-                                              String courseId)
-            throws MessagingException {
-        assertEquals(instr.email, email.getAllRecipients()[0].toString());
+    private void verifyJoinInviteToInstructor(InstructorAttributes instr, EmailWrapper email, String courseName,
+                                              String courseId) {
+        assertEquals(instr.email, email.getFirstRecipient());
         assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), courseName, courseId),
                      email.getSubject());
     }

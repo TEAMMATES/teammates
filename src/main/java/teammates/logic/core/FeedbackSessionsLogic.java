@@ -13,8 +13,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
-
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -41,6 +39,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -1472,7 +1471,7 @@ public class FeedbackSessionsLogic {
         updateFeedbackSession(sessionToUnpublish);
     }
 
-    public List<MimeMessage> sendReminderForFeedbackSession(String courseId,
+    public List<EmailWrapper> sendReminderForFeedbackSession(String courseId,
             String feedbackSessionName) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_REMIND + courseId + "/" + feedbackSessionName);
@@ -1504,7 +1503,7 @@ public class FeedbackSessionsLogic {
         }
 
         try {
-            List<MimeMessage> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
+            List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
                     session, studentsToRemindList, instructorsToRemindList, instructorList);
             new Emails().sendEmails(emails);
             return emails;
@@ -1513,7 +1512,7 @@ public class FeedbackSessionsLogic {
         }
     }
     
-    public List<MimeMessage> sendReminderForFeedbackSessionParticularUsers(String courseId,
+    public List<EmailWrapper> sendReminderForFeedbackSessionParticularUsers(String courseId,
             String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_REMIND + courseId + "/" + feedbackSessionName);
@@ -1542,7 +1541,7 @@ public class FeedbackSessionsLogic {
         }
 
         try {
-            List<MimeMessage> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
+            List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
                     session, studentsToRemindList, instructorsToRemindList, instructorList);
             new Emails().sendEmails(emails);
             return emails;

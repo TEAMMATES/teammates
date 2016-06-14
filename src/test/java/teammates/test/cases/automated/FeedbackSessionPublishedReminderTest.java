@@ -3,8 +3,6 @@ package teammates.test.cases.automated;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,6 +12,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.automated.EmailAction;
@@ -166,10 +165,10 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         int course1StudentCount = 5;
         int course1InstructorCount = 5;
         
-        List<MimeMessage> preparedEmails = fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
+        List<EmailWrapper> preparedEmails = fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
 
-        for (MimeMessage m : preparedEmails) {
+        for (EmailWrapper m : preparedEmails) {
             assertEquals(String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(), courseName,
                                        session1.getFeedbackSessionName()),
                          m.getSubject());

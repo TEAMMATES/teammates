@@ -6,10 +6,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -33,6 +29,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -338,8 +335,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         String studentEmail = student1InCourse1.email;
         String courseId = student1InCourse1.course;
         String courseName = coursesLogic.getCourse(courseId).getName();
-        MimeMessage msgToStudent = studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
-        assertEquals(studentEmail, msgToStudent.getRecipients(Message.RecipientType.TO)[0].toString());
+        EmailWrapper msgToStudent = studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
+        assertEquals(studentEmail, msgToStudent.getFirstRecipient());
         assertEquals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), courseName, courseId),
                      msgToStudent.getSubject());
         
@@ -1114,8 +1111,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
     
         // send registration key to a class in which all are registered
-        List<MimeMessage> emailsSent = studentsLogic
-                .sendRegistrationInviteForCourse(course1.getId());
+        List<EmailWrapper> emailsSent = studentsLogic.sendRegistrationInviteForCourse(course1.getId());
         assertEquals(0, emailsSent.size());
         
         ______TS("typical case: send invite to one student");
@@ -1131,7 +1127,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         invokeEnrollStudent(newsStudent1Info);
         invokeEnrollStudent(newsStudent2Info);
 
-        List<MimeMessage> msgsForCourse = studentsLogic.sendRegistrationInviteForCourse(courseId);
+        List<EmailWrapper> msgsForCourse = studentsLogic.sendRegistrationInviteForCourse(courseId);
         assertEquals(3, msgsForCourse.size());
         verifyJoinInviteToStudent(newsStudent0Info, msgsForCourse.get(0), courseName, courseId);
         verifyJoinInviteToStudent(newsStudent1Info, msgsForCourse.get(1), courseName, courseId);
@@ -1212,10 +1208,9 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         printTestClassFooter();
     }
     
-    private void verifyJoinInviteToStudent(StudentAttributes student, MimeMessage email, String courseName,
-                                           String courseId)
-            throws MessagingException {
-        assertEquals(student.email, email.getAllRecipients()[0].toString());
+    private void verifyJoinInviteToStudent(StudentAttributes student, EmailWrapper email, String courseName,
+                                           String courseId) {
+        assertEquals(student.email, email.getFirstRecipient());
         assertEquals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), courseName, courseId),
                      email.getSubject());
     }

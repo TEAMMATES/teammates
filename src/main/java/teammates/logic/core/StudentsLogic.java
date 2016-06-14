@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.MimeMessage;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -26,6 +24,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -530,7 +529,7 @@ public class StudentsLogic {
         
     }
 
-    public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail)
+    public EmailWrapper sendRegistrationInviteToStudent(String courseId, String studentEmail)
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -546,7 +545,7 @@ public class StudentsLogic {
         }
         
         try {
-            MimeMessage email = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
+            EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
             new Emails().sendEmailWithLogging(email);
             return email;
         } catch (Exception e) {
@@ -555,7 +554,7 @@ public class StudentsLogic {
         
     }
     
-    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
+    public EmailWrapper sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -571,7 +570,7 @@ public class StudentsLogic {
         }
         
         try {
-            MimeMessage email = new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
+            EmailWrapper email = new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
             new Emails().sendEmailWithLogging(email);
             return email;
         } catch (Exception e) {
@@ -580,15 +579,15 @@ public class StudentsLogic {
         
     }
     
-    public List<MimeMessage> sendRegistrationInviteForCourse(String courseId) {
+    public List<EmailWrapper> sendRegistrationInviteForCourse(String courseId) {
         List<StudentAttributes> studentDataList = getUnregisteredStudentsForCourse(courseId);
         
-        ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+        List<EmailWrapper> emailsSent = new ArrayList<EmailWrapper>();
     
         //TODO: sending mail should be moved to somewhere else.
         for (StudentAttributes s : studentDataList) {
             try {
-                MimeMessage email = sendRegistrationInviteToStudent(courseId, s.email);
+                EmailWrapper email = sendRegistrationInviteToStudent(courseId, s.email);
                 emailsSent.add(email);
             } catch (EntityDoesNotExistException e) {
                 Assumption

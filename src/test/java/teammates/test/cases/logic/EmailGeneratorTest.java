@@ -1,11 +1,6 @@
 package teammates.test.cases.logic;
 
-import java.io.IOException;
 import java.util.List;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -20,6 +15,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.EmailGenerator;
@@ -47,15 +43,12 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         printTestClassHeader();
         removeAndRestoreTypicalDataInDatastore();
         
-        String fromEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
-        String fromName = "TEAMMATES Admin";
         replyTo = "teammates@comp.nus.edu.sg";
-        InternetAddress internetAddress = new InternetAddress(fromEmail, fromName);
-        from = internetAddress.toString();
+        from = "Admin@" + Config.getAppId() + ".appspotmail.com";
     }
     
     @Test
-    public void testGenerateFeedbackSessionEmails() throws Exception {
+    public void testGenerateFeedbackSessionEmails() {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
         
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
@@ -74,7 +67,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         ______TS("feedback session opening emails");
         
-        List<MimeMessage> emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(session);
+        List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(session);
         assertEquals(10, emails.size());
         
         String subject = String.format(EmailType.FEEDBACK_OPENING.getSubject(),
@@ -172,7 +165,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGenerateStudentCourseJoinEmail() throws IOException, MessagingException {
+    public void testGenerateStudentCourseJoinEmail() {
         
         CourseAttributes course = new CourseAttributes("course-id", "Course Name");
         
@@ -181,7 +174,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         student.key = "skxxxxxxxxxks";
         student.email = "student@email.tmt";
         
-        MimeMessage email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
+        EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
         String subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
         
         // check email body
@@ -193,7 +186,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testSystemCrashReportEmailContent() throws IOException, MessagingException {
+    public void testSystemCrashReportEmailContent() {
         
         AssertionError error = new AssertionError("invalid parameter");
         String stackTrace = TeammatesException.toStringWithStackTrace(error);
@@ -204,7 +197,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         String requestParam = "{}";
         UserType userType = new UserType("Not logged in");
         
-        MimeMessage email =
+        EmailWrapper email =
                 new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
                                                               requestUrl, requestParam, userType, error);
         
@@ -224,19 +217,18 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         verifyEmail(email, Config.SUPPORT_EMAIL, subject, textInEmail);
     }
     
-    private void verifyEmail(MimeMessage email, String recipient, String subject, String textInEmail)
-            throws MessagingException, IOException {
+    private void verifyEmail(EmailWrapper email, String recipient, String subject, String textInEmail) {
         // check recipient
-        assertEquals(recipient, email.getAllRecipients()[0].toString());
+        assertEquals(recipient, email.getFirstRecipient());
         
         // check subject
         assertEquals(subject, email.getSubject());
         
         // check sender
-        assertEquals(from, email.getFrom()[0].toString());
+        assertEquals(from, email.getSenderEmail());
         
         //check replyTo
-        assertEquals(replyTo, email.getReplyTo()[0].toString());
+        assertEquals(replyTo, email.getReplyTo());
         
         String emailBody = email.getContent().toString();
         

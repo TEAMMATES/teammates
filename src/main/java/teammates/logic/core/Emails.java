@@ -19,6 +19,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailLogEntry;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.Utils;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
@@ -50,7 +51,7 @@ public class Emails {
         return messageInfo.toString();
     }
     
-    public void sendEmails(List<MimeMessage> messages) {
+    public void sendEmails(List<EmailWrapper> messages) {
         if (messages.isEmpty()) {
             return;
         }
@@ -63,23 +64,19 @@ public class Emails {
         int maxIntervalMillis = 5000;
         emailIntervalMillis = emailIntervalMillis > maxIntervalMillis ? maxIntervalMillis : emailIntervalMillis;
 
-        for (MimeMessage m : messages) {
-            try {
-                long emailDelayTimer = numberOfEmailsSent * emailIntervalMillis;
-                addEmailToTaskQueue(m, emailDelayTimer);
-                numberOfEmailsSent++;
-            } catch (MessagingException e) {
-                logSevereForErrorInSendingItem("message", m, e);
-            }
+        for (EmailWrapper m : messages) {
+            long emailDelayTimer = numberOfEmailsSent * emailIntervalMillis;
+            addEmailToTaskQueue(m, emailDelayTimer);
+            numberOfEmailsSent++;
         }
 
     }
 
-    private void addEmailToTaskQueue(MimeMessage message, long emailDelayTimer) throws MessagingException {
+    private void addEmailToTaskQueue(EmailWrapper message, long emailDelayTimer) {
         String emailSubject = message.getSubject();
-        String emailSender = message.getFrom()[0].toString();
-        String emailReceiver = message.getRecipients(Message.RecipientType.TO)[0].toString();
-        String emailReplyToAddress = message.getReplyTo()[0].toString();
+        String emailSender = message.getSenderEmail();
+        String emailReceiver = message.getFirstRecipient();
+        String emailReplyToAddress = message.getReplyTo();
         try {
             Map<String, String> paramMap = new HashMap<String, String>();
             paramMap.put(ParamsNames.EMAIL_SUBJECT, emailSubject);
@@ -107,6 +104,22 @@ public class Emails {
     
     public void sendEmailWithoutLogging(MimeMessage message) throws MessagingException, JSONException, IOException {
         sendEmail(message, false);
+    }
+    
+    public void sendEmailWithLogging(EmailWrapper message) {
+        // TODO
+    }
+    
+    public void sendEmailWithoutLogging(EmailWrapper message) {
+        // TODO
+    }
+    
+    public void forceSendEmailThroughGaeWithLogging(EmailWrapper message) {
+        // TODO
+    }
+    
+    public void forceSendEmailThroughGaeWithoutLogging(EmailWrapper message) {
+        // TODO
     }
     
     /**
@@ -199,6 +212,10 @@ public class Emails {
         log.info("Sent crash report: " + Emails.getEmailInfo(errorReport));
     }
     
+    public void sendErrorReport(EmailWrapper errorReport) {
+        // TODO
+    }
+    
     /**
      * Reports that a system {@code error} has occurred and the {@code errorReport} that is
      * supposed to report it has failed to sent.<br>
@@ -208,22 +225,21 @@ public class Emails {
      * @param errorReport the report that fails to send
      * @param e the exception which causes {@code errorReport} to fail to send
      */
-    public void reportErrorWithBackupChannel(Throwable error, MimeMessage errorReport, Exception e) {
+    public void reportErrorWithBackupChannel(Throwable error, EmailWrapper errorReport, Exception e) {
         log.severe("Crash report failed to send. Detailed error stack trace: "
                    + TeammatesException.toStringWithStackTrace(error));
         logSevereForErrorInSendingItem("crash report", errorReport, e);
     }
-
-    public MimeMessage sendLogReport(MimeMessage message) {
+    
+    public void sendLogReport(EmailWrapper message) {
         try {
             forceSendEmailThroughGaeWithoutLogging(message);
         } catch (Exception e) {
             logSevereForErrorInSendingItem("log report", message, e);
         }
-        return message;
     }
     
-    private void logSevereForErrorInSendingItem(String itemType, MimeMessage message, Exception e) {
+    private void logSevereForErrorInSendingItem(String itemType, EmailWrapper message, Exception e) {
         log.severe("Error in sending " + itemType + ": " + (message == null ? "" : message.toString())
                    + "\nCause: " + TeammatesException.toStringWithStackTrace(e));
     }
