@@ -324,7 +324,7 @@ public class EmailGenerator {
                 "${joinUrl}", joinUrl);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
-        // email = addBccRecipientToEmail(email, Config.SUPPORT_EMAIL);
+        email.addBcc(Config.SUPPORT_EMAIL);
         email.setSubject(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), shortName));
         email.setContent(emailBody);
         return email;
@@ -341,12 +341,6 @@ public class EmailGenerator {
                        .withInstructorInstitution(institute)
                        .toAbsoluteString();
     }
-    
-    /*private EmailWrapper addBccRecipientToEmail(EmailWrapper email, String newAddress)
-            throws AddressException, MessagingException {
-        email.addRecipient(Message.RecipientType.BCC, new InternetAddress(newAddress));
-        return email;
-    }*/
     
     /**
      * Generates the course join email for the given {@code student} in {@code course}.

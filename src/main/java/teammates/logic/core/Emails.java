@@ -25,9 +25,9 @@ public class Emails {
     
     public Emails() {
         if (Config.isUsingSendgrid()) {
-            // TODO
+            service = new SendgridService();
         } else {
-            // TODO
+            service = new JavamailService();
         }
     }
     
@@ -60,7 +60,7 @@ public class Emails {
         try {
             Map<String, String> paramMap = new HashMap<String, String>();
             paramMap.put(ParamsNames.EMAIL_SUBJECT, emailSubject);
-            paramMap.put(ParamsNames.EMAIL_CONTENT, message.getContent().toString());
+            paramMap.put(ParamsNames.EMAIL_CONTENT, message.getContent());
             paramMap.put(ParamsNames.EMAIL_SENDER, emailSender);
             paramMap.put(ParamsNames.EMAIL_RECEIVER, emailReceiver);
             paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, emailReplyToAddress);
@@ -80,18 +80,18 @@ public class Emails {
     /**
      * Sends the given {@code message} and generates a log report.
      */
-    public void sendEmailWithLogging(EmailWrapper message) {
+    public void sendEmailWithLogging(EmailWrapper message) throws Exception {
         sendEmail(message, true);
     }
     
     /**
      * Sends the given {@code message} without generating a log report.
      */
-    public void sendEmailWithoutLogging(EmailWrapper message) {
+    public void sendEmailWithoutLogging(EmailWrapper message) throws Exception {
         sendEmail(message, false);
     }
     
-    private void sendEmail(EmailWrapper message, boolean isWithLogging) {
+    private void sendEmail(EmailWrapper message, boolean isWithLogging) throws Exception {
         service.sendEmail(message);
         if (isWithLogging) {
             generateLogReport(message);
@@ -111,8 +111,8 @@ public class Emails {
     /**
      * Sends the given {@code errorReport}.
      */
-    public void sendErrorReport(EmailWrapper errorReport) {
-        sendEmailWithoutLogging(errorReport); // TODO force Javamail
+    public void sendErrorReport(EmailWrapper errorReport) throws Exception {
+        sendEmailWithoutLogging(errorReport);
         log.info("Sent crash report: " + errorReport.getInfoForLogging());
     }
     
@@ -136,14 +136,14 @@ public class Emails {
      */
     public void sendLogReport(EmailWrapper logReport) {
         try {
-            sendEmailWithoutLogging(logReport); // TODO force Javamail
+            sendEmailWithoutLogging(logReport);
         } catch (Exception e) {
             logSevereForErrorInSendingItem("log report", logReport, e);
         }
     }
     
     private void logSevereForErrorInSendingItem(String itemType, EmailWrapper message, Exception e) {
-        log.severe("Error in sending " + itemType + ": " + (message == null ? "" : message.toString())
+        log.severe("Error in sending " + itemType + ": " + (message == null ? "" : message.getInfoForLogging())
                    + "\nCause: " + TeammatesException.toStringWithStackTrace(e));
     }
     

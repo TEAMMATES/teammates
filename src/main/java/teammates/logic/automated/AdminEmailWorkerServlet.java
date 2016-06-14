@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
@@ -46,12 +47,16 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         Assumption.assertNotNull(emailContent);
         Assumption.assertNotNull(emailSubject);
         
-        sendAdminEmail(emailContent, emailSubject, receiverEmail);
-        log.info("Email sent to " + receiverEmail);
+        try {
+            sendAdminEmail(emailContent, emailSubject, receiverEmail);
+            log.info("Email sent to " + receiverEmail);
+        } catch (Exception e) {
+            log.severe("Unexpected error while sending admin emails: " + TeammatesException.toStringWithStackTrace(e));
+        }
 
     }
     
-    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) {
+    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws Exception {
         
         EmailWrapper email =
                 new EmailGenerator().generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),

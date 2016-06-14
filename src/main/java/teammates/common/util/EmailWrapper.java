@@ -9,6 +9,7 @@ public class EmailWrapper {
     private String senderEmail;
     private String replyTo;
     private List<String> recipientsList = new ArrayList<String>();
+    private List<String> bccList = new ArrayList<String>();
     private String subject;
     private String content;
     
@@ -50,6 +51,16 @@ public class EmailWrapper {
         }
     }
     
+    public List<String> getBccList() {
+        return bccList;
+    }
+    
+    public void addBcc(String bcc) {
+        if (!bccList.contains(bcc)) {
+            bccList.add(bcc);
+        }
+    }
+    
     public String getSubject() {
         return subject;
     }
@@ -67,7 +78,9 @@ public class EmailWrapper {
     }
     
     public String getInfoForLogging() {
-        return "";
+        return "[Email sent]to=" + getFirstRecipient()
+               + "|from=" + getSenderEmail()
+               + "|subject=" + getSubject();
     }
     
 }

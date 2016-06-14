@@ -3,6 +3,7 @@ package teammates.logic.automated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
@@ -14,35 +15,35 @@ public class SendEmailWorkerServlet extends WorkerServlet {
     
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        String emailSubject = HttpRequestHelper
-                .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_SUBJECT);
+        String emailSubject = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_SUBJECT);
         Assumption.assertNotNull(emailSubject);
         
-        String emailContent = HttpRequestHelper
-                .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_CONTENT);
+        String emailContent = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_CONTENT);
         Assumption.assertNotNull(emailContent);
         
-        String emailSender = HttpRequestHelper
-                .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_SENDER);
+        String emailSender = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_SENDER);
         Assumption.assertNotNull(emailSender);
         
-        String emailReceiver = HttpRequestHelper
-                .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_RECEIVER);
+        String emailReceiver = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_RECEIVER);
         Assumption.assertNotNull(emailReceiver);
         
-        String emailReply = HttpRequestHelper
-                .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_REPLY_TO_ADDRESS);
+        String emailReply = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_REPLY_TO_ADDRESS);
         Assumption.assertNotNull(emailReply);
         
         EmailWrapper message = new EmailWrapper();
-
         message.addRecipient(emailReceiver);
         message.setSenderEmail(emailSender);
         message.setContent(emailContent);
         message.setSubject(emailSubject);
         message.setReplyTo(emailReply);
         
-        Emails emailManager = new Emails();
-        emailManager.sendEmailWithLogging(message);
+        try {
+            new Emails().sendEmailWithLogging(message);
+        } catch (Exception e) {
+            log.severe("Error while sending email via servlet: " + TeammatesException.toStringWithStackTrace(e));
+            
+            // Sets an arbitrary retry code outside of the range 200-299 so GAE will automatically retry upon failure
+            resp.setStatus(100);
+        }
     }
 }
