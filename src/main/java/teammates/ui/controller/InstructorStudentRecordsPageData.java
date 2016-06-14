@@ -41,8 +41,12 @@ public class InstructorStudentRecordsPageData extends PageData {
             this.studentProfile = new StudentProfile(student.name, spa, pictureUrl);
         }
         this.commentsForStudentTable = new ArrayList<CommentsForStudentsTable>();
+        int commentCount = 0;
         for (String giverEmail : giverEmailToCommentsMap.keySet()) {
-            addCommentsToTable(student, giverEmailToCommentsMap, instructor, giverEmail);
+            commentCount += giverEmailToCommentsMap.get(giverEmail).size();
+        }
+        for (String giverEmail : giverEmailToCommentsMap.keySet()) {
+            addCommentsToTable(student, giverEmailToCommentsMap, instructor, giverEmail, commentCount);
         }
         this.sessionNames = sessionNames;
     }
@@ -81,7 +85,7 @@ public class InstructorStudentRecordsPageData extends PageData {
 
     private void addCommentsToTable(StudentAttributes student,
             Map<String, List<CommentAttributes>> giverEmailToCommentsMap, InstructorAttributes instructor,
-            String giverEmail) {
+            String giverEmail, int totalNumOfComments) {
         List<CommentRow> commentDivs = new ArrayList<CommentRow>();
         List<CommentAttributes> comments = giverEmailToCommentsMap.get(giverEmail);
         for (CommentAttributes comment : comments) {
@@ -96,7 +100,7 @@ public class InstructorStudentRecordsPageData extends PageData {
                 commentDiv.setEditDeleteEnabled(false);
             }
             commentDiv.setNotFromCommentsPage(student.email);
-            commentDiv.setNumComments(comments.size());
+            commentDiv.setNumComments(totalNumOfComments);
             commentDivs.add(commentDiv);
         }
         CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable(giverEmail, commentDivs);
