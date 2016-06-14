@@ -52,6 +52,41 @@
     <br>
     <br>
     <shared:confirmationModal/>
+    <script>
+        // helper functions
+        function getQuestionId(elem) {
+            var containingForm = $(elem).closest('form');
+            return containingForm.attr('id').split('form_editquestion-')[1];
+        }
+        function getContainingForm(elem) {
+            return containingForm = $(elem).closest('form');
+        }
+
+        // event handlers
+        function setFeedbackPathDropdownText(text, elem) {
+            var containingForm = getContainingForm(elem);
+            var feedbackPathDropdown = containingForm.find('.feedback-path-dropdown');
+            feedbackPathDropdown.find('button').html(text);
+        }
+        function hideFeedbackPathOthers(elem) {
+            var containingForm = getContainingForm(elem);
+            containingForm.find('.feedback-path-others').hide();
+        }
+        function showFeedbackPathOthers(elem) {
+            var containingForm = getContainingForm(elem);
+            containingForm.find('.feedback-path-others').show();
+        }
+
+        // attaching event handlers
+        $('.others-button').on('click', function() {
+            showFeedbackPathOthers(this);
+        });
+
+        $('.feedback-path-dropdown > ul > li > ul > li > a').on('click', function() {
+            setFeedbackPathDropdownText(this.dataset.feedbackPathDescription, this);
+            hideFeedbackPathOthers(this);
+        });
+    </script>
     <style>
         .feedback-path-dropdown {
             width: 100%;
