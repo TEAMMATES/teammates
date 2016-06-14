@@ -59,6 +59,10 @@ Important: When a version is specified, please install that version instead of t
 4. Run the command `./gradlew setup`.<br>
    This creates the main config files {These are not under revision control because their content vary from developer to developer}.
    * `.project`<br>
+   * `.classpath`<br>
+   * `gradle.properties`<br>
+   If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.<br>
+   This value must be a valid **JDK 1.7** directory.<br>
    * `src/main/resources/build.properties`<br>
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
@@ -66,9 +70,7 @@ Important: When a version is specified, please install that version instead of t
    Append a unique id (e.g. your name) to **each** of the default accounts found at the bottom of this file. 
    e.g. change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`<br>
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
-   * `.settings/com.google.gdt.eclipse.core.prefs`<br>
    Additionally, this command downloads the dependencies required by TEAMMATES and places them in the appropriate directories.<br>
-   This command can be run again whenever the dependencies need to be updated.
    Sometimes, the changes from this command might not show up in Eclipse immediately. "Refreshing" the project or restarting Eclipse
    should fix that.
 5. Start Eclipse and go to `File → Import...` and select `Existing Projects into Workspace` under `General`. Set the `root directory` to the location where
