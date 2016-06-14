@@ -96,6 +96,12 @@ public class FeedbackSubmitPage extends AppPage {
         element.click();
     }
     
+    public void fillMcqOtherOptionTextBox(int qnNumber, int responseNumber, String otherOptionText) {
+        String elementId = "otherOptionText-" + qnNumber + "-" + responseNumber;
+        WebElement otherOptionTextBox = browser.driver.findElement(By.id(elementId));
+        fillTextBox(otherOptionTextBox, otherOptionText);
+    }
+    
     public void toggleMsqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = Sanitizer.convertStringForXPath(name);
@@ -103,6 +109,12 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement element = browser.driver.findElement(
                 By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         element.click();
+    }
+    
+    public void fillMsqOtherOptionTextBox(int qnNumber, int responseNumber, String otherOptionText) {
+        String elementId = "msqOtherOptionText-" + qnNumber + "-" + responseNumber;
+        WebElement otherOptionTextBox = browser.driver.findElement(By.id(elementId));
+        fillTextBox(otherOptionTextBox, otherOptionText);
     }
     
     public void chooseContribOption(int qnNumber, int responseNumber, String choiceName) {
@@ -164,6 +176,12 @@ public class FeedbackSubmitPage extends AppPage {
         return browser.driver.findElement(By.id("response_submit_button"));
     }
     
+    public void verifyOtherOptionTextUnclickable(int qnNumber, int responseNumber) {
+        WebElement element = browser.driver.findElement(
+                By.cssSelector("input[id$='OptionText-" + qnNumber + "-" + responseNumber + "']"));
+        verifyUnclickable(element);
+    }
+    
     public void waitForCellHoverToDisappear() {
         waitForElementToDisappear(By.className("cell-hover"));
     }
@@ -175,5 +193,11 @@ public class FeedbackSubmitPage extends AppPage {
 
         By warningModalOverlay = By.id("warning-modal");
         waitForElementToDisappear(warningModalOverlay);
+    }
+    
+    public void waitForOtherOptionTextToBeClickable(int qnNumber, int responseNumber) {
+        WebElement element = browser.driver.findElement(
+                By.cssSelector("input[id$='OptionText-" + qnNumber + "-" + responseNumber + "']"));
+        waitForElementToBeClickable(element);
     }
 }
