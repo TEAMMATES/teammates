@@ -120,7 +120,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <div class="row">
+            <div class="feedback-path-show-details row">
                 <div class="col-sm-12"><a onclick="toggleCustom(this)">View details and further customizations</a></div>
             </div>
             <div hidden class="row" id="custom">

@@ -79,11 +79,16 @@
             var containingForm = getContainingForm(elem);
             containingForm.find('.feedback-path-others').show();
         }
+        function showFeedbackPathShowDetails(elem) {
+            var containingForm = getContainingForm(elem);
+            containingForm.find('.feedback-path-show-details').show();
+        }
 
         // attaching event handlers
         $('.feedback-path-dropdown > ul > li > ul > li > a').on('click', function() {
             setFeedbackPathDropdownText(this.dataset.feedbackPathDescription, this);
             hideFeedbackPathOthers(this);
+			showFeedbackPathShowDetails(this);
         });
         $('.feedback-path-others-menu-option').on('click', function() {
             setFeedbackPathDropdownText(this.dataset.feedbackPathDescription, this);
@@ -201,6 +206,7 @@
             margin-bottom: 0.6em;
         }
         .feedback-path-others,
+		.feedback-path-show-details,
         .visibility-preview,
         .visibility-others,
         .visibility-show-details {
