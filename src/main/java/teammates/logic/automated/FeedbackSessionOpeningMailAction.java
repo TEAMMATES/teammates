@@ -15,7 +15,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 public class FeedbackSessionOpeningMailAction extends EmailAction {
@@ -72,7 +72,7 @@ public class FeedbackSessionOpeningMailAction extends EmailAction {
          * Check if feedback session was deleted between scheduling
          * and the actual sending of emails
          */
-        return new Emails().generateFeedbackSessionOpeningEmails(feedbackObject);
+        return new EmailGenerator().generateFeedbackSessionOpeningEmails(feedbackObject);
         
     }
     

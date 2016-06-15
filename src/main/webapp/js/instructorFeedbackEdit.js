@@ -57,7 +57,7 @@ function readyFeedbackEditPage() {
         }
     });
     
-    $('.dropdown-menu li').click(function() {
+    $('#add-new-question-dropdown > li').click(function() {
         showNewQuestionFrame($(this).data('questiontype'));
     });
     
