@@ -156,6 +156,41 @@
                 flashVisibilityDropdownText(this);
             }
         });
+
+        /// brute-force functions for prototyping
+        function setVisibilityOptionsForShoutingIntoTheVoid(elem) {
+            var containingForm = getContainingForm(elem);
+			// checkboxes
+			containingForm.find('.visibility-others .visibilityCheckbox').prop('checked', false);
+
+			// preview text
+			containingForm.find('.visibility-preview > div > ul').html('<li>The response, recipient identity and giver\'s identity will only be visible to the giver</li>');
+		}
+		$('.visibility-dropdown > ul > li:first-child > a').on('click', function() {
+			setVisibilityOptionsForShoutingIntoTheVoid(this);
+		});
+
+        function setVisibilityOptionsForCompletelyTransparent(elem) {
+            var containingForm = getContainingForm(elem);
+			// checkboxes
+			containingForm.find('.visibility-others .visibilityCheckbox').prop('checked', true);
+
+			// preview text
+			containingForm.find('.visibility-preview > div > ul').html('<li>The response, recipient identity and giver\'s identity will be visible to everyone in course</li>');
+		}
+		$('.visibility-dropdown > ul > li:nth-last-child(4) > a').on('click', function() {
+			setVisibilityOptionsForCompletelyTransparent(this);
+		});
+
+		function rewordVisibilityOptionsForStudentsToTeammates(elem) {
+            var containingForm = getContainingForm(elem);
+			containingForm.find('.dataTable > tbody > tr:nth-child(2) > td:first-child > div').html('Recipient (Each teammate)');
+			containingForm.find('.dataTable > tbody > tr:nth-child(2) > td:first-child > div').html('Recipient (Each teammate)');
+			containingForm.find('.dataTable > tbody > tr:nth-child(3)').hide();
+		}
+		$('.feedback-path-dropdown > ul > li:nth-child(2) > ul > li:nth-child(4) > a').on('click', function() {
+			rewordVisibilityOptionsForStudentsToTeammates(this);
+		});
     </script>
     <style>
         .feedback-path-dropdown,

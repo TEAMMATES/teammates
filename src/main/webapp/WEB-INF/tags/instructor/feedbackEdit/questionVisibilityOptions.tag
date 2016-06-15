@@ -22,7 +22,7 @@
         </button>
         <ul class="dropdown-menu">
             <li class="dropdown-header">most anonymous</li>
-            <li><a data-visibility-description="Shouting into the void">Shouting into the void</a></li>
+            <li><a onclick="setVisibilityOptionsForShoutingIntoTheVoid(this);" data-visibility-description="Shouting into the void">Shouting into the void</a></li>
             <li><a data-visibility-description="Anonymous to each team member">Anonymous to each team member</a></li>
             <li><a data-visibility-description="Completely transparent">Completely transparent</a></li>
             <li class="dropdown-header">most transparent</li>
