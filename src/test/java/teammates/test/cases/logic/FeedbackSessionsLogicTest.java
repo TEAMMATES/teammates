@@ -1922,7 +1922,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                     "Did not catch exception signalling that private session should "
                     + "not be published");
         } catch (InvalidParametersException e) {
-            assertEquals("Error unpublishing feedback session: Session is private and can't be unpublished.", e.getMessage());
+            assertEquals("Error unpublishing feedback session: Session is private and can't be unpublished.",
+                         e.getMessage());
         }
                 
         ______TS("failure: session does not exist");
