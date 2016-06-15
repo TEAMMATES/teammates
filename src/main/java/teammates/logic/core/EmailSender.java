@@ -125,7 +125,7 @@ public class EmailSender {
      * @param errorReport the report that fails to send
      * @param e the exception which causes {@code errorReport} to fail to send
      */
-    public void reportErrorWithBackupChannel(Throwable error, EmailWrapper errorReport, Exception e) {
+    public void reportErrorThroughFallbackChannel(Throwable error, EmailWrapper errorReport, Exception e) {
         log.severe("Crash report failed to send. Detailed error stack trace: "
                    + TeammatesException.toStringWithStackTrace(error));
         logSevereForErrorInSendingItem("crash report", errorReport, e);

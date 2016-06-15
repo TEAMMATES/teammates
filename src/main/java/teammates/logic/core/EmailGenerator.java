@@ -27,6 +27,7 @@ import teammates.common.util.Utils;
  * Handles operations related to generating emails to be sent from provided templates.
  * @see EmailTemplates
  * @see EmailType
+ * @see EmailWrapper
  */
 public class EmailGenerator {
     

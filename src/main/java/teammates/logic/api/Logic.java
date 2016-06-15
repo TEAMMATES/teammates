@@ -2597,7 +2597,7 @@ public class Logic {
         try {
             emailSender.sendErrorReport(errorReport);
         } catch (Exception e) {
-            emailSender.reportErrorWithBackupChannel(error, errorReport, e);
+            emailSender.reportErrorThroughFallbackChannel(error, errorReport, e);
         }
         return errorReport;
     }
