@@ -1807,7 +1807,7 @@ function toggleCustom(elem) {
 
         var container = document.getElementById('example');
             hot = new Handsontable(container, {
-            data: Handsontable.helper.createSpreadsheetData(20, 10),
+            data: Handsontable.helper.createSpreadsheetData(10, 4),
             rowHeaders: true,
             colHeaders: true,
             manualColumnResize: true,
@@ -1826,7 +1826,7 @@ function addNewRowsAndCols() {
     var numRows = isNaN(numRows) ? 0 : numRows;
     var numCols = isNaN(numCols) ? 0 : numCols;
     var totalRows = hot.countRows() + numRows;
-    totalRows = totalRows >= 1 ? totalRows : 1;
+    totalRows = totalRows >= 10 ? totalRows : 10;
     var totalCols = hot.countCols() + numCols;
     totalCols = totalCols >= 2 ? totalCols : 2;
     var container = document.getElementById('example');

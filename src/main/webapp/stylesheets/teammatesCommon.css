@@ -6,8 +6,9 @@
 
 #example {
     width: 100%;
-    height: 250px;
-    overflow: hidden;    
+    height: 260px;
+    overflow: hidden;
+    border-right: 1px solid #ccc;
 }
 
 body {
