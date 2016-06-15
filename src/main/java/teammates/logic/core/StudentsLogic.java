@@ -501,7 +501,8 @@ public class StudentsLogic {
 
         StringBuilder errorMessage = new StringBuilder(100);
         for (String team : invalidTeamList) {
-            errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team)));
+            errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,
+                                              Sanitizer.sanitizeForHtml(team)));
         }
 
         if (errorMessage.length() != 0) {
@@ -535,7 +536,8 @@ public class StudentsLogic {
         CourseAttributes course = coursesLogic.getCourse(courseId);
         if (course == null) {
             throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
+                    "Course does not exist [" + courseId + "], "
+                    + "trying to send invite email to student [" + studentEmail + "]");
         }
         
         StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
@@ -560,7 +562,8 @@ public class StudentsLogic {
         CourseAttributes course = coursesLogic.getCourse(courseId);
         if (course == null) {
             throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
+                    "Course does not exist [" + courseId + "], "
+                    + "trying to send invite email to student [" + studentEmail + "]");
         }
         
         StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
@@ -570,7 +573,8 @@ public class StudentsLogic {
         }
         
         try {
-            EmailWrapper email = new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
+            EmailWrapper email =
+                    new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
             new EmailSender().sendEmailWithLogging(email);
             return email;
         } catch (Exception e) {
@@ -685,7 +689,8 @@ public class StudentsLogic {
         if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
             enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
         } else if (isModifyingExistingStudent) {
-            updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email, validStudentAttributes, true);
+            updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email,
+                                                                  validStudentAttributes, true);
             enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
             
             if (!originalStudentAttributes.team.equals(validStudentAttributes.team)) {

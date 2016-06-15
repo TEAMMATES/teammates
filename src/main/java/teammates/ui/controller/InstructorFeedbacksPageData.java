@@ -73,7 +73,8 @@ public class InstructorFeedbacksPageData extends PageData {
                                           Map<String, InstructorAttributes> instructors,
                                           FeedbackSessionAttributes defaultFormValues, String feedbackSessionType) {
 
-        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, defaultFormValues, feedbackSessionType, null);
+        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, defaultFormValues,
+                feedbackSessionType, null);
     }
     
     public void initWithoutDefaultFormValues(List<CourseAttributes> courses, String courseIdForNewSession,
@@ -105,7 +106,8 @@ public class InstructorFeedbacksPageData extends PageData {
         
         String fsName = newFeedbackSession == null ? "" : newFeedbackSession.getFeedbackSessionName();
         
-        List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
+        List<ElementTag> courseIdOptions =
+                getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
         
         addPlaceholderIfEmpty(courseIdOptions, determinePlaceholderMessage(!courses.isEmpty()));
         
@@ -116,9 +118,9 @@ public class InstructorFeedbacksPageData extends PageData {
     private void buildFsList(String courseIdToHighlight, List<FeedbackSessionAttributes> existingFeedbackSessions,
                              Map<String, InstructorAttributes> instructors, String feedbackSessionNameToHighlight) {
         
-        List<FeedbackSessionsTableRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
-                                                                             existingFeedbackSessions, instructors,
-                                                                             feedbackSessionNameToHighlight, courseIdToHighlight);
+        List<FeedbackSessionsTableRow> existingFeedbackSessionsRow =
+                convertFeedbackSessionAttributesToSessionRows(existingFeedbackSessions, instructors,
+                                                              feedbackSessionNameToHighlight, courseIdToHighlight);
         fsList = new FeedbackSessionsTable(existingFeedbackSessionsRow,
                                            feedbackSessionNameToHighlight,
                                            courseIdToHighlight);
@@ -145,7 +147,8 @@ public class InstructorFeedbacksPageData extends PageData {
                                                 List<String> courseIds,
                                                 FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         
-        List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
+        List<ElementTag> courseIdOptions =
+                getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
         boolean isSubmitButtonDisabled = courseIdOptions.isEmpty();
         
         addPlaceholderIfEmpty(courseIdOptions, determinePlaceholderMessage(!courses.isEmpty()));
@@ -204,7 +207,8 @@ public class InstructorFeedbacksPageData extends PageData {
                 elementAttributes = new ElementTag("class", "sessionsRow");
             }
             
-            rows.add(new FeedbackSessionsTableRow(courseId, name, tooltip, status, href, recent, actions, elementAttributes));
+            rows.add(new FeedbackSessionsTableRow(courseId, name, tooltip, status, href,
+                                                  recent, actions, elementAttributes));
         }
         
         return rows;

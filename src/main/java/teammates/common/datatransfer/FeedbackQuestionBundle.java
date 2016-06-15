@@ -24,7 +24,8 @@ public class FeedbackQuestionBundle {
         this.question = question;
         this.responseList = responseList;
 
-        List<Map.Entry<String, String>> sortedRecipientList = new ArrayList<Map.Entry<String, String>>(recipientList.entrySet());
+        List<Map.Entry<String, String>> sortedRecipientList =
+                new ArrayList<Map.Entry<String, String>>(recipientList.entrySet());
 
         Collections.sort(sortedRecipientList, new RecipientComparator());
         this.recipientList = new LinkedHashMap<String, String>();

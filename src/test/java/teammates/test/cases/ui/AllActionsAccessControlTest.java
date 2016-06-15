@@ -262,8 +262,13 @@ public class AllActionsAccessControlTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.INSTRUCTOR_NAME, "Instructor Name",
                 Const.ParamsNames.INSTRUCTOR_EMAIL, "instructor@email.tmt",
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
@@ -299,8 +304,13 @@ public class AllActionsAccessControlTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_ID, instructor.googleId,
                 Const.ParamsNames.INSTRUCTOR_NAME, instructor.name,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
@@ -864,7 +874,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         List<CommentAttributes> comments =
-                CommentsLogic.inst().getCommentsForReceiver(instructor.courseId, CommentParticipantType.PERSON, student.email);
+                CommentsLogic.inst().getCommentsForReceiver(instructor.courseId, CommentParticipantType.PERSON,
+                                                            student.email);
         Iterator<CommentAttributes> iterator = comments.iterator();
         while (iterator.hasNext()) {
             CommentAttributes commentAttributes = iterator.next();

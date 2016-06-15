@@ -175,7 +175,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                 Slots.OPTION_INDEX, Integer.toString(i),
                                 Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                                 Slots.CONSTSUM_OPTION_VISIBILITY, "",
-                                Slots.CONSTSUM_OPTION_POINT, Integer.toString(existingConstSumResponse.getAnswerList().get(i)),
+                                Slots.CONSTSUM_OPTION_POINT,
+                                        Integer.toString(existingConstSumResponse.getAnswerList().get(i)),
                                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                                 Slots.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
                 optionListHtml.append(optionFragment).append(Const.EOL);

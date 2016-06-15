@@ -72,7 +72,8 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instr = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
+        InstructorAttributes instr =
+                new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         
         instructorsLogic.createInstructor(instr);
         

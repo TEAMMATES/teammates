@@ -65,17 +65,19 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         String generatedMcqOptions =
-                HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
         
         if (generatedMcqOptions.equals(FeedbackParticipantType.NONE.toString())) {
-            String numMcqChoicesCreatedString = HttpRequestHelper.getValueFromParamMap(
-                                                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+            String numMcqChoicesCreatedString =
+                    HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                           Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
             Assumption.assertNotNull("Null number of choice for MCQ", numMcqChoicesCreatedString);
             int numMcqChoicesCreated = Integer.parseInt(numMcqChoicesCreatedString);
             
             for (int i = 0; i < numMcqChoicesCreated; i++) {
-                String mcqChoice = HttpRequestHelper.getValueFromParamMap(
-                                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
+                String paramName = Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i;
+                String mcqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
                 if (mcqChoice != null && !mcqChoice.trim().isEmpty()) {
                     mcqChoices.add(mcqChoice);
                     numOfMcqChoices++;
@@ -167,7 +169,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.TEXT_DISABLED, sessionIsOpen && isOtherSelected ? "" : "disabled",
                             Slots.CHECKED, isOtherSelected ? "checked" : "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
+                            Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER,
+                                    Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             Slots.MCQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
                             Slots.MCQ_OTHER_OPTION_ANSWER, isOtherSelected ? "1" : "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
@@ -207,7 +210,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.TEXT_DISABLED, "disabled",
                             Slots.CHECKED, "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
+                            Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER,
+                                    Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             Slots.MCQ_CHOICE_VALUE, "",
                             Slots.MCQ_OTHER_OPTION_ANSWER, "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
@@ -379,7 +383,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         for (FeedbackResponseAttributes response : responses) {
             String answerString = response.getResponseDetails().getAnswerString();
-            Boolean isOtherOptionAnswer = ((FeedbackMcqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+            boolean isOtherOptionAnswer =
+                    ((FeedbackMcqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
@@ -429,7 +434,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         
         for (FeedbackResponseAttributes response : responses) {
             String answerString = response.getResponseDetails().getAnswerString();
-            Boolean isOtherOptionAnswer = ((FeedbackMcqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+            boolean isOtherOptionAnswer =
+                    ((FeedbackMcqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
             
             if (isOtherOptionAnswer) {
                 if (!answerFrequency.containsKey("Other")) {
@@ -471,7 +477,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         List<String> errors = new ArrayList<String>();
         if (generateOptionsFor == FeedbackParticipantType.NONE
                 && numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
-            errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
+            errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES
+                       + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
         }
         //TODO: check that mcq options do not repeat. needed?
         

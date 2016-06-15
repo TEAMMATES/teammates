@@ -134,7 +134,8 @@ public class EmailLogEntry {
                 int startIndex = highlightedText.toLowerCase().indexOf(stringToHighlight.toLowerCase());
                 int endIndex = startIndex + stringToHighlight.length();
                 String realStringToHighlight = highlightedText.substring(startIndex, endIndex);
-                highlightedText = highlightedText.replace(realStringToHighlight, "<mark>" + realStringToHighlight + "</mark>");
+                highlightedText = highlightedText.replace(realStringToHighlight,
+                                                          "<mark>" + realStringToHighlight + "</mark>");
             }
         }
         

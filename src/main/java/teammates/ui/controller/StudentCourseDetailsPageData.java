@@ -27,8 +27,9 @@ public class StudentCourseDetailsPageData extends PageData {
         return studentCourseDetailsPanel;
     }
 
-    private StudentCourseDetailsPanel createStudentCourseDetailsPanel(CourseDetailsBundle courseDetails,
-                                    List<InstructorAttributes> instructors, StudentAttributes student, TeamDetailsBundle team) {
+    private StudentCourseDetailsPanel createStudentCourseDetailsPanel(
+            CourseDetailsBundle courseDetails, List<InstructorAttributes> instructors,
+            StudentAttributes student, TeamDetailsBundle team) {
         String courseId = courseDetails.course.getId();
         String courseName = courseDetails.course.getName();
         String studentTeam = student.team;

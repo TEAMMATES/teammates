@@ -297,7 +297,8 @@ public class UploadBackupData extends RemoteApiClient {
         return response;
     }
     
-    private static FeedbackResponseCommentAttributes adjustFeedbackResponseCommentId(FeedbackResponseCommentAttributes response) {
+    private static FeedbackResponseCommentAttributes
+            adjustFeedbackResponseCommentId(FeedbackResponseCommentAttributes response) {
         FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
         
         if (feedbackQuestionIds.containsKey(question.getId())) {

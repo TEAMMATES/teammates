@@ -86,7 +86,8 @@ public abstract class EmailAction {
         return preparedMail;
     }
     
-    protected abstract void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException;
+    protected abstract void doPostProcessingForSuccesfulSend()
+            throws InvalidParametersException, EntityDoesNotExistException;
     
     protected abstract void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException;
     

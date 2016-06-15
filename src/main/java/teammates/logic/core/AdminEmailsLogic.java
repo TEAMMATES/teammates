@@ -63,7 +63,8 @@ public class AdminEmailsLogic {
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public void moveAdminEmailToTrashBin(String adminEmailId) throws InvalidParametersException, EntityDoesNotExistException {
+    public void moveAdminEmailToTrashBin(String adminEmailId)
+            throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(adminEmailId);
         
         AdminEmailAttributes adminEmailToUpdate = getAdminEmailById(adminEmailId);
@@ -81,7 +82,8 @@ public class AdminEmailsLogic {
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public void moveAdminEmailOutOfTrashBin(String adminEmailId) throws InvalidParametersException, EntityDoesNotExistException {
+    public void moveAdminEmailOutOfTrashBin(String adminEmailId)
+            throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(adminEmailId);
         
         AdminEmailAttributes adminEmailToUpdate = getAdminEmailById(adminEmailId);
