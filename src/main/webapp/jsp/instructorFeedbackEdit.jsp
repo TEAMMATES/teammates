@@ -120,12 +120,22 @@
             containingForm.find('.visibility-show-details').show();
         }
         function toggleShowDetailsArrows(elem) {
-			console.log($(elem).html());
+            console.log($(elem).html());
             if ($(elem).html() == 'Details / Customize further &lt;&lt;') {
                 $(elem).html('Details / Customize further >>');
             } else {
-				$(elem).html('Details / Customize further <<');
-			}
+                $(elem).html('Details / Customize further <<');
+            }
+        }
+        function flashVisibilityDropdownText(elem) {
+            var containingForm = getContainingForm(elem);
+            var visibilityDropdown = containingForm.find('.visibility-dropdown');
+            visibilityDropdown.effect('highlight', {}, 1000);
+        }
+        function visibilityOptionIsNotYetSetToOther(elem) {
+            var containingForm = getContainingForm(elem);
+            var visibilityDropdown = containingForm.find('.visibility-dropdown');
+            return visibilityDropdown.find('button').html() !== 'Other options:';
         }
 
         // attaching event handlers
@@ -133,7 +143,6 @@
             setVisibilityDropdownText(this.dataset.visibilityDescription, this);
             showVisibilityPreview(this);
             showVisibilityShowDetails(this);
-            hideVisibilityOthers(this);
         });
         $('.visibility-others-menu-option').on('click', function() {
             showVisibilityOthers(this);
@@ -142,7 +151,10 @@
             toggleVisibilityOthers(this);
         });
         $('.visibilityCheckbox').on('click', function(){
-            setVisibilityDropdownText('Customized according to the following table:', this);
+            if (visibilityOptionIsNotYetSetToOther(this)) {
+                setVisibilityDropdownText('Other options:', this);
+                flashVisibilityDropdownText(this);
+            }
         });
     </script>
     <style>
@@ -157,15 +169,15 @@
         .visibility-show-details {
             display: none;
         }
-		.visibility-others {
-			margin-bottom: -10px;
-		}
-		.visibility-show-details {
-			padding-bottom: 15px;
-		}
-		[id^="button_question_submit-"] {
-			margin-top: 15px;
-		}
+        .visibility-others {
+            margin-bottom: -10px;
+        }
+        .visibility-show-details {
+            padding-bottom: 15px;
+        }
+        [id^="button_question_submit-"] {
+            margin-top: 15px;
+        }
     </style>
 
 </ti:instructorPage>
