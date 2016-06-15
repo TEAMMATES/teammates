@@ -2259,8 +2259,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     
     private EmailWrapper getEmailToStudent(StudentAttributes student, List<EmailWrapper> emailsSent) {
         for (EmailWrapper email : emailsSent) {
-            boolean emailSentToThisStudent = email.getFirstRecipient().equalsIgnoreCase(student.email);
-            if (emailSentToThisStudent) {
+            boolean isEmailSentToThisStudent = email.getFirstRecipient().equalsIgnoreCase(student.email);
+            if (isEmailSentToThisStudent) {
                 return email;
             }
         }
@@ -2270,8 +2270,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     private List<EmailWrapper> getEmailsToInstructor(InstructorAttributes instructor, List<EmailWrapper> emailsSent) {
         List<EmailWrapper> emailsToInstructor = new ArrayList<EmailWrapper>();
         for (EmailWrapper email : emailsSent) {
-            boolean emailSentToThisInstructor = email.getFirstRecipient().equalsIgnoreCase(instructor.email);
-            if (emailSentToThisInstructor) {
+            boolean isEmailSentToThisInstructor = email.getFirstRecipient().equalsIgnoreCase(instructor.email);
+            if (isEmailSentToThisInstructor) {
                 emailsToInstructor.add(email);
             }
         }
