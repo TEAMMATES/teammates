@@ -1380,6 +1380,34 @@
                               </form>
                             </td>
                           </tr>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="middlealign">
+                              Fred Gabriel
+                            </td>
+                            <td class="text-preserve-space">
+                              Fred's Response to Charlie.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
                         </tbody>
                       </table>
                     </div>
@@ -2015,6 +2043,34 @@
             To:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
+                Fred Gabriel
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a href="mailto:CFResultsUiT.fred.g@gmail.tmt">
+                [CFResultsUiT.fred.g@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-11">
+            <div class="panel-body">
+              <i>
+                There are no responses received by this user or you may not have the permission to see the response
+              </i>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" data-target="#panelBodyCollapse-12" id="panelHeading-12" style="cursor: pointer;">
+            To:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+              <strong>
                 Extra guy
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -2030,7 +2086,7 @@
               </div>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-11">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-12">
             <div class="panel-body">
               <i>
                 There are no responses received by this user or you may not have the permission to see the response
