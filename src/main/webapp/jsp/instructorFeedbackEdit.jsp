@@ -62,6 +62,7 @@
             return containingForm = $(elem).closest('form');
         }
 
+        /// feedback path related
         // event handlers
         function setFeedbackPathDropdownText(text, elem) {
             var containingForm = getContainingForm(elem);
@@ -78,20 +79,56 @@
         }
 
         // attaching event handlers
-        $('.others-button').on('click', function() {
-            showFeedbackPathOthers(this);
-        });
-
         $('.feedback-path-dropdown > ul > li > ul > li > a').on('click', function() {
             setFeedbackPathDropdownText(this.dataset.feedbackPathDescription, this);
             hideFeedbackPathOthers(this);
         });
+        $('.feedback-path-others-menu-option').on('click', function() {
+            setFeedbackPathDropdownText(this.dataset.feedbackPathDescription, this);
+            showFeedbackPathOthers(this);
+        });
+
+        /// visibility related
+        // event handlers
+        function setVisibilityDropdownText(text, elem) {
+            var containingForm = getContainingForm(elem);
+            var visibilityDropdown = containingForm.find('.visibility-dropdown');
+            visibilityDropdown.find('button').html(text);
+        }
+        function hideVisibilityOthers(elem) {
+            var containingForm = getContainingForm(elem);
+            containingForm.find('.visibility-others').hide();
+        }
+        function showVisibilityPreview(elem) {
+            var containingForm = getContainingForm(elem);
+            containingForm.find('.visibility-preview').show();
+        }
+
+        function showVisibilityOthers(elem) {
+            var containingForm = getContainingForm(elem);
+            containingForm.find('.visibility-others').show();
+            containingForm.find('.visibilityOptions').show();
+        }
+
+        // attaching event handlers
+        $('.visibility-dropdown > ul > li > a').on('click', function() {
+            setVisibilityDropdownText(this.dataset.visibilityDescription, this);
+            showVisibilityPreview(this);
+            hideVisibilityOthers(this);
+        });
+        $('.visibility-others-menu-option').on('click', function() {
+            showVisibilityOthers(this);
+        });
     </script>
     <style>
-        .feedback-path-dropdown {
+        .feedback-path-dropdown,
+        .visibility-dropdown {
             width: 100%;
+            margin-bottom: 0.6em;
         }
-        .feedback-path-others {
+        .feedback-path-others,
+        .visibility-preview,
+        .visibility-others{
             display: none;
         }
     </style>

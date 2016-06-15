@@ -50,7 +50,7 @@
                 </ul>
             </li>
             <li role="separator" class="divider"></li>
-            <li><a class="others-button">Other</a></li>
+            <li><a class="feedback-path-others-menu-option" data-feedback-path-description="Other options:">Other</a></li>
         </ul>
     </div>
     <div class="feedback-path-others">

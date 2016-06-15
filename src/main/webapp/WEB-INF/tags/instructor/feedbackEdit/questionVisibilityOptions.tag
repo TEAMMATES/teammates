@@ -16,20 +16,22 @@
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="visibility-title">Visibility</b> (Who can see the responses?)
     </div>
-    <div class="col-sm-6 btn-group" data-toggle="buttons">
-        <label class="btn btn-xs btn-info visibilityOptionsLabel"
-            id="visibilityOptionsLabel${fqForm.questionNumberSuffix}"
-            onchange="toggleVisibilityOptions(this)">
-            <input type="radio">
-            <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-        </label>
-        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton${fqForm.questionNumberSuffix}" onchange="toggleVisibilityMessage(this)">
-            <input type="radio">
-            <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-        </label>
+    <div class="visibility-dropdown btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Please select a visibility option&nbsp;<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li class="dropdown-header">most anonymous</li>
+            <li><a data-visibility-description="Shouting into the void">Shouting into the void</a></li>
+            <li><a data-visibility-description="Anonymous to each team member">Anonymous to each team member</a></li>
+            <li><a data-visibility-description="Completely transparent">Completely transparent</a></li>
+            <li class="dropdown-header">most transparent</li>
+            <li role="separator" class="divider"></li>
+            <li><a class="visibility-others-menu-option" data-visibility-description="Other options:">Other</a></li>
+        </ul>
     </div>
 </div>
-<div class="col-sm-12 background-color-light-green">
+<div class="visibility-preview col-sm-12 background-color-light-green">
     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
     <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage${fqForm.questionNumberSuffix}">
         This is the visibility as seen by the feedback giver.
@@ -41,7 +43,7 @@
     </div>
 </div>
 <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-<div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
+<div class="visibiblity-others col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
     <div class="visibilityOptions" id="visibilityOptions${fqForm.questionNumberSuffix}">
         <table class="dataTable participantTable table table-striped text-center background-color-white">
             <tr>
