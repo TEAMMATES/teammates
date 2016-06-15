@@ -54,7 +54,8 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
         accountsPage.verifyIsCorrectPage();
         assertTrue(accountsPage.isTableVisible());
         
-        List<String> expectedTableHeaders = Arrays.asList("Account Info", "Instructor for", "Institute", "Create At", "Options");
+        List<String> expectedTableHeaders =
+                Arrays.asList("Account Info", "Instructor for", "Institute", "Create At", "Options");
         assertEquals(expectedTableHeaders, accountsPage.getTableHeaders());
     }
 
@@ -104,7 +105,8 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     }
     
     private void loginToAdminAccountsManagementPage(String instructorIdToShow) {
-        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true&googleId=" + instructorIdToShow);
+        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE
+                                    + "?all=true&googleId=" + instructorIdToShow);
         accountsPage = loginAdminToPage(browser, accountsPageUrl, AdminAccountManagementPage.class);
         accountsPage.waitForAdminAccountsManagementPageToFinishLoading();
         accountsPage.verifyIsCorrectPage();

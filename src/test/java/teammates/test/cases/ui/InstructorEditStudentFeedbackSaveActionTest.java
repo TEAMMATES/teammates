@@ -194,7 +194,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         ______TS("Unsuccessful case: test empty course id parameter");
         
         submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, dataBundle.feedbackResponses.get("response1ForQ1").feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                        dataBundle.feedbackResponses.get("response1ForQ1").feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
@@ -268,7 +269,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
-                         + instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]",
+                                 + instructorHelper.email + "] for privilege "
+                                 + "[" + Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+                                 + "] on section [Section 1]",
                          e.getMessage());
         }
         
@@ -294,7 +297,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             r = (RedirectResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
-                         + instructorHelper.email + "] for privilege [canmodifysessioncommentinsection] on section [Section 1]",
+                                 + instructorHelper.email + "] for privilege "
+                                 + "[" + Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+                                 + "] on section [Section 1]",
                          e.getMessage());
         }
        
@@ -341,7 +346,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         frDb = new FeedbackResponsesDb();
         fr = dataBundle.feedbackResponses.get("response2ForQ1");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); //necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
         
         submissionParams = new String[]{

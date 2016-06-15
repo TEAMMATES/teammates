@@ -262,18 +262,21 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("remind particular users action: OPEN feedback session");
         
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
-        homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
+        homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
+                                                feedbackSessionOpen.getFeedbackSessionName());
         homePage.cancelRemindParticularUsersForm();
         
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
-        homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
+        homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
+                                                feedbackSessionOpen.getFeedbackSessionName());
         homePage.submitRemindParticularUsersForm();
         ThreadHelper.waitFor(1000);
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
-        homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
+        homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
+                                                feedbackSessionOpen.getFeedbackSessionName());
         homePage.fillRemindParticularUsersForm();
         homePage.submitRemindParticularUsersForm();
         ThreadHelper.waitFor(1000);
@@ -409,7 +412,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         homePage.getFsCopyModal().clickSubmitButton();
         
-        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, courseId);
+        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
+                                     feedbackSessionName, courseId);
         homePage.getFsCopyModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
         homePage.getFsCopyModal().verifyStatusMessage(error);

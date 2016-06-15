@@ -57,7 +57,8 @@ public class AdminEmail {
      * @param content
      *          html email content
      */
-    public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject, Text content, Date sendDate) {
+    public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject,
+                      Text content, Date sendDate) {
         this.emailId = null;
         this.addressReceiver = addressReceiver;
         this.groupReceiver = groupReceiver;

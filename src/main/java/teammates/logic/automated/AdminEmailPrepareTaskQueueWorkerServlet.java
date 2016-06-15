@@ -77,7 +77,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             Assumption.assertNotNull(emailId);
             
             groupReceiverListFileKey =
-                    HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
+                    HttpRequestHelper.getValueFromRequestParameterMap(
+                            req, ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
             Assumption.assertNotNull(groupReceiverListFileKey);
             
             groupReceiverListFileSize = (int) getFileSize(groupReceiverListFileKey);
@@ -92,7 +93,9 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             int indexOfEmailListToResume = indexOfEmailListToResumeAsString == null
                                            ? 0
                                            : Integer.parseInt(indexOfEmailListToResumeAsString);
-            int indexOfEmailToResume = indexOfEmailToResumeAsString == null ? 0 : Integer.parseInt(indexOfEmailToResumeAsString);
+            int indexOfEmailToResume = indexOfEmailToResumeAsString == null
+                                       ? 0
+                                       : Integer.parseInt(indexOfEmailToResumeAsString);
   
             try {
                 processedReceiverEmails = getReceiverList(groupReceiverListFileKey, groupReceiverListFileSize);

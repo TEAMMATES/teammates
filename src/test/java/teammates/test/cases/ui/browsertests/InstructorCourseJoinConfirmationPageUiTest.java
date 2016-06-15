@@ -98,7 +98,8 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         ______TS("test instructor confirmation page content");
         // this test uses accounts from test.properties
 
-        // This is the full HTML verification for Instructor Course Join Confirmation Page, the rest can all be verifyMainHtml
+        // This is the full HTML verification for Instructor Course Join Confirmation Page,
+        // the rest can all be verifyMainHtml
         confirmationPage.verifyHtml("/instructorCourseJoinConfirmationHTML.html");
         
         instructorHome = confirmationPage.clickConfirmButton();

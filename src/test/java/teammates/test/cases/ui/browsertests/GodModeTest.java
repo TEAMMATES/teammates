@@ -21,7 +21,8 @@ public class GodModeTest extends BaseUiTestCase {
     private static final String ACTUAL_FILENAME = "/godmode.html";
     private static final String ACTUAL_FILEPATH = TestProperties.TEST_PAGES_FOLDER + ACTUAL_FILENAME;
     private static final String EXPECTED_FILEPATH = TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedOutput.html";
-    private static final String EXPECTED_PART_FILEPATH = TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedPartOutput.html";
+    private static final String EXPECTED_PART_FILEPATH =
+            TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedPartOutput.html";
     
     private static Browser browser;
     private static AppPage page;

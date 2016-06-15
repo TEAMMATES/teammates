@@ -128,7 +128,8 @@ public class AdminInstructorAccountAddAction extends Action {
         statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.SUCCESS));
         statusToAdmin = "A New Instructor <span class=\"bold\">"
                 + data.instructorName + "</span> has been created.<br>"
-                + "<span class=\"bold\">Id: </span>" + "ID will be assigned when the verification link was clicked and confirmed"
+                + "<span class=\"bold\">Id: </span>"
+                + "ID will be assigned when the verification link was clicked and confirmed"
                 + "<br>"
                 + "<span class=\"bold\">Email: </span>" + data.instructorEmail
                 + "<span class=\"bold\">Institution: </span>"
@@ -161,7 +162,8 @@ public class AdminInstructorAccountAddAction extends Action {
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    private String importDemoData(AdminHomePageData pageData) throws InvalidParametersException, EntityDoesNotExistException {
+    private String importDemoData(AdminHomePageData pageData)
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         String courseId = generateDemoCourseId(pageData.instructorEmail);
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));

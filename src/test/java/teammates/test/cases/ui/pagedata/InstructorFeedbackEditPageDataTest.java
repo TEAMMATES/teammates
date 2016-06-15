@@ -42,7 +42,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         
         ______TS("Typical case");
         // Setup
-        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"));
+        InstructorFeedbackEditPageData data =
+                new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"));
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         List<FeedbackQuestionAttributes> questions = new ArrayList<FeedbackQuestionAttributes>();
@@ -73,7 +74,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertFalse(fsForm.isFeedbackSessionTypeEditable());
         assertTrue(fsForm.isEditFsButtonsVisible());
         assertNull(fsForm.getFeedbackSessionTypeOptions());
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(), fsForm.getFormSubmitAction());
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(),
+                     fsForm.getFormSubmitAction());
         
         assertEquals(data.getInstructorFeedbackDeleteLink(fs.getCourseId(),
                                                           fs.getFeedbackSessionName(),
@@ -138,7 +140,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         FeedbackQuestionVisibilitySettings visibilitySettings = questionForms.get(0).getVisibilitySettings();
         verifyMapContains(visibilitySettings.getResponseVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
         verifyMapContains(visibilitySettings.getGiverNameVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
-        verifyMapContains(visibilitySettings.getRecipientNameVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
+        verifyMapContains(visibilitySettings.getRecipientNameVisibleFor(),
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
         
         assertEquals("Rate 1 other student's product", questionForms.get(1).getQuestionText());
         assertTrue(questionForms.get(1).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());

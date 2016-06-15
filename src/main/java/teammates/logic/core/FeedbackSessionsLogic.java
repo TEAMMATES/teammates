@@ -88,8 +88,10 @@ public class FeedbackSessionsLogic {
     private static final String ERROR_NON_EXISTENT_FS_CHECK = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "check");
     private static final String ERROR_NON_EXISTENT_FS_REMIND = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "remind");
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
-    private static final String ERROR_NON_EXISTENT_FS_PUBLISH = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "publish");
-    private static final String ERROR_NON_EXISTENT_FS_UNPUBLISH = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "unpublish");
+    private static final String ERROR_NON_EXISTENT_FS_PUBLISH =
+            String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "publish");
+    private static final String ERROR_NON_EXISTENT_FS_UNPUBLISH =
+            String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "unpublish");
     private static final String ERROR_FS_ALREADY_PUBLISH = "Error publishing feedback session: "
                                                            + "Session has already been published.";
     private static final String ERROR_FS_ALREADY_UNPUBLISH = "Error unpublishing feedback session: "
@@ -2006,7 +2008,8 @@ public class FeedbackSessionsLogic {
                 }
             }
 
-            addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
+            addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role,
+                                       feedbackSessionName, section);
             
             FeedbackSessionResultsBundle results =
                     new FeedbackSessionResultsBundle(

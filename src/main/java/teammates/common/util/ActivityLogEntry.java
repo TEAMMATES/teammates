@@ -86,7 +86,10 @@ public class ActivityLogEntry {
         googleId = "Unknown";
         email = "Unknown";
         toShow = true;
-        message = "<span class=\"text-danger\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>"
+        message = "<span class=\"text-danger\">"
+                    + "Error. ActivityLogEntry object is not created for this servlet action."
+                + "</span>"
+                + "<br>"
                 + params;
         url = link;
         id = "Unknown";

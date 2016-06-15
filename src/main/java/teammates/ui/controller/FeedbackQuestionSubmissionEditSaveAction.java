@@ -33,7 +33,8 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends FeedbackS
     protected abstract String getUserSectionForCourse();
     
     @Override
-    protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
+    protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse)
+            throws EntityDoesNotExistException;
     
     @Override
     protected abstract void setStatusToAdmin();
