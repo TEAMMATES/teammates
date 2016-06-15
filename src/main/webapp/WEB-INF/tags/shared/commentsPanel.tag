@@ -55,7 +55,7 @@
                         <shared:commentRow comment="${commentRow}" commentIndex="${commentIndex}" />
                     </c:forEach>
                     <c:if test="${forRecordsPage}">
-                        <c:if test="${empty commentsForStudentsTable.rows && commentsForStudentsTable.giverDetails == '0You'}">
+                        <c:if test="${empty commentsForStudentsTable.rows && commentsForStudentsTable.giverDetails == 'You'}">
                             <li class="list-group-item text-muted">
                                 <i>You don't have any comments on this student.</i>
                             </li>
