@@ -93,6 +93,7 @@ var StatusType = {
                || type === StatusType.WARNING || type === StatusType.DANGER;
     }
 };
+StatusType.DEFAULT = StatusType.INFO;
 
 // Display messages
 // Used for validating input
@@ -870,3 +871,63 @@ function hideSingleCollapse(e) {
     $(heading).find('a.btn').hide();
 }
 
+/**
+ * Wrapper for Bootbox.js (available at http://bootboxjs.com/)
+ * "Bootbox.js is a small JavaScript library which allows you to create programmatic dialog boxes using
+ *  Bootstrap modals"
+ */
+var BootboxWrapper = {
+    DEFAULT_OK_TEXT: 'OK',
+    DEFAULT_CANCEL_TEXT: 'Cancel',
+
+    /**
+     * Custom alert dialog to replace default alert() function
+     * Required params: titleText and messageText
+     * Optional params: okButtonText (defaults to "OK")
+     *                  color (defaults to StatusType.DEFAULT)
+     */
+    showModalAlert: function(titleText, messageText, okButtonText, color) {
+        bootbox.dialog({
+            title: titleText,
+            message: messageText,
+            buttons: {
+                okay: {
+                    label: okButtonText || BootboxWrapper.DEFAULT_OK_TEXT,
+                    className: 'modal-btn-ok btn-' + color || StatusType.DEFAULT
+                }
+            }
+        })
+        // applies bootstrap color to title background
+        .find('.modal-header').addClass('alert-' + color || StatusType.DEFAULT);
+    },
+
+    /**
+     * Custom confirmation dialog to replace default confirm() function
+     * Required params: titleText, messageText and okCallback
+     * Optional params: cancelCallBack (defaults to null)
+     *                  okButtonText (defaults to "OK")
+     *                  cancelButtonText (defaults to "Cancel")
+     *                  color (defaults to StatusType.INFO)
+     */
+    showModalConfirmation: function(titleText, messageText, okCallback, cancelCallback,
+                                    okButtonText, cancelButtonText, color) {
+        bootbox.dialog({
+            title: titleText,
+            message: messageText,
+            buttons: {
+                cancel: {
+                    label: cancelButtonText || BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                    className: 'modal-btn-cancel btn-default',
+                    callback: cancelCallback || null
+                },
+                ok: {
+                    label: okButtonText || BootboxWrapper.DEFAULT_OK_TEXT,
+                    className: 'modal-btn-ok btn-' + color || StatusType.DEFAULT,
+                    callback: okCallback
+                }
+            }
+        })
+        // applies bootstrap color to title background
+        .find('.modal-header').addClass('alert-' + color || StatusType.DEFAULT);
+    }
+};
