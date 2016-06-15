@@ -112,10 +112,10 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("add new instructor link");
         assertTrue(courseEditPage.clickShowNewInstructorFormButton());
         
-        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("formAddInstructor", "Co-owner"));
-        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("formAddInstructor", "Manager"));
-        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("formAddInstructor", "Observer"));
-        assertTrue(courseEditPage.clickOnAccessLevelViewDetails("formAddInstructor", "Tutor"));
+        assertTrue(courseEditPage.clickOnNewInstructorAccessLevelViewDetails("Co-owner"));
+        assertTrue(courseEditPage.clickOnNewInstructorAccessLevelViewDetails("Manager"));
+        assertTrue(courseEditPage.clickOnNewInstructorAccessLevelViewDetails("Observer"));
+        assertTrue(courseEditPage.clickOnNewInstructorAccessLevelViewDetails("Tutor"));
     }
 
     private void testInputValidation() {
