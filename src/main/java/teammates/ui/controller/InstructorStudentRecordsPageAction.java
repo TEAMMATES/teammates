@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.CommentAttributes;
@@ -51,6 +52,8 @@ public class InstructorStudentRecordsPageAction extends Action {
                                                    studentEmail, instructor.email);
         
         TreeMap<String, List<CommentAttributes>> giverEmailToCommentsMap = mapCommentsToGiverEmail(comments);
+        
+        TreeMap<String, String> giverEmailToGiverNameMap = mapGiverNameToGiverEmail(giverEmailToCommentsMap.keySet());
 
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId);
 
@@ -90,6 +93,7 @@ public class InstructorStudentRecordsPageAction extends Action {
                                         new InstructorStudentRecordsPageData(account, student, courseId,
                                                                              showCommentBox, studentProfile,
                                                                              giverEmailToCommentsMap,
+                                                                             giverEmailToGiverNameMap,
                                                                              sessionNames, instructor);
 
         statusToAdmin = "instructorStudentRecords Page Load<br>"
@@ -133,6 +137,19 @@ public class InstructorStudentRecordsPageAction extends Action {
             updateCommentList(comment, isCurrentInstructorGiver, commentList);
         }
         return giverEmailToCommentsMap;
+    }
+    
+    private TreeMap<String, String> mapGiverNameToGiverEmail(Set<String> giverEmails) {
+        TreeMap<String, String> giverEmailToGiverNameMap = new TreeMap<String, String>();
+        giverEmailToGiverNameMap.put("0You", "You");
+        giverEmailToGiverNameMap.put("Anonymous", "Anonymous");
+        for (String giverEmail : giverEmails) {
+            if (!giverEmailToGiverNameMap.containsKey(giverEmail)) {
+                InstructorAttributes giverInstructor = logic.getInstructorForEmail(courseId, giverEmail);
+                giverEmailToGiverNameMap.put(giverEmail, giverInstructor.displayedName + " " + giverInstructor.name);
+            }
+        }
+        return giverEmailToGiverNameMap;
     }
 
     private void updateCommentList(CommentAttributes comment,

@@ -29,6 +29,7 @@ public class InstructorStudentRecordsPageData extends PageData {
     public InstructorStudentRecordsPageData(AccountAttributes account, StudentAttributes student,
                                             String courseId, String showCommentBox, StudentProfileAttributes spa,
                                             Map<String, List<CommentAttributes>> giverEmailToCommentsMap,
+                                            Map<String, String> giverEmailToGiverNameMap,
                                             List<String> sessionNames, InstructorAttributes instructor) {
         super(account, student);
         this.courseId = courseId;
@@ -46,7 +47,8 @@ public class InstructorStudentRecordsPageData extends PageData {
             commentCount += giverEmailToCommentsMap.get(giverEmail).size();
         }
         for (String giverEmail : giverEmailToCommentsMap.keySet()) {
-            addCommentsToTable(student, giverEmailToCommentsMap, instructor, giverEmail, commentCount);
+            addCommentsToTable(student, giverEmailToCommentsMap, giverEmailToGiverNameMap,
+                               instructor, giverEmail, commentCount);
         }
         this.sessionNames = sessionNames;
     }
@@ -84,17 +86,19 @@ public class InstructorStudentRecordsPageData extends PageData {
     }
 
     private void addCommentsToTable(StudentAttributes student,
-            Map<String, List<CommentAttributes>> giverEmailToCommentsMap, InstructorAttributes instructor,
+            Map<String, List<CommentAttributes>> giverEmailToCommentsMap,
+            Map<String, String> giverEmailToGiverNameMap, InstructorAttributes instructor,
             String giverEmail, int totalNumOfComments) {
         List<CommentRow> commentDivs = new ArrayList<CommentRow>();
         List<CommentAttributes> comments = giverEmailToCommentsMap.get(giverEmail);
+        String giverName = giverEmailToGiverNameMap.get(giverEmail);
         for (CommentAttributes comment : comments) {
             String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
             String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
             CommentRow commentDiv = new CommentRow(comment, giverEmail, unsanitizedRecipientDetails);
             String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
             commentDiv.setVisibilityIcon(whoCanSeeComment);
-            if (giverEmail == "0You"
+            if (giverEmail.equals("0You")
                 || instructor.isAllowedForPrivilege(student.section,
                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)) {
                 commentDiv.setEditDeleteEnabled(false);
@@ -103,7 +107,7 @@ public class InstructorStudentRecordsPageData extends PageData {
             commentDiv.setNumComments(totalNumOfComments);
             commentDivs.add(commentDiv);
         }
-        CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable(giverEmail, commentDivs);
+        CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable(giverName, commentDivs);
         commentsForStudent.setInstructorAllowedToGiveComment(
                 instructor.isAllowedForPrivilege(student.section,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
