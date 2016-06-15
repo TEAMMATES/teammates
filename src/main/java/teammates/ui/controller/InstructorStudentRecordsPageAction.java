@@ -178,11 +178,11 @@ public class InstructorStudentRecordsPageAction extends Action {
             studentEmail = iterator.next();
         }
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-        if (student != null) {
+        if (student == null) {
+            return false;
+        } else {
             section = student.section;
             return instructor.isAllowedForPrivilege(section, privilegeName);
-        } else {
-            return false;
         }
     }
 
