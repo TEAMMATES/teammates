@@ -33,14 +33,10 @@
         <c:set var="commentIndex" value="${0}"/>
         <c:forEach items="${commentsForStudentsTables}" var="commentsForStudentsTable">
             <div class="panel panel-info student-record-comments${commentsForStudentsTable.extraClass}"
-                 <c:if test="${empty commentsForStudentsTable.rows
-                               && (not forRecordsPage
-                                   || commentsForStudentsTable.giverDetails
-                                      != Const.DISPLAYED_NAME_FOR_SELF_IN_COMMENTS)}">style="display: none;"</c:if>>
+                 <c:if test="${empty commentsForStudentsTable.rows && (not forRecordsPage || not commentsForStudentsTable.isRepresentingSelf)}">style="display: none;"</c:if>>
                 <div class="panel-heading">
                     From <b>${fn:escapeXml(commentsForStudentsTable.giverDetails)}<c:if test="${not empty courseId}"> (${courseId})</c:if></b>
-                    <c:if test="${forRecordsPage && commentsForStudentsTable.giverDetails
-                                                    == Const.DISPLAYED_NAME_FOR_SELF_IN_COMMENTS}">
+                    <c:if test="${forRecordsPage && commentsForStudentsTable.isRepresentingSelf}">
                         <button type="button"
                                 class="btn btn-default btn-xs icon-button pull-right"
                                 id="button_add_comment"
@@ -59,9 +55,7 @@
                         <shared:commentRow comment="${commentRow}" commentIndex="${commentIndex}" />
                     </c:forEach>
                     <c:if test="${forRecordsPage}">
-                        <c:if test="${empty commentsForStudentsTable.rows
-                                      && commentsForStudentsTable.giverDetails
-                                         == Const.DISPLAYED_NAME_FOR_SELF_IN_COMMENTS}">
+                        <c:if test="${empty commentsForStudentsTable.rows && commentsForStudentsTable.isRepresentingSelf}">
                             <li class="list-group-item text-muted">
                                 <i>You don't have any comments on this student.</i>
                             </li>

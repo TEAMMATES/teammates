@@ -100,6 +100,7 @@ public class InstructorStudentRecordsPageData extends PageData {
             commentsForStudent.setInstructorAllowedToGiveComment(
                     instructor.isAllowedForPrivilege(student.section,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+            commentsForStudent.setIsRepresentingSelf(Const.DISPLAYED_NAME_FOR_SELF_IN_COMMENTS.equals(giverName));
             commentsForStudentTable.add(commentsForStudent);
         }
     }
