@@ -1,6 +1,5 @@
 package teammates.logic.automated;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,24 +8,23 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailSender;
 
 public abstract class EmailAction {
 
     protected static final Logger log = Utils.getLogger();
     
     protected HttpServletRequest req;
-    protected List<MimeMessage> emailsToBeSent;
+    protected List<EmailWrapper> emailsToBeSent;
 
     protected String actionName = "unspecified";
     protected String actionDescription = "unspecified";
@@ -49,12 +47,11 @@ public abstract class EmailAction {
             emailsToBeSent = prepareMailToBeSent();
             
             //actually send the mail
-            Emails emailManager = new Emails();
-            emailManager.sendEmails(emailsToBeSent);
+            new EmailSender().sendEmails(emailsToBeSent);
             doPostProcessingForSuccesfulSend();
             
             //carry this out if mail is successfully sent
-            ArrayList<MimeMessage> emailList = new ArrayList<MimeMessage>();
+            List<EmailWrapper> emailList = new ArrayList<EmailWrapper>();
             emailList.addAll(emailsToBeSent);
             logActivitySuccess(req, emailList);
                 
@@ -77,8 +74,8 @@ public abstract class EmailAction {
     /*
      *  Used for testing
      */
-    public List<MimeMessage> getPreparedEmailsAndPerformSuccessOperations() {
-        List<MimeMessage> preparedMail = null;
+    public List<EmailWrapper> getPreparedEmailsAndPerformSuccessOperations() {
+        List<EmailWrapper> preparedMail = null;
         
         try {
             preparedMail = prepareMailToBeSent();
@@ -94,9 +91,9 @@ public abstract class EmailAction {
     
     protected abstract void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException;
     
-    protected abstract List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException;
+    protected abstract List<EmailWrapper> prepareMailToBeSent();
     
-    protected void logActivitySuccess(HttpServletRequest req, ArrayList<MimeMessage> emails) {
+    protected void logActivitySuccess(HttpServletRequest req, List<EmailWrapper> emails) {
         String url = HttpRequestHelper.getRequestedUrl(req);
         String message;
         
@@ -123,7 +120,7 @@ public abstract class EmailAction {
         log.severe(e.getMessage());
     }
 
-    private String generateLogMessage(List<MimeMessage> emailsSent) throws MessagingException, IOException {
+    private String generateLogMessage(List<EmailWrapper> emailsSent) {
         StringBuilder logMessage = new StringBuilder(100);
         logMessage.append("Emails sent to:<br/>");
         
@@ -145,12 +142,11 @@ public abstract class EmailAction {
         return logMessage.toString();
     }
     
-    private Map<String, EmailData> extractEmailDataForLogging(List<MimeMessage> emails)
-            throws MessagingException, IOException {
+    private Map<String, EmailData> extractEmailDataForLogging(List<EmailWrapper> emails) {
         Map<String, EmailData> logData = new TreeMap<String, EmailData>();
         
-        for (MimeMessage email : emails) {
-            String recipient = email.getAllRecipients()[0].toString();
+        for (EmailWrapper email : emails) {
+            String recipient = email.getFirstRecipient();
             String userName = extractUserName((String) email.getContent());
             String regKey = extractRegistrationKey((String) email.getContent());
             logData.put(recipient, new EmailData(userName, regKey));
