@@ -51,6 +51,8 @@ public class InstructorStudentRecordsPageAction extends Action {
                                                    courseId, CommentParticipantType.PERSON,
                                                    studentEmail, instructor.email);
         
+        CommentAttributes.sortCommentsByCreationTimeDescending(comments);
+        
         TreeMap<String, List<CommentAttributes>> giverEmailToCommentsMap = mapCommentsToGiverEmail(comments);
         
         TreeMap<String, String> giverEmailToGiverNameMap = mapGiverNameToGiverEmail(giverEmailToCommentsMap.keySet());
@@ -60,7 +62,6 @@ public class InstructorStudentRecordsPageAction extends Action {
         filterFeedbackSessions(courseId, sessions, instructor, student);
 
         Collections.sort(sessions, FeedbackSessionAttributes.DESCENDING_ORDER);
-        CommentAttributes.sortCommentsByCreationTimeDescending(comments);
         
         StudentProfileAttributes studentProfile = null;
 
@@ -79,8 +80,10 @@ public class InstructorStudentRecordsPageAction extends Action {
                                                    StatusMessageColor.WARNING));
             }
         }
+        
+        boolean hasVisibleComments = checkForVisibleComments(giverEmailToCommentsMap);
 
-        if (sessions.isEmpty() && comments.isEmpty()) {
+        if (sessions.isEmpty() && !hasVisibleComments) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS, StatusMessageColor.WARNING));
         }
 
@@ -183,6 +186,15 @@ public class InstructorStudentRecordsPageAction extends Action {
             section = student.section;
             return instructor.isAllowedForPrivilege(section, privilegeName);
         }
+    }
+
+    private boolean checkForVisibleComments(TreeMap<String, List<CommentAttributes>> giverEmailToCommentsMap) {
+        for (String key : giverEmailToCommentsMap.keySet()) {
+            if (!giverEmailToCommentsMap.get(key).isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
