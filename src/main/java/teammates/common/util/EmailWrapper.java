@@ -3,6 +3,9 @@ package teammates.common.util;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an email message and its important metadata.
+ */
 public class EmailWrapper {
     
     private String senderName;

@@ -790,9 +790,9 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         assertEquals(instructor1.email, instructor2.email);
     }
     
-    private void verifyJoinInviteToInstructor(InstructorAttributes instr, EmailWrapper email, String courseName,
+    private void verifyJoinInviteToInstructor(InstructorAttributes instructor, EmailWrapper email, String courseName,
                                               String courseId) {
-        assertEquals(instr.email, email.getFirstRecipient());
+        assertEquals(instructor.email, email.getFirstRecipient());
         assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), courseName, courseId),
                      email.getSubject());
     }

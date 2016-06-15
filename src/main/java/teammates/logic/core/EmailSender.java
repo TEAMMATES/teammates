@@ -132,7 +132,7 @@ public class EmailSender {
     }
     
     /**
-     * Sends the given {@code logReport}
+     * Sends the given {@code logReport}.
      */
     public void sendLogReport(EmailWrapper logReport) {
         try {

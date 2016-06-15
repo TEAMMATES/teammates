@@ -172,10 +172,10 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         List<EmailWrapper> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(studentCount + instructorCount, preparedEmails.size());
 
-        for (EmailWrapper m : preparedEmails) {
+        for (EmailWrapper email : preparedEmails) {
             assertEquals(String.format(EmailType.FEEDBACK_OPENING.getSubject(), courseName,
                                        session.getFeedbackSessionName()),
-                         m.getSubject());
+                         email.getSubject());
         }
     }
 

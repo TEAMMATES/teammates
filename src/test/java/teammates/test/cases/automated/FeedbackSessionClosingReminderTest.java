@@ -146,10 +146,10 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         List<EmailWrapper> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
         
-        for (EmailWrapper m : preparedEmails) {
+        for (EmailWrapper email : preparedEmails) {
             assertEquals(String.format(EmailType.FEEDBACK_CLOSING.getSubject(), course1Name,
                                        session1.getFeedbackSessionName()),
-                         m.getSubject());
+                         email.getSubject());
         }
         
         // Reuse an existing session to create a new one that is
@@ -183,10 +183,10 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course2StudentCount + course2InstructorCount, preparedEmails.size());
         
-        for (EmailWrapper m : preparedEmails) {
+        for (EmailWrapper email : preparedEmails) {
             assertEquals(String.format(EmailType.FEEDBACK_CLOSING.getSubject(), course2Name,
                                        session2.getFeedbackSessionName()),
-                         m.getSubject());
+                         email.getSubject());
         }
     }
     

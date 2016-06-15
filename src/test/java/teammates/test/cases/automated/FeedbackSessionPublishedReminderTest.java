@@ -168,10 +168,10 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         List<EmailWrapper> preparedEmails = fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
 
-        for (EmailWrapper m : preparedEmails) {
+        for (EmailWrapper email : preparedEmails) {
             assertEquals(String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(), courseName,
                                        session1.getFeedbackSessionName()),
-                         m.getSubject());
+                         email.getSubject());
         }
         
         ______TS("testing whether no more mails are sent");

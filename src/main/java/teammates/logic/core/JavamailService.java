@@ -16,6 +16,9 @@ import teammates.common.util.EmailWrapper;
 
 public class JavamailService implements EmailSenderService {
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MimeMessage parseToEmail(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
         Session session = Session.getDefaultInstance(new Properties(), null);
@@ -33,9 +36,12 @@ public class JavamailService implements EmailSenderService {
         return email;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void sendEmail(EmailWrapper message) throws AddressException, MessagingException, IOException {
-        MimeMessage email = parseToEmail(message);
+    public void sendEmail(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
+        MimeMessage email = parseToEmail(wrapper);
         Transport.send(email);
     }
     

@@ -11,6 +11,9 @@ import teammates.common.util.EmailWrapper;
 
 public class SendgridService implements EmailSenderService {
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Sendgrid parseToEmail(EmailWrapper wrapper) throws JSONException {
         Sendgrid email = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
@@ -30,9 +33,12 @@ public class SendgridService implements EmailSenderService {
         return email;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void sendEmail(EmailWrapper message) throws JSONException, IOException {
-        Sendgrid email = parseToEmail(message);
+    public void sendEmail(EmailWrapper wrapper) throws JSONException, IOException {
+        Sendgrid email = parseToEmail(wrapper);
         email.send();
     }
     
