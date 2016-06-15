@@ -172,7 +172,8 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
                      redirectResult.getStatusMessage());
 
         expectedLogSegment = "Servlet Action Failure : "
-                             + String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER, currentLoginId)
+                             + String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
+                                             currentLoginId)
                              + "<br/><br/>Action Instructor Joins Course<br/>Google ID: "
                              + currentLoginId + "<br/>Key : " + newInstructor.key;
         AssertHelper.assertContains(expectedLogSegment, joinAction.getLogMessage());

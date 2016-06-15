@@ -127,7 +127,8 @@ public abstract class FeedbackQuestionDetails {
     public abstract List<String> validateQuestionDetails();
 
     /**
-     * Validates {@code List<FeedbackResponseAttributes>} for the question based on the current {@code Feedback*QuestionDetails}.
+     * Validates {@code List<FeedbackResponseAttributes>} for the question
+     * based on the current {@code Feedback*QuestionDetails}.
      *
      * @param responses - The {@code List<FeedbackResponseAttributes>} for the question to be validated
      * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an

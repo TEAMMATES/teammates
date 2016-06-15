@@ -14,7 +14,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     
     private boolean areDuplicatesAllowed;
 
-    public FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
+    FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);
     }
 

@@ -13,6 +13,7 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AdminEmailsLogic;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.Emails;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
@@ -62,12 +63,10 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
     private void sendAdminEmail(String emailContent, String subject, String receiverEmail)
             throws MessagingException, JSONException, IOException {
         
-        Emails emailsManager = new Emails();
-        
         MimeMessage email =
-                emailsManager.generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),
-                                                 subject, receiverEmail);
-        emailsManager.sendEmailWithoutLogging(email);
+                new EmailGenerator().generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),
+                                                        subject, receiverEmail);
+        new Emails().sendEmailWithoutLogging(email);
        
     }
 

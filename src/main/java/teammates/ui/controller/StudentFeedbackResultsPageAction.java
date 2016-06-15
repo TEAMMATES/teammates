@@ -47,9 +47,11 @@ public class StudentFeedbackResultsPageAction extends Action {
         }
 
         if (data.getBundle().isStudentHasSomethingNewToSee(data.student)) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SOMETHINGNEW, StatusMessageColor.INFO));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SOMETHINGNEW,
+                                               StatusMessageColor.INFO));
         } else {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_NOTHINGNEW, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_NOTHINGNEW,
+                                               StatusMessageColor.WARNING));
         }
 
         statusToAdmin = "Show student feedback result page<br>"

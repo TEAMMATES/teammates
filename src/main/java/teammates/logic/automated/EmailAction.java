@@ -89,12 +89,12 @@ public abstract class EmailAction {
         return preparedMail;
     }
     
-    protected abstract void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException;
+    protected abstract void doPostProcessingForSuccesfulSend()
+            throws InvalidParametersException, EntityDoesNotExistException;
     
     protected abstract void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException;
     
-    protected abstract List<MimeMessage> prepareMailToBeSent()
-            throws MessagingException, IOException, EntityDoesNotExistException;
+    protected abstract List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException;
     
     protected void logActivitySuccess(HttpServletRequest req, ArrayList<MimeMessage> emails) {
         String url = HttpRequestHelper.getRequestedUrl(req);

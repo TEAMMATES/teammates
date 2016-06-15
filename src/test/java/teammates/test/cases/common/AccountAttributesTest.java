@@ -66,8 +66,9 @@ public class AccountAttributesTest extends BaseTestCase {
     @Test
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
-        Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
-                                account.email, account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
+        Account expectedAccount =
+                new Account(account.googleId, account.name, account.isInstructor, account.email,
+                            account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
         Account actualAccount = new AccountAttributes(expectedAccount).toEntity();
         
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
