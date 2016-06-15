@@ -103,21 +103,46 @@
             var containingForm = getContainingForm(elem);
             containingForm.find('.visibility-preview').show();
         }
-
         function showVisibilityOthers(elem) {
             var containingForm = getContainingForm(elem);
             containingForm.find('.visibility-others').show();
             containingForm.find('.visibilityOptions').show();
+            containingForm.find('.visibility-show-details').find('a').html('Details / Customize further <<');
+        }
+        function toggleVisibilityOthers(elem) {
+            var containingForm = getContainingForm(elem);
+            containingForm.find('.visibility-others').toggle();
+            containingForm.find('.visibilityOptions').toggle();
+            toggleShowDetailsArrows(elem);
+        }
+        function showVisibilityShowDetails(elem) {
+            var containingForm = getContainingForm(elem);
+            containingForm.find('.visibility-show-details').show();
+        }
+        function toggleShowDetailsArrows(elem) {
+			console.log($(elem).html());
+            if ($(elem).html() == 'Details / Customize further &lt;&lt;') {
+                $(elem).html('Details / Customize further >>');
+            } else {
+				$(elem).html('Details / Customize further <<');
+			}
         }
 
         // attaching event handlers
         $('.visibility-dropdown > ul > li > a').on('click', function() {
             setVisibilityDropdownText(this.dataset.visibilityDescription, this);
             showVisibilityPreview(this);
+            showVisibilityShowDetails(this);
             hideVisibilityOthers(this);
         });
         $('.visibility-others-menu-option').on('click', function() {
             showVisibilityOthers(this);
+        });
+        $('.visibility-show-details > div > a').on('click', function() {
+            toggleVisibilityOthers(this);
+        });
+        $('.visibilityCheckbox').on('click', function(){
+            setVisibilityDropdownText('Customized according to the following table:', this);
         });
     </script>
     <style>
@@ -128,9 +153,19 @@
         }
         .feedback-path-others,
         .visibility-preview,
-        .visibility-others{
+        .visibility-others,
+        .visibility-show-details {
             display: none;
         }
+		.visibility-others {
+			margin-bottom: -10px;
+		}
+		.visibility-show-details {
+			padding-bottom: 15px;
+		}
+		[id^="button_question_submit-"] {
+			margin-top: 15px;
+		}
     </style>
 
 </ti:instructorPage>

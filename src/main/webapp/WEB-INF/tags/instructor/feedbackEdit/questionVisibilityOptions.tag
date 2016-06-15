@@ -43,7 +43,7 @@
     </div>
 </div>
 <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-<div class="visibiblity-others col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
+<div class="visibility-others col-sm-12 background-color-light-green overflow-hidden">
     <div class="visibilityOptions" id="visibilityOptions${fqForm.questionNumberSuffix}">
         <table class="dataTable participantTable table table-striped text-center background-color-white">
             <tr>
@@ -162,5 +162,11 @@
                 </td>
             </tr>
         </table>
+    </div>
+</div>
+<div class="visibility-show-details col-sm-12 background-color-light-green">
+    <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
+    <div class="col-sm-12 overflow-hidden">
+        <a href="javascript:;">Details / Customize further >></a>
     </div>
 </div>
