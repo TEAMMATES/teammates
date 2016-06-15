@@ -583,10 +583,10 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-6-0" style="display:none;max-width:125px">
-                <option selected="" value="">
+              <select class="participantSelect middlealign form-control" name="responserecipient-6-0" style="display:none;max-width:125px">
+                <option value="">
                 </option>
-                <option value="SFSubmitUiT.alice.b@gmail.tmt">
+                <option selected="" value="SFSubmitUiT.alice.b@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -617,8 +617,21 @@
                       </div>
                     </td>
                   </tr>
+                  <tr>
+                    <td>
+                      <div class="radio">
+                        <label class="bold-label">
+                          <input checked="" data-text="otherOptionText" name="responsetext-6-0" type="radio" value="Features">
+                          Other
+                        </label>
+                        <input class="form-control margin-top-2px" id="otherOptionText-6-0" name="otherOptionText-6-0" type="text" value="Features">
+                        <input id="mcqIsOtherOptionAnswer-6-0" name="mcqIsOtherOptionAnswer-6-0" type="hidden" value="1">
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
+              <input name="responseid-6-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
             </div>
           </div>
         </div>
@@ -786,10 +799,10 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-8-0" style="display:none;max-width:125px">
-                <option selected="" value="">
+              <select class="participantSelect middlealign form-control" name="responserecipient-8-0" style="display:none;max-width:125px">
+                <option value="">
                 </option>
-                <option value="SFSubmitUiT.alice.b@gmail.tmt">
+                <option selected="" value="SFSubmitUiT.alice.b@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -834,6 +847,18 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
+                          <input checked="" data-text="msqOtherOptionText" name="responsetext-8-0" type="checkbox" value="Features">
+                          Other
+                        </label>
+                        <input class="form-control margin-top-2px" id="msqOtherOptionText-8-0" name="msqOtherOptionText-8-0" type="text" value="Features">
+                        <input id="msqIsOtherOptionAnswer-8-0" name="msqIsOtherOptionAnswer-8-0" type="hidden" value="1">
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
                           <input name="responsetext-8-0" type="checkbox" value="">
                           <i>
                             None of the above
@@ -844,6 +869,7 @@
                   </tr>
                 </tbody>
               </table>
+              <input name="responseid-8-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
             </div>
           </div>
         </div>

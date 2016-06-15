@@ -25,6 +25,9 @@ public final class Templates {
         return populatedTemplate;
     }
     
+    /**
+     * Collection of templates of emails to be sent by the system.
+     */
     public static class EmailTemplates {
         public static final String USER_COURSE_JOIN =
                 FileHelper.readResourceFile("userEmailTemplate-courseJoin.html");
