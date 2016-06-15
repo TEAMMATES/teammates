@@ -19,51 +19,70 @@
             id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${questionNumber}"
             value="${constSumToRecipientsValue}">
     </div>
-    <div class="col-sm-6 padding-left-35px">
+    <div class="col-sm-6">
         <div class="form-inline">
             <div class="row">
                 <div class="col-md-12">
-                    <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
+                    <label
+                        class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
                         <b>Total Points to distribute: </b>
                     </label>
                 </div>
 
-                    <div class="col-md-12 margin-bottom-7px padding-left-35px">
-                    <div class="col-md-1">
-                        <input type="radio"
+                <div class="col-xs-12 margin-bottom-7px padding-left-35px">
+                    <div class="col-xs-1">
+                        <input type="radio" id="constSumPointsTotal-${questionNumber}"
                             name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}"
                             value="false" checked>
-                            </div>
-                            <div class="col-md-4 padding-0 col-sm-4">
-                    <input type="number" disabled class="form-control width-100-pc pointsBox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}" id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1" step="1" onChange="updateConstSumPointsValue(${questionNumber})">
-                </div>
                     </div>
-                    <div class="col-md-12 margin-bottom-15px padding-left-35px" ${optionDisplay}>
-                    <div class="col-md-1">
-                        <input type="radio"
+                    <div class="col-xs-4 padding-0 col-sm-4">
+                        <input type="number" disabled class="form-control width-100-pc pointsBox"
+                            name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
+                            id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1" step="1"
+                            onChange="updateConstSumPointsValue(${questionNumber})">
+                    </div>
+                </div>
+                <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Option-${questionNumber}" ${optionDisplay}>
+                    <div class="col-xs-1">
+                        <input type="radio" id="constSumPointsPerOption-${questionNumber}"
                             name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}"
                             value="true" ${perOptionChecked}>
-                            </div>
-                            <div class="col-md-4 padding-0">
-
-                    <input type="number" disabled class="form-control width-100-pc pointsBox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}" id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1" step="1" onChange="updateConstSumPointsValue(${questionNumber})">
-                </div>
-                <div class="col-md-1">
-                <label class="text-color-gray margin-top-7px">X</label></div>
-                <div class="col-md-5 padding-0 ">
-                <label class="text-color-gray margin-top-7px">number of options</label></div>
                     </div>
-                    <div class="col-md-12 margin-bottom-15px padding-left-35px" ${recipientDisplay}>
-                    <div class="col-md-1">
-                        <input type="radio"
+                    <div class="col-xs-4 padding-0">
+
+                        <input type="number" disabled
+                            class="form-control width-100-pc pointsBox"
+                            name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
+                            id="constSumPoints-${questionNumber}"
+                            value="${constSumPoints}" min="1" step="1"
+                            onChange="updateConstSumPointsValue(${questionNumber})">
+                    </div>
+                    <div class="col-xs-6 padding-0">
+                        <label
+                            class="text-color-gray margin-top-7px padding-left-7px">X</label>
+                        <label class="text-color-gray margin-top-7px">number
+                            of options</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Recipient-${questionNumber}" ${recipientDisplay}>
+                    <div class="col-xs-1">
+                        <input type="radio" id="constSumPointsPerRecipient-${questionNumber}"
                             name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}"
                             value="true" ${perRecipientChecked}>
-                            </div>
-                            <div class="col-md-4 padding-0">
-                    <input type="number" disabled class="form-control width-100-pc pointsBox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}" id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1" step="1" onChange="updateConstSumPointsValue(${questionNumber})">
-                </div> <label class="col-md-1 text-color-gray margin-top-7px">X</label>
-                <label class="col-md-5 padding-0 text-color-gray margin-top-7px">number of recipients</label>
                     </div>
+                    <div class="col-xs-4 padding-0">
+                        <input type="number" disabled
+                            class="form-control width-100-pc pointsBox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
+                            id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1" step="1"
+                            onChange="updateConstSumPointsValue(${questionNumber})">
+                    </div>
+                    <div class="col-xs-6 padding-0">
+                        <label
+                            class="col-md-1 text-color-gray margin-top-7px padding-left-7px">X</label>
+                        <label
+                            class="col-xs-5 padding-0 text-color-gray margin-top-7px">number of recipients</label>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">

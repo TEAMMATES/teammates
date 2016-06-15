@@ -293,7 +293,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
-        
+            
         String html = Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONSTSUM_EDIT_FORM,
                 "${constSumEditFormOptionFragments}", optionListHtml.toString(),

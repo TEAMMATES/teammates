@@ -492,6 +492,16 @@ public abstract class AppPage {
         }
     }
 
+    /** 'check' the radio button, if it is not already 'checked'.
+     * No action taken if it is already 'checked'.
+     */
+    protected void markRadioButtonAsChecked(WebElement radioButton) {
+        waitForElementVisibility(radioButton);
+        if (!radioButton.isSelected()) {
+            radioButton.click();
+        }
+    }
+    
     /** 
      * Selection is based on the value shown to the user.
      * Since selecting an option by clicking on the option doesn't work sometimes
