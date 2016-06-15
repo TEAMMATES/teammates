@@ -7,7 +7,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
@@ -42,12 +41,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.FileHelper;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -484,24 +483,6 @@ public abstract class AppPage {
         return browser.driver.getPageSource();
     }
 
-    
-    /**
-     * This can be used to save pages which can later be used as the 'expected'
-     * in UI test cases. After saving the file, remember to edit it manually and
-     *  replace the version number in the page footer with the string
-     * "${version}". so that the test can insert the correct version number
-     * before comparing the 'expected' with the 'actual.
-     *  e.g., replace "V4.55" in the page footer by "V${version}".
-     *  @param filePath If the full path is not given, it will be saved in the
-     *  {@code TestProperties.TEST_PAGES_FOLDER} folder. In that case, the parameter
-     *  value should start with "/". e.g., "/instructorHomePage.html".
-     */
-    public void saveCurrentPage(String filePath, String content) throws IOException {
-        FileWriter output = new FileWriter(new File(filePath));
-        output.write(content);
-        output.close();
-    }
-
     public void click(By by) {
         WebElement element = browser.driver.findElement(by);
         element.click();
@@ -881,7 +862,7 @@ public abstract class AppPage {
         
         TestProperties.verifyReadyForGodMode();
         String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
-        saveCurrentPage(filePath, processedPageSource);
+        FileHelper.saveFile(filePath, processedPageSource);
         return true;
     }
     

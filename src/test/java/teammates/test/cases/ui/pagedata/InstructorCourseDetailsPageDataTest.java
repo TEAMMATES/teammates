@@ -11,7 +11,6 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorCourseDetailsPageData;
@@ -38,26 +37,14 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
                 instructors.add(instructor);
             }
         }
-        
-        List<StudentAttributes> students = new ArrayList<StudentAttributes>();
-        for (StudentAttributes student : dataBundle.students.values()) {
-            if ("idOfTypicalCourse1".equals(student.course)) {
-                students.add(student);
-            }
-        }
-        
-        StudentAttributes unregisteredStudent =
-                new StudentAttributes("None", "Team 1.1", "Unregistered Student",
-                                      "unregisteredStudentInCourse1@gmail.tmt", "No comment", "idOfTypicalCourse1");
-        students.add(unregisteredStudent);
-        
+
         CourseDetailsBundle courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
         courseDetails.sections = new ArrayList<SectionDetailsBundle>();
         SectionDetailsBundle sampleSection = new SectionDetailsBundle();
         sampleSection.name = "Sample section name";
         courseDetails.sections.add(sampleSection);
         
-        pageData.init(curInstructor, courseDetails, instructors, students);
+        pageData.init(curInstructor, courseDetails, instructors);
         
         assertEquals(instructors.size(), pageData.getInstructors().size());
         assertNotNull(pageData.getCourseRemindButton());
@@ -77,7 +64,7 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         sampleSection = new SectionDetailsBundle();
         sampleSection.name = "None";
         courseDetails.sections.add(sampleSection);
-        pageData.init(curInstructor, courseDetails, instructors, students);
+        pageData.init(curInstructor, courseDetails, instructors);
         assertFalse(pageData.isHasSection());
         assertEquals(1, pageData.getSections().size());
         
@@ -101,7 +88,7 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
             curInstructor.privileges.updatePrivilege(privilege, false);
         }
         
-        pageData.init(curInstructor, courseDetails, instructors, students);
+        pageData.init(curInstructor, courseDetails, instructors);
 
         assertEquals(instructors.size(), pageData.getInstructors().size());
         assertNotNull(pageData.getCourseRemindButton());

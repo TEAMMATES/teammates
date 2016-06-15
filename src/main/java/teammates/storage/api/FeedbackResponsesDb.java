@@ -634,7 +634,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         fr.keepUpdateTimestamp = keepUpdateTimestamp;
         fr.setAnswer(newAttributes.responseMetaData);
-        fr.setRecipientEmail(newAttributes.recipientEmail);
+        fr.setRecipientEmail(newAttributes.recipient);
         fr.setGiverSection(newAttributes.giverSection);
         fr.setRecipientSection(newAttributes.recipientSection);
                 
@@ -692,6 +692,25 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
 
+        return (List<FeedbackResponse>) q.execute(courseId);
+    }
+    
+    /**
+     * @param courseId
+     * @return true if there are existing responses in any feedback session in the course
+     */
+    public boolean hasFeedbackResponseEntitiesForCourse(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        return !getFeedbackResponseEntitiesForCourseWithinRange(courseId, 1).isEmpty();
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForCourseWithinRange(String courseId, long range) {
+        Query q = getPm().newQuery(FeedbackResponse.class);
+        q.declareParameters("String courseIdParam");
+        q.setFilter("courseId == courseIdParam");
+        q.setRange(0, range);
+        
         return (List<FeedbackResponse>) q.execute(courseId);
     }
     
@@ -1103,7 +1122,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         return getFeedbackResponseEntity(
             feedbackResponseToGet.feedbackQuestionId,
-            feedbackResponseToGet.giverEmail,
-            feedbackResponseToGet.recipientEmail);
+            feedbackResponseToGet.giver,
+            feedbackResponseToGet.recipient);
     }
 }

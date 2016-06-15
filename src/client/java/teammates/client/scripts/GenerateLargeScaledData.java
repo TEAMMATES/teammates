@@ -1,17 +1,16 @@
 package teammates.client.scripts;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.storage.datastore.Datastore;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.FileHelper;
 
 public class GenerateLargeScaledData extends RemoteApiClient {
     
@@ -71,7 +70,7 @@ public class GenerateLargeScaledData extends RemoteApiClient {
                                   + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

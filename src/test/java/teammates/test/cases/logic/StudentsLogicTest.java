@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -31,6 +32,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -38,7 +40,6 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -73,7 +74,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         testGetStudentsForGoogleId();
         testGetStudentForCourseIdAndGoogleId();
         testGetStudentsForCourse();
-        testGetKeyForStudent();
         testGetEncryptedKeyForStudent();
         testIsStudentInAnyCourse();
         testIsStudentInCourse();
@@ -337,14 +337,11 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentEmail = student1InCourse1.email;
         String courseId = student1InCourse1.course;
+        String courseName = coursesLogic.getCourse(courseId).getName();
         MimeMessage msgToStudent = studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
-        Emails emailMgr = new Emails();
-        @SuppressWarnings("static-access")
-        String emailInfo = emailMgr.getEmailInfo(msgToStudent);
-        String expectedEmailInfo = "[Email sent]to=student1InCourse1@gmail.tmt|from="
-                + "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:"
-                + " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
-        assertEquals(expectedEmailInfo, emailInfo);
+        assertEquals(studentEmail, msgToStudent.getRecipients(Message.RecipientType.TO)[0].toString());
+        assertEquals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), courseName, courseId),
+                     msgToStudent.getSubject());
         
         ______TS("invalid course id");
         
@@ -411,13 +408,13 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                                             Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
         FeedbackResponseAttributes responseBefore =
                 frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                                            feedbackResponse1InBundle.giverEmail,
-                                            feedbackResponse1InBundle.recipientEmail);
+                                            feedbackResponse1InBundle.giver,
+                                            feedbackResponse1InBundle.recipient);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
         
         FeedbackResponseAttributes responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
         assertEquals(responseBefore.getId(), responseAfter.getId());
         
         
@@ -436,12 +433,12 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
         responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
         
         responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
         assertEquals(responseBefore.getId(), responseAfter.getId());
         
         
@@ -461,12 +458,12 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
         responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
         
         responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+                feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
         assertEquals(null, responseAfter);
         
     }
@@ -851,7 +848,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         String studentKey = studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key;
-        StudentAttributes actualStudent = studentsLogic.getStudentForRegistrationKey(studentKey);
+        StudentAttributes actualStudent = studentsLogic.getStudentForRegistrationKey(StringHelper.encrypt(studentKey));
         assertEquals(student1InCourse1.googleId, actualStudent.googleId);
     }
 
@@ -999,41 +996,6 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
     }
 
-    public void testGetKeyForStudent() throws Exception {
-    
-        ______TS("null parameters");
-    
-        try {
-            studentsLogic.getKeyForStudent("valid.course.id", null);
-            signalFailureToDetectException();
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
-    
-        
-        ______TS("non-existent student");
-        
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        String nonExistStudentEmail = "non@existent";
-        try {
-            studentsLogic.getKeyForStudent(student1InCourse1.course, nonExistStudentEmail);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            String expectedErrorMsg = "Student does not exist: [" + student1InCourse1.course + "/" + nonExistStudentEmail + "]";
-            assertEquals(expectedErrorMsg, e.getMessage());
-        }
-        
-        
-        // the typical case below seems unnecessary though--it is not useful for now
-        // as the method itself is too simple
-        ______TS("typical case");
-        
-        String course1Id = dataBundle.courses.get("typicalCourse1").getId();
-        String actualKey = studentsLogic.getKeyForStudent(course1Id, student1InCourse1.email);
-        String expectedKey = studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key;
-        assertEquals(expectedKey, actualKey);
-    }
-    
     public void testGetEncryptedKeyForStudent() throws Exception {
         
         ______TS("null parameters");
@@ -1160,7 +1122,8 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
-        String courseId = dataBundle.courses.get("typicalCourse1").getId();
+        String courseId = course1.getId();
+        String courseName = course1.getName();
         StudentAttributes newsStudent0Info = new StudentAttributes("sect", "team", "n0", "e0@google.tmt", "", courseId);
         StudentAttributes newsStudent1Info = new StudentAttributes("sect", "team", "n1", "e1@google.tmt", "", courseId);
         StudentAttributes newsStudent2Info = new StudentAttributes("sect", "team", "n2", "e2@google.tmt", "", courseId);
@@ -1170,9 +1133,9 @@ public class StudentsLogicTest extends BaseComponentTestCase {
 
         List<MimeMessage> msgsForCourse = studentsLogic.sendRegistrationInviteForCourse(courseId);
         assertEquals(3, msgsForCourse.size());
-        verifyJoinInviteToStudent(newsStudent0Info, msgsForCourse.get(0));
-        verifyJoinInviteToStudent(newsStudent1Info, msgsForCourse.get(1));
-        verifyJoinInviteToStudent(newsStudent2Info, msgsForCourse.get(2));
+        verifyJoinInviteToStudent(newsStudent0Info, msgsForCourse.get(0), courseName, courseId);
+        verifyJoinInviteToStudent(newsStudent1Info, msgsForCourse.get(1), courseName, courseId);
+        verifyJoinInviteToStudent(newsStudent2Info, msgsForCourse.get(2), courseName, courseId);
         
         studentsLogic.updateStudentCascadeWithoutDocument(student1InCourse1.email, student1InCourse1);
         studentsLogic.updateStudentCascadeWithoutDocument(student2InCourse1.email, student2InCourse1);
@@ -1249,11 +1212,12 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         printTestClassFooter();
     }
     
-    private void verifyJoinInviteToStudent(StudentAttributes student, MimeMessage email)
-                                    throws MessagingException {
+    private void verifyJoinInviteToStudent(StudentAttributes student, MimeMessage email, String courseName,
+                                           String courseId)
+            throws MessagingException {
         assertEquals(student.email, email.getAllRecipients()[0].toString());
-        AssertHelper.assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN, email.getSubject());
-        AssertHelper.assertContains(student.course, email.getSubject());
+        assertEquals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), courseName, courseId),
+                     email.getSubject());
     }
     
     private void verifyEnrollmentDetailsForStudent(StudentAttributes expectedStudent, String oldTeam,

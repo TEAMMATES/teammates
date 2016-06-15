@@ -24,6 +24,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
+import teammates.common.util.EmailType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.api.CommentsDb;
@@ -575,10 +577,10 @@ public class CommentsLogic {
             Map<String, Set<String>> responseCommentsAddedTable, FeedbackResponseCommentAttributes frc,
             FeedbackResponseAttributes relatedResponse) {
         if (frc.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
-            StudentAttributes studentOfThisEmail = roster.getStudentForEmail(relatedResponse.recipientEmail);
+            StudentAttributes studentOfThisEmail = roster.getStudentForEmail(relatedResponse.recipient);
             if (studentOfThisEmail == null) {
                 addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList, responseCommentsAddedTable,
-                                                frc.getId().toString(), relatedResponse.recipientEmail);
+                                                frc.getId().toString(), relatedResponse.recipient);
             } else {
                 addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList, responseCommentsAddedTable,
                                                 frc.getId().toString(), studentOfThisEmail.team);
@@ -592,13 +594,13 @@ public class CommentsLogic {
             FeedbackResponseAttributes relatedResponse) {
         if (frc.isVisibleTo(FeedbackParticipantType.RECEIVER)) {
             //recipientEmail is email
-            if (roster.getStudentForEmail(relatedResponse.recipientEmail) == null) {
+            if (roster.getStudentForEmail(relatedResponse.recipient) == null) {
                 addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList,
                                                 responseCommentsAddedTable, frc.getId().toString(),
-                                                relatedResponse.recipientEmail);
+                                                relatedResponse.recipient);
             } else {
                 addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList,
-                                                frc.getId().toString(), relatedResponse.recipientEmail);
+                                                frc.getId().toString(), relatedResponse.recipient);
             }
         }
     }
@@ -607,14 +609,14 @@ public class CommentsLogic {
             Map<String, List<StudentAttributes>> teamStudentTable, Set<String> recipientEmailsList,
             Map<String, Set<String>> responseCommentsAddedTable, FeedbackResponseCommentAttributes frc,
             FeedbackQuestionAttributes relatedQuestion, FeedbackResponseAttributes relatedResponse) {
-        StudentAttributes giver = roster.getStudentForEmail(relatedResponse.giverEmail);
+        StudentAttributes giver = roster.getStudentForEmail(relatedResponse.giver);
         if (giver == null) {
             return;
         }
         
         if (frc.isVisibleTo(FeedbackParticipantType.GIVER)) {
             addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList,
-                                     frc.getId().toString(), relatedResponse.giverEmail);
+                                     frc.getId().toString(), relatedResponse.giver);
         }
         
         if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
@@ -874,4 +876,17 @@ public class CommentsLogic {
     public List<CommentAttributes> getAllComments() {
         return commentsDb.getAllComments();
     }
+    
+    /**
+     * Sends notifications to students in course {@code courseId} who have received comments and not yet been notified.
+     */
+    public void sendCommentNotification(String courseId) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(Const.ParamsNames.EMAIL_COURSE, courseId);
+        paramMap.put(Const.ParamsNames.EMAIL_TYPE, EmailType.PENDING_COMMENT_CLEARED.toString());
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        taskQueueLogic.createAndAddTask(Const.SystemParams.EMAIL_TASK_QUEUE, Const.ActionURIs.EMAIL_WORKER, paramMap);
+    }
+    
 }

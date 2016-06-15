@@ -4,7 +4,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -46,12 +45,10 @@ public class InstructorCourseDetailsPageAction extends Action {
         
         CourseDetailsBundle courseDetails = logic.getCourseDetails(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
-        StudentAttributes.sortByNameAndThenByEmail(students);
         
-        data.init(instructor, courseDetails, instructors, students);
+        data.init(instructor, courseDetails, instructors);
         
-        if (students.isEmpty()) {
+        if (courseDetails.getStats().getStudentsTotal() == 0) {
             String message = String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY,
                                            data.getInstructorCourseEnrollLink(courseId));
             statusToUser.add(new StatusMessage(message, StatusMessageColor.WARNING));

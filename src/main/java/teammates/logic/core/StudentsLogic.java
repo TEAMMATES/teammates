@@ -149,17 +149,6 @@ public class StudentsLogic {
         return accLogic.getStudentProfile(googleId);
     }
     
-    public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-        
-        StudentAttributes studentData = getStudentForEmail(courseId, email);
-    
-        if (studentData == null) {
-            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
-        }
-    
-        return studentData.key;
-    }
-    
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
         
         StudentAttributes studentData = getStudentForEmail(courseId, email);
@@ -556,10 +545,9 @@ public class StudentsLogic {
                     "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
         }
         
-        Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
-            emailMgr.sendEmailWithLogging(email);
+            MimeMessage email = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
+            new Emails().sendEmailWithLogging(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
@@ -582,10 +570,9 @@ public class StudentsLogic {
                     "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
         }
         
-        Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
-            emailMgr.sendEmailWithLogging(email);
+            MimeMessage email = new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
+            new Emails().sendEmailWithLogging(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
