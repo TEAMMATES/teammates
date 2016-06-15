@@ -51,9 +51,9 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                      redirectResult.getStatusMessage());
              
         String expectedLogSegment = "Registration Key sent to the following users "
-                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>"
+                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"
                 + anotherInstructorOfCourse1.name + "<span class=\"bold\"> ("
-                + anotherInstructorOfCourse1.email + ")" + "</span>.<br/>";
+                + anotherInstructorOfCourse1.email + ")" + "</span>.<br>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
 
         ______TS("Typical case: Send email to remind a student to register for the course");
@@ -73,9 +73,9 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                      redirectResult.getStatusMessage());
              
         expectedLogSegment = "Registration Key sent to the following users "
-                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>"
+                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"
                 + student1InCourse1.name + "<span class=\"bold\"> ("
-                + student1InCourse1.email + ")" + "</span>.<br/>";
+                + student1InCourse1.email + ")" + "</span>.<br>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
 
         ______TS("Masquerade mode: Send emails to all unregistered student to remind registering for the course");
@@ -102,15 +102,15 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                      redirectResult.getStatusMessage());
              
         expectedLogSegment = "Registration Key sent to the following users "
-                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>"
+                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"
                 + unregisteredStudent1.name + "<span class=\"bold\"> ("
-                + unregisteredStudent1.email + ")" + "</span>.<br/>"
+                + unregisteredStudent1.email + ")" + "</span>.<br>"
                 + StringHelper.encrypt(unregisteredStudent1.key)
-                + "&studentemail=unregistered1%40email.com&courseid=idOfTypicalCourse1<br/>"
+                + "&studentemail=unregistered1%40email.com&courseid=idOfTypicalCourse1<br>"
                 + unregisteredStudent2.name + "<span class=\"bold\"> ("
-                + unregisteredStudent2.email + ")" + "</span>.<br/>"
+                + unregisteredStudent2.email + ")" + "</span>.<br>"
                 + StringHelper.encrypt(unregisteredStudent2.key)
-                + "&studentemail=unregistered2%40email.com&courseid=idOfTypicalCourse1<br/>";
+                + "&studentemail=unregistered2%40email.com&courseid=idOfTypicalCourse1<br>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
         
         StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent1.email);

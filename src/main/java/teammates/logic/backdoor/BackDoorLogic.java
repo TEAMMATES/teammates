@@ -389,11 +389,11 @@ public class BackDoorLogic extends Logic {
                 
     /**
     * This method is necessary to generate the feedbackQuestionId of the
-    * question the response is for.<br />
+    * question the response is for.<br>
     * Normally, the ID is already generated on creation,
-    * but the json file does not contain the actual response ID. <br />
+    * but the json file does not contain the actual response ID. <br>
     * Therefore the question number corresponding to the created response
-    * should be inserted in the json file in place of the actual response ID.<br />
+    * should be inserted in the json file in place of the actual response ID.<br>
     * This method will then generate the correct ID and replace the field.
      * @throws EntityDoesNotExistException
     **/
@@ -417,12 +417,12 @@ public class BackDoorLogic extends Logic {
     
     /**
     * This method is necessary to generate the feedbackQuestionId
-    * and feedbackResponseId of the question and response the comment is for.<br />
+    * and feedbackResponseId of the question and response the comment is for.<br>
     * Normally, the ID is already generated on creation,
-    * but the json file does not contain the actual response ID. <br />
+    * but the json file does not contain the actual response ID. <br>
     * Therefore the question number and questionNumber%giverEmail%recipient
     * corresponding to the created comment should be inserted in the json
-    * file in place of the actual ID.<br />
+    * file in place of the actual ID.<br>
     * This method will then generate the correct ID and replace the field.
      * @throws EntityDoesNotExistException
     **/

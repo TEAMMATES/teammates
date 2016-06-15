@@ -89,7 +89,7 @@ public class InstructorCourseRemindAction extends Action {
         StringBuilder statusToAdmin = new StringBuilder(200);
         statusToAdmin.append("Registration Key sent to the following users in Course <span class=\"bold\">[")
                      .append(courseId)
-                     .append("]</span>:<br/>");
+                     .append("]</span>:<br>");
         
         Iterator<Entry<String, JoinEmailData>> extractedEmailIterator =
                 extractEmailDataForLogging(emailsSent).entrySet().iterator();
@@ -101,7 +101,7 @@ public class InstructorCourseRemindAction extends Action {
             JoinEmailData joinEmailData = extractedEmail.getValue();
             
             statusToAdmin.append(joinEmailData.userName).append("<span class=\"bold\"> (").append(userEmail)
-                         .append(")</span>.<br/>").append(joinEmailData.regKey).append("<br/>");
+                         .append(")</span>.<br>").append(joinEmailData.regKey).append("<br>");
         }
         
         return statusToAdmin.toString();

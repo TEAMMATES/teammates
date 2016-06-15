@@ -35,9 +35,9 @@
     <c:if test="${empty data.qnForms}">
         <br>
         <div class="align-center bold" id="empty_message">${EMPTY_FEEDBACK_SESSION_MESSAGE}</div>
-        <br/>
+        <br>
     </c:if>
-     <br/>
+     <br>
     <c:forEach items="${data.qnForms}" var="question">
         <feedbackEdit:questionEditForm fqForm="${question}" numQn="${fn:length(data.qnForms)}"/>
     </c:forEach>
@@ -45,8 +45,8 @@
     <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" nextQnNum="${fn:length(data.qnForms) + 1}"/>
     <feedbackEdit:copyQuestionModal copyQnForm="${data.copyQnForm}" />
     
-    <br/>
-    <br/>
+    <br>
+    <br>
     <feedbackEdit:previewSessionForm previewForm="${data.previewForm}" />
     
     <br>

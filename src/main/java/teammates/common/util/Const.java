@@ -269,9 +269,9 @@ public final class Const {
                 "The feedback session is yet to be completed by you.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED =
                 "You have submitted your feedback for this session.";
-        public static final String STUDENT_FEEDBACK_SESSION_STATUS_CLOSED = "<br />The session is now closed for submissions.";
+        public static final String STUDENT_FEEDBACK_SESSION_STATUS_CLOSED = "<br>The session is now closed for submissions.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED =
-                "<br />The responses for the session can now be viewed.";
+                "<br>The responses for the session can now be viewed.";
 
         public static final String FEEDBACK_CONTRIBUTION_DIFF = "Perceived Contribution - Claimed Contribution";
         public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED =
@@ -290,7 +290,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_ENDDATE =
                 "Please select the date and time after which the feedback session will no longer accept submissions from users.";
         public static final String FEEDBACK_SESSION_VISIBLEDATE =
-                "Select this option to enter in a custom date and time for which the feedback session will become visible.<br />"
+                "Select this option to enter in a custom date and time for which the feedback session will become visible.<br>"
                 + "Note that you can make a session visible before it is open for submissions "
                 + "so that users can preview the questions.";
         public static final String FEEDBACK_SESSION_PUBLISHDATE =
@@ -308,12 +308,12 @@ public final class Const {
                 + "Use this option if you want to use this as a private feedback session.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELABEL =
                 "Please select when the responses for the feedback session will be visible to the designated recipients."
-                + "<br />You can select the response visibility for each type of user and question later.";
+                + "<br>You can select the response visibility for each type of user and question later.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLECUSTOM =
-                "Select this option to use a custom time for when the responses of the feedback session<br />"
+                "Select this option to use a custom time for when the responses of the feedback session<br>"
                 + "will be visible to the designated recipients.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE =
-                "Select this option to have the feedback responses be immediately visible<br />"
+                "Select this option to have the feedback responses be immediately visible<br>"
                 + "when the session becomes visible to users.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER =
                 "Select this option if you intend to manually publish the responses for this session later on.";
@@ -329,22 +329,22 @@ public final class Const {
                 "Select this option to automatically send an email to students to notify them "
                 + "when the session results is published.";
         public static final String FEEDBACK_SESSION_INSTRUCTIONS =
-                "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> "
+                "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br> "
                 + "It will be displayed at the top of the page when users respond to the session.";
         public static final String FEEDBACK_SESSION_STATUS_PRIVATE = "This is a private session. Nobody can see it but you.";
         public static final String FEEDBACK_SESSION_STATUS_VISIBLE = ", is visible";
         public static final String FEEDBACK_SESSION_STATUS_AWAITING = ", and is waiting to open";
         public static final String FEEDBACK_SESSION_STATUS_OPEN = ", and is open for submissions";
         public static final String FEEDBACK_SESSION_STATUS_CLOSED = ", and has ended";
-        public static final String FEEDBACK_SESSION_STATUS_PUBLISHED = ".<br />The responses for this session are visible";
+        public static final String FEEDBACK_SESSION_STATUS_PUBLISHED = ".<br>The responses for this session are visible";
         
         public static final String FEEDBACK_SESSION_INPUT_TIMEZONE =
-                "You should not need to change this as your timezone is auto-detected. <br /><br />"
+                "You should not need to change this as your timezone is auto-detected. <br><br>"
                 + "However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is "
                 + "daylight saving, you should choose UTC -7:00 and its corresponding timings.";
 
         public static final String FEEDBACK_SESSION_INPUT_GRACEPERIOD =
-                "Please select the amount of time that the system will continue accepting <br />"
+                "Please select the amount of time that the system will continue accepting <br>"
                 + "submissions after the specified deadline.";
 
         public static final String FEEDBACK_SESSION_RESPONSE_RATE = "Number of students submitted / Class size";
@@ -1058,20 +1058,20 @@ public final class Const {
         public static final String INSTRUCTOR_DETAILS_LENGTH_INVALID = "Instructor Details must have %d columns";
         
         public static final String STUDENT_FIRST_TIME = "<div style=\"text-align:left;\">Welcome stranger :-) "
-                + "<br/><br/>It seems you are not a registered user of TEAMMATES. "
+                + "<br><br>It seems you are not a registered user of TEAMMATES. "
                 + "To use TEAMMATES, a course instructor has to add you to a course first. "
                 + "After that, TEAMMATES will send you an email containing the link to 'join' that course. "
-                + "<br/><br/>Not a stranger to TEAMMATES? "
+                + "<br><br>Not a stranger to TEAMMATES? "
                 + "Could log in before, but not any more? These are the possible reasons:"
-                + "<br/>1. You used a different Google account to access TEAMMATES in the past. "
+                + "<br>1. You used a different Google account to access TEAMMATES in the past. "
                 + "In that case, you need to use the same Google account to access TEAMMATES again. "
                 + "Logout and re-login using the other Google account. "
                 + "If you don't remember which Google account you used previously, "
                 + "email us from the same email account to which you receive TEAMMATES emails."
-                + "<br/>2. You changed the primary email from a non-Gmail address to a Gmail address recently. "
+                + "<br>2. You changed the primary email from a non-Gmail address to a Gmail address recently. "
                 + "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> "
                 + "so that we can reconfigure your account to use the new Gmail address."
-                + "<br/>3. You joined this course just a few seconds ago and your data "
+                + "<br>3. You joined this course just a few seconds ago and your data "
                 + "may be still in the process of propagating through our servers. "
                 + "In that case, please click on the "
                 + "<a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
