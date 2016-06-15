@@ -94,8 +94,7 @@ public abstract class EmailAction {
     
     protected abstract void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException;
     
-    protected abstract List<MimeMessage> prepareMailToBeSent()
-            throws MessagingException, IOException, EntityDoesNotExistException;
+    protected abstract List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException;
     
     protected void logActivitySuccess(HttpServletRequest req, ArrayList<MimeMessage> emails) {
         String url = HttpRequestHelper.getRequestedUrl(req);

@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.AdminEmailAttributes;
@@ -49,6 +48,7 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
@@ -75,6 +75,7 @@ public class Logic {
     
     protected static GateKeeper gateKeeper = GateKeeper.inst();
     protected static Emails emailManager = new Emails();
+    protected static EmailGenerator emailGenerator = new EmailGenerator();
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
@@ -2457,6 +2458,14 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return commentsLogic.getCommentsForSendingState(courseId, sendingState);
     }
+    
+    /**
+     * @see CommentsLogic#sendCommentNotification(String)
+     */
+    public void sendCommentNotification(String courseId) {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        commentsLogic.sendCommentNotification(courseId);
+    }
 
     /**
      * This method is not scalable. Not to be used unless for admin features.
@@ -2577,8 +2586,25 @@ public class Logic {
         adminEmailsLogic.deleteAdminEmailUploadedFile(key);
     }
 
-    public MimeMessage emailErrorReport(HttpServletRequest req, Throwable error) {
-        return emailManager.sendErrorReport(req, error);
+    /**
+     * Generates and emails an error report based on the supplied {@link Throwable} {@code error}.
+     */
+    public MimeMessage emailErrorReport(String requestMethod, String requestUserAgent, String requestPath,
+                                        String requestUrl, String requestParams, UserType userType,
+                                        Throwable error) {
+        MimeMessage errorReport = null;
+        try {
+            errorReport = emailGenerator.generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
+                                                                  requestUrl, requestParams, userType, error);
+            try {
+                emailManager.sendErrorReport(errorReport);
+            } catch (Exception e) {
+                emailManager.reportErrorWithBackupChannel(error, errorReport, e);
+            }
+        } catch (Exception e) {
+            emailManager.reportErrorWithBackupChannel(error, null, e);
+        }
+        return errorReport;
     }
 
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,

@@ -265,7 +265,7 @@ $(document).ready(function() {
                 var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
                 var allFeedbackResponsesForFeedbackQuestionAreHidden =
                         feedbackQuestion.find('tr[style*="display: none"]').length
-                        === feedbackQuestion.find('tr').length;
+                        === feedbackQuestion.find('tr[class*="table-row"]').length;
                 if (allFeedbackResponsesForFeedbackQuestionAreHidden) {
                     feedbackQuestion.hide();
                     

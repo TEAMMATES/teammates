@@ -1,6 +1,5 @@
 package teammates.logic.core;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.google.appengine.api.taskqueue.Queue;
@@ -22,7 +21,7 @@ public class TaskQueuesLogic {
     }
     
     public void createAndAddTask(String queueName,
-            String workerUrl, HashMap<String, String> paramMap) {
+            String workerUrl, Map<String, String> paramMap) {
         Queue requiredQueue = QueueFactory.getQueue(queueName);
         TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
         
@@ -38,7 +37,7 @@ public class TaskQueuesLogic {
     
     // TODO Combine this and createAndAddTask and modify task schedulers accordingly?
     public void createAndAddTaskMultisetParam(String queueName,
-            String workerUrl, HashMap<String, String[]> paramMap) {
+            String workerUrl, Map<String, String[]> paramMap) {
         Queue requiredQueue = QueueFactory.getQueue(queueName);
         TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
         
@@ -55,7 +54,7 @@ public class TaskQueuesLogic {
     }
     
     public void createAndAddDeferredTask(String queueName,
-            String workerUrl, HashMap<String, String> paramMap, long countdownTime) {
+            String workerUrl, Map<String, String> paramMap, long countdownTime) {
         Queue requiredQueue = QueueFactory.getQueue(queueName);
         TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
         taskToBeAdded.countdownMillis(countdownTime);
