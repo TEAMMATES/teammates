@@ -89,7 +89,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             Slots.RANK_OPTION_VISIBILITY, "",
                             Slots.OPTIONS, getSubmissionOptionsHtmlForRankingOptions(existingResponse.getAnswerList().get(i)),
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(options.get(i)));
+                            Slots.RANK_OPTION_VALUE, Sanitizer.sanitizeForHtml(options.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
             
         }
@@ -126,7 +126,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             Slots.RANK_OPTION_VISIBILITY, "",
                             Slots.OPTIONS, getSubmissionOptionsHtmlForRankingOptions(Const.INT_UNINITIALIZED),
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(options.get(i)));
+                            Slots.RANK_OPTION_VALUE, Sanitizer.sanitizeForHtml(options.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
 
@@ -172,7 +172,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.ITERATOR, Integer.toString(i),
-                            Slots.RANK_OPTION_VALUE,  Sanitizer.sanitizeForHtml(options.get(i)),
+                            Slots.RANK_OPTION_VALUE, Sanitizer.sanitizeForHtml(options.get(i)),
                             Slots.RANK_PARAM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION);
 
             optionListHtml.append(optionFragment).append(Const.EOL);

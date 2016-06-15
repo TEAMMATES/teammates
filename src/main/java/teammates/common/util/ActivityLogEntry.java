@@ -63,9 +63,11 @@ public class ActivityLogEntry {
     private String message;
     private String url;
     private Long timeTaken;
-    private String id;  // id can be in the form of <googleId>%<time> e.g. bamboo3250%20151103170618465
-                        // or <studentemail>%<courseId>%<time> (for unregistered students)
-                        //     e.g. bamboo@gmail.tmt%instructor.ema-demo%20151103170618465
+    
+    // id can be in the form of <googleId>%<time> e.g. bamboo3250%20151103170618465
+    // or <studentemail>%<courseId>%<time> (for unregistered students)
+    //     e.g. bamboo@gmail.tmt%instructor.ema-demo%20151103170618465
+    private String id;
     
     private boolean isFirstRow;
     
