@@ -91,27 +91,29 @@ public class InstructorStudentRecordsPageData extends PageData {
             String giverEmail, int totalNumOfComments) {
         List<CommentRow> commentDivs = new ArrayList<CommentRow>();
         List<CommentAttributes> comments = giverEmailToCommentsMap.get(giverEmail);
-        String giverName = giverEmailToGiverNameMap.get(giverEmail);
-        for (CommentAttributes comment : comments) {
-            String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
-            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
-            CommentRow commentDiv = new CommentRow(comment, giverEmail, unsanitizedRecipientDetails);
-            String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
-            commentDiv.setVisibilityIcon(whoCanSeeComment);
-            if ("0You".equals(giverEmail)
-                    || instructor.isAllowedForPrivilege(student.section,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)) {
-                commentDiv.setEditDeleteEnabled(false);
+        if (!comments.isEmpty() || "0You".equals(giverEmail)) {
+            String giverName = giverEmailToGiverNameMap.get(giverEmail);
+            for (CommentAttributes comment : comments) {
+                String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
+                String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
+                CommentRow commentDiv = new CommentRow(comment, giverEmail, unsanitizedRecipientDetails);
+                String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
+                commentDiv.setVisibilityIcon(whoCanSeeComment);
+                if ("0You".equals(giverEmail)
+                        || instructor.isAllowedForPrivilege(student.section,
+                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)) {
+                    commentDiv.setEditDeleteEnabled(false);
+                }
+                commentDiv.setNotFromCommentsPage(student.email);
+                commentDiv.setNumComments(totalNumOfComments);
+                commentDivs.add(commentDiv);
             }
-            commentDiv.setNotFromCommentsPage(student.email);
-            commentDiv.setNumComments(totalNumOfComments);
-            commentDivs.add(commentDiv);
+            CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable(giverName, commentDivs);
+            commentsForStudent.setInstructorAllowedToGiveComment(
+                    instructor.isAllowedForPrivilege(student.section,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+            commentsForStudentTable.add(commentsForStudent);
         }
-        CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable(giverName, commentDivs);
-        commentsForStudent.setInstructorAllowedToGiveComment(
-                instructor.isAllowedForPrivilege(student.section,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-        commentsForStudentTable.add(commentsForStudent);
     }
 
 }
