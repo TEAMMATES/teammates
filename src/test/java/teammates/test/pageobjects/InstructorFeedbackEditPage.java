@@ -683,7 +683,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void selectConstSumPointsOptions(String pointsOption, int questionNumber) {
         markRadioButtonAsChecked(
-                browser.driver.findElement(By.id("constSumPoints"+ pointsOption +"-" + questionNumber)));
+                browser.driver.findElement(By.id("constSumPoints" + pointsOption + "-" + questionNumber)));
     }
     
     public void selectGiverTypeForQuestion1(String giverType) {
