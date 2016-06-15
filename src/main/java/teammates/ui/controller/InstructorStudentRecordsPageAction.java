@@ -155,10 +155,9 @@ public class InstructorStudentRecordsPageAction extends Action {
     private void updateCommentList(CommentAttributes comment,
                                    boolean isCurrentInstructorGiver,
                                    List<CommentAttributes> commentList) {
-        if (isCurrentInstructorGiver || 
-                isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId,
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)
-                && true) {
+        if (isCurrentInstructorGiver
+                || isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId,
+                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
             commentList.add(comment);
         }
     }

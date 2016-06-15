@@ -98,9 +98,9 @@ public class InstructorStudentRecordsPageData extends PageData {
             CommentRow commentDiv = new CommentRow(comment, giverEmail, unsanitizedRecipientDetails);
             String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
             commentDiv.setVisibilityIcon(whoCanSeeComment);
-            if (("0You").equals(giverEmail)
-                || instructor.isAllowedForPrivilege(student.section,
-                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)) {
+            if ("0You".equals(giverEmail)
+                    || instructor.isAllowedForPrivilege(student.section,
+                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)) {
                 commentDiv.setEditDeleteEnabled(false);
             }
             commentDiv.setNotFromCommentsPage(student.email);
