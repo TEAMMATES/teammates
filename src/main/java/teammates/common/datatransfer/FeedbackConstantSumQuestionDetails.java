@@ -269,7 +269,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
-            
+        
         return Templates.populateTemplate(
                 FormTemplates.CONSTSUM_EDIT_FORM,
                 Slots.CONSTSUM_EDIT_FORM_OPTION_FRAGMENT, optionListHtml.toString(),
@@ -280,11 +280,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_SELECTED_POINTS_PER_OPTION, pointsPerOption ? "selected" : "",
                 Slots.CONSTSUM_OPTION_TABLE_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.CONSTSUM_POINTS, points == 0 ? "100" : Integer.toString(points),
-                "${optionDisplay}", distributeToRecipients ? "style=\"display:none\"" : "",
-                "${recipientDisplay}", distributeToRecipients ? "" : "style=\"display:none\"",
-                "${perOptionChecked}", distributeToRecipients ? "" : pointsPerOption ? "checked" : "",
-                "${perRecipientChecked}", distributeToRecipients ? pointsPerOption ? "checked" : "" : "",
-                "${optionRecipientDisplayName}", distributeToRecipients ? "recipient" : "option",
+                Slots.OPTION_DISPLAY, distributeToRecipients ? "style=\"display:none\"" : "",
+                Slots.RECIPIENT_DISPLAY, distributeToRecipients ? "" : "style=\"display:none\"",
+                Slots.PER_OPTION_CHECKED, !distributeToRecipients && pointsPerOption ? "checked" : "",
+                Slots.PER_RECIPIENT_CHECKED, distributeToRecipients && pointsPerOption ? "checked" : "",
+                Slots.OPTIONRECIPIENTDISPLAYNAME, distributeToRecipients ? "recipient" : "option",
                 Slots.OPTION_RECIPIENT_DISPLAY_NAME, distributeToRecipients ? "recipient" : "option",
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, forceUnevenDistribution ? "checked" : "",
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,

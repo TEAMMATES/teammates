@@ -512,7 +512,8 @@ public abstract class AppPage {
         return textBox.getAttribute("value");
     }
 
-    /** 'check' the check box, if it is not already 'checked'.
+    /** 
+     * 'check' the check box, if it is not already 'checked'.
      * No action taken if it is already 'checked'.
      */
     protected void markCheckBoxAsChecked(WebElement checkBox) {
@@ -522,7 +523,8 @@ public abstract class AppPage {
         }
     }
 
-    /** 'uncheck' the check box, if it is already 'checked'.
+    /** 
+     * 'uncheck' the check box, if it is already 'checked'.
      * No action taken if it is not already 'checked'.
      */
     protected void markCheckBoxAsUnchecked(WebElement checkBox) {
@@ -531,7 +533,8 @@ public abstract class AppPage {
         }
     }
 
-    /** 'check' the radio button, if it is not already 'checked'.
+    /** 
+     * 'check' the radio button, if it is not already 'checked'.
      * No action taken if it is already 'checked'.
      */
     protected void markRadioButtonAsChecked(WebElement radioButton) {
