@@ -10,7 +10,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackEdit" prefix="feedbackEdit" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
-<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 
 <c:set var="jsIncludes">
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
@@ -43,7 +42,7 @@
     </c:forEach>
     
     <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" nextQnNum="${fn:length(data.qnForms) + 1}"/>
-    <feedbackEdit:copyQuestionModal copyQnForm="${data.copyQnForm}" />
+    <feedbackEdit:copyQuestionModal feedbackSessionName="${data.fsForm.fsName}" courseId="${data.fsForm.courseId}"/>
     
     <br/>
     <br/>
@@ -51,5 +50,4 @@
     
     <br>
     <br>
-    <shared:confirmationModal/>
 </ti:instructorPage>
