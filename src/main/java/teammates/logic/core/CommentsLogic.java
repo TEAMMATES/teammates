@@ -101,7 +101,16 @@ public class CommentsLogic {
         verifyIsCoursePresent(courseId, "get");
         return commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
     }
-
+    
+    /**
+     * Gets comments for a particular receiver, then filters out comments that the instructor cannot see.
+     * @param courseId
+     * @param recipientType
+     * @param receiverEmail
+     * @param instructorEmail
+     * @return List of comments visible to the instructor, directed at the receiver.
+     * @throws EntityDoesNotExistException
+     */
     public List<CommentAttributes> getCommentsForReceiverVisibleToInstructor(
             String courseId, CommentParticipantType recipientType, String receiverEmail, String instructorEmail)
             throws EntityDoesNotExistException {

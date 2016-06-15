@@ -21,17 +21,14 @@ import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentRecordsPageAction extends Action {
-    
-    private String courseId;
-    private InstructorAttributes instructor;
 
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
-        courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
 
-        instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
         
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
@@ -53,9 +50,10 @@ public class InstructorStudentRecordsPageAction extends Action {
         
         CommentAttributes.sortCommentsByCreationTimeDescending(comments);
         
-        TreeMap<String, List<CommentAttributes>> giverEmailToCommentsMap = mapCommentsToGiverEmail(comments);
+        TreeMap<String, List<CommentAttributes>> giverEmailToCommentsMap =
+                mapCommentsToGiverEmail(comments, instructor, courseId);
         
-        TreeMap<String, String> giverEmailToGiverNameMap = mapGiverNameToGiverEmail(giverEmailToCommentsMap.keySet());
+        TreeMap<String, String> giverEmailToGiverNameMap = mapGiverNameToGiverEmail(courseId, giverEmailToCommentsMap.keySet());
 
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId);
 
@@ -122,14 +120,25 @@ public class InstructorStudentRecordsPageAction extends Action {
         }
     }
     
-    private TreeMap<String, List<CommentAttributes>> mapCommentsToGiverEmail(List<CommentAttributes> comments) {
+    /**
+     * Maps emails of instructors to the comments they gave.
+     * @param comments
+     * @param instructor
+     * @param courseId
+     * @return A map with instructor email => comments mappings.
+     */
+    private TreeMap<String, List<CommentAttributes>> mapCommentsToGiverEmail(List<CommentAttributes> comments,
+                                                             InstructorAttributes instructor, String courseId) {
         TreeMap<String, List<CommentAttributes>> giverEmailToCommentsMap =
                 new TreeMap<String, List<CommentAttributes>>();
-        giverEmailToCommentsMap.put("0You", new ArrayList<CommentAttributes>());
+        // add an element representing the current instructor to allow "no comments" to display correctly
+        giverEmailToCommentsMap.put(InstructorStudentRecordsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST,
+                                    new ArrayList<CommentAttributes>());
+        
         for (CommentAttributes comment : comments) {
             boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
             String key = isCurrentInstructorGiver
-                       ? "0You"
+                       ? InstructorStudentRecordsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST
                        : comment.giverEmail;
 
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
@@ -137,30 +146,49 @@ public class InstructorStudentRecordsPageAction extends Action {
                 commentList = new ArrayList<CommentAttributes>();
                 giverEmailToCommentsMap.put(key, commentList);
             }
-            updateCommentList(comment, isCurrentInstructorGiver, commentList);
+            updateCommentList(comment, isCurrentInstructorGiver, commentList, instructor, courseId);
         }
         return giverEmailToCommentsMap;
     }
     
-    private TreeMap<String, String> mapGiverNameToGiverEmail(Set<String> giverEmails) {
+    /**
+     * Maps emails of instructors giving the comments to their names.
+     * @param courseId
+     * @param giverEmails
+     * @return A map with instructor email => instructor name mappings.
+     */
+    private TreeMap<String, String> mapGiverNameToGiverEmail(String courseId, Set<String> giverEmails) {
         TreeMap<String, String> giverEmailToGiverNameMap = new TreeMap<String, String>();
-        giverEmailToGiverNameMap.put("0You", "You");
+        giverEmailToGiverNameMap.put(InstructorStudentRecordsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST,
+                                     Const.DISPLAYED_NAME_FOR_SELF_IN_COMMENTS);
+        
+        // magic string from CommentsLogic
         giverEmailToGiverNameMap.put("Anonymous", "Anonymous");
         for (String giverEmail : giverEmails) {
             if (!giverEmailToGiverNameMap.containsKey(giverEmail)) {
                 InstructorAttributes giverInstructor = logic.getInstructorForEmail(courseId, giverEmail);
+                Assumption.assertNotNull(giverInstructor);
                 giverEmailToGiverNameMap.put(giverEmail, giverInstructor.displayedName + " " + giverInstructor.name);
             }
         }
         return giverEmailToGiverNameMap;
     }
-
-    private void updateCommentList(CommentAttributes comment,
-                                   boolean isCurrentInstructorGiver,
-                                   List<CommentAttributes> commentList) {
-        if (isCurrentInstructorGiver
-                || isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId,
-                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+    
+    /**
+     * Adds {@code comment} to {@code commentList} if the instructor is able to view the comment.
+     * @param comment
+     * @param isCurrentInstructorGiver
+     * @param commentList
+     * @param instructor
+     * @param courseId
+     */
+    private void updateCommentList(CommentAttributes comment, boolean isCurrentInstructorGiver,
+                                   List<CommentAttributes> commentList, InstructorAttributes instructor,
+                                   String courseId) {
+        boolean canViewComment = isCurrentInstructorGiver
+                                 || isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId,
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
+        if (canViewComment) {
             commentList.add(comment);
         }
     }
