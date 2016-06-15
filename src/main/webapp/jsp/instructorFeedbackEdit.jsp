@@ -13,8 +13,10 @@
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 
 <c:set var="jsIncludes">
+    <link rel="stylesheet" media="screen" href="/bower_components/handsontable/dist/handsontable.full.css">
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
     
+    <script src="/bower_components/handsontable/dist/handsontable.full.js"></script>
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>

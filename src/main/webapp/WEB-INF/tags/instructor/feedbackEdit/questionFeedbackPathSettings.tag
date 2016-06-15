@@ -118,6 +118,41 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12"><a onclick="toggleCustom(this)">View details and further customizations</a></div>
+            </div>
+            <div hidden class="row" id="custom">
+                <br>
+                <div class="col-sm-2">
+                    <p class="text-muted">The editable spreadsheet to the right shows the feedback paths.</p>
+                    <p class="text-muted">Each row represents the feedback paths of a single giver to multiple recipients.</p>
+                    <p class="text-muted">The first column contains the feedback giver and each of the subsequent columns contains a recipient.</p>
+                </div>
+                <div class="col-sm-2 form-horizontal">
+                    <p><strong>Add rows and cols</strong></p>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Rows </label>
+                        <div class="col-sm-9">
+                            <input id="rows" type="number" class="form-control" placeholder="Rows">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Cols </label>
+                        <div class="col-sm-9">
+                            <input id="cols" type="number" class="form-control" placeholder="Cols">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary col-sm-12" onclick="addNewRowsAndCols()">Add rows and cols</button>
+                </div>
+                <div class="col-sm-8">
+                    <div id="example">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <br>
