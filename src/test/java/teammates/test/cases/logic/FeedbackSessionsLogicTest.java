@@ -2279,4 +2279,3 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     }
 
 }
-

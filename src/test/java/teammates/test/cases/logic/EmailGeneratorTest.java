@@ -35,16 +35,14 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     
-    private String from;
-    private String replyTo;
+    private String fromEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
+    private String fromName = "TEAMMATES Admin";
+    private String replyTo = "teammates@comp.nus.edu.sg";
     
     @BeforeClass
     public void classSetUp() throws Exception {
         printTestClassHeader();
         removeAndRestoreTypicalDataInDatastore();
-        
-        replyTo = "teammates@comp.nus.edu.sg";
-        from = "Admin@" + Config.getAppId() + ".appspotmail.com";
     }
     
     @Test
@@ -225,7 +223,10 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         assertEquals(subject, email.getSubject());
         
         // check sender
-        assertEquals(from, email.getSenderEmail());
+        assertEquals(fromName, email.getSenderName());
+        
+        // check sender
+        assertEquals(fromEmail, email.getSenderEmail());
         
         //check replyTo
         assertEquals(replyTo, email.getReplyTo());
