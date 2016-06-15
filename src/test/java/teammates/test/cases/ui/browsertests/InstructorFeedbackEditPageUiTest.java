@@ -13,7 +13,6 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
@@ -443,12 +442,64 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("Success case: copy questions successfully");
         
-        ThreadHelper.waitFor(1000);
         feedbackEditPage.clickCopyButton();
-        ThreadHelper.waitFor(1000);
+        
+        feedbackEditPage.waitForCopyTableToLoad();
+        
+        assertFalse("Unable to submit when there are no questions selected",
+                    feedbackEditPage.isCopySubmitButtonEnabled());
+        feedbackEditPage.verifyHtmlPart(By.id("copyModal"), "/instructorFeedbackCopyQuestionModal.html");
         feedbackEditPage.clickCopyTableAtRow(0);
+        
+        assertTrue("Can click after selecting", feedbackEditPage.isCopySubmitButtonEnabled());
+        
         feedbackEditPage.clickCopySubmitButton();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackCopyQuestionSuccess.html");
+        
+        ______TS("Success case: copy multiple questions successfully");
+        
+        int numQuestionEditForms = feedbackEditPage.getNumberOfQuestionEditForms();
+        feedbackEditPage.clickCopyButton();
+        
+        feedbackEditPage.waitForCopyTableToLoad();
+        feedbackEditPage.clickCopyTableAtRow(0);
+        feedbackEditPage.clickCopyTableAtRow(1);
+        
+        feedbackEditPage.clickCopySubmitButton();
+        
+        assertEquals(numQuestionEditForms + 2, feedbackEditPage.getNumberOfQuestionEditForms());
+        
+        ______TS("No copiable questions");
+        
+        feedbackEditPage = getFeedbackEditPageOfCourseWithoutQuestions();
+        feedbackEditPage.clickCopyButton();
+        
+        feedbackEditPage.waitForCopyErrorMessageToLoad();
+        assertEquals("There are no questions to be copied.",
+                     feedbackEditPage.getCopyErrorMessageText());
+        
+        assertFalse("Should not be able to submit if there are no questions",
+                    feedbackEditPage.isCopySubmitButtonEnabled());
+                
+        ______TS("Fails gracefully with an error message");
+        feedbackEditPage = getFeedbackEditPage();
+        
+        feedbackEditPage.changeActionLinkOnCopyButton("INVALID URL");
+        feedbackEditPage.clickCopyButton();
+
+        feedbackEditPage.waitForCopyErrorMessageToLoad();
+        assertEquals("Error retrieving questions. Please close the dialog window and try again.",
+                     feedbackEditPage.getCopyErrorMessageText());
+        
+        assertFalse("Should not be able to submit if loading failed",
+                    feedbackEditPage.isCopySubmitButtonEnabled());
+        
+        // revert back to state expected by tests after this by deleting new copied questions
+        String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 4).getId();
+        BackDoor.deleteFeedbackQuestion(questionId);
+        questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 3).getId();
+        BackDoor.deleteFeedbackQuestion(questionId);
+        
     }
     
     private void testChangeFeedbackRecipient() {
@@ -678,6 +729,18 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                     .withUserId(instructorId)
                                     .withCourseId(courseId)
                                     .withSessionName(feedbackSessionName);
+        return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
+    }
+    
+    private static InstructorFeedbackEditPage getFeedbackEditPageOfCourseWithoutQuestions() {
+        String instructor = testData.instructors.get("teammates.test.instructor3").googleId;
+        String courseWithoutQuestion = testData.courses.get("course2").getId();
+        String sessionWithoutQuestions = testData.feedbackSessions.get("openSession3")
+                                                                  .getFeedbackSessionName();
+        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+                                    .withUserId(instructor)
+                                    .withCourseId(courseWithoutQuestion)
+                                    .withSessionName(sessionWithoutQuestions);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

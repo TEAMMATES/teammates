@@ -42,7 +42,7 @@
     </c:forEach>
     
     <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" nextQnNum="${fn:length(data.qnForms) + 1}"/>
-    <feedbackEdit:copyQuestionModal copyQnForm="${data.copyQnForm}" />
+    <feedbackEdit:copyQuestionModal feedbackSessionName="${data.fsForm.fsName}" courseId="${data.fsForm.courseId}"/>
     
     <br/>
     <br/>

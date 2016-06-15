@@ -133,10 +133,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     private WebElement fscopyButton;
 
     @FindBy(id = "button_copy")
-    private WebElement copyButton;
+    private WebElement copyQuestionLoadButton;
     
     @FindBy(id = "button_copy_submit")
-    private WebElement copySubmitButton;
+    private WebElement copyQuestionSubmitButton;
     
     @FindBy(id = "button_preview_student")
     private WebElement previewAsStudentButton;
@@ -169,6 +169,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public String getFeedbackSessionName() {
         return browser.driver.findElement(By.name("fsname")).getAttribute("value");
+    }
+    
+    /**
+     * @return number of question edit forms + question add form
+     */
+    public int getNumberOfQuestionEditForms() {
+        return browser.driver.findElements(By.className("questionTable")).size();
     }
     
     public boolean isCorrectPage(String courseId, String feedbackSessionName) {
@@ -359,12 +366,29 @@ public class InstructorFeedbackEditPage extends AppPage {
         fscopyButton.click();
     }
     
+    /**
+     * Changes the value of actionlink of the copy question button.
+     * @param actionLink value to change to
+     */
+    public void changeActionLinkOnCopyButton(String actionLink) {
+        String selector = "$('#button_copy')";
+        String action = ".data('actionlink', '" + actionLink + "')";
+        ((JavascriptExecutor) browser.driver).executeScript(selector + action);
+    }
+    
     public void clickCopyButton() {
-        copyButton.click();
+        copyQuestionLoadButton.click();
+    }
+    
+    /**
+     * @return true if submission button of the 'copy question' modal is enabled
+     */
+    public boolean isCopySubmitButtonEnabled() {
+        return copyQuestionSubmitButton.isEnabled();
     }
     
     public void clickCopySubmitButton() {
-        copySubmitButton.click();
+        copyQuestionSubmitButton.click();
     }
     
     public void clickAddMcqOtherOptionCheckboxForNewQuestion() {
@@ -932,6 +956,23 @@ public class InstructorFeedbackEditPage extends AppPage {
                                                       .findElements(By.tagName("tr"))
                                                       .get(rowIndex + 1);
         row.click();
+    }
+    
+    public void waitForCopyTableToLoad() {
+        By tableRowSelector = By.cssSelector("#copyTableModal tr");
+        waitForElementPresence(tableRowSelector);
+        waitForElementVisibility(browser.driver.findElement(tableRowSelector));
+    }
+    
+    public void waitForCopyErrorMessageToLoad() {
+        By errorMessageSelector = By.cssSelector("#question-copy-modal-status.alert-danger");
+        waitForElementPresence(errorMessageSelector);
+        waitForElementVisibility(browser.driver.findElement(errorMessageSelector));
+    }
+    
+    public String getCopyErrorMessageText() {
+        return browser.driver.findElement(
+                By.cssSelector("#question-copy-modal-status.alert-danger")).getText();
     }
     
     public void clickEditLabel(int questionNumber) {

@@ -62,6 +62,7 @@ function readyFeedbackEditPage() {
     // Copy Binding
     bindCopyButton();
     bindCopyEvents();
+    setupQuestionCopyModal();
 
     // Additional formatting & bindings.
     disableEditFS();
@@ -790,22 +791,51 @@ function toParameterFormat(str) {
     return str.replace(/\s/g, '+');
 }
 
-function bindCopyButton() {
-    $('#button_copy').on('click', function(e) {
-        e.preventDefault();
+/**
+ * Adds event handler to load 'copy question' modal contents by ajax.
+ */
+function setupQuestionCopyModal() {
+    $('#copyModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var actionlink = button.data('actionlink');
+        var courseid = button.data('courseid');
+        var fsname = button.data('fsname');
         
-        var questionRows = $('#copyTableModal >tbody>tr');
-        if (questionRows.length) {
-            setStatusMessage('', StatusType.WARNING);
-            $('#copyModal').modal('show');
-        } else {
-            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, StatusType.DANGER);
-        }
-       
-        return false;
+        var $questionCopyStatusMessage = $('#question-copy-modal-status');
+        $.ajax({
+            type: 'GET',
+            url: actionlink + '&courseid=' + encodeURIComponent(courseid)
+                            + '&fsname=' + encodeURIComponent(fsname),
+            beforeSend: function() {
+                $('#button_copy_submit').prop('disabled', true);
+                $('#copyTableModal').remove();
+                $questionCopyStatusMessage.removeClass('alert alert-danger');
+                $questionCopyStatusMessage.html(
+                        'Loading possible questions to copy. Please wait ...<br>'
+                      + "<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
+            },
+            error: function() {
+                $questionCopyStatusMessage.html(
+                        'Error retrieving questions. Please close the dialog window and try again.');
+                $questionCopyStatusMessage.addClass('alert alert-danger');
+            },
+            success: function(data) {
+                var $questionRows = $(data).find('tbody > tr');
+                if ($questionRows.length) {
+                    $('#copyModalForm').prepend(data);
+                    $questionCopyStatusMessage.html('');
+                } else {
+                    $questionCopyStatusMessage.addClass('alert alert-danger');
+                    $questionCopyStatusMessage.prepend('<br>').html(FEEDBACK_QUESTION_COPY_INVALID);
+                }
+            }
+        });
     });
+}
 
-    $('#button_copy_submit').on('click', function(e) {
+function bindCopyButton() {
+
+    $('#button_copy_submit').click(function(e) {
         e.preventDefault();
 
         var index = 0;
@@ -838,7 +868,7 @@ var numRowsSelected = 0;
 
 function bindCopyEvents() {
 
-    $('#copyTableModal >tbody>tr').on('click', function(e) {
+    $('body').on('click', '#copyTableModal > tbody > tr', function(e) {
         e.preventDefault();
         
         if ($(this).hasClass('row-selected')) {
