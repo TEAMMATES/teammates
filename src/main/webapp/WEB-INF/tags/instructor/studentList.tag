@@ -1,12 +1,21 @@
 <%@ tag description="instructorSearch / instructorStudentList - Student List" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ attribute name="courseId" required="true" %>
 <%@ attribute name="courseIndex" required="true" %>
 <%@ attribute name="hasSection" required="true" %>
 <%@ attribute name="sections" type="java.util.Collection" required="true" %>
 <%@ attribute name="fromStudentListPage" %>
 <%@ attribute name="fromCourseDetailsPage" %>
+
+<% request.setAttribute("TOOLTIP_MESSAGE_VIEW", Const.Tooltips.COURSE_STUDENT_DETAILS); %>
+<% request.setAttribute("TOOLTIP_MESSAGE_EDIT", Const.Tooltips.COURSE_STUDENT_EDIT); %>
+<% request.setAttribute("TOOLTIP_MESSAGE_REMIND", Const.Tooltips.COURSE_STUDENT_REMIND); %>
+<% request.setAttribute("TOOLTIP_MESSAGE_DELETE", Const.Tooltips.COURSE_STUDENT_DELETE); %>
+<% request.setAttribute("TOOLTIP_MESSAGE_RECORDS", Const.Tooltips.COURSE_STUDENT_RECORDS); %>
+<% request.setAttribute("TOOLTIP_MESSAGE_COMMENT", Const.Tooltips.COURSE_STUDENT_COMMENT); %>
+
 <c:choose>
     <c:when test="${fromCourseDetailsPage}">
         <c:set var="tableHeaderClass" value="fill-primary" />
@@ -100,97 +109,106 @@
                                     <c:out value="${student.studentEmail}"/>
                                 </td>
                                 <td class="no-print align-center">
-                                    <a class="btn btn-default btn-xs student-view-for-test"
-                                       href="${student.courseStudentDetailsLink}"
-                                       title="<%= Const.Tooltips.COURSE_STUDENT_DETAILS %>"
-                                       target="_blank"
-                                       data-toggle="tooltip"
-                                       data-placement="top"
-                                       <c:if test="${not section.allowedToViewStudentInSection}">disabled</c:if>>
-                                        View
-                                    </a>
-                                    <a class="btn btn-default btn-xs student-edit-for-test"
-                                       href="${student.courseStudentEditLink}"
-                                       title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
-                                       target="_blank"
-                                       data-toggle="tooltip"
-                                       data-placement="top"
-                                       <c:if test="${not section.allowedToModifyStudent}">disabled</c:if>>
-                                        Edit
-                                    </a>
-                                    <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
-                                        <a class="btn btn-default btn-xs student-edit-for-test"
-                                           href="${student.courseStudentRemindLink}"
-                                           title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
+                                    <shared:tooltipButton isEnabled="${section.allowedToViewStudentInSection}">
+                                        <a class="btn btn-default btn-xs student-view-for-test"
+                                           href="${student.courseStudentDetailsLink}"
+                                           title="<c:out value="${TOOLTIP_MESSAGE_VIEW}"/>"
+                                           target="_blank"
                                            data-toggle="tooltip"
                                            data-placement="top"
-                                           onclick="return toggleSendRegistrationKey()"
-                                           <c:if test="${not section.allowedToModifyStudent}">disabled</c:if>>
-                                            Send Invite
+                                           <c:if test="${not section.allowedToViewStudentInSection}">disabled</c:if>>
+                                            View
                                         </a>
+                                    </shared:tooltipButton>
+                                    <shared:tooltipButton isEnabled="${section.allowedToModifyStudent}">
+                                        <a class="btn btn-default btn-xs student-edit-for-test"
+                                           href="${student.courseStudentEditLink}"
+                                           title="<c:out value="${TOOLTIP_MESSAGE_EDIT}"/>"
+                                           target="_blank"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           <c:if test="${not section.allowedToModifyStudent}">disabled</c:if>>
+                                            Edit
+                                        </a>
+                                    </shared:tooltipButton>
+                                    <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
+                                        <shared:tooltipButton isEnabled="${section.allowedToModifyStudent}">
+                                            <a class="btn btn-default btn-xs student-edit-for-test"
+                                               href="${student.courseStudentRemindLink}"
+                                               title="<c:out value="${TOOLTIP_MESSAGE_REMIND}"/>"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               onclick="return toggleSendRegistrationKey()"
+                                               <c:if test="${not section.allowedToModifyStudent}">disabled</c:if>>
+                                                Send Invite
+                                            </a>
+                                        </shared:tooltipButton>
                                     </c:if>
-                                    <a class="btn btn-default btn-xs student-delete-for-test"
-                                       href="${student.courseStudentDeleteLink}"
-                                       onclick="return toggleDeleteStudentConfirmation(${student.toggleDeleteConfirmationParams})"
-                                       title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"
-                                       data-toggle="tooltip"
-                                       data-placement="top"
-                                       <c:if test="${not section.allowedToModifyStudent}">disabled</c:if>>
-                                        Delete
-                                    </a>
+                                    <shared:tooltipButton isEnabled="${section.allowedToModifyStudent}">
+                                        <a class="btn btn-default btn-xs student-delete-for-test"
+                                           href="${student.courseStudentDeleteLink}"
+                                           onclick="return toggleDeleteStudentConfirmation(${student.toggleDeleteConfirmationParams})"
+                                           title="<c:out value="${TOOLTIP_MESSAGE_DELETE}"/>"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           <c:if test="${not section.allowedToModifyStudent}">disabled</c:if>>
+                                            Delete
+                                        </a>
+                                    </shared:tooltipButton>
                                     <a class="btn btn-default btn-xs student-records-for-test"
                                        href="${student.courseStudentRecordsLink}"
-                                       title="<%= Const.Tooltips.COURSE_STUDENT_RECORDS %>"
+                                       title="<c:out value="${TOOLTIP_MESSAGE_RECORDS}"/>"
                                        target="_blank"
                                        data-toggle="tooltip"
                                        data-placement="top">
                                         All Records
                                     </a>
-                                    <div class="btn-group">
-                                        <a class="btn btn-default btn-xs cursor-default"
-                                           href="javascript:;"
-                                           title="<%= Const.Tooltips.COURSE_STUDENT_COMMENT %>"
-                                           data-toggle="tooltip"
-                                           data-placement="top"
-                                           href="javascript:;"
-                                           <c:if test="${not section.allowedToGiveCommentInSection}">disabled</c:if>>
-                                            Add Comment
-                                        </a>
-                                        <a class="btn btn-default btn-xs dropdown-toggle"
-                                           href="javascript:;"
-                                           data-toggle="dropdown"
-                                           <c:if test="${not section.allowedToGiveCommentInSection}">disabled</c:if>>
-                                            <span class="caret"></span><span class="sr-only">Add comments</span>
-                                        </a>
-                                        <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                                            <li role="presentation">
-                                                <a target="_blank"
-                                                   role="menuitem"
-                                                   tabindex="-1"
-                                                   href="${student.courseStudentDetailsLink}&addComment=student">
-                                                    Comment on student: <c:out value="${student.studentName}"/>
-                                                </a>
-                                            </li>
-                                            <li role="presentation">
-                                                <a target="_blank"
-                                                   role="menuitem"
-                                                   tabindex="-1"
-                                                   href="${student.courseStudentDetailsLink}&addComment=team">
-                                                    Comment on team: <c:out value="${team.teamName}"/>
-                                                </a>
-                                            </li>
-                                            <c:if test="${hasSection}">
+                                    <shared:tooltipButton isEnabled="${section.allowedToGiveCommentInSection}">
+                                        <div class="btn-group">
+                                            <a class="btn btn-default btn-xs cursor-default"
+                                               href="javascript:;"
+                                               title="<c:out value="${TOOLTIP_MESSAGE_COMMENT}"/>"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               <c:if test="${not section.allowedToGiveCommentInSection}">disabled</c:if>>
+                                                Add Comment
+                                            </a>
+                                            <a class="btn btn-default btn-xs dropdown-toggle"
+                                               href="javascript:;"
+                                               data-toggle="dropdown"
+                                               <c:if test="${not section.allowedToGiveCommentInSection}">disabled</c:if>>
+                                                <span class="caret"></span><span class="sr-only">Add comments</span>
+                                            </a>
+                                            <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
                                                 <li role="presentation">
                                                     <a target="_blank"
                                                        role="menuitem"
                                                        tabindex="-1"
-                                                       href="${student.courseStudentDetailsLink}&addComment=section">
-                                                        Comment on section: <c:out value="${section.sectionName}"/>
+                                                       href="${student.courseStudentDetailsLink}&addComment=student">
+                                                        Comment on student: <c:out value="${student.studentName}"/>
                                                     </a>
                                                 </li>
-                                            </c:if>
-                                        </ul>
-                                    </div>
+                                                <li role="presentation">
+                                                    <a target="_blank"
+                                                       role="menuitem"
+                                                       tabindex="-1"
+                                                       href="${student.courseStudentDetailsLink}&addComment=team">
+                                                        Comment on team: <c:out value="${team.teamName}"/>
+                                                    </a>
+                                                </li>
+                                                <c:if test="${hasSection}">
+                                                    <li role="presentation">
+                                                        <a target="_blank"
+                                                           role="menuitem"
+                                                           tabindex="-1"
+                                                           href="${student.courseStudentDetailsLink}&addComment=section">
+                                                            Comment on section: <c:out value="${section.sectionName}"/>
+                                                        </a>
+                                                    </li>
+                                                </c:if>
+                                            </ul>
+                                        </div>
+                                    </shared:tooltipButton>
                                 </td>
                             </tr>
                         </c:forEach>
