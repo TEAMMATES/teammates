@@ -36,7 +36,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         int totalNumRecipients,
                         FeedbackResponseDetails existingResponseDetails) {
         
-        FeedbackRankRecipientsResponseDetails existingResponse = (FeedbackRankRecipientsResponseDetails) existingResponseDetails;
+        FeedbackRankRecipientsResponseDetails existingResponse =
+                (FeedbackRankRecipientsResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
         
@@ -47,7 +48,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Slots.OPTION_INDEX, "0",
                         Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                         Slots.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
-                        Slots.OPTIONS, getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, existingResponse.answer),
+                        Slots.OPTIONS, getSubmissionOptionsHtmlForRankingRecipients(
+                                           totalNumRecipients, existingResponse.answer),
                         Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         Slots.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
@@ -83,7 +85,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Slots.OPTION_INDEX, "0",
                         Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                         Slots.RANK_OPTION_VISIBILITY, "style=\"display:none\"",
-                        Slots.OPTIONS, getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, Const.INT_UNINITIALIZED),
+                        Slots.OPTIONS, getSubmissionOptionsHtmlForRankingRecipients(
+                                           totalNumRecipients, Const.INT_UNINITIALIZED),
                         Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         Slots.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
@@ -321,7 +324,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         Set<Integer> responseRank = new HashSet<>();
         for (FeedbackResponseAttributes response : responses) {
-            FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails) response.getResponseDetails();
+            FeedbackRankRecipientsResponseDetails frd =
+                    (FeedbackRankRecipientsResponseDetails) response.getResponseDetails();
             
             if (responseRank.contains(frd.answer)) {
                 errors.add("Duplicate rank " + frd.answer + " in question");

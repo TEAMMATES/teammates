@@ -19,7 +19,8 @@ import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackResponsesDb extends EntitiesDb {
 
-    public void createFeedbackResponses(Collection<FeedbackResponseAttributes> responsesToAdd) throws InvalidParametersException {
+    public void createFeedbackResponses(Collection<FeedbackResponseAttributes> responsesToAdd)
+            throws InvalidParametersException {
         List<EntityAttributes> responsesToUpdate = createEntities(responsesToAdd);
         for (EntityAttributes entity : responsesToUpdate) {
             FeedbackResponseAttributes response = (FeedbackResponseAttributes) entity;
@@ -348,8 +349,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        Collection<FeedbackResponse> frList = getFeedbackResponseEntitiesForSessionFromSectionWithinRange(feedbackSessionName,
-                                                                                      courseId, section, range);
+        Collection<FeedbackResponse> frList =
+                getFeedbackResponseEntitiesForSessionFromSectionWithinRange(feedbackSessionName, courseId, section, range);
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList) {

@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -88,7 +87,10 @@ public class ActivityLogEntry {
         googleId = "Unknown";
         email = "Unknown";
         toShow = true;
-        message = "<span class=\"text-danger\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>"
+        message = "<span class=\"text-danger\">"
+                    + "Error. ActivityLogEntry object is not created for this servlet action."
+                + "</span>"
+                + "<br>"
                 + params;
         url = link;
         id = "Unknown";
@@ -531,7 +533,7 @@ public class ActivityLogEntry {
         return exceptionLog.generateLogMessage();
     }
 
-    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, MimeMessage errorEmail) {
+    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, EmailWrapper errorEmail) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
         if (actionTaken.length > 0) {
@@ -549,7 +551,7 @@ public class ActivityLogEntry {
                     + "</a>"
                     + "<br>"
                     + "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">"
-                        + errorEmail.getContent().toString()
+                        + errorEmail.getContent()
                     + "</span>";
         } catch (Exception e) {
             message = "System Error: Unable to retrieve Email Report: "

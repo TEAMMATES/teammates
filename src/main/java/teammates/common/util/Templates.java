@@ -203,7 +203,8 @@ public final class Templates {
             public static final String FEEDBACK_RESPONSE_TEXT = "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}";
             public static final String CHECKED = "${checked}";
             public static final String OPTION_RECIPIENT_DISPLAY_NAME = "${optionRecipientDisplayName}";
-            public static final String NUMBER_OF_CHOICE_CREATED = "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}";
+            public static final String NUMBER_OF_CHOICE_CREATED =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}";
             public static final String QUESTION_NUMBER = "${questionNumber}";
             public static final String CHECKED_OTHER_OPTION_ENABLED = "${checkedOtherOptionEnabled}";
             public static final String GENERATED_OPTIONS = "${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}";
@@ -256,7 +257,8 @@ public final class Templates {
             public static final String MCQ_ADDITIONAL_INFO_FRAGMENTS = "${mcqAdditionalInfoFragments}";
             public static final String MCQ_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}";
             public static final String MCQ_PARAM_OTHER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION}";
-            public static final String MCQ_PARAM_OTHER_OPTION_FLAG = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}";
+            public static final String MCQ_PARAM_OTHER_OPTION_FLAG =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}";
 
             // MSQ
             public static final String MSQ_CHOICE_VALUE = "${msqChoiceValue}";
@@ -268,7 +270,8 @@ public final class Templates {
             public static final String MSQ_ADDITIONAL_INFO_FRAGMENTS = "${msqAdditionalInfoFragments}";
             public static final String MSQ_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}";
             public static final String MSQ_PARAM_OTHER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION}";
-            public static final String MSQ_PARAM_OTHER_OPTION_FLAG = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}";
+            public static final String MSQ_PARAM_OTHER_OPTION_FLAG =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}";
             public static final String MSQ_EDIT_FORM_OPTION_FRAGMENTS = "${msqEditFormOptionFragments}";
             public static final String MSQ_PARAM_IS_OTHER_OPTION_ANSWER =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}";
@@ -291,7 +294,8 @@ public final class Templates {
             public static final String CONSTSUM_OPTION_VALUE = "${constSumOptionValue}";
             public static final String CONSTSUM_PARAM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
             public static final String CONSTSUM_TO_RECIPIENTS_VALUE = "${constSumToRecipientsValue}";
-            public static final String CONSTSUM_TO_RECIPIENTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";
+            public static final String CONSTSUM_TO_RECIPIENTS =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";
             public static final String CONSTSUM_SUBMISSION_FORM_OPTION_FRAGMENT = "${constSumSubmissionFormOptionFragments}";
             public static final String CONSTSUM_EDIT_FORM_OPTION_FRAGMENT = "${constSumEditFormOptionFragments}";
             public static final String CONSTSUM_NUM_OPTION_VALUE = "${constSumNumOptionValue}";
@@ -379,7 +383,8 @@ public final class Templates {
                     "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED}";
             public static final String RUBRIC_PARAM_NUM_ROWS = "${Const.ParamNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS}";
             public static final String RUBRIC_PARAM_NUM_COLS = "${Const.ParamNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS}";
-            public static final String RUBRIC_PARAM_SUB_QUESTION = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}";
+            public static final String RUBRIC_PARAM_SUB_QUESTION =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}";
             public static final String RUBRIC_PARAM_DESCRIPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}";
             public static final String RUBRIC_PARAM_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}";
             public static final String RUBRIC_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}";

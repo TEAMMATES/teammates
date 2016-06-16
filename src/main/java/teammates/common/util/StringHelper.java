@@ -352,7 +352,8 @@ public final class StringHelper {
     }
     
     /**
-     * This recovers a set of html-sanitized string to original encoding for appropriate display in files such as csv file <br>
+     * This recovers a set of html-sanitized string to original encoding for appropriate display in files
+     * such as csv file <br>
      * It restores encoding for < > \ / ' &  <br>
      * @param sanitized string set
      * @return recovered string set

@@ -87,7 +87,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             Slots.OPTION_INDEX, Integer.toString(i),
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                             Slots.RANK_OPTION_VISIBILITY, "",
-                            Slots.OPTIONS, getSubmissionOptionsHtmlForRankingOptions(existingResponse.getAnswerList().get(i)),
+                            Slots.OPTIONS,
+                                    getSubmissionOptionsHtmlForRankingOptions(existingResponse.getAnswerList().get(i)),
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.RANK_OPTION_VALUE, Sanitizer.sanitizeForHtml(options.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);

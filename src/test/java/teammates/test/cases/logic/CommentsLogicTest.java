@@ -444,7 +444,8 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     private void verifyExceptionThrownFromGetCommentsForReceiver(
             CommentAttributes comment, String message) {
         try {
-            commentsLogic.getCommentsForReceiver(comment.courseId, comment.recipientType, comment.recipients.iterator().next());
+            commentsLogic.getCommentsForReceiver(comment.courseId, comment.recipientType,
+                                                 comment.recipients.iterator().next());
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             assertEquals(message, e.getMessage());

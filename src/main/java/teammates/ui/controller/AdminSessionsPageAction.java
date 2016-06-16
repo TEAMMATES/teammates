@@ -157,7 +157,8 @@ public class AdminSessionsPageAction extends Action {
         return null;
     }
     
-    private ActionResult createShowPageResultIfNoOngoingSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
+    private ActionResult createShowPageResultIfNoOngoingSession(
+            List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
         if (allOpenFeedbackSessionsList.isEmpty()) {
 
             isError = false;

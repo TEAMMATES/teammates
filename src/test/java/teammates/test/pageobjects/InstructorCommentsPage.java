@@ -110,7 +110,8 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     public void clickResponseCommentVisibilityEdit(String suffix) {
-        WebElement visibilityEditButton = browser.driver.findElement(By.id("frComment-visibility-options-trigger-" + suffix));
+        WebElement visibilityEditButton =
+                browser.driver.findElement(By.id("frComment-visibility-options-trigger-" + suffix));
         waitForElementVisibility(visibilityEditButton);
         visibilityEditButton.click();
     }
@@ -158,7 +159,8 @@ public class InstructorCommentsPage extends AppPage {
 
     public void clickResponseCommentAdd(int sessionIdx, int questionIdx, int responseIdx) {
         waitForPageToLoad();
-        browser.driver.findElement(By.id("button_add_comment-" + sessionIdx + "-" + questionIdx + "-" + responseIdx)).click();
+        browser.driver.findElement(
+                By.id("button_add_comment-" + sessionIdx + "-" + questionIdx + "-" + responseIdx)).click();
         waitForPageToLoad();
     }
 
@@ -170,7 +172,8 @@ public class InstructorCommentsPage extends AppPage {
         textarea.sendKeys(text);
     }
     
-    public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx, int commentIdx, String text) {
+    public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx,
+                                                  int commentIdx, String text) {
         WebElement textarea = browser.driver.findElement(
                 By.id("responsecommenttext-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx));
         textarea.click();

@@ -210,7 +210,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             }
             
             Double userAverageExcludingSelf = averageExcludingSelf.get(recipient);
-            String userAverageExcludingSelfText = getAverageExcludingSelfText(showAvgExcludingSelf, df, userAverageExcludingSelf);
+            String userAverageExcludingSelfText =
+                    getAverageExcludingSelfText(showAvgExcludingSelf, df, userAverageExcludingSelf);
             
             String recipientName = recipient.equals(Const.GENERAL_QUESTION) ? "General" : bundle.getNameForEmail(recipient);
             String recipientTeam = bundle.getTeamNameForEmail(recipient);
@@ -735,7 +736,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             int numRecipients) {
         List<String> errors = new ArrayList<String>();
         for (FeedbackResponseAttributes response : responses) {
-            FeedbackNumericalScaleResponseDetails frd = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
+            FeedbackNumericalScaleResponseDetails frd =
+                    (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             if (frd.getAnswer() < minScale || frd.getAnswer() > maxScale) {
                 errors.add(frd.getAnswerString() + Const.FeedbackQuestion.NUMSCALE_ERROR_OUT_OF_RANGE
                            + "(min=" + minScale + ", max=" + maxScale + ")");

@@ -24,10 +24,12 @@ $(document).ready(function() {
     $('#visibility-options-trigger').click(function() {
         if ($('#visibility-options').is(':visible')) {
             $('#visibility-options').hide();
-            $('#visibility-options-trigger').html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+            $('#visibility-options-trigger').html('<span class="glyphicon glyphicon-eye-close"></span> '
+                                                  + 'Show Visibility Options');
         } else {
             $('#visibility-options').show();
-            $('#visibility-options-trigger').html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
+            $('#visibility-options-trigger').html('<span class="glyphicon glyphicon-eye-close"></span> '
+                                                  + 'Hide Visibility Options');
         }
     });
 
