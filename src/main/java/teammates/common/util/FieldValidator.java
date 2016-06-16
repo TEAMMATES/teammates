@@ -32,7 +32,7 @@ public class FieldValidator {
 
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
             "All {fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
-            + "(|) or percent sign (%%).";
+            + "(|) or percent sign (%).";
 
     // generic error messages
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE =

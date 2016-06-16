@@ -291,7 +291,7 @@ public class FieldValidatorTest extends BaseTestCase {
                     "\"Dr. Amy-Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is not "
                     + "acceptable to TEAMMATES as name field because it contains invalid characters. All "
                     + "name field must start with an alphanumeric character, and cannot contain any vertical "
-                    + "bar (|) or percent sign (%%).",
+                    + "bar (|) or percent sign (%).",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameContainInvalidChars));
         
@@ -302,7 +302,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      "\"!Amy-Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is not "
                      + "acceptable to TEAMMATES as name field because it starts with a non-alphanumeric "
                      + "character. All name field must start with an alphanumeric character, and cannot "
-                     + "contain any vertical bar (|) or percent sign (%%).",
+                     + "contain any vertical bar (|) or percent sign (%).",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithNonAlphaNumChar));
         
@@ -313,7 +313,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      "\"{Amy} -Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is not "
                      + "acceptable to TEAMMATES as name field because it contains invalid characters. All "
                      + "name field must start with an alphanumeric character, and cannot contain any "
-                     + "vertical bar (|) or percent sign (%%).",
+                     + "vertical bar (|) or percent sign (%).",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithBracesButHasInvalidChar));
         
@@ -324,7 +324,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      "\"{Amy -Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={[]\\:;&quot;&lt;&gt;?)\" is not "
                      + "acceptable to TEAMMATES as name field because it starts with a non-alphanumeric "
                      + "character. All name field must start with an alphanumeric character, and cannot "
-                     + "contain any vertical bar (|) or percent sign (%%).",
+                     + "contain any vertical bar (|) or percent sign (%).",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithCurlyBracketButHasNoEnd));
         
