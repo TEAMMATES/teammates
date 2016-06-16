@@ -3,15 +3,8 @@ var FEEDBACK_RESPONSE_TEXT = 'responsetext';
 var FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
 var WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
 
-// selectors for warning modal prompt and the various fields within
-var WARNING_MODAL = '#warning-modal';
-var WARNING_MODAL_TITLE = '#warning-modal-title';
-var WARNING_MODAL_MESSAGE = '#warning-modal-message';
-var WARNING_MODAL_OK = '#warning-modal-ok';
-
 // text displayed to user
 var SESSION_NOT_OPEN = 'Feedback Session Not Open';
-var OKAY = 'Okay';
 
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
@@ -951,15 +944,9 @@ function updateRankMessageQn(qnNum) {
 
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
-        showWarningModal(SESSION_NOT_OPEN, getWarningMessage(), OKAY);
+        BootboxWrapper.showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), BootboxWrapper.DEFAULT_OK_TEXT,
+                                      StatusType.WARNING);
     }
-}
-
-function showWarningModal(title, message, okButtonText) {
-    $(WARNING_MODAL_TITLE).html(title);
-    $(WARNING_MODAL_MESSAGE).html(message);
-    $(WARNING_MODAL_OK).html(okButtonText);
-    $(WARNING_MODAL).modal('show');
 }
 
 function hasWarningMessage() {

@@ -29,7 +29,7 @@ public class AdminActivityLogPageAction extends Action {
      * The maximum time period to retrieve logs with time increment.
      */
     private static final int MAX_SEARCH_PERIOD = 24 * 60 * 60 * 1000; // 24 hrs in milliseconds
-    private static final int SEARCH_TIME_INCREMENT = 2 * 60 * 60 * 1000;  // two hours in milliseconds
+    private static final int SEARCH_TIME_INCREMENT = 2 * 60 * 60 * 1000; // two hours in milliseconds
     /*
      * The maximum number of times to retrieve logs with time increment.
      */
@@ -69,16 +69,17 @@ public class AdminActivityLogPageAction extends Action {
             return createAjaxResult(data);
         }
         
-//      This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" in AdminActivityLogPageData
-//      should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
-//      logs despite any action or change in the page unless the the page is reloaded with "?all=false"
-//      or simply reloaded with this parameter omitted.
+        // This parameter determines whether the logs with requests contained in "excludedLogRequestURIs"
+        // in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs.
+        // This will keep showing all logs despite any action or change in the page unless
+        // the page is reloaded with "?all=false" or simply reloaded with this parameter omitted.
         boolean ifShowAll = getRequestParamAsBoolean("all");
         
         
-//      This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
-//      to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
-//      unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.
+        // This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
+        // to show all testing logs. This will keep showing all logs from testing data despite any action
+        // or change in the page unless the the page is reloaded with "?testdata=false"
+        // or simply reloaded with this parameter omitted.
         boolean ifShowTestData = getRequestParamAsBoolean("testdata");
         
         String filterQuery = getRequestParamValue("filterQuery");

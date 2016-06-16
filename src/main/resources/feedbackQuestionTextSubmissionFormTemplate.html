@@ -1,16 +1,16 @@
 <textarea rows="4" cols="100%" class="form-control"
-    ${disabled} id="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
-    name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
-    data-lengthTextId="responseLength-${qnIdx}-${responseIdx}" data-recommendedText="${recommendedLength}">${existingResponse}</textarea>
+    ${disabled} id="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
+    name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
+    data-lengthTextId="responseLength-${questionIndex}-${responseIndex}" data-recommendedText="${recommendedLength}">${existingResponse}</textarea>
 <div class="margin-top-7px">
     <div class="col-md-6 padding-0" ${recommendedLengthDisplay}>
         <label class="text-color-gray font-weight-normal">Recommended length for the answer: </label>
-        <label class="text-color-gray font-weight-normal" id="recommendedLength-${qnIdx}-${responseIdx}">${recommendedLength}</label>
+        <label class="text-color-gray font-weight-normal" id="recommendedLength-${questionIndex}-${responseIndex}">${recommendedLength}</label>
         <label class="text-color-gray font-weight-normal"> letters</label>
     </div>
     <div class="pull-right">
         <label class="text-color-gray font-weight-normal">Response length: </label>
-        <label class="text-color-gray font-weight-normal" id="responseLength-${qnIdx}-${responseIdx}">0</label>
+        <label class="text-color-gray font-weight-normal" id="responseLength-${questionIndex}-${responseIndex}">0</label>
         <label class="text-color-gray font-weight-normal"> characters</label>
     </div>
 </div>

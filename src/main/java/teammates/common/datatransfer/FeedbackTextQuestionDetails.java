@@ -9,7 +9,8 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Templates;
-import teammates.common.util.Templates.FeedbackQuestionFormTemplates;
+import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
+import teammates.common.util.Templates.FeedbackQuestion.Slots;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
@@ -52,34 +53,34 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
             int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
-                "${disabled}", sessionIsOpen ? "" : "disabled",
-                "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                "${qnIdx}", Integer.toString(qnIdx),
-                "${responseIdx}", Integer.toString(responseIdx),
+                FormTemplates.TEXT_SUBMISSION_FORM,
+                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 "${recommendedLengthDisplay}", recommendedLength == 0 ? "style=\"display:none\"" : "",
                 "${recommendedLength}", Integer.toString(recommendedLength),
-                "${existingResponse}", Sanitizer.sanitizeForHtml(existingResponseDetails.getAnswerString()));
+                Slots.TEXT_EXISTING_RESPONSE, Sanitizer.sanitizeForHtml(existingResponseDetails.getAnswerString()));
     }
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
-                "${disabled}", sessionIsOpen ? "" : "disabled",
-                "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                "${qnIdx}", Integer.toString(qnIdx),
-                "${responseIdx}", Integer.toString(responseIdx),
+                FormTemplates.TEXT_SUBMISSION_FORM,
+                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 "${recommendedLengthDisplay}", recommendedLength == 0 ? "style=\"display:none\"" : "",
                 "${recommendedLength}", Integer.toString(recommendedLength),
-                "${existingResponse}", "");
+                Slots.TEXT_EXISTING_RESPONSE, "");
     }
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         return Templates.populateTemplate(
-                FeedbackQuestionFormTemplates.TEXT_EDIT_FORM,
+                FormTemplates.TEXT_EDIT_FORM,
                 "${recommendedlength}", recommendedLength == 0 ? "" : Integer.toString(recommendedLength));
     }
     
@@ -116,8 +117,12 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         for(FeedbackResponseAttributes response : responses){
             numResponses++;
             String answerString = response.getResponseDetails().getAnswerString();
-            minLength = (StringHelper.countWords(answerString) < minLength) ? StringHelper.countWords(answerString) : minLength;
-            maxLength = (StringHelper.countWords(answerString) > maxLength) ? StringHelper.countWords(answerString) : maxLength;
+            minLength = StringHelper.countWords(answerString) < minLength
+                        ? StringHelper.countWords(answerString)
+                        : minLength;
+            maxLength = StringHelper.countWords(answerString) > maxLength
+                        ? StringHelper.countWords(answerString)
+                        : maxLength;
             totalLength += StringHelper.countWords(answerString);
         }
         

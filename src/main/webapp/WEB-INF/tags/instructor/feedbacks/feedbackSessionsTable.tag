@@ -3,7 +3,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
-<%@ tag import="teammates.logic.core.Emails.EmailType" %>
 
 <%@ attribute name="fsList" type="teammates.ui.template.FeedbackSessionsTable" required="true"%>
 
