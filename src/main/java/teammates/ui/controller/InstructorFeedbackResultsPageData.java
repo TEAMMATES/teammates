@@ -1562,9 +1562,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     /**
-     * Returns <br/>
-     *  * null if the participant is not visible,<br/>
-     *  * a disabled moderation button if the instructor does not have sufficient permissions, or<br/>
+     * Returns <br>
+     *  * null if the participant is not visible,<br>
+     *  * a disabled moderation button if the instructor does not have sufficient permissions, or<br>
      *  * a working moderation button otherwise
      * @param question
      * @param giverIdentifier

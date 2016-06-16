@@ -67,7 +67,7 @@ public abstract class ActionResult {
             statusMessageTexts.add(msg.getText());
         }
         
-        return StringHelper.toString(statusMessageTexts, "<br />");
+        return StringHelper.toString(statusMessageTexts, "<br>");
     }
     
     public String getStatusMessageColor() {

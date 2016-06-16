@@ -199,15 +199,15 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
                 new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
                                                               requestUrl, requestParam, userType, error);
         
-        String textInEmail = "<b>Error Message</b><br/><pre><code>" + error.getMessage()
+        String textInEmail = "<b>Error Message</b><br><pre><code>" + error.getMessage()
                              + "</code></pre>"
-                             + "<br/><b>Actual user</b>" + "Not logged in"
-                             + "<br/><b>Request Method</b>" + requestMethod
-                             + "<br/><b>User Agent</b>" + requestUserAgent
-                             + "<br/><b>Request Url</b>" + requestUrl
-                             + "<br/><b>Request Path</b>" + requestPath
-                             + "<br/><b>Request Parameters</b>" + requestParam
-                             + "<br/><b>Stack Trace</b><pre><code>" + stackTrace + "</code></pre>";
+                             + "<br><b>Actual user</b>" + "Not logged in"
+                             + "<br><b>Request Method</b>" + requestMethod
+                             + "<br><b>User Agent</b>" + requestUserAgent
+                             + "<br><b>Request Url</b>" + requestUrl
+                             + "<br><b>Request Path</b>" + requestPath
+                             + "<br><b>Request Parameters</b>" + requestParam
+                             + "<br><b>Stack Trace</b><pre><code>" + stackTrace + "</code></pre>";
         
         String subject = String.format(EmailType.ADMIN_SYSTEM_ERROR.getSubject(),
                                        Config.getAppVersion(), error.getMessage());

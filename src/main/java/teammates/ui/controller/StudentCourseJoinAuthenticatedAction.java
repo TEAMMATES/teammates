@@ -61,8 +61,8 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         }
         
         final String studentInfo = "Action Student Joins Course"
-                + "<br/>Google ID: " + account.googleId
-                + "<br/>Key : " + regkey;
+                + "<br>Google ID: " + account.googleId
+                + "<br>Key : " + regkey;
         RedirectResult response = createRedirectResult(nextUrl);
         response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, getStudent().course);
         excludeStudentDetailsFromResponseParams();
@@ -70,7 +70,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         if (statusToAdmin == null || statusToAdmin.trim().isEmpty()) {
             statusToAdmin = studentInfo;
         } else {
-            statusToAdmin += "<br/><br/>" + studentInfo;
+            statusToAdmin += "<br><br>" + studentInfo;
         }
         
         addStatusMessageToUser();
