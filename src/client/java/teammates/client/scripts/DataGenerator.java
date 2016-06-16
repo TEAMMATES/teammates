@@ -127,8 +127,9 @@ public final class DataGenerator {
      */
     public static void generateDataForCourse(String courseName) {
         //number of courses for this particular instructor
-        long numOfInstr = Math.round(random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES + 1)
-                + MIN_NUM_OF_INSTRUCTOR_PER_COURSES);
+        long numOfInstr =
+                Math.round(random.nextInt(MAX_NUM_OF_INSTRUCTOR_PER_COURSES - MIN_NUM_OF_INSTRUCTOR_PER_COURSES + 1)
+                           + MIN_NUM_OF_INSTRUCTOR_PER_COURSES);
         
         for (int j = 0; j < numOfInstr; j++) {
             // Add an Instructor

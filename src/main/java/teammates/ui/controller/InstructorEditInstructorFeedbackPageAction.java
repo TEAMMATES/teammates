@@ -23,7 +23,8 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
                                         logic.getFeedbackSession(feedbackSessionName, courseId),
                                         false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
                                 
-        InstructorAttributes instructorUnderModeration = logic.getInstructorForEmail(courseId, instructorUnderModerationEmail);
+        InstructorAttributes instructorUnderModeration =
+                logic.getInstructorForEmail(courseId, instructorUnderModerationEmail);
 
         // If the instructor doesn't exist
         if (instructorUnderModeration == null) {

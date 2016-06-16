@@ -1133,7 +1133,7 @@
               <span class="caret">
               </span>
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" id="add-new-question-dropdown">
               <li data-questiontype="TEXT">
                 <a>
                   Essay question
@@ -1189,7 +1189,7 @@
               <i class="glyphicon glyphicon-info-sign">
               </i>
             </a>
-            <a class="btn btn-primary margin-bottom-7px" id="button_copy">
+            <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=FConstSumRecipientQnUiT.instructor" data-courseid="FConstSumRecipientQnUiT.CS2104" data-fsname="First Session" data-target="#copyModal" data-toggle="modal" id="button_copy">
               Copy Question
             </a>
             <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=FConstSumRecipientQnUiT.instructor&courseid=FConstSumRecipientQnUiT.CS2104&fsname=First+Session" id="button_done_editing">
@@ -1990,61 +1990,14 @@
             Copy Questions
           </h4>
         </div>
-        <div class="modal-body padding-0">
+        <div class="modal-body">
           <form action="/page/instructorFeedbackQuestionCopy" class="form" id="copyModalForm" method="post" role="form">
-            <table class="table-responsive table table-hover table-bordered margin-0" id="copyTableModal">
-              <thead class="fill-primary">
-                <tr>
-                  <th style="width:30px;">
-                     
-                  </th>
-                  <th class="button-sort-ascending" id="button_sortid" onclick="toggleSort(this);">
-                    Course ID
-                    <span class="icon-sort sorted-ascending">
-                    </span>
-                  </th>
-                  <th class="button-sort-none" id="button_sortfsname" onclick="toggleSort(this);" style="width:17%;">
-                    Session Name
-                    <span class="icon-sort unsorted">
-                    </span>
-                  </th>
-                  <th class="button-sort-none" id="button_sortfqtype" onclick="toggleSort(this);">
-                    Question Type
-                    <span class="icon-sort unsorted">
-                    </span>
-                  </th>
-                  <th class="button-sort-none" id="button_sortfqtext" onclick="toggleSort(this);">
-                    Question Text
-                    <span class="icon-sort unsorted">
-                    </span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="cursor:pointer;">
-                  <td>
-                    <input type="checkbox">
-                  </td>
-                  <td>
-                    FConstSumRecipientQnUiT.CS2104
-                  </td>
-                  <td>
-                    First Session
-                  </td>
-                  <td>
-                    Distribute points (among recipients) question
-                  </td>
-                  <td>
-                    const sum qn
-                  </td>
-                  <input type="hidden" value="${question.id}">
-                </tr>
-              </tbody>
-            </table>
             <input name="fsname" type="hidden" value="First Session">
             <input name="user" type="hidden" value="FConstSumRecipientQnUiT.instructor">
             <input name="courseid" type="hidden" value="FConstSumRecipientQnUiT.CS2104">
           </form>
+          <div id="question-copy-modal-status">
+          </div>
         </div>
         <div class="modal-footer margin-0">
           <button class="btn btn-primary" disabled="" id="button_copy_submit" type="button">
@@ -2104,22 +2057,4 @@
   </div>
   <br>
   <br>
-  <div aria-hidden="true" aria-labelledby="confirmation-modal" class="modal fade" id="confirmation-modal" role="dialog" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header alert-warning">
-          <div class="modal-title text-bold" id="confirmation-modal-title">
-          </div>
-        </div>
-        <div class="modal-body" id="confirmation-modal-body">
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-default" data-dismiss="modal" id="confirmation-modal-cancel" type="button">
-          </button>
-          <button class="btn btn-danger" id="confirmation-modal-ok" type="button">
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>

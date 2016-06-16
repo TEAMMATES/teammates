@@ -23,14 +23,17 @@
                         type="button" data-toggle="dropdown">
                         Add New Question <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul id="add-new-question-dropdown" class="dropdown-menu">
                         ${fqForm.questionTypeOptions}
                     </ul>
 
                     <a href="/instructorHelp.html#fbQuestionTypes"
                         target="_blank"> <i
                         class="glyphicon glyphicon-info-sign"></i>
-                    </a> <a id="button_copy" class="btn btn-primary margin-bottom-7px">
+                    </a> <a id="button_copy" class="btn btn-primary margin-bottom-7px" 
+                            data-actionlink="${data.instructorQuestionCopyPageLink}"
+                            data-fsname="${fqForm.feedbackSessionName}" data-courseid="${fqForm.courseId}"
+                            data-target="#copyModal" data-toggle="modal">
                         Copy Question
                     </a>
                     <a id="button_done_editing" class="btn btn-primary margin-bottom-7px"

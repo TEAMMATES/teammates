@@ -275,7 +275,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertNotNull("Feedback question not found in database", fq);
     
         fr = dataBundle.feedbackResponses.get("response1ForQ3S1C1");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); //necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
 
         submissionParams = new String[]{
@@ -362,7 +362,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertNotNull("Feedback question not found in database", fq);
     
         fr = dataBundle.feedbackResponses.get("response1ForQ3S2C1");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); //necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
 
         submissionParams = new String[]{
@@ -391,7 +391,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         ______TS("msq with other option enabled, student selects predefined options only, not other option");
     
         fr = dataBundle.feedbackResponses.get("response2ForQ3S2C1");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); //necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
 
         submissionParams = new String[]{
@@ -420,7 +420,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         ______TS("msq with other option enabled, student selects other option only, not any predefined option");
         
         fr = dataBundle.feedbackResponses.get("response3ForQ3S2C1");
-        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); //necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
 
         submissionParams = new String[]{
@@ -829,7 +829,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                      + redirectResult.isError + "&courseid=" + unregisteredStudent.course
                      + "&fsname=Unregistered+Student+Session&key=" + studentKey,
                      redirectResult.getDestinationWithParams());
-        assertEquals("100 is out of the range for Numerical-scale question.(min=1, max=5)", redirectResult.getStatusMessage());
+        assertEquals("100 is out of the range for Numerical-scale question.(min=1, max=5)",
+                     redirectResult.getStatusMessage());
         gaeSimulation.logoutUser();
 
         // reset uri to normal submission page uri as it might be used by other testing methods

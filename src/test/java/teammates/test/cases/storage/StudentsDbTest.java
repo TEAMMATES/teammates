@@ -190,7 +190,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
                                                          "blah", "blah");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + "non-existent-course/non@existent.email", e.getMessage());
+            assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + "non-existent-course/non@existent.email",
+                         e.getMessage());
         }
         
         // Only check first 2 params (course & email) which are used to identify the student entry.

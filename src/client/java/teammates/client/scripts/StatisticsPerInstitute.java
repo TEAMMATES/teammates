@@ -57,8 +57,9 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         StatsBundle statsBundle = generateStatsPerInstitute(allStudents, allInstructors);
         List<InstituteStats> statsPerInstituteList = statsBundle.instituteStatsList;
         
-        String statsForUniqueStudentEmail = generateUniqueStudentEmailStatsInWholeSystem(statsBundle.numOfAllStudentEmails,
-                                                                                         statsBundle.numOfUniqueStudentEmails);
+        String statsForUniqueStudentEmail =
+                generateUniqueStudentEmailStatsInWholeSystem(statsBundle.numOfAllStudentEmails,
+                                                             statsBundle.numOfUniqueStudentEmails);
         String statsForUniqueInstructorEmail =
                 generateUniqueInstructorEmailStatsInWholeSystem(statsBundle.numOfAllInstructorEmail,
                                                                 statsBundle.numOfUniqueInstructorEmails);
@@ -119,7 +120,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private StatsBundle generateStatsPerInstitute(List<Student> allStudents, List<Instructor> allInstructors) {
-        HashMap<String, HashMap<Integer, HashSet<String>>> institutes = new HashMap<String, HashMap<Integer, HashSet<String>>>();
+        HashMap<String, HashMap<Integer, HashSet<String>>> institutes =
+                new HashMap<String, HashMap<Integer, HashSet<String>>>();
         
         HashSet<String> allInstructorEmailSet = new HashSet<String>();
         HashSet<String> allStudentEmailSet = new HashSet<String>();

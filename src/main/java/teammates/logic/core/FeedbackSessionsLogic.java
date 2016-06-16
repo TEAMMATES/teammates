@@ -13,8 +13,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
-
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -41,6 +39,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -88,8 +87,10 @@ public class FeedbackSessionsLogic {
     private static final String ERROR_NON_EXISTENT_FS_CHECK = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "check");
     private static final String ERROR_NON_EXISTENT_FS_REMIND = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "remind");
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
-    private static final String ERROR_NON_EXISTENT_FS_PUBLISH = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "publish");
-    private static final String ERROR_NON_EXISTENT_FS_UNPUBLISH = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "unpublish");
+    private static final String ERROR_NON_EXISTENT_FS_PUBLISH =
+            String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "publish");
+    private static final String ERROR_NON_EXISTENT_FS_UNPUBLISH =
+            String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "unpublish");
     private static final String ERROR_FS_ALREADY_PUBLISH = "Error publishing feedback session: "
                                                            + "Session has already been published.";
     private static final String ERROR_FS_ALREADY_UNPUBLISH = "Error unpublishing feedback session: "
@@ -1472,7 +1473,7 @@ public class FeedbackSessionsLogic {
         updateFeedbackSession(sessionToUnpublish);
     }
 
-    public List<MimeMessage> sendReminderForFeedbackSession(String courseId,
+    public List<EmailWrapper> sendReminderForFeedbackSession(String courseId,
             String feedbackSessionName) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_REMIND + courseId + "/" + feedbackSessionName);
@@ -1504,16 +1505,16 @@ public class FeedbackSessionsLogic {
         }
 
         try {
-            List<MimeMessage> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
+            List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
                     session, studentsToRemindList, instructorsToRemindList, instructorList);
-            new Emails().sendEmails(emails);
+            new EmailSender().sendEmails(emails);
             return emails;
         } catch (Exception e) {
             throw new RuntimeException(ERROR_SENDING_EMAILS, e);
         }
     }
     
-    public List<MimeMessage> sendReminderForFeedbackSessionParticularUsers(String courseId,
+    public List<EmailWrapper> sendReminderForFeedbackSessionParticularUsers(String courseId,
             String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_REMIND + courseId + "/" + feedbackSessionName);
@@ -1542,9 +1543,9 @@ public class FeedbackSessionsLogic {
         }
 
         try {
-            List<MimeMessage> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
+            List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
                     session, studentsToRemindList, instructorsToRemindList, instructorList);
-            new Emails().sendEmails(emails);
+            new EmailSender().sendEmails(emails);
             return emails;
         } catch (Exception e) {
             throw new RuntimeException(ERROR_SENDING_EMAILS, e);
@@ -2006,7 +2007,8 @@ public class FeedbackSessionsLogic {
                 }
             }
 
-            addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
+            addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role,
+                                       feedbackSessionName, section);
             
             FeedbackSessionResultsBundle results =
                     new FeedbackSessionResultsBundle(
