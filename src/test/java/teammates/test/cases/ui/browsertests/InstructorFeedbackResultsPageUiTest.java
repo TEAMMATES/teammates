@@ -585,60 +585,60 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: add empty feedback response comment");
 
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "");
-        resultsPage.verifyCommentFormErrorMessage("-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "");
+        resultsPage.verifyCommentFormErrorMessage("-0-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
 
         ______TS("Typical case: add new feedback response comments");
 
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "test comment 1");
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "test comment 2");
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-1-1\"");
-        resultsPage.verifyCommentRowContent("-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyContains("id=\"visibility-options-0-1-1-2\"");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 1");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 2");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-0-1-1-1\"");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyContains("id=\"visibility-options-0-0-1-1-2\"");
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyCommentRowContent("-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
 
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1", "test comment 3");
-        resultsPage.verifyCommentRowContent("-1-1-1-1", "test comment 3", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1-1", "test comment 3");
+        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "test comment 3", "CFResultsUiT.instr@gmail.tmt");
 
         ______TS("Typical case: edit existing feedback response comment");
 
-        resultsPage.editFeedbackResponseComment("-0-1-1-1", "edited test comment");
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "edited test comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.editFeedbackResponseComment("-0-0-1-1-1", "edited test comment");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-1", "edited test comment", "CFResultsUiT.instr@gmail.tmt");
 
         ______TS("Typical case: delete existing feedback response comment");
 
-        resultsPage.deleteFeedbackResponseComment("-0-1-1-1");
-        resultsPage.verifyRowMissing("-0-1-1-1");
+        resultsPage.deleteFeedbackResponseComment("-0-0-1-1-1");
+        resultsPage.verifyRowMissing("-0-0-1-1-1");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
 
         ______TS("Typical case: add edit and delete successively");
 
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "successive action comment");
-        resultsPage.verifyCommentRowContent("-0-1-1-2", "successive action comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "successive action comment");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "successive action comment", "CFResultsUiT.instr@gmail.tmt");
 
-        resultsPage.editFeedbackResponseComment("-0-1-1-2", "edited successive action comment");
-        resultsPage.verifyCommentRowContent("-0-1-1-2", "edited successive action comment", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-1-1", 1);
+        resultsPage.editFeedbackResponseComment("-0-0-1-1-2", "edited successive action comment");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "edited successive action comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-0-1-1-1", 1);
 
-        resultsPage.deleteFeedbackResponseComment("-0-1-1-2");
-        resultsPage.verifyRowMissing("-0-1-1-2");
+        resultsPage.deleteFeedbackResponseComment("-0-0-1-1-2");
+        resultsPage.verifyRowMissing("-0-0-1-1-2");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyRowMissing("-0-1-1-2");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyRowMissing("-0-0-1-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
 
     }
