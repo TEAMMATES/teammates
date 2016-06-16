@@ -605,7 +605,9 @@ public class CommentsDb extends EntitiesDb {
             CommentParticipantType recipientType, String recipient) {
         Query q = getPm().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String recipientTypeParam, String receiverParam");
-        q.setFilter("courseId == courseIdParam && recipientType == recipientTypeParam && recipients.contains(receiverParam)");
+        q.setFilter("courseId == courseIdParam "
+                    + "&& recipientType == recipientTypeParam "
+                    + "&& recipients.contains(receiverParam)");
         
         @SuppressWarnings("unchecked")
         List<Comment> commentList =

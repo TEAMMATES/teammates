@@ -21,7 +21,7 @@ public class AdminEmailLogPageAction extends Action {
      * The maximum time period to retrieve logs with time increment.
      */
     private static final int MAX_SEARCH_PERIOD = 24 * 60 * 60 * 1000; // 24 hrs in milliseconds
-    private static final int SEARCH_TIME_INCREMENT = 2 * 60 * 60 * 1000;  // two hours in milliseconds
+    private static final int SEARCH_TIME_INCREMENT = 2 * 60 * 60 * 1000; // two hours in milliseconds
     /**
      * The maximum number of times to retrieve logs with time increment.
      */

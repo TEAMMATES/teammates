@@ -22,7 +22,6 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
-import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
 import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
 import teammates.ui.template.FeedbackQuestionVisibilitySettings;
@@ -43,16 +42,14 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         
         ______TS("Typical case");
         // Setup
-        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"));
+        InstructorFeedbackEditPageData data =
+                new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"));
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         List<FeedbackQuestionAttributes> questions = new ArrayList<FeedbackQuestionAttributes>();
         questions.add(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
         questions.add(dataBundle.feedbackQuestions.get("qn2InSession1InCourse1"));
         questions.add(dataBundle.feedbackQuestions.get("qn3InSession1InCourse1"));
-        
-        List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<FeedbackQuestionAttributes>();
-        copiableQuestions.addAll(dataBundle.feedbackQuestions.values());
         
         Map<String, Boolean> questionHasResponses = new HashMap<String, Boolean>();
         questionHasResponses.put(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").getId(), true);
@@ -65,7 +62,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         
         InstructorAttributes instructor = getInstructorFromBundle("instructor1OfCourse1");
         
-        data.init(fs, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
+        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor);
         
         // Test fs form
         FeedbackSessionsForm fsForm = data.getFsForm();
@@ -77,7 +74,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertFalse(fsForm.isFeedbackSessionTypeEditable());
         assertTrue(fsForm.isEditFsButtonsVisible());
         assertNull(fsForm.getFeedbackSessionTypeOptions());
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(), fsForm.getFormSubmitAction());
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(),
+                     fsForm.getFormSubmitAction());
         
         assertEquals(data.getInstructorFeedbackDeleteLink(fs.getCourseId(),
                                                           fs.getFeedbackSessionName(),
@@ -142,7 +140,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         FeedbackQuestionVisibilitySettings visibilitySettings = questionForms.get(0).getVisibilitySettings();
         verifyMapContains(visibilitySettings.getResponseVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
         verifyMapContains(visibilitySettings.getGiverNameVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
-        verifyMapContains(visibilitySettings.getRecipientNameVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
+        verifyMapContains(visibilitySettings.getRecipientNameVisibleFor(),
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
         
         assertEquals("Rate 1 other student's product", questionForms.get(1).getQuestionText());
         assertTrue(questionForms.get(1).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
@@ -211,11 +210,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertEquals(1, previewForm.getStudentToPreviewAsOptions().size());
         assertEquals(1, previewForm.getInstructorToPreviewAsOptions().size());
         
-        // copy question form
-        FeedbackQuestionCopyTable copyForm = data.getCopyQnForm();
-        assertEquals(dataBundle.feedbackQuestions.size(), copyForm.getQuestionRows().size());
-        
-        
         ______TS("empty feedback session");
         // setup
         data = new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"));
@@ -225,13 +219,13 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         fs.setClosingEmailEnabled(false);
         
         questions = new ArrayList<FeedbackQuestionAttributes>();
-        copiableQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        
         questionHasResponses = new HashMap<String, Boolean>();
         studentList = new ArrayList<StudentAttributes>();
         instructorList = new ArrayList<InstructorAttributes>();
         instructor = getInstructorFromBundle("instructor1OfCourse1");
         
-        data.init(fs, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
+        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor);
         fsForm = data.getFsForm();
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
                            .withUserId(instructor.googleId).toString(),
@@ -283,38 +277,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
                          .withCourseId(fs.getCourseId())
                          .withSessionName(fs.getFeedbackSessionName()).toString(),
                      newQuestionForm.getDoneEditingLink());
-        
-        copyForm = data.getCopyQnForm();
-        assertEquals(copiableQuestions.size(), copyForm.getQuestionRows().size());
-        
-        
-        ______TS("instructor with insufficient permissions");
-        // setup
-        data = new InstructorFeedbackEditPageData(dataBundle.accounts.get("helperOfCourse1"));
-        fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        fs.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-        fs.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        
-        questions = new ArrayList<FeedbackQuestionAttributes>();
-        questions.add(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
-        questions.add(dataBundle.feedbackQuestions.get("qn2InSession1InCourse1"));
-        
-        copiableQuestions = new ArrayList<FeedbackQuestionAttributes>();
-        copiableQuestions.addAll(dataBundle.feedbackQuestions.values());
-        
-        questionHasResponses = new HashMap<String, Boolean>();
-        questionHasResponses.put(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").getId(), true);
-        
-        studentList = new ArrayList<StudentAttributes>();
-        studentList.add(dataBundle.students.get("student1InCourse1"));
-        
-        instructorList = new ArrayList<InstructorAttributes>();
-        instructorList.add(dataBundle.instructors.get("instructor1OfCourse1"));
-        
-        instructor = getInstructorFromBundle("helperOfCourse1");
-        
-        data.init(fs, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
-        assertEquals(0, data.getCopyQnForm().getQuestionRows().size());
     }
     
     public InstructorAttributes getInstructorFromBundle(String instructor) {

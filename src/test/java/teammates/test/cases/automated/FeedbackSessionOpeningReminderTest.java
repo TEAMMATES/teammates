@@ -3,9 +3,6 @@ package teammates.test.cases.automated;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,12 +11,13 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionOpeningMailAction;
-import teammates.logic.core.Emails;
-import teammates.logic.core.Emails.EmailType;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
@@ -120,7 +118,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     @Test
     public void testFeedbackSessionOpeningMailAction() throws Exception {
         
-        ______TS("MimeMessage Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "
+        ______TS("Emails Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "
                 + "1 session opened without emails sent with sending open email disabled");
         // Modify session to set emails as unsent but still open
         // by closing and opening the session.
@@ -166,17 +164,18 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     }
     
     private void prepareAndSendOpeningMailForSession(FeedbackSessionAttributes session, int studentCount,
-                                                     int instructorCount) throws MessagingException {
+                                                     int instructorCount) {
         HashMap<String, String> paramMap = createParamMapForAction(session);
+        String courseName = CoursesLogic.inst().getCourse(session.getCourseId()).getName();
         EmailAction fsOpeningAction = new FeedbackSessionOpeningMailAction(paramMap);
 
-        List<MimeMessage> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
+        List<EmailWrapper> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(studentCount + instructorCount, preparedEmails.size());
 
-        for (MimeMessage m : preparedEmails) {
-            String subject = m.getSubject();
-            assertTrue(subject.contains(session.getFeedbackSessionName()));
-            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+        for (EmailWrapper email : preparedEmails) {
+            assertEquals(String.format(EmailType.FEEDBACK_OPENING.getSubject(), courseName,
+                                       session.getFeedbackSessionName()),
+                         email.getSubject());
         }
     }
 

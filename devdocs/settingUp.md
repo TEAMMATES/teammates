@@ -59,7 +59,6 @@ Important: When a version is specified, please install that version instead of t
 4. Run the command `./gradlew setup`.<br>
    This creates the main config files {These are not under revision control because their content vary from developer to developer}.
    * `.project`<br>
-   * `.classpath`<br>
    * `gradle.properties`<br>
    If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.<br>
    This value must be a valid **JDK 1.7** directory.<br>
@@ -70,9 +69,11 @@ Important: When a version is specified, please install that version instead of t
    Append a unique id (e.g. your name) to **each** of the default accounts found at the bottom of this file. 
    e.g. change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`<br>
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
-   Additionally, this command downloads the dependencies required by TEAMMATES and places them in the appropriate directories.<br>
-   Sometimes, the changes from this command might not show up in Eclipse immediately. "Refreshing" the project or restarting Eclipse
-   should fix that.
+   For now, property values can remain as they are.
+4. Run the command `./gradlew resetEclipseDeps`.<br>
+   This will download the dependencies required by TEAMMATES and places them in the appropriate directories to be used by Eclipse.<br>
+   In addition, it will generate the `.classpath` file for Eclipse configuration.<br>
+   This command can be run again whenever the dependencies need to be updated.
 5. Start Eclipse and go to `File → Import...` and select `Existing Projects into Workspace` under `General`. Set the `root directory` to the location where
    the repo is cloned. Click `Finish`.
 6. Start the dev server.<br>
