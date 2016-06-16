@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 
 import com.sendgrid.SendGrid;
 import com.sendgrid.SendGrid.Email;
+import com.sendgrid.SendGrid.Response;
 import com.sendgrid.SendGridException;
 
 import teammates.common.util.Config;
@@ -39,7 +40,10 @@ public class SendgridService implements EmailSenderService {
     public void sendEmail(EmailWrapper wrapper) throws SendGridException {
         Email email = parseToEmail(wrapper);
         SendGrid sendgrid = new SendGrid(Config.SENDGRID_APIKEY);
-        sendgrid.send(email);
+        Response response = sendgrid.send(email);
+        if (response.getCode() != SUCCESS_CODE) {
+            log.severe("Email failed to send: " + response.getMessage());
+        }
     }
     
 }
