@@ -86,7 +86,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         String courseId = testData.courses.get("ICJConfirmationUiT.CS1101").getId();
         String instructorEmail = testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email;
 
-        String regkey = StringHelper.encrypt(BackDoor.getKeyForInstructor(courseId, instructorEmail));
+        String regkey = BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
         joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(regkey)
                                         .toAbsoluteString();
@@ -98,7 +98,8 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         ______TS("test instructor confirmation page content");
         // this test uses accounts from test.properties
 
-        // This is the full HTML verification for Instructor Course Join Confirmation Page, the rest can all be verifyMainHtml
+        // This is the full HTML verification for Instructor Course Join Confirmation Page,
+        // the rest can all be verifyMainHtml
         confirmationPage.verifyHtml("/instructorCourseJoinConfirmationHTML.html");
         
         instructorHome = confirmationPage.clickConfirmButton();

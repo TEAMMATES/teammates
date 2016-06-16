@@ -67,11 +67,13 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         pageData.init(student.key, student.email, student.course);
         
         assertEquals("You are submitting feedback as <span class='text-danger text-bold text-large'>"
-                      + "student1 In Course1</td></div>'\"</span>. You may submit feedback for sessions that are currently open "
-                      + "and view results without logging in. "
-                      + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
-                      + "studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
-                      + "to login using a Google account</a> (recommended).", pageData.getRegisterMessage());
+                             + "student1 In Course1</td></div>'\"</span>. "
+                             + "You may submit feedback for sessions that are currently open "
+                             + "and view results without logging in. "
+                             + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
+                             + "studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
+                             + "to login using a Google account</a> (recommended).",
+                     pageData.getRegisterMessage());
         
         assertNull(pageData.getSubmitAction());
         assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
@@ -141,11 +143,13 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         pageData.init(student.key, student.email, student.course);
         
         assertEquals("You are submitting feedback as <span class='text-danger text-bold text-large'>"
-                      + "student1 In Course1</td></div>'\"</span>. You may submit feedback for sessions that are currently open "
-                      + "and view results without logging in. "
-                      + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
-                      + "studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
-                      + "to login using a Google account</a> (recommended).", pageData.getRegisterMessage());
+                             + "student1 In Course1</td></div>'\"</span>. "
+                             + "You may submit feedback for sessions that are currently open "
+                             + "and view results without logging in. "
+                             + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
+                             + "studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
+                             + "to login using a Google account</a> (recommended).",
+                     pageData.getRegisterMessage());
 
         assertNull(pageData.getSubmitAction());
         assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
@@ -212,7 +216,8 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     }
     
     public void testQuestionAttributes() {
-        StudentFeedbackSubmissionEditQuestionsWithResponses questionWithResponses = pageData.getQuestionsWithResponses().get(0);
+        StudentFeedbackSubmissionEditQuestionsWithResponses questionWithResponses =
+                pageData.getQuestionsWithResponses().get(0);
         
         assertEquals(question.questionType, questionWithResponses.getQuestion().getQuestionType());
         assertEquals(question.courseId, questionWithResponses.getQuestion().getCourseId());

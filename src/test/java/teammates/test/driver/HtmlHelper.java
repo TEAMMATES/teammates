@@ -27,7 +27,7 @@ public final class HtmlHelper {
     private static final String REGEX_CONTINUE_URL = ".*?";
     private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = "[A-F0-9]{32,}";
     private static final String REGEX_ENCRYPTED_COURSE_ID = "[A-F0-9]{32,}";
-    private static final String REGEX_ENCRYPTED_REGKEY = "[a-zA-Z0-9-_]{10,}";
+    private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
@@ -408,7 +408,8 @@ public final class HtmlHelper {
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
                       // jQuery js file
-                      .replace(Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()), "${lib.path}/jquery.min.js")
+                      .replace(Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()),
+                               "${lib.path}/jquery.min.js")
                       // jQuery-ui js file
                       .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()),
                                "${lib.path}/jquery-ui.min.js")
@@ -457,7 +458,8 @@ public final class HtmlHelper {
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now))
-                      .replace("<!-- filepath.jquery -->", Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()))
+                      .replace("<!-- filepath.jquery -->",
+                               Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()))
                       .replace("<!-- filepath.jquery-ui -->",
                                Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()));
     }

@@ -273,7 +273,8 @@ public class PerformanceProfiler extends Thread {
         cal.add(Calendar.DATE, +2);
         Date date2 = cal.getTime();
         long startTime = System.nanoTime();
-        browser.addEvaluation("idOf_Z2_Cou0_of_Coo0", "test", date1,date2,true, "This is the instructions, please follow", 5);
+        browser.addEvaluation("idOf_Z2_Cou0_of_Coo0", "test", date1, date2, true,
+                              "This is the instructions, please follow", 5);
         browser.waitForStatusMessage(Common.STATUS_EVALUATION_ADDED);
         return System.nanoTime() - startTime;
     }
@@ -534,7 +535,7 @@ public class PerformanceProfiler extends Thread {
         Set<String> set = data.students.keySet();
         for (String studentKey : set) {
             StudentAttributes student = data.students.get(studentKey);
-            status.append(' ').append(BackDoor.getKeyForStudent(student.course, student.email));
+            status.append(' ').append(BackDoor.getEncryptedKeyForStudent(student.course, student.email));
         }
         return status.toString();
     }

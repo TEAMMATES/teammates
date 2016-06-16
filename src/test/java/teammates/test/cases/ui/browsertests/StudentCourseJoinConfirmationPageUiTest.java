@@ -232,7 +232,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         int numberOfRemainingRetries = 10;
         String key = "[BACKDOOR_STATUS_FAILURE]";
         while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && numberOfRemainingRetries > 0) {
-            key = BackDoor.getKeyForStudent(courseId, studentEmail);
+            key = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
             numberOfRemainingRetries--;
             ThreadHelper.waitFor(100);
         }

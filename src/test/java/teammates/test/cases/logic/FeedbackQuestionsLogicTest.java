@@ -246,7 +246,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         newQuestion.setId(null); //new question should not have an ID.
         fqLogic.createFeedbackQuestion(newQuestion);
         
-        List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
+        List<FeedbackQuestionAttributes> actualList =
+                fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
         
         assertEquals(actualList.size(), expectedList.size());
         for (int i = 0; i < actualList.size(); i++) {
@@ -504,7 +505,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
         actualQuestions =
-                fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2", "iwc@yahoo.tmt");
+                fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2",
+                                                          "iwc@yahoo.tmt");
         
         assertEquals(actualQuestions, expectedQuestions);
         
@@ -635,7 +637,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         newQuestion.setId(null); //new question should not have an ID.
         fqLogic.createFeedbackQuestionNoIntegrityCheck(newQuestion, newQuestion.questionNumber);
         
-        List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
+        List<FeedbackQuestionAttributes> actualList =
+                fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
         
         assertEquals(actualList.size(), initialNumQuestions + 1);
         

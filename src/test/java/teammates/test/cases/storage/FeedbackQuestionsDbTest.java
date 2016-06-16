@@ -46,7 +46,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         String courseId = fq.courseId;
         int questionNumber = fq.questionNumber;
         
-        FeedbackQuestionAttributes feedbackQuestion = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
+        FeedbackQuestionAttributes feedbackQuestion =
+                fqDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
      
         // Assert dates are now.
         AssertHelper.assertDateIsNow(feedbackQuestion.getCreatedAt());

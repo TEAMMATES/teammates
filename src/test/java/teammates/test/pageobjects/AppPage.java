@@ -288,6 +288,45 @@ public abstract class AppPage {
     }
 
     /**
+     * Waits for an alert modal to appear and dismisses it
+     */
+    public void waitForAndDismissAlertModal() {
+        waitForConfirmationModalAndClickOk();
+    }
+
+    /**
+     * Waits for a confirmation modal to appear and click the confirm button
+     */
+    public void waitForConfirmationModalAndClickOk() {
+        waitForModalPresence();
+        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
+        waitForElementToBeClickable(okayButton);
+        okayButton.click();
+        waitForModalToDisappear();
+    }
+
+    /**
+     * Waits for a confirmation modal to appear and click the cancel button
+     */
+    public void waitForConfirmationModalAndClickCancel() {
+        waitForModalPresence();
+        WebElement cancelButton = browser.driver.findElement(By.className("modal-btn-cancel"));
+        waitForElementToBeClickable(cancelButton);
+        cancelButton.click();
+        waitForModalToDisappear();
+    }
+
+    private void waitForModalPresence() {
+        WebElement closeButton = browser.driver.findElement(By.className("bootbox-close-button"));
+        waitForElementToBeClickable(closeButton);
+    }
+
+    private void waitForModalToDisappear() {
+        By modalBackdrop = By.className("modal-backdrop");
+        waitForElementToDisappear(modalBackdrop);
+    }
+
+    /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
     public void waitForElementPresence(By by) {

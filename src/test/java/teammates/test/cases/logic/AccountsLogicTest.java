@@ -13,6 +13,7 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.GoogleCloudStorageHelper;
@@ -257,7 +258,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("failure: wrong key");
 
         try {
-            accountsLogic.joinCourseForStudent("wrongkey", correctStudentId);
+            accountsLogic.joinCourseForStudent(StringHelper.encrypt("wrongkey"), correctStudentId);
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals(
@@ -268,7 +269,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("failure: invalid parameters");
 
         try {
-            accountsLogic.joinCourseForStudent(studentData.key, "wrong student");
+            accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), "wrong student");
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
@@ -283,7 +284,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         studentsLogic.createStudentCascadeWithoutDocument(existingStudent);
         
         try {
-            accountsLogic.joinCourseForStudent(studentData.key, existingId);
+            accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), existingId);
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
@@ -299,7 +300,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
                 "nameABC", false, "real@gmail.com", "nus", spa);
         
         accountsLogic.createAccount(accountData);
-        accountsLogic.joinCourseForStudent(studentData.key, correctStudentId);
+        accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), correctStudentId);
 
         studentData.googleId = accountData.googleId;
         verifyPresentInDatastore(studentData);
@@ -310,7 +311,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("failure: already joined");
 
         try {
-            accountsLogic.joinCourseForStudent(studentData.key, correctStudentId);
+            accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), correctStudentId);
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals("You (" + correctStudentId + ") have already joined this course",
@@ -320,18 +321,18 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("failure: valid key belongs to a different user");
 
         try {
-            accountsLogic.joinCourseForStudent(studentData.key, "wrongstudent");
+            accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), "wrongstudent");
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals("The join link used belongs to a different user whose "
-                    + "Google ID is corre..dentId (only part of the Google ID is "
-                    + "shown to protect privacy). If that Google ID is owned by you, "
-                    + "please logout and re-login using that Google account. "
-                    + "If it doesn’t belong to you, please "
-                    + "<a href=\"mailto:teammates@comp.nus.edu.sg?"
-                    + "body=Your name:%0AYour course:%0AYour university:\">"
-                    + "contact us</a> so that we can investigate.",
-                    e.getMessage());
+                                 + "Google ID is corre..dentId (only part of the Google ID is "
+                                 + "shown to protect privacy). If that Google ID is owned by you, "
+                                 + "please logout and re-login using that Google account. "
+                                 + "If it doesn’t belong to you, please "
+                                 + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
+                                 + "body=Your name:%0AYour course:%0AYour university:\">"
+                                 + "contact us</a> so that we can investigate.",
+                         e.getMessage());
         }
 
         ______TS("success: with encryption and new account to be created");
@@ -388,8 +389,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         String loggedInGoogleId = "AccLogicT.instr.id";
-        String key = instructorsLogic.getKeyForInstructor(instructor.courseId, instructor.email);
-        String encryptedKey = StringHelper.encrypt(key);
+        String encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email);
         
         ______TS("failure: googleID belongs to an existing instructor in the course");
 
@@ -405,7 +405,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         accountsLogic.joinCourseForInstructor(encryptedKey, loggedInGoogleId);
         
-        InstructorAttributes joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
+        InstructorAttributes joinedInstructor =
+                instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
         assertEquals(loggedInGoogleId, joinedInstructor.googleId);
         
         AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
@@ -436,8 +437,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
                 new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
-        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
-        encryptedKey = StringHelper.encrypt(key);
+        encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         assertFalse(accountsLogic.getAccount(nonInstrAccount.googleId).isInstructor);
         
         accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId);
@@ -463,8 +463,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
-        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
-        encryptedKey = StringHelper.encrypt(key);
+        encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         
         accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId);
         
@@ -483,8 +482,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
         instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         
-        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
-        encryptedKey = StringHelper.encrypt(key);
+        encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         
         try {
@@ -502,14 +500,14 @@ public class AccountsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals("The join link used belongs to a different user whose "
-                    + "Google ID is stude..ourse1 (only part of the Google ID is "
-                    + "shown to protect privacy). If that Google ID is owned by you, "
-                    + "please logout and re-login using that Google account. "
-                    + "If it doesn’t belong to you, please "
-                    + "<a href=\"mailto:teammates@comp.nus.edu.sg?"
-                    + "body=Your name:%0AYour course:%0AYour university:\">"
-                    + "contact us</a> so that we can investigate.",
-                    e.getMessage());
+                                 + "Google ID is stude..ourse1 (only part of the Google ID is "
+                                 + "shown to protect privacy). If that Google ID is owned by you, "
+                                 + "please logout and re-login using that Google account. "
+                                 + "If it doesn’t belong to you, please "
+                                 + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
+                                 + "body=Your name:%0AYour course:%0AYour university:\">"
+                                 + "contact us</a> so that we can investigate.",
+                         e.getMessage());
         }
         
         ______TS("failure: invalid key");

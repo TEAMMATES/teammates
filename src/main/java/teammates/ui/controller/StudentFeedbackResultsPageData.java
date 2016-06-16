@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackResultsQuestionDetails;
 import teammates.ui.template.FeedbackResultsResponse;
@@ -32,7 +33,7 @@ public class StudentFeedbackResultsPageData extends PageData {
     public void init(Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
         
         String joinUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                                                   .withRegistrationKey(student.key)
+                                                   .withRegistrationKey(StringHelper.encrypt(student.key))
                                                    .withStudentEmail(student.email)
                                                    .withCourseId(student.course)
                                                    .toString();
@@ -72,8 +73,8 @@ public class StudentFeedbackResultsPageData extends PageData {
             FeedbackQuestionDetails questionDetailsBundle = question.getQuestionDetails();
             
             /* Contain only those attributes which will be displayed on the page */
-            FeedbackResultsQuestionDetails questionDetails = createQuestionDetails(
-                                                                 questionIndex, question, questionDetailsBundle, responsesBundle);
+            FeedbackResultsQuestionDetails questionDetails =
+                    createQuestionDetails(questionIndex, question, questionDetailsBundle, responsesBundle);
             List<FeedbackResultsResponseTable> responseTables = createResponseTables(question, responsesBundle);
             
             feedbackResultsQuestionsWithResponses.add(
@@ -132,7 +133,8 @@ public class StudentFeedbackResultsPageData extends PageData {
         }
         
         for (String recipient : recipients) {
-            List<FeedbackResponseAttributes> responsesForRecipient = filterResponsesByRecipientEmail(recipient, responsesBundle);
+            List<FeedbackResponseAttributes> responsesForRecipient =
+                    filterResponsesByRecipientEmail(recipient, responsesBundle);
             
             boolean isUserRecipient = student.email.equals(recipient);
             boolean isUserTeamRecipient = question.recipientType == FeedbackParticipantType.TEAMS

@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.StudentFeedbackResultsPageData;
@@ -35,6 +36,8 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         assertNotNull(student);
+        String dummyKey = "key123";
+        student.key = dummyKey;
         Logic logic = new Logic();
         
         StudentFeedbackResultsPageData pageData = new StudentFeedbackResultsPageData(account, student);
@@ -77,9 +80,10 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         assertEquals("You are viewing feedback results as <span class='text-danger text-bold text-large'>"
                       + "student1 In Course1</td></div>'\"</span>. You may submit feedback for sessions that are "
                       + "currently open and view results without logging in. "
-                      + "To access other features you need <a href='/page/studentCourseJoinAuthentication?studentemail="
-                      + "student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>to login using "
-                      + "a Google account</a> (recommended).",
+                      + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
+                      + "key=" + StringHelper.encrypt(dummyKey)
+                      + "&studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
+                      + "to login using a Google account</a> (recommended).",
                       pageData.getRegisterMessage());
         
         assertNotNull(questionBundle1.getQuestionDetails());
@@ -125,18 +129,18 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
                       + "unregisteredCourse</span>. You may submit feedback for sessions that are currently open "
                       + "and view results without logging in. To access other features you need "
                       + "<a href='/page/studentCourseJoinAuthentication?key="
-                      + "regKeyForStuNotYetJoinCourse&studentemail="
-                      + "student1InUnregisteredCourse%40gmail.tmt&courseid=idOfUnregisteredCourse' "
+                      + StringHelper.encrypt("regKeyForStuNotYetJoinCourse")
+                      + "&studentemail=student1InUnregisteredCourse%40gmail.tmt&courseid=idOfUnregisteredCourse' "
                       + "class='link'>to login using a Google account</a> (recommended).",
                       pageData.getRegisterMessage());
     }
 
     private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getActualQuestionsAndResponsesWithId(
-                                    Logic logic,
-                                    Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
+            Logic logic, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> actualQuestionsWithResponses =
                                         new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : questionsWithResponses.entrySet()) {
+        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
+                     entry : questionsWithResponses.entrySet()) {
             FeedbackQuestionAttributes dataBundleQuestion = entry.getKey();
            
             FeedbackQuestionAttributes actualQuestion = logic.getFeedbackQuestion(

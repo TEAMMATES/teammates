@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -45,11 +42,13 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailGenerator;
+import teammates.logic.core.EmailSender;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -74,7 +73,8 @@ public class Logic {
     public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
     
     protected static GateKeeper gateKeeper = GateKeeper.inst();
-    protected static Emails emailManager = new Emails();
+    protected static EmailSender emailSender = new EmailSender();
+    protected static EmailGenerator emailGenerator = new EmailGenerator();
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
@@ -433,19 +433,18 @@ public class Logic {
     }
     
     /**
-     * Get the decrypted registration key for the instructor.
+     * Get the encrypted registration key for the instructor.
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @return null if the key doesn't exist.
      * @throws EntityDoesNotExistException
      */
-    public String getKeyForInstructor(String courseId, String email)
+    public String getEncryptedKeyForInstructor(String courseId, String email)
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
     
-        return instructorsLogic.getKeyForInstructor(courseId, email);
+        return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
     }
 
     /**
@@ -563,7 +562,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail)
+    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, String instructorEmail)
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -572,7 +571,7 @@ public class Logic {
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
     }
     
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor)
+    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor)
             throws EntityDoesNotExistException {
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructor);
     }
@@ -1075,20 +1074,6 @@ public class Logic {
      * 
      * @throws EntityDoesNotExistException
      */
-    public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
-    
-        return studentsLogic.getKeyForStudent(courseId, email);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     * @throws EntityDoesNotExistException
-     */
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1192,7 +1177,7 @@ public class Logic {
      * @return The list of emails sent. These can be used for
      *         verification.
      */
-    public List<MimeMessage> sendRegistrationInviteForCourse(String courseId) {
+    public List<EmailWrapper> sendRegistrationInviteForCourse(String courseId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return studentsLogic.sendRegistrationInviteForCourse(courseId);
     }
@@ -1201,7 +1186,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail)
+    public EmailWrapper sendRegistrationInviteToStudent(String courseId, String studentEmail)
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1218,7 +1203,7 @@ public class Logic {
      * @return
      * @throws EntityDoesNotExistException
      */
-    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
+    public EmailWrapper sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1506,7 +1491,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         
-        return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, questionId, userEmail);
+        return feedbackSessionsLogic
+                   .getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, questionId, userEmail);
     }
 
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
@@ -2482,6 +2468,14 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return commentsLogic.getCommentsForSendingState(courseId, sendingState);
     }
+    
+    /**
+     * @see CommentsLogic#sendCommentNotification(String)
+     */
+    public void sendCommentNotification(String courseId) {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        commentsLogic.sendCommentNotification(courseId);
+    }
 
     /**
      * This method is not scalable. Not to be used unless for admin features.
@@ -2602,8 +2596,21 @@ public class Logic {
         adminEmailsLogic.deleteAdminEmailUploadedFile(key);
     }
 
-    public MimeMessage emailErrorReport(HttpServletRequest req, Throwable error) {
-        return emailManager.sendErrorReport(req, error);
+    /**
+     * Generates and emails an error report based on the supplied {@link Throwable} {@code error}.
+     */
+    public EmailWrapper emailErrorReport(String requestMethod, String requestUserAgent, String requestPath,
+                                         String requestUrl, String requestParams, UserType userType,
+                                         Throwable error) {
+        EmailWrapper errorReport =
+                emailGenerator.generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
+                                                        requestUrl, requestParams, userType, error);
+        try {
+            emailSender.sendErrorReport(errorReport);
+        } catch (Exception e) {
+            emailSender.reportErrorThroughFallbackChannel(error, errorReport, e);
+        }
+        return errorReport;
     }
 
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,

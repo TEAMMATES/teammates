@@ -195,6 +195,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return result;
     }
     
+    public String getEncryptedRegkey() {
+        return StringHelper.encrypt(student.key);
+    }
+    
     private void createQuestionsWithResponses() {
         questionsWithResponses = new ArrayList<StudentFeedbackSubmissionEditQuestionsWithResponses>();
         int qnIndx = 1;
@@ -209,7 +213,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
             
             if (numOfResponseBoxes > 0) {
                 FeedbackSubmissionEditQuestion question = createQuestion(questionAttributes, qnIndx);
-                List<FeedbackSubmissionEditResponse> responses = createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
+                List<FeedbackSubmissionEditResponse> responses =
+                        createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
             
                 questionsWithResponses.add(new StudentFeedbackSubmissionEditQuestionsWithResponses(
                                                 question, responses, numOfResponseBoxes, maxResponsesPossible));

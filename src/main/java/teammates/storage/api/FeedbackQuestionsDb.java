@@ -20,7 +20,8 @@ import teammates.storage.entity.FeedbackQuestion;
 public class FeedbackQuestionsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
     
-    public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd) throws InvalidParametersException {
+    public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd)
+            throws InvalidParametersException {
         List<EntityAttributes> questionsToUpdate = createEntities(questionsToAdd);
         for (EntityAttributes entity : questionsToUpdate) {
             FeedbackQuestionAttributes question = (FeedbackQuestionAttributes) entity;

@@ -12,7 +12,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
@@ -94,7 +93,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                    Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION),
                      homePage.getMessageFromResultTable(1));
         
-        String encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
+        String encryptedKey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
         // use AppUrl from Config because the join link takes its base URL from build.properties
         String expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
@@ -104,7 +103,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                      homePage.getMessageFromResultTable(2));
         homePage.clearInstructorDetailsSingleLineForm();
         
-        ______TS("action success : create instructor account and the account is created successfully after user's verification");
+        ______TS("action success : create instructor account and the account is created successfully "
+                 + "after user's verification");
         
         BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
@@ -112,7 +112,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         homePage.createInstructor(shortName, instructor, institute);
         
-        encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
+        encryptedKey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
         // use AppUrl from Config because the join link takes its base URL from build.properties
         expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
@@ -128,7 +128,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getInstructorByEmail(instructor.email, demoCourseId));
         
         //get the joinURL which sent to the requester's email
-        String regkey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
+        String regkey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
         String joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(regkey)
                                         .withInstructorInstitution(institute)
@@ -247,7 +247,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         instructor.email = "AHPUiT.email.tmt";
         homePage.createInstructor(shortName, instructor, institute);
-        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT),
+        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email,
+                                   FieldValidator.REASON_INCORRECT_FORMAT),
                      homePage.getMessageFromResultTable(1));
 
         ______TS("action success: course is accessible for newly joined instructor as student");

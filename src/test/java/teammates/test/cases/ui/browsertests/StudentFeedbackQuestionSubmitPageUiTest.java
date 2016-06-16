@@ -172,6 +172,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         // test the response submitted during the grace period
         fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
+        submitPage.waitForAndDismissAlertModal();
         
         assertEquals("this is a response edited during grace period",
                      BackDoor.getFeedbackResponse(fq.getId(),
@@ -200,7 +201,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         fs.setGracePeriod(10);
         BackDoor.editFeedbackSession(fs);
 
-        submitPage.fillResponseTextBox(1, 0, "this is a response edited during grace period,but submitted after grace period");
+        submitPage.fillResponseTextBox(
+                1, 0, "this is a response edited during grace period,but submitted after grace period");
         submitPage.clickSubmitButton();
         submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageDeadLineExceeded.html");
         
@@ -220,7 +222,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackQuestionSubmitPage goToStudentFeedbackQuestionSubmitPage(
             StudentAttributes s, String fsName, String questionId) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
-                .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
+                .withRegistrationKey(BackDoor.getEncryptedKeyForStudent(s.course, s.email))
                 .withStudentEmail(s.email)
                 .withCourseId(s.course)
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())

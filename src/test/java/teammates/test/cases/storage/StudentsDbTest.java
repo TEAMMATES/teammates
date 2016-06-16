@@ -135,9 +135,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ______TS("typical success case: existent");
         StudentAttributes retrieved = studentsDb.getStudentForEmail(s.course, s.email);
         assertNotNull(retrieved);
-        assertNotNull(studentsDb.getStudentForRegistrationKey(retrieved.key));
         assertNotNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(retrieved.key)));
-        assertNull(studentsDb.getStudentForRegistrationKey("notExistingKey"));
+        assertNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt("notExistingKey")));
         ______TS("non existant student case");
         retrieved = studentsDb.getStudentForEmail("any-course-id", "non-existent@email.com");
         assertNull(retrieved);
@@ -191,7 +190,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
                                                          "blah", "blah");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + "non-existent-course/non@existent.email", e.getMessage());
+            assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + "non-existent-course/non@existent.email",
+                         e.getMessage());
         }
         
         // Only check first 2 params (course & email) which are used to identify the student entry.

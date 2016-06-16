@@ -87,6 +87,7 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_PUBLISH, InstructorFeedbackPublishAction.class);
         map(INSTRUCTOR_FEEDBACK_UNPUBLISH, InstructorFeedbackUnpublishAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_ADD, InstructorFeedbackQuestionAddAction.class);
+        map(INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE, InstructorFeedbackQuestionCopyPageAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_COPY, InstructorFeedbackQuestionCopyAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_EDIT, InstructorFeedbackQuestionEditAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE, InstructorFeedbackQuestionVisibilityMessageAction.class);

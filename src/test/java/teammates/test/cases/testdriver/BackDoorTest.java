@@ -257,13 +257,14 @@ public class BackDoorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetKeyForStudent() {
+    public void testGetEncryptedKeyForStudent() {
 
-        StudentAttributes student = new StudentAttributes("sect1", "t1", "name of tgsr student", "tgsr@gmail.tmt", "", "course1");
+        StudentAttributes student = new StudentAttributes("sect1", "t1", "name of tgsr student",
+                                                          "tgsr@gmail.tmt", "", "course1");
         BackDoor.createStudent(student);
         String key = "[BACKDOOR_STATUS_FAILURE]";
         while (key.startsWith("[BACKDOOR_STATUS_FAILURE]")) {
-            key = BackDoor.getKeyForStudent(student.course, student.email);
+            key = BackDoor.getEncryptedKeyForStudent(student.course, student.email);
         }
 
         // The following is the google app engine description about generating
@@ -437,7 +438,8 @@ public class BackDoorTest extends BaseTestCase {
     private void verifyPresentInDatastore(InstructorAttributes expectedInstructor) {
         String instructorJsonString = "null";
         while ("null".equals(instructorJsonString)) {
-            instructorJsonString = BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email, expectedInstructor.courseId);
+            instructorJsonString = BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email,
+                                                                       expectedInstructor.courseId);
         }
         InstructorAttributes actualInstructor = gson.fromJson(instructorJsonString, InstructorAttributes.class);
         

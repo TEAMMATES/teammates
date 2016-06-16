@@ -126,9 +126,9 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
         responseToUpdate.responseMetaData = new Text("Updated Response");
         
-        assertEquals(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, responseToUpdate.giver, responseToUpdate.recipient).toString(),
-                responseToUpdate.toString());
+        assertEquals(frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
+                                                 responseToUpdate.recipient).toString(),
+                     responseToUpdate.toString());
         
         ______TS("failure: recipient one that is already exists");
         
@@ -169,9 +169,9 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
         responseToUpdate.responseMetaData = new Text("Updated Response 2");
         
-        assertEquals(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, responseToUpdate.giver, responseToUpdate.recipient).toString(),
-                responseToUpdate.toString());
+        assertEquals(frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
+                                                 responseToUpdate.recipient).toString(),
+                     responseToUpdate.toString());
         
         ______TS("success: recipient changed to something else");
         
@@ -179,9 +179,9 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         frLogic.updateFeedbackResponse(responseToUpdate);
         
-        assertEquals(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, responseToUpdate.giver, responseToUpdate.recipient).toString(),
-                responseToUpdate.toString());
+        assertEquals(frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
+                                                 responseToUpdate.recipient).toString(),
+                     responseToUpdate.toString());
         assertNull(frLogic.getFeedbackResponse(
                 responseToUpdate.feedbackQuestionId, responseToUpdate.giver, "student2InCourse1@gmail.tmt"));
         
@@ -196,9 +196,9 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         frLogic.updateFeedbackResponse(responseToUpdate);
         
-        assertEquals(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, responseToUpdate.giver, responseToUpdate.recipient).toString(),
-                responseToUpdate.toString());
+        assertEquals(frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
+                                                 responseToUpdate.recipient).toString(),
+                     responseToUpdate.toString());
         assertNull(frLogic.getFeedbackResponse(
                 responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
 
@@ -495,7 +495,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1");
         List<FeedbackResponseAttributes> responses =
-                frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, null);
+                frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email,
+                                                                         UserType.Role.INSTRUCTOR, null);
         
         assertEquals(responses.size(), 1);
         

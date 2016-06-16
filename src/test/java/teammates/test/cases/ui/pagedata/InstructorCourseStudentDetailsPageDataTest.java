@@ -142,16 +142,16 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     protected InstructorCourseStudentDetailsPageData createData() {
         createCommonData();
         
-        return new InstructorCourseStudentDetailsPageData(
-                new AccountAttributes(), inputStudent, inputStudentProfile, isAbleToAddComment, hasSection, commentRecipient);
+        return new InstructorCourseStudentDetailsPageData(new AccountAttributes(), inputStudent, inputStudentProfile,
+                                                          isAbleToAddComment, hasSection, commentRecipient);
     }
     
     private InstructorCourseStudentDetailsPageData createData(String commentRecipient) {
         createCommonData();
         this.commentRecipient = commentRecipient;
         
-        return new InstructorCourseStudentDetailsPageData(
-                new AccountAttributes(), inputStudent, inputStudentProfile, isAbleToAddComment, hasSection, commentRecipient);
+        return new InstructorCourseStudentDetailsPageData(new AccountAttributes(), inputStudent, inputStudentProfile,
+                                                          isAbleToAddComment, hasSection, commentRecipient);
     }
     
     private void createCommonData() {

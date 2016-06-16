@@ -70,8 +70,9 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
 
     /**
      * This method: <br>
-     * 1.goes through the just uploaded list file by splitting the content of the txt file(email addresses separated by comma)
-     * into separated email addresses, which makes sure the file content is intact and of correct format
+     * 1.goes through the just uploaded list file by splitting the content of the txt file
+     * (email addresses separated by comma) into separated email addresses,
+     * which makes sure the file content is intact and of correct format<br>
      * 2.if no error, log each email address into system.
      * 
      * @param blobInfo

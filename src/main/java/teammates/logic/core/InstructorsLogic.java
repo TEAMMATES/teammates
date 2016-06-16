@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
@@ -13,7 +11,9 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
 
@@ -120,14 +120,14 @@ public class InstructorsLogic {
         return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
     }
     
-    public String getKeyForInstructor(String courseId, String email)
+    public String getEncryptedKeyForInstructor(String courseId, String email)
             throws EntityDoesNotExistException {
         
         verifyIsEmailOfInstructorOfCourse(email, courseId);
         
         InstructorAttributes instructor = getInstructorForEmail(courseId, email);
     
-        return instructor.key;
+        return StringHelper.encrypt(instructor.key);
     }
     
     public List<InstructorAttributes> getInstructorsForEmail(String email) {
@@ -244,13 +244,14 @@ public class InstructorsLogic {
      * Sends a registration email to the instructor
      * Vulnerable to eventual consistency
      */
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail)
+    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, String instructorEmail)
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
         if (course == null) {
             throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + instructorEmail + "]");
+                    "Course does not exist [" + courseId + "], "
+                    + "trying to send invite email to instructor [" + instructorEmail + "]");
         }
         
         InstructorAttributes instructorData = getInstructorForEmail(courseId, instructorEmail);
@@ -259,11 +260,9 @@ public class InstructorsLogic {
                     "Instructor [" + instructorEmail + "] does not exist in course [" + courseId + "]");
         }
 
-        Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateInstructorCourseJoinEmail(course, instructorData);
-            emailMgr.sendEmailWithLogging(email);
-            
+            EmailWrapper email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructorData);
+            new EmailSender().sendEmailWithLogging(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
@@ -279,7 +278,7 @@ public class InstructorsLogic {
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor)
+    public EmailWrapper sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor)
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -289,11 +288,9 @@ public class InstructorsLogic {
                     + "trying to send invite email to student [" + instructor.email + "]");
         }
 
-        Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateInstructorCourseJoinEmail(course, instructor);
-            emailMgr.sendEmailWithLogging(email);
-            
+            EmailWrapper email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
+            new EmailSender().sendEmailWithLogging(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
@@ -301,25 +298,21 @@ public class InstructorsLogic {
         
     }
     
-    @SuppressWarnings("deprecation")
     public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) {
         
-        String joinLink = "";
-        Emails emailMgr = new Emails();
+        EmailGenerator emailGenerator = new EmailGenerator();
 
         try {
-            MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
-            emailMgr.sendEmailWithLogging(email);
-            joinLink = emailMgr.generateNewInstructorAccountJoinLink(instructor, institute);
-
+            EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
+            new EmailSender().sendEmailWithLogging(email);
+            return emailGenerator.generateNewInstructorAccountJoinLink(instructor, institute);
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
         }
-        
-        return joinLink;
     }
 
-    public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name, String institute, String email) {
+    public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name,
+                                                              String institute, String email) {
         
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();

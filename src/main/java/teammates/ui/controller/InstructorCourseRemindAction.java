@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -8,15 +7,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
@@ -52,17 +49,17 @@ public class InstructorCourseRemindAction extends Action {
         }
         
         /* Process sending emails and setup status to be shown to user and admin */
-        List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+        List<EmailWrapper> emailsSent = new ArrayList<EmailWrapper>();
         String redirectUrl = "";
         if (isSendingToStudent) {
-            MimeMessage emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
+            EmailWrapper emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
             emailsSent.add(emailSent);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail,
                                                StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         } else if (isSendingToInstructor) {
-            MimeMessage emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
+            EmailWrapper emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
             emailsSent.add(emailSent);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail,
@@ -85,11 +82,11 @@ public class InstructorCourseRemindAction extends Action {
 
     }
     
-    private String generateStatusToAdmin(List<MimeMessage> emailsSent, String courseId) {
+    private String generateStatusToAdmin(List<EmailWrapper> emailsSent, String courseId) {
         StringBuilder statusToAdmin = new StringBuilder(200);
         statusToAdmin.append("Registration Key sent to the following users in Course <span class=\"bold\">[")
                      .append(courseId)
-                     .append("]</span>:<br/>");
+                     .append("]</span>:<br>");
         
         Iterator<Entry<String, JoinEmailData>> extractedEmailIterator =
                 extractEmailDataForLogging(emailsSent).entrySet().iterator();
@@ -101,26 +98,20 @@ public class InstructorCourseRemindAction extends Action {
             JoinEmailData joinEmailData = extractedEmail.getValue();
             
             statusToAdmin.append(joinEmailData.userName).append("<span class=\"bold\"> (").append(userEmail)
-                         .append(")</span>.<br/>").append(joinEmailData.regKey).append("<br/>");
+                         .append(")</span>.<br>").append(joinEmailData.regKey).append("<br>");
         }
         
         return statusToAdmin.toString();
     }
 
-    private Map<String, JoinEmailData> extractEmailDataForLogging(List<MimeMessage> emails) {
+    private Map<String, JoinEmailData> extractEmailDataForLogging(List<EmailWrapper> emails) {
         Map<String, JoinEmailData> logData = new TreeMap<String, JoinEmailData>();
         
-        for (MimeMessage email : emails) {
-            try {
-                String recipient = email.getAllRecipients()[0].toString();
-                String userName = extractUserName((String) email.getContent());
-                String regKey = extractRegistrationKey((String) email.getContent());
-                logData.put(recipient, new JoinEmailData(userName, regKey));
-            } catch (MessagingException e) {
-                Assumption.fail("Join email corrupted");
-            } catch (IOException e) {
-                Assumption.fail("Join email corrupted");
-            }
+        for (EmailWrapper email : emails) {
+            String recipient = email.getFirstRecipient();
+            String userName = extractUserName(email.getContent());
+            String regKey = extractRegistrationKey(email.getContent());
+            logData.put(recipient, new JoinEmailData(userName, regKey));
         }
         
         return logData;

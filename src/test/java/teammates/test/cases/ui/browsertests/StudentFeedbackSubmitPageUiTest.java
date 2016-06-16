@@ -79,7 +79,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
 
-        // This is the full HTML verification for Unregistered Student Feedback Submit Page, the rest can all be verifyMainHtml
+        // This is the full HTML verification for Unregistered Student Feedback Submit Page,
+        // the rest can all be verifyMainHtml
         submitPage.verifyHtml("/unregisteredStudentFeedbackSubmitPageOpen.html");
 
         ______TS("Awaiting session");
@@ -158,8 +159,19 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         responseText = "Feedback to team 3";
         submitPage.fillResponseTextBox(4, 1, responseText);
         assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(4, 1));
+
+        submitPage.verifyOtherOptionTextUnclickable(6, 0);
+        submitPage.chooseMcqOption(6, 0, "");
+        submitPage.waitForOtherOptionTextToBeClickable(6, 0);
+        submitPage.fillMcqOtherOptionTextBox(6, 0, "Features");
         
         submitPage.chooseMcqOption(7, 0, "Algo");
+        
+        submitPage.verifyOtherOptionTextUnclickable(8, 0);
+        submitPage.toggleMsqOption(8, 0, "");
+        submitPage.waitForOtherOptionTextToBeClickable(8, 0);
+        submitPage.fillMsqOtherOptionTextBox(8, 0, "Features");
+        
         submitPage.toggleMsqOption(9, 0, "UI");
         submitPage.toggleMsqOption(9, 0, "Design");
 
@@ -337,9 +349,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         //check edited
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
-        assertEquals(editedResponse, BackDoor.getFeedbackResponse(fq.getId(),
-                                                                 "SFSubmitUiT.alice.b@gmail.tmt",
-                                                                 "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData.getValue());
+        assertEquals(editedResponse,
+                     BackDoor.getFeedbackResponse(fq.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
+                                                  "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData.getValue());
 
         assertEquals("UI", BackDoor.getFeedbackResponse(fqMcq.getId(),
                                                         aliceTeam,
@@ -446,7 +458,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getFeedbackResponse(fqMsq.getId(), "Team 2", testData.students.get("Alice").team));
         assertNotNull(BackDoor.getFeedbackResponse(fqNumscale.getId(), "drop.out@gmail.tmt", "drop.out@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(fqConstSum.getId(), "drop.out@gmail.tmt", "drop.out@gmail.tmt"));
-        assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.charlie.d@gmail.tmt"));
+        assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt",
+                                                   "SFSubmitUiT.charlie.d@gmail.tmt"));
     }
 
     private void testInputValidation() {
@@ -619,8 +632,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         AppUrl submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                              .withCourseId(s.course)
                                              .withStudentEmail(s.email)
-                                             .withSessionName(testData.feedbackSessions.get(fsDataId).getFeedbackSessionName())
-                                             .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email));
+                                             .withSessionName(testData.feedbackSessions.get(fsDataId)
+                                                                                       .getFeedbackSessionName())
+                                             .withRegistrationKey(BackDoor.getEncryptedKeyForStudent(s.course, s.email));
 
         return AppPage.getNewPageInstance(browser, submitUrl, FeedbackSubmitPage.class);
     }

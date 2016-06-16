@@ -129,7 +129,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                      r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("Normally, we would show the student’s profile here. "
-                         + "However, you do not have access to view this student's profile<br />"
+                         + "However, you do not have access to view this student's profile<br>"
                          + "No records were found for this student",
                      r.getStatusMessage());
 

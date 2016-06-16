@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.MimeMessage;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -27,6 +25,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -148,17 +147,6 @@ public class StudentsLogic {
         Assumption.assertNotNull(googleId);
         
         return accLogic.getStudentProfile(googleId);
-    }
-    
-    public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-        
-        StudentAttributes studentData = getStudentForEmail(courseId, email);
-    
-        if (studentData == null) {
-            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
-        }
-    
-        return studentData.key;
     }
     
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
@@ -534,7 +522,8 @@ public class StudentsLogic {
 
         StringBuilder errorMessage = new StringBuilder(100);
         for (String team : invalidTeamList) {
-            errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team)));
+            errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,
+                                              Sanitizer.sanitizeForHtml(team)));
         }
 
         if (errorMessage.length() != 0) {
@@ -562,13 +551,14 @@ public class StudentsLogic {
         
     }
 
-    public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail)
+    public EmailWrapper sendRegistrationInviteToStudent(String courseId, String studentEmail)
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
         if (course == null) {
             throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
+                    "Course does not exist [" + courseId + "], "
+                    + "trying to send invite email to student [" + studentEmail + "]");
         }
         
         StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
@@ -577,10 +567,9 @@ public class StudentsLogic {
                     "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
         }
         
-        Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
-            emailMgr.sendEmailWithLogging(email);
+            EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
+            new EmailSender().sendEmailWithLogging(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
@@ -588,13 +577,14 @@ public class StudentsLogic {
         
     }
     
-    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
+    public EmailWrapper sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail)
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
         if (course == null) {
             throw new EntityDoesNotExistException(
-                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
+                    "Course does not exist [" + courseId + "], "
+                    + "trying to send invite email to student [" + studentEmail + "]");
         }
         
         StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
@@ -603,10 +593,10 @@ public class StudentsLogic {
                     "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
         }
         
-        Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
-            emailMgr.sendEmailWithLogging(email);
+            EmailWrapper email =
+                    new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
+            new EmailSender().sendEmailWithLogging(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
@@ -614,15 +604,15 @@ public class StudentsLogic {
         
     }
     
-    public List<MimeMessage> sendRegistrationInviteForCourse(String courseId) {
+    public List<EmailWrapper> sendRegistrationInviteForCourse(String courseId) {
         List<StudentAttributes> studentDataList = getUnregisteredStudentsForCourse(courseId);
         
-        ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+        List<EmailWrapper> emailsSent = new ArrayList<EmailWrapper>();
     
         //TODO: sending mail should be moved to somewhere else.
         for (StudentAttributes s : studentDataList) {
             try {
-                MimeMessage email = sendRegistrationInviteToStudent(courseId, s.email);
+                EmailWrapper email = sendRegistrationInviteToStudent(courseId, s.email);
                 emailsSent.add(email);
             } catch (EntityDoesNotExistException e) {
                 Assumption
@@ -720,7 +710,8 @@ public class StudentsLogic {
         if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
             enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
         } else if (isModifyingExistingStudent) {
-            updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email, validStudentAttributes, true);
+            updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email,
+                                                                  validStudentAttributes, true);
             enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
             
             if (!originalStudentAttributes.team.equals(validStudentAttributes.team)) {

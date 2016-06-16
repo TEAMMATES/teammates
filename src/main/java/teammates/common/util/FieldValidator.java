@@ -243,7 +243,8 @@ public class FieldValidator {
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient.";
     public static final String VIEWER_TYPE_NAME = "feedback viewer.";
     public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE =
-            "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". Did you mean to use \"Self\" instead?";
+            "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". "
+            + "Did you mean to use \"Self\" instead?";
     
     /**
      * Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%)
@@ -286,7 +287,8 @@ public class FieldValidator {
     public static final String[] REGEX_COLUMN_NAME =
             {"names?", "students?\\s+names?", "full\\s+names?", "students?\\s+full\\s+names?"};
     public static final String[] REGEX_COLUMN_EMAIL =
-            {"emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?", "e-mails?\\s+address(es)?", "contacts?"};
+            {"emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
+             "e-mails?\\s+address(es)?", "contacts?"};
     public static final String[] REGEX_COLUMN_COMMENT = {"comments?", "notes?"};
     /*
      * =======================================================================
@@ -311,7 +313,8 @@ public class FieldValidator {
     
     public static final String INVALID_NAME_ERROR_MESSAGE =
             "\"%s\" is not acceptable to TEAMMATES as %s because it %s. "
-            + "All %s must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
+            + "All %s must start with an alphanumeric character, "
+            + "and cannot contain any vertical bar (|) or percent sign (%%).";
     
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided %s is not acceptable to TEAMMATES as it contains only whitespace "
@@ -628,7 +631,8 @@ public class FieldValidator {
             return "";
         }
         if (!StringHelper.isMatching(value, REGEX_NAME)) {
-            return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
+            return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName,
+                                 REASON_CONTAINS_INVALID_CHAR, fieldName);
         }
         return "";
     }
