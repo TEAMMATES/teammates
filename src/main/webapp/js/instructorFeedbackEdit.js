@@ -787,10 +787,6 @@ function getQuestionLink(questionNum) {
     setStatusMessage('Link for question ' + questionNum + ': ' + questionLink, StatusType.WARNING);
 }
 
-function toParameterFormat(str) {
-    return str.replace(/\s/g, '+');
-}
-
 /**
  * Adds event handler to load 'copy question' modal contents by ajax.
  */
