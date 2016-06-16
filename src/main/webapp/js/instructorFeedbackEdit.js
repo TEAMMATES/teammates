@@ -167,31 +167,6 @@ function getCustomDateTimeFields() {
 }
 
 /**
- * Hides or show visibility checkboxes frame
- * @param elem is the anchor link being clicked on.
- */
-function toggleVisibilityOptions(elem) {
-    var $elementParent = $(elem).closest('form');
-    var $options = $elementParent.find('.visibilityOptions');
-    var $visibilityMessage = $elementParent.find('.visibilityMessage');
-
-    // enable edit
-    $elementParent.find('[id|="questionedittext"]').click();
-
-    if ($options.is(':hidden')) {
-        giverType = $elementParent.find('select[name="givertype"]');
-        recipientType = $elementParent.find('select[name="recipienttype"]');
-        $options.show();
-        $visibilityMessage.hide();
-        feedbackGiverUpdateVisibilityOptions(giverType);
-        feedbackRecipientUpdateVisibilityOptions(recipientType);
-    } else {
-        $options.hide();
-        $visibilityMessage.show();
-    }
-}
-
-/**
  * Enables editing of question fields and enables the "save changes" button for
  * the given question number, while hiding the edit link. Does the opposite for all other questions.
  * @param questionNum
@@ -605,43 +580,6 @@ function prepareQuestionForm(type) {
         // do nothing if the question type is not recognized, which should not happen
         break;
     }
-}
-
-/**
- * Binds each question's check box field such that the user
- * cannot select an invalid combination.
- */
-function formatCheckBoxes() {
-    // TODO: change class -> name?
-    $('input[class*="answerCheckbox"]').change(function() {
-        if (!$(this).is(':checked')) {
-            var visibilityOptionsRow = $(this).closest('tr');
-            visibilityOptionsRow.find('input[class*="giverCheckbox"]')
-                                     .prop('checked', false);
-            visibilityOptionsRow.find('input[class*="recipientCheckbox"]')
-                                     .prop('checked', false);
-        }
-    });
-    $('input[class*="giverCheckbox"]').change(function() {
-        if ($(this).is(':checked')) {
-            var visibilityOptionsRow = $(this).closest('tr');
-            visibilityOptionsRow.find('input[class*="answerCheckbox"]')
-                                     .prop('checked', true)
-                                     .trigger('change');
-        }
-    });
-    $('input[class*="recipientCheckbox"]').change(function() {
-        if ($(this).is(':checked')) {
-            var visibilityOptionsRow = $(this).closest('tr');
-            visibilityOptionsRow.find('input[class*="answerCheckbox"]')
-                                     .prop('checked', true);
-        }
-    });
-    $('input[name=receiverLeaderCheckbox]').change(function() {
-        var visibilityOptionsRow = $(this).closest('tr');
-        visibilityOptionsRow.find('input[name=receiverFollowerCheckbox]')
-                                 .prop('checked', $(this).prop('checked'));
-    });
 }
 
 /**
