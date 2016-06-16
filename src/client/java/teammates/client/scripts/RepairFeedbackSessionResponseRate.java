@@ -32,7 +32,7 @@ import teammates.storage.entity.FeedbackSession;
  * <li> feedback sessions with start date within a specified range, </li>
  * <li> or a specified feedback session, </li>
  * </ul>
- * and verifies that the non-respondents do not have a response in the feedback session. <br/>
+ * and verifies that the non-respondents do not have a response in the feedback session. <br>
  * 
  * If isPreview is false, whenever an inconsistency is found, {@code logic.updateRespondants} will
  * be used to recompute the respondents' set.
