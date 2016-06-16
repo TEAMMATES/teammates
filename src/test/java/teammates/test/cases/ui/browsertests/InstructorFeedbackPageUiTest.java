@@ -403,15 +403,15 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         expectedStatusStrings.add(String.format(
                 FieldValidator.TIME_FRAME_ERROR_MESSAGE,
-                FieldValidator.START_TIME_FIELD_NAME,
+                FieldValidator.SESSION_START_TIME_FIELD_NAME,
                 FieldValidator.FEEDBACK_SESSION_NAME,
                 FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME));
 
         expectedStatusStrings.add(String.format(
                 FieldValidator.TIME_FRAME_ERROR_MESSAGE,
-                FieldValidator.END_TIME_FIELD_NAME,
+                FieldValidator.SESSION_END_TIME_FIELD_NAME,
                 FieldValidator.FEEDBACK_SESSION_NAME,
-                FieldValidator.START_TIME_FIELD_NAME));
+                FieldValidator.SESSION_START_TIME_FIELD_NAME));
         
         AssertHelper.assertContains(expectedStatusStrings, feedbackPage.getStatus());
 

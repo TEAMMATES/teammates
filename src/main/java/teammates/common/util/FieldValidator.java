@@ -78,8 +78,8 @@ public class FieldValidator {
     public static final int COURSE_ID_MAX_LENGTH = 40;
 
     // TODO: allow smaller increments (currently only 1 hour increments allowed)
-    public static final String START_TIME_FIELD_NAME = "start time";
-    public static final String END_TIME_FIELD_NAME = "end time";
+    public static final String SESSION_START_TIME_FIELD_NAME = "start time";
+    public static final String SESSION_END_TIME_FIELD_NAME = "end time";
     
     public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
@@ -606,7 +606,7 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForTimeForSessionStartAndEnd(Date sessionStart, Date sessionEnd) {
         return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(
-                sessionStart, sessionEnd, START_TIME_FIELD_NAME, END_TIME_FIELD_NAME);
+                sessionStart, sessionEnd, SESSION_START_TIME_FIELD_NAME, SESSION_END_TIME_FIELD_NAME);
     }
 
     /**
@@ -617,7 +617,7 @@ public class FieldValidator {
     public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(Date visibilityStart,
                                                                             Date sessionStart) {
         return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(
-                visibilityStart, sessionStart, SESSION_VISIBLE_TIME_FIELD_NAME, START_TIME_FIELD_NAME);
+                visibilityStart, sessionStart, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
     }
 
     /**
