@@ -371,6 +371,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_EDIT_SAVE =
                 "You can save your responses at any time and come back later to continue.";
         
+        public static final String FEEDBACK_SESSION_EDIT_SAVE_AS_DRAFT =
+                "You can save your without submitting responses at any time and come back later to continue.";
+        
         public static final String FEEDBACK_SESSION_MODERATE_FEEDBACK = "Edit the responses given by this student";
 
         public static final String FEEDBACK_PREVIEW_ASSTUDENT =

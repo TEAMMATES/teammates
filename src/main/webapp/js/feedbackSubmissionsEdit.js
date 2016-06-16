@@ -12,6 +12,11 @@ function isPreview() {
 
 $(document).ready(function() {
 
+    $('.submit-individual-answer-button').click(function() {
+        var individualQuestionDiv = $(this).parents('.form-horizontal:first');
+        submitIndividualAnswer(individualQuestionDiv);
+    });
+
     /**
      * Handles Keyup and Keydown on Text question to display response length
      */
@@ -965,4 +970,26 @@ function getWarningMessage() {
 function updateTextQuestionCharCount(textAreaId, charCountId) {
     var cs = $('#' + textAreaId).val().length;
     $('#' + charCountId).text(cs);
+}
+
+function submitIndividualAnswer(individualQuestionDiv) {
+    individualQuestionDiv.find('.last-submitted').text('Submitting question');
+
+    $.ajax({
+        type: 'POST',
+        url: 'feedbackSubmissionEditSaveDraft',
+        data: individualQuestionDiv.find(':input').serialize() + 'courseid='
+                + $('input[name=courseid]').val() + '&user='
+                + $('input[name=user]').val() + '&fsname='
+                + $('input[name=fsname]').val(),
+        cache: false,
+        success: function(message) {
+            if (message.isError) {
+                individualQuestionDiv.find('.last-submitted').text('Error occured while submitting');
+            } else {
+                individualQuestionDiv.find('.last-submitted').text(
+                        'Last submitted at ' + message.lastSavedAt);
+            }
+        }
+    });
 }
