@@ -966,7 +966,7 @@ function updateTextQuestionCharCount(textAreaId, charCountId, recommendedLength)
     var cs = $('#' + textAreaId).val().trim().split(/\s+/).length;
     
     if ($('#' + textAreaId).val().length === 0) {
-    	$('#' + charCountId).text('0');
+        $('#' + charCountId).text('0');
     } else {
         $('#' + charCountId).text(cs);
     }
