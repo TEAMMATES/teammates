@@ -64,7 +64,7 @@ Important: When a version is specified, please install that version instead of t
    This value must be a valid **JDK 1.7** directory.<br>
    * `src/main/resources/build.properties`<br>
    For now, property values can remain as they are.
-   If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
+   If you want to use SendGrid for developing and testing email features, create a free SendGrid account, create an API key, and update the relevant values in `build.properties`
    * `src/test/resources/test.properties`<br>
    Append a unique id (e.g. your name) to **each** of the default accounts found at the bottom of this file. 
    e.g. change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`<br>
