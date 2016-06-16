@@ -45,7 +45,7 @@ public class EmailGenerator {
     public EmailGenerator() {
         senderEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
         senderName = "TEAMMATES Admin";
-        replyTo = "teammates@comp.nus.edu.sg";
+        replyTo = Config.SUPPORT_EMAIL;
     }
     
     /**

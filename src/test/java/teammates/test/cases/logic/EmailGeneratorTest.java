@@ -37,7 +37,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     
     private String fromEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
     private String fromName = "TEAMMATES Admin";
-    private String replyTo = "teammates@comp.nus.edu.sg";
+    private String replyTo = Config.SUPPORT_EMAIL;
     
     @BeforeClass
     public void classSetUp() throws Exception {
