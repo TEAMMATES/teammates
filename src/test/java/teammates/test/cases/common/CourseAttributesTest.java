@@ -39,7 +39,7 @@ public class CourseAttributesTest extends BaseTestCase {
                     .replace("{fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
                     .replace("{reason}", FieldValidator.REASON_TOO_LONG)
                     .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)) + EOL
-                + FieldValidator.COURSE_NAME_ERROR_MESSAGE
+                + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                       .replace("{userInput}", invalidCourse.getName())
                       .replace("{fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME)
                       .replace("{reason}", FieldValidator.REASON_EMPTY)

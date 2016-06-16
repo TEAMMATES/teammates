@@ -85,7 +85,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = FieldValidator.COURSE_NAME_ERROR_MESSAGE
+        statusMessage = FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                   .replace("{userInput}", courseName)
                   .replace("{fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME)
                   .replace("{reason}", FieldValidator.REASON_EMPTY)

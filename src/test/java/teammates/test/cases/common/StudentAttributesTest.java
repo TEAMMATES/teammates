@@ -116,7 +116,7 @@ public class StudentAttributesTest extends BaseTestCase {
                                                "c", courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(invalidStudent.getInvalidityInfo().get(0),
-                     FieldValidator.PERSON_NAME_ERROR_MESSAGE
+                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                          .replace("{userInput}", "")
                          .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
                          .replace("{reason}", FieldValidator.REASON_EMPTY)
@@ -137,7 +137,7 @@ public class StudentAttributesTest extends BaseTestCase {
                 .generateStringOfLength(FieldValidator.SECTION_NAME_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes(longSectionName, "t1", "n", "e@e.com", "c", courseId);
         assertFalse(invalidStudent.isValid());
-        assertEquals(FieldValidator.SECTION_NAME_ERROR_MESSAGE
+        assertEquals(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                          .replace("{userInput}", longSectionName)
                          .replace("{fieldName}", FieldValidator.SECTION_NAME_FIELD_NAME)
                          .replace("{reason}", FieldValidator.REASON_TOO_LONG)
@@ -148,7 +148,7 @@ public class StudentAttributesTest extends BaseTestCase {
         String longTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes("sect", longTeamName, "name", "e@e.com", "c", courseId);
         assertFalse(invalidStudent.isValid());
-        assertEquals(FieldValidator.TEAM_NAME_ERROR_MESSAGE
+        assertEquals(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                          .replace("{userInput}", longTeamName)
                          .replace("{fieldName}", FieldValidator.TEAM_NAME_FIELD_NAME)
                          .replace("{reason}", FieldValidator.REASON_TOO_LONG)
@@ -160,7 +160,7 @@ public class StudentAttributesTest extends BaseTestCase {
                 .generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes("sect", "t1", longStudentName, "e@e.com", "c", courseId);
         assertFalse(invalidStudent.isValid());
-        assertEquals(FieldValidator.PERSON_NAME_ERROR_MESSAGE
+        assertEquals(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                          .replace("{userInput}", longStudentName)
                          .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
                          .replace("{reason}", FieldValidator.REASON_TOO_LONG)
@@ -183,7 +183,7 @@ public class StudentAttributesTest extends BaseTestCase {
         invalidStudent = new StudentAttributes("sect", "t1", "name", "e@e.com", longComment, courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(
-                FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE
+                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                     .replace("{userInput}", longComment)
                     .replace("{fieldName}", FieldValidator.STUDENT_ROLE_COMMENTS_FIELD_NAME)
                     .replace("{reason}", FieldValidator.REASON_TOO_LONG)
@@ -222,17 +222,17 @@ public class StudentAttributesTest extends BaseTestCase {
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
                       .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
                       .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)) + Const.EOL
-                + FieldValidator.TEAM_NAME_ERROR_MESSAGE
+                + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                       .replace("{userInput}", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                       .replace("{fieldName}", FieldValidator.TEAM_NAME_FIELD_NAME)
                       .replace("{reason}", FieldValidator.REASON_TOO_LONG)
                       .replace("{maxLength}", String.valueOf(FieldValidator.TEAM_NAME_MAX_LENGTH)) + Const.EOL
-                + FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE
+                + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                       .replace("{userInput}", s.comments)
                       .replace("{fieldName}", FieldValidator.STUDENT_ROLE_COMMENTS_FIELD_NAME)
                       .replace("{reason}", FieldValidator.REASON_TOO_LONG)
                       .replace("{maxLength}", String.valueOf(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH)) + Const.EOL
-                + FieldValidator.PERSON_NAME_ERROR_MESSAGE
+                + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                     .replace("{userInput}", "")
                     .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
                     .replace("{reason}", FieldValidator.REASON_EMPTY)

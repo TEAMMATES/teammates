@@ -327,7 +327,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    FieldValidator.PERSON_NAME_ERROR_MESSAGE
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                         .replace("{userInput}", instructorToEdit.name)
                         .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
                         .replace("{reason}", FieldValidator.REASON_EMPTY)
@@ -394,7 +394,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                             .replace("{userInput}", instructorToEdit.googleId)
                             .replace("{fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
                             .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
-                        + FieldValidator.PERSON_NAME_ERROR_MESSAGE
+                        + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                                   .replace("{userInput}", instructorToEdit.name)
                                   .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
                                   .replace("{reason}", FieldValidator.REASON_EMPTY)

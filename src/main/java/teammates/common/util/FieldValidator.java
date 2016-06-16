@@ -81,10 +81,6 @@ public class FieldValidator {
      */
     public static final String PERSON_NAME_FIELD_NAME = "a person name";
     public static final int PERSON_NAME_MAX_LENGTH = 100;
-    public static final String HINT_FOR_CORRECT_PERSON_NAME =
-            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
-    public static final String PERSON_NAME_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_PERSON_NAME;
 
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Specific types //////////////////////////////////////
@@ -96,10 +92,6 @@ public class FieldValidator {
      */
     public static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
     public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
-    public static final String HINT_FOR_CORRECT_EMAIL_SUBJECT =
-            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
-    public static final String EMAIL_SUBJECT_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL_SUBJECT;
     
     /*
      * =======================================================================
@@ -122,10 +114,6 @@ public class FieldValidator {
      */
     public static final String COURSE_NAME_FIELD_NAME = "a course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
-    public static final String HINT_FOR_CORRECT_COURSE_NAME =
-            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
-    public static final String COURSE_NAME_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_NAME;
     
     /*
      * =======================================================================
@@ -172,10 +160,6 @@ public class FieldValidator {
     public static final String FEEDBACK_SESSION_NAME = "feedback session";
     public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
     public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
-    public static final String HINT_FOR_CORRECT_FEEDBACK_SESSION_NAME =
-            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
-    public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_FEEDBACK_SESSION_NAME;
     
     /*
      * =======================================================================
@@ -210,10 +194,6 @@ public class FieldValidator {
      */
     public static final String INSTITUTE_NAME_FIELD_NAME = "an institute name";
     public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
-    public static final String HINT_FOR_CORRECT_INSTITUTE_NAME =
-            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
-    public static final String INSTITUTE_NAME_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_INSTITUTE_NAME;
 
     /*
      * =======================================================================
@@ -222,10 +202,6 @@ public class FieldValidator {
      */
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
-    public static final String HINT_FOR_CORRECT_STUDENT_ROLE =
-            "The value of {fieldName} should be no longer than {maxLength} characters.";
-    public static final String STUDENT_ROLE_COMMENTS_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_STUDENT_ROLE;
     
     /*
      * =======================================================================
@@ -246,10 +222,6 @@ public class FieldValidator {
      */
     public static final String TEAM_NAME_FIELD_NAME = "a team name";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
-    public static final String HINT_FOR_CORRECT_TEAM_NAME =
-            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
-    public static final String TEAM_NAME_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_TEAM_NAME;
     
     /*
      * =======================================================================
@@ -257,10 +229,6 @@ public class FieldValidator {
      */
     public static final String SECTION_NAME_FIELD_NAME = "a section name";
     public static final int SECTION_NAME_MAX_LENGTH = 60;
-    public static final String HINT_FOR_CORRECT_SECTION_NAME =
-            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
-    public static final String SECTION_NAME_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_SECTION_NAME;
 
     // ////////////////////////////////////////////////////////////////////////
     // ///////////////////End of field type info //////////////////////////////
