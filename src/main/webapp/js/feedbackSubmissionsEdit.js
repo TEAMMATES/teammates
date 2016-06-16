@@ -963,8 +963,13 @@ function getWarningMessage() {
  * @param charCountId - Id of Label to display length of text area
  */
 function updateTextQuestionCharCount(textAreaId, charCountId, recommendedLength) {
-    var cs = $('#' + textAreaId).val().length;
-    $('#' + charCountId).text(cs);
+    var cs = $('#' + textAreaId).val().trim().split(/\s+/).length;
+    
+    if ($('#' + textAreaId).val().length === 0) {
+    	$('#' + charCountId).text('0');
+    } else {
+        $('#' + charCountId).text(cs);
+    }
 
     var upperLimit = recommendedLength + recommendedLength * 0.1;
     var lowerLimit = recommendedLength - recommendedLength * 0.1;
@@ -976,4 +981,3 @@ function updateTextQuestionCharCount(textAreaId, charCountId, recommendedLength)
         $('#' + charCountId).css('color', 'gray');
     }
 }
-
