@@ -268,8 +268,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public boolean verifyMissingResponsesVisibility() {
-        List<WebElement> pendingResponses = browser.driver
-                                                   .findElements(By.className("pending_response_row"));
+        List<WebElement> pendingResponses = browser.driver.findElements(By.className("pending_response_row"));
         return pendingResponses.isEmpty();
     }
     

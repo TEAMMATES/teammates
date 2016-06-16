@@ -59,7 +59,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
-        boolean isMissingResponsesShown = getRequestParamAsBoolean(Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
+        boolean isMissingResponsesShown = getRequestParamAsBoolean(
+                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
 
         if (startIndex != null) {
             data.setStartIndex(Integer.parseInt(startIndex));

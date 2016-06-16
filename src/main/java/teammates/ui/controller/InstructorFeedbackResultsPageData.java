@@ -1839,7 +1839,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return showStats != null;
     }
 
-    public boolean getMissingResponsesShown() {
+    public boolean isMissingResponsesShown() {
         return isMissingResponsesShown;
     }
     
@@ -1903,7 +1903,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return new InstructorFeedbackResultsFilterPanel(
                 isStatsShown(), bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
                 isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(),
-                getSections(), getMissingResponsesShown());
+                getSections(), isMissingResponsesShown);
     }
     
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
