@@ -28,7 +28,6 @@ public class FieldValidator {
     public static final String COURSE_NAME_FIELD_NAME = "a course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
     
-    public static final String FEEDBACK_SESSION_NAME = "feedback session";
     public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
     public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
 
@@ -162,7 +161,8 @@ public class FieldValidator {
 
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
-    public static final String TIME_FRAME_ERROR_MESSAGE = "The %s for this %s cannot be earlier than the %s.";
+    public static final String TIME_FRAME_ERROR_MESSAGE =
+                "The %s for this feedback session cannot be earlier than the %s.";
 
     public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
     public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE =
@@ -639,8 +639,7 @@ public class FieldValidator {
             return "";
         }
         if (laterTime.before(earlierTime)) {
-            return String.format(TIME_FRAME_ERROR_MESSAGE, laterTimeFieldName,
-                                 FEEDBACK_SESSION_NAME, earlierTimeFieldName);
+            return String.format(TIME_FRAME_ERROR_MESSAGE, laterTimeFieldName, earlierTimeFieldName);
         }
         return "";
     }

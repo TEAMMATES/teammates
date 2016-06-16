@@ -1,7 +1,6 @@
 package teammates.test.cases.storage;
 
 import static teammates.common.util.FieldValidator.SESSION_END_TIME_FIELD_NAME;
-import static teammates.common.util.FieldValidator.FEEDBACK_SESSION_NAME;
 import static teammates.common.util.FieldValidator.SESSION_START_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 
@@ -241,8 +240,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             assertEquals(
                     String.format(TIME_FRAME_ERROR_MESSAGE, SESSION_END_TIME_FIELD_NAME,
-                            FEEDBACK_SESSION_NAME, SESSION_START_TIME_FIELD_NAME),
-                            e.getLocalizedMessage());
+                                  SESSION_START_TIME_FIELD_NAME),
+                    e.getLocalizedMessage());
         }
         ______TS("feedback session does not exist");
         FeedbackSessionAttributes nonexistantFs = getNewFeedbackSession();
