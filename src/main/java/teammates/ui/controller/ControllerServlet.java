@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.NullPostParameterException;
@@ -18,9 +18,11 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Utils;
+import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
@@ -119,8 +121,15 @@ public class ControllerServlet extends HttpServlet {
                 cleanUpStatusMessageInSession(req);
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
-        } catch (Throwable e) {
-            MimeMessage email = new Logic().emailErrorReport(req, e);
+        } catch (Throwable t) {
+            String requestMethod = req.getMethod();
+            String requestUserAgent = req.getHeader("User-Agent");
+            String requestPath = req.getServletPath();
+            String requestUrl = req.getRequestURL().toString();
+            String requestParams = HttpRequestHelper.printRequestParameters(req);
+            UserType userType = new GateKeeper().getCurrentUser();
+            EmailWrapper email = new Logic().emailErrorReport(requestMethod, requestUserAgent, requestPath,
+                                                              requestUrl, requestParams, userType, t);
             if (email != null) {
                 log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email));
             }

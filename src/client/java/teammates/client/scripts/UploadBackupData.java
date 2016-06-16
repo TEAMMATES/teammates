@@ -139,34 +139,44 @@ public class UploadBackupData extends RemoteApiClient {
                 feedbackQuestionsPersisted = new HashMap<String, FeedbackQuestionAttributes>();
                 feedbackQuestionIds = new HashMap<String, String>();
                 
-                if (!data.accounts.isEmpty()) {                  // Accounts
+                if (!data.accounts.isEmpty()) {
+                    // Accounts
                     persistAccounts(data.accounts);
                 }
-                if (!data.courses.isEmpty()) {                    // Courses
+                if (!data.courses.isEmpty()) {
+                    // Courses
                     persistCourses(data.courses);
                 }
-                if (!data.instructors.isEmpty()) {                // Instructors
+                if (!data.instructors.isEmpty()) {
+                    // Instructors
                     persistInstructors(data.instructors);
                 }
-                if (!data.students.isEmpty()) {                   // Students
+                if (!data.students.isEmpty()) {
+                    // Students
                     persistStudents(data.students);
                 }
-                if (!data.feedbackSessions.isEmpty()) {           // Feedback sessions
+                if (!data.feedbackSessions.isEmpty()) {
+                    // Feedback sessions
                     persistFeedbackSessions(data.feedbackSessions);
                 }
-                if (!data.feedbackQuestions.isEmpty()) {          // Feedback questions
+                if (!data.feedbackQuestions.isEmpty()) {
+                    // Feedback questions
                     persistFeedbackQuestions(data.feedbackQuestions);
                 }
-                if (!data.feedbackResponses.isEmpty()) {          // Feedback responses
+                if (!data.feedbackResponses.isEmpty()) {
+                    // Feedback responses
                     persistFeedbackResponses(data.feedbackResponses);
                 }
-                if (!data.feedbackResponseComments.isEmpty()) {   // Feedback response comments
+                if (!data.feedbackResponseComments.isEmpty()) {
+                    // Feedback response comments
                     persistFeedbackResponseComments(data.feedbackResponseComments);
                 }
-                if (!data.comments.isEmpty()) {                   // Comments
+                if (!data.comments.isEmpty()) {
+                    // Comments
                     persistComments(data.comments);
                 }
                 if (!data.profiles.isEmpty()) {
+                    // Profiles
                     persistProfiles(data.profiles);
                 }
                 coursesPersisted.add(backupFile);
@@ -297,7 +307,8 @@ public class UploadBackupData extends RemoteApiClient {
         return response;
     }
     
-    private static FeedbackResponseCommentAttributes adjustFeedbackResponseCommentId(FeedbackResponseCommentAttributes response) {
+    private static FeedbackResponseCommentAttributes
+            adjustFeedbackResponseCommentId(FeedbackResponseCommentAttributes response) {
         FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
         
         if (feedbackQuestionIds.containsKey(question.getId())) {

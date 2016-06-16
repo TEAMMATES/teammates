@@ -11,8 +11,6 @@ import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.ThreadHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.core.Emails;
-import teammates.logic.core.Emails.EmailType;
 
 /**
  * Action: Clear pending {@link CommentAttributes} and {@link FeedbackResponseCommentAttributes},
@@ -50,13 +48,13 @@ public class InstructorStudentCommentClearPendingAction extends Action {
                 log.info("Operation did not persist in time: update comments from state PENDING to SENDING");
             } else {
                 //Set up emails notification
-                Emails emails = new Emails();
-                emails.addCommentReminderToEmailsQueue(courseId, EmailType.PENDING_COMMENT_CLEARED);
+                logic.sendCommentNotification(courseId);
             }
         }
         
         if (isError) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_CLEARED_UNSUCCESSFULLY, StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_CLEARED_UNSUCCESSFULLY,
+                                               StatusMessageColor.DANGER));
             statusToAdmin = "Unsuccessful: " + account.googleId + " cleared pending comments for course " + courseId;
         } else {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_CLEARED, StatusMessageColor.SUCCESS));

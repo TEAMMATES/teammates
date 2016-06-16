@@ -128,7 +128,8 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
     
-    private AdminSearchPageData putInstructorInsitituteIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data) {
+    private AdminSearchPageData putInstructorInsitituteIntoMap(List<InstructorAttributes> instructors,
+                                                               AdminSearchPageData data) {
         Logic logic = new Logic();
         for (InstructorAttributes instructor : instructors) {
             
@@ -180,7 +181,8 @@ public class AdminSearchPageAction extends Action {
         for (StudentAttributes student : students) {
             
             if (tempCourseIdToInstituteMap.get(student.course) != null) {
-                data.studentInstituteMap.put(student.getIdentificationString(), tempCourseIdToInstituteMap.get(student.course));
+                data.studentInstituteMap.put(student.getIdentificationString(),
+                                             tempCourseIdToInstituteMap.get(student.course));
                 continue;
             }
             
@@ -219,7 +221,8 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
     
-    private AdminSearchPageData putStudentRecordsPageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
+    private AdminSearchPageData putStudentRecordsPageLinkIntoMap(List<StudentAttributes> students,
+                                                                 AdminSearchPageData data) {
         
         for (StudentAttributes student : students) {
             
@@ -285,7 +288,8 @@ public class AdminSearchPageAction extends Action {
         return "";
     }
 
-    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData rawData) {
+    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students,
+                                                              AdminSearchPageData rawData) {
         
         Logic logic = new Logic();
         AdminSearchPageData processedData = rawData;

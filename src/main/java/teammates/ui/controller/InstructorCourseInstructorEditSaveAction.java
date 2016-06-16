@@ -30,7 +30,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId),
                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
-        InstructorAttributes instructorToEdit = extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
+        InstructorAttributes instructorToEdit =
+                extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
         
         try {
