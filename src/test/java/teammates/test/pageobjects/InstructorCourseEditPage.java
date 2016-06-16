@@ -362,7 +362,8 @@ public class InstructorCourseEditPage extends AppPage {
     
     public WebElement courseLevelPanel(int instrNum) {
         String permissionDivId = "tunePermissionsDivForInstructor" + instrNum;
-        return browser.driver.findElement(By.id(permissionDivId)).findElement(By.cssSelector("div.form-group>div>div.panel"));
+        return browser.driver.findElement(By.id(permissionDivId))
+                             .findElement(By.cssSelector("div.form-group>div>div.panel"));
     }
     
     public WebElement addSectionLevelPrivilegesLink(int instrNum) {

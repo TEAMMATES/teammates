@@ -404,7 +404,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         accountsLogic.joinCourseForInstructor(encryptedKey, loggedInGoogleId);
         
-        InstructorAttributes joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
+        InstructorAttributes joinedInstructor =
+                instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
         assertEquals(loggedInGoogleId, joinedInstructor.googleId);
         
         AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);

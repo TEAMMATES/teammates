@@ -151,7 +151,8 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     protected static void verifyPresentInDatastore(FeedbackSessionAttributes expected) {
-        FeedbackSessionAttributes actual = fsDb.getFeedbackSession(expected.getCourseId(), expected.getFeedbackSessionName());
+        FeedbackSessionAttributes actual =
+                fsDb.getFeedbackSession(expected.getCourseId(), expected.getFeedbackSessionName());
         expected.setRespondingInstructorList(actual.getRespondingInstructorList());
         expected.setRespondingStudentList(actual.getRespondingStudentList());
         assertEquals(gson.toJson(expected), gson.toJson(actual));

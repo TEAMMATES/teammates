@@ -433,6 +433,11 @@ public class PageData {
         return link;
     }
     
+    public String getInstructorQuestionCopyPageLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE;
+        return addUserIdToUrl(link);
+    }
+    
     /**
      * Retrieves the link to submit the request for copy of session.
      * Appends the return url to the link.

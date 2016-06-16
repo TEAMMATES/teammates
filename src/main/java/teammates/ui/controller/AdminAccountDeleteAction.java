@@ -40,9 +40,11 @@ public class AdminAccountDeleteAction extends Action {
             //remove student from course
             StudentAttributes student = logic.getStudentForGoogleId(courseId, studentId);
             logic.deleteStudent(courseId, student.email);
-            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE, StatusMessageColor.SUCCESS));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE,
+                                               StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor <span class=\"bold\">" + instructorId
-                          + "</span>'s student status in Course<span class=\"bold\">[" + courseId + "]</span> has been deleted";
+                            + "</span>'s student status in Course"
+                            + "<span class=\"bold\">[" + courseId + "]</span> has been deleted";
             return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE + "?instructorid=" + studentId);
         }
         

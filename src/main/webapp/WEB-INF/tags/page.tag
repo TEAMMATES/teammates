@@ -29,6 +29,7 @@
     <script type="text/javascript" src="${data.jQueryUiFilePath}"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/lib/bootbox.min.js"></script>
     <t:enableJS />
 
     <jsp:invoke fragment="jsIncludes" />

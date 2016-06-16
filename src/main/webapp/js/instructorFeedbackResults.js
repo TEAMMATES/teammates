@@ -163,10 +163,6 @@ function toggleCollapse(e, pans) {
         var i = 0;
         for (var idx = 0; idx < panels.length; idx++) {
             if ($(panels[idx]).attr('class').indexOf('in') === -1) {
-
-                // The timeout value '50' is being used in InstructorFeedbackResultsPage.verifyAllResultsPanelBodyVisibility()
-                // and InstructorFeedbackResultsPageUiTest.testPanelsCollapseExpand()
-                // Therefore, when changing this timeout value, please update the waiting times accordingly
                 setTimeout(showSingleCollapse, 50 * i, panels[idx]);
                 i++;
             }

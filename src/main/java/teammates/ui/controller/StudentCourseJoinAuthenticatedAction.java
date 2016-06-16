@@ -85,7 +85,8 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
                                                            courseDisplayText), StatusMessageColor.SUCCESS));
 
-        List<FeedbackSessionAttributes> fsa = logic.getFeedbackSessionsForUserInCourse(getStudent().course, getStudent().email);
+        List<FeedbackSessionAttributes> fsa =
+                logic.getFeedbackSessionsForUserInCourse(getStudent().course, getStudent().email);
         if (fsa.isEmpty()) {
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
                                                                courseDisplayText), StatusMessageColor.INFO));
