@@ -56,12 +56,16 @@ public final class ImportData {
             boolean hasStudents = !data.students.isEmpty();
             
             if (hasAccounts) {
-                status = persist(data.accounts); // Accounts
-            } else if (hasInstructors) {            //Instructors
+                // Accounts
+                status = persist(data.accounts);
+            } else if (hasInstructors) {
+                // Instructors
                 status = persist(data.instructors);
-            } else if (hasCourses) {    //Courses
+            } else if (hasCourses) {
+                // Courses
                 status = persist(data.courses);
-            } else if (hasStudents) {    //Students
+            } else if (hasStudents) {
+                // Students
                 status = persist(data.students);
             } else {
                 // No more data, break the loop

@@ -265,7 +265,7 @@ task eslint(type: Exec) {
 }
 
 checkstyle {
-    toolVersion = "6.18"
+    toolVersion = "6.19"
     configFile = file("static-analysis/teammates-checkstyle.xml")
 }
 

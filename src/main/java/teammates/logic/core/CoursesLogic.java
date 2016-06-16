@@ -316,7 +316,7 @@ public class CoursesLogic {
                 cdd.stats.unregisteredTotal++;
             }
             
-            if (section == null) {   // First student of first section
+            if (section == null) { // First student of first section
                 section = new SectionDetailsBundle();
                 section.name = s.section;
                 section.teams.add(new TeamDetailsBundle());
@@ -380,7 +380,7 @@ public class CoursesLogic {
         for (int i = 0; i < students.size(); i++) {
             StudentAttributes s = students.get(i);
             
-            if (section == null) {   // First student of first section
+            if (section == null) { // First student of first section
                 section = new SectionDetailsBundle();
                 section.name = s.section;
                 section.teams.add(new TeamDetailsBundle());
