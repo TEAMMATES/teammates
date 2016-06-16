@@ -446,7 +446,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void waitForInstructorPanelStudentPanelsToCollapse() {
-        List<WebElement> studentPanels = browser.driver.findElements(By.cssSelector("#panelBodyCollapse-0-1 .panel-collapse"));
+        List<WebElement> studentPanels = browser.driver.findElements(
+                By.cssSelector("#panelBodyCollapse-0-1 .panel-collapse"));
         waitForElementsToDisappear(studentPanels);
     }
     

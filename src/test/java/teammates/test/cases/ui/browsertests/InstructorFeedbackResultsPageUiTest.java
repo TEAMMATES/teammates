@@ -629,7 +629,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyCommentRowContent("-0-0-1-1-2", "successive action comment", "CFResultsUiT.instr@gmail.tmt");
 
         resultsPage.editFeedbackResponseComment("-0-0-1-1-2", "edited successive action comment");
-        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "edited successive action comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "edited successive action comment",
+                "CFResultsUiT.instr@gmail.tmt");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-0-1-1-1", 1);
 
         resultsPage.deleteFeedbackResponseComment("-0-0-1-1-2");

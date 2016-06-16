@@ -343,8 +343,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * @param additionalInfoId
      */
     private void buildSectionPanelForViewByParticipantQuestionParticipant(String section,
-                                Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses,
-                                String additionalInfoId) {
+                                Map<String, Map<FeedbackQuestionAttributes,
+                                List<FeedbackResponseAttributes>>> sortedResponses, String additionalInfoId) {
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
 
 
@@ -359,7 +359,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Set<String> teamsWithResponses = new LinkedHashSet<String>();
         Set<String> teamMembersWithResponses = new HashSet<String>();
 
-        InstructorFeedbackResultsSectionPanel sectionPanel =  new InstructorFeedbackResultsSectionPanel();
+        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
 
         // Iterate through the primary participant
         int primaryParticipantIndex = this.getStartIndex();

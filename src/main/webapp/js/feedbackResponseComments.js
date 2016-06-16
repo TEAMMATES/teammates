@@ -296,7 +296,11 @@ function setFormErrorMessage(submitButton, msg) {
 }
 
 function composeResponseCommendAddFormId(indexes, isIncludeSections) {
-    var sectionIndex, recipientIndex, giverIndex, qnIndex, id;
+    var sectionIndex;
+    var recipientIndex;
+    var giverIndex;
+    var qnIndex;
+    var id;
 
     if (isIncludeSections) {
         sectionIndex = indexes[0];
@@ -314,7 +318,7 @@ function composeResponseCommendAddFormId(indexes, isIncludeSections) {
     return id;
 }
 
-function showResponseCommentAddForm(firstIndex, secondIndex, thirdIndex, fourthIndex) {
+function showResponseCommentAddForm(/* firstIndex, secondIndex, thirdIndex, fourthIndex */) {
     var isIncludeSections = arguments.length === 4;
     var id = composeResponseCommendAddFormId(arguments, isIncludeSections);
 
@@ -326,7 +330,7 @@ function showResponseCommentAddForm(firstIndex, secondIndex, thirdIndex, fourthI
     $('#responseCommentAddForm' + id).focus();
 }
 
-function hideResponseCommentAddForm(firstIndex, secondIndex, thirdIndex, fourthIndex) {
+function hideResponseCommentAddForm(/* firstIndex, secondIndex, thirdIndex, fourthIndex */) {
     var isIncludeSections = arguments.length === 4;
     var id = composeResponseCommendAddFormId(arguments, isIncludeSections);
 
@@ -339,7 +343,12 @@ function hideResponseCommentAddForm(firstIndex, secondIndex, thirdIndex, fourthI
 }
 
 function composeResponseCommendEditFormId(indexes, isIncludeSections) {
-    var sectionIndex, recipientIndex, giverIndex, qnIndex, commentIndex, id;
+    var sectionIndex;
+    var recipientIndex;
+    var giverIndex;
+    var qnIndex;
+    var commentIndex;
+    var id;
 
     if (isIncludeSections) {
         sectionIndex = indexes[0];
@@ -367,7 +376,7 @@ function composeResponseCommendEditFormId(indexes, isIncludeSections) {
     return id;
 }
 
-function showResponseCommentEditForm(firstIndex, secondIndex, thirdIndex, fourthIndex, fifthIndex) {
+function showResponseCommentEditForm(/* firstIndex, secondIndex, thirdIndex, fourthIndex, fifthIndex */) {
     var isIncludeSections = arguments.length === 5;
     var id = composeResponseCommendEditFormId(arguments, isIncludeSections);
 
@@ -379,7 +388,7 @@ function showResponseCommentEditForm(firstIndex, secondIndex, thirdIndex, fourth
     $('#responseCommentEditForm' + id + ' > div > textarea').focus();
 }
 
-function hideResponseCommentEditForm(firstIndex, secondIndex, thirdIndex, fourthIndex, fifthIndex) {
+function hideResponseCommentEditForm(/* firstIndex, secondIndex, thirdIndex, fourthIndex, fifthIndex */) {
     var isIncludeSections = arguments.length === 5;
     var id = composeResponseCommendEditFormId(arguments, isIncludeSections);
 
@@ -391,7 +400,12 @@ function hideResponseCommentEditForm(firstIndex, secondIndex, thirdIndex, fourth
 }
 
 function composeResponseCommendVisibilityFormId(indexes, isIncludeSections) {
-    var sectionIndex, sessionIndex, questionIndex, responseIndex, commentIndex, id;
+    var sectionIndex;
+    var sessionIndex;
+    var questionIndex;
+    var responseIndex;
+    var commentIndex;
+    var id;
 
     if (isIncludeSections) {
         sectionIndex = indexes[0];
@@ -409,16 +423,15 @@ function composeResponseCommendVisibilityFormId(indexes, isIncludeSections) {
     if (questionIndex || responseIndex || commentIndex) {
         if (commentIndex) {
             if (isIncludeSections) {
-                id = '-' + sectionIndex + '-' + sessionIndex + '-' + questionIndex + '-' + responseIndex + '-' + commentIndex;
+                id = '-' + sectionIndex + '-' + sessionIndex + '-' + questionIndex + '-' + responseIndex + '-'
+                     + commentIndex;
             } else {
                 id = '-' + sessionIndex + '-' + questionIndex + '-' + responseIndex + '-' + commentIndex;
             }
+        } else if (isIncludeSections) {
+            id = '-' + sectionIndex + '-' + sessionIndex + '-' + questionIndex + '-' + responseIndex;
         } else {
-            if (isIncludeSections) {
-                id = '-' + sectionIndex + '-' + sessionIndex + '-' + questionIndex + '-' + responseIndex;
-            } else {
-                id = '-' + sessionIndex + '-' + questionIndex + '-' + responseIndex;
-            }
+            id = '-' + sessionIndex + '-' + questionIndex + '-' + responseIndex;
         }
     } else {
         id = '-' + sessionIndex + '-' + questionIndex + '-' + responseIndex;
@@ -427,7 +440,7 @@ function composeResponseCommendVisibilityFormId(indexes, isIncludeSections) {
     return id;
 }
 
-function toggleVisibilityEditForm(firstIndex, secondIndex, thirdIndex, fourthIndex, fifthIndex) {
+function toggleVisibilityEditForm(/* firstIndex, secondIndex, thirdIndex, fourthIndex, fifthIndex */) {
     var isIncludeSections = arguments.length === 5;
     var id = composeResponseCommendVisibilityFormId(arguments, isIncludeSections);
 
