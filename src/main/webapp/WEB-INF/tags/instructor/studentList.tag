@@ -155,6 +155,7 @@
                                             Delete
                                         </a>
                                     </shared:tooltipButton>
+                                    <shared:tooltipButton isEnabled="true">
                                     <a class="btn btn-default btn-xs student-records-for-test"
                                        href="${student.courseStudentRecordsLink}"
                                        title="<c:out value="${TOOLTIP_MESSAGE_RECORDS}"/>"
@@ -163,6 +164,7 @@
                                        data-placement="top">
                                         All Records
                                     </a>
+                                    </shared:tooltipButton>
                                     <shared:tooltipButton isEnabled="${section.allowedToGiveCommentInSection}">
                                         <div class="btn-group">
                                             <a class="btn btn-default btn-xs cursor-default"
