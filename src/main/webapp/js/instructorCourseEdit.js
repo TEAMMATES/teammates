@@ -372,8 +372,8 @@ function editCourse() {
 $(document).ready(function() {
     $('#courseEditLink').click(editCourse);
     $('a[id^="instrCancelLink"]').hide();
-    $('a[id^="instrCancelLink"]').click(function() {        
-        var instrNum = $(this).attr('id').substring('instrCancelLink'.length);        
+    $('a[id^="instrCancelLink"]').click(function() {
+        var instrNum = $(this).attr('id').substring('instrCancelLink'.length);
         disableFormEditInstructor(instrNum);
     });
     var index = $('#new-instructor-index').val();
