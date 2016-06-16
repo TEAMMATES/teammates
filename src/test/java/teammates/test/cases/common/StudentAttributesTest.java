@@ -183,7 +183,7 @@ public class StudentAttributesTest extends BaseTestCase {
         invalidStudent = new StudentAttributes("sect", "t1", "name", "e@e.com", longComment, courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(
-                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
+                FieldValidator.SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE
                     .replace("{userInput}", longComment)
                     .replace("{fieldName}", FieldValidator.STUDENT_ROLE_COMMENTS_FIELD_NAME)
                     .replace("{reason}", FieldValidator.REASON_TOO_LONG)
@@ -227,7 +227,7 @@ public class StudentAttributesTest extends BaseTestCase {
                       .replace("{fieldName}", FieldValidator.TEAM_NAME_FIELD_NAME)
                       .replace("{reason}", FieldValidator.REASON_TOO_LONG)
                       .replace("{maxLength}", String.valueOf(FieldValidator.TEAM_NAME_MAX_LENGTH)) + Const.EOL
-                + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
+                + FieldValidator.SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE
                       .replace("{userInput}", s.comments)
                       .replace("{fieldName}", FieldValidator.STUDENT_ROLE_COMMENTS_FIELD_NAME)
                       .replace("{reason}", FieldValidator.REASON_TOO_LONG)
