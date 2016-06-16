@@ -56,7 +56,8 @@ public class AccountAttributesTest extends BaseTestCase {
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("{userInput}", "invalid@email@com")
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
+                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                      .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)) + EOL
                 + FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE
                       .replace("{userInput}", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                       .replace("{fieldName}", FieldValidator.INSTITUTE_NAME_FIELD_NAME)

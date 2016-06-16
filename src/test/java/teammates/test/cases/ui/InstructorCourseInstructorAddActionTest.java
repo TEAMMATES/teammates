@@ -113,7 +113,9 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         assertEquals(FieldValidator.EMAIL_ERROR_MESSAGE
                          .replace("{userInput}", newInvalidInstructorEmail)
                          .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                         .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT), redirectResult.getStatusMessage());
+                         .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                         .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
+                     redirectResult.getStatusMessage());
             
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
@@ -122,6 +124,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                      .replace("{userInput}", newInvalidInstructorEmail)
                      .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                     .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH))
                + "|||/page/instructorCourseInstructorAdd";
         AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
         

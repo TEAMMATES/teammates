@@ -250,7 +250,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         assertEquals(FieldValidator.EMAIL_ERROR_MESSAGE
                          .replace("{userInput}", instructor.email)
                          .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                         .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT),
+                         .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                         .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
                      homePage.getMessageFromResultTable(1));
 
         ______TS("action success: course is accessible for newly joined instructor as student");

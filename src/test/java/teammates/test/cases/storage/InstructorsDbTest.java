@@ -102,7 +102,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                     FieldValidator.EMAIL_ERROR_MESSAGE
                         .replace("{userInput}", i.email)
                         .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                        .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT),
+                        .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                        .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
                     e.getMessage());
         }
 
@@ -333,7 +334,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                     + FieldValidator.EMAIL_ERROR_MESSAGE
                           .replace("{userInput}", instructorToEdit.email)
                           .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                          .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT),
+                          .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                          .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
                     e.getMessage());
         }
 

@@ -193,7 +193,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                                                         FieldValidator.EMAIL_ERROR_MESSAGE
                                                             .replace("{userInput}", "invalid.email.tmt")
                                                             .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                                                            .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT))
+                                                            .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                                                            .replace("{maxLength}",
+                                                                String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)))
                                             + "</span>"
                                         + "</p>";
         assertEquals(expectedStatusMessage, pageResult.getStatusMessage());

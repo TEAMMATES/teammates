@@ -221,7 +221,8 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
             String errorReason = FieldValidator.EMAIL_ERROR_MESSAGE
                                      .replace("{userInput}", "e6@g@")
                                      .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                                     .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT);
+                                     .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                                     .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH));
             String expectedMessage = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
                     invalidStudentId, Sanitizer.sanitizeForHtml(errorReason));
             

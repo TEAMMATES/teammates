@@ -192,7 +192,8 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         expectedErrorMessages.add(FieldValidator.EMAIL_ERROR_MESSAGE
                                       .replace("{userInput}", profile.email)
                                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT));
+                                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                                      .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)));
         expectedErrorMessages.add(
                 FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE
                     .replace("{userInput}", profile.institute)

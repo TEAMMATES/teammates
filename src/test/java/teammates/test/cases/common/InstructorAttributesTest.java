@@ -142,7 +142,8 @@ public class InstructorAttributesTest extends BaseTestCase {
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("{userInput}", i.email)
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT);
+                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                      .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH));
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
         
         i.googleId = null;
@@ -161,7 +162,8 @@ public class InstructorAttributesTest extends BaseTestCase {
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("{userInput}", i.email)
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT);
+                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                      .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH));
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
     }
     

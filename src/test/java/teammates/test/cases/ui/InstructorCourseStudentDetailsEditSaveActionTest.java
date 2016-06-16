@@ -152,7 +152,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         assertEquals(FieldValidator.EMAIL_ERROR_MESSAGE
                          .replace("{userInput}", invalidStudentEmail)
                          .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                         .replace("{reason}", FieldValidator.REASON_TOO_LONG),
+                         .replace("{reason}", FieldValidator.REASON_TOO_LONG)
+                         .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
                      result.getStatusMessage());
         
         expectedLogMessage =
@@ -163,6 +164,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                       .replace("{userInput}", invalidStudentEmail)
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
                       .replace("{reason}", FieldValidator.REASON_TOO_LONG)
+                      .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH))
                 + "|||/page/instructorCourseStudentDetailsEditSave";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());

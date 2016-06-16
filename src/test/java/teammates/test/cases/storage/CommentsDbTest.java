@@ -194,7 +194,8 @@ public class CommentsDbTest extends BaseComponentTestCase {
             assertEquals(EMAIL_ERROR_MESSAGE
                              .replace("{userInput}", "invalid receiver email")
                              .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                             .replace("{reason}", REASON_INCORRECT_FORMAT),
+                             .replace("{reason}", REASON_INCORRECT_FORMAT)
+                             .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
                     e.getLocalizedMessage());
         }
         

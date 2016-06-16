@@ -127,7 +127,8 @@ public class StudentAttributesTest extends BaseTestCase {
         assertEquals(FieldValidator.EMAIL_ERROR_MESSAGE
                          .replace("{userInput}", "")
                          .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                         .replace("{reason}", FieldValidator.REASON_EMPTY),
+                         .replace("{reason}", FieldValidator.REASON_EMPTY)
+                         .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: section name too long");
@@ -170,7 +171,8 @@ public class StudentAttributesTest extends BaseTestCase {
         assertEquals(FieldValidator.EMAIL_ERROR_MESSAGE
                          .replace("{userInput}", "ee.com")
                          .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                         .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT),
+                         .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                         .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: comment too long");
@@ -216,7 +218,8 @@ public class StudentAttributesTest extends BaseTestCase {
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("{userInput}", "invalid email")
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
+                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                      .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)) + Const.EOL
                 + FieldValidator.TEAM_NAME_ERROR_MESSAGE
                       .replace("{userInput}", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                       .replace("{fieldName}", FieldValidator.TEAM_NAME_FIELD_NAME)
