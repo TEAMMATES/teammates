@@ -21,7 +21,6 @@
     <script type="text/javascript" src="/js/instructorFeedbackEdit/visibilityOptions.js"></script>
 
     <!-- javascript for behaviors of the various question types -->
-    <script type="text/javascript" src="/js/instructorFeedbackEdit/questionCommon.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit/questionMcq.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit/questionMsq.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit/questionNumScale.js"></script>
