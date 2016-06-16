@@ -48,7 +48,8 @@ public class AccountAttributesTest extends BaseTestCase {
                 FieldValidator.PERSON_NAME_ERROR_MESSAGE
                     .replace("{userInput}", "")
                     .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                    .replace("{reason}", FieldValidator.REASON_EMPTY) + EOL
+                    .replace("{reason}", FieldValidator.REASON_EMPTY)
+                    .replace("{maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
                 + FieldValidator.GOOGLE_ID_ERROR_MESSAGE
                       .replace("{userInput}", "invalid google id")
                       .replace("{fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)

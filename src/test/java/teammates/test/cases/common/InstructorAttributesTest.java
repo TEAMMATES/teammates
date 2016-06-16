@@ -138,7 +138,8 @@ public class InstructorAttributesTest extends BaseTestCase {
                 + FieldValidator.PERSON_NAME_ERROR_MESSAGE
                     .replace("{userInput}", i.name)
                     .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                    .replace("{reason}", FieldValidator.REASON_EMPTY) + EOL
+                    .replace("{reason}", FieldValidator.REASON_EMPTY)
+                    .replace("{maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("{userInput}", i.email)
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
@@ -158,7 +159,8 @@ public class InstructorAttributesTest extends BaseTestCase {
                 + FieldValidator.PERSON_NAME_ERROR_MESSAGE
                     .replace("{userInput}", i.name)
                     .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                    .replace("{reason}", FieldValidator.REASON_EMPTY) + EOL
+                    .replace("{reason}", FieldValidator.REASON_EMPTY)
+                    .replace("{maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("{userInput}", i.email)
                       .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)

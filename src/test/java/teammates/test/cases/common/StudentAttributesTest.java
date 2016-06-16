@@ -119,7 +119,8 @@ public class StudentAttributesTest extends BaseTestCase {
                      FieldValidator.PERSON_NAME_ERROR_MESSAGE
                          .replace("{userInput}", "")
                          .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                         .replace("{reason}", FieldValidator.REASON_EMPTY));
+                         .replace("{reason}", FieldValidator.REASON_EMPTY)
+                         .replace("{maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)));
 
         ______TS("Failure case: empty email");
         invalidStudent = new StudentAttributes("sect", "t1", "n", "", "c", courseId);
@@ -162,7 +163,8 @@ public class StudentAttributesTest extends BaseTestCase {
         assertEquals(FieldValidator.PERSON_NAME_ERROR_MESSAGE
                          .replace("{userInput}", longStudentName)
                          .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                         .replace("{reason}", FieldValidator.REASON_TOO_LONG),
+                         .replace("{reason}", FieldValidator.REASON_TOO_LONG)
+                         .replace("{maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)),
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: invalid email");
@@ -233,7 +235,8 @@ public class StudentAttributesTest extends BaseTestCase {
                 + FieldValidator.PERSON_NAME_ERROR_MESSAGE
                     .replace("{userInput}", "")
                     .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                    .replace("{reason}", FieldValidator.REASON_EMPTY);
+                    .replace("{reason}", FieldValidator.REASON_EMPTY)
+                    .replace("{maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH));
         assertEquals("invalid value", errorMessage, StringHelper.toString(s.getInvalidityInfo()));
     }
 

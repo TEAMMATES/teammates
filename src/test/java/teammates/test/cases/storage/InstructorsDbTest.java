@@ -330,7 +330,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                     FieldValidator.PERSON_NAME_ERROR_MESSAGE
                         .replace("{userInput}", instructorToEdit.name)
                         .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                        .replace("{reason}", FieldValidator.REASON_EMPTY) + Const.EOL
+                        .replace("{reason}", FieldValidator.REASON_EMPTY)
+                        .replace("{maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + Const.EOL
                     + FieldValidator.EMAIL_ERROR_MESSAGE
                           .replace("{userInput}", instructorToEdit.email)
                           .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
@@ -396,7 +397,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                         + FieldValidator.PERSON_NAME_ERROR_MESSAGE
                                   .replace("{userInput}", instructorToEdit.name)
                                   .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                                  .replace("{reason}", FieldValidator.REASON_EMPTY),
+                                  .replace("{reason}", FieldValidator.REASON_EMPTY)
+                                  .replace("{maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)),
                     e.getMessage());
         }
 
