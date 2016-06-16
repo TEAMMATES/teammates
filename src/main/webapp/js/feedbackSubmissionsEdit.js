@@ -978,14 +978,15 @@ function getWarningMessage() {
 function updateTextQuestionCharCount(textAreaId, charCountId, recommendedLength) {
     var cs = $('#' + textAreaId).val().length;
     $('#' + charCountId).text(cs);
-    
+
     var upperLimit = recommendedLength + recommendedLength * 0.1;
     var lowerLimit = recommendedLength - recommendedLength * 0.1;
-    
-    if ($('#' + charCountId).text() > lowerLimit && $('#' + charCountId).text() < upperLimit) {
+
+    if ($('#' + charCountId).text() > lowerLimit
+            && $('#' + charCountId).text() < upperLimit) {
         $('#' + charCountId).css('color', 'green');
     } else {
         $('#' + charCountId).css('color', 'gray');
     }
-	}
+}
 

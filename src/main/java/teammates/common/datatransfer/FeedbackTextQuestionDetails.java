@@ -14,16 +14,16 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     
-    public int recommendedLength;
+    private int recommendedLength;
 
     public FeedbackTextQuestionDetails() {
         super(FeedbackQuestionType.TEXT);
-        this.recommendedLength = 0;
+        recommendedLength = 0;
     }
     
     public FeedbackTextQuestionDetails(String questionText) {
         super(FeedbackQuestionType.TEXT, questionText);
-        this.recommendedLength = 0;
+        recommendedLength = 0;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         String recommendedLengthString = HttpRequestHelper.getValueFromParamMap(requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT_RECOMMENDEDLENGTH);
 
-        this.recommendedLength = recommendedLengthString == null || recommendedLengthString.isEmpty() ? 0
+        recommendedLength = recommendedLengthString == null || recommendedLengthString.isEmpty() ? 0
                 : Integer.parseInt(recommendedLengthString);
         return true;
     }
@@ -80,13 +80,13 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         return Templates.populateTemplate(
                 FeedbackQuestionFormTemplates.TEXT_EDIT_FORM,
-                "${recommendedlength}", this.recommendedLength == 0 ? "" : Integer.toString(this.recommendedLength));
+                "${recommendedlength}", recommendedLength == 0 ? "" : Integer.toString(recommendedLength));
     }
     
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         return "<div id=\"textForm\">"
-                + this.getQuestionSpecificEditFormHtml(-1)
+                + getQuestionSpecificEditFormHtml(-1)
                 + "</div>";
     }
 

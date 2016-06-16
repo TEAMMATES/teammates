@@ -134,6 +134,10 @@ Apply to thead to make headers not bold.
     background-color: #c4e3f3;
 }
 
+.float-left {
+    float: left;
+}
+
 .glyphicon-primary {
     color: #428bca;
 }
@@ -221,6 +225,10 @@ Apply to thead to make headers not bold.
 
 .padding-top-0 {
     padding-top: 0;
+}
+
+.padding-top-7 {
+    padding-top: 7px;
 }
 
 .margin-0 {

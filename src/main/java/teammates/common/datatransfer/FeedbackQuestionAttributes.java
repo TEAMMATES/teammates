@@ -508,15 +508,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.creatorEmail = Sanitizer.sanitizeEmail(creatorEmail);
     }
     
-    public boolean isJsonValid(String test) {
+    public boolean isJsonValid(String jsonString) {
         try {
-            new JSONObject(test);
-        } catch (JSONException ex) {
-            // edited, to include @Arthur's comment
-            // e.g. in case JSONArray is valid as well...
+            // Checks whether JSONArray is valid
+            new JSONObject(jsonString);
+        } catch (JSONException e) {
             try {
-                new JSONArray(test);
-            } catch (JSONException exception) {
+                new JSONArray(jsonString);
+            } catch (JSONException ex) {
                 return false;
             }
         }
@@ -539,13 +538,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * @return The Feedback*QuestionDetails object representing the question's details
      */
     public FeedbackQuestionDetails getQuestionDetails() {
+        final String questionMetaDataValue = questionMetaData.getValue();
         // For old Text questions, the questionText simply contains the question, not a JSON
         // This is due to legacy data in the data store before there are multiple question types
-        if (questionType == FeedbackQuestionType.TEXT && !isJsonValid(questionMetaData.getValue())) {
-            return new FeedbackTextQuestionDetails(questionMetaData.getValue());
+        if (questionType == FeedbackQuestionType.TEXT && !isJsonValid(questionMetaDataValue)) {
+            return new FeedbackTextQuestionDetails(questionMetaDataValue);
         }
         Gson gson = Utils.getTeammatesGson();
-        return gson.fromJson(questionMetaData.getValue(), getFeedbackQuestionDetailsClass());
+        return gson.fromJson(questionMetaDataValue, getFeedbackQuestionDetailsClass());
     }
 
     /** 

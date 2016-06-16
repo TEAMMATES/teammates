@@ -3,9 +3,10 @@
     name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
     data-lengthTextId="responseLength-${qnIdx}-${responseIdx}" data-recommendedText="${recommendedLength}">${existingResponse}</textarea>
 <div class="margin-top-7px">
-    <div class="col-md-6" ${recommendedLengthDisplay}>
-        <label class="text-color-gray font-weight-normal">Recommended text length: </label>
+    <div class="col-md-6 padding-0" ${recommendedLengthDisplay}>
+        <label class="text-color-gray font-weight-normal">Recommended length for the answer: </label>
         <label class="text-color-gray font-weight-normal" id="recommendedLength-${qnIdx}-${responseIdx}">${recommendedLength}</label>
+        <label class="text-color-gray font-weight-normal"> letters</label>
     </div>
     <div class="pull-right">
         <label class="text-color-gray font-weight-normal">Response length: </label>
