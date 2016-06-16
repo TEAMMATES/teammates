@@ -49,7 +49,7 @@ public class VersionTest extends BaseTestCase {
         ______TS("Test rc versions will come first when the rest are similar");
         version1 = new Version("15.09");
         version2 = new Version("15.09rc");
-        assertTrue(version2.compareTo(version1) < 0);   //15.09rc < 15.09
+        assertTrue(version2.compareTo(version1) < 0); // 15.09rc < 15.09
         
     }
 }
