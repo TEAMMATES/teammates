@@ -48,6 +48,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testContent();
         
         testEditInstructorLink();
+        testCancelEditInstructorLink();
         testNewInstructorLink();
         testInputValidation();
         
@@ -107,6 +108,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("edit instructor link");
         assertTrue(courseEditPage.clickEditInstructorLink(1));
     }
+    
+    private void testCancelEditInstructorLink() {
+        ______TS("cancel edit instructor link");
+        courseEditPage.clickCancelEditInstructorLink(1);
+        assertTrue(courseEditPage.isInstructorFormNotEditable(1));
+    }
 
     private void testNewInstructorLink() {
         ______TS("add new instructor link");
@@ -124,6 +131,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         String maxLengthInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH);
         String longInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
+        
+        courseEditPage.clickEditInstructorLink(1);
+        courseEditPage.clickShowNewInstructorFormButton();
         
         // Add instructor
         assertEquals(maxLengthInstructorName, courseEditPage.fillNewInstructorName(maxLengthInstructorName));

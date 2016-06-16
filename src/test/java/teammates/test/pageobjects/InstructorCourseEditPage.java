@@ -121,6 +121,24 @@ public class InstructorCourseEditPage extends AppPage {
         return isEditable;
     }
     
+    public void clickCancelEditInstructorLink(int instrNum) {
+        getCancelEditInstructorLink(instrNum).click();
+    }
+    
+    public boolean isInstructorFormNotEditable(int instrNum) {
+        WebElement saveButton = getSaveInstructorButton(instrNum);
+        waitForElementToDisappear(By.id("btnSaveInstructor" + instrNum));
+        
+        WebElement editInstructorNameTextBox = getNameField(instrNum);
+        WebElement editInstructorEmailTextBox = getEmailField(instrNum);
+        
+        boolean isNotEditable = !editInstructorNameTextBox.isEnabled()
+                             && !editInstructorEmailTextBox.isEnabled()
+                             && !saveButton.isDisplayed();
+        
+        return isNotEditable;
+    }
+    
     public void saveEditInstructor(int instrNum) {
         getSaveInstructorButton(instrNum).click();
     }
@@ -334,6 +352,10 @@ public class InstructorCourseEditPage extends AppPage {
     
     public WebElement getEditInstructorLink(int instrNum) {
         return browser.driver.findElement(By.id("instrEditLink" + instrNum));
+    }
+    
+    public WebElement getCancelEditInstructorLink(int instrNum) {
+        return browser.driver.findElement(By.id("instrCancelLink" + instrNum));
     }
     
     private WebElement getInviteInstructorLink(int instrNum) {
