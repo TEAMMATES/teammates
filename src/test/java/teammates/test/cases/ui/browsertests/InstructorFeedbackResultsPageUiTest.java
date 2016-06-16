@@ -139,7 +139,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("Results with sanitized data");
 
-        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.SanitizedTeam.instr", "Session with sanitized data");
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.SanitizedTeam.instr",
+                                                           "Session with sanitized data");
         resultsPage.waitForPanelsToExpand();
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
@@ -153,6 +154,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
         verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt", "CFResultsUiT.benny.c@gmail.tmt",
+                                      "CFResultsUiT.fred.g@gmail.tmt",
                                       "CFResultsUiT.charlie.d@gmail.tmt", "CFResultsUiT.danny.e@gmail.tmt",
                                       "drop.out@gmail.tmt", "extra.guy@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt");
 
@@ -400,7 +402,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(
                 5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverAndViewStudentPhotoOnBody(
+                5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
         
         ______TS("Failure case: ajax error for giver > recipient > question");
@@ -452,7 +455,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(
                 5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverAndViewStudentPhotoOnBody(
+                5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
     }
 
@@ -677,7 +681,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                 .withUserId(testData.instructors.get(instructorName).googleId)
                                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        InstructorFeedbackResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
+        InstructorFeedbackResultsPage resultsPage =
+                loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
         resultsPage.waitForPageToLoad();
         return resultsPage;
     }
@@ -699,7 +704,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
             resultsUrl = resultsUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
 
-        InstructorFeedbackResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
+        InstructorFeedbackResultsPage resultsPage =
+                loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
         if (needAjax) {
             resultsPage.waitForPageStructureToLoad();
         } else {
@@ -729,8 +735,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     private void verifyModerateResponsesButton(int qnNumber, String... emails) {
         for (int i = 1; i <= emails.length; i++) {
-            resultsPage.verifyModerateResponseButtonBelongsTo(resultsPage.getModerateResponseButtonInQuestionView(qnNumber, i),
-                                                              emails[i - 1]);
+            resultsPage.verifyModerateResponseButtonBelongsTo(
+                    resultsPage.getModerateResponseButtonInQuestionView(qnNumber, i), emails[i - 1]);
         }
     }
 

@@ -66,7 +66,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         // Question view
         instructorResultsPage =
-                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "question");
+                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2",
+                                                                 false, "question");
         instructorResultsPage.waitForPanelsToExpand();
         
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
@@ -389,7 +390,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         
-        assertEquals("Too little choices for Rubric question. Minimum number of options is: 2", feedbackEditPage.getStatus());
+        assertEquals("Too little choices for Rubric question. Minimum number of options is: 2",
+                     feedbackEditPage.getStatus());
     }
     
     private InstructorFeedbackEditPage getFeedbackEditPage() {

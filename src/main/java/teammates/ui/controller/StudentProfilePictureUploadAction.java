@@ -139,12 +139,14 @@ public class StudentProfilePictureUploadAction extends Action {
         if (profilePic.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
             deletePicture(profilePic.getBlobKey());
             isError = true;
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE, StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE,
+                                               StatusMessageColor.DANGER));
             return null;
         } else if (!profilePic.getContentType().contains("image/")) {
             deletePicture(profilePic.getBlobKey());
             isError = true;
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE, StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE,
+                                               StatusMessageColor.DANGER));
             return null;
         }
         
@@ -169,7 +171,8 @@ public class StudentProfilePictureUploadAction extends Action {
         statusToAdmin += Const.ACTION_RESULT_FAILURE + " : Could not delete profile picture for account ("
                        + account.googleId + ")" + Const.EOL;
         statusToUser.clear();
-        statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN, StatusMessageColor.DANGER));
+        statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN,
+                                           StatusMessageColor.DANGER));
     }
 
 }

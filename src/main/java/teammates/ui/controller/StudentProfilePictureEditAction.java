@@ -56,7 +56,8 @@ public class StudentProfilePictureEditAction extends Action {
         } catch (IOException e) {
             // Happens when GCS Service is down
             isError = true;
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN, StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN,
+                                               StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : Writing transformed image to file failed. Error: "
                           + e.getMessage();
         }

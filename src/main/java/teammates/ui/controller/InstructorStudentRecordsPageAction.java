@@ -35,7 +35,8 @@ public class InstructorStudentRecordsPageAction extends Action {
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
 
         if (student == null) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS, StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS,
+                                               StatusMessageColor.DANGER));
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
@@ -79,7 +80,8 @@ public class InstructorStudentRecordsPageAction extends Action {
         }
 
         if (sessions.isEmpty() && comments.isEmpty()) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS,
+                                               StatusMessageColor.WARNING));
         }
 
         List<String> sessionNames = new ArrayList<String>();

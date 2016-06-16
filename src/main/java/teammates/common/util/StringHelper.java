@@ -352,7 +352,8 @@ public final class StringHelper {
     }
     
     /**
-     * This recovers a set of html-sanitized string to original encoding for appropriate display in files such as csv file <br>
+     * This recovers a set of html-sanitized string to original encoding for appropriate display in files
+     * such as csv file <br>
      * It restores encoding for < > \ / ' &  <br>
      * @param sanitized string set
      * @return recovered string set
@@ -531,8 +532,8 @@ public final class StringHelper {
      * 
      * @param str
      * @return the string without the outermost enclosing square brackets
-     *         if the given string is enclosed by square brackets <br/>
-     *         the string itself if the given string is not enclosed by square brackets <br/>
+     *         if the given string is enclosed by square brackets <br>
+     *         the string itself if the given string is not enclosed by square brackets <br>
      *         null if the given string is null
      */
     public static String removeEnclosingSquareBrackets(String str) {

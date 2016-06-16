@@ -90,7 +90,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
                 // A student with no comment
                 + "Section 3 | Team 3 |Frank Galoe | frank.g.tmms@gmail.tmt |\n"
                 // A new student with name containing accented characters
-                + "Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.tmt | This student name contains accented characters\n";
+                + "Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.tmt"
+                        + " | This student name contains accented characters\n";
 
         InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
 
@@ -106,7 +107,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         AppUrl coursesPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                 .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
                 .withCourseId(courseId);
-        InstructorCoursesDetailsPage detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
+        InstructorCoursesDetailsPage detailsPage =
+                loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
         assertEquals(6, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
 
         ______TS("enroll action: empty course, enroll lines with header containing empty columns, no sections");
@@ -159,8 +161,9 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 
         enrollPage.enrollUnsuccessfully(enrollString);
         enrollPage.verifyStatus("The team \"Team 1</option></td></div>'\"\" is in multiple sections. "
-                + "The team ID should be unique across the entire course and a team cannot be spread across multiple sections."
-                + "\nPlease use the enroll page to edit multiple students");
+                                + "The team ID should be unique across the entire course "
+                                + "and a team cannot be spread across multiple sections."
+                                + "\nPlease use the enroll page to edit multiple students");
 
         ______TS("enroll action: fail to enroll due to invalid header");
 

@@ -78,7 +78,8 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         
         editPage.submitUnsuccessfully(null, "", null, null)
                 .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                    "", teamNameFieldName, FieldValidator.REASON_EMPTY, teamNameFieldName, FieldValidator.TEAM_NAME_MAX_LENGTH));
+                                            "", teamNameFieldName, FieldValidator.REASON_EMPTY, teamNameFieldName,
+                                            FieldValidator.TEAM_NAME_MAX_LENGTH));
         
         ______TS("empty student name and the team field is edited");
         String newTeamName = "New teamname";

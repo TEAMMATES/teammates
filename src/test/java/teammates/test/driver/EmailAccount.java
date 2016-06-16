@@ -14,7 +14,7 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
-import teammates.logic.core.Emails;
+import teammates.common.util.EmailType;
 
 public final class EmailAccount {
     
@@ -33,8 +33,8 @@ public final class EmailAccount {
      * @throws MessagingException
      * @throws IOException
      */
-    public static String getRegistrationKeyFromGmail(String username,
-            String password, String courseId) throws IOException, MessagingException {
+    public static String getRegistrationKeyFromGmail(String username, String password, String courseName, String courseId)
+            throws IOException, MessagingException {
         Folder inbox = getGmailInbox(username, password);
         Message[] messages = getMessages(inbox);
 
@@ -43,7 +43,7 @@ public final class EmailAccount {
         for (int i = messages.length - 1; i >= messages.length - maxEmailsToCheck; i--) {
             Message message = messages[i];
 
-            if (isRegistrationEmail(message, courseId)) {
+            if (isRegistrationEmail(message, courseName, courseId)) {
                 String body = getEmailBody(message);
                 String key = getKey(body);
                 message.setFlag(Flags.Flag.SEEN, true);
@@ -56,17 +56,11 @@ public final class EmailAccount {
         return null;
     }
 
-    private static boolean isRegistrationEmail(Message message, String courseId)
+    private static boolean isRegistrationEmail(Message message, String courseName, String courseId)
             throws MessagingException {
-        boolean isRegistrationEmail = false;
         String subject = message.getSubject();
-
-        if (subject != null) {
-            isRegistrationEmail = subject.contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
-                                  && subject.contains(courseId);
-        }
-
-        return isRegistrationEmail;
+        return subject != null && subject.equals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(),
+                                                               courseName, courseId));
     }
 
     private static String getKey(String body) {

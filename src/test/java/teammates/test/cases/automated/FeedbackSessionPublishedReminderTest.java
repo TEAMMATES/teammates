@@ -3,8 +3,6 @@ package teammates.test.cases.automated;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -13,12 +11,13 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionPublishedMailAction;
-import teammates.logic.core.Emails;
-import teammates.logic.core.Emails.EmailType;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.util.Priority;
 
@@ -147,15 +146,16 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
     @Test
     public void testFeedbackSessionPublishedMailAction() throws Exception {
 
-        ______TS("MimeMessage Test : activate all sessions with mails sent");
+        ______TS("Emails Test : activate all sessions with mails sent");
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
             fs.setSentPublishedEmail(true);
             fsLogic.updateFeedbackSession(fs);
             assertTrue(fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId()).isSentPublishedEmail());
         }
-        ______TS("MimeMessage Test : set session 1 to unsent emails and publish");
+        ______TS("Emails Test : set session 1 to unsent emails and publish");
         // Modify session to set as published but emails unsent
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
+        String courseName = CoursesLogic.inst().getCourse(session1.getCourseId()).getName();
         session1.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
         session1.setSentPublishedEmail(false);
         fsLogic.updateFeedbackSession(session1);
@@ -165,13 +165,13 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         int course1StudentCount = 5;
         int course1InstructorCount = 5;
         
-        List<MimeMessage> preparedEmails = fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
+        List<EmailWrapper> preparedEmails = fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
 
-        for (MimeMessage m : preparedEmails) {
-            String subject = m.getSubject();
-            assertTrue(subject.contains(session1.getFeedbackSessionName()));
-            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
+        for (EmailWrapper email : preparedEmails) {
+            assertEquals(String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(), courseName,
+                                       session1.getFeedbackSessionName()),
+                         email.getSubject());
         }
         
         ______TS("testing whether no more mails are sent");
