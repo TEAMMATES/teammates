@@ -178,7 +178,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                 Slots.CONSTSUM_OPTION_POINT,
                                         Integer.toString(existingConstSumResponse.getAnswerList().get(i)),
                                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                                Slots.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
+                                Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
                 optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
@@ -232,7 +232,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                 Slots.CONSTSUM_OPTION_VISIBILITY, "",
                                 Slots.CONSTSUM_OPTION_POINT, "",
                                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                                Slots.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
+                                Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
                 optionListHtml.append(optionFragment).append(Const.EOL);
             }
         }
@@ -371,7 +371,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
-                        Slots.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(name),
+                        Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(name),
                         Slots.TEAM, Sanitizer.sanitizeForHtml(teamName),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
@@ -380,7 +380,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String option = options.get(Integer.parseInt(entry.getKey()));
                 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
-                        Slots.CONSTSUM_OPTION_VALUE,  Sanitizer.sanitizeForHtml(option),
+                        Slots.CONSTSUM_OPTION_VALUE, Sanitizer.sanitizeForHtml(option),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
             }
