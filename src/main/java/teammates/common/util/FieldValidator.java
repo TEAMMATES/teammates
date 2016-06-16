@@ -13,108 +13,48 @@ import com.google.appengine.api.datastore.Text;
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
  */
 public class FieldValidator {
-    // possible reasons for invalidity
-    public static final String REASON_EMPTY = "is empty";
-    public static final String REASON_TOO_LONG = "is too long";
-    public static final String REASON_INCORRECT_FORMAT = "is not in the correct format";
-    public static final String REASON_CONTAINS_INVALID_CHAR = "contains invalid characters";
-    public static final String REASON_START_WITH_NON_ALPHANUMERIC_CHAR = "starts with a non-alphanumeric character";
 
-    // error message components
-    public static final String ERROR_INFO =
-            "\"{userInput}\" is not acceptable to TEAMMATES as {fieldName} because it {reason}.";
+    /////////////////
+    // FIELD TYPES //
+    /////////////////
 
-    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY =
-            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
-
-    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
-            "The value of {fieldName} should be no longer than {maxLength} characters.";
-
-    public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
-            "All {fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
-            + "(|) or percent sign (%).";
-
-    // generic error messages
-    public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY;
-
-    public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY;
-
-    public static final String INVALID_NAME_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME;
-
-    public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
-            "The provided {fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
-            + "or contains extra spaces at the beginning or at the end of the text.";
-
-    public static final String NON_HTML_FIELD_ERROR_MESSAGE =
-            Sanitizer.sanitizeForHtml("The provided {fieldName} is not acceptable to TEAMMATES as it cannot contain"
-                                      + " the following special html characters in brackets: (< > \\ / ' &)");
-
-    public static final String NON_NULL_FIELD_ERROR_MESSAGE =
-            "The provided {fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
-
-    // ////////////////////////////////////////////////////////////////////////
-    // ////////////////// Generic types ///////////////////////////////////////
-    // ////////////////////////////////////////////////////////////////////////
-    
-    /*
-     * =======================================================================
-     * Field: Email
-     */
-    public static final String EMAIL_FIELD_NAME = "an email";
-    public static final int EMAIL_MAX_LENGTH = 254;
-    public static final String HINT_FOR_CORRECT_EMAIL =
-            "An email address contains some text followed by one '@' sign followed by some more text. "
-            + "It cannot be longer than {maxLength} characters. "
-            + "It cannot be empty and it cannot have spaces.";
-    public static final String EMAIL_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
-    
-    public static final String EMAIL_TAKEN_MESSAGE =
-            "Trying to update to an email that is already used by: %s/%s";
-    
-    /*
-     * =======================================================================
-     * Field: Person name
-     */
+    // name-related
     public static final String PERSON_NAME_FIELD_NAME = "a person name";
     public static final int PERSON_NAME_MAX_LENGTH = 100;
 
-    // ////////////////////////////////////////////////////////////////////////
-    // ////////////////// Specific types //////////////////////////////////////
-    // ////////////////////////////////////////////////////////////////////////
-
-    /*
-     * =======================================================================
-     * Field: Email Subject
-     */
-    public static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
-    public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
-    
-    /*
-     * =======================================================================
-     * Field: Email Content
-     */
-    public static final String EMAIL_CONTENT_FIELD_NAME = "email content";
-    public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME + " should not be empty.";
-
-    /*
-     * =======================================================================
-     * Field: Nationality
-     */
     public static final String NATIONALITY_FIELD_NAME = "nationality";
-    // one more than longest official nationality name
-    public static final int NATIONALITY_MAX_LENGTH = 55;
+    public static final int NATIONALITY_MAX_LENGTH = 55; // one more than longest official nationality name
     
-    /*
-     * =======================================================================
-     * Field: Course name
-     */
     public static final String COURSE_NAME_FIELD_NAME = "a course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
     
+    public static final String FEEDBACK_SESSION_NAME = "feedback session";
+    public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
+    public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
+
+    public static final String TEAM_NAME_FIELD_NAME = "a team name";
+    public static final int TEAM_NAME_MAX_LENGTH = 60;
+    
+    public static final String SECTION_NAME_FIELD_NAME = "a section name";
+    public static final int SECTION_NAME_MAX_LENGTH = 60;
+
+    public static final String INSTITUTE_NAME_FIELD_NAME = "an institute name";
+    public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
+
+    // email-related
+    public static final String EMAIL_FIELD_NAME = "an email";
+    public static final int EMAIL_MAX_LENGTH = 254;
+
+    public static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
+    public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
+
+    public static final String EMAIL_CONTENT_FIELD_NAME = "email content";
+    public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME + " should not be empty.";
+
+    // others 
+    public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
+    public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
+
     /*
      * =======================================================================
      * Field: Course ID
@@ -136,6 +76,71 @@ public class FieldValidator {
      */
     public static final String COURSE_ID_FIELD_NAME = "a Course ID";
     public static final int COURSE_ID_MAX_LENGTH = 40;
+
+    // TODO: allow smaller increments (currently only 1 hour increments allowed)
+    public static final String START_TIME_FIELD_NAME = "start time";
+    public static final String END_TIME_FIELD_NAME = "end time";
+    
+    public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
+    public static final int GOOGLE_ID_MAX_LENGTH = 254;
+    
+    public static final String GENDER_FIELD_NAME = "gender";
+    public static final List<String> GENDER_ACCEPTED_VALUES =
+            Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER);
+    
+    public static final String GIVER_TYPE_NAME = "feedback giver.";
+    public static final String RECIPIENT_TYPE_NAME = "feedback recipient.";
+    public static final String VIEWER_TYPE_NAME = "feedback viewer.";
+
+
+    ////////////////////
+    // ERROR MESSAGES //
+    ////////////////////
+
+    // possible reasons for invalidity
+    public static final String REASON_EMPTY = "is empty";
+    public static final String REASON_TOO_LONG = "is too long";
+    public static final String REASON_INCORRECT_FORMAT = "is not in the correct format";
+    public static final String REASON_CONTAINS_INVALID_CHAR = "contains invalid characters";
+    public static final String REASON_START_WITH_NON_ALPHANUMERIC_CHAR = "starts with a non-alphanumeric character";
+
+    // error message components
+    public static final String ERROR_INFO =
+            "\"{userInput}\" is not acceptable to TEAMMATES as {fieldName} because it {reason}.";
+    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY =
+            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
+    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
+            "The value of {fieldName} should be no longer than {maxLength} characters.";
+    public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
+            "All {fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
+            + "(|) or percent sign (%).";
+
+    // generic (i.e., not specific to any field) error messages
+    public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY;
+    public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY;
+    public static final String INVALID_NAME_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME;
+    public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
+            "The provided {fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
+            + "or contains extra spaces at the beginning or at the end of the text.";
+    public static final String NON_HTML_FIELD_ERROR_MESSAGE =
+            Sanitizer.sanitizeForHtml("The provided {fieldName} is not acceptable to TEAMMATES as it cannot contain"
+                                      + " the following special html characters in brackets: (< > \\ / ' &)");
+    public static final String NON_NULL_FIELD_ERROR_MESSAGE =
+            "The provided {fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
+
+    // field-specific error messages
+    public static final String HINT_FOR_CORRECT_EMAIL =
+            "An email address contains some text followed by one '@' sign followed by some more text. "
+            + "It cannot be longer than {maxLength} characters. "
+            + "It cannot be empty and it cannot have spaces.";
+    public static final String EMAIL_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
+    public static final String EMAIL_TAKEN_MESSAGE =
+            "Trying to update to an email that is already used by: %s/%s";
+
     public static final String HINT_FOR_CORRECT_COURSE_ID =
             "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
             + "It cannot be longer than {maxLength} characters. "
@@ -143,110 +148,32 @@ public class FieldValidator {
     public static final String COURSE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
 
-    /*
-     * =======================================================================
-     * Field: Feedback session start/end times
-     * Start time should be before end time.
-     * Only 1 hour increments allowed.
-     * TODO: allow smaller increments.
-     */
-    public static final String START_TIME_FIELD_NAME = "start time";
-    public static final String END_TIME_FIELD_NAME = "end time";
-    
-    /*
-     * =======================================================================
-     * Field: Feedback session name
-     */
-    public static final String FEEDBACK_SESSION_NAME = "feedback session";
-    public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
-    public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
-    
-    /*
-     * =======================================================================
-     * Field: Google ID
-     */
-    public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
-    public static final int GOOGLE_ID_MAX_LENGTH = 254;
     public static final String HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID =
             "A Google ID must be a valid id already registered with Google. "
             + "It cannot be longer than " + GOOGLE_ID_MAX_LENGTH + " characters. "
             + "It cannot be empty.";
-
     public static final String GOOGLE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
-    
-    /*
-     * =======================================================================
-     * Field: Gender
-     */
-    public static final String GENDER_FIELD_NAME = "gender";
-    public static final List<String> GENDER_ACCEPTED_VALUES = Arrays.asList(Const.GenderTypes.MALE,
-                                                                            Const.GenderTypes.FEMALE,
-                                                                            Const.GenderTypes.OTHER);
+
     public static final String GENDER_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. "
             + "Values have to be one of: " + Const.GenderTypes.MALE + ", "
             + Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
 
-    /*
-     * =======================================================================
-     * Field: Institute name
-     */
-    public static final String INSTITUTE_NAME_FIELD_NAME = "an institute name";
-    public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
-
-    /*
-     * =======================================================================
-     * Field: Student comment
-     * Not allowed: |
-     */
-    public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
-    public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
-    
-    /*
-     * =======================================================================
-     * Field: Student email [Refer generic field: email]
-     * Must be unique within a course.
-     */
-    
-    /*
-     * =======================================================================
-     * Field: Student name [Refer generic field: person name]
-     * May not be unique, even within a course.
-     * TODO: make case insensitive
-     */
-    
-    /*
-     * =======================================================================
-     * Field: Team name
-     */
-    public static final String TEAM_NAME_FIELD_NAME = "a team name";
-    public static final int TEAM_NAME_MAX_LENGTH = 60;
-    
-    /*
-     * =======================================================================
-     * Field: Section name
-     */
-    public static final String SECTION_NAME_FIELD_NAME = "a section name";
-    public static final int SECTION_NAME_MAX_LENGTH = 60;
-
-    // ////////////////////////////////////////////////////////////////////////
-    // ///////////////////End of field type info //////////////////////////////
-    // ////////////////////////////////////////////////////////////////////////
-    
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
-    
     public static final String TIME_FRAME_ERROR_MESSAGE = "The %s for this %s cannot be earlier than the %s.";
-    
+
     public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
-    public static final String GIVER_TYPE_NAME = "feedback giver.";
-    public static final String RECIPIENT_TYPE_NAME = "feedback recipient.";
-    public static final String VIEWER_TYPE_NAME = "feedback viewer.";
     public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE =
             "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". "
             + "Did you mean to use \"Self\" instead?";
-    
+
+
+    ///////////////////////////////////////
+    // VALIDATION REGEX FOR INTERNAL USE //
+    ///////////////////////////////////////
+
     /**
      * Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%)
      */
@@ -292,6 +219,11 @@ public class FieldValidator {
              "e-mails?\\s+address(es)?", "contacts?"};
     public static final String[] REGEX_COLUMN_COMMENT = {"comments?", "notes?"};
     
+
+    /////////////////////////////////////////
+    // VALIDATION METHODS FOR EXTERNAL USE //
+    /////////////////////////////////////////
+
     /**
      * Checks if {@code emailContent} is not null and not empty
      * @param emailContent
