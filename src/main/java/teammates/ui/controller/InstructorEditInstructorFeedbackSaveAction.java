@@ -98,10 +98,12 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
      */
     private void checkSessionQuestionAccessPermission(InstructorAttributes instructor,
                                                       FeedbackQuestionAttributes questionAttributes) {
-        boolean isGiverVisibleToInstructors = questionAttributes.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isGiverVisibleToInstructors =
+                questionAttributes.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
         boolean isRecipientVisibleToInstructors =
                 questionAttributes.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean isResponseVisibleToInstructors = questionAttributes.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isResponseVisibleToInstructors =
+                questionAttributes.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
         
         if (!isResponseVisibleToInstructors || !isGiverVisibleToInstructors || !isRecipientVisibleToInstructors) {
             isError = true;

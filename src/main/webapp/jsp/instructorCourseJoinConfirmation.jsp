@@ -5,9 +5,9 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <c:set var="logoutUrl" value="<%= Const.ActionURIs.LOGOUT %>" />
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="">
-    <br />
+    <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-    <br />
+    <br>
     <div class="panel panel-primary panel-narrow">
         <div class="panel-heading">
             <h3>Confirm your Google account</h3>

@@ -40,7 +40,8 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
             logic.sendRegistrationInviteToInstructor(courseId, newInstructor);
 
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
-                                                               instructorName, instructorEmail), StatusMessageColor.SUCCESS));
+                                                             instructorName, instructorEmail),
+                                               StatusMessageColor.SUCCESS));
             statusToAdmin = "New instructor (<span class=\"bold\"> " + instructorEmail + "</span>)"
                     + " for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
         } catch (EntityAlreadyExistsException e) {

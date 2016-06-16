@@ -29,7 +29,8 @@ public class InstructorFeedbackUnpublishAction extends Action {
 
         try {
             logic.unpublishFeedbackSession(feedbackSessionName, courseId);
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED, StatusMessageColor.SUCCESS));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED,
+                                               StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> "
                             + "for Course <span class=\"bold\">[" + courseId + "]</span> unpublished.";
         } catch (InvalidParametersException e) {
