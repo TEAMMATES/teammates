@@ -13,6 +13,7 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.GoogleCloudStorageHelper;
@@ -324,14 +325,14 @@ public class AccountsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals("The join link used belongs to a different user whose "
-                    + "Google ID is corre..dentId (only part of the Google ID is "
-                    + "shown to protect privacy). If that Google ID is owned by you, "
-                    + "please logout and re-login using that Google account. "
-                    + "If it doesn’t belong to you, please "
-                    + "<a href=\"mailto:teammates@comp.nus.edu.sg?"
-                    + "body=Your name:%0AYour course:%0AYour university:\">"
-                    + "contact us</a> so that we can investigate.",
-                    e.getMessage());
+                                 + "Google ID is corre..dentId (only part of the Google ID is "
+                                 + "shown to protect privacy). If that Google ID is owned by you, "
+                                 + "please logout and re-login using that Google account. "
+                                 + "If it doesn’t belong to you, please "
+                                 + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
+                                 + "body=Your name:%0AYour course:%0AYour university:\">"
+                                 + "contact us</a> so that we can investigate.",
+                         e.getMessage());
         }
 
         ______TS("success: with encryption and new account to be created");
@@ -499,14 +500,14 @@ public class AccountsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals("The join link used belongs to a different user whose "
-                    + "Google ID is stude..ourse1 (only part of the Google ID is "
-                    + "shown to protect privacy). If that Google ID is owned by you, "
-                    + "please logout and re-login using that Google account. "
-                    + "If it doesn’t belong to you, please "
-                    + "<a href=\"mailto:teammates@comp.nus.edu.sg?"
-                    + "body=Your name:%0AYour course:%0AYour university:\">"
-                    + "contact us</a> so that we can investigate.",
-                    e.getMessage());
+                                 + "Google ID is stude..ourse1 (only part of the Google ID is "
+                                 + "shown to protect privacy). If that Google ID is owned by you, "
+                                 + "please logout and re-login using that Google account. "
+                                 + "If it doesn’t belong to you, please "
+                                 + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
+                                 + "body=Your name:%0AYour course:%0AYour university:\">"
+                                 + "contact us</a> so that we can investigate.",
+                         e.getMessage());
         }
         
         ______TS("failure: invalid key");

@@ -1062,7 +1062,7 @@ public final class Const {
     }
 
     /* These are status messages that may be shown to the user */
-    public class StatusMessages {
+    public static class StatusMessages {
         
         public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
@@ -1158,7 +1158,7 @@ public final class Const {
                 + "%s (only part of the Google ID is shown to protect privacy). "
                 + "If that Google ID is owned by you, please logout and re-login "
                 + "using that Google account. If it doesn’t belong to you, please "
-                + "<a href=\"mailto:teammates@comp.nus.edu.sg?"
+                + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
                 + "body=Your name:%%0AYour course:%%0AYour university:\">"
                 + "contact us</a> so that we can investigate.";
         public static final String JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER =

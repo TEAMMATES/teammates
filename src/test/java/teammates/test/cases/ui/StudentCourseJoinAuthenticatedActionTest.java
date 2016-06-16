@@ -105,7 +105,8 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                         + " If that Google ID is owned by you, "
                         + "please logout and re-login using that Google account."
                         + " If it doesn’t belong to you, please "
-                        + "<a href=\"mailto:teammates@comp.nus.edu.sg?body=Your name:%0AYour course:%0AYour university:\">"
+                        + "<a href=\"mailto:" + Config.SUPPORT_EMAIL
+                        + "?body=Your name:%0AYour course:%0AYour university:\">"
                         + "contact us</a> so that we can investigate.",
                 redirectResult.getStatusMessage());
 */
