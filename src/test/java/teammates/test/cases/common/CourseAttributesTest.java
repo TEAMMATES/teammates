@@ -34,8 +34,10 @@ public class CourseAttributesTest extends BaseTestCase {
         
         assertFalse("invalid value", invalidCourse.isValid());
         String errorMessage =
-                String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(), FieldValidator.REASON_TOO_LONG) + EOL
-                + String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, invalidCourse.getName(), FieldValidator.REASON_EMPTY);
+                String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(),
+                              FieldValidator.REASON_TOO_LONG) + EOL
+                + String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, invalidCourse.getName(),
+                                FieldValidator.REASON_EMPTY);
         assertEquals("invalid value", errorMessage, StringHelper.toString(invalidCourse.getInvalidityInfo()));
     }
 
@@ -52,7 +54,7 @@ public class CourseAttributesTest extends BaseTestCase {
     @Test
     public void testToString() {
         CourseAttributes c = generateValidCourseAttributesObject();
-        assertEquals("valid value", "[CourseAttributes] id: valid-id-$_abc name: valid-name isArchived: false", c.toString());
+        assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name isArchived: false", c.toString());
     }
     
     public static CourseAttributes generateValidCourseAttributesObject() {

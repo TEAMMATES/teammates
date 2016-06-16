@@ -67,7 +67,8 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
                                                        + "to make sure they are saved correctly.",
                                                    StatusMessageColor.WARNING));
                 isError = true;
-                log.warning("Question not found. (deleted or invalid id passed?) id: " + questionId + " index: " + questionIndx);
+                log.warning("Question not found. (deleted or invalid id passed?) id: "
+                            + questionId + " index: " + questionIndx);
                 continue;
             }
             

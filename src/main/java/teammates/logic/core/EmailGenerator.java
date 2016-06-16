@@ -1,20 +1,10 @@
 package teammates.logic.core;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -26,6 +16,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
@@ -36,6 +27,7 @@ import teammates.common.util.Utils;
  * Handles operations related to generating emails to be sent from provided templates.
  * @see EmailTemplates
  * @see EmailType
+ * @see EmailWrapper
  */
 public class EmailGenerator {
     
@@ -53,14 +45,13 @@ public class EmailGenerator {
     public EmailGenerator() {
         senderEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
         senderName = "TEAMMATES Admin";
-        replyTo = "teammates@comp.nus.edu.sg";
+        replyTo = Config.SUPPORT_EMAIL;
     }
     
     /**
      * Generates the feedback session opening emails for the given {@code session}.
      */
-    public List<MimeMessage> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session)
-            throws MessagingException, IOException {
+    public List<EmailWrapper> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session) {
         
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
         
@@ -70,10 +61,10 @@ public class EmailGenerator {
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<StudentAttributes>();
         
-        List<MimeMessage> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                                                                     EmailType.FEEDBACK_OPENING.getSubject());
-        for (MimeMessage email : emails) {
-            email.setContent(email.getContent().toString().replace("${status}", "is now open"), "text/html");
+        List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+                                                                      EmailType.FEEDBACK_OPENING.getSubject());
+        for (EmailWrapper email : emails) {
+            email.setContent(email.getContent().replace("${status}", "is now open"));
         }
         return emails;
     }
@@ -82,32 +73,29 @@ public class EmailGenerator {
      * Generates the feedback session reminder emails for the given {@code session} for {@code students}
      * and {@code instructorsToRemind}. In addition, the emails will also be forwarded to {@code instructorsToNotify}.
      */
-    public List<MimeMessage> generateFeedbackSessionReminderEmails(
+    public List<EmailWrapper> generateFeedbackSessionReminderEmails(
             FeedbackSessionAttributes session, List<StudentAttributes> students,
-            List<InstructorAttributes> instructorsToRemind, List<InstructorAttributes> instructorsToNotify)
-                    throws MessagingException, IOException {
+            List<InstructorAttributes> instructorsToRemind, List<InstructorAttributes> instructorsToNotify) {
         
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
-        List<MimeMessage> emails =
+        List<EmailWrapper> emails =
                 generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
                                                                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
         emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify, template,
                                                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject()));
         
-        for (MimeMessage email : emails) {
-            email.setContent(email.getContent().toString().replace("${status}", "is still open for submissions"),
-                             "text/html");
+        for (EmailWrapper email : emails) {
+            email.setContent(email.getContent().replace("${status}", "is still open for submissions"));
         }
         return emails;
     }
     
-    private List<MimeMessage> generateFeedbackSessionEmailBasesForInstructorReminders(
+    private List<EmailWrapper> generateFeedbackSessionEmailBasesForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, List<InstructorAttributes> instructors,
-            String template, String subject)
-                    throws MessagingException, IOException {
+            String template, String subject) {
         
-        List<MimeMessage> emails = new ArrayList<MimeMessage>();
+        List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructorReminders(course, session, instructor,
                                                                               template, subject));
@@ -115,10 +103,9 @@ public class EmailGenerator {
         return emails;
     }
     
-    private MimeMessage generateFeedbackSessionEmailBaseForInstructorReminders(
+    private EmailWrapper generateFeedbackSessionEmailBaseForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
-            String template, String subject)
-                    throws MessagingException, IOException {
+            String template, String subject) {
         
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                  .withCourseId(course.getId())
@@ -138,19 +125,19 @@ public class EmailGenerator {
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}", "",
                 "${submitUrl}", submitUrl,
-                "${reportUrl}", reportUrl);
+                "${reportUrl}", reportUrl,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
-        MimeMessage email = getEmptyEmailAddressedToEmail(instructor.email);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
-        email.setContent(emailBody, "text/html");
+        email.setContent(emailBody);
         return email;
     }
     
     /**
      * Generates the feedback session closing emails for the given {@code session}.
      */
-    public List<MimeMessage> generateFeedbackSessionClosingEmails(FeedbackSessionAttributes session)
-            throws MessagingException, IOException {
+    public List<EmailWrapper> generateFeedbackSessionClosingEmails(FeedbackSessionAttributes session) {
         
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
         
@@ -177,10 +164,10 @@ public class EmailGenerator {
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
         
-        List<MimeMessage> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                                                                     EmailType.FEEDBACK_CLOSING.getSubject());
-        for (MimeMessage email : emails) {
-            email.setContent(email.getContent().toString().replace("${status}", "is closing soon"), "text/html");
+        List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+                                                                      EmailType.FEEDBACK_CLOSING.getSubject());
+        for (EmailWrapper email : emails) {
+            email.setContent(email.getContent().replace("${status}", "is closing soon"));
         }
         return emails;
     }
@@ -188,8 +175,7 @@ public class EmailGenerator {
     /**
      * Generates the feedback session published emails for the given {@code session}.
      */
-    public List<MimeMessage> generateFeedbackSessionPublishedEmails(FeedbackSessionAttributes session)
-            throws MessagingException, IOException {
+    public List<EmailWrapper> generateFeedbackSessionPublishedEmails(FeedbackSessionAttributes session) {
         
         String template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
         
@@ -199,17 +185,16 @@ public class EmailGenerator {
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<StudentAttributes>();
         
-        List<MimeMessage> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                                                                     EmailType.FEEDBACK_PUBLISHED.getSubject());
+        List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+                                                                      EmailType.FEEDBACK_PUBLISHED.getSubject());
         return emails;
     }
     
-    private List<MimeMessage> generateFeedbackSessionEmailBases(
+    private List<EmailWrapper> generateFeedbackSessionEmailBases(
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
-            List<InstructorAttributes> instructors, String template, String subject)
-                    throws MessagingException, IOException {
+            List<InstructorAttributes> instructors, String template, String subject) {
         
-        List<MimeMessage> emails = new ArrayList<MimeMessage>();
+        List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
         for (StudentAttributes student : students) {
             emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, student, template, subject));
         }
@@ -219,10 +204,9 @@ public class EmailGenerator {
         return emails;
     }
     
-    private MimeMessage generateFeedbackSessionEmailBaseForStudents(
+    private EmailWrapper generateFeedbackSessionEmailBaseForStudents(
             CourseAttributes course, FeedbackSessionAttributes session, StudentAttributes student, String template,
-            String subject)
-                    throws MessagingException, IOException {
+            String subject) {
         
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                  .withCourseId(course.getId())
@@ -246,18 +230,18 @@ public class EmailGenerator {
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}", "",
                 "${submitUrl}", submitUrl,
-                "${reportUrl}", reportUrl);
+                "${reportUrl}", reportUrl,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
-        MimeMessage email = getEmptyEmailAddressedToEmail(student.email);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
-        email.setContent(emailBody, "text/html");
+        email.setContent(emailBody);
         return email;
     }
     
-    private MimeMessage generateFeedbackSessionEmailBaseForInstructors(
+    private EmailWrapper generateFeedbackSessionEmailBaseForInstructors(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
-            String template, String subject)
-                    throws MessagingException, IOException {
+            String template, String subject) {
         
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", instructor.name,
@@ -266,21 +250,21 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}",
-                        "The email below has been sent to students of course: " + course.getId() + ".<p/><br/>",
+                        "The email below has been sent to students of course: " + course.getId() + ".<p/><br>",
                 "${submitUrl}", "{The student's unique submission url appears here}",
-                "${reportUrl}", "{The student's unique results url appears here}");
+                "${reportUrl}", "{The student's unique results url appears here}",
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
-        MimeMessage email = getEmptyEmailAddressedToEmail(instructor.email);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
-        email.setContent(emailBody, "text/html");
+        email.setContent(emailBody);
         return email;
     }
     
     /**
      * Generates the comments notification emails for the given {@code courseId}.
      */
-    public List<MimeMessage> generatePendingCommentsClearedEmails(String courseId)
-            throws MessagingException, IOException {
+    public List<EmailWrapper> generatePendingCommentsClearedEmails(String courseId) {
         
         Set<String> recipients;
         try {
@@ -290,7 +274,7 @@ public class EmailGenerator {
             recipients = new HashSet<String>();
         }
         
-        List<MimeMessage> emails = new ArrayList<MimeMessage>();
+        List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
         CourseAttributes course = coursesLogic.getCourse(courseId);
         String template = EmailTemplates.USER_PENDING_COMMENTS_CLEARED;
         
@@ -299,15 +283,14 @@ public class EmailGenerator {
             if (student == null) {
                 continue;
             }
-            MimeMessage email = generatePendingCommentsClearedEmailBaseForStudent(course, student, template);
+            EmailWrapper email = generatePendingCommentsClearedEmailBaseForStudent(course, student, template);
             emails.add(email);
         }
         return emails;
     }
     
-    private MimeMessage generatePendingCommentsClearedEmailBaseForStudent(
-            CourseAttributes course, StudentAttributes student, String template)
-                    throws MessagingException, IOException {
+    private EmailWrapper generatePendingCommentsClearedEmailBaseForStudent(
+            CourseAttributes course, StudentAttributes student, String template) {
         
         String commentsPageUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
                                        .withCourseId(course.getId())
@@ -319,12 +302,13 @@ public class EmailGenerator {
                 "${userName}", student.name,
                 "${courseName}", course.getName(),
                 "${courseId}", course.getId(),
-                "${commentsPageUrl}", commentsPageUrl);
+                "${commentsPageUrl}", commentsPageUrl,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
-        MimeMessage email = getEmptyEmailAddressedToEmail(student.email);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(EmailType.PENDING_COMMENT_CLEARED.getSubject(),
                                        course.getName(), course.getId()));
-        email.setContent(emailBody, "text/html");
+        email.setContent(emailBody);
         return email;
     }
     
@@ -335,9 +319,8 @@ public class EmailGenerator {
     /**
      * Generates the new instructor account join email for the given {@code instructor}.
      */
-    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,
-                                                             String shortName, String institute)
-            throws AddressException, MessagingException, IOException {
+    public EmailWrapper generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,
+                                                              String shortName, String institute) {
         
         String joinUrl = generateNewInstructorAccountJoinLink(instructor, institute);
         
@@ -345,10 +328,10 @@ public class EmailGenerator {
                 "${userName}", shortName,
                 "${joinUrl}", joinUrl);
         
-        MimeMessage email = getEmptyEmailAddressedToEmail(instructor.email);
-        email = addBccRecipientToEmail(email, Config.SUPPORT_EMAIL);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
+        email.addBcc(Config.SUPPORT_EMAIL);
         email.setSubject(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), shortName));
-        email.setContent(emailBody, "text/html");
+        email.setContent(emailBody);
         return email;
     }
     
@@ -364,64 +347,58 @@ public class EmailGenerator {
                        .toAbsoluteString();
     }
     
-    private MimeMessage addBccRecipientToEmail(MimeMessage email, String newAddress)
-            throws AddressException, MessagingException {
-        email.addRecipient(Message.RecipientType.BCC, new InternetAddress(newAddress));
-        return email;
-    }
-    
     /**
      * Generates the course join email for the given {@code student} in {@code course}.
      */
-    public MimeMessage generateStudentCourseJoinEmail(CourseAttributes course, StudentAttributes student)
-            throws AddressException, MessagingException, IOException {
+    public EmailWrapper generateStudentCourseJoinEmail(CourseAttributes course, StudentAttributes student) {
         
         String emailBody = Templates.populateTemplate(
                 fillUpStudentJoinFragment(student, EmailTemplates.USER_COURSE_JOIN),
                 "${userName}", student.name,
-                "${courseName}", course.getName());
+                "${courseName}", course.getName(),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
-        MimeMessage email = getEmptyEmailAddressedToEmail(student.email);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(),
                                        course.getName(), course.getId()));
-        email.setContent(emailBody, "text/html");
+        email.setContent(emailBody);
         return email;
     }
     
     /**
      * Generates the course re-join email for the given {@code student} in {@code course}.
      */
-    public MimeMessage generateStudentCourseRejoinEmailAfterGoogleIdReset(
-            CourseAttributes course, StudentAttributes student)
-                    throws AddressException, MessagingException, IOException {
+    public EmailWrapper generateStudentCourseRejoinEmailAfterGoogleIdReset(
+            CourseAttributes course, StudentAttributes student) {
         
         String emailBody = Templates.populateTemplate(
                 fillUpStudentRejoinAfterGoogleIdResetFragment(student, EmailTemplates.USER_COURSE_JOIN),
                 "${userName}", student.name,
-                "${courseName}", course.getName());
+                "${courseName}", course.getName(),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
-        MimeMessage email = getEmptyEmailAddressedToEmail(student.email);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                                        course.getName(), course.getId()));
-        email.setContent(emailBody, "text/html");
+        email.setContent(emailBody);
         return email;
     }
     
     /**
      * Generates the course join email for the given {@code instructor} in {@code course}.
      */
-    public MimeMessage generateInstructorCourseJoinEmail(CourseAttributes course, InstructorAttributes instructor)
-            throws AddressException, MessagingException, IOException {
+    public EmailWrapper generateInstructorCourseJoinEmail(CourseAttributes course, InstructorAttributes instructor) {
         
         String emailBody = Templates.populateTemplate(
                 fillUpInstructorJoinFragment(instructor, EmailTemplates.USER_COURSE_JOIN),
                 "${userName}", instructor.name,
-                "${courseName}", course.getName());
+                "${courseName}", course.getName(),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
-        MimeMessage email = getEmptyEmailAddressedToEmail(instructor.email);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setSubject(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(),
                                        course.getName(), course.getId()));
-        email.setContent(emailBody, "text/html");
+        email.setContent(emailBody);
         return email;
     }
     
@@ -442,7 +419,8 @@ public class EmailGenerator {
         
         return Templates.populateTemplate(emailBody,
                 "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
-                "${joinUrl}", joinUrl);
+                "${joinUrl}", joinUrl,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
     }
     
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
@@ -460,10 +438,9 @@ public class EmailGenerator {
     /**
      * Generates the system error report email for the given {@code error}.
      */
-    public MimeMessage generateSystemErrorEmail(
+    public EmailWrapper generateSystemErrorEmail(
             String requestMethod, String requestUserAgent, String requestPath, String requestUrl,
-            String requestParams, UserType userType, Throwable error)
-                    throws AddressException, MessagingException, IOException {
+            String requestParams, UserType userType, Throwable error) {
         
         String errorMessage = error.getMessage();
         String stackTrace = TeammatesException.toStringWithStackTrace(error);
@@ -491,44 +468,41 @@ public class EmailGenerator {
                 "${errorMessage}", errorMessage,
                 "${stackTrace}", stackTrace);
         
-        MimeMessage email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         email.setSubject(String.format(EmailType.ADMIN_SYSTEM_ERROR.getSubject(), Config.getAppVersion(), errorMessage));
-        email.setContent(emailBody, "text/html");
+        email.setContent(emailBody);
         return email;
     }
     
     /**
      * Generates the logs compilation email for the given {@code logs}.
      */
-    public MimeMessage generateCompiledLogsEmail(String logs)
-            throws AddressException, MessagingException, IOException {
+    public EmailWrapper generateCompiledLogsEmail(String logs) {
         
         String emailBody = logs.replace("\n", "<br>");
         
-        MimeMessage email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         email.setSubject(String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.getAppVersion()));
-        email.setContent(emailBody, "text/html");
+        email.setContent(emailBody);
         return email;
     }
     
     /**
      * Generates a generic email with the specified {@code content}, {@code subject}, and {@code recipient}.
      */
-    public MimeMessage generateAdminEmail(String content, String subject, String recipient)
-            throws MessagingException, IOException {
-        MimeMessage email = getEmptyEmailAddressedToEmail(recipient);
+    public EmailWrapper generateAdminEmail(String content, String subject, String recipient) {
+        EmailWrapper email = getEmptyEmailAddressedToEmail(recipient);
         email.setSubject(subject);
-        email.setContent(content, "text/html");
+        email.setContent(content);
         return email;
     }
     
-    private MimeMessage getEmptyEmailAddressedToEmail(String recipient)
-            throws MessagingException, AddressException, IOException {
-        Session session = Session.getDefaultInstance(new Properties(), null);
-        MimeMessage email = new MimeMessage(session);
-        email.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        email.setFrom(new InternetAddress(senderEmail, senderName));
-        email.setReplyTo(new Address[] { new InternetAddress(replyTo) });
+    private EmailWrapper getEmptyEmailAddressedToEmail(String recipient) {
+        EmailWrapper email = new EmailWrapper();
+        email.addRecipient(recipient);
+        email.setSenderEmail(senderEmail);
+        email.setSenderName(senderName);
+        email.setReplyTo(replyTo);
         return email;
     }
     

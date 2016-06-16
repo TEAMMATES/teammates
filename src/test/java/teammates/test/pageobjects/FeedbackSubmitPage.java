@@ -185,15 +185,6 @@ public class FeedbackSubmitPage extends AppPage {
     public void waitForCellHoverToDisappear() {
         waitForElementToDisappear(By.className("cell-hover"));
     }
-
-    public void waitForAndDismissWarningModal() {
-        WebElement okayButton = browser.driver.findElement(By.id("warning-modal-ok"));
-        waitForElementToBeClickable(okayButton);
-        okayButton.click();
-
-        By warningModalOverlay = By.id("warning-modal");
-        waitForElementToDisappear(warningModalOverlay);
-    }
     
     public void waitForOtherOptionTextToBeClickable(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(

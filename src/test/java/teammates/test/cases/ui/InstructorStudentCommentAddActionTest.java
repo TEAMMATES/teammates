@@ -344,7 +344,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"
                 + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
                 + "|||instr3@course1n2.tmt|||"
-                + "Created Comment for Student:<span class=\"bold\">([" + Sanitizer.sanitizeForHtml(student.team) + "])</span> "
+                + "Created Comment for Student:"
+                + "<span class=\"bold\">([" + Sanitizer.sanitizeForHtml(student.team) + "])</span> "
                 + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
                 + "<span class=\"bold\">Comment:</span> " + "<Text: A typical comment to be added>"
                 + "|||/page/instructorStudentCommentAdd";

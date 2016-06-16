@@ -27,6 +27,7 @@ public final class TeamEvalResultCalculations {
         
         showCalculationSteps(input);
         
+        // CHECKSTYLE.OFF:SingleSpaceSeparator vertical alignment of values for readability
         int[][] input2 = {
                 { 100, 100, 100, 100 },
                 { 110, 110, NSU, 110 },
@@ -41,6 +42,7 @@ public final class TeamEvalResultCalculations {
                 {  90, 110, NSU },
                 { 100,  90, 110 }
         };
+        // CHECKSTYLE.ON:SingleSpaceSeparator
         
         showCalculationSteps(input3);
         

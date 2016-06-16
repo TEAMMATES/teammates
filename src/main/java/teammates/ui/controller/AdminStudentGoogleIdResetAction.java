@@ -35,7 +35,8 @@ public class AdminStudentGoogleIdResetAction extends Action {
                 logic.resetStudentGoogleId(studentEmail, studentCourseId);
                 logic.sendRegistrationInviteToStudentAfterGoogleIdReset(studentCourseId, studentEmail);
             } catch (InvalidParametersException e) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL, StatusMessageColor.DANGER));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL,
+                                                   StatusMessageColor.DANGER));
                 statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + "<br>"
                               + "Email: " + studentEmail + "<br>"
                               + "CourseId: " + studentCourseId + "<br>"
@@ -64,7 +65,8 @@ public class AdminStudentGoogleIdResetAction extends Action {
                 deleteAccountIfNeeded(wrongGoogleId);
             } else {
                 data.isGoogleIdReset = false;
-                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL, StatusMessageColor.DANGER));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL,
+                                                   StatusMessageColor.DANGER));
                 statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + "<br>"
                               + "Email: " + studentEmail + "<br>"
                               + "CourseId: " + studentCourseId + "<br>";
