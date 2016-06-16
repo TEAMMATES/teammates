@@ -50,7 +50,7 @@ public class FieldValidator {
     public static final String EMAIL_CONTENT_FIELD_NAME = "email content";
     public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME + " should not be empty.";
 
-    // others 
+    // others
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
 
