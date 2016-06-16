@@ -18,6 +18,7 @@
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit/visibilityOptions.js"></script>
 
     <!-- javascript for behaviors of the various question types -->
     <script type="text/javascript" src="/js/instructorFeedbackEdit/questionCommon.js"></script>
