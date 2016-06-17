@@ -112,7 +112,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private void testCancelEditInstructorLink() {
         ______TS("cancel edit instructor link");
         courseEditPage.clickCancelEditInstructorLink(1);
-        assertTrue(courseEditPage.isInstructorFormNotEditable(1));
+        courseEditPage.verifyInstructorEditFormDisabled(1);
     }
 
     private void testNewInstructorLink() {

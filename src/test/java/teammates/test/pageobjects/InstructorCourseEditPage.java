@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -125,18 +126,16 @@ public class InstructorCourseEditPage extends AppPage {
         getCancelEditInstructorLink(instrNum).click();
     }
     
-    public boolean isInstructorFormNotEditable(int instrNum) {
-        WebElement saveButton = getSaveInstructorButton(instrNum);
+    public void verifyInstructorEditFormDisabled(int instrNum) {
         waitForElementToDisappear(By.id("btnSaveInstructor" + instrNum));
         
         WebElement editInstructorNameTextBox = getNameField(instrNum);
         WebElement editInstructorEmailTextBox = getEmailField(instrNum);
         
         boolean isNotEditable = !editInstructorNameTextBox.isEnabled()
-                                && !editInstructorEmailTextBox.isEnabled()
-                                && !saveButton.isDisplayed();
+                                && !editInstructorEmailTextBox.isEnabled();
         
-        return isNotEditable;
+        assertTrue(isNotEditable);
     }
     
     public void saveEditInstructor(int instrNum) {
