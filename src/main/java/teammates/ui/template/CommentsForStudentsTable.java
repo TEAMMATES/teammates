@@ -45,7 +45,7 @@ public class CommentsForStudentsTable {
         return instructorAllowedToGiveComment;
     }
     
-    public boolean getIsRepresentingSelf() {
+    public boolean isRepresentingSelf() {
         return isRepresentingSelf;
     }
     

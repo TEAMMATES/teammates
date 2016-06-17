@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -44,16 +45,16 @@ public class InstructorStudentRecordsPageAction extends Action {
         
         String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
 
-        List<CommentAttributes> comments = logic.getCommentsForReceiverVisibleToInstructor(
-                                                   courseId, CommentParticipantType.PERSON,
-                                                   studentEmail, instructor.email);
+        List<CommentAttributes> comments =
+                logic.getCommentsForReceiverVisibleToInstructor(
+                        courseId, CommentParticipantType.PERSON, studentEmail, instructor.email);
         
         CommentAttributes.sortCommentsByCreationTimeDescending(comments);
         
-        TreeMap<String, List<CommentAttributes>> giverEmailToCommentsMap =
+        Map<String, List<CommentAttributes>> giverEmailToCommentsMap =
                 mapCommentsToGiverEmail(comments, instructor, courseId);
         
-        TreeMap<String, String> giverEmailToGiverNameMap = mapGiverNameToGiverEmail(courseId, giverEmailToCommentsMap.keySet());
+        Map<String, String> giverEmailToGiverNameMap = mapGiverNameToGiverEmail(courseId, giverEmailToCommentsMap.keySet());
 
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId);
 
@@ -91,11 +92,9 @@ public class InstructorStudentRecordsPageAction extends Action {
         }
         
         InstructorStudentRecordsPageData data =
-                                        new InstructorStudentRecordsPageData(account, student, courseId,
-                                                                             showCommentBox, studentProfile,
-                                                                             giverEmailToCommentsMap,
-                                                                             giverEmailToGiverNameMap,
-                                                                             sessionNames, instructor);
+                new InstructorStudentRecordsPageData(
+                        account, student, courseId, showCommentBox, studentProfile,
+                        giverEmailToCommentsMap, giverEmailToGiverNameMap, sessionNames, instructor);
 
         statusToAdmin = "instructorStudentRecords Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
@@ -127,7 +126,7 @@ public class InstructorStudentRecordsPageAction extends Action {
      * @param courseId
      * @return A map with instructor email => comments mappings.
      */
-    private TreeMap<String, List<CommentAttributes>> mapCommentsToGiverEmail(List<CommentAttributes> comments,
+    private Map<String, List<CommentAttributes>> mapCommentsToGiverEmail(List<CommentAttributes> comments,
                                                              InstructorAttributes instructor, String courseId) {
         TreeMap<String, List<CommentAttributes>> giverEmailToCommentsMap =
                 new TreeMap<String, List<CommentAttributes>>();
@@ -157,7 +156,7 @@ public class InstructorStudentRecordsPageAction extends Action {
      * @param giverEmails
      * @return A map with instructor email => instructor name mappings.
      */
-    private TreeMap<String, String> mapGiverNameToGiverEmail(String courseId, Set<String> giverEmails) {
+    private Map<String, String> mapGiverNameToGiverEmail(String courseId, Set<String> giverEmails) {
         TreeMap<String, String> giverEmailToGiverNameMap = new TreeMap<String, String>();
         giverEmailToGiverNameMap.put(InstructorStudentRecordsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST,
                                      Const.DISPLAYED_NAME_FOR_SELF_IN_COMMENTS);
@@ -197,12 +196,12 @@ public class InstructorStudentRecordsPageAction extends Action {
                                                              String courseId, String privilegeName) {
         
         // student records only shows comments targeted at the student, and not team/section
-        if (instructor == null || comment.recipientType != CommentParticipantType.PERSON) {
+        if (instructor == null || comment.recipientType != CommentParticipantType.PERSON
+                               || comment.recipients.isEmpty()) {
             return false;
         }
         
         String studentEmail = "";
-        String section = "";
         if (!comment.recipients.isEmpty()) {
             Iterator<String> iterator = comment.recipients.iterator();
             studentEmail = iterator.next();
@@ -211,12 +210,11 @@ public class InstructorStudentRecordsPageAction extends Action {
         if (student == null) {
             return false;
         } else {
-            section = student.section;
-            return instructor.isAllowedForPrivilege(section, privilegeName);
+            return instructor.isAllowedForPrivilege(student.section, privilegeName);
         }
     }
 
-    private boolean checkForVisibleComments(TreeMap<String, List<CommentAttributes>> giverEmailToCommentsMap) {
+    private boolean checkForVisibleComments(Map<String, List<CommentAttributes>> giverEmailToCommentsMap) {
         for (String key : giverEmailToCommentsMap.keySet()) {
             if (!giverEmailToCommentsMap.get(key).isEmpty()) {
                 return true;
