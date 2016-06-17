@@ -29,6 +29,10 @@ import teammates.test.cases.BaseComponentTestCase;
 
 /**
  * SUT: {@link EmailSender}
+ *      {@link JavamailService}
+ *      {@link SendgridService}
+ *      {@link MailgunService}
+ *      {@link MailjetService}
  */
 public class EmailSenderTest extends BaseComponentTestCase {
     

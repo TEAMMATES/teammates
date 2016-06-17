@@ -1,7 +1,7 @@
 
 # Using alternative email providers
 
-Google App Engine provides JavaMail as a default email service, but the service is limited to 100 emails per day which is insufficient for TEAMMATES usage.
+Google App Engine provides JavaMail (reference: https://cloud.google.com/appengine/docs/java/mail/) as a default email service, but the service is limited to 100 emails per day which is insufficient for TEAMMATES usage.
 We need to resort to third-party email service to fulfill this need.
 
 This document will line out the alternative email services configured for use in TEAMMATES.

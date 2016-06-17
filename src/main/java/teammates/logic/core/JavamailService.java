@@ -14,6 +14,13 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.util.EmailWrapper;
 
+/**
+ * Email sender service provided by JavaMail.
+ * This is the default service provided by Google App Engine.
+ * Reference: https://cloud.google.com/appengine/docs/java/mail/
+ * 
+ * @see MimeMessage
+ */
 public class JavamailService implements EmailSenderService {
     
     /**

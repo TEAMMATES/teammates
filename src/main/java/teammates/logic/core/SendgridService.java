@@ -10,6 +10,12 @@ import com.sendgrid.SendGridException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
 
+/**
+ * Email sender service provided by SendGrid.
+ * Reference: https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid
+ * 
+ * @see SendGrid
+ */
 public class SendgridService implements EmailSenderService {
     
     /**

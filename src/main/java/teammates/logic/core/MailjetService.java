@@ -13,6 +13,14 @@ import com.mailjet.client.resource.Email;
 import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
 
+/**
+ * Email sender service provided by Mailjet.
+ * Reference: https://cloud.google.com/appengine/docs/java/mail/mailjet
+ * 
+ * @see MailjetClient
+ * @see MailjetRequest
+ * @see MailjetResponse
+ */
 public class MailjetService implements EmailSenderService {
     
     /**

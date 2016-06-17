@@ -11,6 +11,10 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
 
+/**
+ * Email sender service provided by Mailgun.
+ * Reference: https://cloud.google.com/appengine/docs/java/mail/mailgun
+ */
 public class MailgunService implements EmailSenderService {
     
     /**
