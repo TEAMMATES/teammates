@@ -9,10 +9,13 @@ import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.json.JSONObject;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.mailjet.client.MailjetRequest;
+import com.mailjet.client.resource.Email;
 import com.sendgrid.SendGrid;
 import com.sun.jersey.multipart.FormDataMultiPart;
 
@@ -20,6 +23,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.logic.core.EmailSender;
 import teammates.logic.core.JavamailService;
 import teammates.logic.core.MailgunService;
+import teammates.logic.core.MailjetService;
 import teammates.logic.core.SendgridService;
 import teammates.test.cases.BaseComponentTestCase;
 
@@ -110,6 +114,20 @@ public class EmailSenderTest extends BaseComponentTestCase {
         assertEquals(wrapper.getReplyTo(), formData.getField("h:Reply-To").getValue());
         assertEquals(wrapper.getSubject(), formData.getField("subject").getValue());
         assertEquals(wrapper.getContent(), formData.getField("html").getValue());
+    }
+    
+    @Test
+    public void testConvertToMailjet() {
+        EmailWrapper wrapper = getTypicalEmailWrapper();
+        MailjetRequest request = new MailjetService().parseToEmail(wrapper);
+        JSONObject email = new JSONObject(request.getBody());
+        
+        assertEquals(wrapper.getSenderEmail(), email.get(Email.FROMEMAIL));
+        assertEquals(wrapper.getSenderName(), email.get(Email.FROMNAME));
+        assertEquals(wrapper.getReplyTo(),
+                     ((JSONObject) email.get(Email.HEADERS)).getString("Reply-To"));
+        assertEquals(wrapper.getSubject(), email.get(Email.SUBJECT));
+        assertEquals(wrapper.getContent(), email.get(Email.HTMLPART));
     }
     
     @AfterClass

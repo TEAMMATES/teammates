@@ -39,6 +39,7 @@ dependencies {
     compile         "com.google.appengine.tools:appengine-gcs-client:0.3.13",
                     "com.google.appengine:appengine-api-labs:${appengineVersion}",
                     "com.google.code.gson:gson:2.2.2",
+                    "com.mailjet:mailjet-client:4.0.1",
                     "com.sendgrid:sendgrid-java:2.2.2",
                     "com.sun.jersey:jersey-client:1.19",
                     "com.sun.jersey:jersey-core:1.19",

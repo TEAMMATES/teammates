@@ -28,6 +28,8 @@ public class EmailSender {
             service = new SendgridService();
         } else if (Config.isUsingMailgun()) {
             service = new MailgunService();
+        } else if (Config.isUsingMailjet()) {
+            service = new MailjetService();
         } else {
             service = new JavamailService();
         }

@@ -53,6 +53,12 @@ public final class Config {
     /** The value of the "app.mailgun.domainname" in build.properties file */
     public static final String MAILGUN_DOMAINNAME;
     
+    /** The value of the "app.mailjet.apikey" in build.properties file */
+    public static final String MAILJET_APIKEY;
+    
+    /** The value of the "app.mailjet.secretkey" in build.properties file */
+    public static final String MAILJET_SECRETKEY;
+    
     static {
         Properties properties = new Properties();
         try {
@@ -74,6 +80,8 @@ public final class Config {
         SENDGRID_APIKEY = properties.getProperty("app.sendgrid.apikey");
         MAILGUN_APIKEY = properties.getProperty("app.mailgun.apikey");
         MAILGUN_DOMAINNAME = properties.getProperty("app.mailgun.domainname");
+        MAILJET_APIKEY = properties.getProperty("app.mailjet.apikey");
+        MAILJET_SECRETKEY = properties.getProperty("app.mailjet.secretkey");
     }
     
     private Config() {
@@ -113,6 +121,11 @@ public final class Config {
     public static boolean isUsingMailgun() {
         return "mailgun".equalsIgnoreCase(EMAIL_SERVICE) && MAILGUN_APIKEY != null && !MAILGUN_APIKEY.isEmpty()
                 && MAILGUN_DOMAINNAME != null && !MAILGUN_DOMAINNAME.isEmpty();
+    }
+    
+    public static boolean isUsingMailjet() {
+        return "mailjet".equalsIgnoreCase(EMAIL_SERVICE) && MAILJET_APIKEY != null && !MAILJET_APIKEY.isEmpty()
+                && MAILJET_SECRETKEY != null && !MAILJET_SECRETKEY.isEmpty();
     }
     
 }
