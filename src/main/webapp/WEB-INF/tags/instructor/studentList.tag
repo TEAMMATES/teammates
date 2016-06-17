@@ -137,11 +137,11 @@
                                     <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
                                         <c:set var="remindButtonEnabled" value="${section.allowedToModifyStudent}" />
                                         <span class="tooltip-button-wrapper"
-                                          <c:if test="${not remindButtonEnabled}">
-                                          title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                                          data-toggle="tooltip"
-                                          data-placement="top"
-                                          </c:if>>
+                                              <c:if test="${not remindButtonEnabled}">
+                                              title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                              data-toggle="tooltip"
+                                              data-placement="top"
+                                              </c:if>>
                                             <a class="btn btn-default btn-xs student-edit-for-test"
                                                href="${student.courseStudentRemindLink}"
                                                title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
