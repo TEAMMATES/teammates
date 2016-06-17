@@ -1547,7 +1547,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             List<String> possibleRecipientsForRemainingGiver =
                                             bundle.getPossibleRecipients(question, possibleGiverWithNoResponses);
             if (isMissingResponsesShown) {
-                responseRows.addAll(buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
+                responseRows.addAll(
+                        buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
                                     question,
                                     possibleRecipientsForRemainingGiver,
                                     possibleGiverWithNoResponses,

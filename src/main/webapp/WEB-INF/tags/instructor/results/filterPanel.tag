@@ -63,13 +63,13 @@
                   </div>
                   <div data-toggle="tooltip" title="Indicate missing responses">
                       <div class="checkbox padding-top-0 min-height-0">
-                              <input type="checkbox" 
-                                    onchange="this.form.submit()" 
-                                    id="indicate-missing-responses-checkbox" 
-                                    value="true" 
-                                    name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES%>"
-                                    <c:if test="${filterPanel.missingResponsesShown}"> checked</c:if>> 
-                                    Indicate Missing Responses
+                          <input type="checkbox" 
+                                onchange="this.form.submit()" 
+                                id="indicate-missing-responses-checkbox" 
+                                value="true" 
+                                name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES%>"
+                                <c:if test="${filterPanel.missingResponsesShown}"> checked</c:if>> 
+                                Indicate Missing Responses
                       </div>
                   </div>
                 </div>
