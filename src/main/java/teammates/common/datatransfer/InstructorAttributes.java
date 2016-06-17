@@ -145,7 +145,8 @@ public class InstructorAttributes extends EntityAttributes {
         }
         
         if (instructor.getInstructorPrivilegesAsText() == null) {
-            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+            this.privileges =
+                    new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         } else {
             this.privileges = getInstructorPrivilegesFromText(instructor.getInstructorPrivilegesAsText());
         }

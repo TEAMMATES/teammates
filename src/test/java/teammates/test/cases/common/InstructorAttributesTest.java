@@ -114,7 +114,8 @@ public class InstructorAttributesTest extends BaseTestCase {
     public void testGetInvalidityInfo() {
 
         @SuppressWarnings("deprecation")
-        InstructorAttributes i = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
+        InstructorAttributes i =
+                new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
         
         assertTrue(i.isValid());
         
@@ -125,7 +126,8 @@ public class InstructorAttributesTest extends BaseTestCase {
         
         assertFalse("invalid value", i.isValid());
         String errorMessage =
-                String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId, FieldValidator.REASON_INCORRECT_FORMAT) + EOL
+                String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
+                              FieldValidator.REASON_INCORRECT_FORMAT) + EOL
                 + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, i.courseId, FieldValidator.REASON_EMPTY) + EOL
                 + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, i.name, FieldValidator.REASON_EMPTY) + EOL
                 + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, i.email, FieldValidator.REASON_INCORRECT_FORMAT);
@@ -182,9 +184,11 @@ public class InstructorAttributesTest extends BaseTestCase {
         assertTrue(instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         
         String sectionId = "sectionId";
-        assertTrue(instructor.isAllowedForPrivilege(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+        assertTrue(instructor.isAllowedForPrivilege(
+                sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         instructor.privileges = null;
-        assertTrue(instructor.isAllowedForPrivilege(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+        assertTrue(instructor.isAllowedForPrivilege(
+                sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         
         String sessionId = "sessionId";
         assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId,

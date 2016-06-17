@@ -40,5 +40,4 @@
     </c:if>
     
     <feedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
-    <shared:warningModal/>
 </ts:studentPage>

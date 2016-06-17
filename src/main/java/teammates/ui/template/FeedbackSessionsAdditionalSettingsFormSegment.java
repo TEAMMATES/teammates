@@ -96,7 +96,8 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
     }
     
     public static FeedbackSessionsAdditionalSettingsFormSegment getDefaultFormSegment() {
-        FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = new FeedbackSessionsAdditionalSettingsFormSegment();
+        FeedbackSessionsAdditionalSettingsFormSegment additionalSettings =
+                new FeedbackSessionsAdditionalSettingsFormSegment();
         
         additionalSettings.isSessionVisibleAtOpenChecked = true;
         additionalSettings.isSessionVisibleDateButtonChecked = false;
@@ -122,7 +123,8 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
     
     public static FeedbackSessionsAdditionalSettingsFormSegment getFormSegmentWithExistingValues(
                                                                     FeedbackSessionAttributes feedbackSession) {
-        FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = new FeedbackSessionsAdditionalSettingsFormSegment();
+        FeedbackSessionsAdditionalSettingsFormSegment additionalSettings =
+                new FeedbackSessionsAdditionalSettingsFormSegment();
         
         setSessionVisibleSettings(feedbackSession, additionalSettings);
         setResponseVisibleSettings(feedbackSession, additionalSettings);

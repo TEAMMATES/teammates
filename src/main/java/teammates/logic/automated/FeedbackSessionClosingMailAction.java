@@ -1,17 +1,15 @@
 package teammates.logic.automated;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -54,7 +52,7 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
     }
 
     @Override
-    protected List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException {
+    protected List<EmailWrapper> prepareMailToBeSent() {
         
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);

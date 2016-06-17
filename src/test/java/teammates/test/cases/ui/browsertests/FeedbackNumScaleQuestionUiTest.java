@@ -101,16 +101,18 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillStepNumScaleBox("0.001", -1);
         feedbackEditPage.fillMaxNumScaleBox("5555", -1);
         
-        assertEquals("[Based on the above settings, acceptable responses are: 1, 1.001, 1.002, ..., 5554.998, 5554.999, 5555]",
-                feedbackEditPage.getNumScalePossibleValuesString(-1));
+        assertEquals("[Based on the above settings, acceptable responses are: 1, 1.001, 1.002, ..., "
+                             + "5554.998, 5554.999, 5555]",
+                     feedbackEditPage.getNumScalePossibleValuesString(-1));
         
         ______TS("more than three dp step rounding test");
 
         feedbackEditPage.fillMaxNumScaleBox("1002", -1);
         feedbackEditPage.fillStepNumScaleBox("1.00123456789", -1);
 
-        assertEquals("[Based on the above settings, acceptable responses are: 1, 2.001, 3.002, ..., 999.998, 1000.999, 1002]",
-                feedbackEditPage.getNumScalePossibleValuesString(-1));
+        assertEquals("[Based on the above settings, acceptable responses are: 1, 2.001, 3.002, ..., "
+                             + "999.998, 1000.999, 1002]",
+                     feedbackEditPage.getNumScalePossibleValuesString(-1));
         
         ______TS("NUMSCALE: min >= max test");
         //Tests javascript that automatically makes max = min+1 when max is <= min.

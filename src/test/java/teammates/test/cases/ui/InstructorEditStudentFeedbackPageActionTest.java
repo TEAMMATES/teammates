@@ -56,11 +56,12 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
-        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
-                + "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||"
-                + "Moderating feedback session for student (" + student.email + ")<br>"
-                + "Session Name: First feedback session<br>Course ID: IESFPTCourse|||"
-                + "/page/instructorEditStudentFeedbackPage",
+        AssertHelper.assertLogMessageEquals(
+                "TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage|||true|||"
+                        + "Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||"
+                        + "Moderating feedback session for student (" + student.email + ")<br>"
+                        + "Session Name: First feedback session<br>Course ID: IESFPTCourse|||"
+                        + "/page/instructorEditStudentFeedbackPage",
                 editPageAction.getLogMessage());
         
         ______TS("success: another feedback");
@@ -122,11 +123,12 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
-        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
-                + "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||"
-                + "Moderating feedback session for student (" + student.email + ")<br>"
-                + "Session Name: Closed feedback session<br>Course ID: IESFPTCourse|||"
-                + "/page/instructorEditStudentFeedbackPage",
+        AssertHelper.assertLogMessageEquals(
+                "TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage|||true|||"
+                        + "Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||"
+                        + "Moderating feedback session for student (" + student.email + ")<br>"
+                        + "Session Name: Closed feedback session<br>Course ID: IESFPTCourse|||"
+                        + "/page/instructorEditStudentFeedbackPage",
                 editPageAction.getLogMessage());
         
         gaeSimulation.loginAsInstructor(idOfInstructorHelper);

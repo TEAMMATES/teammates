@@ -79,7 +79,9 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(7, formModel.getGracePeriodOptions().size());
         
         int expectedDefaultGracePeriodOptionsIndex = 3;
-        assertNull(formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().get("selected"));
+        assertNull(formModel.getGracePeriodOptions()
+                            .get(expectedDefaultGracePeriodOptionsIndex)
+                            .getAttributes().get("selected"));
         assertTrue(formModel.getGracePeriodOptions()
                             .get(expectedDefaultGracePeriodOptionsIndex)
                             .getAttributes().containsKey("selected"));
@@ -161,7 +163,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
             helperCourseInstructorMap.put(instructor.courseId, instructor);
         }
         
-        List<InstructorAttributes> instructorsForHelper = new ArrayList<InstructorAttributes>(helperCourseInstructorMap.values());
+        List<InstructorAttributes> instructorsForHelper =
+                new ArrayList<InstructorAttributes>(helperCourseInstructorMap.values());
         List<CourseAttributes> helperCourses = getCoursesForInstructor(instructorsForHelper);
         
         List<FeedbackSessionAttributes> helperFsList = getFeedbackSessionsListForInstructor(instructorsForHelper);
@@ -209,7 +212,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
         
-        data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, courseInstructorMap, "First feedback session");
+        data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, courseInstructorMap,
+                                          "First feedback session");
         
         List<FeedbackSessionsTableRow> sessionRows = data.getFsList().getExistingFeedbackSessions();
         boolean isFirstFeedbackSessionHighlighted = false;
@@ -274,7 +278,9 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(7, formModel.getGracePeriodOptions().size());
         
         int expectedDefaultGracePeriodOptionsIndex = 2;
-        assertNull(formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().get("selected"));
+        assertNull(formModel.getGracePeriodOptions()
+                            .get(expectedDefaultGracePeriodOptionsIndex)
+                            .getAttributes().get("selected"));
         assertTrue(formModel.getGracePeriodOptions()
                             .get(expectedDefaultGracePeriodOptionsIndex)
                             .getAttributes().containsKey("selected"));
@@ -389,7 +395,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         return courses;
     }
     
-    public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(List<InstructorAttributes> instructorsForUser) {
+    public List<FeedbackSessionAttributes>
+            getFeedbackSessionsListForInstructor(List<InstructorAttributes> instructorsForUser) {
         Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
         
         List<FeedbackSessionAttributes> feedbackSessions =

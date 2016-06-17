@@ -32,12 +32,9 @@ public final class Config {
     /** The value of the "app.student.motd.url" in build.properties file */
     public static final String STUDENT_MOTD_URL;
     
-    /** The value of the "app.sendgrid.username" in build.properties file */
-    public static final String SENDGRID_USERNAME;
+    /** The value of the "app.sendgrid.apikey" in build.properties file */
+    public static final String SENDGRID_APIKEY;
     
-    /** The value of the "app.sendgrid.password" in build.properties file */
-    public static final String SENDGRID_PASSWORD;
-
     static {
         Properties properties = new Properties();
         try {
@@ -52,8 +49,7 @@ public final class Config {
         PERSISTENCE_CHECK_DURATION = Integer.valueOf(properties.getProperty("app.persistence.checkduration"));
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         STUDENT_MOTD_URL = properties.getProperty("app.student.motd.url");
-        SENDGRID_USERNAME = properties.getProperty("app.sendgrid.username");
-        SENDGRID_PASSWORD = properties.getProperty("app.sendgrid.password");
+        SENDGRID_APIKEY = properties.getProperty("app.sendgrid.apikey");
     }
     
     private Config() {
@@ -94,6 +90,6 @@ public final class Config {
     }
 
     public static boolean isUsingSendgrid() {
-        return SENDGRID_USERNAME != null && !SENDGRID_USERNAME.isEmpty();
+        return SENDGRID_APIKEY != null && !SENDGRID_APIKEY.isEmpty();
     }
 }

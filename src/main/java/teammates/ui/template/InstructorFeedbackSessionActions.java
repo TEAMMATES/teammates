@@ -44,8 +44,8 @@ public class InstructorFeedbackSessionActions {
         this.deleteLink = data.getInstructorFeedbackDeleteLink(courseId, feedbackSessionName, returnUrl);
         this.submitLink = data.getInstructorFeedbackSubmissionEditLink(courseId, feedbackSessionName);
         this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName, returnUrl);
-        this.remindParticularStudentsPageLink = data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId,
-                                                                                                           feedbackSessionName);
+        this.remindParticularStudentsPageLink =
+                data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId, feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
 
         this.allowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);

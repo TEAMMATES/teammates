@@ -43,8 +43,13 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
@@ -93,7 +98,9 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInvalidInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
         };
         
         addAction = getAction(submissionParams);
@@ -123,8 +130,13 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",

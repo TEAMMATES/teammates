@@ -10,7 +10,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackEdit" prefix="feedbackEdit" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
-<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 
 <c:set var="jsIncludes">
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
@@ -35,21 +34,20 @@
     <c:if test="${empty data.qnForms}">
         <br>
         <div class="align-center bold" id="empty_message">${EMPTY_FEEDBACK_SESSION_MESSAGE}</div>
-        <br/>
+        <br>
     </c:if>
-     <br/>
+     <br>
     <c:forEach items="${data.qnForms}" var="question">
         <feedbackEdit:questionEditForm fqForm="${question}" numQn="${fn:length(data.qnForms)}"/>
     </c:forEach>
     
     <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" nextQnNum="${fn:length(data.qnForms) + 1}"/>
-    <feedbackEdit:copyQuestionModal copyQnForm="${data.copyQnForm}" />
+    <feedbackEdit:copyQuestionModal feedbackSessionName="${data.fsForm.fsName}" courseId="${data.fsForm.courseId}"/>
     
-    <br/>
-    <br/>
+    <br>
+    <br>
     <feedbackEdit:previewSessionForm previewForm="${data.previewForm}" />
     
     <br>
     <br>
-    <shared:confirmationModal/>
 </ti:instructorPage>

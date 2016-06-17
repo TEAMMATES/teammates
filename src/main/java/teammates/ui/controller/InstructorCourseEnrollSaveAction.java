@@ -60,10 +60,11 @@ public class InstructorCourseEnrollSaveAction extends Action {
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e);
             
-            statusToUser.add(new StatusMessage("The enrollment failed, possibly because some students were re-enrolled before "
-                                             + "the previous enrollment action was still being processed by TEAMMATES database "
-                                             + "servers. Please try again after about 10 minutes. If the problem persists, "
-                                             + "please contact TEAMMATES support", StatusMessageColor.DANGER));
+            statusToUser.add(
+                    new StatusMessage("The enrollment failed, possibly because some students were re-enrolled before "
+                                      + "the previous enrollment action was still being processed by TEAMMATES database "
+                                      + "servers. Please try again after about 10 minutes. If the problem persists, "
+                                      + "please contact TEAMMATES support", StatusMessageColor.DANGER));
             
             InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
             

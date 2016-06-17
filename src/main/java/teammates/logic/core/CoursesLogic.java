@@ -177,15 +177,16 @@ public class CoursesLogic {
             
             if (s == null) {
                 //TODO Remove excessive logging after the reason why s can be null is found
-                StringBuilder logMsg = new StringBuilder();
-                logMsg.append(
-                        "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)<br> Student Google ID: "
+                StringBuilder logMsgBuilder = new StringBuilder();
+                String logMsg = "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)"
+                        + "<br> Student Google ID: "
                         + googleId + "<br> Course: " + c.getId()
-                        + "<br> All Courses Retrieved using the Google ID:");
+                        + "<br> All Courses Retrieved using the Google ID:";
+                logMsgBuilder.append(logMsg);
                 for (CourseAttributes course : courseList) {
-                    logMsg.append("<br>").append(course.getId());
+                    logMsgBuilder.append("<br>").append(course.getId());
                 }
-                log.severe(logMsg.toString());
+                log.severe(logMsgBuilder.toString());
                 
                 //TODO Failing might not be the best course of action here.
                 //Maybe throw a custom exception and tell user to wait due to eventual consistency?
@@ -315,7 +316,7 @@ public class CoursesLogic {
                 cdd.stats.unregisteredTotal++;
             }
             
-            if (section == null) {   // First student of first section
+            if (section == null) { // First student of first section
                 section = new SectionDetailsBundle();
                 section.name = s.section;
                 section.teams.add(new TeamDetailsBundle());
@@ -379,7 +380,7 @@ public class CoursesLogic {
         for (int i = 0; i < students.size(); i++) {
             StudentAttributes s = students.get(i);
             
-            if (section == null) {   // First student of first section
+            if (section == null) { // First student of first section
                 section = new SectionDetailsBundle();
                 section.name = s.section;
                 section.teams.add(new TeamDetailsBundle());

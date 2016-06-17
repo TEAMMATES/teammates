@@ -81,7 +81,8 @@ public class InstructorSearchPageAction extends Action {
             for (InstructorAttributes instructor : instructors) {
                 instructorEmails.add(instructor.email);
             }
-            totalResultsSize = filterCommentSearchResults(commentSearchResults, totalResultsSize, instructors, instructorEmails);
+            totalResultsSize = filterCommentSearchResults(commentSearchResults, totalResultsSize, instructors,
+                                                          instructorEmails);
             totalResultsSize = filterFeedbackResponseCommentResults(frCommentSearchResults, instructors, totalResultsSize);
             removeQuestionsAndResponsesWithoutComments(frCommentSearchResults);
             
@@ -102,7 +103,8 @@ public class InstructorSearchPageAction extends Action {
             FeedbackResponseCommentSearchResultBundle frCommentSearchResults,
             List<InstructorAttributes> instructors, int totalResultsSize) {
         
-        Iterator<Entry<String, List<FeedbackResponseAttributes>>> iterFr = frCommentSearchResults.responses.entrySet().iterator();
+        Iterator<Entry<String, List<FeedbackResponseAttributes>>> iterFr =
+                frCommentSearchResults.responses.entrySet().iterator();
         
         int filteredResultsSize = totalResultsSize;
         while (iterFr.hasNext()) {
@@ -129,7 +131,7 @@ public class InstructorSearchPageAction extends Action {
                 if (!isVisibleResponse) {
                     int sizeOfCommentList = frCommentSearchResults.comments.get(response.getId()).size();
                     filteredResultsSize -= sizeOfCommentList;
-                    //TODO: also need to decrease the size for commentSearchResults|frCommentSearchResults|studentSearchResults
+                    // TODO: also need to decrease the size for (fr)CommentSearchResults|studentSearchResults
                     frCommentSearchResults.comments.remove(response.getId());
                     fr.remove();
                 }
@@ -137,7 +139,8 @@ public class InstructorSearchPageAction extends Action {
         }
 
         Set<String> emailList = frCommentSearchResults.instructorEmails;
-        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> iterQn = frCommentSearchResults.questions.entrySet().iterator();
+        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> iterQn =
+                frCommentSearchResults.questions.entrySet().iterator();
         while (iterQn.hasNext()) {
             String fsName = (String) iterQn.next().getKey();
             List<FeedbackQuestionAttributes> questionList = frCommentSearchResults.questions.get(fsName);
@@ -148,7 +151,8 @@ public class InstructorSearchPageAction extends Action {
 
                 for (int j = responseList.size() - 1; j >= 0; j--) {
                     FeedbackResponseAttributes response = responseList.get(j);
-                    List<FeedbackResponseCommentAttributes> commentList = frCommentSearchResults.comments.get(response.getId());
+                    List<FeedbackResponseCommentAttributes> commentList =
+                            frCommentSearchResults.comments.get(response.getId());
 
                     for (int k = commentList.size() - 1; k >= 0; k--) {
                         FeedbackResponseCommentAttributes comment = commentList.get(k);
@@ -198,7 +202,8 @@ public class InstructorSearchPageAction extends Action {
         return filteredResultsSize;
     }
     
-    private void removeQuestionsAndResponsesWithoutComments(FeedbackResponseCommentSearchResultBundle frCommentSearchResults) {
+    private void removeQuestionsAndResponsesWithoutComments(
+            FeedbackResponseCommentSearchResultBundle frCommentSearchResults) {
         Iterator<Entry<String, List<FeedbackQuestionAttributes>>> fqsIter =
                 frCommentSearchResults.questions.entrySet().iterator();
         
