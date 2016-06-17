@@ -95,6 +95,10 @@ Use this checklist to verify that your project setup is correct.
 
   **SOLUTION**: Check if the build.properties and appengine-web.xml has been renamed properly, which you were supposed to during the set up.
 
+8. **ERROR**: Eclipse complains "NewClass cannot be resolved to a type", "The import some.package.NewClass cannot be resolved", or "The method someMethod() from the type ExistingClass refers to the missing type NewClass" after syncing with `master` branch.
+
+  **SOLUTION**: This is likely because the dependencies have changed. Refer to [this document](dependencies.md) for steps to update your local dependencies configuration.
+
 ## Troubleshooting test failures
 
 ### Optimizing IDE layout for testing
