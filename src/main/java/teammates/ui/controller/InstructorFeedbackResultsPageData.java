@@ -1291,7 +1291,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             boolean isNewGiver = !prevGiver.equals(response.giver);
             if (isNewGiver) {
                 if (isMissingResponsesShown) {
-                    responseRows.addAll(buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
+                    responseRows.addAll(
+                            buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
                                         question, possibleReceiversWithoutResponsesForGiver, prevGiver,
                                         bundle.getNameForEmail(prevGiver),
                                         bundle.getTeamNameForEmail(prevGiver)));
@@ -1379,13 +1380,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         if (isMissingResponsesShown) {
             if (isFirstGroupedByGiver) {
-                responseRows.addAll(buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
+                responseRows.addAll(
+                        buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
                                                 question, possibleParticipantsWithoutResponses,
                                                 participantIdentifier,
                                                 bundle.getNameForEmail(participantIdentifier),
                                                 bundle.getTeamNameForEmail(participantIdentifier)));
             } else {
-                responseRows.addAll(buildMissingResponseRowsBetweenRecipientAndPossibleGivers(
+                responseRows.addAll(
+                        buildMissingResponseRowsBetweenRecipientAndPossibleGivers(
                                                 question, possibleParticipantsWithoutResponses,
                                                 participantIdentifier,
                                                 bundle.getNameForEmail(participantIdentifier),
