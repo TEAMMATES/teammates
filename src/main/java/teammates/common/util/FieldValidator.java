@@ -746,4 +746,22 @@ public class FieldValidator {
     public static boolean isValidEmailAddress(String email) {
         return StringHelper.isMatching(email, REGEX_EMAIL);
     }
+
+    /////////////////////////////////////
+    // HELPER METHODS FOR INTERNAL USE //////////////////////////
+    // DUPLICATED IN FieldValidatorTest FOR EXTERNAL TESTS USE //
+    /////////////////////////////////////////////////////////////
+
+    private static String getInterpolatedErrorMessage(
+            String messageTemplate, String userInput, String fieldName, String errorReason, int maxLength) {
+        return getInterpolatedErrorMessage(messageTemplate, userInput, fieldName, errorReason)
+                   .replace("${maxLength}", String.valueOf(maxLength));
+    }
+
+    private static String getInterpolatedErrorMessage(
+            String messageTemplate, String userInput, String fieldName, String errorReason) {
+        return messageTemplate.replace("${userInput}", userInput)
+                              .replace("${fieldName}", fieldName)
+                              .replace("${reason}", errorReason);
+    }
 }
