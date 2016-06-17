@@ -133,8 +133,8 @@ public class InstructorCourseEditPage extends AppPage {
         WebElement editInstructorEmailTextBox = getEmailField(instrNum);
         
         boolean isNotEditable = !editInstructorNameTextBox.isEnabled()
-                             && !editInstructorEmailTextBox.isEnabled()
-                             && !saveButton.isDisplayed();
+                                && !editInstructorEmailTextBox.isEnabled()
+                                && !saveButton.isDisplayed();
         
         return isNotEditable;
     }
