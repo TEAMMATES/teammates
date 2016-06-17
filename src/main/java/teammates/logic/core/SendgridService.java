@@ -19,7 +19,9 @@ public class SendgridService implements EmailSenderService {
     public Email parseToEmail(EmailWrapper wrapper) {
         Email email = new Email();
         email.setFrom(wrapper.getSenderEmail());
-        email.setFromName(wrapper.getSenderName());
+        if (wrapper.getSenderName() != null && !wrapper.getSenderName().isEmpty()) {
+            email.setFromName(wrapper.getSenderName());
+        }
         email.setReplyTo(wrapper.getReplyTo());
         for (String recipient : wrapper.getRecipientsList()) {
             email.addTo(recipient);

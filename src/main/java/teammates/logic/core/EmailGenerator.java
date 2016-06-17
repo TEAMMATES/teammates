@@ -38,16 +38,6 @@ public class EmailGenerator {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     
-    private final String senderEmail;
-    private final String senderName;
-    private final String replyTo;
-    
-    public EmailGenerator() {
-        senderEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
-        senderName = "TEAMMATES Admin";
-        replyTo = Config.SUPPORT_EMAIL;
-    }
-    
     /**
      * Generates the feedback session opening emails for the given {@code session}.
      */
@@ -500,9 +490,9 @@ public class EmailGenerator {
     private EmailWrapper getEmptyEmailAddressedToEmail(String recipient) {
         EmailWrapper email = new EmailWrapper();
         email.addRecipient(recipient);
-        email.setSenderEmail(senderEmail);
-        email.setSenderName(senderName);
-        email.setReplyTo(replyTo);
+        email.setSenderEmail(Config.EMAIL_SENDEREMAIL);
+        email.setSenderName(Config.EMAIL_SENDERNAME);
+        email.setReplyTo(Config.EMAIL_REPLYTO);
         return email;
     }
     
