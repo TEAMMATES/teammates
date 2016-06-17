@@ -118,11 +118,13 @@ public class CommentsLogic {
             throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId, "get");
         verifyIsInstructorOfCourse(courseId, instructorEmail);
-        List<CommentAttributes> commentsFromDb = commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
+        List<CommentAttributes> commentsFromDb =
+                commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
         Iterator<CommentAttributes> iterator = commentsFromDb.iterator();
         List<CommentAttributes> comments = new LinkedList<CommentAttributes>();
         HashSet<String> commentsVisitedSet = new HashSet<String>();
-        boolean canViewCommentsFromOthers = canViewCommentsFromOthers(courseId, recipientType, receiverEmail, instructorEmail);
+        boolean canViewCommentsFromOthers =
+                canViewCommentsFromOthers(courseId, recipientType, receiverEmail, instructorEmail);
         
         // add in the instructor's own comments to the list
         while (iterator.hasNext()) {
