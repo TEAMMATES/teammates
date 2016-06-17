@@ -734,6 +734,7 @@ public final class Const {
         
         public static final String EMAIL_CONTENT = "content";
         public static final String EMAIL_SENDER = "sender";
+        public static final String EMAIL_SENDERNAME = "sendername";
         public static final String EMAIL_SUBJECT = "subject";
         public static final String EMAIL_REPLY_TO_ADDRESS = "reply";
         
