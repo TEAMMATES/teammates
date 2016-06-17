@@ -24,8 +24,6 @@ public class SendEmailWorkerServlet extends WorkerServlet {
         String emailSender = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_SENDER);
         Assumption.assertNotNull(emailSender);
         
-        String emailSenderName = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_SENDERNAME);
-        
         String emailReceiver = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_RECEIVER);
         Assumption.assertNotNull(emailReceiver);
         
@@ -34,9 +32,6 @@ public class SendEmailWorkerServlet extends WorkerServlet {
         
         EmailWrapper message = new EmailWrapper();
         message.setRecipient(emailReceiver);
-        if (emailSenderName != null) {
-            message.setSenderName(emailSenderName);
-        }
         message.setSenderEmail(emailSender);
         message.setContent(emailContent);
         message.setSubject(emailSubject);
