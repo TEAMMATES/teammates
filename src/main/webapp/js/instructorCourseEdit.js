@@ -53,6 +53,11 @@ function enableFormEditInstructor(number) {
     $('#accessControlInfoForInstr' + number).hide();
     $('#accessControlEditDivForInstr' + number).show();
     $('#btnSaveInstructor' + number).show();
+    var instrRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[number - 1];
+    if (instrRole === 'Custom') {
+        showTunePermissionsDiv(number);
+        showAllCheckedTuneSectionAndSessionPermissionsDivs(number);
+    }
 }
 
 /**
@@ -67,6 +72,12 @@ function disableFormEditInstructor(number) {
     $('#accessControlInfoForInstr' + number).show();
     $('#accessControlEditDivForInstr' + number).hide();
     $('#btnSaveInstructor' + number).hide();
+    document.getElementById('formEditInstructor' + number + '>').reset();
+    var instrRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[number - 1];
+    $("input[id='instructorroleforinstructor" + number + "'][value='" + instrRole + "']").prop('checked', true);
+    if (instrRole !== 'Custom') {
+        hideAllTunePermissionsDivs(number);
+    }
 }
 
 function showNewInstructorForm() {
@@ -86,6 +97,28 @@ function hideNewInstructorForm() {
  */
 function toggleSendRegistrationKey() {
     return confirm('Do you wish to re-send the invitation email to this instructor now?');
+}
+
+function hideAllTunePermissionsDivs(instrNum) {
+    var $tunePermissionsDiv = $('#tunePermissionsDivForInstructor' + instrNum);
+    $tunePermissionsDiv.find('div[id^="tuneSectionPermissionsDiv"]').each(function(i) {
+        hideTuneSessionnPermissionsDiv(instrNum, i);
+        hideTuneSectionPermissionsDiv(instrNum, i);
+    });
+    $tunePermissionsDiv.hide();
+}
+
+function showAllCheckedTuneSectionAndSessionPermissionsDivs(instrNum) {
+    var $tunePermissionsDiv = $('#tunePermissionsDivForInstructor' + instrNum);
+    $tunePermissionsDiv.find('div[id^="tuneSectionPermissionsDiv"]').each(function(i) {
+        var $currTunePermissionsDiv = $(this);
+        if ($currTunePermissionsDiv.find('input:checked').length) {
+            showTuneSectionPermissionsDiv(instrNum, i);
+        }
+        if ($currTunePermissionsDiv.find('div[id^="tuneSessionPermissionsDiv"]').find('input:checked').length) {
+            showTuneSessionnPermissionsDiv(instrNum, i);
+        }
+    });
 }
 
 function showTunePermissionsDiv(instrNum) {
