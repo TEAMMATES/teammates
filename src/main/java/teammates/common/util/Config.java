@@ -32,6 +32,9 @@ public final class Config {
     /** The value of the "app.student.motd.url" in build.properties file */
     public static final String STUDENT_MOTD_URL;
     
+    /** The value of the "app.email.service" in build.properties file */
+    public static final String EMAIL_SERVICE;
+    
     /** The value of the "app.sendgrid.apikey" in build.properties file */
     public static final String SENDGRID_APIKEY;
     
@@ -49,6 +52,7 @@ public final class Config {
         PERSISTENCE_CHECK_DURATION = Integer.valueOf(properties.getProperty("app.persistence.checkduration"));
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         STUDENT_MOTD_URL = properties.getProperty("app.student.motd.url");
+        EMAIL_SERVICE = properties.getProperty("app.email.service");
         SENDGRID_APIKEY = properties.getProperty("app.sendgrid.apikey");
     }
     
@@ -90,6 +94,6 @@ public final class Config {
     }
 
     public static boolean isUsingSendgrid() {
-        return SENDGRID_APIKEY != null && !SENDGRID_APIKEY.isEmpty();
+        return "sendgrid".equalsIgnoreCase(EMAIL_SERVICE) && SENDGRID_APIKEY != null && !SENDGRID_APIKEY.isEmpty();
     }
 }
