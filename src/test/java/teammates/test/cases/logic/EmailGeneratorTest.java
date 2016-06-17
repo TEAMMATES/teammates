@@ -213,7 +213,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String textInEmail) {
         // check recipient
-        assertEquals(recipient, email.getFirstRecipient());
+        assertEquals(recipient, email.getRecipient());
         
         // check subject
         assertEquals(subject, email.getSubject());

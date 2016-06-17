@@ -36,11 +36,9 @@ public class JavamailService implements EmailSenderService {
             email.setFrom(new InternetAddress(wrapper.getSenderEmail(), wrapper.getSenderName()));
         }
         email.setReplyTo(new Address[] { new InternetAddress(wrapper.getReplyTo()) });
-        for (String recipient : wrapper.getRecipientsList()) {
-            email.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        }
-        for (String recipient : wrapper.getBccList()) {
-            email.addRecipient(Message.RecipientType.BCC, new InternetAddress(recipient));
+        email.addRecipient(Message.RecipientType.TO, new InternetAddress(wrapper.getRecipient()));
+        if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
+            email.addRecipient(Message.RecipientType.BCC, new InternetAddress(wrapper.getBcc()));
         }
         email.setSubject(wrapper.getSubject());
         email.setContent(wrapper.getContent(), "text/html");

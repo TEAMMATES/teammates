@@ -29,18 +29,10 @@ public class MailgunService implements EmailSenderService {
                         : wrapper.getSenderName() + " <" + wrapper.getSenderEmail() + ">";
         formData.field("from", sender);
         
-        StringBuilder recipients = new StringBuilder();
-        for (String recipient : wrapper.getRecipientsList()) {
-            recipients.append(recipient).append(',');
-        }
-        formData.field("to", recipients.toString());
+        formData.field("to", wrapper.getRecipient());
         
-        if (!wrapper.getBccList().isEmpty()) {
-            StringBuilder bccs = new StringBuilder();
-            for (String bcc : wrapper.getBccList()) {
-                bccs.append(bcc).append(',');
-            }
-            formData.field("bcc", bccs.toString());
+        if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
+            formData.field("bcc", wrapper.getBcc());
         }
         
         formData.field("h:Reply-To", wrapper.getReplyTo());

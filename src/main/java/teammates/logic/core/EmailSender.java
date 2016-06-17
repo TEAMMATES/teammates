@@ -60,7 +60,7 @@ public class EmailSender {
         String emailSubject = message.getSubject();
         String emailSenderName = message.getSenderName();
         String emailSender = message.getSenderEmail();
-        String emailReceiver = message.getFirstRecipient();
+        String emailReceiver = message.getRecipient();
         String emailReplyToAddress = message.getReplyTo();
         try {
             Map<String, String> paramMap = new HashMap<String, String>();

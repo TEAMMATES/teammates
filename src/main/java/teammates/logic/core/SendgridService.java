@@ -29,11 +29,9 @@ public class SendgridService implements EmailSenderService {
             email.setFromName(wrapper.getSenderName());
         }
         email.setReplyTo(wrapper.getReplyTo());
-        for (String recipient : wrapper.getRecipientsList()) {
-            email.addTo(recipient);
-        }
-        for (String bcc : wrapper.getBccList()) {
-            email.addBcc(bcc);
+        email.addTo(wrapper.getRecipient());
+        if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
+            email.addBcc(wrapper.getBcc());
         }
         email.setSubject(wrapper.getSubject());
         email.setHtml(wrapper.getContent());

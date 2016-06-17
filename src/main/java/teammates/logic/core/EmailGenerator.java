@@ -319,7 +319,7 @@ public class EmailGenerator {
                 "${joinUrl}", joinUrl);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
-        email.addBcc(Config.SUPPORT_EMAIL);
+        email.setBcc(Config.SUPPORT_EMAIL);
         email.setSubject(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), shortName));
         email.setContent(emailBody);
         return email;
@@ -489,7 +489,7 @@ public class EmailGenerator {
     
     private EmailWrapper getEmptyEmailAddressedToEmail(String recipient) {
         EmailWrapper email = new EmailWrapper();
-        email.addRecipient(recipient);
+        email.setRecipient(recipient);
         email.setSenderEmail(Config.EMAIL_SENDEREMAIL);
         email.setSenderName(Config.EMAIL_SENDERNAME);
         email.setReplyTo(Config.EMAIL_REPLYTO);

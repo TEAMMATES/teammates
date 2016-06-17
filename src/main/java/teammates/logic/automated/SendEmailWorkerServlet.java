@@ -33,7 +33,7 @@ public class SendEmailWorkerServlet extends WorkerServlet {
         Assumption.assertNotNull(emailReply);
         
         EmailWrapper message = new EmailWrapper();
-        message.addRecipient(emailReceiver);
+        message.setRecipient(emailReceiver);
         if (emailSenderName != null) {
             message.setSenderName(emailSenderName);
         }

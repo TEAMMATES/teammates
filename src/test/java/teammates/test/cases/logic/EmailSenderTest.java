@@ -1,14 +1,12 @@
 package teammates.test.cases.logic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -45,8 +43,8 @@ public class EmailSenderTest extends BaseComponentTestCase {
         String senderName = "Sender Name";
         String senderEmail = "sender@email.com";
         String replyTo = "replyto@email.com";
-        List<String> recipientsList = Arrays.asList("recipient1@email.com", "recipient2@email.com");
-        List<String> bccList = Arrays.asList("bcc1@email.com", "bcc2@email.com");
+        String recipient = "recipient@email.com";
+        String bcc = "bcc@email.com";
         String subject = "Test subject";
         String content = "<p>This is a test content</p>";
         
@@ -54,12 +52,8 @@ public class EmailSenderTest extends BaseComponentTestCase {
         wrapper.setSenderName(senderName);
         wrapper.setSenderEmail(senderEmail);
         wrapper.setReplyTo(replyTo);
-        for (String recipient : recipientsList) {
-            wrapper.addRecipient(recipient);
-        }
-        for (String bcc : bccList) {
-            wrapper.addBcc(bcc);
-        }
+        wrapper.setRecipient(recipient);
+        wrapper.setBcc(bcc);
         wrapper.setSubject(subject);
         wrapper.setContent(content);
         return wrapper;
@@ -77,19 +71,8 @@ public class EmailSenderTest extends BaseComponentTestCase {
         
         assertEquals(new InternetAddress(wrapper.getSenderEmail(), wrapper.getSenderName()), email.getFrom()[0]);
         assertEquals(new InternetAddress(wrapper.getReplyTo()), email.getReplyTo()[0]);
-        
-        List<Address> recipientsList = new ArrayList<Address>();
-        for (String recipient : wrapper.getRecipientsList()) {
-            recipientsList.add(new InternetAddress(recipient));
-        }
-        assertEquals(recipientsList, Arrays.asList(email.getRecipients(Message.RecipientType.TO)));
-        
-        List<Address> bccList = new ArrayList<Address>();
-        for (String bcc : wrapper.getBccList()) {
-            bccList.add(new InternetAddress(bcc));
-        }
-        assertEquals(bccList, Arrays.asList(email.getRecipients(Message.RecipientType.BCC)));
-        
+        assertEquals(new InternetAddress(wrapper.getRecipient()), email.getRecipients(Message.RecipientType.TO)[0]);
+        assertEquals(new InternetAddress(wrapper.getBcc()), email.getRecipients(Message.RecipientType.BCC)[0]);
         assertEquals(wrapper.getSubject(), email.getSubject());
         assertEquals(wrapper.getContent(), email.getContent().toString());
     }
@@ -101,8 +84,8 @@ public class EmailSenderTest extends BaseComponentTestCase {
         
         assertEquals(wrapper.getSenderEmail(), email.getFrom());
         assertEquals(wrapper.getSenderName(), email.getFromName());
-        assertEquals(wrapper.getRecipientsList(), Arrays.asList(email.getTos()));
-        assertEquals(wrapper.getBccList(), Arrays.asList(email.getBccs()));
+        assertEquals(wrapper.getRecipient(), email.getTos()[0]);
+        assertEquals(wrapper.getBcc(), email.getBccs()[0]);
         assertEquals(wrapper.getReplyTo(), email.getReplyTo());
         assertEquals(wrapper.getSubject(), email.getSubject());
         assertEquals(wrapper.getContent(), email.getHtml());
@@ -115,6 +98,8 @@ public class EmailSenderTest extends BaseComponentTestCase {
         
         assertEquals(wrapper.getSenderName() + " <" + wrapper.getSenderEmail() + ">",
                      formData.getField("from").getValue());
+        assertEquals(wrapper.getRecipient(), formData.getField("to").getValue());
+        assertEquals(wrapper.getBcc(), formData.getField("bcc").getValue());
         assertEquals(wrapper.getReplyTo(), formData.getField("h:Reply-To").getValue());
         assertEquals(wrapper.getSubject(), formData.getField("subject").getValue());
         assertEquals(wrapper.getContent(), formData.getField("html").getValue());
@@ -128,6 +113,10 @@ public class EmailSenderTest extends BaseComponentTestCase {
         
         assertEquals(wrapper.getSenderEmail(), email.get(Email.FROMEMAIL));
         assertEquals(wrapper.getSenderName(), email.get(Email.FROMNAME));
+        assertEquals(wrapper.getRecipient(),
+                     ((JSONArray) email.get(Email.RECIPIENTS)).getJSONObject(0).get("Email"));
+        assertEquals(wrapper.getBcc(),
+                     ((JSONArray) email.get(Email.BCC)).getJSONObject(0).get("Email"));
         assertEquals(wrapper.getReplyTo(),
                      ((JSONObject) email.get(Email.HEADERS)).getString("Reply-To"));
         assertEquals(wrapper.getSubject(), email.get(Email.SUBJECT));
