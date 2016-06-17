@@ -14,10 +14,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.sendgrid.SendGrid;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 import teammates.common.util.EmailWrapper;
 import teammates.logic.core.EmailSender;
 import teammates.logic.core.JavamailService;
+import teammates.logic.core.MailgunService;
 import teammates.logic.core.SendgridService;
 import teammates.test.cases.BaseComponentTestCase;
 
@@ -96,6 +98,18 @@ public class EmailSenderTest extends BaseComponentTestCase {
         assertEquals(wrapper.getReplyTo(), email.getReplyTo());
         assertEquals(wrapper.getSubject(), email.getSubject());
         assertEquals(wrapper.getContent(), email.getHtml());
+    }
+    
+    @Test
+    public void testConvertToMailgun() {
+        EmailWrapper wrapper = getTypicalEmailWrapper();
+        FormDataMultiPart formData = new MailgunService().parseToEmail(wrapper);
+        
+        assertEquals(wrapper.getSenderName() + " <" + wrapper.getSenderEmail() + ">",
+                     formData.getField("from").getValue());
+        assertEquals(wrapper.getReplyTo(), formData.getField("h:Reply-To").getValue());
+        assertEquals(wrapper.getSubject(), formData.getField("subject").getValue());
+        assertEquals(wrapper.getContent(), formData.getField("html").getValue());
     }
     
     @AfterClass

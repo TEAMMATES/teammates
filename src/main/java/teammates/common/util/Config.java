@@ -47,6 +47,12 @@ public final class Config {
     /** The value of the "app.sendgrid.apikey" in build.properties file */
     public static final String SENDGRID_APIKEY;
     
+    /** The value of the "app.mailgun.apikey" in build.properties file */
+    public static final String MAILGUN_APIKEY;
+    
+    /** The value of the "app.mailgun.domainname" in build.properties file */
+    public static final String MAILGUN_DOMAINNAME;
+    
     static {
         Properties properties = new Properties();
         try {
@@ -66,6 +72,8 @@ public final class Config {
         EMAIL_REPLYTO = properties.getProperty("app.email.replyto");
         EMAIL_SERVICE = properties.getProperty("app.email.service");
         SENDGRID_APIKEY = properties.getProperty("app.sendgrid.apikey");
+        MAILGUN_APIKEY = properties.getProperty("app.mailgun.apikey");
+        MAILGUN_DOMAINNAME = properties.getProperty("app.mailgun.domainname");
     }
     
     private Config() {
@@ -101,4 +109,10 @@ public final class Config {
     public static boolean isUsingSendgrid() {
         return "sendgrid".equalsIgnoreCase(EMAIL_SERVICE) && SENDGRID_APIKEY != null && !SENDGRID_APIKEY.isEmpty();
     }
+    
+    public static boolean isUsingMailgun() {
+        return "mailgun".equalsIgnoreCase(EMAIL_SERVICE) && MAILGUN_APIKEY != null && !MAILGUN_APIKEY.isEmpty()
+                && MAILGUN_DOMAINNAME != null && !MAILGUN_DOMAINNAME.isEmpty();
+    }
+    
 }

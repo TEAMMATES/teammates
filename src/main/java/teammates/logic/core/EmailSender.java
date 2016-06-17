@@ -26,6 +26,8 @@ public class EmailSender {
     public EmailSender() {
         if (Config.isUsingSendgrid()) {
             service = new SendgridService();
+        } else if (Config.isUsingMailgun()) {
+            service = new MailgunService();
         } else {
             service = new JavamailService();
         }

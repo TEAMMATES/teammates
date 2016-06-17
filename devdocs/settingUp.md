@@ -273,7 +273,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
   Comes with App Engine SDK.
 * **Java Persistence API (JPA)** [version 1.0]: JPA is a standard interface for accessing databases in Java, providing an automatic mapping between Java classes and database tables.
 * **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
-* **SendGrid** Alternative framework to JavaMail for sending emails. The details of these tools can be found in [this document](emails.md).
+* **SendGrid, Mailgun** Alternative framework to JavaMail for sending emails. The details of these tools can be found in [this document](emails.md).
 * **Google Cloud SDK**: This is a set of tools that helps us manage resources and applications hosted on Google Cloud Platform. We use it to run client scripts on GAE remotely.
 
 ####Tools used in testing
