@@ -55,6 +55,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testInviteInstructorAction();
         testAddInstructorAction();
         testEditInstructorAction();
+        testCancelEditInstructorAction();
         testDeleteInstructorAction();
         
         testUnregisteredInstructorEmailNotEditable();
@@ -518,6 +519,71 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         
         courseEditPage.selectRoleForInstructor(editInstructorIndex, "Co-owner");
+    }
+    
+    private void testCancelEditInstructorAction() throws Exception {
+
+        ______TS("success: cancel editing an instructor role from Co-owner to Manager");
+        
+        int editInstructorIndex = 7;
+        
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Manager");
+        courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
+        assertFalse(courseEditPage.isRoleSelectedForInstructor(editInstructorIndex, "Manager"));
+        assertTrue(courseEditPage.isRoleSelectedForInstructor(editInstructorIndex, "Co-owner"));
+        
+        ______TS("success: cancel editing an instructor role from Co-owner to Custom");
+        
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Custom");
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 1);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 1);
+        courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 0);
+        courseEditPage.clickSessionLevelInSectionLevel(editInstructorIndex, 0);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 2, 2);
+        courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 1);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 3, 3);
+        courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 2);
+        courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
+
+        courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex + ">"),
+                                      "/instructorCourseEditCancelEditCoownerForm.html");
+        
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        assertFalse(courseEditPage.isTunePermissionsDivVisible(editInstructorIndex));
+        
+        ______TS("success: cancel editing an instructor role from Custom to Co-owner");
+        
+        editInstructorIndex = 1;
+        
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Co-owner");
+        courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
+
+        courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex + ">"),
+                                      "/instructorCourseEditCancelEditCustomInstructorForm.html");
+        
+        ______TS("success: cancel editing a Custom instructor's permissions");
+
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 1);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 1);
+        courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 0);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 2, 2);
+        courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 1);
+        courseEditPage.clickHideSectionLevelPrivileges(editInstructorIndex, 2);
+        courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
+
+        courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex + ">"),
+                                      "/instructorCourseEditCancelEditCustomInstructorPermissionsForm.html");
+        
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        assertTrue(courseEditPage.isTunePermissionsDivVisible(editInstructorIndex));
+        
     }
     
     private void testDeleteInstructorAction() {

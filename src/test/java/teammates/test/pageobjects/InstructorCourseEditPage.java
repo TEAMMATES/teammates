@@ -152,6 +152,11 @@ public class InstructorCourseEditPage extends AppPage {
         roleRadioButton.click();
     }
     
+    public boolean isRoleSelectedForInstructor(int instrNum, String role) {
+        return browser.driver.findElement(By.cssSelector(
+                "input[id='instructorroleforinstructor" + instrNum + "'][value='" + role + "']")).isSelected();
+    }
+    
     public void clickViewDetailsLinkForInstructor(int instrNum, int viewLinkNum) {
         /*
          *  There are groups of 3 elements:
@@ -233,9 +238,19 @@ public class InstructorCourseEditPage extends AppPage {
         browser.driver.findElement(By.id(linkId)).click();
     }
     
+    public void clickHideSectionLevelPrivileges(int instrNum, int sectionLevelIndex) {
+        sectionLevelPanel(instrNum, sectionLevelIndex)
+                .findElement(By.cssSelector(".glyphicon-trash")).click();
+    }
+    
     public boolean isTuneSessionPermissionsDivVisible(int instrNum, int sectionLevelIndex) {
         String sessionPermissionsDivId = "tuneSessionPermissionsDiv" + sectionLevelIndex
                                          + "ForInstructor" + instrNum;
+        return isElementVisible(By.id(sessionPermissionsDivId));
+    }
+    
+    public boolean isTunePermissionsDivVisible(int instrNum) {
+        String sessionPermissionsDivId = "tunePermissionsDivForInstructor" + instrNum;
         return isElementVisible(By.id(sessionPermissionsDivId));
     }
     
@@ -381,6 +396,14 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " input[name='"
                                                          + Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT
                                                          + "']"));
+    }
+    
+    public String getInstructorName(int instrNum) {
+        return browser.driver.findElement(By.id("instructorname" + instrNum)).getAttribute("value");
+    }
+    
+    public String getInstructorEmail(int instrNum) {
+        return browser.driver.findElement(By.id("instructoremail" + instrNum)).getAttribute("value");
     }
     
     public WebElement courseLevelPanel(int instrNum) {
