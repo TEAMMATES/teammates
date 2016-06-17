@@ -129,7 +129,7 @@ public class InstructorStudentRecordsPageAction extends Action {
      * @return A map with instructor email => comments mappings.
      */
     private Map<String, List<CommentAttributes>> mapCommentsToGiverEmail(List<CommentAttributes> comments,
-                                                             InstructorAttributes instructor, String courseId) {
+                                                             InstructorAttributes instructor) {
         TreeMap<String, List<CommentAttributes>> giverEmailToCommentsMap =
                 new TreeMap<String, List<CommentAttributes>>();
         // add an element representing the current instructor to allow "no comments" to display correctly
