@@ -281,8 +281,8 @@ public class InstructorFeedbackEditCopyActionTest extends
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name "
+                + "because it is empty. The value of feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
@@ -310,8 +310,8 @@ public class InstructorFeedbackEditCopyActionTest extends
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name "
+                + "because it is empty. The value of feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
@@ -340,8 +340,8 @@ public class InstructorFeedbackEditCopyActionTest extends
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name "
+                + "because it is empty. The value of feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
@@ -369,8 +369,8 @@ public class InstructorFeedbackEditCopyActionTest extends
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name "
+                + "because it is empty. The value of feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
@@ -404,7 +404,8 @@ public class InstructorFeedbackEditCopyActionTest extends
                          + "to</span> Thu Apr 30 23:59:00 UTC 2026<br><span class=\"bold\">Session visible from:</span> "
                          + "Sun Apr 01 23:59:00 UTC 2012<br><span class=\"bold\">Results visible from:</span> "
                          + "Fri May 01 23:59:00 UTC 2026<br><br><span class=\"bold\">Instructions:</span> "
-                         + "<Text: Instructions for first session><br>Copied from <span class=\"bold\">(First Session)</span> "
+                         + "<Text: Instructions for first session><br>Copied from "
+                         + "<span class=\"bold\">(First Session)</span> "
                          + "for Course <span class=\"bold\">[FeedbackEditCopy.CS2104]</span> created.<br>|||"
                          + "/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());

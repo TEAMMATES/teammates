@@ -93,7 +93,8 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123123", // non-existent feedback response comment id
+                // non-existent feedback response comment id
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123123",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
         

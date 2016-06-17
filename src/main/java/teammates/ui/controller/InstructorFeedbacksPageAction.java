@@ -58,7 +58,8 @@ public class InstructorFeedbacksPageAction extends Action {
         
         if (courses.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
-                                                 .replace("${user}", "?user=" + account.googleId), StatusMessageColor.WARNING));
+                                                       .replace("${user}", "?user=" + account.googleId),
+                                               StatusMessageColor.WARNING));
         }
         
         statusToAdmin = "Number of feedback sessions: " + existingFeedbackSessions.size();

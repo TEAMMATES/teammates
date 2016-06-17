@@ -42,7 +42,8 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
         data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));
         
         if (!data.isSessionOpenForSubmission()) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN,
+                                               StatusMessageColor.WARNING));
         }
         
         setStatusToAdmin();
@@ -58,7 +59,8 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
     
     protected abstract String getUserEmailForCourse();
 
-    protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
+    protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse)
+            throws EntityDoesNotExistException;
     
     protected abstract boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes fs);
     

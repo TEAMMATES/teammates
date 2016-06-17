@@ -61,8 +61,8 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         }
         
         final String studentInfo = "Action Student Joins Course"
-                + "<br/>Google ID: " + account.googleId
-                + "<br/>Key : " + regkey;
+                + "<br>Google ID: " + account.googleId
+                + "<br>Key : " + regkey;
         RedirectResult response = createRedirectResult(nextUrl);
         response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, getStudent().course);
         excludeStudentDetailsFromResponseParams();
@@ -70,7 +70,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         if (statusToAdmin == null || statusToAdmin.trim().isEmpty()) {
             statusToAdmin = studentInfo;
         } else {
-            statusToAdmin += "<br/><br/>" + studentInfo;
+            statusToAdmin += "<br><br>" + studentInfo;
         }
         
         addStatusMessageToUser();
@@ -85,7 +85,8 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
                                                            courseDisplayText), StatusMessageColor.SUCCESS));
 
-        List<FeedbackSessionAttributes> fsa = logic.getFeedbackSessionsForUserInCourse(getStudent().course, getStudent().email);
+        List<FeedbackSessionAttributes> fsa =
+                logic.getFeedbackSessionsForUserInCourse(getStudent().course, getStudent().email);
         if (fsa.isEmpty()) {
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
                                                                courseDisplayText), StatusMessageColor.INFO));
