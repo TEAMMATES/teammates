@@ -239,6 +239,14 @@ Apply to thead to make headers not bold.
     margin: 0;
 }
 
+.margin-right-10 {
+    margin-right: 10px;
+}
+
+.margin-right-7 {
+    margin-right: 7px;
+}
+
 .narrow-slight {
     width: 90%;
 }
