@@ -53,7 +53,7 @@ public class Url {
     /**
      * Returns the URL with the specified key-value pair parameter added.
      * The parameter will also be sanitized according to URL specification.
-     * Unchanged if either the key or value is null, or the key already exists<br />
+     * Unchanged if either the key or value is null, or the key already exists<br>
      * Example:
      * <ul>
      * <li><code>addParam("index.jsp","action","add")</code> returns

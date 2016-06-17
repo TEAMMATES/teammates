@@ -13,10 +13,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.sendgrid.SendGrid;
+
 import teammates.common.util.EmailWrapper;
 import teammates.logic.core.EmailSender;
 import teammates.logic.core.JavamailService;
-import teammates.logic.core.Sendgrid;
 import teammates.logic.core.SendgridService;
 import teammates.test.cases.BaseComponentTestCase;
 
@@ -84,15 +85,14 @@ public class EmailSenderTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testConvertToSendgrid() throws Exception {
+    public void testConvertToSendgrid() {
         EmailWrapper wrapper = getTypicalEmailWrapper();
-        Sendgrid email = new SendgridService().parseToEmail(wrapper);
+        SendGrid.Email email = new SendgridService().parseToEmail(wrapper);
         
         assertEquals(wrapper.getSenderEmail(), email.getFrom());
         assertEquals(wrapper.getSenderName(), email.getFromName());
-        assertEquals(wrapper.getRecipientsList(), email.getTos());
-        // Sendgrid does not support multiple BCCs
-        assertEquals(Arrays.asList(wrapper.getBccList().get(0)), email.getBccs());
+        assertEquals(wrapper.getRecipientsList(), Arrays.asList(email.getTos()));
+        assertEquals(wrapper.getBccList(), Arrays.asList(email.getBccs()));
         assertEquals(wrapper.getReplyTo(), email.getReplyTo());
         assertEquals(wrapper.getSubject(), email.getSubject());
         assertEquals(wrapper.getContent(), email.getHtml());

@@ -43,12 +43,12 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         
         /* Set status to be shown to admin */
         final String joinedCourseMsg = "Action Instructor Joins Course"
-                + "<br/>Google ID: " + account.googleId
-                + "<br/>Key : " + StringHelper.decrypt(regkey);
+                + "<br>Google ID: " + account.googleId
+                + "<br>Key : " + StringHelper.decrypt(regkey);
         if (statusToAdmin == null) {
             statusToAdmin = joinedCourseMsg;
         } else {
-            statusToAdmin += "<br/><br/>" + joinedCourseMsg;
+            statusToAdmin += "<br><br>" + joinedCourseMsg;
         }
         
         /* Create redirection to instructor's homepage */

@@ -45,7 +45,7 @@ public class EmailGenerator {
     public EmailGenerator() {
         senderEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
         senderName = "TEAMMATES Admin";
-        replyTo = "teammates@comp.nus.edu.sg";
+        replyTo = Config.SUPPORT_EMAIL;
     }
     
     /**
@@ -125,7 +125,8 @@ public class EmailGenerator {
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}", "",
                 "${submitUrl}", submitUrl,
-                "${reportUrl}", reportUrl);
+                "${reportUrl}", reportUrl,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
@@ -229,7 +230,8 @@ public class EmailGenerator {
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}", "",
                 "${submitUrl}", submitUrl,
-                "${reportUrl}", reportUrl);
+                "${reportUrl}", reportUrl,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
@@ -248,9 +250,10 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}",
-                        "The email below has been sent to students of course: " + course.getId() + ".<p/><br/>",
+                        "The email below has been sent to students of course: " + course.getId() + ".<p/><br>",
                 "${submitUrl}", "{The student's unique submission url appears here}",
-                "${reportUrl}", "{The student's unique results url appears here}");
+                "${reportUrl}", "{The student's unique results url appears here}",
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
@@ -299,7 +302,8 @@ public class EmailGenerator {
                 "${userName}", student.name,
                 "${courseName}", course.getName(),
                 "${courseId}", course.getId(),
-                "${commentsPageUrl}", commentsPageUrl);
+                "${commentsPageUrl}", commentsPageUrl,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(EmailType.PENDING_COMMENT_CLEARED.getSubject(),
@@ -351,7 +355,8 @@ public class EmailGenerator {
         String emailBody = Templates.populateTemplate(
                 fillUpStudentJoinFragment(student, EmailTemplates.USER_COURSE_JOIN),
                 "${userName}", student.name,
-                "${courseName}", course.getName());
+                "${courseName}", course.getName(),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(),
@@ -369,7 +374,8 @@ public class EmailGenerator {
         String emailBody = Templates.populateTemplate(
                 fillUpStudentRejoinAfterGoogleIdResetFragment(student, EmailTemplates.USER_COURSE_JOIN),
                 "${userName}", student.name,
-                "${courseName}", course.getName());
+                "${courseName}", course.getName(),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
@@ -386,7 +392,8 @@ public class EmailGenerator {
         String emailBody = Templates.populateTemplate(
                 fillUpInstructorJoinFragment(instructor, EmailTemplates.USER_COURSE_JOIN),
                 "${userName}", instructor.name,
-                "${courseName}", course.getName());
+                "${courseName}", course.getName(),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setSubject(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(),
@@ -412,7 +419,8 @@ public class EmailGenerator {
         
         return Templates.populateTemplate(emailBody,
                 "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
-                "${joinUrl}", joinUrl);
+                "${joinUrl}", joinUrl,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
     }
     
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
