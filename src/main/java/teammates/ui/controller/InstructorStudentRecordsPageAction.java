@@ -145,7 +145,7 @@ public class InstructorStudentRecordsPageAction extends Action {
                 commentList = new ArrayList<CommentAttributes>();
                 giverEmailToCommentsMap.put(key, commentList);
             }
-            updateCommentList(comment, isCurrentInstructorGiver, commentList, instructor, courseId);
+            commentList.add(comment);
         }
         return giverEmailToCommentsMap;
     }
@@ -173,47 +173,6 @@ public class InstructorStudentRecordsPageAction extends Action {
         return giverEmailToGiverNameMap;
     }
     
-    /**
-     * Adds {@code comment} to {@code commentList} if the instructor is able to view the comment.
-     * @param comment
-     * @param isCurrentInstructorGiver
-     * @param commentList
-     * @param instructor
-     * @param courseId
-     */
-    private void updateCommentList(CommentAttributes comment, boolean isCurrentInstructorGiver,
-                                   List<CommentAttributes> commentList, InstructorAttributes instructor,
-                                   String courseId) {
-        boolean canViewComment = isCurrentInstructorGiver
-                                 || isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId,
-                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
-        if (canViewComment) {
-            commentList.add(comment);
-        }
-    }
-    
-    private boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, InstructorAttributes instructor,
-                                                             String courseId, String privilegeName) {
-        
-        // student records only shows comments targeted at the student, and not team/section
-        if (instructor == null || comment.recipientType != CommentParticipantType.PERSON
-                               || comment.recipients.isEmpty()) {
-            return false;
-        }
-        
-        String studentEmail = "";
-        if (!comment.recipients.isEmpty()) {
-            Iterator<String> iterator = comment.recipients.iterator();
-            studentEmail = iterator.next();
-        }
-        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-        if (student == null) {
-            return false;
-        } else {
-            return instructor.isAllowedForPrivilege(student.section, privilegeName);
-        }
-    }
-
     private boolean checkForVisibleComments(Map<String, List<CommentAttributes>> giverEmailToCommentsMap) {
         for (String key : giverEmailToCommentsMap.keySet()) {
             if (!giverEmailToCommentsMap.get(key).isEmpty()) {

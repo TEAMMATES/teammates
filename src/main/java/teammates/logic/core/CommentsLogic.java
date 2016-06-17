@@ -25,6 +25,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.api.CommentsDb;
@@ -116,10 +117,11 @@ public class CommentsLogic {
             throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId, "get");
         verifyIsInstructorOfCourse(courseId, instructorEmail);
-        List<CommentAttributes> commentsFromLogic = commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
-        Iterator<CommentAttributes> iterator = commentsFromLogic.iterator();
+        List<CommentAttributes> commentsFromDb = commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
+        Iterator<CommentAttributes> iterator = commentsFromDb.iterator();
         List<CommentAttributes> comments = new LinkedList<CommentAttributes>();
         HashSet<String> commentsVisitedSet = new HashSet<String>();
+        boolean canViewCommentsFromOthers = canViewCommentsFromOthers(courseId, recipientType, receiverEmail, instructorEmail);
         
         // add in the instructor's own comments to the list
         while (iterator.hasNext()) {
@@ -128,14 +130,25 @@ public class CommentsLogic {
                 comments.add(c);
                 preventAppendingThisCommentAgain(commentsVisitedSet, c);
                 iterator.remove();
+            } else if (!canViewCommentsFromOthers) {
+                iterator.remove();
             }
         }
         
-        // add in other instructor's comments, but only if they are visible
-        removeNonVisibleCommentsForInstructor(commentsFromLogic, commentsVisitedSet, comments);
+        // add in other instructor's comments, but only if they are visible to instructors
+        removeNonVisibleCommentsForInstructor(commentsFromDb, commentsVisitedSet, comments);
+        
+        // remove comments if the receiver is now anonymous
+        iterator = comments.iterator();
+        while (iterator.hasNext()) {
+            CommentAttributes c = iterator.next();
+            if (c.recipients.isEmpty() || "Anonymous".equals(c.recipients.iterator().next())) {
+                iterator.remove();
+            }
+        }
         return comments;
     }
-    
+
     public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState sendingState)
            throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId, "get");
@@ -463,6 +476,19 @@ public class CommentsLogic {
                 preventAppendingThisCommentAgain(commentsVisitedSet, c);
             }
         }
+    }
+    
+    private boolean canViewCommentsFromOthers(String courseId, CommentParticipantType recipientType,
+                                              String receiverEmail, String instructorEmail) {
+        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, instructorEmail);
+        if (CommentParticipantType.PERSON.equals(recipientType)) {
+            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, receiverEmail);
+            if (student != null) {
+                return instructor.isAllowedForPrivilege(
+                        student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
+            }
+        }
+        return false;
     }
     
     private void removeGiverNameByVisibilityOptions(CommentAttributes c, CommentParticipantType viewerType) {
