@@ -620,7 +620,7 @@
                                 <a name="faq14" id="question">Is there a size limit for a course?</a>
                             </b>
                             <div class="helpSectionContent">
-                                No. But courses bigger than 100 students need to divide the course into sections so that TEAMMATES know how to paginate reports when the entire report is too big to show in one go. 
+                                No. But courses bigger than 100 students need to divide the course into sections so that TEAMMATES know how to paginate reports when the entire report is too big to show in one go.
                                 <br>
                                 <br>
                             </div>
@@ -3136,7 +3136,7 @@
                             </li>
 			    <li>
                                 <a href="#fbRankRecipients">Rank Recipients question</a>
-                            </li>		    
+                            </li>
                         </ul>
 
                         <div class="row">
@@ -4472,6 +4472,10 @@
                                 Distribute points (among options) question allows you to specify some options, and allow the student to split some points among these options.
                                 <br> To setup the question, specify the options as well as the number of points to split among the options.
                                 <br>
+                                <br> You can also specify
+                                <b>Points to distribute X number of options</b>, which multiplies the points specified by the number of options.
+                                <br> For example, if there are 5 options and
+                                <b>Points to distribute X number of options</b> is set to 100, students will have to split 500 points in total to the 5 options.
 
 
                                 <div class="bs-example">
@@ -4552,35 +4556,86 @@
                                                             <input type="hidden" name="constSumToRecipients" id="constSumToRecipients-9" value="false" disabled="">
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <div class="form-inline col-sm-12">
-                                                                <div class="row">
-                                                                    <div class="col-sm-4">
-                                                                        <label class="control-label width-100-pc">
-                                                                            <b>Points to distribute </b>
-                                                                        </label>
-                                                                    </div>
-                                                                    <div class="col-sm-5">
-                                                                        <select class="col-sm-5 width-100-pc select form-control" disabled="" id="constSumPointsPerOptionSelect-9" name="constSumPointsPerOption">
-                                                                            <option value="false">in total:</option>
-                                                                            <option value="true" id="constSumOption_Option-9">per option:</option>
-                                                                            <option value="true" id="constSumOption_Recipient-9">per recipient:</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <input type="number" disabled="" class="form-control width-100-pc pointsBox" name="constSumPoints" id="constSumPoints-9" value="100" min="1" step="1" onchange="updateConstSumPointsValue(9)">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-inline col-sm-12" id="constSum_tooltipText-9" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this prevents a giver from distributing the same number of points to multiple options">
-                                                                <label class="control-label">
-                                                                    <span id="constSum_labelText-9">Every option to receive a different number of points </span>
-                                                                    <input type="checkbox" name="constSumUnevenDistribution" disabled="" id="constSum_UnevenDistribution-9">
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <br>
+                                                          <div class="form-inline">
+                                                              <div class="row">
+                                                                  <div class="col-md-12">
+                                                                      <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
+                                                                          <b>Total Points to distribute: </b>
+                                                                      </label>
+                                                                  </div>
+
+                                                                  <div class="col-xs-12 margin-bottom-7px padding-left-35px">
+                                                                      <div class="col-xs-1">
+                                                                          <input type="radio" id="constSumPointsTotal-9"
+                                                                                  name="constSumPointsPerOption"
+                                                                                  value="false" checked>
+                                                                      </div>
+                                                                      <div class="col-xs-4 padding-0 col-sm-4">
+                                                                          <input type="number" disabled class="form-control width-100-pc pointsBox"
+                                                                                  name="constSumPoints"
+                                                                                  id="constSumPoints-9" value="100" min="1" step="1"
+                                                                                  onChange="updateConstSumPointsValue(9)">
+                                                                      </div>
+                                                                      <div class="col-xs-6 padding-0">
+                                                                          <label class="margin-top-7px padding-left-7px">in total</label>
+                                                                      </div>
+
+                                                                  </div>
+                                                                  <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Option-9" >
+                                                                      <div class="col-xs-1">
+                                                                          <input type="radio" id="constSumPointsPerOption-9"
+                                                                                  name="constSumPointsPerOption"
+                                                                                  value="true" >
+                                                                      </div>
+                                                                      <div class="col-xs-4 padding-0">
+
+                                                                          <input type="number" disabled
+                                                                                  class="form-control width-100-pc pointsBox"
+                                                                                  name="constSumPoints"
+                                                                                  id="constSumPoints-9"
+                                                                                  value="100" min="1" step="1"
+                                                                                  onChange="updateConstSumPointsValue(9)">
+                                                                      </div>
+                                                                      <div class="col-xs-6 padding-0">
+                                                                          <label class="margin-top-7px padding-left-7px">X</label>
+                                                                          <label class="margin-top-7px">number of options</label>
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Recipient-9" style="display:none">
+                                                                      <div class="col-xs-1">
+                                                                          <input type="radio" id="constSumPointsPerRecipient-9"
+                                                                                  name="constSumPointsPerOption"
+                                                                                  value="true" >
+                                                                      </div>
+                                                                      <div class="col-xs-4 padding-0">
+                                                                          <input type="number" disabled
+                                                                                  class="form-control width-100-pc pointsBox" name="constSumPoints"
+                                                                                  id="constSumPoints-9" value="100" min="1" step="1"
+                                                                                  onChange="updateConstSumPointsValue(9)">
+                                                                      </div>
+                                                                      <div class="col-xs-6 padding-0">
+                                                                          <label class="margin-top-7px padding-left-7px">X</label>
+                                                                          <label class="margin-top-7px">number of recipients</label>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <div class="row">
+                                                              <div class="col-sm-12">
+                                                                  <div class="checkbox" id="constSum_tooltipText-9"
+                                                                          data-toggle="tooltip" data-placement="top"
+                                                                          data-container="body"
+                                                                          title="Ticking this prevents a giver from distributing the same number of points to multiple options">
+                                                                      <label class="bold-label">
+                                                                          <input type="checkbox" name="constSumUnevenDistribution" disabled
+                                                                                  id="constSum_UnevenDistribution-9">
+                                                                              <span id="constSum_labelText-9">
+                                                                                  Every option to receive a different number of points</span>
+                                                                      </label>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <br>
                                                     </div>
                                                 </div>
                                                 <br>
@@ -4915,13 +4970,13 @@
                                 <a name="fbConstSumRecipients">
                                     <h4>Distribute points (among recipients) question</h4>
                                 </a>
-                                Distribute points (among recipients) question is similar to Distribute points (among recipients) question. For this question type, students split points among the recipients of the question.
+                                Distribute points (among recipients) question is similar to Distribute points (among options) question. For this question type, students split points among the recipients of the question.
                                 <br> For example, if the question recipient is set to the giver's team members, and points to distribute in total is 100, students are required to split the 100 points among his team members.
                                 <br>
                                 <br> You can also specify
-                                <b>Points to distribute per recipient</b>, which multiplies the points specified by the number of options or recipients.
+                                <b>Points to distribute X number of recipients</b>, which multiplies the points specified by the number of recipients.
                                 <br> For example, if there are 5 team members and
-                                <b>Points to distribute per recipient</b> is set to 100, students will have to split 500 points in total to the 5 members.
+                                <b>Points to distribute X number of recipients</b> is set to 100, students will have to split 500 points in total to the 5 members.
 
                                 <div class="bs-example">
                                     <form class="form-horizontal form_question" role="form" method="post" >
@@ -4965,7 +5020,6 @@
                                                     <div class="row">
                                                         <br>
                                                         <div class="col-sm-6" id="constSumOptionTable-10" style="display:none">
-
                                                             <div id="constSumAddOptionRow-10">
                                                                 <div colspan="2">
                                                                     <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(10)" style="display:none">
@@ -4974,40 +5028,97 @@
                                                                     </a>
                                                                 </div>
                                                             </div>
-
                                                             <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-10" value="0" disabled="">
                                                             <input type="hidden" name="constSumToRecipients" id="constSumToRecipients-10" value="true" disabled="">
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <div class="form-inline col-sm-12">
+                                                            <div class="form-inline">
                                                                 <div class="row">
-                                                                    <div class="col-sm-4">
-                                                                        <label class="control-label width-100-pc">
-                                                                            <b>Points to distribute </b>
+                                                                    <div class="col-md-12">
+                                                                        <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
+                                                                            <b>Total Points to distribute:</b>
                                                                         </label>
                                                                     </div>
-                                                                    <div class="col-sm-5">
-                                                                        <select class="col-sm-5 width-100-pc select form-control" disabled="" id="constSumPointsPerOptionSelect-10" name="constSumPointsPerOption">
-                                                                            <option value="false">in total:</option>
-                                                                            <option value="true" id="constSumOption_Option-10" selected="">per option:</option>
-                                                                            <option value="true" id="constSumOption_Recipient-10" selected="">per recipient:</option>
-                                                                        </select>
+                                                                    <div class="col-xs-12 margin-bottom-7px padding-left-35px">
+                                                                        <div class="col-xs-1">
+                                                                            <input type="radio" id="constSumPointsTotal-10"
+                                                                                    name="constSumPointsPerOption"
+                                                                                    value="false" checked>
+                                                                        </div>
+                                                                        <div class="col-xs-4 padding-0 col-sm-4">
+                                                                            <input type="number" disabled
+                                                                                    class="form-control width-100-pc pointsBox"
+                                                                                    name="constSumPoints" id="constSumPoints-10"
+                                                                                    value="100" min="1" step="1"
+                                                                                    onChange="updateConstSumPointsValue(10)">
+                                                                        </div>
+                                                                        <div class="col-xs-6 padding-0">
+                                                                            <label class="margin-top-7px padding-left-7px">
+                                                                                in total
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-sm-3">
-                                                                        <input type="number" disabled="" class="form-control width-100-pc pointsBox" name="constSumPoints" id="constSumPoints-10" value="100" min="1" step="1" onchange="updateConstSumPointsValue(10)">
+                                                                    <div class="col-xs-12 margin-bottom-15px padding-left-35px"
+                                                                        id="constSumOption_Option-10" style="display: none">
+                                                                        <div class="col-xs-1">
+                                                                            <input type="radio" id="constSumPointsPerOption-10"
+                                                                                    name="constSumPointsPerOption" value="true">
+                                                                        </div>
+                                                                        <div class="col-xs-4 padding-0">
+                                                                            <input type="number" disabled
+                                                                                    class="form-control width-100-pc pointsBox"
+                                                                                    name="constSumPoints" id="constSumPoints-10"
+                                                                                    value="100" min="1" step="1"
+                                                                                    onChange="updateConstSumPointsValue(10)">
+                                                                        </div>
+                                                                        <div class="col-xs-6 padding-0">
+                                                                            <label class="margin-top-7px padding-left-7px">X</label>
+                                                                            <label class="margin-top-7px">
+                                                                                number of options
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-12 margin-bottom-15px padding-left-35px"
+                                                                        id="constSumOption_Recipient-10">
+                                                                        <div class="col-xs-1">
+                                                                            <input type="radio" id="constSumPointsPerRecipient-10"
+                                                                                    name="constSumPointsPerOption"
+                                                                                    value="true" checked>
+                                                                        </div>
+                                                                        <div class="col-xs-4 padding-0">
+                                                                            <input type="number" disabled
+                                                                                class="form-control width-100-pc pointsBox"
+                                                                                name="constSumPoints" id="constSumPoints-10"
+                                                                                value="100" min="1" step="1"
+                                                                                onChange="updateConstSumPointsValue(10)">
+                                                                        </div>
+                                                                        <div class="col-xs-6 padding-0">
+                                                                            <label class="margin-top-7px padding-left-7px">X</label>
+                                                                            <label class="margin-top-7px">
+                                                                                number of recipients
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-inline col-sm-12" id="constSum_tooltipText-10" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this prevents a giver from distributing the same number of points to multiple recipients">
-                                                                <label class="control-label">
-                                                                    <span id="constSum_labelText-10">Every recipient to receive a different number of points </span>
-                                                                    <input type="checkbox" name="constSumUnevenDistribution" disabled="" id="constSum_UnevenDistribution-10">
-                                                                </label>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="checkbox" id="constSum_tooltipText-10"
+                                                                            data-toggle="tooltip" data-placement="top"
+                                                                            data-container="body"
+                                                                            title="Ticking this prevents a giver from distributing the same number of points to multiple recipients">
+                                                                        <label class="bold-label">
+                                                                            <input type="checkbox"
+                                                                                    name="constSumUnevenDistribution" disabled
+                                                                                    id="constSum_UnevenDistribution-10">
+                                                                            <span id="constSum_labelText-10">
+                                                                            Every Recipient to recieve a different number of points
+                                                                            </span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <br>
+                                                            <br>
                                                     </div>
                                                 </div>
                                                 <br>
@@ -6694,16 +6805,16 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <a name="fbRankOptions">
                                     <h4>Rank Options question</h4>
                                 </a>
-                                Rank options questions are question where the students rank options that are created by you. 
+                                Rank options questions are question where the students rank options that are created by you.
                                 <br>
-                            
-                                <br> To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times. 
+
+                                <br> To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times.
                                 <br>
                                 <br>
                                 <div class="bs-example">
@@ -6715,11 +6826,11 @@
                                                         <span>
                                                             <strong>Question</strong>
                                                             <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-3" disabled="">
-                                                                
+
                                                                     <option value="1">
                                                                         1
                                                                     </option>
-                                                                
+
                                                             </select>
                                                             &nbsp;Rank (options) question
                                                         </span>
@@ -6746,7 +6857,7 @@
                                             <div class="panel-body">
                                                 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
                                                     <div>
-                                                        
+
                                                         <textarea class="form-control textvalue nonDestructive" rows="5" name="questiontext" id="questiontext-3" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rank the following factors in order of importance to your group, where 1 is the most important. </textarea>
                                                     </div>
                                                     <div class="row">
@@ -6796,7 +6907,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                                
+
                                             <div id="rankAddOptionRow-3">
                                                 <div colspan="2">
                                                     <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-3" onclick="addRankOption(3)" style="display:none">
@@ -6805,7 +6916,7 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            
+
                                             <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-3" value="4" disabled="">
                                         </div>
                                         <div class="col-sm-6">
@@ -6814,13 +6925,13 @@
                                                 <span style="margin-left: 5px; font-weight: bold;">Allow response giver to give the same rank to multiple options</span>
                                             </div>
                                         </div>
-                                        
+
                                         <br>
                                     </div>
                                                 </div>
-                                                
+
                                                 <br>
-                                                
+
 
 
 
@@ -6833,29 +6944,29 @@
                                         <div class="col-sm-12 padding-0">
                                             <b>Feedback Path</b> (Who is giving feedback about whom?)
                                         </div>
-                                        <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">  
+                                        <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">
                                             <label class="col-sm-5 control-label">
                                                 Who will give the feedback:
                                             </label>
                                             <div class="col-sm-7">
                                                 <select class="form-control participantSelect" id="givertype-3" name="givertype" disabled="" onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                                                    
+
                                                         <option value="SELF">
                                                             Me (Session creator)
                                                         </option>
-                                                    
+
                                                         <option value="STUDENTS">
                                                             Students in this course
                                                         </option>
-                                                    
+
                                                         <option value="INSTRUCTORS">
                                                             Instructors in this course
                                                         </option>
-                                                    
+
                                                         <option selected="" value="TEAMS">
                                                             Teams in this course
                                                         </option>
-                                                    
+
                                                 </select>
                                             </div>
                                         </div>
@@ -6865,39 +6976,39 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <select class="form-control participantSelect" id="recipienttype-3" name="recipienttype" disabled="" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
-                                                    
+
                                                         <option selected="" value="SELF">
                                                             Giver (Self feedback)
                                                         </option>
-                                                    
+
                                                         <option value="STUDENTS">
                                                             Other students in the course
                                                         </option>
-                                                    
+
                                                         <option value="INSTRUCTORS">
                                                             Instructors in the course
                                                         </option>
-                                                    
+
                                                         <option value="TEAMS">
                                                             Other teams in the course
                                                         </option>
-                                                    
+
                                                         <option value="OWN_TEAM">
                                                             Giver's team
                                                         </option>
-                                                    
+
                                                         <option value="OWN_TEAM_MEMBERS">
                                                             Giver's team members
                                                         </option>
-                                                    
+
                                                         <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
                                                             Giver's team members and Giver
                                                         </option>
-                                                    
+
                                                         <option value="NONE">
                                                             Nobody specific (For general class feedback)
                                                         </option>
-                                                    
+
                                                 </select>
                                             </div>
                                         </div>
@@ -6922,7 +7033,7 @@
 
                                     <br>
 
-                                                
+
 
 
 
@@ -6956,11 +7067,11 @@
                                         <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-3">
                                             This is the visibility as seen by the feedback giver.
                                             <ul class="background-color-warning">
-                                            
+
                                                 <li>You can see your own feedback in the results page later on.</li>
-                                            
+
                                                 <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                                            
+
                                             </ul>
                                         </div>
                                     </div>
@@ -7056,7 +7167,7 @@
                                             </tbody></table>
                                         </div>
                                     </div>
-                                                
+
                                                 <div>
                                                     <span class="pull-right">
                                                         <input id="button_question_submit-3" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" disabled="">
@@ -7076,7 +7187,7 @@
                                         <input type="hidden" name="user" value="inst@email.com">
                                     </form>
                                 </div>
-                                
+
 
                         </div>
                         <div class="row">
@@ -7084,9 +7195,9 @@
                                 <a name="fbRankRecipients">
                                     <h4>Rank Recipients question</h4>
                                 </a>
-                                Rank recipients questions are questions where the students are to rank students, teams, or instructors. 
+                                Rank recipients questions are questions where the students are to rank students, teams, or instructors.
                                 <br>
-                                <br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times. 
+                                <br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times.
                                 <br>
                                 <br>
                                 <div class="bs-example">
@@ -7098,11 +7209,11 @@
                                                         <span>
                                                             <strong>Question</strong>
                                                             <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-4" disabled="">
-                                                                
+
                                                                     <option value="1">
                                                                         1
                                                                     </option>
-                                                                
+
                                                             </select>
                                                             &nbsp;Rank (recipients) question
                                                         </span>
@@ -7129,7 +7240,7 @@
                                             <div class="panel-body">
                                                 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
                                                     <div>
-                                                        
+
                                                         <textarea class="form-control textvalue nonDestructive" rows="5" name="questiontext" id="questiontext-4" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rank the teams in your class, based on how much work you think the teams have put in. </textarea>
                                                     </div>
                                                     <div class="row">
@@ -7143,9 +7254,9 @@
                                         <br>
                                     </div>
                                                 </div>
-                                                
+
                                                 <br>
-                                                
+
 
 
 
@@ -7158,29 +7269,29 @@
                                         <div class="col-sm-12 padding-0">
                                             <b>Feedback Path</b> (Who is giving feedback about whom?)
                                         </div>
-                                        <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">  
+                                        <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">
                                             <label class="col-sm-5 control-label">
                                                 Who will give the feedback:
                                             </label>
                                             <div class="col-sm-7">
                                                 <select class="form-control participantSelect" id="givertype-4" name="givertype" disabled="" onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                                                    
+
                                                         <option value="SELF">
                                                             Me (Session creator)
                                                         </option>
-                                                    
+
                                                         <option selected="" value="STUDENTS">
                                                             Students in this course
                                                         </option>
-                                                    
+
                                                         <option value="INSTRUCTORS">
                                                             Instructors in this course
                                                         </option>
-                                                    
+
                                                         <option value="TEAMS">
                                                             Teams in this course
                                                         </option>
-                                                    
+
                                                 </select>
                                             </div>
                                         </div>
@@ -7190,39 +7301,39 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <select class="form-control participantSelect" id="recipienttype-4" name="recipienttype" disabled="" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
-                                                    
+
                                                         <option value="SELF">
                                                             Giver (Self feedback)
                                                         </option>
-                                                    
+
                                                         <option value="STUDENTS">
                                                             Other students in the course
                                                         </option>
-                                                    
+
                                                         <option value="INSTRUCTORS">
                                                             Instructors in the course
                                                         </option>
-                                                    
+
                                                         <option selected="" value="TEAMS">
                                                             Other teams in the course
                                                         </option>
-                                                    
+
                                                         <option value="OWN_TEAM">
                                                             Giver's team
                                                         </option>
-                                                    
+
                                                         <option value="OWN_TEAM_MEMBERS">
                                                             Giver's team members
                                                         </option>
-                                                    
+
                                                         <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
                                                             Giver's team members and Giver
                                                         </option>
-                                                    
+
                                                         <option value="NONE">
                                                             Nobody specific (For general class feedback)
                                                         </option>
-                                                    
+
                                                 </select>
                                             </div>
                                         </div>
@@ -7247,7 +7358,7 @@
 
                                     <br>
 
-                                                
+
 
 
 
@@ -7281,11 +7392,11 @@
                                         <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-4">
                                             This is the visibility as seen by the feedback giver.
                                             <ul class="background-color-warning">
-                                            
+
                                                 <li>The receiving team can see your response, and your name.</li>
-                                            
+
                                                 <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                                            
+
                                             </ul>
                                         </div>
                                     </div>
@@ -7381,7 +7492,7 @@
                                             </tbody></table>
                                         </div>
                                     </div>
-                                                
+
                                                 <div>
                                                     <span class="pull-right">
                                                         <input id="button_question_submit-4" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" disabled="">
@@ -7399,10 +7510,10 @@
                                         <input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS">
                                         <input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS">
                                         <input type="hidden" name="user" value="inst@email.com">
-                                    </form>  
+                                    </form>
                                 </div>
-                                
-                                <br> The statistics for both rank questions show the average rank an option/recipient received. Ties are handled during the computation of statistics. If duplicate ranks are allowed to be given, ties are resolved by assigning the best rank to the occurences of tied values. For example, for the data {1, 3, 3, 4}, the ranks will be converted to {1, 2, 2, 4}. 
+
+                                <br> The statistics for both rank questions show the average rank an option/recipient received. Ties are handled during the computation of statistics. If duplicate ranks are allowed to be given, ties are resolved by assigning the best rank to the occurences of tied values. For example, for the data {1, 3, 3, 4}, the ranks will be converted to {1, 2, 2, 4}.
                                 <br>
                                 <br>
                                 <div class="bs-example">
@@ -7435,7 +7546,7 @@
                                             Team 1
                                         </td>
                                         <td>
-                                            
+
                                         </td>
                                         <td>
                                             1 , 1 , 2
@@ -7448,7 +7559,7 @@
                                             Team 2
                                         </td>
                                         <td>
-                                            
+
                                         </td>
                                         <td>
                                             1 , 2
@@ -7461,7 +7572,7 @@
                                             Team 3
                                         </td>
                                         <td>
-                                            
+
                                         </td>
                                         <td>
                                             1 , 2
