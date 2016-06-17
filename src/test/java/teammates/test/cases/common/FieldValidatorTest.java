@@ -404,9 +404,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidNationality = "{ Invalid Char Nationality";
         String actual = validator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Invalid nationality (invalid char) should return error string that is specific to nationality",
-                      INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", invalidNationality)
-                                                .replace("{fieldName}", NATIONALITY_FIELD_NAME)
-                                                .replace("{reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
+                      INVALID_NAME_ERROR_MESSAGE.replace("${userInput}", invalidNationality)
+                                                .replace("${fieldName}", NATIONALITY_FIELD_NAME)
+                                                .replace("${reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
                       actual);
     }
 
@@ -423,9 +423,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidSectionName = "Percent Symbol % Section";
         String actual = validator.getInvalidityInfoForSectionName(invalidSectionName);
         assertEquals("Invalid section name (invalid char) should return error string that is specific to section name",
-                     INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", invalidSectionName)
-                                               .replace("{fieldName}", SECTION_NAME_FIELD_NAME)
-                                               .replace("{reason}", REASON_CONTAINS_INVALID_CHAR),
+                     INVALID_NAME_ERROR_MESSAGE.replace("${userInput}", invalidSectionName)
+                                               .replace("${fieldName}", SECTION_NAME_FIELD_NAME)
+                                               .replace("${reason}", REASON_CONTAINS_INVALID_CHAR),
                      actual);
     }
 
@@ -434,9 +434,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidCourseName = "Vertical Bar | Course";
         String actual = validator.getInvalidityInfoForCourseName(invalidCourseName);
         assertEquals("Invalid course name (invalid char) should return error string that is specific to course name",
-                     INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", invalidCourseName)
-                                               .replace("{fieldName}", COURSE_NAME_FIELD_NAME)
-                                               .replace("{reason}", REASON_CONTAINS_INVALID_CHAR),
+                     INVALID_NAME_ERROR_MESSAGE.replace("${userInput}", invalidCourseName)
+                                               .replace("${fieldName}", COURSE_NAME_FIELD_NAME)
+                                               .replace("${reason}", REASON_CONTAINS_INVALID_CHAR),
                      actual);
     }
 
@@ -454,10 +454,10 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidEmailSubject = "";
         String actual = validator.getInvalidityInfoForEmailSubject(invalidEmailSubject);
         assertEquals("Invalid email subject (empty) should return error message that is specific to email subject",
-                     SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", invalidEmailSubject)
-                                                .replace("{fieldName}", EMAIL_SUBJECT_FIELD_NAME)
-                                                .replace("{reason}", REASON_EMPTY)
-                                                .replace("{maxLength}", String.valueOf(EMAIL_SUBJECT_MAX_LENGTH)),
+                     SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("${userInput}", invalidEmailSubject)
+                                                .replace("${fieldName}", EMAIL_SUBJECT_FIELD_NAME)
+                                                .replace("${reason}", REASON_EMPTY)
+                                                .replace("${maxLength}", String.valueOf(EMAIL_SUBJECT_MAX_LENGTH)),
                      actual);
     }
 
@@ -532,12 +532,12 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String whitespaceId = "     ";
         assertEquals("Invalid Google ID (contains whitespaces only) should return appropriate error message",
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", GOOGLE_ID_FIELD_NAME),
+                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME),
                      validator.getInvalidityInfoForGoogleId(whitespaceId));
 
         String untrimmedId = "  googleIdWithSpacesAround    ";
         assertEquals("Invalid Google ID (leading/trailing whitespaces) should return appropriate error message",
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", GOOGLE_ID_FIELD_NAME),
+                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME),
                      validator.getInvalidityInfoForGoogleId(untrimmedId));
 
         String tooLongId = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH + 1);
@@ -591,12 +591,12 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String untrimmedEmail = "  untrimmed@email.com  ";
         assertEquals("Invalid email (leading/trailing spaces) should return appropriate error string",
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", EMAIL_FIELD_NAME),
+                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME),
                      validator.getInvalidityInfoForEmail(untrimmedEmail));
 
         String whitespaceEmail = "    ";
         assertEquals("Invalid email (only whitespaces) should return appropriate error string",
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", EMAIL_FIELD_NAME),
+                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME),
                      validator.getInvalidityInfoForEmail(whitespaceEmail));
 
         String tooLongEmail = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH + 1) + "@c.gov";
@@ -681,12 +681,12 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String untrimmedCourseId = " $cs1101-sem1.2_ ";
         assertEquals("Invalid Course ID (untrimmed) should return appropriate error string",
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", COURSE_NAME_FIELD_NAME),
+                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", COURSE_NAME_FIELD_NAME),
                      validator.getInvalidityInfoForCourseId(untrimmedCourseId));
 
         String whitespaceOnlyCourseId = "    ";
         assertEquals("Invalid Course ID (whitespace only) should return appropriate error string",
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", COURSE_NAME_FIELD_NAME),
+                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", COURSE_NAME_FIELD_NAME),
                      validator.getInvalidityInfoForCourseId(whitespaceOnlyCourseId));
 
         String tooLongCourseId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);

@@ -105,13 +105,13 @@ public class FieldValidator {
 
     // error message components
     public static final String ERROR_INFO =
-            "\"{userInput}\" is not acceptable to TEAMMATES as {fieldName} because it {reason}.";
+            "\"${userInput}\" is not acceptable to TEAMMATES as ${fieldName} because it ${reason}.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY =
-            "The value of {fieldName} should be no longer than {maxLength} characters. It should not be empty.";
+            "The value of ${fieldName} should be no longer than ${maxLength} characters. It should not be empty.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
-            "The value of {fieldName} should be no longer than {maxLength} characters.";
+            "The value of ${fieldName} should be no longer than ${maxLength} characters.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
-            "All {fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
+            "All ${fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
             + "(|) or percent sign (%).";
 
     // generic (i.e., not specific to any field) error messages
@@ -122,18 +122,18 @@ public class FieldValidator {
     public static final String INVALID_NAME_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME;
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
-            "The provided {fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
+            "The provided ${fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
             + "or contains extra spaces at the beginning or at the end of the text.";
     public static final String NON_HTML_FIELD_ERROR_MESSAGE =
-            Sanitizer.sanitizeForHtml("The provided {fieldName} is not acceptable to TEAMMATES as it cannot contain"
+            Sanitizer.sanitizeForHtml("The provided ${fieldName} is not acceptable to TEAMMATES as it cannot contain"
                                       + " the following special html characters in brackets: (< > \\ / ' &)");
     public static final String NON_NULL_FIELD_ERROR_MESSAGE =
-            "The provided {fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
+            "The provided ${fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
 
     // field-specific error messages
     public static final String HINT_FOR_CORRECT_EMAIL =
             "An email address contains some text followed by one '@' sign followed by some more text. "
-            + "It cannot be longer than {maxLength} characters. "
+            + "It cannot be longer than ${maxLength} characters. "
             + "It cannot be empty and it cannot have spaces.";
     public static final String EMAIL_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
@@ -142,7 +142,7 @@ public class FieldValidator {
 
     public static final String HINT_FOR_CORRECT_COURSE_ID =
             "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
-            + "It cannot be longer than {maxLength} characters. "
+            + "It cannot be longer than ${maxLength} characters. "
             + "It cannot be empty or contain spaces.";
     public static final String COURSE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
@@ -263,22 +263,22 @@ public class FieldValidator {
         String sanitizedValue = Sanitizer.sanitizeForHtml(email);
 
         if (email.isEmpty()) {
-            return EMAIL_ERROR_MESSAGE.replace("{userInput}", email)
-                                      .replace("{fieldName}", EMAIL_FIELD_NAME)
-                                      .replace("{reason}", REASON_EMPTY)
-                                      .replace("{maxLength}", String.valueOf(EMAIL_MAX_LENGTH));
+            return EMAIL_ERROR_MESSAGE.replace("${userInput}", email)
+                                      .replace("${fieldName}", EMAIL_FIELD_NAME)
+                                      .replace("${reason}", REASON_EMPTY)
+                                      .replace("${maxLength}", String.valueOf(EMAIL_MAX_LENGTH));
         } else if (isUntrimmed(email)) {
-            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", EMAIL_FIELD_NAME);
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME);
         } else if (email.length() > EMAIL_MAX_LENGTH) {
-            return EMAIL_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
-                                      .replace("{fieldName}", EMAIL_FIELD_NAME)
-                                      .replace("{reason}", REASON_TOO_LONG)
-                                      .replace("{maxLength}", String.valueOf(EMAIL_MAX_LENGTH));
+            return EMAIL_ERROR_MESSAGE.replace("${userInput}", sanitizedValue)
+                                      .replace("${fieldName}", EMAIL_FIELD_NAME)
+                                      .replace("${reason}", REASON_TOO_LONG)
+                                      .replace("${maxLength}", String.valueOf(EMAIL_MAX_LENGTH));
         } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
-            return EMAIL_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
-                                      .replace("{fieldName}", EMAIL_FIELD_NAME)
-                                      .replace("{reason}", REASON_INCORRECT_FORMAT)
-                                      .replace("{maxLength}", String.valueOf(EMAIL_MAX_LENGTH));
+            return EMAIL_ERROR_MESSAGE.replace("${userInput}", sanitizedValue)
+                                      .replace("${fieldName}", EMAIL_FIELD_NAME)
+                                      .replace("${reason}", REASON_INCORRECT_FORMAT)
+                                      .replace("${maxLength}", String.valueOf(EMAIL_MAX_LENGTH));
         }
         return "";
     }
@@ -302,19 +302,19 @@ public class FieldValidator {
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
 
         if (googleId.isEmpty()) {
-            return GOOGLE_ID_ERROR_MESSAGE.replace("{userInput}", googleId)
-                                          .replace("{fieldName}", GOOGLE_ID_FIELD_NAME)
-                                          .replace("{reason}", REASON_EMPTY);
+            return GOOGLE_ID_ERROR_MESSAGE.replace("${userInput}", googleId)
+                                          .replace("${fieldName}", GOOGLE_ID_FIELD_NAME)
+                                          .replace("${reason}", REASON_EMPTY);
         } else if (isUntrimmed(googleId)) {
-            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", GOOGLE_ID_FIELD_NAME);
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME);
         } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
-            return GOOGLE_ID_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
-                                          .replace("{fieldName}", GOOGLE_ID_FIELD_NAME)
-                                          .replace("{reason}", REASON_TOO_LONG);
+            return GOOGLE_ID_ERROR_MESSAGE.replace("${userInput}", sanitizedValue)
+                                          .replace("${fieldName}", GOOGLE_ID_FIELD_NAME)
+                                          .replace("${reason}", REASON_TOO_LONG);
         } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
-            return GOOGLE_ID_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
-                                          .replace("{fieldName}", GOOGLE_ID_FIELD_NAME)
-                                          .replace("{reason}", REASON_INCORRECT_FORMAT);
+            return GOOGLE_ID_ERROR_MESSAGE.replace("${userInput}", sanitizedValue)
+                                          .replace("${fieldName}", GOOGLE_ID_FIELD_NAME)
+                                          .replace("${reason}", REASON_INCORRECT_FORMAT);
         }
         return "";
     }
@@ -331,26 +331,26 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", courseId != null);
 
         if (courseId.isEmpty()) {
-            return COURSE_ID_ERROR_MESSAGE.replace("{userInput}", courseId)
-                                          .replace("{fieldName}", COURSE_ID_FIELD_NAME)
-                                          .replace("{reason}", REASON_EMPTY)
-                                          .replace("{maxLength}", String.valueOf(COURSE_ID_MAX_LENGTH));
+            return COURSE_ID_ERROR_MESSAGE.replace("${userInput}", courseId)
+                                          .replace("${fieldName}", COURSE_ID_FIELD_NAME)
+                                          .replace("${reason}", REASON_EMPTY)
+                                          .replace("${maxLength}", String.valueOf(COURSE_ID_MAX_LENGTH));
         }
         if (isUntrimmed(courseId)) {
-            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", COURSE_NAME_FIELD_NAME);
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", COURSE_NAME_FIELD_NAME);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(courseId);
         if (courseId.length() > COURSE_ID_MAX_LENGTH) {
-            return COURSE_ID_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
-                                          .replace("{fieldName}", COURSE_ID_FIELD_NAME)
-                                          .replace("{reason}", REASON_TOO_LONG)
-                                          .replace("{maxLength}", String.valueOf(COURSE_ID_MAX_LENGTH));
+            return COURSE_ID_ERROR_MESSAGE.replace("${userInput}", sanitizedValue)
+                                          .replace("${fieldName}", COURSE_ID_FIELD_NAME)
+                                          .replace("${reason}", REASON_TOO_LONG)
+                                          .replace("${maxLength}", String.valueOf(COURSE_ID_MAX_LENGTH));
         }
         if (!StringHelper.isMatching(courseId, REGEX_COURSE_ID)) {
-            return COURSE_ID_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
-                                          .replace("{fieldName}", COURSE_ID_FIELD_NAME)
-                                          .replace("{reason}", REASON_INCORRECT_FORMAT)
-                                          .replace("{maxLength}", String.valueOf(COURSE_ID_MAX_LENGTH));
+            return COURSE_ID_ERROR_MESSAGE.replace("${userInput}", sanitizedValue)
+                                          .replace("${fieldName}", COURSE_ID_FIELD_NAME)
+                                          .replace("${reason}", REASON_INCORRECT_FORMAT)
+                                          .replace("${maxLength}", String.valueOf(COURSE_ID_MAX_LENGTH));
         }
         return "";
     }
@@ -494,20 +494,20 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         
         if (value.isEmpty()) {
-            return SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", value)
-                                                             .replace("{fieldName}", fieldName)
-                                                             .replace("{reason}", REASON_EMPTY)
-                                                             .replace("{maxLength}", String.valueOf(maxLength));
+            return SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("${userInput}", value)
+                                                             .replace("${fieldName}", fieldName)
+                                                             .replace("${reason}", REASON_EMPTY)
+                                                             .replace("${maxLength}", String.valueOf(maxLength));
         }
         if (isUntrimmed(value)) {
-            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", fieldName);
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > maxLength) {
-            return SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
-                                                             .replace("{fieldName}", fieldName)
-                                                             .replace("{reason}", REASON_TOO_LONG)
-                                                             .replace("{maxLength}", String.valueOf(maxLength));
+            return SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("${userInput}", sanitizedValue)
+                                                             .replace("${fieldName}", fieldName)
+                                                             .replace("${reason}", REASON_TOO_LONG)
+                                                             .replace("${maxLength}", String.valueOf(maxLength));
         }
         return "";
     }
@@ -532,39 +532,39 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         
         if (value.isEmpty()) {
-            return SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", value)
-                                                             .replace("{fieldName}", fieldName)
-                                                             .replace("{reason}", REASON_EMPTY)
-                                                             .replace("{maxLength}", String.valueOf(maxLength));
+            return SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("${userInput}", value)
+                                                             .replace("${fieldName}", fieldName)
+                                                             .replace("${reason}", REASON_EMPTY)
+                                                             .replace("${maxLength}", String.valueOf(maxLength));
         }
         if (isUntrimmed(value)) {
-            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", fieldName);
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > maxLength) {
-            return SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
-                                                             .replace("{fieldName}", fieldName)
-                                                             .replace("{reason}", REASON_TOO_LONG)
-                                                             .replace("{maxLength}", String.valueOf(maxLength));
+            return SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("${userInput}", sanitizedValue)
+                                                             .replace("${fieldName}", fieldName)
+                                                             .replace("${reason}", REASON_TOO_LONG)
+                                                             .replace("${maxLength}", String.valueOf(maxLength));
         }
         if (!Character.isLetterOrDigit(value.codePointAt(0))) {
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
             if (!startsWithBraces) {
-                return INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
-                                                 .replace("{fieldName}", fieldName)
-                                                 .replace("{reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
+                return INVALID_NAME_ERROR_MESSAGE.replace("${userInput}", sanitizedValue)
+                                                 .replace("${fieldName}", fieldName)
+                                                 .replace("${reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
             }
             if (!StringHelper.isMatching(value.substring(1), REGEX_NAME)) {
-                return INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
-                                                 .replace("{fieldName}", fieldName)
-                                                 .replace("{reason}", REASON_CONTAINS_INVALID_CHAR);
+                return INVALID_NAME_ERROR_MESSAGE.replace("${userInput}", sanitizedValue)
+                                                 .replace("${fieldName}", fieldName)
+                                                 .replace("${reason}", REASON_CONTAINS_INVALID_CHAR);
             }
             return "";
         }
         if (!StringHelper.isMatching(value, REGEX_NAME)) {
-            return INVALID_NAME_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
-                                             .replace("{fieldName}", fieldName)
-                                             .replace("{reason}", REASON_CONTAINS_INVALID_CHAR);
+            return INVALID_NAME_ERROR_MESSAGE.replace("${userInput}", sanitizedValue)
+                                             .replace("${fieldName}", fieldName)
+                                             .replace("${reason}", REASON_CONTAINS_INVALID_CHAR);
         }
         return "";
     }
@@ -587,14 +587,14 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         
         if (isUntrimmed(value)) {
-            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("{fieldName}", fieldName);
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
         }
         if (value.length() > maxLength) {
             String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-            return SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE.replace("{userInput}", sanitizedValue)
-                                                                  .replace("{fieldName}", fieldName)
-                                                                  .replace("{reason}", REASON_TOO_LONG)
-                                                                  .replace("{maxLength}", String.valueOf(maxLength));
+            return SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE.replace("${userInput}", sanitizedValue)
+                                                                  .replace("${fieldName}", fieldName)
+                                                                  .replace("${reason}", REASON_TOO_LONG)
+                                                                  .replace("${maxLength}", String.valueOf(maxLength));
         }
         return "";
     }
@@ -727,11 +727,11 @@ public class FieldValidator {
             //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
             .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
         //Fails if sanitized value is not same as value
-        return value.equals(sanitizedValue) ? "" : NON_HTML_FIELD_ERROR_MESSAGE.replace("{fieldName}", fieldName);
+        return value.equals(sanitizedValue) ? "" : NON_HTML_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName);
     }
     
     public String getValidityInfoForNonNullField(String fieldName, Object value) {
-        return (value == null) ? NON_NULL_FIELD_ERROR_MESSAGE.replace("{fieldName}", fieldName) : "";
+        return (value == null) ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
 
     private boolean isUntrimmed(String value) {

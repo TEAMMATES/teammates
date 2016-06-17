@@ -93,7 +93,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 "creator's email",
                 "session creation time"};
         for (String fieldName : fieldNames) {
-            expectedErrorMessage.add(FieldValidator.NON_NULL_FIELD_ERROR_MESSAGE.replace("{fieldName}", fieldName));
+            expectedErrorMessage.add(FieldValidator.NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName));
         }
         
         //expect all the error messages to be appended together.

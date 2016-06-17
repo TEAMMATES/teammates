@@ -186,26 +186,26 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
         // tests both the constructor and the invalidity info
         expectedErrorMessages.add(FieldValidator.INVALID_NAME_ERROR_MESSAGE
-                                      .replace("{userInput}", profile.shortName)
-                                      .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                                      .replace("{reason}", FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR)
-                                      .replace("{maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)));
+                                      .replace("${userInput}", profile.shortName)
+                                      .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                                      .replace("${reason}", FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR)
+                                      .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)));
         expectedErrorMessages.add(FieldValidator.EMAIL_ERROR_MESSAGE
-                                      .replace("{userInput}", profile.email)
-                                      .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
-                                      .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)));
+                                      .replace("${userInput}", profile.email)
+                                      .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                                      .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                                      .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)));
         expectedErrorMessages.add(
                 FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                    .replace("{userInput}", profile.institute)
-                    .replace("{fieldName}", FieldValidator.INSTITUTE_NAME_FIELD_NAME)
-                    .replace("{reason}", FieldValidator.REASON_TOO_LONG)
-                    .replace("{maxLength}", String.valueOf(FieldValidator.INSTITUTE_NAME_MAX_LENGTH)));
+                    .replace("${userInput}", profile.institute)
+                    .replace("${fieldName}", FieldValidator.INSTITUTE_NAME_FIELD_NAME)
+                    .replace("${reason}", FieldValidator.REASON_TOO_LONG)
+                    .replace("${maxLength}", String.valueOf(FieldValidator.INSTITUTE_NAME_MAX_LENGTH)));
         expectedErrorMessages.add(FieldValidator.INVALID_NAME_ERROR_MESSAGE
-                                      .replace("{userInput}", profile.nationality)
-                                      .replace("{fieldName}", FieldValidator.NATIONALITY_FIELD_NAME)
-                                      .replace("{reason}", FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR)
-                                      .replace("{maxLength}", String.valueOf(FieldValidator.NATIONALITY_MAX_LENGTH)));
+                                      .replace("${userInput}", profile.nationality)
+                                      .replace("${fieldName}", FieldValidator.NATIONALITY_FIELD_NAME)
+                                      .replace("${reason}", FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR)
+                                      .replace("${maxLength}", String.valueOf(FieldValidator.NATIONALITY_MAX_LENGTH)));
         expectedErrorMessages.add(String.format(FieldValidator.GENDER_ERROR_MESSAGE, profile.gender));
         return expectedErrorMessages;
     }

@@ -46,24 +46,24 @@ public class AccountAttributesTest extends BaseTestCase {
         account = createInvalidAccountAttributesObject();
         String expectedError =
                 FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                    .replace("{userInput}", "")
-                    .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                    .replace("{reason}", FieldValidator.REASON_EMPTY)
-                    .replace("{maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
+                    .replace("${userInput}", "")
+                    .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                    .replace("${reason}", FieldValidator.REASON_EMPTY)
+                    .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
                 + FieldValidator.GOOGLE_ID_ERROR_MESSAGE
-                      .replace("{userInput}", "invalid google id")
-                      .replace("{fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
-                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
+                      .replace("${userInput}", "invalid google id")
+                      .replace("${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
+                      .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE
-                      .replace("{userInput}", "invalid@email@com")
-                      .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
-                      .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)) + EOL
+                      .replace("${userInput}", "invalid@email@com")
+                      .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                      .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                      .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)) + EOL
                 + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                      .replace("{userInput}", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                      .replace("{fieldName}", FieldValidator.INSTITUTE_NAME_FIELD_NAME)
-                      .replace("{reason}", FieldValidator.REASON_TOO_LONG)
-                      .replace("{maxLength}", String.valueOf(FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
+                      .replace("${userInput}", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                      .replace("${fieldName}", FieldValidator.INSTITUTE_NAME_FIELD_NAME)
+                      .replace("${reason}", FieldValidator.REASON_TOO_LONG)
+                      .replace("${maxLength}", String.valueOf(FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
         assertFalse("all valid values", account.isValid());
         assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
         

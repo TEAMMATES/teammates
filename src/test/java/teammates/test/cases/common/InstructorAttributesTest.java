@@ -127,24 +127,24 @@ public class InstructorAttributesTest extends BaseTestCase {
         assertFalse("invalid value", i.isValid());
         String errorMessage =
                 FieldValidator.GOOGLE_ID_ERROR_MESSAGE
-                    .replace("{userInput}", i.googleId)
-                    .replace("{fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
-                    .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
+                    .replace("${userInput}", i.googleId)
+                    .replace("${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
+                    .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
                 + FieldValidator.COURSE_ID_ERROR_MESSAGE
-                      .replace("{userInput}", i.courseId)
-                      .replace("{fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
-                      .replace("{reason}", FieldValidator.REASON_EMPTY)
-                      .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)) + EOL
+                      .replace("${userInput}", i.courseId)
+                      .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                      .replace("${reason}", FieldValidator.REASON_EMPTY)
+                      .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)) + EOL
                 + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                    .replace("{userInput}", i.name)
-                    .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                    .replace("{reason}", FieldValidator.REASON_EMPTY)
-                    .replace("{maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
+                    .replace("${userInput}", i.name)
+                    .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                    .replace("${reason}", FieldValidator.REASON_EMPTY)
+                    .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE
-                      .replace("{userInput}", i.email)
-                      .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
-                      .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH));
+                      .replace("${userInput}", i.email)
+                      .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                      .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                      .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH));
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
         
         i.googleId = null;
@@ -152,20 +152,20 @@ public class InstructorAttributesTest extends BaseTestCase {
         assertFalse("invalid value", i.isValid());
         errorMessage =
                 FieldValidator.COURSE_ID_ERROR_MESSAGE
-                    .replace("{userInput}", i.courseId)
-                    .replace("{fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
-                    .replace("{reason}", FieldValidator.REASON_EMPTY)
-                    .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)) + EOL
+                    .replace("${userInput}", i.courseId)
+                    .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                    .replace("${reason}", FieldValidator.REASON_EMPTY)
+                    .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)) + EOL
                 + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                    .replace("{userInput}", i.name)
-                    .replace("{fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                    .replace("{reason}", FieldValidator.REASON_EMPTY)
-                    .replace("{maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
+                    .replace("${userInput}", i.name)
+                    .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                    .replace("${reason}", FieldValidator.REASON_EMPTY)
+                    .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE
-                      .replace("{userInput}", i.email)
-                      .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                      .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
-                      .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH));
+                      .replace("${userInput}", i.email)
+                      .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                      .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                      .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH));
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
     }
     

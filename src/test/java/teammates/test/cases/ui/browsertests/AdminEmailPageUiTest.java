@@ -107,19 +107,19 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) {
         return emailPage.getStatus().contains(
                 FieldValidator.EMAIL_ERROR_MESSAGE
-                         .replace("{userInput}", recipientName)
-                         .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                         .replace("{reason}", FieldValidator.REASON_INCORRECT_FORMAT)
-                         .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)));
+                         .replace("${userInput}", recipientName)
+                         .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                         .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                         .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)));
     }
     
     private boolean hasStatusMessageNoSubject() {
         return emailPage.getStatus().equals(
                 FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                    .replace("{userInput}", "")
-                    .replace("{fieldName}", FieldValidator.EMAIL_SUBJECT_FIELD_NAME)
-                    .replace("{reason}", FieldValidator.REASON_EMPTY)
-                    .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH)));
+                    .replace("${userInput}", "")
+                    .replace("${fieldName}", FieldValidator.EMAIL_SUBJECT_FIELD_NAME)
+                    .replace("${reason}", FieldValidator.REASON_EMPTY)
+                    .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH)));
     }
     
     private boolean hasErrorMessage() {

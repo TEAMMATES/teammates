@@ -53,10 +53,10 @@ public class EntitiesDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     COURSE_ID_ERROR_MESSAGE
-                        .replace("{userInput}", invalidCourse.getId())
-                        .replace("{fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
-                        .replace("{reason}", REASON_INCORRECT_FORMAT)
-                        .replace("{maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
+                        .replace("${userInput}", invalidCourse.getId())
+                        .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                        .replace("${reason}", REASON_INCORRECT_FORMAT)
+                        .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
                     e.getMessage());
         }
         

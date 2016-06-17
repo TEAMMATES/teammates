@@ -150,10 +150,10 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         
         assertTrue(result.isError);
         assertEquals(FieldValidator.EMAIL_ERROR_MESSAGE
-                         .replace("{userInput}", invalidStudentEmail)
-                         .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                         .replace("{reason}", FieldValidator.REASON_TOO_LONG)
-                         .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
+                         .replace("${userInput}", invalidStudentEmail)
+                         .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                         .replace("${reason}", FieldValidator.REASON_TOO_LONG)
+                         .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
                      result.getStatusMessage());
         
         expectedLogMessage =
@@ -161,10 +161,10 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Servlet Action Failure : "
                 + FieldValidator.EMAIL_ERROR_MESSAGE
-                      .replace("{userInput}", invalidStudentEmail)
-                      .replace("{fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                      .replace("{reason}", FieldValidator.REASON_TOO_LONG)
-                      .replace("{maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH))
+                      .replace("${userInput}", invalidStudentEmail)
+                      .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                      .replace("${reason}", FieldValidator.REASON_TOO_LONG)
+                      .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH))
                 + "|||/page/instructorCourseStudentDetailsEditSave";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
