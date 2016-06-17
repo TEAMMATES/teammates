@@ -1,7 +1,5 @@
 package teammates.test.cases.storage;
 
-import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import java.util.ArrayList;
@@ -22,6 +20,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
@@ -51,12 +50,11 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try {
             commentsDb.createEntity(c);
         } catch (InvalidParametersException e) {
-            assertEquals(COURSE_ID_ERROR_MESSAGE
-                             .replace("${userInput}", c.courseId)
-                             .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
-                             .replace("${reason}", REASON_INCORRECT_FORMAT)
-                             .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
-                    e.getLocalizedMessage());
+            assertEquals(FieldValidatorTest.getInterpolatedErrorMessage(
+                             FieldValidator.COURSE_ID_ERROR_MESSAGE, c.courseId,
+                             FieldValidator.COURSE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT,
+                             FieldValidator.COURSE_ID_MAX_LENGTH),
+                         e.getLocalizedMessage());
         }
 
         verifyAbsentInDatastore(c);
@@ -191,12 +189,11 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try {
             commentsDb.updateComment(c);
         } catch (InvalidParametersException e) {
-            assertEquals(EMAIL_ERROR_MESSAGE
-                             .replace("${userInput}", "invalid receiver email")
-                             .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                             .replace("${reason}", REASON_INCORRECT_FORMAT)
-                             .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
-                    e.getLocalizedMessage());
+            assertEquals(FieldValidatorTest.getInterpolatedErrorMessage(
+                             FieldValidator.EMAIL_ERROR_MESSAGE, "invalid receiver email",
+                             FieldValidator.EMAIL_FIELD_NAME, REASON_INCORRECT_FORMAT,
+                             FieldValidator.EMAIL_MAX_LENGTH),
+                         e.getLocalizedMessage());
         }
         
         ______TS("comment not exist");

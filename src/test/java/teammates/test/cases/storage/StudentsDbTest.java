@@ -1,6 +1,5 @@
 package teammates.test.cases.storage;
 
-import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import org.testng.annotations.BeforeClass;
@@ -15,6 +14,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.AssertHelper;
 
 public class StudentsDbTest extends BaseComponentTestCase {
@@ -81,11 +81,10 @@ public class StudentsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    COURSE_ID_ERROR_MESSAGE
-                        .replace("${userInput}", s.course)
-                        .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
-                        .replace("${reason}", REASON_INCORRECT_FORMAT)
-                        .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
+                    FieldValidatorTest.getInterpolatedErrorMessage(
+                        FieldValidator.COURSE_ID_ERROR_MESSAGE, s.course,
+                        FieldValidator.COURSE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
                     e.getMessage());
         }
         verifyAbsentInDatastore(s);

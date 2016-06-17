@@ -12,6 +12,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
@@ -247,11 +248,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         instructor.email = "AHPUiT.email.tmt";
         homePage.createInstructor(shortName, instructor, institute);
-        assertEquals(FieldValidator.EMAIL_ERROR_MESSAGE
-                         .replace("${userInput}", instructor.email)
-                         .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                         .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
-                         .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
+        assertEquals(FieldValidatorTest.getInterpolatedErrorMessage(
+                         FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email,
+                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                         FieldValidator.EMAIL_MAX_LENGTH),
                      homePage.getMessageFromResultTable(1));
 
         ______TS("action success: course is accessible for newly joined instructor as student");

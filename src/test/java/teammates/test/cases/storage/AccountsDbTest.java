@@ -18,6 +18,7 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.AssertHelper;
 
 public class AccountsDbTest extends BaseComponentTestCase {
@@ -158,11 +159,10 @@ public class AccountsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException(" - InvalidParametersException");
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    FieldValidator.EMAIL_ERROR_MESSAGE
-                        .replace("${userInput}", "invalid email")
-                        .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                        .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
-                        .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
+                    FieldValidatorTest.getInterpolatedErrorMessage(
+                        FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
+                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.EMAIL_MAX_LENGTH),
                     e.getMessage());
         }
         

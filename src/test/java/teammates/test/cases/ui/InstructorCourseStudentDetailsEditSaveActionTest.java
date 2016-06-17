@@ -11,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
+import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditSaveAction;
 import teammates.ui.controller.RedirectResult;
@@ -149,22 +150,20 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                      result.getDestinationWithParams());
         
         assertTrue(result.isError);
-        assertEquals(FieldValidator.EMAIL_ERROR_MESSAGE
-                         .replace("${userInput}", invalidStudentEmail)
-                         .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                         .replace("${reason}", FieldValidator.REASON_TOO_LONG)
-                         .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
+        assertEquals(FieldValidatorTest.getInterpolatedErrorMessage(
+                         FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,
+                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                         FieldValidator.EMAIL_MAX_LENGTH),
                      result.getStatusMessage());
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave"
                 + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Servlet Action Failure : "
-                + FieldValidator.EMAIL_ERROR_MESSAGE
-                      .replace("${userInput}", invalidStudentEmail)
-                      .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                      .replace("${reason}", FieldValidator.REASON_TOO_LONG)
-                      .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH))
+                + FieldValidatorTest.getInterpolatedErrorMessage(
+                      FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,
+                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                      FieldValidator.EMAIL_MAX_LENGTH)
                 + "|||/page/instructorCourseStudentDetailsEditSave";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());

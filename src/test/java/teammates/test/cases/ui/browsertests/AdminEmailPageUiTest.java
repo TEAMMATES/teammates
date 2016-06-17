@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.pageobjects.AdminEmailPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -106,20 +107,18 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     
     private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) {
         return emailPage.getStatus().contains(
-                FieldValidator.EMAIL_ERROR_MESSAGE
-                         .replace("${userInput}", recipientName)
-                         .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                         .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
-                         .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)));
+                FieldValidatorTest.getInterpolatedErrorMessage(
+                    FieldValidator.EMAIL_ERROR_MESSAGE, recipientName,
+                    FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                    FieldValidator.EMAIL_MAX_LENGTH));
     }
     
     private boolean hasStatusMessageNoSubject() {
         return emailPage.getStatus().equals(
-                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                    .replace("${userInput}", "")
-                    .replace("${fieldName}", FieldValidator.EMAIL_SUBJECT_FIELD_NAME)
-                    .replace("${reason}", FieldValidator.REASON_EMPTY)
-                    .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH)));
+                FieldValidatorTest.getInterpolatedErrorMessage(
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                    FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                    FieldValidator.EMAIL_SUBJECT_MAX_LENGTH));
     }
     
     private boolean hasErrorMessage() {

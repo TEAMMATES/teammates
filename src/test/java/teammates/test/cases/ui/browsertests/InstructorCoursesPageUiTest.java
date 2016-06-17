@@ -11,6 +11,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -205,16 +206,14 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         //one invalid case
         coursesPage.addCourse("", "").verifyStatus(
-                FieldValidator.COURSE_ID_ERROR_MESSAGE
-                    .replace("${userInput}", "")
-                    .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
-                    .replace("${reason}", FieldValidator.REASON_EMPTY)
-                    .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)) + "\n"
-                + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                      .replace("${userInput}", "")
-                      .replace("${fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME)
-                      .replace("${reason}", FieldValidator.REASON_EMPTY)
-                      .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_NAME_MAX_LENGTH)));
+                FieldValidatorTest.getInterpolatedErrorMessage(
+                    FieldValidator.COURSE_ID_ERROR_MESSAGE, "",
+                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                    FieldValidator.COURSE_ID_MAX_LENGTH) + "\n"
+                + FieldValidatorTest.getInterpolatedErrorMessage(
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                      FieldValidator.COURSE_NAME_MAX_LENGTH));
         
         //Checking max-length enforcement by the text boxes
         String maxLengthCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);

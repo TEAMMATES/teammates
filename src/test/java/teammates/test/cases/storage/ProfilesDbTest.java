@@ -16,6 +16,7 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.AssertHelper;
 
 public class ProfilesDbTest extends BaseComponentTestCase {
@@ -72,10 +73,11 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             profilesDb.updateStudentProfile(new StudentProfileAttributes());
             signalFailureToDetectException(" - InvalidParametersException");
         } catch (InvalidParametersException ipe) {
-            assertEquals(FieldValidator.GOOGLE_ID_ERROR_MESSAGE
-                             .replace("${userInput}", "")
-                             .replace("${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
-                             .replace("${reason}", FieldValidator.REASON_EMPTY),
+            assertEquals(
+                    FieldValidatorTest.getInterpolatedErrorMessage(
+                        FieldValidator.GOOGLE_ID_ERROR_MESSAGE,
+                        "",
+                        FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY),
                     ipe.getMessage());
         }
     }

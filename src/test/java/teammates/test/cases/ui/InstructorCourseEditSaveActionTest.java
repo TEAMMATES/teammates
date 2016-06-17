@@ -8,6 +8,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
+import teammates.test.cases.common.FieldValidatorTest;
 import teammates.ui.controller.InstructorCourseEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -85,11 +86,10 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                  .replace("${userInput}", courseName)
-                  .replace("${fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME)
-                  .replace("${reason}", FieldValidator.REASON_EMPTY)
-                  .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_NAME_MAX_LENGTH));
+        statusMessage = FieldValidatorTest.getInterpolatedErrorMessage(
+                             FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, courseName,
+                             FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                             FieldValidator.COURSE_NAME_MAX_LENGTH);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                      + "?error=true&user=" + instructorId + "&courseid=" + courseId,
@@ -107,10 +107,10 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = FieldValidator.INVALID_NAME_ERROR_MESSAGE
-                            .replace("${userInput}", courseName)
-                            .replace("${fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME)
-                            .replace("${reason}", FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
+        statusMessage = FieldValidatorTest.getInterpolatedErrorMessage(
+                            FieldValidator.INVALID_NAME_ERROR_MESSAGE, courseName,
+                            FieldValidator.COURSE_NAME_FIELD_NAME,
+                            FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                      + "?error=true&user=" + instructorId + "&courseid=" + courseId,
@@ -128,10 +128,10 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = FieldValidator.INVALID_NAME_ERROR_MESSAGE
-                            .replace("${userInput}", courseName)
-                            .replace("${fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME)
-                            .replace("${reason}", FieldValidator.REASON_CONTAINS_INVALID_CHAR);
+        statusMessage = FieldValidatorTest.getInterpolatedErrorMessage(
+                             FieldValidator.INVALID_NAME_ERROR_MESSAGE, courseName,
+                             FieldValidator.COURSE_NAME_FIELD_NAME,
+                             FieldValidator.REASON_CONTAINS_INVALID_CHAR);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                      + "?error=true&user=" + instructorId + "&courseid=" + courseId,

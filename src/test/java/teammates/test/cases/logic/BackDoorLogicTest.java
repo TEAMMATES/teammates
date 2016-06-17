@@ -16,6 +16,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.cases.common.FieldValidatorTest;
 
 public class BackDoorLogicTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
@@ -61,11 +62,10 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertTrue(e.getMessage().equals(
-                    FieldValidator.COURSE_ID_ERROR_MESSAGE
-                        .replace("${userInput}", "invalid id")
-                        .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
-                        .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
-                        .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH))));
+                    FieldValidatorTest.getInterpolatedErrorMessage(
+                        FieldValidator.COURSE_ID_ERROR_MESSAGE, "invalid id",
+                        FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH)));
         }
 
         // Not checking for invalid values in other entities because they
