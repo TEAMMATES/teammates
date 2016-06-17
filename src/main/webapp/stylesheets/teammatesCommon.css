@@ -319,6 +319,10 @@ Apply to thead to make headers not bold.
     width: 75%;
 }
 
+.width-80-px {
+    width: 80px;
+}
+
 @media print {
     a[href]:after {
         content: none;
