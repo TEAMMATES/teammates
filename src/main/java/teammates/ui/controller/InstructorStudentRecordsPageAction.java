@@ -53,7 +53,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         CommentAttributes.sortCommentsByCreationTimeDescending(comments);
         
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap =
-                mapCommentsToGiverEmail(comments, instructor, courseId);
+                mapCommentsToGiverEmail(comments, instructor);
         
         Map<String, String> giverEmailToGiverNameMap = mapGiverNameToGiverEmail(courseId, giverEmailToCommentsMap.keySet());
 
