@@ -10,6 +10,12 @@ import com.sendgrid.SendGridException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
 
+/**
+ * Email sender service provided by SendGrid.
+ * Reference: https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid
+ * 
+ * @see SendGrid
+ */
 public class SendgridService implements EmailSenderService {
     
     /**
@@ -19,13 +25,13 @@ public class SendgridService implements EmailSenderService {
     public Email parseToEmail(EmailWrapper wrapper) {
         Email email = new Email();
         email.setFrom(wrapper.getSenderEmail());
-        email.setFromName(wrapper.getSenderName());
-        email.setReplyTo(wrapper.getReplyTo());
-        for (String recipient : wrapper.getRecipientsList()) {
-            email.addTo(recipient);
+        if (wrapper.getSenderName() != null && !wrapper.getSenderName().isEmpty()) {
+            email.setFromName(wrapper.getSenderName());
         }
-        for (String bcc : wrapper.getBccList()) {
-            email.addBcc(bcc);
+        email.setReplyTo(wrapper.getReplyTo());
+        email.addTo(wrapper.getRecipient());
+        if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
+            email.addBcc(wrapper.getBcc());
         }
         email.setSubject(wrapper.getSubject());
         email.setHtml(wrapper.getContent());
