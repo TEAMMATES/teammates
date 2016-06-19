@@ -116,7 +116,7 @@ public class EmailSenderTest extends BaseComponentTestCase {
         assertEquals(wrapper.getRecipient(),
                      ((JSONArray) email.get(Email.RECIPIENTS)).getJSONObject(0).get("Email"));
         assertEquals(wrapper.getBcc(),
-                     ((JSONArray) email.get(Email.BCC)).getJSONObject(0).get("Email"));
+                     ((JSONArray) email.get(Email.RECIPIENTS)).getJSONObject(1).get("Email"));
         assertEquals(wrapper.getReplyTo(),
                      ((JSONObject) email.get(Email.HEADERS)).getString("Reply-To"));
         assertEquals(wrapper.getSubject(), email.get(Email.SUBJECT));

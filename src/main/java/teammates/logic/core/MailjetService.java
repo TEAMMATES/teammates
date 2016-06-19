@@ -36,7 +36,7 @@ public class MailjetService implements EmailSenderService {
         
         request.property(Email.RECIPIENTS, new JSONArray().put(new JSONObject().put("Email", wrapper.getRecipient())));
         if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
-            request.property(Email.BCC, new JSONArray().put(new JSONObject().put("Email", wrapper.getBcc())));
+            request.append(Email.RECIPIENTS, new JSONObject().put("Email", wrapper.getBcc()));
         }
         
         request.property(Email.HEADERS, new JSONObject().put("Reply-To", wrapper.getReplyTo()));
