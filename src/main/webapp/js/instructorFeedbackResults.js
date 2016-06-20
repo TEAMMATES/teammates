@@ -150,6 +150,7 @@ function filterResults(rawSearchText) {
 }
 
 function updateResultsFilter() {
+    $("input[id=filterTextForDownload]").val($('#results-search-box').val());
     filterResults($('#results-search-box').val());
 }
 

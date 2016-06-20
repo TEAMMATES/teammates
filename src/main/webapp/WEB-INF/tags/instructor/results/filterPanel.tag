@@ -40,7 +40,7 @@
                         </label>
                         <div class="col-sm-10" data-toggle="tooltip" title="Filter the results in the current view">
                             <div class="input-group">
-                                <input type="text" id="results-search-box" class="form-control" placeholder="${filterPanel.sortType == 'question' ? 'Type keywords from the question to filter' : 'Type student/team name/section name to filter'}" onchange="updateResultsFilter()">
+                                <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT%>" id="results-search-box" class="form-control" placeholder="${filterPanel.sortType == 'question' ? 'Type keywords from the question to filter' : 'Type student/team name/section name to filter'}" onchange="updateResultsFilter()">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
