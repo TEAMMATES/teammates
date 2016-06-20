@@ -72,11 +72,6 @@ The plugin for Eclipse can be found [here](http://findbugs.cs.umd.edu/eclipse/).
 
 [Macker](https://github.com/andrena/macker) checks the architectural integrity of Java source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-macker.xml).
-To set it up, run the following command:
-```
-./gradlew getMacker
-```
-In addition, Macker requires [Ant](https://ant.apache.org/bindownload.cgi) to run, so install Ant if necessary.
 
 ### EclEmma/JaCoCo
 

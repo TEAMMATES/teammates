@@ -32,6 +32,10 @@
                 <from class="teammates.test.**" />
                 <to class="teammates.test.pageobjects.*" />
                 <allow>
+                    <!-- allow dependency within the package -->
+                    <from class="teammates.test.pageobjects.*" />
+                </allow>
+                <allow>
                     <!-- allow dependency from UI tests -->
                     <from class="teammates.test.cases.ui.browsertests.*" />
                 </allow>

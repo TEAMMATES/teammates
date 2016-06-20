@@ -300,6 +300,7 @@ tasks.withType(FindBugs) {
     }
 }
 
+// workaround to get Macker to be downloaded first
 task mackerEmpty(type: Copy) {
     from configurations.macker
     into "static-analysis/macker"
