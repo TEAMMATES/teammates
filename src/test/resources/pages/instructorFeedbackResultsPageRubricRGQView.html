@@ -351,7 +351,7 @@
                           </span>
                           <br>
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,0,1,1)" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,1, { sectionIndex: 0 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -368,7 +368,8 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-0-1-1" onclick="toggleVisibilityEditForm(0,0,1,1)">
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-0-1-1" onclick="toggleVisibilityAddForm(0,1,1, { sectionIndex: 0 })">
+                                &gt;
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -441,7 +442,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-0-0-1-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,0,1,1);" type="button" value="Cancel">
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,1, { sectionIndex: 0 });" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="0">
@@ -552,7 +553,7 @@
                           </span>
                           <br>
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,1,1)" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,1, { sectionIndex: 0 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -569,7 +570,8 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-1-1-1" onclick="toggleVisibilityEditForm(0,1,1,1)">
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-1-1-1" onclick="toggleVisibilityAddForm(1,1,1, { sectionIndex: 0 })">
+                                &gt;
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -642,10 +644,10 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-0-1-1-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,1,1);" type="button" value="Cancel">
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,1, { sectionIndex: 0 });" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
-                            <input name="fsindex" type="hidden" value="0">
+                            <input name="fsindex" type="hidden" value="1">
                             <input name="responseid" type="hidden" value="${question.id}%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt">
                             <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
                             <input name="fsname" type="hidden" value="Second Session">
@@ -728,7 +730,7 @@
                           </span>
                           <br>
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,2,1)" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,2,1, { sectionIndex: 0 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -745,7 +747,8 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-1-2-1" onclick="toggleVisibilityEditForm(0,1,2,1)">
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-1-2-1" onclick="toggleVisibilityAddForm(1,2,1, { sectionIndex: 0 })">
+                                &gt;
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -818,10 +821,10 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-0-1-2-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,2,1);" type="button" value="Cancel">
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,2,1, { sectionIndex: 0 });" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
-                            <input name="fsindex" type="hidden" value="0">
+                            <input name="fsindex" type="hidden" value="1">
                             <input name="responseid" type="hidden" value="${question.id}%benny.c.tmms@gmail.tmt%benny.c.tmms@gmail.tmt">
                             <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
                             <input name="fsname" type="hidden" value="Second Session">
