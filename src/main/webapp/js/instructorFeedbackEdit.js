@@ -1,11 +1,11 @@
 var NEW_QUESTION = -1;
 
-var WARNING_CANCEL = 'Warning: Any unsaved changes will be lost'
+var WARNING_CANCEL = 'Warning: Any unsaved changes will be lost';
 var CONFIRM_CANCEL_EDIT = 'Are you sure you want to cancel your edit?';
-var CONFIRM_CANCEL_ADD_QNS = 'Are you sure you want to cancel adding this question?'
+var CONFIRM_CANCEL_ADD_QNS = 'Are you sure you want to cancel adding this question?';
 
-var WARNING_DELETE_QNS = 'Warning: Deleted question cannot be recovered'
-var CONFIRM_DELETE_QNS = 'Are you sure you want to delete this question?'
+var WARNING_DELETE_QNS = 'Warning: Deleted question cannot be recovered';
+var CONFIRM_DELETE_QNS = 'Are you sure you want to delete this question?';
 
 var WARNING_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
 var CONFIRM_DELETE_RESPONSES =
@@ -350,16 +350,16 @@ function deleteQuestion(questionNum) {
     if (questionNum === NEW_QUESTION) {
         location.reload();
         return false;
-    } else {
-        var okCallback = function() {
-            $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('delete');
-            $('#form_editquestion-' + questionNum).submit();
-        }
-        BootboxWrapper.showModalConfirmation(
-                WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
-                StatusType.DANGER);
     }
+
+    var okCallback = function() {
+        $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('delete');
+        $('#form_editquestion-' + questionNum).submit();
+    };
+    BootboxWrapper.showModalConfirmation(
+            WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback, null,
+            BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+            StatusType.DANGER);
     return false;
 }
 
@@ -367,9 +367,9 @@ function deleteQuestion(questionNum) {
  * Allows users to cancel editing questions
  */
 function cancelEdit(questionNum) {
-    var confirmationMsg = (questionNum === NEW_QUESTION)
+    var confirmationMsg = questionNum === NEW_QUESTION
                           ? CONFIRM_CANCEL_ADD_QNS
-                          : CONFIRM_CANCEL_EDIT
+                          : CONFIRM_CANCEL_EDIT;
     var okCallback = function() {
         discardChanges(questionNum);
     };
