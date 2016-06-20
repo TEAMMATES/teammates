@@ -4,12 +4,12 @@ var ROW_RECIPIENT_TEAM = 3;
 var ROW_OTHER_STUDENTS = 4;
 var ROW_INSTRUCTORS = 5;
 
-/**
- * Toggles visibility of the Edit Visibility tab
- * @param elem is the anchor link being clicked on.
- */
-function toggleVisibilityEditTab(elem) {
-    var $containingForm = $(elem).closest('form');
+////////////////////
+// EVENT HANDLERS //
+////////////////////
+
+function toggleVisibilityEditTab(clickedButton) {
+    var $containingForm = $(clickedButton).closest('form');
     var $editTab = $containingForm.find('.visibilityOptions');
     var $previewTab = $containingForm.find('.visibilityMessage');
 
@@ -25,6 +25,32 @@ function toggleVisibilityEditTab(elem) {
         $previewTab.show();
     }
 }
+
+function toggleVisibilityPreviewTab(clickedButton) {
+    var $containingForm = $(clickedButton).closest('form');
+    var $editTab = $containingForm.find('.visibilityOptions');
+
+    $editTab.hide();
+    var $disabledInputs = $containingForm.find('input:disabled, select:disabled');
+    $disabledInputs.prop('disabled', false);
+
+    updateEditTab($containingForm);
+
+    updatePreviewTab($containingForm);
+    $disabledInputs.prop('disabled', true);
+}
+
+function getVisibilityMessageIfPreviewIsActive(clickedButton) {
+    var $containingForm = $(clickedButton).closest('form');
+    
+    if ($containingForm.find('.visibilityMessageButton').hasClass('active')) {
+        updatePreviewTab($containingForm);
+    }
+}
+
+////////////////////
+// HELPER METHODS //
+////////////////////
 
 /**
  * Updates the Edit Visibility tab to show/hide visibility option rows
@@ -154,20 +180,6 @@ function updateEditTabAccordingToGiver($containingForm) {
     enableRow($containingForm, 2);
 }
 
-function toggleVisibilityPreviewTab(elem) {
-    var $containingForm = $(elem).closest('form');
-    var $editTab = $containingForm.find('.visibilityOptions');
-
-    $editTab.hide();
-    var $disabledInputs = $containingForm.find('input:disabled, select:disabled');
-    $disabledInputs.prop('disabled', false);
-
-    updateEditTab($containingForm);
-
-    updatePreviewTab($containingForm);
-    $disabledInputs.prop('disabled', true);
-}
-
 // Meant to be declared outside to prevent unncessary AJAX calls
 var previousFormDataMap = {};
 
@@ -234,14 +246,6 @@ function updateToggleVisibilityPreviewButton($containingForm, isLoadSuccessful) 
     
     visibilityPreviewButton.html(icon + ' ' + message)
                            .prepend(radioInput);
-}
-
-function getVisibilityMessageIfPreviewIsActive(buttonElem) {
-    var $containingForm = $(buttonElem).closest('form');
-    
-    if ($containingForm.find('.visibilityMessageButton').hasClass('active')) {
-        updatePreviewTab($containingForm);
-    }
 }
 
 function formatPreviewTabHtml(visibilityMessage) {
