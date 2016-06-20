@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 
 import teammates.common.datatransfer.EntityAttributes;
@@ -233,12 +234,15 @@ public abstract class EntitiesDb {
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
             Object entityCheck = getEntity(entityToDelete);
-            while (entityCheck != null
+            boolean isEntityDeleted = entityCheck == null || JDOHelper.isDeleted(entityCheck);
+            while (!isEntityDeleted
                     && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
                 entityCheck = getEntity(entityToDelete);
+                
+                isEntityDeleted = entityCheck == null || JDOHelper.isDeleted(entityCheck);
                 //check before incrementing to avoid boundary case problem
-                if (entityCheck == null) {
+                if (!isEntityDeleted) {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }

@@ -154,6 +154,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
         verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt", "CFResultsUiT.benny.c@gmail.tmt",
+                                      "CFResultsUiT.fred.g@gmail.tmt",
                                       "CFResultsUiT.charlie.d@gmail.tmt", "CFResultsUiT.danny.e@gmail.tmt",
                                       "drop.out@gmail.tmt", "extra.guy@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt");
 
@@ -554,6 +555,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickGroupByTeam();
         resultsPage.fillSearchBox("team 2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
+        
+        resultsPage.fillSearchBox("alice");
+        resultsPage.verifyPanelForParticipantIsDisplayed("CFResultsUiT.alice.b@gmail.tmt");
+        
+        resultsPage.fillSearchBox("Alice");
+        resultsPage.verifyPanelForParticipantIsDisplayed("CFResultsUiT.alice.b@gmail.tmt");
         
         resultsPage.displayByQuestion();
     }

@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -63,9 +62,11 @@ public class ActivityLogEntry {
     private String message;
     private String url;
     private Long timeTaken;
-    private String id;  // id can be in the form of <googleId>%<time> e.g. bamboo3250%20151103170618465
-                        // or <studentemail>%<courseId>%<time> (for unregistered students)
-                        //     e.g. bamboo@gmail.tmt%instructor.ema-demo%20151103170618465
+    
+    // id can be in the form of <googleId>%<time> e.g. bamboo3250%20151103170618465
+    // or <studentemail>%<courseId>%<time> (for unregistered students)
+    //     e.g. bamboo@gmail.tmt%instructor.ema-demo%20151103170618465
+    private String id;
     
     private boolean isFirstRow;
     
@@ -532,7 +533,7 @@ public class ActivityLogEntry {
         return exceptionLog.generateLogMessage();
     }
 
-    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, MimeMessage errorEmail) {
+    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, EmailWrapper errorEmail) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
         if (actionTaken.length > 0) {
@@ -550,7 +551,7 @@ public class ActivityLogEntry {
                     + "</a>"
                     + "<br>"
                     + "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">"
-                        + errorEmail.getContent().toString()
+                        + errorEmail.getContent()
                     + "</span>";
         } catch (Exception e) {
             message = "System Error: Unable to retrieve Email Report: "

@@ -53,8 +53,8 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         String expectedLogSegment = "Action Instructor Clicked Join Link"
-                + "<br/>Google ID: " + instructor.googleId
-                + "<br/>Key: " + invalidEncryptedKey;
+                + "<br>Google ID: " + instructor.googleId
+                + "<br>Key: " + invalidEncryptedKey;
         AssertHelper.assertContains(expectedLogSegment, confirmAction.getLogMessage());
 
         ______TS("Already registered instructor, redirect straight to authentication page");
@@ -73,8 +73,8 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         assertEquals("", redirectResult.getStatusMessage());
         
         expectedLogSegment = "Action Instructor Clicked Join Link"
-                + "<br/>Google ID: " + instructor.googleId
-                + "<br/>Key: " + StringHelper.encrypt(instructor.key);
+                + "<br>Google ID: " + instructor.googleId
+                + "<br>Key: " + StringHelper.encrypt(instructor.key);
         AssertHelper.assertContains(expectedLogSegment, confirmAction.getLogMessage());
         
         ______TS("Typical case: unregistered instructor, redirect to confirmation page");
@@ -107,8 +107,8 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         expectedLogSegment = "Action Instructor Clicked Join Link"
-                + "<br/>Google ID: " + instructor.googleId
-                + "<br/>Key: " + StringHelper.encrypt(newInstructor.key);
+                + "<br>Google ID: " + instructor.googleId
+                + "<br>Key: " + StringHelper.encrypt(newInstructor.key);
         AssertHelper.assertContains(expectedLogSegment, confirmAction.getLogMessage());
     }
     

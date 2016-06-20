@@ -20,6 +20,7 @@ public class TeamEvalResultTest extends BaseTestCase {
         printTestClassHeader();
     }
 
+    // CHECKSTYLE.OFF:SingleSpaceSeparator vertical alignment of values for readability
     @Test
     // @formatter:off
     public void testCalculatePoints() {
@@ -357,6 +358,7 @@ public class TeamEvalResultTest extends BaseTestCase {
         }
         
     }
+    // CHECKSTYLE.ON:SingleSpaceSeparator
     
     @Test
     public void testSum() {
