@@ -106,6 +106,7 @@
                                        <c:choose>
                                        <c:when test="${not viewButtonEnabled}">
                                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                          disabled
                                        </c:when>
                                        <c:otherwise>
                                           title="<%= Const.Tooltips.COURSE_STUDENT_DETAILS %>"
@@ -123,6 +124,7 @@
                                        <c:choose>
                                        <c:when test="${not editButtonEnabled}">
                                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                          disabled
                                        </c:when>
                                        <c:otherwise>
                                           title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
@@ -141,6 +143,7 @@
                                         <c:choose>
                                         <c:when test="${not remindButtonEnabled}">
                                            title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                           disabled
                                         </c:when>
                                         <c:otherwise>
                                            title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
@@ -159,6 +162,7 @@
                                        <c:choose>
                                        <c:when test="${not deleteButtonEnabled}">
                                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                          disabled
                                        </c:when>
                                        <c:otherwise>
                                           title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"
@@ -185,6 +189,7 @@
                                         <c:choose>
                                         <c:when test="${not commentButtonEnabled}">
                                            title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                           disabled
                                         </c:when>
                                         <c:otherwise>
                                            title="<%= Const.Tooltips.COURSE_STUDENT_COMMENT %>"
@@ -195,7 +200,8 @@
                                            data-placement="top">
                                             Add Comment
                                         </a>
-                                        <a class="btn btn-default btn-xs dropdown-toggle"
+                                        <a class="btn btn-default btn-xs dropdown-toggle
+                                           <c:if test="${not commentButtonEnabled}">disabled</c:if>"
                                            href="javascript:;"
                                            data-toggle="dropdown"
                                            <c:if test="${not commentButtonEnabled}">disabled</c:if>>
