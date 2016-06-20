@@ -5,10 +5,10 @@
 <c:choose>
     <c:when test="${not empty data.commentIds[4]}">
         <shared:feedbackResponseCommentRow frc="${data.comment}"
-                                   firstIndex="${data.commentIds[0]}"
+                                   firstIndex="${data.commentIds[3]}"
                                    secondIndex="${data.commentIds[1]}"
                                    thirdIndex="${data.commentIds[2]}"
-                                   fourthIndex="${data.commentIds[3]}"
+                                   fourthIndex="${data.commentIds[0]}"
                                    frcIndex="${data.commentIds[4]}" />
     </c:when>
     <c:otherwise>

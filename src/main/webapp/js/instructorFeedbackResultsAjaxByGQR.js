@@ -33,13 +33,18 @@ $(document).ready(function() {
                     var $appendedSection = $(data).find('#sectionBody-0');
                     var sectionId = $(panelHeading).attr('id').match(/section-(\d+)/)[1];
 
-                    if (removeEmptySection(sectionId, $appendedSection)) {
-                        return;
+                    if (isEmptySection($appendedSection)) {
+                        if (parseInt(sectionId, 10) === 0) {
+                            removeSection(sectionId);
+                            return;
+                        }
+                        $sectionBody.html('There are no responses for this section yet '
+                                        + 'or you do not have access to the responses collected so far.');
                     }
 
                     $(data).remove();
                     if (typeof $appendedSection === 'undefined') {
-                        $sectionBody.html('There are no responses for this feedback session yet '
+                        $sectionBody.html('There are no responses for this section yet '
                                           + 'or you do not have access to the responses collected so far.');
                     } else {
                         $sectionBody.html($appendedSection.html());

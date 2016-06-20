@@ -256,22 +256,16 @@ function displayAjaxRetryMessageForPanelHeading($element) {
     $element.html(ajaxErrorStart + warningSign + errorMsg + chevronDown + ajaxErrorEnd);
 }
 
-/**
- * Removes section if it is empty. Currently, it removes only 'None' section
- */
-function removeEmptySection(id, content) {
+function isEmptySection(content) {
+    var panelsInSection = content.find('div.panel');
+
+    return panelsInSection.length === 0;
+}
+
+function removeSection(id) {
     var $heading = $('[id^=panelHeading-section-' + id + ']');
 
-    if (parseInt(id, 10) === 0) {
-        var panelsInSection = content.find('div.panel');
-
-        if (panelsInSection.length === 0) {
-            $heading.parent().remove();
-            return 1;
-        }
-    }
-
-    return 0;
+    $heading.parent().remove();
 }
 
 $(document).ready(function() {

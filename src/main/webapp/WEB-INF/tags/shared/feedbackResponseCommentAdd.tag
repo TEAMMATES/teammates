@@ -11,8 +11,8 @@
 
 <c:choose>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex}">
-        <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}-${fourthIndex}" />
-        <c:set var="divIdAsJsParams" value="${firstIndex},${secondIndex},${thirdIndex},${fourthIndex}" />
+        <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}" />
+        <c:set var="divIdAsJsParams" value="${firstIndex},${secondIndex},${thirdIndex}, { sectionIndex: ${fourthIndex} }" />
     </c:when>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex}">
         <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}" />
