@@ -1,3 +1,9 @@
+var ROW_RECIPIENT = 1;
+var ROW_GIVER_TEAM = 2;
+var ROW_RECIPIENT_TEAM = 3;
+var ROW_OTHER_STUDENTS = 4;
+var ROW_INSTRUCTORS = 5;
+
 /**
  * Toggles visibility of the Edit Visibility tab
  * @param elem is the anchor link being clicked on.
@@ -107,18 +113,18 @@ function updateEditTabAccordingToRecipient($containingForm) {
     var recipientType = $containingForm.find('select[name="recipienttype"]').val();
     if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType)) {
         // show the row Recipient(s) and hide the row Recipient's Team Members
-        enableRow($containingForm, 1);
-        disableRow($containingForm, 3);
+        enableRow($containingForm, ROW_RECIPIENT);
+        disableRow($containingForm, ROW_RECIPIENT_TEAM);
         return;
     } else if (recipientType === 'NONE') {
         // hide both the row Recipient(s) and the row Recipient's Team Members
-        disableRow($containingForm, 3);
-        disableRow($containingForm, 1);
+        disableRow($containingForm, ROW_RECIPIENT_TEAM);
+        disableRow($containingForm, ROW_RECIPIENT);
         return;
     }
     
-    enableRow($containingForm, 1);
-    enableRow($containingForm, 3);
+    enableRow($containingForm, ROW_RECIPIENT);
+    enableRow($containingForm, ROW_RECIPIENT_TEAM);
 }
 
 /**
