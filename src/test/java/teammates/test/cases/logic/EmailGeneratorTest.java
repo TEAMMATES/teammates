@@ -132,6 +132,13 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
                 new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
                                                               requestUrl, requestParam, userType, error);
         
+        // The stack trace is different depending on the environment in which the test is run at.
+        // As a workaround, after the last common line, change all the stack trace to ...
+        String lastCommonLineRegex =
+                "(?s)(at org\\.testng\\.TestRunner\\.run\\(TestRunner\\.java:617\\)\\s*)at.*?(\\s*</code>)";
+        String modifiedContent = email.getContent().replaceAll(lastCommonLineRegex, "$1...$2");
+        email.setContent(modifiedContent);
+        
         String subject = String.format(EmailType.ADMIN_SYSTEM_ERROR.getSubject(),
                                        Config.getAppVersion(), error.getMessage());
         
