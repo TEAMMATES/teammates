@@ -29,18 +29,22 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         String[] paramsNormal = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, ""
         };
         String[] paramsNormalWithinSection = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.SECTION_NAME, "Section 1"
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, ""
         };
         String[] paramsWithNullCourseId = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, ""
         };
         String[] paramsWithNullFeedbackSessionName = {
-                Const.ParamsNames.COURSE_ID, session.getCourseId()
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, ""
         };
 
         ______TS("Typical case: results downloadable");
