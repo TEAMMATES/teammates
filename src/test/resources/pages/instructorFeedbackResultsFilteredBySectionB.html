@@ -71,6 +71,7 @@
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="Section B">
+                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                 </form>
                 <br>
                 <div>
@@ -174,7 +175,7 @@
               </label>
               <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
                 <div class="input-group">
-                  <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
+                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
                   <a class="input-group-addon btn btn-default">
                     <span class="glyphicon glyphicon-search">
                     </span>

@@ -878,7 +878,7 @@ public class FeedbackSessionsLogic {
         Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet =
                 results.getQuestionResponseMap().entrySet();
         
-        if (!filterText.isEmpty()) {
+        if (filterText != null && !filterText.isEmpty()) {
             entrySet = filterQuestions(entrySet, filterText.toLowerCase());
         }
         
