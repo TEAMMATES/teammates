@@ -35,14 +35,15 @@ $(document).ready(function() {
         prepareRenameTeamModalUi();
     });
     
-    $('#rename-team-save-button').click(function() {
+    $('#rename-team-form').submit(function(e) {
         if (isNewTeamNameExists()) {
-            var isMergingTeams = confirm('You are about to merge two teams. Proceed?');
-            if (isMergingTeams) {
-                $('#rename-team-form').submit();
-            }
-        } else {
-            $('#rename-team-form').submit();
+            e.preventDefault();
+            var okCallback = function() {
+                e.currentTarget.submit();
+            };
+            BootboxWrapper.showModalConfirmation(
+                    'Merging Teams', 'You are about to merge two teams. Proceed?', okCallback, null,
+                    'Proceed with merging teams.', BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
         }
     });
 });
