@@ -1058,7 +1058,6 @@ public final class Const {
         public static final String MASHUP = "/mashup.jsp";
     
         //View fragments
-        public static final String FOOTER = "/jsp/footer.jsp";
         public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
         
     }
