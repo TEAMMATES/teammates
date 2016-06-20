@@ -49,6 +49,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     private static final int RESPONDENTS_LIMIT_FOR_AUTOLOADING = 150;
 
+    private static int sectionId;
+
     // isLargeNumberOfRespondents is an attribute used for testing the ui, for ViewType.Question
     private boolean isLargeNumberOfRespondents;
     
@@ -233,28 +235,28 @@ public class InstructorFeedbackResultsPageData extends PageData {
         switch (viewType) {
         case RECIPIENT_GIVER_QUESTION:
             Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForRgq =
-                    bundle.getResponsesSortedByRecipientGiverQuestion(isGroupedByTeam());
+                    bundle.getResponsesSortedByRecipientGiverQuestion(true);
 
             buildSectionPanelForViewByParticipantParticipantQuestion(selectedSection,
                     sortedResponsesForRgq, viewType.additionalInfoId());
             break;
         case RECIPIENT_QUESTION_GIVER:
             Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponsesForRqg =
-                    bundle.getResponsesSortedByRecipientQuestionGiver(isGroupedByTeam());
+                    bundle.getResponsesSortedByRecipientQuestionGiver(true);
 
             buildSectionPanelForViewByParticipantQuestionParticipant(selectedSection,
                     sortedResponsesForRqg, viewType.additionalInfoId());
             break;
         case GIVER_QUESTION_RECIPIENT:
             Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponsesForGqr =
-                    bundle.getResponsesSortedByGiverQuestionRecipient(isGroupedByTeam());
+                    bundle.getResponsesSortedByGiverQuestionRecipient(true);
 
             buildSectionPanelForViewByParticipantQuestionParticipant(selectedSection,
                     sortedResponsesForGqr, viewType.additionalInfoId());
             break;
         case GIVER_RECIPIENT_QUESTION:
             Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForGrq =
-                    bundle.getResponsesSortedByGiverRecipientQuestion(isGroupedByTeam());
+                    bundle.getResponsesSortedByGiverRecipientQuestion(true);
 
             buildSectionPanelForViewByParticipantParticipantQuestion(selectedSection,
                     sortedResponsesForGrq, viewType.additionalInfoId());
@@ -540,8 +542,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     && instructor.isAllowedForPrivilege(response.recipientSection,
                                                         response.feedbackSessionName,
                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-            
-            int sectionId = 0;
+
             Pattern pattern = Pattern.compile("^section-(\\d+)");
             Matcher matcher = pattern.matcher(additionalInfoId);
             if (matcher.find()) {
