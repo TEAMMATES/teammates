@@ -26,6 +26,10 @@ public class EmailSender {
     public EmailSender() {
         if (Config.isUsingSendgrid()) {
             service = new SendgridService();
+        } else if (Config.isUsingMailgun()) {
+            service = new MailgunService();
+        } else if (Config.isUsingMailjet()) {
+            service = new MailjetService();
         } else {
             service = new JavamailService();
         }
@@ -54,14 +58,18 @@ public class EmailSender {
     
     private void addEmailToTaskQueue(EmailWrapper message, long emailDelayTimer) {
         String emailSubject = message.getSubject();
+        String emailSenderName = message.getSenderName();
         String emailSender = message.getSenderEmail();
-        String emailReceiver = message.getFirstRecipient();
+        String emailReceiver = message.getRecipient();
         String emailReplyToAddress = message.getReplyTo();
         try {
             Map<String, String> paramMap = new HashMap<String, String>();
             paramMap.put(ParamsNames.EMAIL_SUBJECT, emailSubject);
             paramMap.put(ParamsNames.EMAIL_CONTENT, message.getContent());
             paramMap.put(ParamsNames.EMAIL_SENDER, emailSender);
+            if (emailSenderName != null && !emailSenderName.isEmpty()) {
+                paramMap.put(ParamsNames.EMAIL_SENDERNAME, emailSenderName);
+            }
             paramMap.put(ParamsNames.EMAIL_RECEIVER, emailReceiver);
             paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, emailReplyToAddress);
             
@@ -71,6 +79,7 @@ public class EmailSender {
         } catch (Exception e) {
             log.severe("Error when adding email to task queue: " + e.getMessage() + "\n"
                        + "Email sender: " + emailSender + "\n"
+                       + "Email sender name: " + emailSenderName + "\n"
                        + "Email receiver: " + emailReceiver + "\n"
                        + "Email subject: " + emailSubject + "\n"
                        + "Email reply to address: " + emailReplyToAddress);

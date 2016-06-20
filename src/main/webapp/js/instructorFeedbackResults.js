@@ -77,7 +77,7 @@ function showHideStats() {
 // the panel will be shown
 function filterResults(rawSearchText) {
     // Reduce white spaces to only 1 white space
-    var searchText = rawSearchText.split('\\s+').join(' ');
+    var searchText = rawSearchText.split('\\s+').join(' ').toLowerCase();
 
     // all panel text will be sorted in post-order
     var allPanelText = $('#mainContent').find('div.panel-heading-text');
@@ -150,7 +150,7 @@ function filterResults(rawSearchText) {
 }
 
 function updateResultsFilter() {
-    $("input[id=filterTextForDownload]").val($('#results-search-box').val());
+    $('input[id=filterTextForDownload]').val($('#results-search-box').val());
     filterResults($('#results-search-box').val());
 }
 
