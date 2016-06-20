@@ -102,7 +102,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGenerateStudentCourseJoinEmail() throws Exception {
+    public void testGenerateStudentCourseJoinEmail() throws IOException {
         
         CourseAttributes course = new CourseAttributes("course-id", "Course Name");
         
@@ -162,11 +162,13 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         // check reply to address
         assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
         
+        String emailContent = email.getContent();
+        
         // check email body for expected content
-        EmailChecker.verifyEmailContent(email.getContent(), emailContentFilePath);
+        EmailChecker.verifyEmailContent(emailContent, emailContentFilePath);
         
         // check email body for no left placeholders
-        assertFalse(email.getContent().toString().contains("${"));
+        assertFalse(emailContent.contains("${"));
     }
     
     @AfterClass

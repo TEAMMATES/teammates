@@ -82,8 +82,7 @@ public final class EmailChecker {
     }
     
     private static String replaceInjectedValuesWithPlaceholders(String emailContent) {
-        return emailContent // URL used as the base for links sent via email
-                           .replace(Config.APP_URL, "${app.url}")
+        return emailContent.replace(Config.APP_URL, "${app.url}")
                            .replace(Config.SUPPORT_EMAIL, "${support.email}");
     }
     
