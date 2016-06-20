@@ -300,7 +300,7 @@ tasks.withType(FindBugs) {
     }
 }
 
-task getMacker(type: Copy) {
+task mackerEmpty(type: Copy) {
     from configurations.macker
     into "static-analysis/macker"
 }
@@ -308,7 +308,7 @@ task getMacker(type: Copy) {
 task downloadStaticAnalysisTools {
     description "Downloads all static analysis tools."
     group "Static analysis"
-    dependsOn checkstyleEmpty, pmdEmpty, findbugsEmpty, getMacker
+    dependsOn checkstyleEmpty, pmdEmpty, findbugsEmpty, mackerEmpty
 }
 
 task staticAnalysisMain {
@@ -319,11 +319,15 @@ task staticAnalysisTest {
     dependsOn checkstyleTest, pmdTest, findbugsTest
 }
 
-// Run Macker via Ant because Gradle swallows all the important outputs
-task macker(type: Exec) {
-    def ant = ["ant"]
-    def command = ["macker"]
-    commandLine = (isWindows ? ["cmd", "/c"] : []) + ant + command
+task macker << {
+    logging.setLevel(LogLevel.INFO)
+    ant.taskdef(name: "macker", classpath: configurations.macker.asPath, classname: "de.andrena.tools.macker.ant.MackerAntTask")
+    ant.macker(failonerror: true, verbose: false) {
+        rules(dir: "${projectDir}/static-analysis", includes: "teammates-macker.xml")
+        classes(dir: "${buildDir}/classes") {
+            include(name: "**/*.class")
+        }
+    }
 }
 
 macker.dependsOn testClasses
