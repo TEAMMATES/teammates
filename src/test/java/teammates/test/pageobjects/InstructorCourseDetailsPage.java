@@ -138,47 +138,47 @@ public class InstructorCourseDetailsPage extends AppPage {
     
     private WebElement getViewLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        return studentRow.findElement(By.cssSelector("td.no-print.align-center > span:nth-child(1) > a"));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(1)"));
     }
     
     private WebElement getEditLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        return studentRow.findElement(By.cssSelector("td.no-print.align-center > span:nth-child(2) > a"));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(2)"));
     }
     
     private WebElement getRemindLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        return studentRow.findElement(By.cssSelector("td.no-print.align-center > span:nth-child(3) > a"));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(3)"));
     }
     
     private WebElement getDeleteLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center span:nth-child(3) > a"));
+        WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(3)"));
         
         if ("Delete".equals(thirdLink.getText())) {
             return thirdLink;
         }
-        return studentRow.findElement(By.cssSelector("td.no-print.align-center span:nth-child(4) > a"));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
     }
     
     private WebElement getAllRecordsLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        WebElement fourthLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > span:nth-child(4) > a"));
+        WebElement fourthLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
         
         if ("All Records".equals(fourthLink.getText())) {
             return fourthLink;
         }
-        return studentRow.findElement(By.cssSelector("td.no-print.align-center span:nth-child(5) > a"));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(5)"));
     }
     
     private WebElement getAddCommentDropDownLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        return studentRow.findElement(By.cssSelector("td.no-print.align-center div.btn-group > a.dropdown-toggle"));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > div.btn-group > a.dropdown-toggle"));
     }
     
     private WebElement getAddCommentToStudentLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        return studentRow.findElement(By.cssSelector("td.no-print.align-center div.btn-group > ul.dropdown-menu"
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > div.btn-group > ul.dropdown-menu"
                                                                             + "> li:nth-child(1) > a"));
     }
     

@@ -101,6 +101,10 @@ a#editUncommonSettingsButton:hover{
     cursor: hand;
 }
 
+.btn.btn-enable-mouse-events {
+    pointer-events: auto;
+}
+
 .row-answered {
     background-color: #dff0d8;
 }
