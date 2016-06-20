@@ -19,7 +19,7 @@
     <div class="col-sm-6 btn-group" data-toggle="buttons">
         <label class="btn btn-xs btn-info visibilityOptionsLabel"
             id="visibilityOptionsLabel${fqForm.questionNumberSuffix}"
-            onchange="toggleVisibilityOptions(this)">
+            onchange="toggleVisibilityEditTab(this)">
             <input type="radio">
             <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
         </label>
