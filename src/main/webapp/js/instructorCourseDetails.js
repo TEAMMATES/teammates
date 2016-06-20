@@ -42,7 +42,8 @@ $(document).ready(function() {
                 e.currentTarget.submit();
             };
             BootboxWrapper.showModalConfirmation(
-                    'Merging Teams', 'You are about to merge two teams. Proceed?', okCallback, null,
+                    'Merging Teams', 'You are about to merge two teams. This might result in the deletion of ' 
+                    + 'feedback responses associated with the team being merged. Proceed?', okCallback, null,
                     'Proceed with merging teams.', BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
         }
     });

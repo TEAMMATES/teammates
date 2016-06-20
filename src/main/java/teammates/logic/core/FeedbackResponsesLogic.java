@@ -653,13 +653,15 @@ public class FeedbackResponsesLogic {
 
         List<FeedbackResponseAttributes> responsesFromTeam =
                 getFeedbackResponsesFromTeamForCourse(courseId, oldTeam);
-
-        for (FeedbackResponseAttributes response : responsesFromTeam) {
-            response.giver = newTeam;
-            try {
-                updateFeedbackResponse(response);
-            } catch (EntityAlreadyExistsException e) {
-                if (!isTeamBeingMerged) {
+         
+        if (isTeamBeingMerged) {
+            frDb.deleteEntities(responsesFromTeam);
+        } else {
+            for (FeedbackResponseAttributes response : responsesFromTeam) {
+                response.giver = newTeam;
+                try {
+                    updateFeedbackResponse(response);
+                } catch (EntityAlreadyExistsException e) {
                     Assumption.fail("Feedback response failed to update successfully"
                                     + "as email was already in use.");
                 }
@@ -669,12 +671,14 @@ public class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> responsesToTeam =
                 getFeedbackResponsesForTeamForCourse(courseId, oldTeam);
 
-        for (FeedbackResponseAttributes response : responsesToTeam) {
-            response.recipient = newTeam;
-            try {
-                updateFeedbackResponse(response);
-            } catch (EntityAlreadyExistsException e) {
-                if (!isTeamBeingMerged) {
+        if (isTeamBeingMerged) {
+            frDb.deleteEntities(responsesToTeam);
+        } else {
+            for (FeedbackResponseAttributes response : responsesToTeam) {
+                response.recipient = newTeam;
+                try {
+                    updateFeedbackResponse(response);
+                } catch (EntityAlreadyExistsException e) {
                     Assumption.fail("Feedback response failed to update successfully"
                                     + "as email was already in use.");
                 }
