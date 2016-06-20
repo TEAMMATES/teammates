@@ -19,12 +19,20 @@ function toggleVisibilityEditTab(elem) {
     if ($editTab.is(':hidden')) {
         $editTab.show();
         $previewTab.hide();
-        updateEditTabAccordingToGiver($containingForm);
-        updateEditTabAccordingToRecipient($containingForm);
+        updateEditTab($containingForm);
     } else {
         $editTab.hide();
         $previewTab.show();
     }
+}
+
+/**
+ * Updates the Edit Visibility tab to show/hide visibility option rows
+ * according to the feedback path
+ */
+function updateEditTab($containingForm) {
+    updateEditTabAccordingToGiver($containingForm);
+    updateEditTabAccordingToRecipient($containingForm);
 }
 
 /**
@@ -154,8 +162,7 @@ function toggleVisibilityPreviewTab(elem) {
     var $disabledInputs = $containingForm.find('input:disabled, select:disabled');
     $disabledInputs.prop('disabled', false);
 
-    updateEditTabAccordingToGiver($containingForm);
-    updateEditTabAccordingToRecipient($containingForm);
+    updateEditTab($containingForm);
 
     updatePreviewTab($containingForm);
     $disabledInputs.prop('disabled', true);
