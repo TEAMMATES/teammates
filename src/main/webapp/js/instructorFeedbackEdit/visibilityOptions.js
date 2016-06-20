@@ -5,7 +5,7 @@
 function toggleVisibilityEditTab(elem) {
     var $elementParent = $(elem).closest('form');
     var $editTab = $elementParent.find('.visibilityOptions');
-    var $visibilityMessage = $elementParent.find('.visibilityMessage');
+    var $previewTab = $elementParent.find('.visibilityMessage');
 
     // enable edit
     $elementParent.find('[id|="questionedittext"]').click();
@@ -14,12 +14,12 @@ function toggleVisibilityEditTab(elem) {
         giverType = $elementParent.find('select[name="givertype"]');
         recipientType = $elementParent.find('select[name="recipienttype"]');
         $editTab.show();
-        $visibilityMessage.hide();
+        $previewTab.hide();
         updateEditTabAccordingToGiver(giverType);
         updateEditTabAccordingToRecipient(recipientType);
     } else {
         $editTab.hide();
-        $visibilityMessage.show();
+        $previewTab.show();
     }
 }
 
@@ -142,7 +142,7 @@ function updateEditTabAccordingToGiver(elem) {
     enableRow($elem, 2);
 }
 
-function toggleVisibilityMessage(elem) {
+function toggleVisibilityPreviewTab(elem) {
     var $elementParent = $(elem).closest('form');
     var $editTab = $elementParent.find('.visibilityOptions');
 
@@ -156,7 +156,7 @@ function toggleVisibilityMessage(elem) {
     updateEditTabAccordingToGiver($giverType);
     updateEditTabAccordingToRecipient($recipientType);
 
-    getVisibilityMessage(elem);
+    updatePreviewTab(elem);
     $disabledInputs.prop('disabled', true);
 }
 
@@ -164,11 +164,11 @@ function toggleVisibilityMessage(elem) {
 var previousFormDataMap = {};
 
 /**
- * Used to get the visibility message of a form closest
- * to the button element provided
+ * Updates the Preview Visibility tab according to configurations in the
+ * Edit Visibility tab (using AJAX)
  * @param buttonElem
  */
-function getVisibilityMessage(buttonElem) {
+function updatePreviewTab(buttonElem) {
     var $form = $(buttonElem).closest('form');
     var questionNum = $form.find('[name=questionnum]').val();
     var newQuestionNum = $('input[name=questionnum]').last().val();
@@ -182,16 +182,16 @@ function getVisibilityMessage(buttonElem) {
     var formData = $form.serialize();
     
     var $editTab = $form.find('.visibilityOptions');
-    var $formVisibility = $form.find('.visibilityMessage');
+    var $previewTab = $form.find('.visibilityMessage');
     
     if (previousFormDataMap[questionNum] === formData) {
         $editTab.hide();
-        $formVisibility.show();
+        $previewTab.show();
         return;
     }
 
     // empty current visibility message in the form
-    $formVisibility.html('');
+    $previewTab.html('');
     
     var url = '/page/instructorFeedbackQuestionvisibilityMessage';
     $.ajax({
@@ -199,45 +199,45 @@ function getVisibilityMessage(buttonElem) {
         url: url,
         data: formData,
         success: function(data) {
-            updateVisibilityMessageButton($form, true);
+            updateToggleVisibilityPreviewButton($form, true);
             
             // update stored form data
             previousFormDataMap[questionNum] = formData;
             
-            $formVisibility.html(formatVisibilityMessageHtml(data.visibilityMessage));
-            $formVisibility.show();
+            $previewTab.html(formatPreviewTabHtml(data.visibilityMessage));
+            $previewTab.show();
             $editTab.hide();
         },
         error: function() {
-            updateVisibilityMessageButton($form, false);
+            updateToggleVisibilityPreviewButton($form, false);
             $form.find('.visibilityOptionsLabel').click();
         }
     });
 }
 
-function updateVisibilityMessageButton($form, isLoadSuccessful) {
-    var visibilityButton = $form.find('.visibilityMessageButton');
+function updateToggleVisibilityPreviewButton($form, isLoadSuccessful) {
+    var visibilityPreviewButton = $form.find('.visibilityMessageButton');
     
-    var radioInput = visibilityButton.find('input[type="radio"]');
+    var radioInput = visibilityPreviewButton.find('input[type="radio"]');
     var icon = '<span class="glyphicon glyphicon-'
                + (isLoadSuccessful ? 'eye-open' : 'warning-sign')
                + '"></span>';
     var message = isLoadSuccessful ? 'Preview Visibility'
                                    : 'Visibility preview failed to load. Click here to retry.';
     
-    visibilityButton.html(icon + ' ' + message)
-                    .prepend(radioInput);
+    visibilityPreviewButton.html(icon + ' ' + message)
+                           .prepend(radioInput);
 }
 
 function getVisibilityMessageIfPreviewIsActive(buttonElem) {
     var $form = $(buttonElem).closest('form');
     
     if ($form.find('.visibilityMessageButton').hasClass('active')) {
-        getVisibilityMessage(buttonElem);
+        updatePreviewTab(buttonElem);
     }
 }
 
-function formatVisibilityMessageHtml(visibilityMessage) {
+function formatPreviewTabHtml(visibilityMessage) {
     var htmlString = 'This is the visibility as seen by the feedback giver.';
     htmlString += '<ul class="background-color-warning">';
     for (var i = 0; i < visibilityMessage.length; i++) {

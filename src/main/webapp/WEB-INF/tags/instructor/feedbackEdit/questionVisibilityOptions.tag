@@ -23,7 +23,7 @@
             <input type="radio">
             <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
         </label>
-        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton${fqForm.questionNumberSuffix}" onchange="toggleVisibilityMessage(this)">
+        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton${fqForm.questionNumberSuffix}" onchange="toggleVisibilityPreviewTab(this)">
             <input type="radio">
             <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
         </label>
