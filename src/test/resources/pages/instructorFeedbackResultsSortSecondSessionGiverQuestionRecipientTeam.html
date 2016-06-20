@@ -71,7 +71,6 @@
                   <input name="fsname" type="hidden" value="Second Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
-                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                 </form>
                 <br>
                 <div>
@@ -175,7 +174,7 @@
               </label>
               <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
                 <div class="input-group">
-                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
+                  <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
                   <a class="input-group-addon btn btn-default">
                     <span class="glyphicon glyphicon-search">
                     </span>
@@ -752,17 +751,6 @@
                               <tbody>
                                 <tr>
                                   <td>
-                                    Grades
-                                  </td>
-                                  <td>
-                                    45
-                                  </td>
-                                  <td>
-                                    45
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
                                     Fun
                                   </td>
                                   <td>
@@ -770,6 +758,17 @@
                                   </td>
                                   <td>
                                     55
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    Grades
+                                  </td>
+                                  <td>
+                                    45
+                                  </td>
+                                  <td>
+                                    45
                                   </td>
                                 </tr>
                               </tbody>
@@ -896,20 +895,6 @@
                               <tbody>
                                 <tr>
                                   <td>
-                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
-                                  </td>
-                                  <td>
-                                    Benny Charles
-                                  </td>
-                                  <td>
-                                    90
-                                  </td>
-                                  <td>
-                                    90
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
                                     Team 2
                                   </td>
                                   <td>
@@ -920,6 +905,20 @@
                                   </td>
                                   <td>
                                     50
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                                  </td>
+                                  <td>
+                                    Benny Charles
+                                  </td>
+                                  <td>
+                                    90
+                                  </td>
+                                  <td>
+                                    90
                                   </td>
                                 </tr>
                                 <tr>
@@ -1788,40 +1787,6 @@
             From:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
-                Benny Charles
-              </strong>
-              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a href="mailto:CFResultsUiT.benny.c@gmail.tmt">
-                [CFResultsUiT.benny.c@gmail.tmt]
-              </a>
-            </div>
-            <div class="pull-right">
-              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                <input name="fsname" type="hidden" value="Second Session">
-                <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
-              </form>
-               
-              <div class="display-icon" style="display:inline;">
-                <span class="glyphicon glyphicon-chevron-up pull-right">
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-5">
-            <div class="panel-body">
-              <i>
-                There are no responses given by this user or you may not have the permission to see the response
-              </i>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading" data-target="#panelBodyCollapse-6" id="panelHeading-6" style="cursor: pointer;">
-            From:
-            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-              <strong>
                 Charlie Dávis
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -1843,7 +1808,7 @@
               </div>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-6">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-5">
             <div class="panel-body">
               <i>
                 There are no responses given by this user or you may not have the permission to see the response
@@ -1852,75 +1817,7 @@
           </div>
         </div>
         <div class="panel panel-default">
-          <div class="panel-heading" data-target="#panelBodyCollapse-7" id="panelHeading-7" style="cursor: pointer;">
-            From:
-            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-              <strong>
-                Danny Engrid
-              </strong>
-              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a href="mailto:CFResultsUiT.danny.e@gmail.tmt">
-                [CFResultsUiT.danny.e@gmail.tmt]
-              </a>
-            </div>
-            <div class="pull-right">
-              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                <input name="fsname" type="hidden" value="Second Session">
-                <input name="moderatedperson" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
-              </form>
-               
-              <div class="display-icon" style="display:inline;">
-                <span class="glyphicon glyphicon-chevron-up pull-right">
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-7">
-            <div class="panel-body">
-              <i>
-                There are no responses given by this user or you may not have the permission to see the response
-              </i>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading" data-target="#panelBodyCollapse-8" id="panelHeading-8" style="cursor: pointer;">
-            From:
-            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-              <strong>
-                Extra guy
-              </strong>
-              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a href="mailto:extra.guy@gmail.tmt">
-                [extra.guy@gmail.tmt]
-              </a>
-            </div>
-            <div class="pull-right">
-              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                <input name="fsname" type="hidden" value="Second Session">
-                <input name="moderatedperson" type="hidden" value="extra.guy@gmail.tmt">
-              </form>
-               
-              <div class="display-icon" style="display:inline;">
-                <span class="glyphicon glyphicon-chevron-up pull-right">
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-8">
-            <div class="panel-body">
-              <i>
-                There are no responses given by this user or you may not have the permission to see the response
-              </i>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading" data-target="#panelBodyCollapse-9" id="panelHeading-9" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-6" id="panelHeading-6" style="cursor: pointer;">
             From:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
@@ -1945,7 +1842,7 @@
               </div>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-9">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-6">
             <div class="panel-body">
               <i>
                 There are no responses given by this user or you may not have the permission to see the response
@@ -1954,7 +1851,75 @@
           </div>
         </div>
         <div class="panel panel-default">
-          <div class="panel-heading" data-target="#panelBodyCollapse-10" id="panelHeading-10" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-7" id="panelHeading-7" style="cursor: pointer;">
+            From:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+              <strong>
+                Benny Charles
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a href="mailto:CFResultsUiT.benny.c@gmail.tmt">
+                [CFResultsUiT.benny.c@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
+                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                <input name="fsname" type="hidden" value="Second Session">
+                <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+              </form>
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-7">
+            <div class="panel-body">
+              <i>
+                There are no responses given by this user or you may not have the permission to see the response
+              </i>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" data-target="#panelBodyCollapse-8" id="panelHeading-8" style="cursor: pointer;">
+            From:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+              <strong>
+                Danny Engrid
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a href="mailto:CFResultsUiT.danny.e@gmail.tmt">
+                [CFResultsUiT.danny.e@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
+                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                <input name="fsname" type="hidden" value="Second Session">
+                <input name="moderatedperson" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
+              </form>
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-8">
+            <div class="panel-body">
+              <i>
+                There are no responses given by this user or you may not have the permission to see the response
+              </i>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" data-target="#panelBodyCollapse-9" id="panelHeading-9" style="cursor: pointer;">
             From:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
@@ -1971,6 +1936,40 @@
                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                 <input name="fsname" type="hidden" value="Second Session">
                 <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
+              </form>
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-9">
+            <div class="panel-body">
+              <i>
+                There are no responses given by this user or you may not have the permission to see the response
+              </i>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" data-target="#panelBodyCollapse-10" id="panelHeading-10" style="cursor: pointer;">
+            From:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+              <strong>
+                Extra guy
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a href="mailto:extra.guy@gmail.tmt">
+                [extra.guy@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
+                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                <input name="fsname" type="hidden" value="Second Session">
+                <input name="moderatedperson" type="hidden" value="extra.guy@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
