@@ -431,6 +431,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
         List<WebElement> studentPanels = browser.driver.findElements(By.cssSelector("#panelBodyCollapse-2 .panel-collapse"));
         waitForElementsToDisappear(studentPanels);
     }
+    
+    public void verifyPanelForParticipantIsDisplayed(String participantIdentifier) {
+        WebElement panel = browser.driver.findElement(
+                By.xpath("//div[contains(@class, 'panel-primary') or contains(@class, 'panel-default')]"
+                            + "[contains(.,'[" + participantIdentifier + "]')]"));
+        assertTrue(panel.isDisplayed());
+    }
 
     public void verifySpecifiedPanelIdsAreCollapsed(int[] ids) {
         for (int id : ids) {
