@@ -4,9 +4,9 @@ var ROW_RECIPIENT_TEAM = 3;
 var ROW_OTHER_STUDENTS = 4;
 var ROW_INSTRUCTORS = 5;
 
-////////////////////
+// ////////////// //
 // EVENT HANDLERS //
-////////////////////
+// ////////////// //
 
 function toggleVisibilityEditTab(clickedButton) {
     var $containingForm = $(clickedButton).closest('form');
@@ -48,9 +48,9 @@ function getVisibilityMessageIfPreviewIsActive(clickedButton) {
     }
 }
 
-////////////////////
+// ////////////// //
 // HELPER METHODS //
-////////////////////
+// ////////////// //
 
 /**
  * Updates the Edit Visibility tab to show/hide visibility option rows
