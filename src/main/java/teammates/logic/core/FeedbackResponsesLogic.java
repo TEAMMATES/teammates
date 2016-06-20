@@ -648,7 +648,7 @@ public class FeedbackResponsesLogic {
     }
     
     public void updateFeedbackResponsesForChangingWholeTeam(
-            String courseId, String oldTeam, String newTeam)
+            String courseId, String oldTeam, String newTeam, boolean isTeamBeingMerged)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         List<FeedbackResponseAttributes> responsesFromTeam =
@@ -659,8 +659,10 @@ public class FeedbackResponsesLogic {
             try {
                 updateFeedbackResponse(response);
             } catch (EntityAlreadyExistsException e) {
-                Assumption.fail("Feedback response failed to update successfully"
-                                + "as email was already in use.");
+                if (!isTeamBeingMerged) {
+                    Assumption.fail("Feedback response failed to update successfully"
+                                    + "as email was already in use.");
+                }
             }
         }
 
@@ -672,8 +674,10 @@ public class FeedbackResponsesLogic {
             try {
                 updateFeedbackResponse(response);
             } catch (EntityAlreadyExistsException e) {
-                Assumption.fail("Feedback response failed to update successfully"
-                                + "as email was already in use.");
+                if (!isTeamBeingMerged) {
+                    Assumption.fail("Feedback response failed to update successfully"
+                                    + "as email was already in use.");
+                }
             }
         }
     }

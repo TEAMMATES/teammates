@@ -384,7 +384,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         // The response should be preserved after the team name is changed
         
         frLogic.updateFeedbackResponsesForChangingWholeTeam(
-                teamQuestion.getCourseId(), "Team 1.1</td></div>'\"", "Team 1.3");
+                teamQuestion.getCourseId(), "Team 1.1</td></div>'\"", "Team 1.3", false);
              
         teamQuestion = getQuestionFromDatastore("team.feedback");
         assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(

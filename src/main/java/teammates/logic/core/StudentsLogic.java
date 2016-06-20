@@ -274,6 +274,15 @@ public class StudentsLogic {
     public void updateTeamNameCascade(String courseId, String originalTeamName, String newTeamName)
             throws EntityDoesNotExistException, InvalidParametersException,
             EnrollException, EntityAlreadyExistsException {
+        
+        boolean isNewTeamExists = !getStudentsForTeam(newTeamName, courseId).isEmpty();
+        
+        frLogic.updateFeedbackResponsesForChangingWholeTeam(
+                courseId, originalTeamName, newTeamName, isNewTeamExists);
+        frLogic.updateFeedbackResponsesWithGeneratedOptions(
+                courseId, originalTeamName, newTeamName, FeedbackParticipantType.TEAMS);
+        commentsLogic.updateCommentsForChangingTeamName(courseId, originalTeamName, newTeamName);
+        
         List<StudentAttributes> studentsInTeam = getStudentsForTeam(originalTeamName, courseId);
         for (StudentAttributes studentInTeam : studentsInTeam) {
             studentInTeam.team = newTeamName;
@@ -284,11 +293,6 @@ public class StudentsLogic {
         for (StudentAttributes studentInTeam : studentsInTeam) {
             updateStudentCascadeWithSubmissionAdjustmentScheduled(studentInTeam.getEmail(), studentInTeam, true);
         }
-        
-        frLogic.updateFeedbackResponsesForChangingWholeTeam(courseId, originalTeamName, newTeamName);
-        frLogic.updateFeedbackResponsesWithGeneratedOptions(
-                courseId, originalTeamName, newTeamName, FeedbackParticipantType.TEAMS);
-        commentsLogic.updateCommentsForChangingTeamName(courseId, originalTeamName, newTeamName);
     }
     
     public void resetStudentGoogleId(String originalEmail, String courseId, boolean hasDocument)
