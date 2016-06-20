@@ -156,7 +156,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
         
         // check email body for expected content
-        EmailChecker.verifyEmailContent(email, emailContentFilePath);
+        EmailChecker.verifyEmailContent(email.getContent(), emailContentFilePath);
         
         // check email body for no left placeholders
         assertFalse(email.getContent().toString().contains("${"));

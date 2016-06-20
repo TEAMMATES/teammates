@@ -6,9 +6,12 @@ import java.io.IOException;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.test.util.FileHelper;
 
+/**
+ * Checks email content and accounts for unpredictable values such as encrypted values,
+ * support email, app URL.
+ */
 public final class EmailChecker {
     
     private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
@@ -18,16 +21,15 @@ public final class EmailChecker {
     }
     
     /**
-     * Verifies that the given {@code email} has the same content as the content
+     * Verifies that the given {@code emailContent} is the same as
      * the content given in the file at {@code filePathParam}. <br>
-     * @param email
+     * @param emailContent
      * @param filePathParam If this starts with "/" (e.g., "/expected.html"), the
      * folder is assumed to be {@link TestProperties.TEST_EMAILS_FOLDER}.
      */
-    public static void verifyEmailContent(EmailWrapper email, String filePathParam) throws IOException {
+    public static void verifyEmailContent(String emailContent, String filePathParam) throws IOException {
         String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_EMAILS_FOLDER : "") + filePathParam;
-        String actual = email.getContent();
-        actual = replaceUnpredictableValuesWithPlaceholders(actual);
+        String actual = processEmailForComparison(emailContent);
         try {
             String expected = FileHelper.readFile(filePath);
             expected = injectTestProperties(expected);
@@ -53,27 +55,45 @@ public final class EmailChecker {
         return true;
     }
     
-    private static String injectTestProperties(String content) {
-        return content.replace("${app.url}", Config.APP_URL)
-                      .replace("${support.email}", Config.SUPPORT_EMAIL);
+    /**
+     * Injects values specified in configuration files to the appropriate placeholders.
+     */
+    private static String injectTestProperties(String emailContent) {
+        return emailContent.replace("${app.url}", Config.APP_URL)
+                           .replace("${support.email}", Config.SUPPORT_EMAIL);
     }
     
-    private static String replaceUnpredictableValuesWithPlaceholders(String content) {
-        return content // regkey in URLs
-                      .replaceAll(Const.ParamsNames.REGKEY + "=" + REGEX_ENCRYPTED_REGKEY,
-                                  Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}");
+    /**
+     * Processes the {@code emailContent} for comparison.
+     */
+    public static String processEmailForComparison(String emailContent) {
+        return replaceUnpredictableValuesWithPlaceholders(emailContent);
+    }
+    
+    /**
+     * Substitutes values that are different across various test runs with placeholders.
+     * These values are identified using their known, unique formats.
+     */
+    private static String replaceUnpredictableValuesWithPlaceholders(String emailContent) {
+        return emailContent // regkey in URLs
+                           .replaceAll(Const.ParamsNames.REGKEY + "=" + REGEX_ENCRYPTED_REGKEY,
+                                       Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}");
 
     }
     
-    private static String replaceInjectedValuesWithPlaceholders(String content) {
-        return content // URL used as the base for links sent via email
-                      .replace(Config.APP_URL, "${app.url}")
-                      .replace(Config.SUPPORT_EMAIL, "${support.email}");
+    private static String replaceInjectedValuesWithPlaceholders(String emailContent) {
+        return emailContent // URL used as the base for links sent via email
+                           .replace(Config.APP_URL, "${app.url}")
+                           .replace(Config.SUPPORT_EMAIL, "${support.email}");
     }
     
-    private static String processEmailForExpectedEmailRegeneration(String email) {
-        return replaceInjectedValuesWithPlaceholders(
-                      replaceUnpredictableValuesWithPlaceholders(email));
+    /**
+     * Processes the {@code emailContent} string for regeneration of expected email content.<br>
+     * Pre-condition: {@code emailContent} has previously been processed with the
+     * {@link #processEmailForComparison} function.
+     */
+    private static String processEmailForExpectedEmailRegeneration(String emailContent) {
+        return replaceInjectedValuesWithPlaceholders(emailContent);
     }
     
 }
