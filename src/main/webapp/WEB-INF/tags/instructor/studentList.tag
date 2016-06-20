@@ -101,8 +101,7 @@
                                 </td>
                                 <td class="no-print align-center">
                                     <c:set var="viewButtonEnabled" value="${section.allowedToViewStudentInSection}" />
-                                    <a class="btn btn-default btn-xs student-view-for-test
-                                              <c:if test="${not viewButtonEnabled}">disabled btn-enable-mouse-events</c:if>"
+                                    <a class="btn btn-default btn-xs student-view-for-test<c:if test="${not viewButtonEnabled}"> disabled btn-enable-mouse-events</c:if>"
                                        <c:choose>
                                        <c:when test="${not viewButtonEnabled}">
                                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -119,8 +118,7 @@
                                         View
                                     </a>
                                     <c:set var="editButtonEnabled" value="${section.allowedToModifyStudent}" />
-                                    <a class="btn btn-default btn-xs student-edit-for-test
-                                              <c:if test="${not editButtonEnabled}">disabled btn-enable-mouse-events</c:if>"
+                                    <a class="btn btn-default btn-xs student-edit-for-test<c:if test="${not editButtonEnabled}"> disabled btn-enable-mouse-events</c:if>"
                                        <c:choose>
                                        <c:when test="${not editButtonEnabled}">
                                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -138,8 +136,7 @@
                                     </a>
                                     <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
                                         <c:set var="remindButtonEnabled" value="${section.allowedToModifyStudent}" />
-                                        <a class="btn btn-default btn-xs student-edit-for-test
-                                              <c:if test="${not remindButtonEnabled}">disabled btn-enable-mouse-events</c:if>"
+                                        <a class="btn btn-default btn-xs student-edit-for-test<c:if test="${not remindButtonEnabled}"> disabled btn-enable-mouse-events</c:if>"
                                         <c:choose>
                                         <c:when test="${not remindButtonEnabled}">
                                            title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -157,8 +154,7 @@
                                         </a>
                                     </c:if>
                                     <c:set var="deleteButtonEnabled" value="${section.allowedToModifyStudent}" />
-                                    <a class="btn btn-default btn-xs student-delete-for-test
-                                              <c:if test="${not deleteButtonEnabled}">disabled btn-enable-mouse-events</c:if>"
+                                    <a class="btn btn-default btn-xs student-delete-for-test<c:if test="${not deleteButtonEnabled}"> disabled btn-enable-mouse-events</c:if>"
                                        <c:choose>
                                        <c:when test="${not deleteButtonEnabled}">
                                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -184,8 +180,7 @@
                                     </a>
                                     <c:set var="commentButtonEnabled" value="${section.allowedToGiveCommentInSection}" />
                                     <div class="btn-group">
-                                        <a class="btn btn-default btn-xs cursor-default
-                                              <c:if test="${not commentButtonEnabled}">disabled btn-enable-mouse-events</c:if>"
+                                        <a class="btn btn-default btn-xs cursor-default<c:if test="${not commentButtonEnabled}"> disabled btn-enable-mouse-events</c:if>"
                                         <c:choose>
                                         <c:when test="${not commentButtonEnabled}">
                                            title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
