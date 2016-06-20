@@ -3,16 +3,16 @@
  * @param elem is the anchor link being clicked on.
  */
 function toggleVisibilityEditTab(elem) {
-    var $elementParent = $(elem).closest('form');
-    var $editTab = $elementParent.find('.visibilityOptions');
-    var $previewTab = $elementParent.find('.visibilityMessage');
+    var $containingForm = $(elem).closest('form');
+    var $editTab = $containingForm.find('.visibilityOptions');
+    var $previewTab = $containingForm.find('.visibilityMessage');
 
     // enable edit
-    $elementParent.find('[id|="questionedittext"]').click();
+    $containingForm.find('[id|="questionedittext"]').click();
 
     if ($editTab.is(':hidden')) {
-        giverType = $elementParent.find('select[name="givertype"]');
-        recipientType = $elementParent.find('select[name="recipienttype"]');
+        giverType = $containingForm.find('select[name="givertype"]');
+        recipientType = $containingForm.find('select[name="recipienttype"]');
         $editTab.show();
         $previewTab.hide();
         updateEditTabAccordingToGiver(giverType);
@@ -143,14 +143,14 @@ function updateEditTabAccordingToGiver(elem) {
 }
 
 function toggleVisibilityPreviewTab(elem) {
-    var $elementParent = $(elem).closest('form');
-    var $editTab = $elementParent.find('.visibilityOptions');
+    var $containingForm = $(elem).closest('form');
+    var $editTab = $containingForm.find('.visibilityOptions');
 
-    var $giverType = $elementParent.find('select[name="givertype"]');
-    var $recipientType = $elementParent.find('select[name="recipienttype"]');
+    var $giverType = $containingForm.find('select[name="givertype"]');
+    var $recipientType = $containingForm.find('select[name="recipienttype"]');
 
     $editTab.hide();
-    var $disabledInputs = $elementParent.find('input:disabled, select:disabled');
+    var $disabledInputs = $containingForm.find('input:disabled, select:disabled');
     $disabledInputs.prop('disabled', false);
 
     updateEditTabAccordingToGiver($giverType);
@@ -169,8 +169,8 @@ var previousFormDataMap = {};
  * @param buttonElem
  */
 function updatePreviewTab(buttonElem) {
-    var $form = $(buttonElem).closest('form');
-    var questionNum = $form.find('[name=questionnum]').val();
+    var $containingForm = $(buttonElem).closest('form');
+    var questionNum = $containingForm.find('[name=questionnum]').val();
     var newQuestionNum = $('input[name=questionnum]').last().val();
     
     if (questionNum === newQuestionNum) {
@@ -179,10 +179,10 @@ function updatePreviewTab(buttonElem) {
         tallyCheckboxes(questionNum);
     }
     
-    var formData = $form.serialize();
+    var formData = $containingForm.serialize();
     
-    var $editTab = $form.find('.visibilityOptions');
-    var $previewTab = $form.find('.visibilityMessage');
+    var $editTab = $containingForm.find('.visibilityOptions');
+    var $previewTab = $containingForm.find('.visibilityMessage');
     
     if (previousFormDataMap[questionNum] === formData) {
         $editTab.hide();
@@ -199,7 +199,7 @@ function updatePreviewTab(buttonElem) {
         url: url,
         data: formData,
         success: function(data) {
-            updateToggleVisibilityPreviewButton($form, true);
+            updateToggleVisibilityPreviewButton($containingForm, true);
             
             // update stored form data
             previousFormDataMap[questionNum] = formData;
@@ -209,14 +209,14 @@ function updatePreviewTab(buttonElem) {
             $editTab.hide();
         },
         error: function() {
-            updateToggleVisibilityPreviewButton($form, false);
-            $form.find('.visibilityOptionsLabel').click();
+            updateToggleVisibilityPreviewButton($containingForm, false);
+            $containingForm.find('.visibilityOptionsLabel').click();
         }
     });
 }
 
-function updateToggleVisibilityPreviewButton($form, isLoadSuccessful) {
-    var visibilityPreviewButton = $form.find('.visibilityMessageButton');
+function updateToggleVisibilityPreviewButton($containingForm, isLoadSuccessful) {
+    var visibilityPreviewButton = $containingForm.find('.visibilityMessageButton');
     
     var radioInput = visibilityPreviewButton.find('input[type="radio"]');
     var icon = '<span class="glyphicon glyphicon-'
@@ -230,9 +230,9 @@ function updateToggleVisibilityPreviewButton($form, isLoadSuccessful) {
 }
 
 function getVisibilityMessageIfPreviewIsActive(buttonElem) {
-    var $form = $(buttonElem).closest('form');
+    var $containingForm = $(buttonElem).closest('form');
     
-    if ($form.find('.visibilityMessageButton').hasClass('active')) {
+    if ($containingForm.find('.visibilityMessageButton').hasClass('active')) {
         updatePreviewTab(buttonElem);
     }
 }
