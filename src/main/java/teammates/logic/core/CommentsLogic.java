@@ -490,6 +490,13 @@ public class CommentsLogic {
                 return instructor.isAllowedForPrivilege(
                         student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
             }
+        } else if (CommentParticipantType.TEAM.equals(recipientType)) {
+            String sectionName = studentsLogic.getSectionForTeam(courseId, receiverEmail);
+            return instructor.isAllowedForPrivilege(
+                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
+        } else if (CommentParticipantType.SECTION.equals(recipientType)) {
+            return instructor.isAllowedForPrivilege(
+                    receiverEmail, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
         }
         return false;
     }
