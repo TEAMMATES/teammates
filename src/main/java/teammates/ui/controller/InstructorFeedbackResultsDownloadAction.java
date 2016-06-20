@@ -32,7 +32,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String fileName = "";
         try {
             if (section == null || "All".equals(section)) {
-                fileContent = logic.getFeedbackSessionResultSummaryAsCsv(courseId, 
+                fileContent = logic.getFeedbackSessionResultSummaryAsCsv(courseId,
                                                                          feedbackSessionName,
                                                                          instructor.email,
                                                                          filterText);

@@ -875,12 +875,12 @@ public class FeedbackSessionsLogic {
 
         exportBuilder.append(Const.EOL).append(Const.EOL);
 
-        Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet = 
+        Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet =
                 results.getQuestionResponseMap().entrySet();
         
         if (!filterText.isEmpty()) {
             entrySet = filterQuestions(entrySet, filterText.toLowerCase());
-        } 
+        }
         
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
             exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(results, entry));
@@ -890,15 +890,16 @@ public class FeedbackSessionsLogic {
     }
 
     private Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> filterQuestions(
-            Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet, 
+            Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet,
             String filterText) {
         
-        for(Iterator<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> it = entrySet.iterator(); it.hasNext(); ) {
+        for (Iterator<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> it =
+                entrySet.iterator(); it.hasNext(); ) {
             Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry = it.next();
-            if(!entry.getKey().getQuestionMetaData().getValue().toLowerCase().contains(filterText)) {
-              it.remove();
+            if (!entry.getKey().getQuestionMetaData().getValue().toLowerCase().contains(filterText)) {
+                it.remove();
             }
-          }
+        }
        
         return entrySet;
     }
