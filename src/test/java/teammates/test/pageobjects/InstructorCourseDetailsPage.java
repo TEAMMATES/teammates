@@ -175,7 +175,8 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
     
     public void clickRenameTeamSaveButtonAndConfirm() {
-        clickAndConfirm(renameTeamSaveButton);
+        clickRenameTeamSaveButton();
+        waitForConfirmationModalAndClickOk();
     }
     
     public void selectTeamToRename(String teamName) {
