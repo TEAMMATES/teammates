@@ -1,8 +1,8 @@
 var NEW_QUESTION = -1;
 
-var WARNING_CANCEL = 'Warning: Any unsaved changes will be lost';
-var CONFIRM_CANCEL_EDIT = 'Are you sure you want to cancel your edit?';
-var CONFIRM_CANCEL_ADD_QNS = 'Are you sure you want to cancel adding this question?';
+var WARNING_DISCARD_CHANGES = 'Warning: Any unsaved changes will be lost';
+var CONFIRM_DISCARD_CHANGES = 'Are you sure you want to discard your unsaved edits?';
+var CONFIRM_DISCARD_NEW_QNS = 'Are you sure you want to discard this question?';
 
 var WARNING_DELETE_QNS = 'Warning: Deleted question cannot be recovered';
 var CONFIRM_DELETE_QNS = 'Are you sure you want to delete this question?';
@@ -257,7 +257,7 @@ function enableQuestion(questionNum) {
     
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).hide();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).show();
-    $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + questionNum).show();
+    $('#' + FEEDBACK_QUESTION_DISCARDCHANGES + '-' + questionNum).show();
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('edit');
     $('#button_question_submit-' + questionNum).show();
 }
@@ -364,14 +364,14 @@ function deleteQuestion(questionNum) {
 }
 
 /**
- * Allows users to cancel editing questions
+ * Allows users to discard unsaved edits to the question
  */
-function cancelEdit(questionNum) {
+function discardChanges(questionNum) {
     var confirmationMsg = questionNum === NEW_QUESTION
                           ? CONFIRM_CANCEL_ADD_QNS
                           : CONFIRM_CANCEL_EDIT;
     var okCallback = function() {
-        discardChanges(questionNum);
+        restoreOriginal(questionNum);
     };
     BootboxWrapper.showModalConfirmation(
             WARNING_CANCEL, confirmationMsg, okCallback, null,
@@ -383,7 +383,7 @@ function cancelEdit(questionNum) {
  * Discards new changes made and restores the original question
  * @param questionNum
  */
-function discardChanges(questionNum) {
+function restoreOriginal(questionNum) {
     if (questionNum === NEW_QUESTION) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
@@ -391,7 +391,7 @@ function discardChanges(questionNum) {
 
         $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).show();
         $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
-        $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + questionNum).hide();
+        $('#' + FEEDBACK_QUESTION_DISCARDCHANGES + '-' + questionNum).hide();
         $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('');
         $('#button_question_submit-' + questionNum).hide();
     }
