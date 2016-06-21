@@ -4472,6 +4472,10 @@
                                 Distribute points (among options) question allows you to specify some options, and allow the student to split some points among these options.
                                 <br> To setup the question, specify the options as well as the number of points to split among the options.
                                 <br>
+                                <br> You can also specify
+                                <b>Points to distribute X number of options</b>, which multiplies the points specified by the number of options.
+                                <br> For example, if there are 5 options and
+                                <b>Points to distribute X number of options</b> is set to 100, students will have to split 500 points in total to the 5 options.
 
 
                                 <div class="bs-example">
@@ -4552,35 +4556,86 @@
                                                             <input type="hidden" name="constSumToRecipients" id="constSumToRecipients-9" value="false" disabled="">
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <div class="form-inline col-sm-12">
-                                                                <div class="row">
-                                                                    <div class="col-sm-4">
-                                                                        <label class="control-label width-100-pc">
-                                                                            <b>Points to distribute </b>
-                                                                        </label>
-                                                                    </div>
-                                                                    <div class="col-sm-5">
-                                                                        <select class="col-sm-5 width-100-pc select form-control" disabled="" id="constSumPointsPerOptionSelect-9" name="constSumPointsPerOption">
-                                                                            <option value="false">in total:</option>
-                                                                            <option value="true" id="constSumOption_Option-9">per option:</option>
-                                                                            <option value="true" id="constSumOption_Recipient-9">per recipient:</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <input type="number" disabled="" class="form-control width-100-pc pointsBox" name="constSumPoints" id="constSumPoints-9" value="100" min="1" step="1" onchange="updateConstSumPointsValue(9)">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-inline col-sm-12" id="constSum_tooltipText-9" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this prevents a giver from distributing the same number of points to multiple options">
-                                                                <label class="control-label">
-                                                                    <span id="constSum_labelText-9">Every option to receive a different number of points </span>
-                                                                    <input type="checkbox" name="constSumUnevenDistribution" disabled="" id="constSum_UnevenDistribution-9">
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <br>
+                                                          <div class="form-inline">
+                                                              <div class="row">
+                                                                  <div class="col-md-12">
+                                                                      <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
+                                                                          <b>Total Points to distribute: </b>
+                                                                      </label>
+                                                                  </div>
+
+                                                                  <div class="col-xs-12 margin-bottom-7px padding-left-35px">
+                                                                      <div class="col-xs-1">
+                                                                          <input type="radio" id="constSumPointsTotal-9"
+                                                                                  name="constSumPointsPerOption"
+                                                                                  value="false" checked>
+                                                                      </div>
+                                                                      <div class="col-xs-4 padding-0 col-sm-4">
+                                                                          <input type="number" disabled class="form-control width-100-pc pointsBox"
+                                                                                  name="constSumPoints"
+                                                                                  id="constSumPoints-9" value="100" min="1" step="1"
+                                                                                  onChange="updateConstSumPointsValue(9)">
+                                                                      </div>
+                                                                      <div class="col-xs-6 padding-0">
+                                                                          <label class="margin-top-7px padding-left-7px">in total</label>
+                                                                      </div>
+
+                                                                  </div>
+                                                                  <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Option-9" >
+                                                                      <div class="col-xs-1">
+                                                                          <input type="radio" id="constSumPointsPerOption-9"
+                                                                                  name="constSumPointsPerOption"
+                                                                                  value="true" >
+                                                                      </div>
+                                                                      <div class="col-xs-4 padding-0">
+
+                                                                          <input type="number" disabled
+                                                                                  class="form-control width-100-pc pointsBox"
+                                                                                  name="constSumPoints"
+                                                                                  id="constSumPoints-9"
+                                                                                  value="100" min="1" step="1"
+                                                                                  onChange="updateConstSumPointsValue(9)">
+                                                                      </div>
+                                                                      <div class="col-xs-6 padding-0">
+                                                                          <label class="margin-top-7px padding-left-7px">X</label>
+                                                                          <label class="margin-top-7px">number of options</label>
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Recipient-9" style="display:none">
+                                                                      <div class="col-xs-1">
+                                                                          <input type="radio" id="constSumPointsPerRecipient-9"
+                                                                                  name="constSumPointsPerOption"
+                                                                                  value="true" >
+                                                                      </div>
+                                                                      <div class="col-xs-4 padding-0">
+                                                                          <input type="number" disabled
+                                                                                  class="form-control width-100-pc pointsBox" name="constSumPoints"
+                                                                                  id="constSumPoints-9" value="100" min="1" step="1"
+                                                                                  onChange="updateConstSumPointsValue(9)">
+                                                                      </div>
+                                                                      <div class="col-xs-6 padding-0">
+                                                                          <label class="margin-top-7px padding-left-7px">X</label>
+                                                                          <label class="margin-top-7px">number of recipients</label>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <div class="row">
+                                                              <div class="col-sm-12">
+                                                                  <div class="checkbox" id="constSum_tooltipText-9"
+                                                                          data-toggle="tooltip" data-placement="top"
+                                                                          data-container="body"
+                                                                          title="Ticking this prevents a giver from distributing the same number of points to multiple options">
+                                                                      <label class="bold-label">
+                                                                          <input type="checkbox" name="constSumUnevenDistribution" disabled
+                                                                                  id="constSum_UnevenDistribution-9">
+                                                                              <span id="constSum_labelText-9">
+                                                                                  Every option to receive a different number of points</span>
+                                                                      </label>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <br>
                                                     </div>
                                                 </div>
                                                 <br>
@@ -4915,13 +4970,13 @@
                                 <a name="fbConstSumRecipients">
                                     <h4>Distribute points (among recipients) question</h4>
                                 </a>
-                                Distribute points (among recipients) question is similar to Distribute points (among recipients) question. For this question type, students split points among the recipients of the question.
+                                Distribute points (among recipients) question is similar to Distribute points (among options) question. For this question type, students split points among the recipients of the question.
                                 <br> For example, if the question recipient is set to the giver's team members, and points to distribute in total is 100, students are required to split the 100 points among his team members.
                                 <br>
                                 <br> You can also specify
-                                <b>Points to distribute per recipient</b>, which multiplies the points specified by the number of options or recipients.
+                                <b>Points to distribute X number of recipients</b>, which multiplies the points specified by the number of recipients.
                                 <br> For example, if there are 5 team members and
-                                <b>Points to distribute per recipient</b> is set to 100, students will have to split 500 points in total to the 5 members.
+                                <b>Points to distribute X number of recipients</b> is set to 100, students will have to split 500 points in total to the 5 members.
 
                                 <div class="bs-example">
                                     <form class="form-horizontal form_question" role="form" method="post" >
@@ -4965,7 +5020,6 @@
                                                     <div class="row">
                                                         <br>
                                                         <div class="col-sm-6" id="constSumOptionTable-10" style="display:none">
-
                                                             <div id="constSumAddOptionRow-10">
                                                                 <div colspan="2">
                                                                     <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(10)" style="display:none">
@@ -4974,40 +5028,97 @@
                                                                     </a>
                                                                 </div>
                                                             </div>
-
                                                             <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-10" value="0" disabled="">
                                                             <input type="hidden" name="constSumToRecipients" id="constSumToRecipients-10" value="true" disabled="">
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <div class="form-inline col-sm-12">
+                                                            <div class="form-inline">
                                                                 <div class="row">
-                                                                    <div class="col-sm-4">
-                                                                        <label class="control-label width-100-pc">
-                                                                            <b>Points to distribute </b>
+                                                                    <div class="col-md-12">
+                                                                        <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
+                                                                            <b>Total Points to distribute:</b>
                                                                         </label>
                                                                     </div>
-                                                                    <div class="col-sm-5">
-                                                                        <select class="col-sm-5 width-100-pc select form-control" disabled="" id="constSumPointsPerOptionSelect-10" name="constSumPointsPerOption">
-                                                                            <option value="false">in total:</option>
-                                                                            <option value="true" id="constSumOption_Option-10" selected="">per option:</option>
-                                                                            <option value="true" id="constSumOption_Recipient-10" selected="">per recipient:</option>
-                                                                        </select>
+                                                                    <div class="col-xs-12 margin-bottom-7px padding-left-35px">
+                                                                        <div class="col-xs-1">
+                                                                            <input type="radio" id="constSumPointsTotal-10"
+                                                                                    name="constSumPointsPerOption"
+                                                                                    value="false" checked>
+                                                                        </div>
+                                                                        <div class="col-xs-4 padding-0 col-sm-4">
+                                                                            <input type="number" disabled
+                                                                                    class="form-control width-100-pc pointsBox"
+                                                                                    name="constSumPoints" id="constSumPoints-10"
+                                                                                    value="100" min="1" step="1"
+                                                                                    onChange="updateConstSumPointsValue(10)">
+                                                                        </div>
+                                                                        <div class="col-xs-6 padding-0">
+                                                                            <label class="margin-top-7px padding-left-7px">
+                                                                                in total
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-sm-3">
-                                                                        <input type="number" disabled="" class="form-control width-100-pc pointsBox" name="constSumPoints" id="constSumPoints-10" value="100" min="1" step="1" onchange="updateConstSumPointsValue(10)">
+                                                                    <div class="col-xs-12 margin-bottom-15px padding-left-35px"
+                                                                        id="constSumOption_Option-10" style="display: none">
+                                                                        <div class="col-xs-1">
+                                                                            <input type="radio" id="constSumPointsPerOption-10"
+                                                                                    name="constSumPointsPerOption" value="true">
+                                                                        </div>
+                                                                        <div class="col-xs-4 padding-0">
+                                                                            <input type="number" disabled
+                                                                                    class="form-control width-100-pc pointsBox"
+                                                                                    name="constSumPoints" id="constSumPoints-10"
+                                                                                    value="100" min="1" step="1"
+                                                                                    onChange="updateConstSumPointsValue(10)">
+                                                                        </div>
+                                                                        <div class="col-xs-6 padding-0">
+                                                                            <label class="margin-top-7px padding-left-7px">X</label>
+                                                                            <label class="margin-top-7px">
+                                                                                number of options
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-12 margin-bottom-15px padding-left-35px"
+                                                                        id="constSumOption_Recipient-10">
+                                                                        <div class="col-xs-1">
+                                                                            <input type="radio" id="constSumPointsPerRecipient-10"
+                                                                                    name="constSumPointsPerOption"
+                                                                                    value="true" checked>
+                                                                        </div>
+                                                                        <div class="col-xs-4 padding-0">
+                                                                            <input type="number" disabled
+                                                                                class="form-control width-100-pc pointsBox"
+                                                                                name="constSumPoints" id="constSumPoints-10"
+                                                                                value="100" min="1" step="1"
+                                                                                onChange="updateConstSumPointsValue(10)">
+                                                                        </div>
+                                                                        <div class="col-xs-6 padding-0">
+                                                                            <label class="margin-top-7px padding-left-7px">X</label>
+                                                                            <label class="margin-top-7px">
+                                                                                number of recipients
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-inline col-sm-12" id="constSum_tooltipText-10" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this prevents a giver from distributing the same number of points to multiple recipients">
-                                                                <label class="control-label">
-                                                                    <span id="constSum_labelText-10">Every recipient to receive a different number of points </span>
-                                                                    <input type="checkbox" name="constSumUnevenDistribution" disabled="" id="constSum_UnevenDistribution-10">
-                                                                </label>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="checkbox" id="constSum_tooltipText-10"
+                                                                            data-toggle="tooltip" data-placement="top"
+                                                                            data-container="body"
+                                                                            title="Ticking this prevents a giver from distributing the same number of points to multiple recipients">
+                                                                        <label class="bold-label">
+                                                                            <input type="checkbox"
+                                                                                    name="constSumUnevenDistribution" disabled
+                                                                                    id="constSum_UnevenDistribution-10">
+                                                                            <span id="constSum_labelText-10">
+                                                                            Every Recipient to recieve a different number of points
+                                                                            </span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <br>
+                                                            <br>
                                                     </div>
                                                 </div>
                                                 <br>
