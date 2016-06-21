@@ -7,8 +7,8 @@ var CONFIRM_CANCEL_ADD_QNS = 'Are you sure you want to cancel adding this questi
 var WARNING_DELETE_QNS = 'Warning: Deleted question cannot be recovered';
 var CONFIRM_DELETE_QNS = 'Are you sure you want to delete this question?';
 
-var WARNING_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
-var CONFIRM_DELETE_RESPONSES =
+var WARNING_EDIT_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
+var CONFIRM_EDIT_DELETE_RESPONSES =
         '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
         + '<p>Are you sure you want to continue?</p>';
 
@@ -45,7 +45,7 @@ function readyFeedbackEditPage() {
                 event.currentTarget.submit();
             };
             BootboxWrapper.showModalConfirmation(
-                    WARNING_DELETE_RESPONSES, CONFIRM_DELETE_RESPONSES, okCallback, null,
+                    WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
                     BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
                     StatusType.DANGER);
         }
