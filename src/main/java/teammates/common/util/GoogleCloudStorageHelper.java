@@ -26,6 +26,10 @@ public final class GoogleCloudStorageHelper {
         }
     }
     
+    public static void deleteFile(BlobKey fileKey) {
+        BlobstoreServiceFactory.getBlobstoreService().delete(fileKey);
+    }
+    
     public static String writeImageDataToGcs(String googleId, byte[] imageData) throws IOException {
         GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId);
         GcsOutputChannel outputChannel =
