@@ -254,6 +254,15 @@
       "comments": "This student's name is Charlie Davis",
       "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "section": "Tut Group 1"
+    },
+    "danny.tmms@CCDetailsUiT.CS2103": {
+      "googleId": "danny.tmms",
+      "email": "danny.e.tmms@gmail.tmt",
+      "course": "CCDetailsUiT.CS2103",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 3",
+      "section": "Tut Group 2"
     }
   }
 }

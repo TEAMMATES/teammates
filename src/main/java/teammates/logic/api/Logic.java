@@ -1116,6 +1116,17 @@ public class Logic {
 
         studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, student);
     }
+    
+    public void updateTeamName(String courseId, String originalTeamName, String newTeamName)
+            throws InvalidParametersException, EntityDoesNotExistException,
+            EnrollException, EntityAlreadyExistsException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalTeamName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newTeamName);
+        
+        studentsLogic.updateTeamNameCascade(courseId, originalTeamName, newTeamName);
+    }
 
     /**
      * Make the student join the course, i.e. associate the Google ID to the student.<br>

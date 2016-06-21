@@ -1,3 +1,6 @@
+var teamNames = [];
+var teamNamesToSectionMap = [];
+
 $(document).ready(function() {
     if ($('#button_sortstudentsection').length) {
         toggleSort($('#button_sortstudentsection'));
@@ -8,6 +11,41 @@ $(document).ready(function() {
     // auto select the html table when modal is shown
     $('#studentTableWindow').on('shown.bs.modal', function() {
         selectElementContents(document.getElementById('detailsTable'));
+    });
+    
+    $('#team-select option').each(function() {
+        teamNames.push($(this).val());
+    });
+    
+    if (isCourseHasSections()) {
+        $('tr').each(function() {
+            var team = $(this).find('td[id^="studentteam"]').text().trim();
+            if (!(team in teamNamesToSectionMap)) {
+                var section = $(this).find('td[id^="studentsection"]').text().trim();
+                teamNamesToSectionMap[team] = section;
+            }
+        });
+    }
+    
+    $('#new-team-name-input').keyup(function() {
+        prepareRenameTeamModalUi();
+    });
+    
+    $('#team-select').change(function() {
+        prepareRenameTeamModalUi();
+    });
+    
+    $('#rename-team-form').submit(function(e) {
+        if (isNewTeamNameExists()) {
+            e.preventDefault();
+            var okCallback = function() {
+                e.currentTarget.submit();
+            };
+            BootboxWrapper.showModalConfirmation(
+                    'Merging Teams', 'You are about to merge two teams. This might result in the deletion of '
+                    + 'feedback responses associated with the team being merged. Proceed?', okCallback, null,
+                    'Proceed with merging teams.', BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
+        }
     });
 });
 
@@ -103,3 +141,52 @@ function selectElementContents(el) {
 }
 
 var isShowCommentBox = false;
+
+function isNewTeamNameExists() {
+    return teamNames.indexOf($('#new-team-name-input').val()) !== -1;
+}
+
+function isTeamNameChanged() {
+    return $('#new-team-name-input').val() !== $('#team-select').val();
+}
+
+function prepareRenameTeamModalUi() {
+    var teamNameInputValue = $('#new-team-name-input').val();
+    var teamSelectValue = $('#team-select').val();
+    
+    if (teamNameInputValue.length === 0 || !isTeamNameChanged() || isTryingToMergeTeamsInDifferentSections()) {
+        $('#rename-team-save-button').attr('disabled', true);
+    } else {
+        $('#rename-team-save-button').removeAttr('disabled');
+    }
+    
+    if (isTryingToMergeTeamsInDifferentSections()) {
+        $('#team-unable-to-merge-message .first-team').text(teamSelectValue);
+        $('#team-unable-to-merge-message .second-team').text(teamNameInputValue);
+        $('#team-unable-to-merge-message').removeClass('hidden');
+    } else {
+        $('#team-unable-to-merge-message').addClass('hidden');
+    }
+    
+    if (isNewTeamNameExists() && isTeamNameChanged() && !isTryingToMergeTeamsInDifferentSections()) {
+        $('#team-able-to-merge-message .first-team').text(teamSelectValue);
+        $('#team-able-to-merge-message .second-team').text(teamNameInputValue);
+        $('#team-able-to-merge-message').removeClass('hidden');
+    } else {
+        $('#team-able-to-merge-message').addClass('hidden');
+    }
+}
+
+function isCourseHasSections() {
+    return $('#button_sortsection-0').is(':visible');
+}
+
+function isTeamsInSameSection() {
+    var teamNameInputValue = $('#new-team-name-input').val();
+    var teamSelectValue = $('#team-select').val();
+    return teamNamesToSectionMap[teamNameInputValue] === teamNamesToSectionMap[teamSelectValue];
+}
+
+function isTryingToMergeTeamsInDifferentSections() {
+    return isCourseHasSections() && isTeamNameChanged() && isNewTeamNameExists() && !isTeamsInSameSection();
+}

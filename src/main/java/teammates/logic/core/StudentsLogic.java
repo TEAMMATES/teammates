@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -267,6 +268,30 @@ public class StudentsLogic {
         if (!originalEmail.equals(student.email)) {
             frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
             fsLogic.updateRespondantsForStudent(originalEmail, student.email, student.course);
+        }
+    }
+    
+    public void updateTeamNameCascade(String courseId, String originalTeamName, String newTeamName)
+            throws EntityDoesNotExistException, InvalidParametersException,
+            EnrollException, EntityAlreadyExistsException {
+        
+        boolean isNewTeamExists = !getStudentsForTeam(newTeamName, courseId).isEmpty();
+        
+        frLogic.updateFeedbackResponsesForChangingWholeTeam(
+                courseId, originalTeamName, newTeamName, isNewTeamExists);
+        frLogic.updateFeedbackResponsesWithGeneratedOptions(
+                courseId, originalTeamName, newTeamName, FeedbackParticipantType.TEAMS);
+        commentsLogic.updateCommentsForChangingTeamName(courseId, originalTeamName, newTeamName);
+        
+        List<StudentAttributes> studentsInTeam = getStudentsForTeam(originalTeamName, courseId);
+        for (StudentAttributes studentInTeam : studentsInTeam) {
+            studentInTeam.team = newTeamName;
+        }
+        
+        validateTeams(studentsInTeam, courseId);
+        
+        for (StudentAttributes studentInTeam : studentsInTeam) {
+            updateStudentCascadeWithSubmissionAdjustmentScheduled(studentInTeam.getEmail(), studentInTeam, true);
         }
     }
     

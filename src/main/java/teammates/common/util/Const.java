@@ -713,6 +713,7 @@ public final class Const {
         public static final String COMMENTS_SHOWRECIPIENTTO = "showrecipientto";
         public static final String SECTION_NAME = "sectionname";
         public static final String TEAM_NAME = "teamname";
+        public static final String TEAM_TO_EDIT = "teamtoedit";
         public static final String COMMENTS = "comments";
         public static final String TEAMMATES = "teammates";
     
@@ -825,6 +826,7 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
         public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
+        public static final String INSTRUCTOR_COURSE_RENAME_TEAM = "/page/instructorCourseRenameTeam";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_ADD = "/page/instructorCourseInstructorAdd";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE = "/page/instructorCourseInstructorEditSave";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_DELETE = "/page/instructorCourseInstructorDelete";
@@ -1133,6 +1135,7 @@ public final class Const {
         public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "%d student(s) remain unmodified:";
         public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "%d student(s) with unknown enrolment status:";
 
+        public static final String TEAM_EDITED = "The team has been edited successfully";
         public static final String TEAM_INVALID_SECTION_EDIT =
                 "The team \"%s\" is in multiple sections. "
                 + "The team ID should be unique across the entire course "

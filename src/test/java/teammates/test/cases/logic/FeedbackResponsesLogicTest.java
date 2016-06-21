@@ -58,9 +58,11 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         testGetViewableResponsesForQuestionInSection();
         testUpdateFeedbackResponse();
         testUpdateFeedbackResponsesForChangingTeam();
+        testUpdateFeedbackResponsesForChangingWholeTeam();
         testUpdateFeedbackResponsesForChangingTeam_deleteLastResponse_decreaseResponseRate();
         testUpdateFeedbackResponsesForChangingTeam_deleteNotLastResponse_sameResponseRate();
         testUpdateFeedbackResponsesForChangingEmail();
+        testUpdateFeedbackResponsesWithGeneratedOptions();
         testDeleteFeedbackResponsesForStudent();
         testSpecialCharactersInTeamName();
         testDeleteFeedbackResponsesForCourse();
@@ -367,6 +369,31 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         fsLogic.addStudentRespondant(response.giver, response.feedbackSessionName, response.courseId);
     }
     
+    public void testUpdateFeedbackResponsesForChangingWholeTeam() throws Exception {
+        
+        ______TS("Update team name for whole team");
+        
+        // Team 1.1</td></div>'\" has 1 team response to another team
+        // and 1 team response from another team
+        FeedbackQuestionAttributes teamQuestion = getQuestionFromDatastore("team.feedback");
+        assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
+                teamQuestion.getId(), "Team 1.1</td></div>'\"").size(), 1);
+        assertEquals(frLogic.getFeedbackResponsesForReceiverForQuestion(
+                teamQuestion.getId(), "Team 1.1</td></div>'\"").size(), 1);
+        
+        // The response should be preserved after the team name is changed
+        
+        frLogic.updateFeedbackResponsesForChangingWholeTeam(
+                teamQuestion.getCourseId(), "Team 1.1</td></div>'\"", "Team 1.3", false);
+             
+        teamQuestion = getQuestionFromDatastore("team.feedback");
+        assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
+                teamQuestion.getId(), "Team 1.3").size(), 1);
+        assertEquals(frLogic.getFeedbackResponsesForReceiverForQuestion(
+                teamQuestion.getId(), "Team 1.3").size(), 1);
+
+    }
+    
     public void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
         ______TS("standard update email case");
         
@@ -387,8 +414,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         List<FeedbackResponseCommentAttributes> responseCommentsForStudent =
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
         
-        assertEquals(responsesForReceiver.size(), 2);
-        assertEquals(responsesFromGiver.size(), 2);
+        assertEquals(responsesForReceiver.size(), 5);
+        assertEquals(responsesFromGiver.size(), 5);
         assertEquals(responseCommentsForStudent.size(), 2);
 
         frLogic.updateFeedbackResponsesForChangingEmail(
@@ -418,14 +445,49 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         responseCommentsForStudent =
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
         
-        assertEquals(responsesForReceiver.size(), 2);
-        assertEquals(responsesFromGiver.size(), 2);
+        assertEquals(responsesForReceiver.size(), 5);
+        assertEquals(responsesFromGiver.size(), 5);
         assertEquals(responseCommentsForStudent.size(), 2);
         
         frLogic.updateFeedbackResponsesForChangingEmail(
                 studentToUpdate.course, "new@email.tmt", studentToUpdate.email);
     }
     
+    public void testUpdateFeedbackResponsesWithGeneratedOptions() throws Exception {
+        ______TS("Update team name for responses with generated options");
+        
+        FeedbackQuestionAttributes mcqQuestion = getQuestionFromDatastore("qn5InSession1InCourse1");
+        FeedbackQuestionAttributes msqQuestion = getQuestionFromDatastore("qn6InSession1InCourse1");
+        List<FeedbackResponseAttributes> feedbackResponsesForMcqQuestion =
+                frLogic.getFeedbackResponsesForQuestion(mcqQuestion.getId());
+        List<FeedbackResponseAttributes> feedbackResponsesForMsqQuestion =
+                frLogic.getFeedbackResponsesForQuestion(msqQuestion.getId());
+        assertEquals(feedbackResponsesForMcqQuestion.size(), 1);
+        assertEquals(feedbackResponsesForMsqQuestion.size(), 1);
+
+        String mcqAnswer = feedbackResponsesForMcqQuestion.get(0).getResponseDetails().getAnswerString();
+        String msqAnswer = feedbackResponsesForMsqQuestion.get(0).getResponseDetails().getAnswerString();
+        
+        assertEquals(mcqAnswer, "Team 1.2");
+        assertEquals(msqAnswer, "Team 1.2");
+        
+        frLogic.updateFeedbackResponsesWithGeneratedOptions(
+                mcqQuestion.getCourseId(), "Team 1.2", "Team 1.4", FeedbackParticipantType.TEAMS);
+        
+        feedbackResponsesForMcqQuestion = frLogic.getFeedbackResponsesForQuestion(mcqQuestion.getId());
+        feedbackResponsesForMsqQuestion = frLogic.getFeedbackResponsesForQuestion(msqQuestion.getId());
+        
+        assertEquals(feedbackResponsesForMcqQuestion.size(), 1);
+        assertEquals(feedbackResponsesForMsqQuestion.size(), 1);
+        
+        mcqAnswer = feedbackResponsesForMcqQuestion.get(0).getResponseDetails().getAnswerString();
+        msqAnswer = feedbackResponsesForMsqQuestion.get(0).getResponseDetails().getAnswerString();
+        
+        assertEquals(mcqAnswer, "Team 1.4");
+        assertEquals(msqAnswer, "Team 1.4");
+
+    }
+
     public void testGetViewableResponsesForQuestionInSection() throws Exception {
         
         ______TS("success: GetViewableResponsesForQuestion - instructor");

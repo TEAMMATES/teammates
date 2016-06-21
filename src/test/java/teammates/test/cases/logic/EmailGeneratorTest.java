@@ -108,7 +108,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         ______TS("feedback session closing alerts");
         
         emails = new EmailGenerator().generateFeedbackSessionClosingEmails(session);
-        assertEquals(8, emails.size());
+        assertEquals(9, emails.size());
         
         subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -128,8 +128,12 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         verifyEmail(emails.get(0), student1.email, subject, textInEmail);
         
-        verifyEmail(emails.get(1), student3.email, subject, "The following feedback session is closing soon");
-        verifyEmail(emails.get(1), student3.email, subject,
+        verifyEmail(emails.get(1), student2.email, subject, "The following feedback session is closing soon");
+        verifyEmail(emails.get(1), student2.email, subject,
+                    "You may ignore this email if you have already submitted feedback.");
+        
+        verifyEmail(emails.get(2), student3.email, subject, "The following feedback session is closing soon");
+        verifyEmail(emails.get(2), student3.email, subject,
                     "You may ignore this email if you have already submitted feedback.");
         
         ______TS("feedback session published alerts");

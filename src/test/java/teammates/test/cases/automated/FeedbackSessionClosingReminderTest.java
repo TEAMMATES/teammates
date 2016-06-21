@@ -140,7 +140,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         String course1Name = CoursesLogic.inst().getCourse(session1.getCourseId()).getName();
         
         EmailAction fsClosingAction = new FeedbackSessionClosingMailAction(paramMap);
-        int course1StudentCount = 5 - 2; // 2 students have already completed the session
+        int course1StudentCount = 5 - 1; // 1 student has already completed the session
         int course1InstructorCount = 5;
         
         List<EmailWrapper> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();

@@ -604,6 +604,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
+    public FeedbackParticipantType getGenerateOptionsFor() {
+        return generateOptionsFor;
+    }
+
     public int getNumOfMsqChoices() {
         return numOfMsqChoices;
     }

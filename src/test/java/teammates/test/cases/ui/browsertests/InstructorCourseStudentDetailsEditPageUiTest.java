@@ -127,6 +127,11 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         assertEquals(testData.students.get("registeredStudent").googleId, student.googleId);
         assertEquals("CCSDEditUiT.jose.tmms@gmail.tmt", student.email);
         assertEquals("This student's name is José Gómez</option></td></div>'\"", student.comments);
+        
+        student = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
+                  "benny.c.tmms@gmail.tmt");
+        
+        assertEquals("Team 1</td></div>'\"", student.team);
 
         ______TS("edit action");
         
@@ -143,6 +148,11 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         assertEquals(testData.students.get("registeredStudent").googleId, student.googleId);
         assertEquals("newemail@gmail.tmt", student.email);
         assertEquals("New comments", student.comments);
+        
+        student = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
+                  "benny.c.tmms@gmail.tmt");
+      
+        assertEquals("Team 1</td></div>'\"", student.team);
     }
 
     @AfterClass

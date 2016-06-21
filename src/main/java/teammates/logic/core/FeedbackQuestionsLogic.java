@@ -11,9 +11,12 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
+import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -229,7 +232,7 @@ public class FeedbackQuestionsLogic {
         boolean isInstructor = instructor != null;
         
         if (isInstructor) {
-            questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
+            questions.addAll(fqDb.getFeedbackQuestionsInSessionForGiverType(
                             feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));
         }
         Collections.sort(questions);
@@ -262,11 +265,11 @@ public class FeedbackQuestionsLogic {
         String feedbackSessionName = fsa.getFeedbackSessionName();
         String courseId = fsa.getCourseId();
         
-        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
+        questions.addAll(fqDb.getFeedbackQuestionsInSessionForGiverType(
                                        feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));
         
         // Return all self (creator) questions
-        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
+        questions.addAll(fqDb.getFeedbackQuestionsInSessionForGiverType(feedbackSessionName,
                 courseId, FeedbackParticipantType.SELF));
         
         Collections.sort(questions);
@@ -306,10 +309,10 @@ public class FeedbackQuestionsLogic {
                 new ArrayList<FeedbackQuestionAttributes>();
         
         questions.addAll(
-                fqDb.getFeedbackQuestionsForGiverType(
+                fqDb.getFeedbackQuestionsInSessionForGiverType(
                         feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS));
         questions.addAll(
-                fqDb.getFeedbackQuestionsForGiverType(
+                fqDb.getFeedbackQuestionsInSessionForGiverType(
                         feedbackSessionName, courseId, FeedbackParticipantType.TEAMS));
         
         Collections.sort(questions);
@@ -335,6 +338,59 @@ public class FeedbackQuestionsLogic {
         }
         
         return questions;
+    }
+    
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForGiverType(
+            String courseId, FeedbackParticipantType giverType) {
+        return fqDb.getFeedbackQuestionsForGiverType(courseId, giverType);
+    }
+    
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForRecipientType(
+            String courseId, FeedbackParticipantType recipientType) {
+        return fqDb.getFeedbackQuestionsForRecipientType(courseId, recipientType);
+    }
+    
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsOfType(
+            String courseId, FeedbackQuestionType questionType) {
+        return fqDb.getFeedbackQuestionsForQuestionType(courseId, questionType);
+    }
+    
+    public List<FeedbackQuestionAttributes> getMcqQuestionsWithGeneratedOptions(String courseId) {
+        List<FeedbackQuestionAttributes> mcqQuestions =
+                getFeedbackQuestionsOfType(courseId, FeedbackQuestionType.MCQ);
+        List<FeedbackQuestionAttributes> mcqQuestionsWithGeneratedOptions =
+                new ArrayList<FeedbackQuestionAttributes>();
+        
+        for (FeedbackQuestionAttributes mcqQuestion : mcqQuestions) {
+            boolean isQuestionOptionsGenerated =
+                    ((FeedbackMcqQuestionDetails) mcqQuestion.getQuestionDetails()).getGenerateOptionsFor()
+                    != FeedbackParticipantType.NONE;
+            
+            if (isQuestionOptionsGenerated) {
+                mcqQuestionsWithGeneratedOptions.add(mcqQuestion);
+            }
+        }
+        
+        return mcqQuestionsWithGeneratedOptions;
+    }
+    
+    public List<FeedbackQuestionAttributes> getMsqQuestionsWithGeneratedOptions(String courseId) {
+        List<FeedbackQuestionAttributes> msqQuestions =
+                getFeedbackQuestionsOfType(courseId, FeedbackQuestionType.MSQ);
+        List<FeedbackQuestionAttributes> msqQuestionsWithGeneratedOptions =
+                new ArrayList<FeedbackQuestionAttributes>();
+        
+        for (FeedbackQuestionAttributes msqQuestion : msqQuestions) {
+            boolean isQuestionOptionsGenerated =
+                    ((FeedbackMsqQuestionDetails) msqQuestion.getQuestionDetails()).getGenerateOptionsFor()
+                    != FeedbackParticipantType.NONE;
+            
+            if (isQuestionOptionsGenerated) {
+                msqQuestionsWithGeneratedOptions.add(msqQuestion);
+            }
+        }
+        
+        return msqQuestionsWithGeneratedOptions;
     }
     
     public Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)

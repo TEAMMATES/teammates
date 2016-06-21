@@ -59,7 +59,9 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * If the parameter value is not null, the value will be filled into the
      * relevant input field.
      */
-    private void fillStudentDetailsForm(String studentName, String teamName, String studentEmail, String comments) {
+    private void fillStudentDetailsForm(String studentName, String teamName,
+                                        String studentEmail,
+                                        String comments) {
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
         }

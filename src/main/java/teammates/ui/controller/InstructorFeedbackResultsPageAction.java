@@ -18,7 +18,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
     private static final String ALL_SECTION_OPTION = "All";
     private static final int DEFAULT_QUERY_RANGE = 1000;
     private static final int DEFAULT_SECTION_QUERY_RANGE = 2500;
-    private static final int QUERY_RANGE_FOR_AJAX_TESTING = 5;
+    private static final int QUERY_RANGE_FOR_AJAX_TESTING = 7;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {

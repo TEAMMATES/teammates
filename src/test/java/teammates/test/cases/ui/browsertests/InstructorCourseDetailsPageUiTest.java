@@ -65,6 +65,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         testLinks();
         testRemindAction();
         testDeleteAction();
+        testRenameTeamModal();
     }
 
     public void testContent() throws Exception {
@@ -238,6 +239,120 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getStudent(courseId, danny.email));
     }
     
+    public void testRenameTeamModal() throws Exception {
+        ______TS("Display rename team modal");
+        
+        instructorId = testData.instructors.get("CCDetailsUiT.instr2").googleId;
+        courseId = testData.courses.get("CCDetailsUiT.CS2103").getId();
+        detailsPage = getCourseDetailsPage();
+        detailsPage.clickRenameTeamButton();
+        assertFalse(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertFalse(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertFalse(detailsPage.isTeamUnableToMergeMessageVisible());
+        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsDisplayRenameTeamModal.html");
+        
+        ______TS("Test UI interactions for varying new team name input");
+        detailsPage.selectTeamToRename("Team 2");
+        
+        // New team name input
+        detailsPage.enterNewTeamName("New Team Name");
+        assertTrue(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertFalse(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertFalse(detailsPage.isTeamUnableToMergeMessageVisible());
+        
+        // Empty team name input
+        detailsPage.enterNewTeamName("");
+        assertFalse(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertFalse(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertFalse(detailsPage.isTeamUnableToMergeMessageVisible());
+        
+        // Same team name input as select
+        detailsPage.enterNewTeamName("Team 2");
+        assertFalse(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertFalse(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertFalse(detailsPage.isTeamUnableToMergeMessageVisible());
+        
+        // Existing team name input different section
+        detailsPage.enterNewTeamName("Team 1</option><option value=\"dump\"></td><td>'\"");
+        assertFalse(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertFalse(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertTrue(detailsPage.isTeamUnableToMergeMessageVisible());
+        assertEquals(detailsPage.getFirstTeamInTeamUnableToMergeMessage(), "Team 2");
+        assertEquals(detailsPage.getSecondTeamInTeamUnableToMergeMessage(),
+                     "Team 1</option><option value=\"dump\"></td><td>'\"");
+        
+        // Existing team name input same section
+        detailsPage.enterNewTeamName("Team 3");
+        assertTrue(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertTrue(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertFalse(detailsPage.isTeamUnableToMergeMessageVisible());
+        assertEquals(detailsPage.getFirstTeamInTeamAbleToMergeMessage(), "Team 2");
+        assertEquals(detailsPage.getSecondTeamInTeamAbleToMergeMessage(), "Team 3");
+        
+        ______TS("Test UI interactions for varying team name select");
+        
+        // New team name input
+        detailsPage.enterNewTeamName("New Team Name");
+        detailsPage.selectTeamToRename("Team 1</option><option value=\"dump\"></td><td>'\"");
+        assertTrue(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertFalse(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertFalse(detailsPage.isTeamUnableToMergeMessageVisible());
+        
+        detailsPage.selectTeamToRename("Team 2");
+        assertTrue(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertFalse(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertFalse(detailsPage.isTeamUnableToMergeMessageVisible());
+        
+        // Empty team name input
+        detailsPage.enterNewTeamName("");
+        detailsPage.selectTeamToRename("Team 1</option><option value=\"dump\"></td><td>'\"");
+        assertFalse(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertFalse(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertFalse(detailsPage.isTeamUnableToMergeMessageVisible());
+        
+        detailsPage.selectTeamToRename("Team 2");
+        assertFalse(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertFalse(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertFalse(detailsPage.isTeamUnableToMergeMessageVisible());
+        
+        // Existing team name input
+        detailsPage.enterNewTeamName("Team 2");
+        detailsPage.selectTeamToRename("Team 1</option><option value=\"dump\"></td><td>'\"");
+        assertFalse(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertFalse(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertTrue(detailsPage.isTeamUnableToMergeMessageVisible());
+        assertEquals(detailsPage.getFirstTeamInTeamUnableToMergeMessage(),
+                     "Team 1</option><option value=\"dump\"></td><td>'\"");
+        assertEquals(detailsPage.getSecondTeamInTeamUnableToMergeMessage(), "Team 2");
+        
+        detailsPage.selectTeamToRename("Team 2");
+        assertFalse(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertFalse(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertFalse(detailsPage.isTeamUnableToMergeMessageVisible());
+        
+        detailsPage.selectTeamToRename("Team 3");
+        assertTrue(detailsPage.isRenameTeamSaveButtonEnabled());
+        assertTrue(detailsPage.isTeamAbleToMergeMessageVisible());
+        assertFalse(detailsPage.isTeamUnableToMergeMessageVisible());
+        assertEquals(detailsPage.getFirstTeamInTeamAbleToMergeMessage(), "Team 3");
+        assertEquals(detailsPage.getSecondTeamInTeamAbleToMergeMessage(), "Team 2");
+        
+        ______TS("New team name save");
+        
+        detailsPage.enterNewTeamName("New Team Name");
+        detailsPage.selectTeamToRename("Team 1</option><option value=\"dump\"></td><td>'\"");
+        detailsPage.clickRenameTeamSaveButton();
+        detailsPage.verifyStatus("The team has been edited successfully");
+        
+        ______TS("Existing team name save");
+        
+        detailsPage.clickRenameTeamButton();
+        detailsPage.enterNewTeamName("Team 2");
+        detailsPage.selectTeamToRename("Team 3");
+        detailsPage.clickRenameTeamSaveButtonAndConfirm();
+        detailsPage.verifyStatus("The team has been edited successfully");
+    }
+
     private InstructorCourseDetailsPage getCourseDetailsPage() {
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                                 .withUserId(instructorId)
