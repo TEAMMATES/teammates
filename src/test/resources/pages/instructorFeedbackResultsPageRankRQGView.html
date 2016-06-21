@@ -71,6 +71,7 @@
                   <input name="fsname" type="hidden" value="Instructor Session">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="sectionname" type="hidden" value="All">
+                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                 </form>
                 <br>
                 <div>
@@ -174,7 +175,7 @@
               </label>
               <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
                 <div class="input-group">
-                  <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
+                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
                   <a class="input-group-addon btn btn-default">
                     <span class="glyphicon glyphicon-search">
                     </span>
@@ -391,17 +392,6 @@
                               <tbody>
                                 <tr>
                                   <td>
-                                    ;
-                                  </td>
-                                  <td>
-                                    1
-                                  </td>
-                                  <td>
-                                    1
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
                                     Organisation
                                   </td>
                                   <td>
@@ -409,6 +399,17 @@
                                   </td>
                                   <td>
                                     2
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    ;
+                                  </td>
+                                  <td>
+                                    1
+                                  </td>
+                                  <td>
+                                    1
                                   </td>
                                 </tr>
                               </tbody>
@@ -1190,17 +1191,6 @@
                               <tbody>
                                 <tr>
                                   <td>
-                                    Introduction
-                                  </td>
-                                  <td>
-                                    1
-                                  </td>
-                                  <td>
-                                    1
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
                                     Organisation
                                   </td>
                                   <td>
@@ -1208,6 +1198,17 @@
                                   </td>
                                   <td>
                                     2
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    Introduction
+                                  </td>
+                                  <td>
+                                    1
+                                  </td>
+                                  <td>
+                                    1
                                   </td>
                                 </tr>
                               </tbody>
@@ -1330,7 +1331,9 @@
           <tbody>
             <tr>
               <td>
-                <i>Instructors</i>
+                <i>
+                  Instructors
+                </i>
               </td>
               <td>
                 Teammates Helper who can only see section 1
