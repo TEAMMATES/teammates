@@ -212,7 +212,8 @@ public final class InstructorPrivileges {
         privileges.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
                 isAllowedInSectionLevel(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
         privileges.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                isAllowedInSectionLevel(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                isAllowedInSectionLevel(sectionName,
+                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         return privileges;
     }
@@ -267,7 +268,8 @@ public final class InstructorPrivileges {
         sectionLevel.get(sectionName).put(privilegeName, isAllowed);
     }
     
-    private void updatePrivilegeInSessionLevel(String sectionName, String sessionName, String privilegeName, boolean isAllowed) {
+    private void updatePrivilegeInSessionLevel(String sectionName, String sessionName,
+                                               String privilegeName, boolean isAllowed) {
         if (!isPrivilegeNameValidForSessionLevel(privilegeName)) {
             return;
         }
@@ -310,7 +312,8 @@ public final class InstructorPrivileges {
     }
     
     @SuppressWarnings("unchecked")
-    private void updatePrivilegesInSessionLevel(String sectionName, String sessionName, HashMap<String, Boolean> privileges) {
+    private void updatePrivilegesInSessionLevel(String sectionName, String sessionName,
+                                                HashMap<String, Boolean> privileges) {
         for (String privilegeName : privileges.keySet()) {
             if (!isPrivilegeNameValidForSessionLevel(privilegeName)) {
                 return;
@@ -519,7 +522,8 @@ public final class InstructorPrivileges {
     
     /**
      * validate the privileges in course level, section level and session level
-     * make sure there is nothing wrong with privileges hierarchy
+     * make sure there is nothing wrong with privileges hierarchy by adding the
+     * prerequisite privileges if they have not been granted yet
      */
     public void validatePrivileges() {
         if (this.courseLevel.containsKey(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)

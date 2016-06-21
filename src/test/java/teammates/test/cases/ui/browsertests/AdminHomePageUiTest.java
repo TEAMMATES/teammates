@@ -103,7 +103,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                      homePage.getMessageFromResultTable(2));
         homePage.clearInstructorDetailsSingleLineForm();
         
-        ______TS("action success : create instructor account and the account is created successfully after user's verification");
+        ______TS("action success : create instructor account and the account is created successfully "
+                 + "after user's verification");
         
         BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
@@ -246,7 +247,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         instructor.email = "AHPUiT.email.tmt";
         homePage.createInstructor(shortName, instructor, institute);
-        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT),
+        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email,
+                                   FieldValidator.REASON_INCORRECT_FORMAT),
                      homePage.getMessageFromResultTable(1));
 
         ______TS("action success: course is accessible for newly joined instructor as student");

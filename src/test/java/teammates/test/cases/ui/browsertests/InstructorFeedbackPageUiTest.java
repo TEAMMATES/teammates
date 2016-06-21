@@ -705,7 +705,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         cal.add(Calendar.DATE, 30);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);
         
-        assertEquals(sdf.format(initialCal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE));
+        assertEquals(sdf.format(initialCal.getTime()),
+                     feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE));
         
         
         ______TS("decreasing start date affects visible time, end date range and publish date range");
@@ -959,7 +960,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("8", feedbackPage.getTimeZone());
         
         
-        ______TS("form fields do not reset on form validation failure when session type is TEAMEVALUATION, timezone is changed");
+        ______TS("form fields do not reset on form validation failure when session type is TEAMEVALUATION, "
+                 + "timezone is changed");
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         

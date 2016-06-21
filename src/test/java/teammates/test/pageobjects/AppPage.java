@@ -287,6 +287,45 @@ public abstract class AppPage {
     }
 
     /**
+     * Waits for an alert modal to appear and dismisses it
+     */
+    public void waitForAndDismissAlertModal() {
+        waitForConfirmationModalAndClickOk();
+    }
+
+    /**
+     * Waits for a confirmation modal to appear and click the confirm button
+     */
+    public void waitForConfirmationModalAndClickOk() {
+        waitForModalPresence();
+        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
+        waitForElementToBeClickable(okayButton);
+        okayButton.click();
+        waitForModalToDisappear();
+    }
+
+    /**
+     * Waits for a confirmation modal to appear and click the cancel button
+     */
+    public void waitForConfirmationModalAndClickCancel() {
+        waitForModalPresence();
+        WebElement cancelButton = browser.driver.findElement(By.className("modal-btn-cancel"));
+        waitForElementToBeClickable(cancelButton);
+        cancelButton.click();
+        waitForModalToDisappear();
+    }
+
+    private void waitForModalPresence() {
+        WebElement closeButton = browser.driver.findElement(By.className("bootbox-close-button"));
+        waitForElementToBeClickable(closeButton);
+    }
+
+    private void waitForModalToDisappear() {
+        By modalBackdrop = By.className("modal-backdrop");
+        waitForElementToDisappear(modalBackdrop);
+    }
+
+    /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
     public void waitForElementPresence(By by) {
@@ -473,7 +512,8 @@ public abstract class AppPage {
         return textBox.getAttribute("value");
     }
 
-    /** 'check' the check box, if it is not already 'checked'.
+    /** 
+     * 'check' the check box, if it is not already 'checked'.
      * No action taken if it is already 'checked'.
      */
     protected void markCheckBoxAsChecked(WebElement checkBox) {
@@ -483,7 +523,8 @@ public abstract class AppPage {
         }
     }
 
-    /** 'uncheck' the check box, if it is already 'checked'.
+    /** 
+     * 'uncheck' the check box, if it is already 'checked'.
      * No action taken if it is not already 'checked'.
      */
     protected void markCheckBoxAsUnchecked(WebElement checkBox) {
@@ -492,6 +533,17 @@ public abstract class AppPage {
         }
     }
 
+    /** 
+     * 'check' the radio button, if it is not already 'checked'.
+     * No action taken if it is already 'checked'.
+     */
+    protected void markRadioButtonAsChecked(WebElement radioButton) {
+        waitForElementVisibility(radioButton);
+        if (!radioButton.isSelected()) {
+            radioButton.click();
+        }
+    }
+    
     /** 
      * Selection is based on the value shown to the user.
      * Since selecting an option by clicking on the option doesn't work sometimes

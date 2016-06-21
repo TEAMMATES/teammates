@@ -13,7 +13,7 @@ public class InstructorFeedbackResultsGroupByParticipantPanel extends Instructor
     private List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels;
 
     public InstructorFeedbackResultsGroupByParticipantPanel(
-                                    List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels) {
+            List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels) {
         this.secondaryParticipantPanels = secondaryParticipantPanels;
     }
 

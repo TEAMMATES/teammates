@@ -230,8 +230,10 @@ public class InstructorCourseEditPage extends AppPage {
         return isFormShownCorrectly;
     }
     
-    public boolean clickOnAccessLevelViewDetails(String role) {
-        WebElement viewDetailsLink = browser.driver.findElement(By.cssSelector(
+    public boolean clickOnNewInstructorAccessLevelViewDetails(String role) {
+        WebElement instructorForm = browser.driver.findElement(By.id("formAddInstructor"));
+        
+        WebElement viewDetailsLink = instructorForm.findElement(By.cssSelector(
                                             "a[onclick=\"showInstructorRoleModal('" + role + "')\"]"));
         viewDetailsLink.click();
         
@@ -360,7 +362,8 @@ public class InstructorCourseEditPage extends AppPage {
     
     public WebElement getCourseLevelPanel(int instrNum) {
         String permissionDivId = "tunePermissionsDivForInstructor" + instrNum;
-        return browser.driver.findElement(By.id(permissionDivId)).findElement(By.cssSelector("div.form-group>div>div.panel"));
+        return browser.driver.findElement(By.id(permissionDivId))
+                             .findElement(By.cssSelector("div.form-group>div>div.panel"));
     }
     
     public WebElement getAddSectionLevelPrivilegesLink(int instrNum) {

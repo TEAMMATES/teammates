@@ -257,6 +257,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     
     private void testEmailPendingComments() {
         InstructorHomePage homePage = commentsPage.loadInstructorHomeTab();
+        homePage.waitForAjaxLoaderGifToDisappear();
         homePage.verifyContains("Send email notification to recipients of 2 pending comments");
         commentsPage.loadInstructorCommentsTab();
         commentsPage.clickSendEmailNotificationButton();

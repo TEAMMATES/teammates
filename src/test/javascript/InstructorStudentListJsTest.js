@@ -19,7 +19,8 @@ QUnit.test('filterSection()', function(assert) {
     assert.equal($('#student_email-c0\\.0').is(':visible'), true, '[Team 1]Alice Betsy\'s email visible');
     assert.equal($('#student_email-c0\\.1').is(':visible'), true, '[Team 2]Hugh Ivanov\'s email visible');
     assert.equal($('#student_email-c0\\.2').is(':visible'), true, '[Team 3]Benny Charles\'s email visible');
-    assert.equal($('#student_email-c1\\.0').is(':hidden'), true, '[Team 1]Duplicate Benny Charles\'s email should be hidden');
+    assert.equal($('#student_email-c1\\.0').is(':hidden'), true,
+                 '[Team 1]Duplicate Benny Charles\'s email should be hidden');
     assert.equal($('#student_email-c1\\.1').is(':hidden'), true, '[Team 1]Carlos Santanna\'s email hidden');
     assert.equal($('#student_email-c1\\.2').is(':hidden'), true, '[Team 1]Charlie D\'s email hidden');
     assert.equal($('#student_email-c1\\.3').is(':hidden'), true, '[Team 2]Denny Charlés\'s email hidden');
@@ -49,7 +50,8 @@ QUnit.test('filterSection()', function(assert) {
     assert.equal($('#student_email-c0\\.0').is(':visible'), true, '[Team 1]Alice Betsy\'s email visible');
     assert.equal($('#student_email-c0\\.1').is(':hidden'), true, '[Team 2]Hugh Ivanov\'s email hidden');
     assert.equal($('#student_email-c0\\.2').is(':hidden'), true, '[Team 3]Benny Charles\'s email hidden');
-    assert.equal($('#student_email-c1\\.0').is(':visible'), true, '[Team 1]Duplicate Benny Charles\'s email should be visible');
+    assert.equal($('#student_email-c1\\.0').is(':visible'), true,
+                 '[Team 1]Duplicate Benny Charles\'s email should be visible');
     assert.equal($('#student_email-c1\\.1').is(':visible'), true, '[Team 1]Carlos Santanna\'s email visible');
     assert.equal($('#student_email-c1\\.2').is(':visible'), true, '[Team 1]Charlie D\'s email visible');
     assert.equal($('#student_email-c1\\.3').is(':visible'), true, '[Team 2]Denny Charlés\'s email visible');
@@ -96,7 +98,8 @@ QUnit.test('filterTeam()', function(assert) {
     assert.equal($('#student_email-c0\\.0').is(':hidden'), true, '[Team 1]Alice Betsy\'s email hidden');
     assert.equal($('#student_email-c0\\.1').is(':visible'), true, '[Team 2]Hugh Ivanov\'s email visible');
     assert.equal($('#student_email-c0\\.2').is(':visible'), true, '[Team 3]Benny Charles\'s email visible');
-    assert.equal($('#student_email-c1\\.0').is(':hidden'), true, '[Team 1]Duplicate Benny Charles\'s email should be hidden');
+    assert.equal($('#student_email-c1\\.0').is(':hidden'), true,
+                 '[Team 1]Duplicate Benny Charles\'s email should be hidden');
     assert.equal($('#student_email-c1\\.1').is(':hidden'), true, '[Team 1]Carlos Santanna\'s email visible');
     assert.equal($('#student_email-c1\\.2').is(':hidden'), true, '[Team 1]Charlie D\'s email visible');
     assert.equal($('#student_email-c1\\.3').is(':visible'), true, '[Team 2]Denny Charlés\'s email visible');
@@ -131,7 +134,8 @@ QUnit.test('filterTeam()', function(assert) {
     assert.equal($('#student_email-c0\\.0').is(':visible'), true, '[Team 1]Alice Betsy\'s email visible');
     assert.equal($('#student_email-c0\\.1').is(':visible'), true, '[Team 2]Hugh Ivanov\'s email visible');
     assert.equal($('#student_email-c0\\.2').is(':visible'), true, '[Team 3]Benny Charles\'s email visible');
-    assert.equal($('#student_email-c1\\.0').is(':hidden'), true, '[Team 1]Duplicate Benny Charles\'s email should be hidden');
+    assert.equal($('#student_email-c1\\.0').is(':hidden'), true,
+                 '[Team 1]Duplicate Benny Charles\'s email should be hidden');
     assert.equal($('#student_email-c1\\.1').is(':visible'), true, '[Team 1]Carlos Santanna\'s email visible');
     assert.equal($('#student_email-c1\\.2').is(':visible'), true, '[Team 1]Charlie D\'s email visible');
     assert.equal($('#student_email-c1\\.3').is(':visible'), true, '[Team 2]Denny Charlés\'s email visible');

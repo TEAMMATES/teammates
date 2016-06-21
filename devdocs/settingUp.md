@@ -59,20 +59,21 @@ Important: When a version is specified, please install that version instead of t
 4. Run the command `./gradlew setup`.<br>
    This creates the main config files {These are not under revision control because their content vary from developer to developer}.
    * `.project`<br>
-   * `.classpath`<br>
    * `gradle.properties`<br>
    If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.<br>
    This value must be a valid **JDK 1.7** directory.<br>
    * `src/main/resources/build.properties`<br>
-   For now, property values can remain as they are.
-   If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
+   For now, property values can remain as they are.<br>
+   (Optional) If you want to use alternative email services to develop and test email features, refer to [this document](emails.md).
    * `src/test/resources/test.properties`<br>
    Append a unique id (e.g. your name) to **each** of the default accounts found at the bottom of this file. 
    e.g. change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`<br>
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
-   Additionally, this command downloads the dependencies required by TEAMMATES and places them in the appropriate directories.<br>
-   Sometimes, the changes from this command might not show up in Eclipse immediately. "Refreshing" the project or restarting Eclipse
-   should fix that.
+   For now, property values can remain as they are.
+4. Run the command `./gradlew resetEclipseDeps`.<br>
+   This will download the dependencies required by TEAMMATES and places them in the appropriate directories to be used by Eclipse.<br>
+   In addition, it will generate the `.classpath` file for Eclipse configuration.<br>
+   This command can be run again whenever the dependencies need to be updated.
 5. Start Eclipse and go to `File → Import...` and select `Existing Projects into Workspace` under `General`. Set the `root directory` to the location where
    the repo is cloned. Click `Finish`.
 6. Start the dev server.<br>
@@ -272,7 +273,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
   Comes with App Engine SDK.
 * **Java Persistence API (JPA)** [version 1.0]: JPA is a standard interface for accessing databases in Java, providing an automatic mapping between Java classes and database tables.
 * **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
-* **SendGrid** Alternative framework to JavaMail for sending emails.
+* **SendGrid, Mailgun, Mailjet** Alternative framework to JavaMail for sending emails. The details of these tools can be found in [this document](emails.md).
 * **Google Cloud SDK**: This is a set of tools that helps us manage resources and applications hosted on Google Cloud Platform. We use it to run client scripts on GAE remotely.
 
 ####Tools used in testing
