@@ -19,7 +19,7 @@ public class ActionResultTest extends BaseTestCase {
     }
     
     @Test
-    public void fileDownloadResult() {
+    public void testFileDownloadResult() {
         FileDownloadResult download = new FileDownloadResult("/page/instructorFeedbackResultsDownload",
                                                             null, null, "Normal name", "abcabc");
         assertEquals("attachment; filename=\"Normal name.csv\";filename*= UTF-8''Normal+name.csv",
@@ -27,7 +27,7 @@ public class ActionResultTest extends BaseTestCase {
     }
     
     @Test
-    public void fileDownloadResult_fileNameWithUnicodeCharacters_hasCorrectContentDesposition() {
+    public void testFileDownloadResult_fileNameWithUnicodeCharacters_hasCorrectContentDesposition() {
         FileDownloadResult download = new FileDownloadResult("/page/instructorFeedbackResultsDownload",
                                                             null, null, "£ rates", "abcabc");
         assertEquals("attachment; filename=\" rates.csv\";filename*= UTF-8''%C2%A3+rates.csv",

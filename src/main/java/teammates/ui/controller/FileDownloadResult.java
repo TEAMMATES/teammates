@@ -37,12 +37,18 @@ public class FileDownloadResult extends ActionResult {
          *     to make the servlet aware of the specified charset encoding
          */
         resp.setContentType("text/csv; charset=UTF-8");
+        // Content-Disposition is a header on the HTTP response to suggest a filename
+        // if the contents of the response is saved to a file.
         resp.setHeader("Content-Disposition", getContentDispositionHeader());
         PrintWriter writer = resp.getWriter();
         writer.write("\uFEFF");
         writer.append(fileContent);
     }
     
+    /**
+     * Suggests a filename for the content of the response to be saved as.
+     * @return value of the HTTP Content-Disposition header
+     */
     public String getContentDispositionHeader() {
         return "attachment; filename=\"" + getAsciiOnlyCsvFileName() + "\";"
                + "filename*= UTF-8''" + getUrlEscapedCsvFileName();
