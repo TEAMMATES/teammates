@@ -34,13 +34,13 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     
     /** indicates if the test-run is to use GodMode */
-    private static boolean enableGodMode;
+    private static boolean isGodModeEnabled;
     
     @BeforeClass
     public void classSetUp() throws Exception {
         printTestClassHeader();
         removeAndRestoreTypicalDataInDatastore();
-        if (enableGodMode) {
+        if (isGodModeEnabled) {
             System.setProperty("godmode", "true");
         }
     }
@@ -133,7 +133,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
                                                               requestUrl, requestParam, userType, error);
         
         // The stack trace is different depending on the environment in which the test is run at.
-        // As a workaround, after the last common line, change all the stack trace to ...
+        // As a workaround, after the last common line, change all the stack trace to "..."
         String lastCommonLineRegex =
                 "(?s)(at org\\.testng\\.TestRunner\\.run\\(TestRunner\\.java:617\\)\\s*)at.*?(\\s*</code>)";
         String modifiedContent = email.getContent().replaceAll(lastCommonLineRegex, "$1...$2");
