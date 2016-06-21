@@ -87,7 +87,7 @@
           <br>
         </div>
       </div>
-      <div id="tunePermissionsDivForInstructor1" style="display: block;">
+      <div id="tunePermissionsDivForInstructor1" style="display: none;">
         <div class="form-group">
           <div class="col-xs-12">
             <div class="panel panel-info">
@@ -142,7 +142,7 @@
                 </div>
               </div>
             </div>
-            <div id="tuneSectionPermissionsDiv0ForInstructor1">
+            <div data-is-originally-displayed="true" id="tuneSectionPermissionsDiv0ForInstructor1" style="display: none;">
               <div class="panel panel-info">
                 <div class="panel-heading">
                   <div class="row">
@@ -186,7 +186,7 @@
                       </p>
                     </div>
                   </div>
-                  <input disabled="" name="issectiongroup0set" type="hidden" value="true">
+                  <input disabled="" name="issectiongroup0set" type="hidden" value="false">
                 </div>
                 <div class="panel-body">
                   <br>
@@ -217,11 +217,11 @@
                     <br>
                     <br>
                   </div>
-                  <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor1" onclick="hideTuneSessionnPermissionsDiv(1, 0)">
-                    Hide session-level permissions
+                  <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor1" onclick="showTuneSessionnPermissionsDiv(1, 0)">
+                    Give different permissions for sessions in this section
                   </a>
-                  <div class="row" id="tuneSessionPermissionsDiv0ForInstructor1">
-                    <input disabled="" name="issectiongroup0sessionsset" type="hidden" value="true">
+                  <div class="row" data-is-originally-displayed="true" id="tuneSessionPermissionsDiv0ForInstructor1" style="display: none;">
+                    <input disabled="" name="issectiongroup0sessionsset" type="hidden" value="false">
                     <table class="table table-striped">
                       <thead>
                         <tr>
@@ -260,7 +260,7 @@
                 </div>
               </div>
             </div>
-            <div id="tuneSectionPermissionsDiv1ForInstructor1">
+            <div data-is-originally-displayed="true" id="tuneSectionPermissionsDiv1ForInstructor1" style="display: none;">
               <div class="panel panel-info">
                 <div class="panel-heading">
                   <div class="row">
@@ -304,7 +304,7 @@
                       </p>
                     </div>
                   </div>
-                  <input disabled="" name="issectiongroup1set" type="hidden" value="true">
+                  <input disabled="" name="issectiongroup1set" type="hidden" value="false">
                 </div>
                 <div class="panel-body">
                   <br>
@@ -335,11 +335,11 @@
                     <br>
                     <br>
                   </div>
-                  <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection1ForInstructor1" onclick="hideTuneSessionnPermissionsDiv(1, 1)">
-                    Hide session-level permissions
+                  <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection1ForInstructor1" onclick="showTuneSessionnPermissionsDiv(1, 1)">
+                    Give different permissions for sessions in this section
                   </a>
-                  <div class="row" id="tuneSessionPermissionsDiv1ForInstructor1">
-                    <input disabled="" name="issectiongroup1sessionsset" type="hidden" value="true">
+                  <div class="row" data-is-originally-displayed="true" id="tuneSessionPermissionsDiv1ForInstructor1" style="display: none;">
+                    <input disabled="" name="issectiongroup1sessionsset" type="hidden" value="false">
                     <table class="table table-striped">
                       <thead>
                         <tr>
@@ -378,7 +378,7 @@
                 </div>
               </div>
             </div>
-            <div id="tuneSectionPermissionsDiv2ForInstructor1" style="display: none;">
+            <div data-is-originally-displayed="true" id="tuneSectionPermissionsDiv2ForInstructor1" style="display: none;">
               <div class="panel panel-info">
                 <div class="panel-heading">
                   <div class="row">
@@ -453,11 +453,11 @@
                     <br>
                     <br>
                   </div>
-                  <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection2ForInstructor1" onclick="hideTuneSessionnPermissionsDiv(1, 2)">
-                    Hide session-level permissions
+                  <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection2ForInstructor1" onclick="showTuneSessionnPermissionsDiv(1, 2)">
+                    Give different permissions for sessions in this section
                   </a>
-                  <div class="row" id="tuneSessionPermissionsDiv2ForInstructor1">
-                    <input disabled="" name="issectiongroup2sessionsset" type="hidden" value="true">
+                  <div class="row" data-is-originally-displayed="false" id="tuneSessionPermissionsDiv2ForInstructor1" style="display: none;">
+                    <input disabled="" name="issectiongroup2sessionsset" type="hidden" value="false">
                     <table class="table table-striped">
                       <thead>
                         <tr>
@@ -496,7 +496,7 @@
                 </div>
               </div>
             </div>
-            <a class="small" href="javascript:;" id="addSectionLevelForInstructor1" onclick="showTuneSectionPermissionsDiv(1, 2)" style="">
+            <a class="small" href="javascript:;" id="addSectionLevelForInstructor1" onclick="showTuneSectionPermissionsDiv(1, 0)" style="display: inline;">
               Give different permissions for a specific section
             </a>
           </div>
