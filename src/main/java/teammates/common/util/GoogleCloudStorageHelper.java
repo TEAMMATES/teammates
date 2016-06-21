@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.blobstore.UploadOptions;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
@@ -43,4 +44,15 @@ public final class GoogleCloudStorageHelper {
         return BlobstoreServiceFactory.getBlobstoreService()
                 .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + googleId).getKeyString();
     }
+    
+    public static String getNewUploadUrl(String uploadUrl) {
+        UploadOptions uploadOptions =
+                UploadOptions.Builder.withDefaults()
+                             .googleStorageBucketName(Config.GCS_BUCKETNAME)
+                             .maxUploadSizeBytes(Const.SystemParams.MAX_FILE_LIMIT_FOR_BLOBSTOREAPI);
+        
+        return BlobstoreServiceFactory.getBlobstoreService()
+                                      .createUploadUrl(uploadUrl, uploadOptions);
+    }
+    
 }
