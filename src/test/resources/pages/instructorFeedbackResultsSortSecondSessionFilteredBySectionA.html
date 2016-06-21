@@ -71,6 +71,7 @@
                   <input name="fsname" type="hidden" value="Second Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="Section A">
+                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                 </form>
                 <br>
                 <div>
@@ -174,7 +175,7 @@
               </label>
               <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
                 <div class="input-group">
-                  <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
+                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
                   <a class="input-group-addon btn btn-default">
                     <span class="glyphicon glyphicon-search">
                     </span>
@@ -1500,17 +1501,6 @@
                   <tbody>
                     <tr>
                       <td>
-                        Fun
-                      </td>
-                      <td>
-                        55
-                      </td>
-                      <td>
-                        55
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
                         Grades
                       </td>
                       <td>
@@ -1518,6 +1508,17 @@
                       </td>
                       <td>
                         45
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Fun
+                      </td>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        55
                       </td>
                     </tr>
                   </tbody>
@@ -1890,20 +1891,6 @@
                   <tbody>
                     <tr>
                       <td>
-                        Team 2
-                      </td>
-                      <td>
-                        Charlie Dávis
-                      </td>
-                      <td>
-                        50
-                      </td>
-                      <td>
-                        50
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
                         Team 1&lt;/td&gt;&lt;/div&gt;'"
                       </td>
                       <td>
@@ -1914,6 +1901,20 @@
                       </td>
                       <td>
                         90
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Team 2
+                      </td>
+                      <td>
+                        Charlie Dávis
+                      </td>
+                      <td>
+                        50
+                      </td>
+                      <td>
+                        50
                       </td>
                     </tr>
                     <tr>
