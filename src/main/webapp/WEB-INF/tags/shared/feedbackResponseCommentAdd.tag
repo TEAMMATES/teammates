@@ -10,7 +10,7 @@
 <%@ attribute name="fourthIndex" %>
 
 <c:choose>
-    <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex}">
+    <c:when test="${not empty fourthIndex}">
         <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}" />
         <c:set var="divIdAsJsParams" value="${firstIndex},${secondIndex},${thirdIndex}, { sectionIndex: ${fourthIndex} }" />
     </c:when>

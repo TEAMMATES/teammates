@@ -26,10 +26,10 @@
         <a id="frComment-visibility-options-trigger-${divId}"
            class="btn btn-sm btn-info pull-right"
             <c:if test="${isEditForm}">
-                onclick="toggleVisibilityEditForm(${divIdAsJsParams})">
+                onclick="toggleVisibilityEditForm(${divIdAsJsParams})"
             </c:if>
             <c:if test="${isAddForm}">
-                onclick="toggleVisibilityAddForm(${divIdAsJsParams})">
+                onclick="toggleVisibilityAddForm(${divIdAsJsParams})"
             </c:if>
         >
             <span class="glyphicon glyphicon-eye-close"></span>

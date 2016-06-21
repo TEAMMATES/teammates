@@ -50,6 +50,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private static final int RESPONDENTS_LIMIT_FOR_AUTOLOADING = 150;
 
     private static int sectionId;
+    private static Pattern sectionIdPattern = Pattern.compile("^section-(\\d+)");
 
     // isLargeNumberOfRespondents is an attribute used for testing the ui, for ViewType.Question
     private boolean isLargeNumberOfRespondents;
@@ -543,8 +544,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                         response.feedbackSessionName,
                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
 
-            Pattern pattern = Pattern.compile("^section-(\\d+)");
-            Matcher matcher = pattern.matcher(additionalInfoId);
+            Matcher matcher = sectionIdPattern.matcher(additionalInfoId);
             if (matcher.find()) {
                 sectionId = Integer.parseInt(matcher.group(1));
             }
