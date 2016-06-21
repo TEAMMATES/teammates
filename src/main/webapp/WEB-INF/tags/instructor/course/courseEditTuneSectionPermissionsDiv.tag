@@ -6,7 +6,8 @@
 <%@ attribute name="sectionIndex" required="true" %>
 <%@ attribute name="sectionRow" type="teammates.ui.template.CourseEditSectionRow" required="true" %>
 
-<div id="tuneSectionPermissionsDiv${sectionIndex}ForInstructor${instructorIndex}" 
+<div id="tuneSectionPermissionsDiv${sectionIndex}ForInstructor${instructorIndex}"
+     data-is-originally-displayed="${sectionRow.sectionSpecial}"
         <c:if test="${not sectionRow.sectionSpecial}"> 
             style="display: none;"
         </c:if> >

@@ -8,6 +8,7 @@
 <%@ attribute name="sectionRow" type="teammates.ui.template.CourseEditSectionRow" required="true" %>
 
 <div id="tuneSessionPermissionsDiv${sectionIndex}ForInstructor${instructorIndex}" class="row"
+     data-is-originally-displayed="${sectionRow.sessionsInSectionSpecial}"
         <c:if test="${not sectionRow.sessionsInSectionSpecial}">
             style="display: none;"
         </c:if> >

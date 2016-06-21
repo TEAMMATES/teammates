@@ -56,7 +56,7 @@ function enableFormEditInstructor(number) {
     var instrRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[number - 1];
     if (instrRole === 'Custom') {
         showTunePermissionsDiv(number);
-        showAllCheckedTuneSectionAndSessionPermissionsDivs(number);
+        showAllSpecialSectionAndSessionPermissionsDivs(number);
     }
 }
 
@@ -75,9 +75,7 @@ function disableFormEditInstructor(number) {
     document.getElementById('formEditInstructor' + number + '>').reset();
     var instrRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[number - 1];
     $("input[id='instructorroleforinstructor" + number + "'][value='" + instrRole + "']").prop('checked', true);
-    if (instrRole !== 'Custom') {
-        hideAllTunePermissionsDivs(number);
-    }
+    hideAllTunePermissionsDivs(number);
 }
 
 function showNewInstructorForm() {
@@ -108,14 +106,14 @@ function hideAllTunePermissionsDivs(instrNum) {
     $tunePermissionsDiv.hide();
 }
 
-function showAllCheckedTuneSectionAndSessionPermissionsDivs(instrNum) {
+function showAllSpecialSectionAndSessionPermissionsDivs(instrNum) {
     var $tunePermissionsDiv = $('#tunePermissionsDivForInstructor' + instrNum);
     $tunePermissionsDiv.find('div[id^="tuneSectionPermissionsDiv"]').each(function(i) {
         var $currTunePermissionsDiv = $(this);
-        if ($currTunePermissionsDiv.find('input:checked').length) {
+        if ($currTunePermissionsDiv.data('is-originally-displayed')) {
             showTuneSectionPermissionsDiv(instrNum, i);
         }
-        if ($currTunePermissionsDiv.find('div[id^="tuneSessionPermissionsDiv"]').find('input:checked').length) {
+        if ($currTunePermissionsDiv.find('div[id^="tuneSessionPermissionsDiv"]').data('is-originally-displayed')) {
             showTuneSessionnPermissionsDiv(instrNum, i);
         }
     });
