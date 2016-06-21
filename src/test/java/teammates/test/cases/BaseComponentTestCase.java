@@ -61,7 +61,7 @@ public class BaseComponentTestCase extends BaseTestCase {
     
     protected static String writeFileToGcs(String googleId, String filename) throws IOException {
         byte[] image = FileHelper.readFileAsBytes(filename);
-        return GoogleCloudStorageHelper.writeDataToGcs(googleId, image);
+        return GoogleCloudStorageHelper.writeImageDataToGcs(googleId, image);
     }
     
     protected static boolean doesFileExistInGcs(BlobKey fileKey) {

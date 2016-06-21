@@ -8,14 +8,11 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
-import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 
 public final class GoogleCloudStorageHelper {
     
-    private static GcsService gcsService;
-
     private GoogleCloudStorageHelper() {
         // utility class
     }
@@ -28,14 +25,15 @@ public final class GoogleCloudStorageHelper {
             return false;
         }
     }
-
-    public static String writeDataToGcs(String googleId, byte[] pictureData) throws IOException {
+    
+    public static String writeImageDataToGcs(String googleId, byte[] imageData) throws IOException {
         GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId);
-        gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
         GcsOutputChannel outputChannel =
-                gcsService.createOrReplace(gcsFilename, new GcsFileOptions.Builder().mimeType("image/png").build());
+                GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance())
+                                 .createOrReplace(gcsFilename,
+                                                  new GcsFileOptions.Builder().mimeType("image/png").build());
 
-        outputChannel.write(ByteBuffer.wrap(pictureData));
+        outputChannel.write(ByteBuffer.wrap(imageData));
         outputChannel.close();
         
         return BlobstoreServiceFactory.getBlobstoreService()
