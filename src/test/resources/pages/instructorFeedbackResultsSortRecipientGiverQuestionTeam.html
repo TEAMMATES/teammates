@@ -71,6 +71,7 @@
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
+                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                 </form>
                 <br>
                 <div>
@@ -174,7 +175,7 @@
               </label>
               <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
                 <div class="input-group">
-                  <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
+                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
                   <a class="input-group-addon btn btn-default">
                     <span class="glyphicon glyphicon-search">
                     </span>
@@ -3385,11 +3386,11 @@
             To:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
-                Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                Extra guy (Team 2)
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a href="mailto:CFResultsUiT.fred.g@gmail.tmt">
-                [CFResultsUiT.fred.g@gmail.tmt]
+              <a href="mailto:extra.guy@gmail.tmt">
+                [extra.guy@gmail.tmt]
               </a>
             </div>
             <div class="pull-right">
@@ -3413,11 +3414,11 @@
             To:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
-                Extra guy (Team 2)
+                Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a href="mailto:extra.guy@gmail.tmt">
-                [extra.guy@gmail.tmt]
+              <a href="mailto:CFResultsUiT.fred.g@gmail.tmt">
+                [CFResultsUiT.fred.g@gmail.tmt]
               </a>
             </div>
             <div class="pull-right">
