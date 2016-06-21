@@ -195,8 +195,7 @@
                                            data-placement="top">
                                             Add Comment
                                         </a>
-                                        <a class="btn btn-default btn-xs dropdown-toggle
-                                           <c:if test="${not commentButtonEnabled}">disabled</c:if>"
+                                        <a class="btn btn-default btn-xs dropdown-toggle<c:if test="${not commentButtonEnabled}"> disabled</c:if>"
                                            href="javascript:;"
                                            data-toggle="dropdown"
                                            <c:if test="${not commentButtonEnabled}">disabled</c:if>>
