@@ -36,11 +36,10 @@ public class StudentProfilePictureUploadAction extends Action {
 
         String pictureKey = "";
         BlobKey blobKey = new BlobKey("");
-        BlobInfo blobInfo = null;
         RedirectResult r = createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
 
         try {
-            blobInfo = extractProfilePictureKey();
+            BlobInfo blobInfo = extractProfilePictureKey();
             if (!isError) {
                 blobKey = blobInfo.getBlobKey();
                 pictureKey = renameFileToGoogleId(blobInfo);

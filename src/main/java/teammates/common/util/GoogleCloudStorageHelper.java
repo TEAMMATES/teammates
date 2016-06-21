@@ -18,6 +18,9 @@ import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 
+/**
+ * Holds functions for operations related to Google Cloud Storage.
+ */
 public final class GoogleCloudStorageHelper {
     
     private static final int MAX_READING_LENGTH = 900000;
@@ -26,6 +29,10 @@ public final class GoogleCloudStorageHelper {
         // utility class
     }
     
+    /**
+     * @return true if a file with the specified {@link BlobKey} exists in the
+     *         Google Cloud Storage
+     */
     public static boolean doesFileExistInGcs(BlobKey fileKey) {
         try {
             BlobstoreServiceFactory.getBlobstoreService().fetchData(fileKey, 0, 1);
@@ -35,10 +42,18 @@ public final class GoogleCloudStorageHelper {
         }
     }
     
+    /**
+     * Deletes the file with the specified {@link BlobKey} in the Google Cloud Storage.
+     */
     public static void deleteFile(BlobKey fileKey) {
         BlobstoreServiceFactory.getBlobstoreService().delete(fileKey);
     }
     
+    /**
+     * Writes a byte array {@code imageData} as image to the Google Cloud Storage,
+     * with the {@code googleId} as the identifier name for the image.
+     * @return the {@link BlobKey} used as the image's identifier in Google Cloud Storage
+     */
     public static String writeImageDataToGcs(String googleId, byte[] imageData) throws IOException {
         GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId);
         GcsOutputChannel outputChannel =
@@ -53,25 +68,26 @@ public final class GoogleCloudStorageHelper {
                 .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + googleId).getKeyString();
     }
     
-    public static String getNewUploadUrl(String uploadUrl) {
+    /**
+     * Creates and invokes a URL for uploading a large blob to Google Cloud Storage.
+     * Upon completion of the upload, a callback is made to the specified {@code callbackUrl}.<br>
+     * Refer to {@link BlobstoreService#createUploadUrl}.
+     */
+    public static String getNewUploadUrl(String callbackUrl) {
         UploadOptions uploadOptions =
                 UploadOptions.Builder.withDefaults()
                              .googleStorageBucketName(Config.GCS_BUCKETNAME)
                              .maxUploadSizeBytes(Const.SystemParams.MAX_FILE_LIMIT_FOR_BLOBSTOREAPI);
         
         return BlobstoreServiceFactory.getBlobstoreService()
-                                      .createUploadUrl(uploadUrl, uploadOptions);
+                                      .createUploadUrl(callbackUrl, uploadOptions);
     }
     
     /**
-     * This method: <br>
-     * 1. makes sure the list file given the blobkey exists in the Google Cloud Storage<br>
-     * 2. goes through the list file by splitting the content of the txt file(email addresses separated by comma)
-     * into separated email addresses, which makes sure the file content is intact and of correct format
-     * <br><br>
-     * 
-     * @param blobKey
-     * @throws IOException
+     * Gets the file with the specified {@link BlobKey} in the Google Cloud Storage,
+     * parses it and returns it as a list of list.<br>
+     * Assumption: the file represented by {@code blobKey} is a valid txt file
+     *             that can be parsed into a comma-separated list
      */
     public static List<List<String>> getGroupReceiverList(BlobKey blobKey) throws IOException {
         Assumption.assertNotNull(blobKey);
@@ -83,9 +99,9 @@ public final class GoogleCloudStorageHelper {
         // happen to be in the newly read bytes.
         
         // For email address which happens to be broken according to two consecutive reading, a check will be done
-        // before storing all emails separated from the second reading into a new list. Broken email will be fixed by
-        // deleting the first item of the email list from current reading  AND
-        // appending it to the last item of the email list from last reading
+        // before storing all emails separated from the second reading into a new list.
+        // Broken email will be fixed by deleting the first item of the email list from current reading
+        // AND appending it to the last item of the email list from last reading.
         
         // The email list from each reading is inserted into an upper list (list of list).
         // The structure is as below:
@@ -109,7 +125,7 @@ public final class GoogleCloudStorageHelper {
         
         while (size > 0) {
             // Make sure not to over-read
-            int bytesToRead = size > MAX_READING_LENGTH ? MAX_READING_LENGTH : size;
+            int bytesToRead = Math.min(size, MAX_READING_LENGTH);
             InputStream blobStream = new BlobstoreInputStream(blobKey, offset);
             byte[] array = new byte[bytesToRead];
             
@@ -140,9 +156,8 @@ public final class GoogleCloudStorageHelper {
                     // from current reading into the upper list.
                     listOfList.add(newList);
                 } else {
-                    // Either the left part or the right part of the broken email string
-                    // does not contains a "@".
-                    // Simply append the right part to the left part(last item of the list from last reading)
+                    // Either the left part or the right part of the broken email string does not contains a "@".
+                    // Simply append the right part to the left part (last item of the list from last reading).
                     listOfList.get(listOfList.size() - 1)
                               .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
                     
