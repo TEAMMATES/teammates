@@ -1516,6 +1516,7 @@ public class FeedbackSessionsLogic {
     
     public List<EmailWrapper> sendReminderForFeedbackSessionParticularUsers(String courseId,
             String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
+
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_REMIND + courseId + "/" + feedbackSessionName);
         }
@@ -1551,6 +1552,28 @@ public class FeedbackSessionsLogic {
             throw new RuntimeException(ERROR_SENDING_EMAILS, e);
         }
     }
+    
+    public EmailWrapper sendConfirmationEmailForSubmission(String courseId,
+            String feedbackSessionName, String userEmail) throws EntityDoesNotExistException {
+        
+        FeedbackSessionAttributes session = getFeedbackSession(
+                feedbackSessionName, courseId);
+
+        StudentAttributes student = studentsLogic.isStudentInCourse(courseId, userEmail)
+                ? studentsLogic.getStudentForEmail(courseId, userEmail) : null;
+                
+        InstructorAttributes instructor = instructorsLogic.isEmailOfInstructorOfCourse(userEmail, courseId)
+                ? instructorsLogic.getInstructorForEmail(courseId, userEmail) : null;
+                
+        try {
+            EmailWrapper email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmails(
+                    session, student, instructor);
+            new EmailSender().sendEmailWithLogging(email);
+            return email;
+        } catch (Exception e) {
+            throw new RuntimeException(ERROR_SENDING_EMAILS, e);
+        }
+    }
 
     public void scheduleFeedbackRemindEmails(String courseId, String feedbackSessionName) {
         
@@ -1565,7 +1588,7 @@ public class FeedbackSessionsLogic {
     
     public void scheduleFeedbackRemindEmailsForParticularUsers(String courseId,
             String feedbackSessionName, String[] usersToRemind) {
-    
+      
         HashMap<String, String[]> paramMap = new HashMap<String, String[]>();
         paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[]{feedbackSessionName});
         paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[]{courseId});
@@ -1574,6 +1597,19 @@ public class FeedbackSessionsLogic {
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
         taskQueueLogic.createAndAddTaskMultisetParam(SystemParams.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE,
                 Const.ActionURIs.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER, paramMap);
+    }
+    
+    public void scheduleFeedbackSubmissionConfirmationEmail(String courseId,
+            String feedbackSessionName, String userToConfirm) {
+        
+        HashMap<String, String[]> paramMap = new HashMap<String, String[]>();
+        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[]{feedbackSessionName});
+        paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[]{courseId});
+        paramMap.put(ParamsNames.SUBMISSION_CONFIRM_USER, new String[]{userToConfirm});
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        taskQueueLogic.createAndAddTaskMultisetParam(SystemParams.FEEDBACK_SUBMISSION_CONFRM_EMAIL_QUEUE,
+                Const.ActionURIs.FEEDBACK_SUBMITTED_CONFIRMATION_EMAIL, paramMap);
     }
 
     public void scheduleFeedbackSessionOpeningEmails() {

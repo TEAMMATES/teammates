@@ -1231,6 +1231,24 @@ public class Logic {
                                                                              feedbackSessionName,
                                                                              usersToRemind);
     }
+    
+    /**
+     * Sends confirmation email for submission to user. <br>
+     * Preconditions: <br>
+     * * All parameters are non-null. <br>
+     */
+    public void sendConfirmationEmailForSubmission(String courseId,
+                                                   String feedbackSessionName,
+                                                   String userToSendFeedbackSubmissionConfirmationEmail) {
+     
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userToSendFeedbackSubmissionConfirmationEmail);
+
+        feedbackSessionsLogic.scheduleFeedbackSubmissionConfirmationEmail(courseId,
+                                                                             feedbackSessionName,
+                                                                             userToSendFeedbackSubmissionConfirmationEmail);
+    }
 
     /**
      * Deletes the student from the course including any submissions to/from

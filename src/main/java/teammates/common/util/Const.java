@@ -155,6 +155,9 @@ public final class Const {
                 "feedback-remind-email-particular-users-queue";
         public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
         
+        public static final String FEEDBACK_SUBMISSION_CONFRM_EMAIL_QUEUE =
+                "feedback-submission-confirm-email-queue";
+        
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
@@ -747,6 +750,8 @@ public final class Const {
         public static final String SUBMISSION_FEEDBACK = "feedback";
         public static final String SUBMISSION_REMIND_USERLIST = "usersToRemind";
         
+        public static final String SUBMISSION_CONFIRM_USER = "userToSendConfirmationEmail";
+        
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
         
         public static final String SEARCH_KEY = "searchkey";
@@ -954,6 +959,8 @@ public final class Const {
         public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
         public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER =
                                     "/feedbackRemindEmailParticularUsersWorker";
+        public static final String FEEDBACK_SUBMITTED_CONFIRMATION_EMAIL =
+                "/feedbackSubmittedConfirmationEmail";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
     }
     

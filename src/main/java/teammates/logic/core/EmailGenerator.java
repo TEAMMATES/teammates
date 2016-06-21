@@ -1,6 +1,8 @@
 package teammates.logic.core;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -66,7 +68,7 @@ public class EmailGenerator {
     public List<EmailWrapper> generateFeedbackSessionReminderEmails(
             FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructorsToRemind, List<InstructorAttributes> instructorsToNotify) {
-        
+
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
         List<EmailWrapper> emails =
@@ -81,6 +83,34 @@ public class EmailGenerator {
         return emails;
     }
     
+    /**
+     * Generates the feedback submission confirmation email for the given {@code session} for {@code student}
+     * and {@code instructor}.
+     */
+    public EmailWrapper generateFeedbackSubmissionConfirmationEmails(
+            FeedbackSessionAttributes session, StudentAttributes student,
+            InstructorAttributes instructor) {
+        
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
+        EmailWrapper email = new EmailWrapper();
+        
+        if (instructor != null) {
+            email = generateFeedbackSessionEmailBaseForInstructorSubmissionConfirmation(course, session,
+                    instructor, template, EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject());
+        }
+        if (student != null) {
+            email = generateFeedbackSessionEmailBaseForStudentSubmissionConfirmation(course, session,
+                    student, template, EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject());
+        }
+
+        String timeStamp = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").format(Calendar.getInstance().getTime());
+
+        email.setContent(email.getContent().replace("${status}", "has been successfully submitted by you on " + timeStamp));
+
+        return email;
+    }
+    
     private List<EmailWrapper> generateFeedbackSessionEmailBasesForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, List<InstructorAttributes> instructors,
             String template, String subject) {
@@ -91,6 +121,37 @@ public class EmailGenerator {
                                                                               template, subject));
         }
         return emails;
+    }
+    
+    private EmailWrapper generateFeedbackSessionEmailBaseForInstructorSubmissionConfirmation(
+            CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
+            String template, String subject) {
+        
+        String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                                 .withCourseId(course.getId())
+                                 .withSessionName(session.getFeedbackSessionName())
+                                 .toAbsoluteString();
+        
+        String reportUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+                                 .withCourseId(course.getId())
+                                 .withSessionName(session.getFeedbackSessionName())
+                                 .toAbsoluteString();
+        
+        String emailBody = Templates.populateTemplate(template,
+                "${userName}", instructor.name,
+                "${courseName}", course.getName(),
+                "${courseId}", course.getId(),
+                "${feedbackSessionName}", session.getFeedbackSessionName(),
+                "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
+                "${instructorFragment}", "",
+                "${submitUrl}", submitUrl,
+                "${reportUrl}", reportUrl,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+        
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
+        email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
+        email.setContent(emailBody);
+        return email;
     }
     
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructorReminders(
@@ -195,6 +256,41 @@ public class EmailGenerator {
     }
     
     private EmailWrapper generateFeedbackSessionEmailBaseForStudents(
+            CourseAttributes course, FeedbackSessionAttributes session, StudentAttributes student, String template,
+            String subject) {
+        
+        String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                                 .withCourseId(course.getId())
+                                 .withSessionName(session.getFeedbackSessionName())
+                                 .withRegistrationKey(StringHelper.encrypt(student.key))
+                                 .withStudentEmail(student.email)
+                                 .toAbsoluteString();
+        
+        String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                                 .withCourseId(course.getId())
+                                 .withSessionName(session.getFeedbackSessionName())
+                                 .withRegistrationKey(StringHelper.encrypt(student.key))
+                                 .withStudentEmail(student.email)
+                                 .toAbsoluteString();
+        
+        String emailBody = Templates.populateTemplate(template,
+                "${userName}", student.name,
+                "${courseName}", course.getName(),
+                "${courseId}", course.getId(),
+                "${feedbackSessionName}", session.getFeedbackSessionName(),
+                "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
+                "${instructorFragment}", "",
+                "${submitUrl}", submitUrl,
+                "${reportUrl}", reportUrl,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+        
+        EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
+        email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
+        email.setContent(emailBody);
+        return email;
+    }
+    
+    private EmailWrapper generateFeedbackSessionEmailBaseForStudentSubmissionConfirmation(
             CourseAttributes course, FeedbackSessionAttributes session, StudentAttributes student, String template,
             String subject) {
         

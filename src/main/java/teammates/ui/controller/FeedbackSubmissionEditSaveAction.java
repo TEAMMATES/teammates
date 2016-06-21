@@ -172,6 +172,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             removeRespondant();
         }
         
+        String userEmail = getRequestParamValue("user");
+        logic.sendConfirmationEmailForSubmission(courseId, feedbackSessionName, userEmail);
+        
         return createSpecificRedirectResult();
     }
     
