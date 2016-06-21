@@ -16,6 +16,7 @@ import teammates.test.util.FileHelper;
 public final class TestProperties {
     
     public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
+    public static final String TEST_EMAILS_FOLDER = "src/test/resources/emails";
     public static final String TEST_DATA_FOLDER = "src/test/resources/data";
 
     public static final String TEAMMATES_REMOTEAPI_APP_DOMAIN;
