@@ -154,7 +154,7 @@
                                         </a>
                                     </c:if>
                                     <c:set var="deleteButtonEnabled" value="${section.allowedToModifyStudent}" />
-                                    <a class="btn btn-default btn-xs student-delete-for-test<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                    <a class="btn btn-default btn-xs<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                        <c:choose>
                                        <c:when test="${not deleteButtonEnabled}">
                                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -170,7 +170,7 @@
                                        data-placement="top">
                                         Delete
                                     </a>
-                                    <a class="btn btn-default btn-xs student-records-for-test"
+                                    <a class="btn btn-default btn-xs"
                                        href="${student.courseStudentRecordsLink}"
                                        title="<%= Const.Tooltips.COURSE_STUDENT_RECORDS %>"
                                        target="_blank"
