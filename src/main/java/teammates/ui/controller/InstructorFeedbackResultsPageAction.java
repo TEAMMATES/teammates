@@ -66,7 +66,9 @@ public class InstructorFeedbackResultsPageAction extends Action {
         String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
-        
+        boolean isMissingResponsesShown = getRequestParamAsBoolean(
+                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
+
         if (startIndex != null) {
             data.setStartIndex(Integer.parseInt(startIndex));
         }
@@ -76,6 +78,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
             showStats = "on";
             groupByTeam = "on";
             sortType = Const.FeedbackSessionResults.QUESTION_SORT_TYPE;
+            isMissingResponsesShown = true;
         }
         
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
@@ -126,36 +129,35 @@ public class InstructorFeedbackResultsPageAction extends Action {
             isError = true;
         }
         
-
         switch (sortType) {
         case Const.FeedbackSessionResults.QUESTION_SORT_TYPE:
-            data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam);
+            data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
         case Const.FeedbackSessionResults.RGQ_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.RECIPIENT_GIVER_QUESTION);
+                                          ViewType.RECIPIENT_GIVER_QUESTION, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         case Const.FeedbackSessionResults.GRQ_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.GIVER_RECIPIENT_QUESTION);
+                                          ViewType.GIVER_RECIPIENT_QUESTION, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
         case Const.FeedbackSessionResults.RQG_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.RECIPIENT_QUESTION_GIVER);
+                                          ViewType.RECIPIENT_QUESTION_GIVER, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
         case Const.FeedbackSessionResults.GQR_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.GIVER_QUESTION_RECIPIENT);
+                                          ViewType.GIVER_QUESTION_RECIPIENT, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
         default:
             sortType = Const.FeedbackSessionResults.RGQ_SORT_TYPE;
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.RECIPIENT_GIVER_QUESTION);
+                                          ViewType.RECIPIENT_GIVER_QUESTION, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }
