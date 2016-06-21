@@ -11,7 +11,7 @@ import teammates.logic.api.GateKeeper;
  * It asks the instructor for confirmation that the logged in account
  * belongs to him before redirecting him to the actual join action,
  * {@link InstructorCourseJoinAuthenticatedAction}.
- * <br/><br/>
+ * <br><br>
  * This is done to prevent instructor from accidentally linking
  * his registration key with another instructor's google account.
  */
@@ -28,8 +28,8 @@ public class InstructorCourseJoinAction extends Action {
         
         /* Process confirmation for instructor if needed and setup status to be shown to admin */
         statusToAdmin = "Action Instructor Clicked Join Link"
-                        + "<br/>Google ID: " + account.googleId
-                        + "<br/>Key: " + regkey;
+                        + "<br>Google ID: " + account.googleId
+                        + "<br>Key: " + regkey;
         
         InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
 

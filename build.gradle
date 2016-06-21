@@ -39,6 +39,11 @@ dependencies {
     compile         "com.google.appengine.tools:appengine-gcs-client:0.3.13",
                     "com.google.appengine:appengine-api-labs:${appengineVersion}",
                     "com.google.code.gson:gson:2.2.2",
+                    "com.mailjet:mailjet-client:4.0.1",
+                    "com.sendgrid:sendgrid-java:2.2.2",
+                    "com.sun.jersey:jersey-client:1.19",
+                    "com.sun.jersey:jersey-core:1.19",
+                    "com.sun.jersey.contribs:jersey-multipart:1.19",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:1.9.2"
 
@@ -198,7 +203,7 @@ task printUserHomeDir << {
 task setup {
     description "Sets up the project by obtaining necessary files and configurations points."
     group "Setup"
-    dependsOn eclipseProject, eclipseClasspath, copyDepsToWebInfLib, createConfigs
+    dependsOn eclipseProject, createConfigs
 }
 
 // RUN SERVER TASKS
@@ -264,7 +269,7 @@ task eslint(type: Exec) {
 }
 
 checkstyle {
-    toolVersion = "6.18"
+    toolVersion = "6.19"
     configFile = file("static-analysis/teammates-checkstyle.xml")
 }
 

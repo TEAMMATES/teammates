@@ -1,21 +1,18 @@
 package teammates.logic.automated;
 
-import java.io.IOException;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AdminEmailsLogic;
-import teammates.logic.core.Emails;
-
-import com.google.appengine.labs.repackaged.org.json.JSONException;
+import teammates.logic.core.EmailGenerator;
+import teammates.logic.core.EmailSender;
 
 /**
  * Retrieves admin email content and subject by email id and sends email to the receiver
@@ -52,22 +49,19 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         
         try {
             sendAdminEmail(emailContent, emailSubject, receiverEmail);
-            log.info("email sent to " + receiverEmail);
-        } catch (MessagingException | JSONException | IOException e) {
-            log.severe("Unexpected error while sending admin emails " + e.getMessage());
+            log.info("Email sent to " + receiverEmail);
+        } catch (Exception e) {
+            log.severe("Unexpected error while sending admin emails: " + TeammatesException.toStringWithStackTrace(e));
         }
 
     }
     
-    private void sendAdminEmail(String emailContent, String subject, String receiverEmail)
-            throws MessagingException, JSONException, IOException {
+    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws Exception {
         
-        Emails emailsManager = new Emails();
-        
-        MimeMessage email =
-                emailsManager.generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),
-                                                 subject, receiverEmail);
-        emailsManager.sendEmailWithoutLogging(email);
+        EmailWrapper email =
+                new EmailGenerator().generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),
+                                                        subject, receiverEmail);
+        new EmailSender().sendEmailWithoutLogging(email);
        
     }
 

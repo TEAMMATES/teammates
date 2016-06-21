@@ -105,7 +105,8 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                         + " If that Google ID is owned by you, "
                         + "please logout and re-login using that Google account."
                         + " If it doesn’t belong to you, please "
-                        + "<a href=\"mailto:teammates@comp.nus.edu.sg?body=Your name:%0AYour course:%0AYour university:\">"
+                        + "<a href=\"mailto:" + Config.SUPPORT_EMAIL
+                        + "?body=Your name:%0AYour course:%0AYour university:\">"
                         + "contact us</a> so that we can investigate.",
                 redirectResult.getStatusMessage());
 */
@@ -142,10 +143,10 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         assertEquals(
                 String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
                               "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
-                + "<br />"
+                + "<br>"
                 + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
                                 "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
-                + "<br />"
+                + "<br>"
                 + Const.StatusMessages.STUDENT_UPDATE_PROFILE,
                 redirectResult.getStatusMessage());
 
@@ -184,10 +185,10 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         assertEquals(
                 String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
                               "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
-                + "<br />"
+                + "<br>"
                 + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
                                 "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
-                + "<br />"
+                + "<br>"
                 + Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE,
                 redirectResult.getStatusMessage());
 
@@ -226,7 +227,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         assertEquals(
                 String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
                               "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
-                + "<br />"
+                + "<br>"
                 + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT,
                                 "[idOfCourseNoEvals] Typical Course 3 with 0 Evals"),
                 redirectResult.getStatusMessage());

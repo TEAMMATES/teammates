@@ -1,20 +1,17 @@
 package teammates.logic.automated;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
-import teammates.logic.core.Emails;
+import teammates.logic.core.EmailGenerator;
 import teammates.logic.core.FeedbackSessionsLogic;
 
 public class FeedbackSessionClosingMailAction extends EmailAction {
@@ -55,7 +52,7 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
     }
 
     @Override
-    protected List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException {
+    protected List<EmailWrapper> prepareMailToBeSent() {
         
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
@@ -72,7 +69,7 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
          * Check if feedback session was deleted between scheduling
          * and the actual sending of emails
          */
-        return new Emails().generateFeedbackSessionClosingEmails(feedbackObject);
+        return new EmailGenerator().generateFeedbackSessionClosingEmails(feedbackObject);
 
     }
     

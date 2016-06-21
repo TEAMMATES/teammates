@@ -36,7 +36,8 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
         verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.alice", "/studentCourseDetailsWithTeammatesHTML.html", true);
 
         //without teammates
-        verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie", "/studentCourseDetailsWithoutTeammatesHTML.html", false);
+        verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie",
+                      "/studentCourseDetailsWithoutTeammatesHTML.html", false);
         
         ______TS("links, inputValidation, actions");
         

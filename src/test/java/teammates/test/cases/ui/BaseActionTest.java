@@ -115,11 +115,13 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         List<String> paramList = Arrays.asList(typicalCase);
         int indexOfSessionVisibleDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         int indexOfSessionVisibleTime = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME);
-        int indexOfSessionVisibleButtonValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
+        int indexOfSessionVisibleButtonValue =
+                1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         
         int indexOfSessionPublishDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
         int indexOfSessionPublishTime = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME);
-        int indexOfResultsVisibleButtonValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+        int indexOfResultsVisibleButtonValue =
+                1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         
         int indexOfSessionInstructionsValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS);
         
@@ -163,10 +165,16 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, "0",
                 Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, "01/01/2015",
                 Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, "0",
-                Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON, Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM,
+                
+                Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON,
+                Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM,
+                
                 Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, "01/01/2012",
                 Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME, "0",
-                Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON, Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE,
+                
+                Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON,
+                Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE,
+                
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, "",
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",
                 Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, "8",

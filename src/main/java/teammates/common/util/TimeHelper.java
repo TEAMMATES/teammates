@@ -208,7 +208,7 @@ public final class TimeHelper {
     
     /**
      * Formats a date in the format dd MMM yyyy, hh:mm a. Example: 05 May 2012,
-     * 2:04 PM<br />
+     * 2:04 PM<br>
      */
     public static String formatTime12H(Date date) {
         if (date == null) {
