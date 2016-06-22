@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.google.appengine.api.log.AppLogLine;
+
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -468,14 +470,24 @@ public class EmailGenerator {
     /**
      * Generates the logs compilation email for the given {@code logs}.
      */
-    public EmailWrapper generateCompiledLogsEmail(String logs) {
-        
-        String emailBody = logs.replace("\n", "<br>");
+    public EmailWrapper generateCompiledLogsEmail(List<AppLogLine> logs) {
+        StringBuilder emailBody = new StringBuilder();
+        for (int i = 0; i < logs.size(); i++) {
+            emailBody.append(generateSevereErrorLogLine(i, logs.get(i)));
+        }
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         email.setSubject(String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.getAppVersion()));
-        email.setContent(emailBody);
+        email.setContent(emailBody.toString());
         return email;
+    }
+    
+    private String generateSevereErrorLogLine(int index, AppLogLine logLine) {
+        return Templates.populateTemplate(
+                EmailTemplates.SEVERE_ERROR_LOG_LINE,
+                "${index}", String.valueOf(index),
+                "${errorType}", logLine.getLogLevel().toString(),
+                "${errorMessage}", logLine.getLogMessage().replace("\n", "<br>"));
     }
     
     /**

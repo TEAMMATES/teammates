@@ -1,11 +1,15 @@
 package teammates.test.cases.logic;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.google.appengine.api.log.AppLogLine;
+import com.google.appengine.api.log.LogService.LogLevel;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -34,7 +38,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     
     /** indicates if the test-run is to use GodMode */
-    private static boolean isGodModeEnabled;
+    private static boolean isGodModeEnabled = true;
     
     @BeforeClass
     public void classSetUp() throws Exception {
@@ -248,6 +252,25 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
                                        Config.getAppVersion(), error.getMessage());
         
         verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/systemCrashReportEmail.html");
+    }
+    
+    @Test
+    public void testGenerateCompiledLogsEmail() throws IOException {
+        AppLogLine typicalLogLine = new AppLogLine();
+        typicalLogLine.setLogLevel(LogLevel.ERROR);
+        typicalLogLine.setLogMessage("Typical log message");
+        
+        AppLogLine logLineWithLineBreak = new AppLogLine();
+        logLineWithLineBreak.setLogLevel(LogLevel.ERROR);
+        logLineWithLineBreak.setLogMessage("Log line \n with line break <br> and also HTML br tag");
+        
+        EmailWrapper email = new EmailGenerator().generateCompiledLogsEmail(
+                Arrays.asList(typicalLogLine, logLineWithLineBreak));
+        
+        String subject = String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(),
+                                       Config.getAppVersion());
+
+        verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/severeLogsCompilationEmail.html");
     }
     
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
