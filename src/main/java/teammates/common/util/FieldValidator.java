@@ -86,9 +86,9 @@ public class FieldValidator {
     public static final List<String> GENDER_ACCEPTED_VALUES =
             Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER);
     
-    public static final String GIVER_TYPE_NAME = "feedback giver.";
-    public static final String RECIPIENT_TYPE_NAME = "feedback recipient.";
-    public static final String VIEWER_TYPE_NAME = "feedback viewer.";
+    public static final String GIVER_TYPE_NAME = "feedback giver";
+    public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
+    public static final String VIEWER_TYPE_NAME = "feedback viewer";
 
 
     ////////////////////
