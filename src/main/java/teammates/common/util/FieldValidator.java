@@ -19,29 +19,29 @@ public class FieldValidator {
     /////////////////
 
     // name-related
-    public static final String PERSON_NAME_FIELD_NAME = "a person name";
+    public static final String PERSON_NAME_FIELD_NAME = "person name";
     public static final int PERSON_NAME_MAX_LENGTH = 100;
 
     public static final String NATIONALITY_FIELD_NAME = "nationality";
     public static final int NATIONALITY_MAX_LENGTH = 55; // one more than longest official nationality name
     
-    public static final String COURSE_NAME_FIELD_NAME = "a course name";
+    public static final String COURSE_NAME_FIELD_NAME = "course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
     
     public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
     public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
 
-    public static final String TEAM_NAME_FIELD_NAME = "a team name";
+    public static final String TEAM_NAME_FIELD_NAME = "team name";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
     
-    public static final String SECTION_NAME_FIELD_NAME = "a section name";
+    public static final String SECTION_NAME_FIELD_NAME = "section name";
     public static final int SECTION_NAME_MAX_LENGTH = 60;
 
-    public static final String INSTITUTE_NAME_FIELD_NAME = "an institute name";
+    public static final String INSTITUTE_NAME_FIELD_NAME = "institute name";
     public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
 
     // email-related
-    public static final String EMAIL_FIELD_NAME = "an email";
+    public static final String EMAIL_FIELD_NAME = "email";
     public static final int EMAIL_MAX_LENGTH = 254;
 
     public static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
@@ -73,7 +73,7 @@ public class FieldValidator {
      * problematic if we allow multiple instructors for a single course.
      * TODO: make case insensitive
      */
-    public static final String COURSE_ID_FIELD_NAME = "a course ID";
+    public static final String COURSE_ID_FIELD_NAME = "course ID";
     public static final int COURSE_ID_MAX_LENGTH = 40;
 
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
@@ -104,9 +104,9 @@ public class FieldValidator {
 
     // error message components
     public static final String ERROR_INFO =
-            "\"${userInput}\" is not acceptable to TEAMMATES as ${fieldName} because it ${reason}.";
+            "\"${userInput}\" is not acceptable to TEAMMATES as a/an ${fieldName} because it ${reason}.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
-            "The value of ${fieldName} should be no longer than ${maxLength} characters.";
+            "The value of a/an ${fieldName} should be no longer than ${maxLength} characters.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY =
             HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY + " It should not be empty.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
