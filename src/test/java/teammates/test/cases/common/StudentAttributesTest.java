@@ -211,7 +211,9 @@ public class StudentAttributesTest extends BaseTestCase {
         String errorMessage = FieldValidator.GOOGLE_ID_ERROR_MESSAGE
                                   .replace("${userInput}", "invalid@google@id")
                                   .replace("${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
-                                  .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
+                                  .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                                  .replace("${maxLength}",
+                                      String.valueOf(FieldValidator.GOOGLE_ID_MAX_LENGTH)) + Const.EOL
                 + FieldValidator.COURSE_ID_ERROR_MESSAGE
                       .replace("${userInput}", "")
                       .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)

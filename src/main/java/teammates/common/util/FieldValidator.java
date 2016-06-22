@@ -109,6 +109,8 @@ public class FieldValidator {
             "The value of a/an ${fieldName} should be no longer than ${maxLength} characters.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY =
             HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY + " It should not be empty.";
+    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES =
+            "It cannot be longer than ${maxLength} characters, cannot be empty and cannot contain spaces.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
             "All ${fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
             + "(|) or percent sign (%).";
@@ -132,22 +134,19 @@ public class FieldValidator {
     // field-specific error messages
     public static final String HINT_FOR_CORRECT_EMAIL =
             "An email address contains some text followed by one '@' sign followed by some more text. "
-            + "It cannot be longer than ${maxLength} characters. "
-            + "It cannot be empty and it cannot have spaces.";
+            + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String EMAIL_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
 
     public static final String HINT_FOR_CORRECT_COURSE_ID =
             "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
-            + "It cannot be longer than ${maxLength} characters. "
-            + "It cannot be empty or contain spaces.";
+            + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String COURSE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
 
     public static final String HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID =
             "A Google ID must be a valid id already registered with Google. "
-            + "It cannot be longer than " + GOOGLE_ID_MAX_LENGTH + " characters. "
-            + "It cannot be empty.";
+            + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String GOOGLE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
 
@@ -294,15 +293,15 @@ public class FieldValidator {
 
         if (googleId.isEmpty()) {
             return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, googleId, GOOGLE_ID_FIELD_NAME,
-                                            REASON_EMPTY);
+                                            REASON_EMPTY, GOOGLE_ID_MAX_LENGTH);
         } else if (isUntrimmed(googleId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME);
         } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
             return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, GOOGLE_ID_FIELD_NAME,
-                                            REASON_TOO_LONG);
+                                            REASON_TOO_LONG, GOOGLE_ID_MAX_LENGTH);
         } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
             return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, GOOGLE_ID_FIELD_NAME,
-                                            REASON_INCORRECT_FORMAT);
+                                            REASON_INCORRECT_FORMAT, GOOGLE_ID_MAX_LENGTH);
         }
         return "";
     }

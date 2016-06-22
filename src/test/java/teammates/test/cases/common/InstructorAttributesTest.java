@@ -129,7 +129,8 @@ public class InstructorAttributesTest extends BaseTestCase {
                 FieldValidator.GOOGLE_ID_ERROR_MESSAGE
                     .replace("${userInput}", i.googleId)
                     .replace("${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
-                    .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
+                    .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                    .replace("${maxLength}", String.valueOf(FieldValidator.GOOGLE_ID_MAX_LENGTH)) + EOL
                 + FieldValidator.COURSE_ID_ERROR_MESSAGE
                       .replace("${userInput}", i.courseId)
                       .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
