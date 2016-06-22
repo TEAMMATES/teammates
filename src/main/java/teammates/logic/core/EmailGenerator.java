@@ -338,12 +338,10 @@ public class EmailGenerator {
      * Generates the join link to be sent to the account requester's email.
      */
     public String generateNewInstructorAccountJoinLink(InstructorAttributes instructor, String institute) {
-        return instructor == null
-               ? ""
-               : Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                       .withRegistrationKey(StringHelper.encrypt(instructor.key))
-                       .withInstructorInstitution(institute)
-                       .toAbsoluteString();
+        return Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                     .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                     .withInstructorInstitution(institute)
+                     .toAbsoluteString();
     }
     
     /**
@@ -402,9 +400,7 @@ public class EmailGenerator {
     }
     
     private String fillUpStudentJoinFragment(StudentAttributes student, String emailBody) {
-        String joinUrl = student == null
-                         ? "{The join link unique for each student appears here}"
-                         : Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+        String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
         
         return Templates.populateTemplate(emailBody,
                 "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
@@ -412,9 +408,7 @@ public class EmailGenerator {
     }
     
     private String fillUpStudentRejoinAfterGoogleIdResetFragment(StudentAttributes student, String emailBody) {
-        String joinUrl = student == null
-                         ? "{The join link unique for each student appears here}"
-                         : Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+        String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
         
         return Templates.populateTemplate(emailBody,
                 "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
@@ -423,11 +417,9 @@ public class EmailGenerator {
     }
     
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
-        String joinUrl = instructor == null
-                         ? ""
-                         : Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
-                                 .toAbsoluteString();
+        String joinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                               .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                               .toAbsoluteString();
         
         return Templates.populateTemplate(emailBody,
                 "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN,

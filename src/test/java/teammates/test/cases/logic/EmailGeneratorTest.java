@@ -166,7 +166,39 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     }
     
     @Test
+    public void testGenerateInstructorJoinEmail() throws IOException {
+        
+        ______TS("instructor new account email");
+        
+        @SuppressWarnings("deprecation")
+        InstructorAttributes instructor =
+                new InstructorAttributes("googleId", "courseId", "Instructor Name", "instructor@email.tmt");
+        instructor.key = "skxxxxxxxxxks";
+        String shortName = "Instr";
+        String institute = "Test Institute";
+        
+        EmailWrapper email = new EmailGenerator()
+                .generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
+        String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), shortName);
+        
+        verifyEmail(email, instructor.email, subject, "/instructorNewAccountEmail.html");
+        assertEquals(email.getBcc(), Config.SUPPORT_EMAIL);
+        
+        ______TS("instructor course join email");
+        
+        CourseAttributes course = new CourseAttributes("course-id", "Course Name");
+        
+        email = new EmailGenerator().generateInstructorCourseJoinEmail(course, instructor);
+        subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
+        
+        verifyEmail(email, instructor.email, subject, "/instructorCourseJoinEmail.html");
+        
+    }
+    
+    @Test
     public void testGenerateStudentCourseJoinEmail() throws IOException {
+        
+        ______TS("student course join email");
         
         CourseAttributes course = new CourseAttributes("course-id", "Course Name");
         
@@ -179,6 +211,15 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         String subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
         
         verifyEmail(email, student.email, subject, "/studentCourseJoinEmail.html");
+        
+        ______TS("student course join email after Google ID reset");
+        
+        email = new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student);
+        subject = String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
+                                course.getName(), course.getId());
+        
+        verifyEmail(email, student.email, subject, "/studentCourseRejoinAfterGoogleIdResetEmail.html");
+        
     }
     
     @Test
