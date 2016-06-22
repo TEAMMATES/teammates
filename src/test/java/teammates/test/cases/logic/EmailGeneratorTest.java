@@ -288,6 +288,20 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/severeLogsCompilationEmail.html");
     }
     
+    @Test
+    public void testGenerateAdminEmail() {
+        EmailWrapper email =
+                new EmailGenerator().generateAdminEmail("Generic content", "Generic subject", "recipient@email.com");
+        
+        // Do not use verify email since the content is not based on any template
+        assertEquals("recipient@email.com", email.getRecipient());
+        assertEquals("Generic subject", email.getSubject());
+        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
+        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
+        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
+        assertEquals("Generic content", email.getContent());
+    }
+    
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
             throws IOException {
         // check recipient
