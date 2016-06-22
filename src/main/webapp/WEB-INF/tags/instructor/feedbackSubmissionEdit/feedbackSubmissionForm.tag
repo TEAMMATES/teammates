@@ -18,6 +18,16 @@
                     There are no questions for you to answer here!
             </c:when>
             <c:otherwise>
+                <input type="hidden" name="isRedirectPage" id="isRedirectPage">
+                <input type="submit" class="btn btn-primary"
+                    id="response_save_button" data-toggle="tooltip"
+                    data-placement="top"
+                    title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>"
+                    value="Save Feedback"
+                    <c:if test="${feedbackSubmissionForm.preview or (not feedbackSubmissionForm.submittable)}">
+                           disabled style="background: #66727A;"
+                    </c:if>>
+            
                 <input type="submit" class="btn btn-primary center-block"
                        id="response_submit_button" data-toggle="tooltip"
                        data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"

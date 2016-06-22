@@ -12,10 +12,11 @@ function isPreview() {
 
 $(document).ready(function() {
 
-    $('.submit-individual-answer-button').click(function() {
+   /* $('#response_save_button').click(function() {
         var individualQuestionDiv = $(this).parents('.form-horizontal:first');
         submitIndividualAnswer(individualQuestionDiv);
-    });
+        $('#isRedirectPage').val()
+    });*/
 
     /**
      * Handles Keyup and Keydown on Text question to display response length
@@ -34,9 +35,21 @@ $(document).ready(function() {
      */
     $('textarea[id^="responsetext-"]').keyup();
 
+    $('form[name="form_submit_response"] input[type=submit]').click(function() {
+        $("input[type=submit]", $(this)).removeAttr("clicked");
+        $(this).attr("clicked", "true");
+    });
+    
     $('form[name="form_submit_response"], form[name="form_student_submit_response"]').submit(function() {
-        formatRubricQuestions();
 
+        if ($('input[type=submit][clicked=true]').attr('id') == 'response_submit_button') {
+        	$('#isRedirectPage').val('true');
+        } else if ($('input[type=submit][clicked=true]').attr('id') == 'response_save_button') {
+        	$('#isRedirectPage').val('false');
+        }
+
+        formatRubricQuestions();
+        
         var validationStatus = true;
 
         validationStatus &= validateConstSumQuestions();
@@ -973,15 +986,13 @@ function updateTextQuestionCharCount(textAreaId, charCountId) {
 }
 
 function submitIndividualAnswer(individualQuestionDiv) {
+	
     individualQuestionDiv.find('.last-submitted').text('Submitting question');
 
     $.ajax({
         type: 'POST',
         url: 'feedbackSubmissionEditSaveDraft',
-        data: individualQuestionDiv.find(':input').serialize() + 'courseid='
-                + $('input[name=courseid]').val() + '&user='
-                + $('input[name=user]').val() + '&fsname='
-                + $('input[name=fsname]').val(),
+        data: ('form').serialize(),
         cache: false,
         success: function(message) {
             if (message.isError) {
