@@ -857,17 +857,4 @@ public class FieldValidatorTest extends BaseTestCase {
     public static void tearDown() {
         printTestClassFooter();
     }
-
-    public static String getInterpolatedErrorMessage(
-            String messageTemplate, String userInput, String fieldName, String errorReason, int maxLength) {
-        return getInterpolatedErrorMessage(messageTemplate, userInput, fieldName, errorReason)
-                   .replace("${maxLength}", String.valueOf(maxLength));
-    }
-
-    public static String getInterpolatedErrorMessage(
-            String messageTemplate, String userInput, String fieldName, String errorReason) {
-        return messageTemplate.replace("${userInput}", userInput)
-                              .replace("${fieldName}", fieldName)
-                              .replace("${reason}", errorReason);
-    }
 }
