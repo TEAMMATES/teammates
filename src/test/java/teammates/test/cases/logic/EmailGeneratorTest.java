@@ -54,7 +54,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(session.getCourseId());
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
         
-        StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student5InCourse1@gmail.tmt");
+        StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student1InCourse1@gmail.tmt");
         
         InstructorAttributes instructor1 =
                 instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
@@ -67,7 +67,18 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         String subject = String.format(EmailType.FEEDBACK_OPENING.getSubject(),
                                        course.getName(), session.getFeedbackSessionName());
         
-        verifyEmail(emails.get(0), student1.email, subject, "/sessionOpeningEmailForStudent.html");
+        boolean hasStudent1ReceivedEmail = false;
+        boolean hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject, "/sessionOpeningEmailForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject, "/sessionOpeningEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail && hasInstructor1ReceivedEmail);
         
         ______TS("feedback session reminders");
         
@@ -77,7 +88,19 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         subject = String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
         
-        verifyEmail(emails.get(1), instructor1.email, subject, "/sessionReminderEmailForInstructor.html");
+        hasStudent1ReceivedEmail = false;
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject, "/sessionReminderEmailForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)
+                       && email.getContent().contains("The email below has been sent to students of course:")) {
+                verifyEmail(email, instructor1.email, subject, "/sessionReminderEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail && hasInstructor1ReceivedEmail);
         
         ______TS("feedback session closing alerts");
         
@@ -87,7 +110,23 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
         
-        verifyEmail(emails.get(0), student1.email, subject, "/sessionClosingEmailForStudent.html");
+        // student1 has completed the feedback session and closing alert is only sent for those who are
+        // yet to complete, so we resort to student5
+        StudentAttributes student5 = studentsLogic.getStudentForEmail(course.getId(), "student5InCourse1@gmail.tmt");
+        
+        hasStudent1ReceivedEmail = false;
+        boolean hasStudent5ReceivedEmail = false;
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student5.email)) {
+                verifyEmail(email, student5.email, subject, "/sessionClosingEmailForStudent.html");
+                hasStudent5ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject, "/sessionClosingEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(!hasStudent1ReceivedEmail && hasStudent5ReceivedEmail && hasInstructor1ReceivedEmail);
         
         ______TS("feedback session published alerts");
         
@@ -97,7 +136,18 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         subject = String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
         
-        verifyEmail(emails.get(0), student1.email, subject, "/sessionPublishedEmailForStudent.html");
+        hasStudent1ReceivedEmail = false;
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject, "/sessionPublishedEmailForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject, "/sessionPublishedEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail && hasInstructor1ReceivedEmail);
         
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
         
