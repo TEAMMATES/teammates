@@ -52,7 +52,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public InstructorCourseEditPage verifyIsCorrectPage(String courseId) {
-        assertEquals(courseId, this.getCourseId());
+        assertEquals(courseId, getCourseId());
         return this;
     }
     
@@ -126,7 +126,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public void clickDisplayedToStudentCheckBox(int instrNum) {
-        this.getDisplayedToStudentCheckBox(instrNum).click();
+        getDisplayedToStudentCheckBox(instrNum).click();
     }
     
     public void selectRoleForInstructor(int instrNum, String role) {
@@ -179,34 +179,34 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public void clickCourseLevelPrivilegesLink(int instrNum, int linkNum) {
-        WebElement coursePanel = this.getCourseLevelPanel(instrNum);
+        WebElement coursePanel = getCourseLevelPanel(instrNum);
         coursePanel.findElements(By.cssSelector("input[type='checkbox']")).get(linkNum).click();
     }
     
     public void clickAddSectionLevelPrivilegesLink(int instrNum) {
-        this.getAddSectionLevelPrivilegesLink(instrNum).click();
+        getAddSectionLevelPrivilegesLink(instrNum).click();
     }
     
     public void clickSectionSelectionCheckBox(int instrNum, int sectionLevelIndex, int sectionNum) {
-        this.getSectionSelectionCheckBox(instrNum, sectionLevelIndex, sectionNum).click();
+        getSectionSelectionCheckBox(instrNum, sectionLevelIndex, sectionNum).click();
     }
     
     public void clickSectionLevelPrivilegeLink(int instrNum, int sectionLevelIndex, int linkNum) {
-        this.getSectionLevelPanelCheckBox(instrNum, sectionLevelIndex, linkNum).click();
+        getSectionLevelPanelCheckBox(instrNum, sectionLevelIndex, linkNum).click();
     }
     
     public boolean isSectionLevelPrivilegeLinkClicked(int instrNum, int sectionLevelIndex, int linkNum) {
-        return this.getSectionLevelPanelCheckBox(instrNum, sectionLevelIndex, linkNum).isSelected();
+        return getSectionLevelPanelCheckBox(instrNum, sectionLevelIndex, linkNum).isSelected();
     }
     
     public void clickSessionLevelPrivilegeLink(int instrNum, int sectionLevelIndex,
                                                int sessionIndex, int linkNum) {
-        this.getSessionLevelTableCheckbox(instrNum, sectionLevelIndex, sessionIndex, linkNum).click();
+        getSessionLevelTableCheckbox(instrNum, sectionLevelIndex, sessionIndex, linkNum).click();
     }
     
     public boolean isSessionLevelPrivilegeLinkClicked(int instrNum, int sectionLevelIndex,
                                                       int sessionIndex, int linkNum) {
-        return this.getSessionLevelTableCheckbox(instrNum, sectionLevelIndex, sessionIndex, linkNum).isSelected();
+        return getSessionLevelTableCheckbox(instrNum, sectionLevelIndex, sessionIndex, linkNum).isSelected();
     }
     
     public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelIndex) {
@@ -376,35 +376,35 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     private WebElement getSectionLevelPanelBody(int instrNum, int sectionLevelIndex) {
-        WebElement sectionPanel = this.getSectionLevelPanel(instrNum, sectionLevelIndex);
+        WebElement sectionPanel = getSectionLevelPanel(instrNum, sectionLevelIndex);
         return sectionPanel.findElement(By.cssSelector("div[class='panel-body']"));
     }
     
     private WebElement getSectionSelectionCheckBox(int instrNum, int sectionLevelIndex, int sectionNum) {
-        WebElement sectionPanel = this.getSectionLevelPanel(instrNum, sectionLevelIndex);
+        WebElement sectionPanel = getSectionLevelPanel(instrNum, sectionLevelIndex);
         String cssSelector = "input[name='" + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP
                              + sectionLevelIndex + Const.ParamsNames.INSTRUCTOR_SECTION + sectionNum + "']";
         return sectionPanel.findElement(By.cssSelector(cssSelector));
     }
     
     private WebElement getSectionLevelPanelCheckBox(int instrNum, int sectionLevelIndex, int checkBoxIndex) {
-        WebElement sectionPanelBody = this.getSectionLevelPanelBody(instrNum, sectionLevelIndex);
+        WebElement sectionPanelBody = getSectionLevelPanelBody(instrNum, sectionLevelIndex);
         return sectionPanelBody.findElements(By.cssSelector("input[type='checkbox']")).get(checkBoxIndex);
     }
     
     private WebElement getSessionLevelTableBody(int instrNum, int sectionLevelIndex) {
-        WebElement sectionPanelBody = this.getSectionLevelPanelBody(instrNum, sectionLevelIndex);
+        WebElement sectionPanelBody = getSectionLevelPanelBody(instrNum, sectionLevelIndex);
         return sectionPanelBody.findElement(By.cssSelector("table"));
     }
     
     private WebElement getSessionLevelTableRow(int instrNum, int sectionLevelIndex, int sessionIndex) {
-        WebElement sessionLevelTableBody = this.getSessionLevelTableBody(instrNum, sectionLevelIndex);
+        WebElement sessionLevelTableBody = getSessionLevelTableBody(instrNum, sectionLevelIndex);
         return sessionLevelTableBody.findElements(By.cssSelector("tbody tr")).get(sessionIndex);
     }
     
     private WebElement getSessionLevelTableCheckbox(int instrNum, int sectionLevelIndex,
                                                  int sessionIndex, int checkBoxIndex) {
-        WebElement sessionLevelTableRow = this.getSessionLevelTableRow(instrNum, sectionLevelIndex, sessionIndex);
+        WebElement sessionLevelTableRow = getSessionLevelTableRow(instrNum, sectionLevelIndex, sessionIndex);
         return sessionLevelTableRow.findElements(By.cssSelector("input[type='checkbox']")).get(checkBoxIndex);
     }
 
