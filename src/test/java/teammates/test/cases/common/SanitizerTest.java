@@ -63,7 +63,7 @@ public class SanitizerTest extends BaseTestCase {
         String sanitized = Sanitizer.sanitizeForJs(unsanitized);
         assertEquals(expected, sanitized);
     }
-    
+
     @Test
     public void testSanitizeForHtml() {
         sanitizeHtml_receivesNull_returnsNull();
@@ -111,7 +111,13 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForRichText() {
-        // Not tested - using org.apache.commons.lang3.StringEscapeUtils.escapeHtml4()
+        String actualRichText = "<a href=\"https://teammatesv4.appspot.com\" onclick=\"alert('fail');\"></a>"
+                              + "<script>alert('fail');</script>"
+                              + "<p align=\"center\"><strong>Content</strong></p>";
+        String expectedRichText = "<a href=\"https://teammatesv4.appspot.com\"></a>"
+                                + "<p align=\"center\"><strong>Content</strong></p>";
+        String sanitized = Sanitizer.sanitizeForRichText(actualRichText);
+        assertEquals(expectedRichText, sanitized);
     }
     
     @Test
