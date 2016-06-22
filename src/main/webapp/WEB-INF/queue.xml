@@ -77,15 +77,6 @@
   </retry-parameters>
 </queue>
 
-<queue>
-  <name>feedback-submission-confirm-email-queue</name>
-  <rate>1/s</rate>
-  <bucket-size>1</bucket-size> 
-  <retry-parameters>
-      <task-retry-limit>2</task-retry-limit>
-  </retry-parameters>
-</queue>
-
 <queue>  
   <name>send-email-queue</name>  
   <!-- Configuration allows for 20 emails to be queued

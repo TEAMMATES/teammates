@@ -169,15 +169,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>FeedbackSubmittedConfirmationEmailServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackSubmittedConfirmationEmailServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackSubmittedConfirmationEmailServlet</servlet-name>
-        <url-pattern>/feedbackSubmittedConfirmationEmail</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>FeedbackSessionOpeningReminders</servlet-name>
         <servlet-class>teammates.logic.automated.FeedbackSessionOpeningRemindersServlet</servlet-class>
     </servlet>
