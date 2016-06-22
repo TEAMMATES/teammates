@@ -727,11 +727,6 @@ public class FieldValidator {
         return StringHelper.isMatching(email, REGEX_EMAIL);
     }
 
-    /////////////////////////////////////
-    // HELPER METHODS FOR INTERNAL USE //////////////////////////
-    // DUPLICATED IN FieldValidatorTest FOR EXTERNAL TESTS USE //
-    /////////////////////////////////////////////////////////////
-
     private static String getPopulatedErrorMessage(
             String messageTemplate, String userInput, String fieldName, String errorReason, int maxLength) {
         return getPopulatedErrorMessage(messageTemplate, userInput, fieldName, errorReason)
