@@ -105,10 +105,10 @@ public class FieldValidator {
     // error message components
     public static final String ERROR_INFO =
             "\"${userInput}\" is not acceptable to TEAMMATES as ${fieldName} because it ${reason}.";
-    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY =
-            "The value of ${fieldName} should be no longer than ${maxLength} characters. It should not be empty.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
             "The value of ${fieldName} should be no longer than ${maxLength} characters.";
+    public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY =
+            HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY + " It should not be empty.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
             "All ${fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
             + "(|) or percent sign (%).";
