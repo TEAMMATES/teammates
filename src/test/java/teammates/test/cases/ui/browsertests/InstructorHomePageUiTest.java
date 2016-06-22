@@ -14,7 +14,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.ThreadHelper;
-import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -433,9 +432,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
         
         homePage.getFsCopyModal().verifyStatusMessage(
-                FieldValidatorTest.getInterpolatedErrorMessage(
-                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidFeedbackSessionName,
-                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR));
+                FieldValidator.INVALID_NAME_ERROR_MESSAGE
+                    .replace("${userInput}", invalidFeedbackSessionName)
+                    .replace("${fieldName}", FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME)
+                    .replace("${reason}", FieldValidator.REASON_CONTAINS_INVALID_CHAR));
         homePage.getFsCopyModal().clickCloseButton();
         
         ______TS("Successful case: Home Page");

@@ -32,7 +32,6 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.test.cases.common.FieldValidatorTest;
 
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 import com.google.gson.Gson;
@@ -219,10 +218,11 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         } catch (EnrollException e) {
             String actualErrorMessage = e.getLocalizedMessage();
 
-            String errorReason = FieldValidatorTest.getInterpolatedErrorMessage(
-                                     FieldValidator.EMAIL_ERROR_MESSAGE, "e6@g@",
-                                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                                     FieldValidator.EMAIL_MAX_LENGTH);
+            String errorReason = FieldValidator.EMAIL_ERROR_MESSAGE
+                                     .replace("${userInput}", "e6@g@")
+                                     .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                                     .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                                     .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH));
             String expectedMessage = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
                     invalidStudentId, Sanitizer.sanitizeForHtml(errorReason));
             

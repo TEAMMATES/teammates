@@ -21,7 +21,6 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.AssertHelper;
 
 public class InstructorsDbTest extends BaseComponentTestCase {
@@ -86,10 +85,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    FieldValidatorTest.getInterpolatedErrorMessage(
-                        FieldValidator.GOOGLE_ID_ERROR_MESSAGE,
-                        i.googleId,
-                        FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT),
+                    FieldValidator.GOOGLE_ID_ERROR_MESSAGE
+                        .replace("${userInput}", i.googleId)
+                        .replace("${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
+                        .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT),
                     e.getMessage());
         }
         
@@ -100,10 +99,11 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    FieldValidatorTest.getInterpolatedErrorMessage(
-                        FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
-                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.EMAIL_MAX_LENGTH),
+                    FieldValidator.EMAIL_ERROR_MESSAGE
+                        .replace("${userInput}", i.email)
+                        .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                        .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                        .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
                     e.getMessage());
         }
 
@@ -327,14 +327,16 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    FieldValidatorTest.getInterpolatedErrorMessage(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, instructorToEdit.name,
-                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                        FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
-                    + FieldValidatorTest.getInterpolatedErrorMessage(
-                          FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
-                          FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                          FieldValidator.EMAIL_MAX_LENGTH),
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
+                        .replace("${userInput}", instructorToEdit.name)
+                        .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                        .replace("${reason}", FieldValidator.REASON_EMPTY)
+                        .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + Const.EOL
+                    + FieldValidator.EMAIL_ERROR_MESSAGE
+                          .replace("${userInput}", instructorToEdit.email)
+                          .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                          .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                          .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
                     e.getMessage());
         }
 
@@ -388,14 +390,15 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    FieldValidatorTest.getInterpolatedErrorMessage(
-                            FieldValidator.GOOGLE_ID_ERROR_MESSAGE,
-                            instructorToEdit.googleId,
-                            FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
-                        + FieldValidatorTest.getInterpolatedErrorMessage(
-                               FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, instructorToEdit.name,
-                               FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                               FieldValidator.PERSON_NAME_MAX_LENGTH),
+                    FieldValidator.GOOGLE_ID_ERROR_MESSAGE
+                            .replace("${userInput}", instructorToEdit.googleId)
+                            .replace("${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
+                            .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
+                        + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
+                                  .replace("${userInput}", instructorToEdit.name)
+                                  .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                                  .replace("${reason}", FieldValidator.REASON_EMPTY)
+                                  .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)),
                     e.getMessage());
         }
 

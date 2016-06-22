@@ -1,5 +1,6 @@
 package teammates.test.cases.storage;
 
+import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import org.testng.annotations.Test;
@@ -11,7 +12,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.AssertHelper;
 
 public class EntitiesDbTest extends BaseComponentTestCase {
@@ -52,10 +52,11 @@ public class EntitiesDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    FieldValidatorTest.getInterpolatedErrorMessage(
-                        FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(),
-                        FieldValidator.COURSE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT,
-                        FieldValidator.COURSE_ID_MAX_LENGTH),
+                    COURSE_ID_ERROR_MESSAGE
+                        .replace("${userInput}", invalidCourse.getId())
+                        .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                        .replace("${reason}", REASON_INCORRECT_FORMAT)
+                        .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
                     e.getMessage());
         }
         

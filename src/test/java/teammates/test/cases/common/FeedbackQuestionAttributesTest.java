@@ -84,19 +84,23 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         assertFalse(fq.isValid());
 
-        String errorMessage = FieldValidatorTest.getInterpolatedErrorMessage(
-                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fq.creatorEmail,
-                                  FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                                  FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH) + EOL
-                              + FieldValidatorTest.getInterpolatedErrorMessage(
-                                    FieldValidator.COURSE_ID_ERROR_MESSAGE, fq.courseId,
-                                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                                    FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
+        String errorMessage = FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
+                                  .replace("${userInput}", fq.creatorEmail)
+                                  .replace("${fieldName}", FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME)
+                                  .replace("${reason}", FieldValidator.REASON_EMPTY)
+                                  .replace("${maxLength}",
+                                      String.valueOf(FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH)) + EOL
+                              + FieldValidator.COURSE_ID_ERROR_MESSAGE
+                                    .replace("${userInput}", fq.courseId)
+                                    .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                                    .replace("${reason}", FieldValidator.REASON_EMPTY)
+                                    .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)) + EOL
                               + "Invalid creator's email: "
-                                     + FieldValidatorTest.getInterpolatedErrorMessage(
-                                           FieldValidator.EMAIL_ERROR_MESSAGE, fq.creatorEmail,
-                                           FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                                           FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                                     + FieldValidator.EMAIL_ERROR_MESSAGE
+                                           .replace("${userInput}", fq.creatorEmail)
+                                           .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                                           .replace("${reason}", FieldValidator.REASON_EMPTY)
+                                           .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)) + EOL
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.giverType.toString(),
                                               FieldValidator.GIVER_TYPE_NAME) + EOL
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.recipientType.toString(),

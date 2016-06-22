@@ -20,7 +20,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.AssertHelper;
 
 public class FeedbackResponsesDbTest extends BaseComponentTestCase {
@@ -143,10 +142,11 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    FieldValidatorTest.getInterpolatedErrorMessage(
-                        FieldValidator.COURSE_ID_ERROR_MESSAGE, "invalid course id!",
-                        FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.COURSE_ID_MAX_LENGTH),
+                    FieldValidator.COURSE_ID_ERROR_MESSAGE
+                        .replace("${userInput}", "invalid course id!")
+                        .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                        .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                        .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
                     e.getLocalizedMessage());
         }
         
@@ -778,10 +778,11 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    FieldValidatorTest.getInterpolatedErrorMessage(
-                        FieldValidator.COURSE_ID_ERROR_MESSAGE, "invalid course_",
-                        FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.COURSE_ID_MAX_LENGTH),
+                    FieldValidator.COURSE_ID_ERROR_MESSAGE
+                        .replace("${userInput}", "invalid course_")
+                        .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                        .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                        .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
                     e.getLocalizedMessage());
         }
         

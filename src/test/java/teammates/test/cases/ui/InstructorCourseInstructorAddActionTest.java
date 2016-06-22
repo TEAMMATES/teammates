@@ -8,7 +8,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.InstructorsLogic;
-import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorCourseInstructorAddAction;
@@ -111,19 +110,21 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
-        assertEquals(FieldValidatorTest.getInterpolatedErrorMessage(
-                         FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
-                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                         FieldValidator.EMAIL_MAX_LENGTH),
+        assertEquals(FieldValidator.EMAIL_ERROR_MESSAGE
+                         .replace("${userInput}", newInvalidInstructorEmail)
+                         .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                         .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                         .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
                      redirectResult.getStatusMessage());
             
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
                + "|||Servlet Action Failure : "
-               + FieldValidatorTest.getInterpolatedErrorMessage(
-                     FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
-                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                     FieldValidator.EMAIL_MAX_LENGTH)
+               + FieldValidator.EMAIL_ERROR_MESSAGE
+                     .replace("${userInput}", newInvalidInstructorEmail)
+                     .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
+                     .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                     .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH))
                + "|||/page/instructorCourseInstructorAdd";
         AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
         

@@ -8,7 +8,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
-import teammates.test.cases.common.FieldValidatorTest;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorCoursesPageData;
@@ -54,10 +53,11 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                      pageResult.getDestinationWithParams());
 
         assertTrue(pageResult.isError);
-        assertEquals(FieldValidatorTest.getInterpolatedErrorMessage(
-                         FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseId,
-                         FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                         FieldValidator.COURSE_ID_MAX_LENGTH),
+        assertEquals(FieldValidator.COURSE_ID_ERROR_MESSAGE
+                         .replace("${userInput}", invalidCourseId)
+                         .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                         .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                         .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
                      pageResult.getStatusMessage());
 
         InstructorCoursesPageData pageData = (InstructorCoursesPageData) pageResult.data;
@@ -65,10 +65,11 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                                     + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                    + FieldValidatorTest.getInterpolatedErrorMessage(
-                                          FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseId,
-                                          FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                                          FieldValidator.COURSE_ID_MAX_LENGTH)
+                                    + FieldValidator.COURSE_ID_ERROR_MESSAGE
+                                          .replace("${userInput}", invalidCourseId)
+                                          .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
+                                          .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
+                                          .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH))
                                     + "|||/page/instructorCourseAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
 
