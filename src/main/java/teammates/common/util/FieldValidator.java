@@ -263,17 +263,16 @@ public class FieldValidator {
         String sanitizedValue = Sanitizer.sanitizeForHtml(email);
 
         if (email.isEmpty()) {
-            return getPopulatedErrorMessage(
-                    EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME, REASON_EMPTY, EMAIL_MAX_LENGTH);
+            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME, REASON_EMPTY,
+                                            EMAIL_MAX_LENGTH);
         } else if (isUntrimmed(email)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME);
         } else if (email.length() > EMAIL_MAX_LENGTH) {
-            return getPopulatedErrorMessage(
-                    EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME, REASON_TOO_LONG, EMAIL_MAX_LENGTH);
+            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME,
+                                            REASON_TOO_LONG, EMAIL_MAX_LENGTH);
         } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
-            return getPopulatedErrorMessage(
-                    EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME, REASON_INCORRECT_FORMAT,
-                    EMAIL_MAX_LENGTH);
+            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME,
+                                            REASON_INCORRECT_FORMAT, EMAIL_MAX_LENGTH);
         }
         return "";
     }
@@ -297,16 +296,16 @@ public class FieldValidator {
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
 
         if (googleId.isEmpty()) {
-            return getPopulatedErrorMessage(
-                    GOOGLE_ID_ERROR_MESSAGE, googleId, GOOGLE_ID_FIELD_NAME, REASON_EMPTY);
+            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, googleId, GOOGLE_ID_FIELD_NAME,
+                                            REASON_EMPTY);
         } else if (isUntrimmed(googleId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME);
         } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
-            return getPopulatedErrorMessage(
-                    GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, GOOGLE_ID_FIELD_NAME, REASON_TOO_LONG);
+            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, GOOGLE_ID_FIELD_NAME,
+                                            REASON_TOO_LONG);
         } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
-            return getPopulatedErrorMessage(
-                    GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, GOOGLE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT);
+            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, GOOGLE_ID_FIELD_NAME,
+                                            REASON_INCORRECT_FORMAT);
         }
         return "";
     }
@@ -323,9 +322,8 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", courseId != null);
 
         if (courseId.isEmpty()) {
-            return getPopulatedErrorMessage(
-                    COURSE_ID_ERROR_MESSAGE, courseId, COURSE_ID_FIELD_NAME, REASON_EMPTY,
-                    COURSE_ID_MAX_LENGTH);
+            return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, courseId, COURSE_ID_FIELD_NAME,
+                                            REASON_EMPTY, COURSE_ID_MAX_LENGTH);
         }
         if (isUntrimmed(courseId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}",
@@ -333,14 +331,12 @@ public class FieldValidator {
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(courseId);
         if (courseId.length() > COURSE_ID_MAX_LENGTH) {
-            return getPopulatedErrorMessage(
-                    COURSE_ID_ERROR_MESSAGE, sanitizedValue, COURSE_ID_FIELD_NAME, REASON_TOO_LONG,
-                    COURSE_ID_MAX_LENGTH);
+            return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, sanitizedValue, COURSE_ID_FIELD_NAME,
+                                            REASON_TOO_LONG, COURSE_ID_MAX_LENGTH);
         }
         if (!StringHelper.isMatching(courseId, REGEX_COURSE_ID)) {
-            return getPopulatedErrorMessage(
-                    COURSE_ID_ERROR_MESSAGE, sanitizedValue, COURSE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT,
-                    COURSE_ID_MAX_LENGTH);
+            return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, sanitizedValue, COURSE_ID_FIELD_NAME,
+                                            REASON_INCORRECT_FORMAT, COURSE_ID_MAX_LENGTH);
         }
         return "";
     }
@@ -484,17 +480,16 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         
         if (value.isEmpty()) {
-            return getPopulatedErrorMessage(
-                    SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, maxLength);
+            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName,
+                                            REASON_EMPTY, maxLength);
         }
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > maxLength) {
-            return getPopulatedErrorMessage(
-                    SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG,
-                    maxLength);
+            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue,
+                                            fieldName, REASON_TOO_LONG, maxLength);
         }
         return "";
     }
@@ -519,34 +514,32 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
         
         if (value.isEmpty()) {
-            return getPopulatedErrorMessage(
-                    SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, maxLength);
+            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName,
+                                            REASON_EMPTY, maxLength);
         }
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
         }
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         if (value.length() > maxLength) {
-            return getPopulatedErrorMessage(
-                    SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG,
-                    maxLength);
+            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue,
+                                            fieldName, REASON_TOO_LONG, maxLength);
         }
         if (!Character.isLetterOrDigit(value.codePointAt(0))) {
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
             if (!startsWithBraces) {
-                return getPopulatedErrorMessage(
-                        INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName,
-                        REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
+                return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, sanitizedValue,
+                                                fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
             }
             if (!StringHelper.isMatching(value.substring(1), REGEX_NAME)) {
-                return getPopulatedErrorMessage(
-                        INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_CONTAINS_INVALID_CHAR);
+                return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName,
+                                                REASON_CONTAINS_INVALID_CHAR);
             }
             return "";
         }
         if (!StringHelper.isMatching(value, REGEX_NAME)) {
-            return getPopulatedErrorMessage(
-                    INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_CONTAINS_INVALID_CHAR);
+            return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName,
+                                            REASON_CONTAINS_INVALID_CHAR);
         }
         return "";
     }
@@ -573,8 +566,8 @@ public class FieldValidator {
         }
         if (value.length() > maxLength) {
             String sanitizedValue = Sanitizer.sanitizeForHtml(value);
-            return getPopulatedErrorMessage(
-                    SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, maxLength);
+            return getPopulatedErrorMessage(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue,
+                                            fieldName, REASON_TOO_LONG, maxLength);
         }
         return "";
     }
