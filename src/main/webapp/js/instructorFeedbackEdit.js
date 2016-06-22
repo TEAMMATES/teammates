@@ -368,13 +368,13 @@ function deleteQuestion(questionNum) {
  */
 function discardChanges(questionNum) {
     var confirmationMsg = questionNum === NEW_QUESTION
-                          ? CONFIRM_CANCEL_ADD_QNS
-                          : CONFIRM_CANCEL_EDIT;
+                          ? CONFIRM_DISCARD_NEW_QNS
+                          : CONFIRM_DISCARD_CHANGES;
     var okCallback = function() {
         restoreOriginal(questionNum);
     };
     BootboxWrapper.showModalConfirmation(
-            WARNING_CANCEL, confirmationMsg, okCallback, null,
+            WARNING_DISCARD_CHANGES, confirmationMsg, okCallback, null,
             BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
             StatusType.WARNING);
 }
