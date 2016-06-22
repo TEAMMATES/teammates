@@ -73,13 +73,10 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         
         ______TS("input validation");
         
-        String teamNameFieldName = "a team name";
-        String personNameFieldName = "a person name";
-        
         editPage.submitUnsuccessfully(null, "", null, null)
                 .verifyStatus(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                                   .replace("${userInput}", "")
-                                  .replace("${fieldName}", teamNameFieldName)
+                                  .replace("${fieldName}", FieldValidator.TEAM_NAME_FIELD_NAME)
                                   .replace("${reason}", FieldValidator.REASON_EMPTY)
                                   .replace("${maxLength}",
                                       String.valueOf(FieldValidator.TEAM_NAME_MAX_LENGTH)));
@@ -89,7 +86,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         editPage.submitUnsuccessfully("", newTeamName, null, null)
                 .verifyStatus(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                                   .replace("${userInput}", "")
-                                  .replace("${fieldName}", personNameFieldName)
+                                  .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
                                   .replace("${reason}", FieldValidator.REASON_EMPTY)
                                   .replace("${maxLength}",
                                       String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)));
@@ -99,7 +96,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         editPage.submitUnsuccessfully(invalidStudentName, null, null, null)
                 .verifyStatus(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                                   .replace("${userInput}", invalidStudentName)
-                                  .replace("${fieldName}", personNameFieldName)
+                                  .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
                                   .replace("${reason}", FieldValidator.REASON_TOO_LONG)
                                   .replace("${maxLength}",
                                       String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)));
@@ -109,7 +106,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         editPage.submitUnsuccessfully(newStudentName, invalidTeamName, null, null)
                 .verifyStatus(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
                                   .replace("${userInput}", invalidTeamName)
-                                  .replace("${fieldName}", teamNameFieldName)
+                                  .replace("${fieldName}", FieldValidator.TEAM_NAME_FIELD_NAME)
                                   .replace("${reason}", FieldValidator.REASON_TOO_LONG)
                                   .replace("${maxLength}",
                                       String.valueOf(FieldValidator.TEAM_NAME_MAX_LENGTH)));

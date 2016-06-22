@@ -55,7 +55,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         
         expectedErrorMessages.add(FieldValidator.INVALID_NAME_ERROR_MESSAGE
                                       .replace("${userInput}", submissionParams[1])
-                                      .replace("${fieldName}", "a person name")
+                                      .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
                                       .replace("${reason}", FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR)
                                       .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)));
         expectedErrorMessages.add(FieldValidator.EMAIL_ERROR_MESSAGE

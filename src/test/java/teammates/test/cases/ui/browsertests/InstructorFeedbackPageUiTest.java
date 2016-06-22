@@ -458,8 +458,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.copyFeedbackSession("", newSession.getCourseId());
         feedbackPage.verifyStatus(
-                "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
+                "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
+                + "The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.");
         
         
@@ -468,7 +468,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.copyFeedbackSession("(New Session ##)", newSession.getCourseId());
         feedbackPage.verifyStatus(
-                "\"(New Session ##)\" is not acceptable to TEAMMATES as feedback session name because "
+                "\"(New Session ##)\" is not acceptable to TEAMMATES as a/an feedback session name because "
                 + "it starts with a non-alphanumeric character. "
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
@@ -522,7 +522,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
         feedbackPage.getFsCopyToModal().verifyStatusMessage(
-                "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
+                "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as a/an "
                 + "feedback session name because it contains invalid characters. "
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
