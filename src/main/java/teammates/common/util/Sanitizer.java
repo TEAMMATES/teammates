@@ -20,18 +20,19 @@ import com.google.appengine.api.datastore.Text;
  */
 public final class Sanitizer {
 
-    private static PolicyFactory policy = new HtmlPolicyBuilder()
-                                .allowStandardUrlProtocols()
-                                .allowAttributes("title").globally()
-                                .allowAttributes("href").onElements("a")
-                                .allowAttributes("align")
-                                    .matching(true, "center", "left", "right", "justify", "char")
-                                    .onElements("p")
-                                .allowElements(
-                                    "a", "p", "div", "i", "b", "em", "blockquote", "tt", "strong",
-                                    "br", "ul", "ol", "li")
-                                .allowElements("quote", "ecode")
-                                .toFactory();
+    private static PolicyFactory policy =
+            new HtmlPolicyBuilder()
+                .allowStandardUrlProtocols()
+                .allowAttributes("title").globally()
+                .allowAttributes("href").onElements("a")
+                .allowAttributes("align")
+                    .matching(true, "center", "left", "right", "justify", "char")
+                    .onElements("p")
+                .allowElements(
+                    "a", "p", "div", "i", "b", "em", "blockquote", "tt", "strong",
+                    "br", "ul", "ol", "li")
+                .allowElements("quote", "ecode")
+                .toFactory();
 
     private Sanitizer() {
         // utility class
@@ -130,10 +131,13 @@ public final class Sanitizer {
     }
 
     /**
-     * Sanitizes the string with rich-text. Removes disallowed elements
-     * based on defined policy.
+     * Sanitizes the string with rich-text.
+     * Removes disallowed elements based on defined policy.
      */
     public static String sanitizeForRichText(String content) {
+        if (content == null) {
+            return null;
+        }
         return policy.sanitize(content);
     }
 

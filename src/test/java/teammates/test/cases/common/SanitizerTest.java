@@ -111,11 +111,20 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForRichText() {
-        String actualRichText = "<a href=\"https://teammatesv4.appspot.com\" onclick=\"alert('fail');\"></a>"
-                              + "<script>alert('fail');</script>"
-                              + "<p align=\"center\"><strong>Content</strong></p>";
+        assertEquals(null, Sanitizer.sanitizeForRichText(null));
+        assertEquals("", Sanitizer.sanitizeForRichText(""));
+        assertEquals("<p>wihtout changes</p>", Sanitizer.sanitizeForRichText("<p>wihtout changes</p>"));
+        assertEquals("<p>spaces test</p>", Sanitizer.sanitizeForRichText("<p >spaces test</p >"));
+        String actualRichText = "<body onload=\"alert('onload');\">"
+                                + "<a href=\"https://teammatesv4.appspot.com\" onclick=\"alert('fail');\"></a>"
+                                + "<script>alert('fail');</script>"
+                                + "<p align=\"center\"><strong>Content</strong></p>"
+                                + "<div onmouseover=\"alert('onmouseover');\"></div>"
+                                + "<iframe></iframe>"
+                                + "<input></input>";
         String expectedRichText = "<a href=\"https://teammatesv4.appspot.com\"></a>"
-                                + "<p align=\"center\"><strong>Content</strong></p>";
+                                  + "<p align=\"center\"><strong>Content</strong></p>"
+                                  + "<div></div>";
         String sanitized = Sanitizer.sanitizeForRichText(actualRichText);
         assertEquals(expectedRichText, sanitized);
     }
