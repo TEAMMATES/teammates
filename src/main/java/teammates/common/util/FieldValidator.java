@@ -73,7 +73,7 @@ public class FieldValidator {
      * problematic if we allow multiple instructors for a single course.
      * TODO: make case insensitive
      */
-    public static final String COURSE_ID_FIELD_NAME = "a Course ID";
+    public static final String COURSE_ID_FIELD_NAME = "a course ID";
     public static final int COURSE_ID_MAX_LENGTH = 40;
 
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
@@ -138,7 +138,7 @@ public class FieldValidator {
             ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
 
     public static final String HINT_FOR_CORRECT_COURSE_ID =
-            "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
+            "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
             + "It cannot be longer than ${maxLength} characters. "
             + "It cannot be empty or contain spaces.";
     public static final String COURSE_ID_ERROR_MESSAGE =
