@@ -103,15 +103,15 @@
                                     <c:set var="viewButtonEnabled" value="${section.allowedToViewStudentInSection}" />
                                     <a class="btn btn-default btn-xs<c:if test="${not viewButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                        <c:choose>
-                                       <c:when test="${not viewButtonEnabled}">
-                                          title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                                          disabled
-                                       </c:when>
-                                       <c:otherwise>
-                                          title="<%= Const.Tooltips.COURSE_STUDENT_DETAILS %>"
-                                          href="${student.courseStudentDetailsLink}"
-                                          target="_blank"
-                                       </c:otherwise>
+                                           <c:when test="${not viewButtonEnabled}">
+                                              title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                              disabled
+                                           </c:when>
+                                           <c:otherwise>
+                                              title="<%= Const.Tooltips.COURSE_STUDENT_DETAILS %>"
+                                              href="${student.courseStudentDetailsLink}"
+                                              target="_blank"
+                                           </c:otherwise>
                                        </c:choose>
                                        data-toggle="tooltip"
                                        data-placement="top">
@@ -120,15 +120,15 @@
                                     <c:set var="editButtonEnabled" value="${section.allowedToModifyStudent}" />
                                     <a class="btn btn-default btn-xs<c:if test="${not editButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                        <c:choose>
-                                       <c:when test="${not editButtonEnabled}">
-                                          title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                                          disabled
-                                       </c:when>
-                                       <c:otherwise>
-                                          title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
-                                          href="${student.courseStudentEditLink}"
-                                          target="_blank"
-                                       </c:otherwise>
+                                           <c:when test="${not editButtonEnabled}">
+                                              title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                              disabled
+                                           </c:when>
+                                           <c:otherwise>
+                                              title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
+                                              href="${student.courseStudentEditLink}"
+                                              target="_blank"
+                                           </c:otherwise>
                                        </c:choose>
                                        data-toggle="tooltip"
                                        data-placement="top">
@@ -138,15 +138,15 @@
                                         <c:set var="remindButtonEnabled" value="${section.allowedToModifyStudent}" />
                                         <a class="btn btn-default btn-xs<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                            <c:choose>
-                                           <c:when test="${not remindButtonEnabled}">
-                                              title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                                              disabled
-                                           </c:when>
-                                           <c:otherwise>
-                                              title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
-                                              href="${student.courseStudentRemindLink}"
-                                              onclick="return toggleSendRegistrationKey()"
-                                           </c:otherwise>
+                                               <c:when test="${not remindButtonEnabled}">
+                                                  title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                                  disabled
+                                               </c:when>
+                                               <c:otherwise>
+                                                  title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
+                                                  href="${student.courseStudentRemindLink}"
+                                                  onclick="return toggleSendRegistrationKey()"
+                                               </c:otherwise>
                                            </c:choose>
                                            data-toggle="tooltip"
                                            data-placement="top">
@@ -156,15 +156,15 @@
                                     <c:set var="deleteButtonEnabled" value="${section.allowedToModifyStudent}" />
                                     <a class="btn btn-default btn-xs<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                        <c:choose>
-                                       <c:when test="${not deleteButtonEnabled}">
-                                          title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                                          disabled
-                                       </c:when>
-                                       <c:otherwise>
-                                          title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"
-                                          onclick="return toggleDeleteStudentConfirmation(${student.toggleDeleteConfirmationParams})"
-                                          href="${student.courseStudentDeleteLink}"
-                                       </c:otherwise>
+                                           <c:when test="${not deleteButtonEnabled}">
+                                              title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                              disabled
+                                           </c:when>
+                                           <c:otherwise>
+                                              title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"
+                                              onclick="return toggleDeleteStudentConfirmation(${student.toggleDeleteConfirmationParams})"
+                                              href="${student.courseStudentDeleteLink}"
+                                           </c:otherwise>
                                        </c:choose>
                                        data-toggle="tooltip"
                                        data-placement="top">
@@ -182,14 +182,14 @@
                                     <div class="btn-group">
                                         <a class="btn btn-default btn-xs cursor-default<c:if test="${not commentButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                         <c:choose>
-                                        <c:when test="${not commentButtonEnabled}">
-                                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                                           disabled
-                                        </c:when>
-                                        <c:otherwise>
-                                           title="<%= Const.Tooltips.COURSE_STUDENT_COMMENT %>"
-                                           href="$javascript:;"
-                                        </c:otherwise>
+                                            <c:when test="${not commentButtonEnabled}">
+                                               title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                               disabled
+                                            </c:when>
+                                            <c:otherwise>
+                                               title="<%= Const.Tooltips.COURSE_STUDENT_COMMENT %>"
+                                               href="$javascript:;"
+                                            </c:otherwise>
                                         </c:choose>
                                            data-toggle="tooltip"
                                            data-placement="top">
