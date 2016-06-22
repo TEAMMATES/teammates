@@ -91,32 +91,26 @@ function formatCheckBoxes() {
     // TODO: change class -> name?
     $('input[class*="answerCheckbox"]').change(function() {
         if (!$(this).is(':checked')) {
-            var editTabRows = $(this).closest('tr');
-            editTabRows.find('input[class*="giverCheckbox"]')
-                                     .prop('checked', false);
-            editTabRows.find('input[class*="recipientCheckbox"]')
-                                     .prop('checked', false);
+            var $editTabRows = $(this).closest('tr');
+            $editTabRows.find('input[class*="giverCheckbox"]').prop('checked', false);
+            $editTabRows.find('input[class*="recipientCheckbox"]').prop('checked', false);
         }
     });
     $('input[class*="giverCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
-            var editTabRows = $(this).closest('tr');
-            editTabRows.find('input[class*="answerCheckbox"]')
-                                     .prop('checked', true)
-                                     .trigger('change');
+            var $editTabRows = $(this).closest('tr');
+            $editTabRows.find('input[class*="answerCheckbox"]').prop('checked', true).trigger('change');
         }
     });
     $('input[class*="recipientCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
-            var editTabRows = $(this).closest('tr');
-            editTabRows.find('input[class*="answerCheckbox"]')
-                                     .prop('checked', true);
+            var $editTabRows = $(this).closest('tr');
+            $editTabRows.find('input[class*="answerCheckbox"]').prop('checked', true);
         }
     });
     $('input[name=receiverLeaderCheckbox]').change(function() {
-        var editTabRows = $(this).closest('tr');
-        editTabRows.find('input[name=receiverFollowerCheckbox]')
-                                 .prop('checked', $(this).prop('checked'));
+        var $editTabRows = $(this).closest('tr');
+        $editTabRows.find('input[name=receiverFollowerCheckbox]').prop('checked', $(this).prop('checked'));
     });
 }
 
