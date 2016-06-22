@@ -38,7 +38,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     
     /** indicates if the test-run is to use GodMode */
-    private static boolean isGodModeEnabled = true;
+    private static boolean isGodModeEnabled;
     
     @BeforeClass
     public void classSetUp() throws Exception {
@@ -229,13 +229,15 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     @Test
     public void testSystemCrashReportEmailContent() throws IOException {
         
+        ______TS("user is logged in and the error has message");
+        
         AssertionError error = new AssertionError("invalid parameter");
         String requestMethod = "GET";
         String requestUserAgent = "user-agent";
         String requestPath = "/page/studentHome";
         String requestUrl = "/page/studentHome/";
         String requestParam = "{}";
-        UserType userType = new UserType("Not logged in");
+        UserType userType = new UserType("Actual user ABC");
         
         EmailWrapper email =
                 new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
@@ -252,6 +254,19 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
                                        Config.getAppVersion(), error.getMessage());
         
         verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/systemCrashReportEmail.html");
+        
+        ______TS("user is not logged in and the error has no message");
+        
+        error = new AssertionError();
+        email = new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
+                                                              requestUrl, requestParam, null, error);
+        subject = String.format(EmailType.ADMIN_SYSTEM_ERROR.getSubject(),
+                                Config.getAppVersion(), "java.lang.AssertionError");
+        modifiedContent = email.getContent().replaceAll(lastCommonLineRegex, "$1...$2");
+        email.setContent(modifiedContent);
+        
+        verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/systemCrashReportEmail2.html");
+        
     }
     
     @Test

@@ -443,7 +443,7 @@ public class EmailGenerator {
         if (errorMessage == null) {
             int msgTruncateIndex = stackTrace.indexOf("at");
             if (msgTruncateIndex > 0) {
-                errorMessage = stackTrace.substring(0, msgTruncateIndex);
+                errorMessage = stackTrace.substring(0, msgTruncateIndex).trim();
             } else {
                 errorMessage = "";
             }
