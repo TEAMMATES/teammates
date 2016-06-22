@@ -12,11 +12,16 @@ function isPreview() {
 
 $(document).ready(function() {
 
-   /* $('#response_save_button').click(function() {
-        var individualQuestionDiv = $(this).parents('.form-horizontal:first');
-        submitIndividualAnswer(individualQuestionDiv);
-        $('#isRedirectPage').val()
-    });*/
+    statusMessage = 'You can use the button at bottom of form to submit your responses \
+            anytime and continue with other answers.';
+
+    setStatusMessage(statusMessage, StatusType.INFO);
+	
+    $('#response_save_button').click(function() {
+        $('#isRedirectPage').val('false');
+        submitPageUsingAjax();
+        $('#isRedirectPage').val('true');
+    });
 
     /**
      * Handles Keyup and Keydown on Text question to display response length
@@ -35,19 +40,7 @@ $(document).ready(function() {
      */
     $('textarea[id^="responsetext-"]').keyup();
 
-    $('form[name="form_submit_response"] input[type=submit]').click(function() {
-        $("input[type=submit]", $(this)).removeAttr("clicked");
-        $(this).attr("clicked", "true");
-    });
-    
     $('form[name="form_submit_response"], form[name="form_student_submit_response"]').submit(function() {
-
-        if ($('input[type=submit][clicked=true]').attr('id') == 'response_submit_button') {
-        	$('#isRedirectPage').val('true');
-        } else if ($('input[type=submit][clicked=true]').attr('id') == 'response_save_button') {
-        	$('#isRedirectPage').val('false');
-        }
-
         formatRubricQuestions();
         
         var validationStatus = true;
@@ -985,20 +978,18 @@ function updateTextQuestionCharCount(textAreaId, charCountId) {
     $('#' + charCountId).text(cs);
 }
 
-function submitIndividualAnswer(individualQuestionDiv) {
-	
-    individualQuestionDiv.find('.last-submitted').text('Submitting question');
-
+function submitPageUsingAjax() {
+    $('form').find('.last-submitted').text('Submitting question');
     $.ajax({
         type: 'POST',
-        url: 'feedbackSubmissionEditSaveDraft',
-        data: ('form').serialize(),
+        url: 'instructorFeedbackSubmissionEditSave',
+        data: $('form').serialize(),
         cache: false,
         success: function(message) {
             if (message.isError) {
-                individualQuestionDiv.find('.last-submitted').text('Error occured while submitting');
+                $('form').find('.last-submitted').text('Error occured while submitting');
             } else {
-                individualQuestionDiv.find('.last-submitted').text(
+                $('form').find('#last-submitted').text(
                         'Last submitted at ' + message.lastSavedAt);
             }
         }

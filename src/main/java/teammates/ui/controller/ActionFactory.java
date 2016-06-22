@@ -131,7 +131,6 @@ public class ActionFactory {
         map(STUDENT_PROFILE_CREATEUPLOADFORMURL, StudentProfileCreateFormUrlAction.class);
         map(STUDENT_PROFILE_EDIT_SAVE, StudentProfileEditSaveAction.class);
         map(STUDENT_HOME_PAGE, StudentHomePageAction.class);
-        map("/page/feedbackSubmissionEditSaveDraft", FeedbackSubmissionEditSaveDraftAction.class);
     }
 
 

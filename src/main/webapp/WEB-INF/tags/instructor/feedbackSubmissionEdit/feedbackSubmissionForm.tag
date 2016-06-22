@@ -7,7 +7,11 @@
 
 <form method="post" name="form_submit_response" action="${feedbackSubmissionForm.submitAction}">
     <jsp:include page="<%= Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT %>" />
-    
+
+    <div class="bold align-center">
+        <label class=" text-color-gray font-weight-normal" id="last-submitted"></label>
+    </div>
+
     <div class="bold align-center"> 
         <c:if test="${feedbackSubmissionForm.moderation}">       
             <input name="moderatedperson" value="${feedbackSubmissionForm.previewInstructor.email}" type="hidden">
@@ -18,17 +22,18 @@
                     There are no questions for you to answer here!
             </c:when>
             <c:otherwise>
-                <input type="hidden" name="isRedirectPage" id="isRedirectPage">
-                <input type="submit" class="btn btn-primary"
+                <input type="hidden" name="isRedirectPage" id="isRedirectPage" value="true">
+                
+                <input type="button" class="btn btn-primary"
                     id="response_save_button" data-toggle="tooltip"
                     data-placement="top"
-                    title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>"
+                    title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE_WITHOUT_REDIRECTING%>"
                     value="Save Feedback"
                     <c:if test="${feedbackSubmissionForm.preview or (not feedbackSubmissionForm.submittable)}">
                            disabled style="background: #66727A;"
                     </c:if>>
             
-                <input type="submit" class="btn btn-primary center-block"
+                <input type="submit" class="btn btn-primary margin-left-10px"
                        id="response_submit_button" data-toggle="tooltip"
                        data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"
                        value="Submit Feedback"

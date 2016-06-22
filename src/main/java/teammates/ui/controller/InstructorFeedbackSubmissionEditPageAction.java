@@ -62,7 +62,6 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
     @Override
     protected ShowPageResult createSpecificShowPageResult() {
         data.setSubmitAction(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE);
-        
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
     }
 

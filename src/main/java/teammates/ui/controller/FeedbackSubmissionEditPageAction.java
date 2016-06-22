@@ -29,7 +29,6 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         if (feedbackSession == null) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS,
                                                StatusMessageColor.WARNING));
-                       
             return createSpecificRedirectResult();
         }
         
@@ -52,7 +51,6 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         }
         
         data.init(regKey, email, courseId);
-        
         return createSpecificShowPageResult();
     }
 

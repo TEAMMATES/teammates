@@ -7,8 +7,6 @@
 <%@ attribute name="isShowRealQuestionNumber" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean" required="true" %>
 
-<div class="form-horizontal">
- 
 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TYPE %>-${questionWithResponses.question.qnIndx}" 
                      value="${questionWithResponses.question.questionType}">
                      
@@ -17,10 +15,8 @@
                      
 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL %>-${questionWithResponses.question.qnIndx}" 
                      value="${questionWithResponses.numOfResponseBoxes}">
-                     
-<input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>" 
-                     value="${questionWithResponses.question.questionNumber}">
-    
+
+<div class="form-horizontal">
     <div class="panel panel-primary<c:if test="${questionWithResponses.question.moderatedQuestion}"> moderated-question</c:if>">
     
         <div class="panel-heading">Question ${isShowRealQuestionNumber ? questionWithResponses.question.questionNumber 
@@ -50,12 +46,6 @@
                 <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}" 
                                                  questionWithResponses="${questionWithResponses}"/>
             </c:forEach>             
-            
-             <input type="button" class="btn btn-primary submit-individual-answer-button" data-toggle="tooltip"
-                       data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE_AS_DRAFT%>"
-                       value="Submit this answer and Continue">
-             <label class="last-submitted margin-left-10px text-color-gray font-weight-normal"></label>  
-            
         </div>
     </div>
 </div>
