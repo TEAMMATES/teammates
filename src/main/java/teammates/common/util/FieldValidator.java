@@ -76,7 +76,6 @@ public class FieldValidator {
     public static final String COURSE_ID_FIELD_NAME = "a Course ID";
     public static final int COURSE_ID_MAX_LENGTH = 40;
 
-    // TODO: allow smaller increments (currently only 1 hour increments allowed)
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
     
