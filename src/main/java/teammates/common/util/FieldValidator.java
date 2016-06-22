@@ -136,8 +136,6 @@ public class FieldValidator {
             + "It cannot be empty and it cannot have spaces.";
     public static final String EMAIL_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
-    public static final String EMAIL_TAKEN_MESSAGE =
-            "Trying to update to an email that is already used by: %s/%s";
 
     public static final String HINT_FOR_CORRECT_COURSE_ID =
             "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "

@@ -130,7 +130,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         StudentAttributes anotherStudent = testData.students.get("unregisteredStudent");
 
         editPage = editPage.submitUnsuccessfully("New name2", "New team2", anotherStudent.email, "New comments2");
-        editPage.verifyStatus(String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, anotherStudent.name,
+        editPage.verifyStatus(String.format(Const.StatusMessages.STUDENT_EMAIL_TAKEN_MESSAGE, anotherStudent.name,
                                             anotherStudent.email));
         editPage.verifyIsCorrectPage("CCSDEditUiT.jose.tmms@gmail.tmt");
             
