@@ -63,7 +63,9 @@ a#editUncommonSettingsButton:hover{
     border-top: 1px solid #ddd;
     padding-top: 10px;
 }
-
+.border-bottom-dotted {
+    border-bottom: 1px dotted;
+}
 .bold-label {
     font-weight: 700 !important;
 }
