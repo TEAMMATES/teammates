@@ -1044,9 +1044,6 @@ public final class Const {
         
         public static final String MASHUP = "/mashup.jsp";
     
-        //View fragments
-        public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
-        
     }
 
     /* These are status messages that may be shown to the user */
