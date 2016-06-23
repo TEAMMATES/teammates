@@ -456,10 +456,11 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidEmailSubject = "";
         String actual = validator.getInvalidityInfoForEmailSubject(invalidEmailSubject);
         assertEquals("Invalid email subject (empty) should return error message that is specific to email subject",
-                     SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE.replace("${userInput}", invalidEmailSubject)
-                                                .replace("${fieldName}", EMAIL_SUBJECT_FIELD_NAME)
-                                                .replace("${reason}", REASON_EMPTY)
-                                                .replace("${maxLength}", String.valueOf(EMAIL_SUBJECT_MAX_LENGTH)),
+                     SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
+                         .replace("${userInput}", invalidEmailSubject)
+                         .replace("${fieldName}", EMAIL_SUBJECT_FIELD_NAME)
+                         .replace("${reason}", REASON_EMPTY)
+                         .replace("${maxLength}", String.valueOf(EMAIL_SUBJECT_MAX_LENGTH)),
                      actual);
     }
 

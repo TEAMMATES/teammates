@@ -56,7 +56,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
                              .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
                              .replace("${reason}", REASON_INCORRECT_FORMAT)
                              .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
-                    e.getLocalizedMessage());
+                         e.getLocalizedMessage());
         }
 
         verifyAbsentInDatastore(c);

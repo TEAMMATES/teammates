@@ -137,10 +137,10 @@ public class InstructorAttributesTest extends BaseTestCase {
                       .replace("${reason}", FieldValidator.REASON_EMPTY)
                       .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)) + EOL
                 + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                    .replace("${userInput}", i.name)
-                    .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                    .replace("${reason}", FieldValidator.REASON_EMPTY)
-                    .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
+                      .replace("${userInput}", i.name)
+                      .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                      .replace("${reason}", FieldValidator.REASON_EMPTY)
+                      .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("${userInput}", i.email)
                       .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
@@ -158,10 +158,10 @@ public class InstructorAttributesTest extends BaseTestCase {
                     .replace("${reason}", FieldValidator.REASON_EMPTY)
                     .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)) + EOL
                 + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                    .replace("${userInput}", i.name)
-                    .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                    .replace("${reason}", FieldValidator.REASON_EMPTY)
-                    .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
+                      .replace("${userInput}", i.name)
+                      .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
+                      .replace("${reason}", FieldValidator.REASON_EMPTY)
+                      .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
                 + FieldValidator.EMAIL_ERROR_MESSAGE
                       .replace("${userInput}", i.email)
                       .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
