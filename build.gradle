@@ -269,7 +269,8 @@ task eslint(type: Exec) {
     def command = ["eslint"]
     def jsDirs = ["src/main/webapp/js", "src/test/javascript"]
     def configFile = ["-c", "static-analysis/teammates-eslint.yml"]
-    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile
+    def ignore = ["--ignore-pattern", "lib/"]
+    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile + ignore
 }
 
 checkstyle {
