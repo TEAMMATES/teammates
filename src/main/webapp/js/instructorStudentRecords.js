@@ -106,10 +106,17 @@ function checkComment(form) {
 }
 
 /**
- * Show the comment box, focus comment text area and hide "Add Comment link"
+ * Show the comment box, focus comment text area, hide "Add Comment link" and visibility options
  */
 function showAddCommentBox() {
-    $('#comment_box').show();
+    console.log('clicked');
+    var $commentBox = $('#comment_box');
+    $commentBox.show();
+    var commentForm = $commentBox.find('form[class="form_comment"]')[0];
+    commentForm.reset();
+    $commentBox.find('div[id^="visibility-options"]').hide();
+    var $visibilityOptionsTrigger = $commentBox.find('a[id^="visibility-options-trigger"]');
+    $visibilityOptionsTrigger.html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
     $('#commentText').focus();
 }
 
