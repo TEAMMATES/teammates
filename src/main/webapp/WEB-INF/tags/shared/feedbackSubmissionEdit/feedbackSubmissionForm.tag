@@ -4,10 +4,9 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared/feedbackSubmissionEdit" prefix="tsfse" %>
 
-<%@ attribute name="feedbackSubmissionForm" type="teammates.ui.controller.FeedbackSubmissionEditPageData" required="true" %>
 <%@ attribute name="moderatedPersonEmail" required="true" %>
 
-<form method="post" name="form_submit_response" action="${feedbackSubmissionForm.submitAction}">
+<form method="post" name="form_submit_response" action="${data.submitAction}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${data.bundle.feedbackSession.feedbackSessionName}">
     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${data.bundle.feedbackSession.courseId}">
     
@@ -41,12 +40,12 @@
     </c:forEach>
     
     <div class="bold align-center"> 
-        <c:if test="${feedbackSubmissionForm.moderation}">       
+        <c:if test="${data.moderation}">       
             <input name="moderatedperson" value="${moderatedPersonEmail}" type="hidden">
         </c:if>
 
         <c:choose>
-            <c:when test="${empty feedbackSubmissionForm.bundle.questionResponseBundle}">
+            <c:when test="${empty data.bundle.questionResponseBundle}">
                     There are no questions for you to answer here!
             </c:when>
             <c:otherwise>
@@ -54,7 +53,7 @@
                        id="response_submit_button" data-toggle="tooltip"
                        data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"
                        value="Submit Feedback"
-                       <c:if test="${feedbackSubmissionForm.preview or (not feedbackSubmissionForm.submittable)}">
+                       <c:if test="${data.preview or (not data.submittable)}">
                            disabled style="background: #66727A;"
                        </c:if>>
             </c:otherwise>
