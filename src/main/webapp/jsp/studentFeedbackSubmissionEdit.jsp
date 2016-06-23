@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
-<%@ taglib tagdir="/WEB-INF/tags/shared/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
+<%@ taglib tagdir="/WEB-INF/tags/shared/feedbackSubmissionEdit" prefix="tsfse" %>
 
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
@@ -39,5 +39,5 @@
         </div>
     </c:if>
     
-    <feedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
+    <tsfse:feedbackSubmissionForm feedbackSubmissionForm="${data}" moderatedPersonEmail="${data.studentToViewPageAs.email}"/>
 </ts:studentPage>
