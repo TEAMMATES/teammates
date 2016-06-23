@@ -301,6 +301,7 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
         $('#responseCommentTable' + id).css('margin-top', '15px');
     }
     $('#showResponseCommentAddForm' + id).show();
+    resetResponseAddCommentForm(id);
     $('#responseCommentAddForm' + id).focus();
 }
 
@@ -324,7 +325,7 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     var commentBar = $('#plainCommentText' + id).parent().find('#commentBar' + id);
     commentBar.hide();
     $('#plainCommentText' + id).hide();
-    $('#responseCommentEditForm' + id + ' > div > textarea').val($('#plainCommentText' + id).text());
+    resetResponseEditCommentForm(id);
     $('#responseCommentEditForm' + id).show();
     $('#responseCommentEditForm' + id + ' > div > textarea').focus();
 }
@@ -365,6 +366,20 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     $('#plainCommentText' + id).show();
     $('#responseCommentEditForm' + id).hide();
     removeFormErrorMessage($('#button_save_comment_for_edit' + id));
+}
+
+function resetResponseAddCommentForm(id) {
+    $('#showResponseCommentAddForm' + id).find('form[class="responseCommentAddForm"]')[0].reset();
+    $('#frComment-visibility-options-trigger' + id)
+        .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+    $('#visibility-options' + id).hide();
+}
+
+function resetResponseEditCommentForm(id) {
+    document.getElementById('responseCommentEditForm' + id).reset();
+    $('#frComment-visibility-options-trigger' + id)
+        .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+    $('#visibility-options' + id).hide();
 }
 
 function showNewlyAddedResponseCommentEditForm(addedIndex) {
