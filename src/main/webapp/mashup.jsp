@@ -13,12 +13,12 @@
         <title>Teammates - Webpage Compilation</title>
         
         <link rel="shortcut icon" href="/favicon.png">
-        <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+        <link type="text/css" href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet">
+        <link type="text/css" href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet">
         <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
         <link type="text/css" href="/stylesheets/mashup.css" rel="stylesheet">
         <script type="text/javascript" src="/js/lib/jquery.min.js"></script>
-        <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/js/lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
     </head>
     <body>
