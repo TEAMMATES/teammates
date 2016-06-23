@@ -280,7 +280,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 By.id("visibilityMessage"),
                 "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         
-        feedbackEditPage.getCancelQuestionLink(-1).click();
+        feedbackEditPage.getDiscardChangesLink(-1).click();
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         
         ______TS("add question 2 and edit it to giver's team members and giver");
@@ -350,13 +350,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("MCQ");
         
         ______TS("Click cancel but click no to confirmation prompt");
-        feedbackEditPage.getCancelQuestionLink(-1).click();
+        feedbackEditPage.getDiscardChangesLink(-1).click();
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
         
         
         ______TS("Click cancel and click yes to confirmation prompt");
-        feedbackEditPage.getCancelQuestionLink(-1).click();
+        feedbackEditPage.getDiscardChangesLink(-1).click();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertFalse(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
     }
@@ -379,9 +379,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
 
         ______TS("Click cancel but click no to confirmation prompt");
-        feedbackEditPage.getCancelQuestionLink(qnIndex).click();
+        feedbackEditPage.getDiscardChangesLink(qnIndex).click();
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
-        assertTrue(feedbackEditPage.isCancelEditButtonVisible(qnIndex));
+        assertTrue(feedbackEditPage.isDiscardChangesButtonVisible(qnIndex));
         
         
         ______TS("Click cancel and click yes to confirmation prompt");
@@ -389,9 +389,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         String qnTextAfterEdit = feedbackEditPage.getQuestionBoxText(qnIndex);
         assertFalse(qnTextOriginal.equals(qnTextAfterEdit));
 
-        feedbackEditPage.getCancelQuestionLink(qnIndex).click();
+        feedbackEditPage.getDiscardChangesLink(qnIndex).click();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        assertFalse(feedbackEditPage.isCancelEditButtonVisible(qnIndex));
+        assertFalse(feedbackEditPage.isDiscardChangesButtonVisible(qnIndex));
         String qnTextAfterCancelEdit = feedbackEditPage.getQuestionBoxText(qnIndex);
         assertEquals(qnTextOriginal, qnTextAfterCancelEdit);
         
