@@ -1517,10 +1517,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         
-        return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(feedbackSessionName,
-                                                                           courseId,
-                                                                           instructorEmail,
-                                                                           filterText);
+        return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                feedbackSessionName, courseId, instructorEmail, filterText);
     }
 
     /**

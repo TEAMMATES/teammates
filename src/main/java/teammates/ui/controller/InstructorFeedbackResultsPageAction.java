@@ -52,12 +52,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         // TODO move into another action and another page data class
         boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         if (isLoadingCsvResultsAsHtml) {
-            return createAjaxResultForCsvTableLoadedInHtml(courseId,
-                                                           feedbackSessionName,
-                                                           instructor,
-                                                           data,
-                                                           selectedSection,
-                                                           filterText);
+            return createAjaxResultForCsvTableLoadedInHtml(
+                    courseId, feedbackSessionName, instructor, data, selectedSection, filterText);
         }
         data.setSessionResultsHtmlTableAsString("");
         data.setAjaxStatus("");
@@ -213,18 +209,12 @@ public class InstructorFeedbackResultsPageAction extends Action {
             if (selectedSection.contentEquals(ALL_SECTION_OPTION)) {
                 data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
                                             logic.getFeedbackSessionResultSummaryAsCsv(
-                                                                            courseId,
-                                                                            feedbackSessionName,
-                                                                            instructor.email,
-                                                                            filterText)));
+                                                    courseId, feedbackSessionName, instructor.email, filterText)));
             } else {
                 data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
                                             logic.getFeedbackSessionResultSummaryInSectionAsCsv(
-                                                                            courseId,
-                                                                            feedbackSessionName,
-                                                                            instructor.email,
-                                                                            selectedSection,
-                                                                            filterText)));
+                                                    courseId, feedbackSessionName,
+                                                    instructor.email, selectedSection, filterText)));
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block

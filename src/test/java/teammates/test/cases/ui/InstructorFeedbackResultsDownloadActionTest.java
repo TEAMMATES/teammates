@@ -141,7 +141,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         */
         
         String[] expected = {
-        // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "",
@@ -150,8 +150,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
                 "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
-
-        // CHECKSTYLE.ON:LineLength
+                // CHECKSTYLE.ON:LineLength
         };
         
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
