@@ -122,7 +122,7 @@ public abstract class EmailAction {
 
     private String generateLogMessage(List<EmailWrapper> emailsSent) {
         StringBuilder logMessage = new StringBuilder(100);
-        logMessage.append("Emails sent to:<br/>");
+        logMessage.append("Emails sent to:<br>");
         
         Iterator<Entry<String, EmailData>> extractedEmailIterator =
                 extractEmailDataForLogging(emailsSent).entrySet().iterator();
@@ -133,9 +133,9 @@ public abstract class EmailAction {
             String userEmail = extractedEmail.getKey();
             EmailData emailData = extractedEmail.getValue();
             
-            logMessage.append(emailData.userName + "<span class=\"bold\"> (" + userEmail + ")</span>.<br/>");
+            logMessage.append(emailData.userName + "<span class=\"bold\"> (" + userEmail + ")</span>.<br>");
             if (!emailData.regKey.isEmpty()) {
-                logMessage.append(emailData.regKey).append("<br/>");
+                logMessage.append(emailData.regKey).append("<br>");
             }
         }
         
@@ -146,7 +146,7 @@ public abstract class EmailAction {
         Map<String, EmailData> logData = new TreeMap<String, EmailData>();
         
         for (EmailWrapper email : emails) {
-            String recipient = email.getFirstRecipient();
+            String recipient = email.getRecipient();
             String userName = extractUserName((String) email.getContent());
             String regKey = extractRegistrationKey((String) email.getContent());
             logData.put(recipient, new EmailData(userName, regKey));

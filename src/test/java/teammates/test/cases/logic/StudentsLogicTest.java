@@ -336,7 +336,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         String courseId = student1InCourse1.course;
         String courseName = coursesLogic.getCourse(courseId).getName();
         EmailWrapper msgToStudent = studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
-        assertEquals(studentEmail, msgToStudent.getFirstRecipient());
+        assertEquals(studentEmail, msgToStudent.getRecipient());
         assertEquals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), courseName, courseId),
                      msgToStudent.getSubject());
         
@@ -1215,7 +1215,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
     
     private void verifyJoinInviteToStudent(StudentAttributes student, EmailWrapper email, String courseName,
                                            String courseId) {
-        assertEquals(student.email, email.getFirstRecipient());
+        assertEquals(student.email, email.getRecipient());
         assertEquals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), courseName, courseId),
                      email.getSubject());
     }

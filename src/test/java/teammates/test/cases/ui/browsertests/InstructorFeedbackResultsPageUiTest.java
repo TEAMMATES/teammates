@@ -154,6 +154,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
         verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt", "CFResultsUiT.benny.c@gmail.tmt",
+                                      "CFResultsUiT.fred.g@gmail.tmt",
                                       "CFResultsUiT.charlie.d@gmail.tmt", "CFResultsUiT.danny.e@gmail.tmt",
                                       "drop.out@gmail.tmt", "extra.guy@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt");
 
@@ -541,6 +542,24 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
+    @Test
+    public void testIndicateMissingResponses() {
+
+        ______TS("Typical case: Hide Missing Responses");
+
+        assertTrue(resultsPage.indicateMissingResponsesCheckbox.isSelected());
+        assertFalse(resultsPage.verifyMissingResponsesVisibility());
+
+        resultsPage.clickIndicateMissingResponses();
+        assertFalse(resultsPage.indicateMissingResponsesCheckbox.isSelected());
+        assertTrue(resultsPage.verifyMissingResponsesVisibility());
+
+        resultsPage.clickIndicateMissingResponses();
+        assertTrue(resultsPage.indicateMissingResponsesCheckbox.isSelected());
+        assertFalse(resultsPage.verifyMissingResponsesVisibility());
+
+    }
+    
     public void testSearchScript() throws Exception {
 
         ______TS("Typical case: test search/filter script");
@@ -554,6 +573,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickGroupByTeam();
         resultsPage.fillSearchBox("team 2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
+        
+        resultsPage.fillSearchBox("alice");
+        resultsPage.verifyPanelForParticipantIsDisplayed("CFResultsUiT.alice.b@gmail.tmt");
+        
+        resultsPage.fillSearchBox("Alice");
+        resultsPage.verifyPanelForParticipantIsDisplayed("CFResultsUiT.alice.b@gmail.tmt");
         
         resultsPage.displayByQuestion();
     }
