@@ -355,6 +355,18 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("Click cancel and click yes to confirmation prompt");
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(-1));
         assertFalse(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+
+        ______TS("Make sure controls disabled by Team Contribution questions are re-enabled after cancelling");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONTRIB");
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(-1));
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("NUMSCALE");
+        assertTrue(feedbackEditPage.isAllFeedbackPathOptionsEnabled());
+
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(-1));
+
     }
 
     private void testCancelEditQuestion() {
