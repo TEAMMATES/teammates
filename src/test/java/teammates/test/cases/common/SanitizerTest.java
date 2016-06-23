@@ -118,12 +118,18 @@ public class SanitizerTest extends BaseTestCase {
         String actualRichText = "<body onload=\"alert('onload');\">"
                                 + "<a href=\"https://teammatesv4.appspot.com\" onclick=\"alert('fail');\"></a>"
                                 + "<script>alert('fail');</script>"
-                                + "<p align=\"center\"><strong>Content</strong></p>"
+                                + "<h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6>"
+                                + "<hr />"
+                                + "<img src=\"https://teammatesv4.appspot.com/images/overview.png\" />"
+                                + "<p style=\"text-align:center\"><strong>Content</strong></p>"
                                 + "<div onmouseover=\"alert('onmouseover');\"></div>"
                                 + "<iframe></iframe>"
                                 + "<input></input>";
         String expectedRichText = "<a href=\"https://teammatesv4.appspot.com\"></a>"
-                                  + "<p align=\"center\"><strong>Content</strong></p>"
+                                  + "<h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6>"
+                                  + "<hr />"
+                                  + "<img src=\"https://teammatesv4.appspot.com/images/overview.png\" />"
+                                  + "<p style=\"text-align:center\"><strong>Content</strong></p>"
                                   + "<div></div>";
         String sanitized = Sanitizer.sanitizeForRichText(actualRichText);
         assertEquals(expectedRichText, sanitized);
