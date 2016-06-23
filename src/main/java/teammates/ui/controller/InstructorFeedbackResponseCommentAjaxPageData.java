@@ -54,10 +54,6 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
         return responseVisiblities;
     }
 
-    public void setCommentIds(String commentId) {
-        commentIds = commentId.split("-");
-    }
-
     public String[] getCommentIds() {
         return commentId.split("-");
     }

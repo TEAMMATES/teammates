@@ -125,8 +125,6 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         data.showCommentToString = joinParticipantTypes(createdComment.showCommentTo, ",");
         data.showGiverNameToString = joinParticipantTypes(createdComment.showGiverNameTo, ",");
 
-        data.setCommentIds(commentId);
-
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }
 
