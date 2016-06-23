@@ -574,39 +574,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void testInstructorFeedbackQuestionSubmissionEdit() {
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE;
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        FeedbackQuestionAttributes q = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId()
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-    }
-
-    @Test
-    public void testInstructorFeedbackQuestionSubmissionEditSave() {
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        FeedbackQuestionAttributes q = fqDb.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", q.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "0"
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-    }
-    
-    @Test
     public void testInstructorFeedbackRemind() {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -1013,67 +980,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         unregStudent1.googleId = "";
         StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-    }
-
-    @Test
-    public void testStudentFeedbackQuestionSubmissionEditPage() {
-        uri = Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE;
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
-                .get("session1InCourse1");
-
-        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb
-                .getFeedbackQuestion(
-                        session1InCourse1.getFeedbackSessionName(),
-                        session1InCourse1.getCourseId(), 1);
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_ID,
-                feedbackQuestion.getId()
-        };
-
-        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
-
-        // below: trying to access questions not meant for the user
-
-        feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
-                session1InCourse1.getFeedbackSessionName(),
-                session1InCourse1.getCourseId(), 3);
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_ID,
-                feedbackQuestion.getId()
-        };
-
-        verifyCannotAccess(submissionParams);
-    }
-
-    @Test
-    public void testStudentFeedbackQuestionSubmissionEditSave() {
-        uri = Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
-                .get("session1InCourse1");
-
-        FeedbackQuestionAttributes feedbackQuestion = fqDb
-                .getFeedbackQuestion(session1InCourse1.getFeedbackSessionName(),
-                        session1InCourse1.getCourseId(), 1);
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
-                feedbackQuestion.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "0"
-        };
-
-        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
     }
 
     @Test
