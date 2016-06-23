@@ -243,6 +243,7 @@ function enableQuestion(questionNum) {
     if ($('#constSumToRecipients-' + questionNum).val() === 'true') {
         $('#constSumOptionTable-' + questionNum).hide();
         $('#constSumOption_Option-' + questionNum).hide();
+        $('#constSumOption_Recipient-' + questionNum).show();
     } else {
         $('#constSumOptionTable-' + questionNum).show();
         $('#constSumOption_Recipient-' + questionNum).hide();
@@ -545,6 +546,7 @@ function prepareQuestionForm(type) {
     case 'CONSTSUM_RECIPIENT':
         $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '-' + NEW_QUESTION).val('true');
         $('#constSumOption_Option-' + NEW_QUESTION).hide();
+        $('#constSumOption_Recipient-' + NEW_QUESTION).show();
         hideConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
         
@@ -719,27 +721,6 @@ function formatQuestionNumbers() {
             $selector.prop('disabled', true);
         }
     });
-}
-
-function getQuestionLink(questionNum) {
-    var courseid = $('input[name="courseid"]').val();
-    var fsname = encodeURIComponent($('input[name="fsname"]').val());
-    
-    var questionId = $('#form_editquestion-' + questionNum).find('input[name="questionid"]').val();
-    
-    var giverType = $('#givertype-' + questionNum).val();
-    
-    var actionUrl = giverType === 'STUDENTS' || giverType === 'TEAMS'
-                  ? '/page/studentFeedbackQuestionSubmissionEditPage'
-                  : '/page/instructorFeedbackQuestionSubmissionEditPage';
-    
-    var questionLink = window.location.protocol + '//'
-                     + window.location.host + actionUrl
-                     + '?courseid=' + courseid
-                     + '&fsname=' + fsname
-                     + '&questionid=' + questionId;
-    
-    setStatusMessage('Link for question ' + questionNum + ': ' + questionLink, StatusType.WARNING);
 }
 
 /**

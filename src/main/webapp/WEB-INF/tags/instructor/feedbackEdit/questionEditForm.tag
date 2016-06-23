@@ -36,13 +36,6 @@
                 <div class="col-sm-5 mobile-margin-top-10px">
                     <span class="mobile-no-pull pull-right">
                         <a class="btn btn-primary btn-xs"
-                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GETLINK %>-${fqForm.questionIndex}"
-                            data-toggle="tooltip" data-placement="top"
-                            title="<%= Const.Tooltips.FEEDBACK_QUESTION_GETLINK %>"
-                            onclick="getQuestionLink(${fqForm.questionIndex})">
-                            Get Link
-                        </a>
-                        <a class="btn btn-primary btn-xs"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT %>-${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_EDIT %>"

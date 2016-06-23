@@ -143,9 +143,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "button_preview_instructor")
     private WebElement previewAsInstructorButton;
-    
-    @FindBy(id = "questiongetlink-1")
-    private WebElement getLinkButton;
 
     private InstructorCopyFsToModal fsCopyToModal;
     
@@ -682,9 +679,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void selectConstSumPointsOptions(String pointsOption, int questionNumber) {
-        selectDropdownByVisibleValue(
-                browser.driver.findElement(By.id("constSumPointsPerOptionSelect-" + questionNumber)),
-                pointsOption);
+        markRadioButtonAsChecked(
+                browser.driver.findElement(By.id("constSumPoints" + pointsOption + "-" + questionNumber)));
     }
     
     public void selectGiverTypeForQuestion1(String giverType) {
@@ -946,10 +942,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(FeedbackSubmitPage.class);
-    }
-    
-    public void clickGetLinkButton() {
-        getLinkButton.click();
     }
     
     public void clickCopyTableAtRow(int rowIndex) {

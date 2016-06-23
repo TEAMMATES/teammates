@@ -76,7 +76,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                      pageData.getRegisterMessage());
         
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
@@ -101,8 +100,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                       + "(recommended).", pageData.getRegisterMessage());
 
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
-        
+       
         assertFalse(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
         assertFalse(pageData.isSubmittable());
@@ -125,7 +123,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                       + "(recommended).", pageData.getRegisterMessage());
 
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
@@ -152,7 +149,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                      pageData.getRegisterMessage());
 
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
         assertTrue(pageData.isSessionOpenForSubmission());
@@ -170,7 +166,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         pageData.init("", student.email, student.course);
 
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/instructorEditStudentFeedbackSave", pageData.getSubmitActionQuestion());
         
         assertTrue(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
@@ -189,7 +184,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         pageData.init("", student.email, student.course);
 
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/instructorEditStudentFeedbackSave", pageData.getSubmitActionQuestion());
         
         assertTrue(pageData.isModeration());
         assertTrue(pageData.isSessionOpenForSubmission());
@@ -206,7 +200,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         pageData.init("", student.email, student.course);
 
         assertNull(pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
