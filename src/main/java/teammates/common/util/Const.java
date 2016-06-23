@@ -166,9 +166,7 @@ public final class Const {
                 ActionURIs.STUDENT_COURSE_JOIN_NEW,
                 ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
                 ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-                ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
-                ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
-                ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE
+                ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE
         );
         
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Arrays.asList(
@@ -386,9 +384,6 @@ public final class Const {
                 "Please enter the question for users to give feedback about. "
                 + "e.g. What is the biggest weakness of the presented product?";
         public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
-        public static final String FEEDBACK_QUESTION_GETLINK =
-                "Get a submission link to this particular question. "
-                + "Useful if you want students to answer individual questions separately or at different points in time.";
         public static final String FEEDBACK_QUESTION_CANCEL = "Discard your changes";
         public static final String FEEDBACK_QUESTION_CANCEL_NEW = "Discard new question";
         public static final String FEEDBACK_QUESTION_DELETE = "Delete this question";
@@ -649,7 +644,6 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_CANCELEDIT = "questioncanceledit";
         public static final String FEEDBACK_QUESTION_EDITTYPE = "questionedittype";
         public static final String FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
-        public static final String FEEDBACK_QUESTION_GETLINK = "questiongetlink";
         public static final String FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
         public static final String FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
         public static final String FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
@@ -681,6 +675,7 @@ public final class Const {
         public static final String FEEDBACK_RESULTS_GROUPBYTEAM = "frgroupbyteam";
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
         public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
+        public static final String FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES = "frindicatemissingresponses";
         public static final String FEEDBACK_RESULTS_NEED_AJAX = "frneedajax";
         public static final String FEEDBACK_RESULTS_MAIN_INDEX = "frmainindex";
 
@@ -889,10 +884,6 @@ public final class Const {
         
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE =
-                "/page/instructorFeedbackQuestionSubmissionEditPage";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE =
-                "/page/instructorFeedbackQuestionSubmissionEditSave";
         
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
@@ -903,10 +894,7 @@ public final class Const {
         
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
-        public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE =
-                "/page/studentFeedbackQuestionSubmissionEditPage";
-        public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE =
-                "/page/studentFeedbackQuestionSubmissionEditSave";
+
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
@@ -1062,7 +1050,6 @@ public final class Const {
         public static final String MASHUP = "/mashup.jsp";
     
         //View fragments
-        public static final String FOOTER = "/jsp/footer.jsp";
         public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
         
     }

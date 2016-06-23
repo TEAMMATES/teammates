@@ -317,6 +317,11 @@ public final class Templates {
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
             public static final String CONSTSUM_POINTS_PER_OPTION =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
+            public static final String OPTION_DISPLAY = "${optionDisplay}";
+            public static final String RECIPIENT_DISPLAY = "${recipientDisplay}";
+            public static final String PER_OPTION_CHECKED = "${perOptionChecked}";
+            public static final String PER_RECIPIENT_CHECKED = "${perRecipientChecked}";
+            public static final String OPTIONRECIPIENTDISPLAYNAME = "${optionRecipientDisplayName}";
             
             // Contribution
             public static final String CONTRIB_SELECT_FRAGMENTS_HTML = "${contribSelectFragmentsHtml}";

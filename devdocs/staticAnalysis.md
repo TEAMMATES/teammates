@@ -68,6 +68,11 @@ The suppression should be as specific as possible, and the reason for violating 
 In Gradle build, the rules are configured by specifying the classes in the `visitors` variable.
 The plugin for Eclipse can be found [here](http://findbugs.cs.umd.edu/eclipse/).
 
+### Macker
+
+[Macker](https://github.com/andrena/macker) checks the architectural integrity of Java source code.
+The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-macker.xml).
+
 ### EclEmma/JaCoCo
 
 [EclEmma/JaCoCo](http://eclemma.org/jacoco/) measures code coverage for Java test run.
@@ -128,6 +133,12 @@ Alternatively, run the tools via Gradle:
 ```
 where `{toolType}` = checkstyle, pmd, findbugs (lowercase), and `{sourceCodeType}` = Main, Test (Pascal Case).
 The reports can be found in the `build/reports/{toolType}/` directory.
+
+To run Macker analysis on all Java source files, run the following command:
+```
+./gradlew macker
+```
+The violations caught, if any, will be printed to the console itself.
 
 To run ESLint analysis on all JavaScript source files, run the following command:
 ```
