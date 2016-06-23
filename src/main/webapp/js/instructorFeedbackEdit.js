@@ -706,27 +706,6 @@ function formatQuestionNumbers() {
     });
 }
 
-function getQuestionLink(questionNum) {
-    var courseid = $('input[name="courseid"]').val();
-    var fsname = encodeURIComponent($('input[name="fsname"]').val());
-    
-    var questionId = $('#form_editquestion-' + questionNum).find('input[name="questionid"]').val();
-    
-    var giverType = $('#givertype-' + questionNum).val();
-    
-    var actionUrl = giverType === 'STUDENTS' || giverType === 'TEAMS'
-                  ? '/page/studentFeedbackQuestionSubmissionEditPage'
-                  : '/page/instructorFeedbackQuestionSubmissionEditPage';
-    
-    var questionLink = window.location.protocol + '//'
-                     + window.location.host + actionUrl
-                     + '?courseid=' + courseid
-                     + '&fsname=' + fsname
-                     + '&questionid=' + questionId;
-    
-    setStatusMessage('Link for question ' + questionNum + ': ' + questionLink, StatusType.WARNING);
-}
-
 /**
  * Adds event handler to load 'copy question' modal contents by ajax.
  */

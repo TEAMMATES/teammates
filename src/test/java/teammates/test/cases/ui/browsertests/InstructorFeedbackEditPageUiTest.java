@@ -19,7 +19,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
@@ -95,7 +94,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testEditQuestionLink();
         testEditQuestionAction();
 
-        testGetQuestionLink();
         testCopyQuestion();
 
         testChangeFeedbackRecipient();
@@ -313,32 +311,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                    .contains("Instructors in this course can see your response, the name of the recipient, and your name."));
         
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
-    }
-    
-    private void testGetQuestionLink() {
-
-        ______TS("get individual question link");
-
-        feedbackEditPage.clickGetLinkButton();
-        String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1).getId();
-        
-        AppUrl expectedUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
-                                        .withCourseId(courseId)
-                                        .withSessionName(feedbackSessionName)
-                                        .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
-
-        assertTrue(feedbackEditPage.isElementVisible("statusMessagesToUser"));
-        // different sanitization because the one in actual is sanitized via JS (encodeURIComponent)
-        assertEquals("Link for question 1: " + expectedUrl.toAbsoluteString().replace("+", "%20"),
-                     feedbackEditPage.getStatus());
-        
-        AppUrl url = expectedUrl.withUserId(instructorId);
-        FeedbackQuestionSubmitPage questionPage =
-                loginAdminToPage(browser, url, FeedbackQuestionSubmitPage.class);
-        
-        assertTrue(questionPage.isCorrectPage(courseId, feedbackSessionName));
-        
-        feedbackEditPage = getFeedbackEditPage();
     }
 
     private void testCancelAddingNewQuestion() {
