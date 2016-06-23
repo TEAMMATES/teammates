@@ -402,8 +402,8 @@ function enableComment(commentIdx) {
     $('#plainCommentText' + commentIdx).hide();
     $("div[id='commentTextEdit" + commentIdx + "']").show();
     document.getElementById("form_commentedit-" + commentIdx).reset();
-    $("#visibility-options" + commentIdx).hide();
-    var visibilityOptions = "#visibility-options-trigger" + commentIdx;
+    $('#visibility-options' + commentIdx).hide();
+    var visibilityOptions = '#visibility-options-trigger' + commentIdx;
     $(visibilityOptions).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
     $("textarea[id='commentText" + commentIdx + "']").focus();
 }
