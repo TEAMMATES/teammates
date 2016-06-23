@@ -63,9 +63,7 @@ a#editUncommonSettingsButton:hover{
     border-top: 1px solid #ddd;
     padding-top: 10px;
 }
-.border-bottom-dotted {
-    border-bottom: 1px dotted;
-}
+
 .bold-label {
     font-weight: 700 !important;
 }
@@ -134,10 +132,6 @@ Apply to thead to make headers not bold.
 
 .fill-info {
     background-color: #c4e3f3;
-}
-
-.float-left {
-    float: left;
 }
 
 .glyphicon-primary {
@@ -233,20 +227,8 @@ Apply to thead to make headers not bold.
     padding-top: 0;
 }
 
-.padding-top-7 {
-    padding-top: 7px;
-}
-
 .margin-0 {
     margin: 0;
-}
-
-.margin-right-10 {
-    margin-right: 10px;
-}
-
-.margin-right-7 {
-    margin-right: 7px;
 }
 
 .narrow-slight {
@@ -268,6 +250,20 @@ Apply to thead to make headers not bold.
 .padding-top-0.checkbox,.padding-top-0 {
     padding-top: 0;
 }
+
+.question-recommended-length {
+    color: gray;
+}
+
+.question-recommended-length > span {
+    margin-left: 7px;
+    border-bottom: 1px dotted;
+}
+
+.question-recommended-length > input {
+    width: 80px;
+    display: inline;
+    }
 
 .text-large {
     font-size: 18px;
@@ -319,10 +315,6 @@ Apply to thead to make headers not bold.
 
 .width-75-pc {
     width: 75%;
-}
-
-.width-80-px {
-    width: 80px;
 }
 
 @media print {
