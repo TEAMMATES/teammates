@@ -47,11 +47,11 @@
                             Save Changes
                         </a>
                         <a class="btn btn-primary btn-xs" style="display:none"
-                            onclick="cancelEdit(${fqForm.questionIndex})"
-                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_CANCELEDIT %>-${fqForm.questionIndex}"
+                            onclick="discardChanges(${fqForm.questionIndex})"
+                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES %>-${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top"
-                            title="<%= Const.Tooltips.FEEDBACK_QUESTION_CANCEL %>">
-                            Cancel
+                            title="<%= Const.Tooltips.FEEDBACK_QUESTION_DISCARDCHANGES %>">
+                            Discard Changes
                         </a>
                         <a class="btn btn-primary btn-xs"
                             onclick="deleteQuestion(${fqForm.questionIndex})"

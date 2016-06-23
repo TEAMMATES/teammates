@@ -381,7 +381,7 @@ public final class Const {
                 "Please enter the question for users to give feedback about. "
                 + "e.g. What is the biggest weakness of the presented product?";
         public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
-        public static final String FEEDBACK_QUESTION_CANCEL = "Discard your changes";
+        public static final String FEEDBACK_QUESTION_DISCARDCHANGES = "Discard your changes";
         public static final String FEEDBACK_QUESTION_CANCEL_NEW = "Discard new question";
         public static final String FEEDBACK_QUESTION_DELETE = "Delete this question";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
@@ -638,7 +638,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_NUMBEROFENTITIES = "numofrecipients";
         public static final String FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = "numofrecipientstype";
         public static final String FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
-        public static final String FEEDBACK_QUESTION_CANCELEDIT = "questioncanceledit";
+        public static final String FEEDBACK_QUESTION_DISCARDCHANGES = "questiondiscardchanges";
         public static final String FEEDBACK_QUESTION_EDITTYPE = "questionedittype";
         public static final String FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
         public static final String FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
