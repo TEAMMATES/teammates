@@ -959,8 +959,6 @@ public final class Const {
         public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
         public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER =
                                     "/feedbackRemindEmailParticularUsersWorker";
-        public static final String FEEDBACK_SUBMITTED_CONFIRMATION_EMAIL =
-                "/feedbackSubmittedConfirmationEmail";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
     }
     

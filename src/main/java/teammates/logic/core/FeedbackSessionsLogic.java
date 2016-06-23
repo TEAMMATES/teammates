@@ -1556,8 +1556,7 @@ public class FeedbackSessionsLogic {
     public EmailWrapper sendConfirmationEmailForSubmission(String courseId,
             String feedbackSessionName, String userEmail) throws EntityDoesNotExistException {
         
-        FeedbackSessionAttributes session = getFeedbackSession(
-                feedbackSessionName, courseId);
+        FeedbackSessionAttributes session = getFeedbackSession(feedbackSessionName, courseId);
 
         StudentAttributes student = studentsLogic.isStudentInCourse(courseId, userEmail)
                 ? studentsLogic.getStudentForEmail(courseId, userEmail) : null;
@@ -1597,19 +1596,6 @@ public class FeedbackSessionsLogic {
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
         taskQueueLogic.createAndAddTaskMultisetParam(SystemParams.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE,
                 Const.ActionURIs.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER, paramMap);
-    }
-    
-    public void scheduleFeedbackSubmissionConfirmationEmail(String courseId,
-            String feedbackSessionName, String userToConfirm) {
-        
-        HashMap<String, String[]> paramMap = new HashMap<String, String[]>();
-        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[]{feedbackSessionName});
-        paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[]{courseId});
-        paramMap.put(ParamsNames.SUBMISSION_CONFIRM_USER, new String[]{userToConfirm});
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTaskMultisetParam(SystemParams.FEEDBACK_SUBMISSION_CONFRM_EMAIL_QUEUE,
-                Const.ActionURIs.FEEDBACK_SUBMITTED_CONFIRMATION_EMAIL, paramMap);
     }
 
     public void scheduleFeedbackSessionOpeningEmails() {

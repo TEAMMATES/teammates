@@ -1239,7 +1239,7 @@ public class Logic {
      */
     public void sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName,
                                                    String userToSendFeedbackSubmissionConfirmationEmail)
-                                                           throws EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
  
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);

@@ -104,8 +104,7 @@ public class EmailGenerator {
                     student, template, EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject());
         }
 
-        String timeStamp = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").format(Calendar.getInstance().getTime());
-
+        String timeStamp = TimeHelper.formatTime12H(Calendar.getInstance().getTime());
         email.setContent(email.getContent().replace("${status}", "has been successfully submitted by you on " + timeStamp));
 
         return email;
@@ -126,7 +125,6 @@ public class EmailGenerator {
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructorSubmissionConfirmation(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, String subject) {
-        
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                  .withCourseId(course.getId())
                                  .withSessionName(session.getFeedbackSessionName())
@@ -143,13 +141,13 @@ public class EmailGenerator {
                 "${courseId}", course.getId(),
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
-                "${instructorFragment}", "",
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
+        System.out.println("papa"+emailBody);
         email.setContent(emailBody);
         return email;
     }
@@ -314,7 +312,6 @@ public class EmailGenerator {
                 "${courseId}", course.getId(),
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
-                "${instructorFragment}", "",
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
