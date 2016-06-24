@@ -104,7 +104,8 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
                 hasInstructor1ReceivedEmail = true;
             }
         }
-        assertTrue(hasStudent1ReceivedEmail && hasInstructor1ReceivedEmail);
+        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasInstructor1ReceivedEmail);
         
         ______TS("feedback session closing alerts");
         
@@ -118,19 +119,21 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         // yet to complete, so we resort to student5
         StudentAttributes student5 = studentsLogic.getStudentForEmail(course.getId(), "student5InCourse1@gmail.tmt");
         
-        hasStudent1ReceivedEmail = false;
-        boolean hasStudent5ReceivedEmail = false;
+        hasStudent1ReceivedEmail = false; // use the same checker variable for brevity
         hasInstructor1ReceivedEmail = false;
         for (EmailWrapper email : emails) {
             if (email.getRecipient().equals(student5.email)) {
                 verifyEmail(email, student5.email, subject, "/sessionClosingEmailForStudent.html");
-                hasStudent5ReceivedEmail = true;
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(student1.email)) {
+                fail("student1 has completed the session and are not supposed to receive email");
             } else if (email.getRecipient().equals(instructor1.email)) {
                 verifyEmail(email, instructor1.email, subject, "/sessionClosingEmailForInstructor.html");
                 hasInstructor1ReceivedEmail = true;
             }
         }
-        assertTrue(!hasStudent1ReceivedEmail && hasStudent5ReceivedEmail && hasInstructor1ReceivedEmail);
+        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasInstructor1ReceivedEmail);
         
         ______TS("feedback session published alerts");
         
@@ -151,7 +154,8 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
                 hasInstructor1ReceivedEmail = true;
             }
         }
-        assertTrue(hasStudent1ReceivedEmail && hasInstructor1ReceivedEmail);
+        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasInstructor1ReceivedEmail);
         
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
         
@@ -265,7 +269,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         modifiedContent = email.getContent().replaceAll(lastCommonLineRegex, "$1...$2");
         email.setContent(modifiedContent);
         
-        verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/systemCrashReportEmail2.html");
+        verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/systemCrashReportEmailLessInfo.html");
         
     }
     
@@ -290,16 +294,18 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
     
     @Test
     public void testGenerateAdminEmail() {
-        EmailWrapper email =
-                new EmailGenerator().generateAdminEmail("Generic content", "Generic subject", "recipient@email.com");
+        String recipient = "recipient@email.com";
+        String content = "Generic content";
+        String subject = "Generic subject";
+        EmailWrapper email = new EmailGenerator().generateAdminEmail(content, subject, recipient);
         
         // Do not use verify email since the content is not based on any template
-        assertEquals("recipient@email.com", email.getRecipient());
-        assertEquals("Generic subject", email.getSubject());
+        assertEquals(recipient, email.getRecipient());
+        assertEquals(subject, email.getSubject());
         assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
         assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
         assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
-        assertEquals("Generic content", email.getContent());
+        assertEquals(content, email.getContent());
     }
     
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
