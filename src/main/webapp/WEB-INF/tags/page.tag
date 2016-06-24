@@ -15,8 +15,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link type="text/css" href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet"/>
+    <link type="text/css" href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet"/>
     <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]>
@@ -27,9 +27,9 @@
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="${data.jQueryFilePath}"></script>
     <script type="text/javascript" src="${data.jQueryUiFilePath}"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/lib/bootbox.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
     <t:enableJS />
 
     <jsp:invoke fragment="jsIncludes" />
