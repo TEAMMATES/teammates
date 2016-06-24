@@ -404,6 +404,10 @@ function restoreOriginal(questionNum) {
 function hideNewQuestionAndShowNewQuestionForm() {
     $('#questionTableNew').hide();
     $('#addNewQuestionTable').show();
+
+    // re-enables all feedback path options, which may have been hidden by team contribution question
+    $('#givertype').find('option').show().prop('disabled', false);
+    $('#recipienttype').find('option').show().prop('disabled', false);
 }
 
 /**
