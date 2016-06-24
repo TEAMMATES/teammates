@@ -26,7 +26,7 @@ public abstract class EmailSenderService {
     /**
      * Sends the email packaged as a {@code wrapper}.
      */
-    public void sendEmail(EmailWrapper wrapper) {
+    public void sendEmail(EmailWrapper wrapper) throws EmailSendingException {
         try {
             sendEmailWithService(wrapper);
         } catch (Exception e) {
