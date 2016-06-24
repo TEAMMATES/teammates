@@ -1510,13 +1510,15 @@ public class Logic {
      */
     public String getFeedbackSessionResultSummaryAsCsv(String courseId,
                                                        String feedbackSessionName,
-                                                       String instructorEmail)
+                                                       String instructorEmail,
+                                                       boolean isMissingResponsesShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         
-        return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(feedbackSessionName, courseId, instructorEmail);
+        return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                feedbackSessionName, courseId, instructorEmail, isMissingResponsesShown);
     }
 
     /**
@@ -1527,7 +1529,8 @@ public class Logic {
     public String getFeedbackSessionResultSummaryInSectionAsCsv(String courseId,
                                                                 String feedbackSessionName,
                                                                 String instructorEmail,
-                                                                String section)
+                                                                String section,
+                                                                boolean isMissingResponsesShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1537,7 +1540,8 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryInSectionAsCsv(feedbackSessionName,
                                                                                     courseId,
                                                                                     instructorEmail,
-                                                                                    section);
+                                                                                    section,
+                                                                                    isMissingResponsesShown);
     }
     
     /**
