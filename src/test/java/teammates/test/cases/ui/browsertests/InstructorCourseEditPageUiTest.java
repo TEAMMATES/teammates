@@ -167,14 +167,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         int newInstructorIndex = 8;
         
         courseEditPage.selectRoleForInstructor(newInstructorIndex, "Custom");
-        courseEditPage.clickCourseLevelPrivilegesLink(newInstructorIndex, 1);
-        courseEditPage.clickCourseLevelPrivilegesLink(newInstructorIndex, 4);
-        courseEditPage.clickCourseLevelPrivilegesLink(newInstructorIndex, 8);
+        courseEditPage.clickCourseLevelPrivilegesLink(newInstructorIndex, 0);
+        courseEditPage.clickCourseLevelPrivilegesLink(newInstructorIndex, 3);
+        courseEditPage.clickCourseLevelPrivilegesLink(newInstructorIndex, 7);
         
         courseEditPage.clickAddSectionLevelPrivilegesLink(newInstructorIndex);
-        courseEditPage.clickSectionSelectionCheckBox(newInstructorIndex, 1, 1);
-        courseEditPage.clickViewStudentCheckBoxInSectionLevel(newInstructorIndex, 0);
-        courseEditPage.clickViewSessionResultsCheckBoxInSectionLevel(newInstructorIndex, 0);
+        courseEditPage.clickSectionSelectionCheckBox(newInstructorIndex, 0, 0);
+        courseEditPage.clickSectionLevelPrivilegeLink(newInstructorIndex, 0, 0);
+        courseEditPage.clickSectionLevelPrivilegeLink(newInstructorIndex, 0, 5);
         
         courseEditPage.clickAddInstructorButton();
         
@@ -333,31 +333,31 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("success: edit an instructor with privileges");
         
         courseEditPage.clickEditInstructorLink(editInstructorIndex);
-        assertTrue(courseEditPage.displayedToStudentCheckBox(editInstructorIndex).isSelected());
+        assertTrue(courseEditPage.getDisplayedToStudentCheckBox(editInstructorIndex).isSelected());
         // not displayed to students
         courseEditPage.clickDisplayedToStudentCheckBox(editInstructorIndex);
         // select the role as Custom for instr1
         courseEditPage.selectRoleForInstructor(editInstructorIndex, "Custom");
         
         // deselect some privileges from Co-owner default values
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 0);
         courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 1);
-        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 2);
-        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 8);
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 7);
         courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
-        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 1);
-        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 2);
-        courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 0);
-        courseEditPage.clickViewOthersCommentsCheckBoxInSectionLevel(editInstructorIndex, 0);
-        courseEditPage.clickViewSessionResultsCheckBoxInSectionLevel(editInstructorIndex, 0);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 0, 0);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 0, 1);
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 0);
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 2);
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 5);
         courseEditPage.clickSessionLevelInSectionLevel(editInstructorIndex, 0);
         courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
-        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 2, 2);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 1);
         courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
-        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 3, 2);
-        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 3, 3);
-        courseEditPage.clickModifySessionResultCheckBoxInSectionLevel(editInstructorIndex, 2);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 2, 1);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 2, 2);
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 2, 6);
         // after 3 sections added, no more things to add
-        assertFalse(courseEditPage.addSectionLevelPrivilegesLink(editInstructorIndex).isDisplayed());
+        assertFalse(courseEditPage.getAddSectionLevelPrivilegesLink(editInstructorIndex).isDisplayed());
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesBeforeSubmit.html");
         
         courseEditPage.clickSaveInstructorButton(editInstructorIndex);
@@ -506,6 +506,83 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickSessionLevelInSectionLevel(editInstructorIndex, 0);
         assertTrue(courseEditPage.isTuneSessionPermissionsDivVisible(editInstructorIndex, 0));
         
+        ______TS("verify checkbox toggling to false");
+        
+        // course level
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 4);
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+        
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 6);
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
+        
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 9);
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        
+        // section level
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 0);
+        assertFalse(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 0));
+        assertFalse(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 1));
+        
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 2);
+        assertFalse(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 2));
+        assertFalse(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 3));
+        
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 5);
+        assertFalse(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 5));
+        assertFalse(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 6));
+        
+        // session level
+        courseEditPage.clickSessionLevelPrivilegeLink(editInstructorIndex, 0, 0, 1);
+        assertFalse(courseEditPage.isSessionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 0, 1));
+        assertFalse(courseEditPage.isSessionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 0, 2));
+        
+        ______TS("verify checkbox toggling to true");
+        
+        // course level
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 5);
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+        
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 7);
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
+        
+        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 10);
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(editInstructorIndex,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        
+        // section level
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 1);
+        assertTrue(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 0));
+        assertTrue(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 1));
+        
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 3);
+        assertTrue(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 2));
+        assertTrue(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 3));
+        
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 6);
+        assertTrue(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 5));
+        assertTrue(courseEditPage.isSectionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 6));
+        
+        // session level
+        courseEditPage.clickSessionLevelPrivilegeLink(editInstructorIndex, 0, 0, 2);
+        assertTrue(courseEditPage.isSessionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 0, 1));
+        assertTrue(courseEditPage.isSessionLevelPrivilegeLinkClicked(editInstructorIndex, 0, 0, 2));
         
         courseEditPage.selectRoleForInstructor(editInstructorIndex, "Co-owner");
     }
