@@ -7,13 +7,14 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.ProfilesDb;
@@ -279,7 +280,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         StudentProfileAttributes deletedProfile = profilesDb.getStudentProfile(a.googleId);
         assertNull(deletedProfile);
         
-        assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId, true));
+        assertFalse(doesFileExistInGcs(new BlobKey(a.studentProfile.pictureKey)));
         
         ______TS("silent deletion of same account");
         accountsDb.deleteAccount(a.googleId);
