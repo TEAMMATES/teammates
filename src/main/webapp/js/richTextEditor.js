@@ -38,7 +38,7 @@ var richTextEditorBuilder = {
     },
 
     initEditor: function(selector, opts) {
-        tinymce.init(jQuery.extend(this.getDefaultConfiguration(), {
+        tinymce.init($.extend(this.getDefaultConfiguration(), {
             selector: selector
         }, opts));
     }
