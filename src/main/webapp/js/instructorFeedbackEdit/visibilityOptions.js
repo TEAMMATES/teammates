@@ -229,17 +229,17 @@ function updatePreviewTab($containingForm) {
 }
 
 function updateToggleVisibilityPreviewButton($containingForm, isLoadSuccessful) {
-    var visibilityPreviewButton = $containingForm.find('.visibilityMessageButton');
+    var $visibilityPreviewButton = $containingForm.find('.visibilityMessageButton');
     
-    var radioInput = visibilityPreviewButton.find('input[type="radio"]');
+    var $radioInput = $visibilityPreviewButton.find('input[type="radio"]');
     var icon = '<span class="glyphicon glyphicon-'
                + (isLoadSuccessful ? 'eye-open' : 'warning-sign')
                + '"></span>';
     var message = isLoadSuccessful ? 'Preview Visibility'
                                    : 'Visibility preview failed to load. Click here to retry.';
     
-    visibilityPreviewButton.html(icon + ' ' + message)
-                           .prepend(radioInput);
+    $visibilityPreviewButton.html(icon + ' ' + message)
+                            .prepend($radioInput);
 }
 
 function formatPreviewTabHtml(visibilityMessage) {
