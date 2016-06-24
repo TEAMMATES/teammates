@@ -37,11 +37,10 @@ var richTextEditorBuilder = {
         };
     },
 
-    initEditor: function(selector, inline) {
-        tinymce.init(jQuery.extend(this.getDefaultConfiguration(), {
-            selector: selector,
-            inline: inline
-        }));
+    initEditor: function(selector, opts) {
+        tinymce.init($.extend(this.getDefaultConfiguration(), {
+            selector: selector
+        }, opts));
     }
 };
 /* eslint-enable camelcase */
