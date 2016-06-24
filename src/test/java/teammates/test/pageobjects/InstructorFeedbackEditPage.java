@@ -143,9 +143,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "button_preview_instructor")
     private WebElement previewAsInstructorButton;
-    
-    @FindBy(id = "questiongetlink-1")
-    private WebElement getLinkButton;
 
     private InstructorCopyFsToModal fsCopyToModal;
     
@@ -407,15 +404,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.xpath("//a[@onclick='deleteQuestion(" + qnIndex + ")']"));
     }
     
-    public WebElement getCancelQuestionLink(int qnIndex) {
-        return browser.driver.findElement(By.xpath("//a[@onclick='cancelEdit(" + qnIndex + ")']"));
+    public WebElement getDiscardChangesLink(int qnIndex) {
+        return browser.driver.findElement(By.xpath("//a[@onclick='discardChanges(" + qnIndex + ")']"));
     }
     
-    public boolean isCancelEditButtonVisible(int qnIndex) {
-        WebElement cancelEditButton =
-                browser.driver.findElement(By.xpath("//a[@onclick='cancelEdit(" + qnIndex + ")']"));
+    public boolean isDiscardChangesButtonVisible(int qnIndex) {
+        WebElement discardChangesButton =
+                browser.driver.findElement(By.xpath("//a[@onclick='discardChanges(" + qnIndex + ")']"));
         
-        return cancelEditButton.isDisplayed();
+        return discardChangesButton.isDisplayed();
     }
     
     public void clickEditSessionButton() {
@@ -945,10 +942,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(FeedbackSubmitPage.class);
-    }
-    
-    public void clickGetLinkButton() {
-        getLinkButton.click();
     }
     
     public void clickCopyTableAtRow(int rowIndex) {

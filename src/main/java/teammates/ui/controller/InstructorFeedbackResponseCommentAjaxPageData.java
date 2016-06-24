@@ -21,7 +21,6 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String showGiverNameToString;
     public String errorMessage;
     public boolean isError;
-    public String[] commentIds;
     
     public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account) {
         super(account);
@@ -34,8 +33,6 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
                                                getResponseVisibilities());
         frc.enableEdit();
         frc.enableDelete();
-
-        commentIds = commentId.split("-");
 
         return frc;
     }
@@ -58,6 +55,6 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     }
 
     public String[] getCommentIds() {
-        return commentIds;
+        return commentId.split("-");
     }
 }

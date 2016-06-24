@@ -6,7 +6,7 @@
 
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/adminEmail.js"></script>
-    <script type="text/javascript" src="/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="/js/lib/tinymce.min.js"></script>
 </c:set>
 
 <ta:adminPage bodyTitle="Admin Email" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
