@@ -5,14 +5,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
@@ -50,7 +47,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         testStudentSubmitPage();
         testStudentResultsPage();
         testInstructorResultsPage();
-        testStudentQuestionSubmitPage();
     }
 
     private void testStudentResultsPage() throws Exception {
@@ -164,29 +160,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.clickRubricCell(1, 1, 1, 0);
 
         submitPage.clickSubmitButton();
-    }
-    
-    private void testStudentQuestionSubmitPage() {
-        
-        ______TS("test rubric question input for FeedbackQuestionSubmissionEdit");
-        FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("FRubricQnUiT.CS2104", "Third Session", 1);
-        
-        FeedbackQuestionSubmitPage questionSubmitPage =
-                loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession3", fq.getId());
-
-        // Select table cell
-        questionSubmitPage.clickRubricCell(0, 0, 1);
-        questionSubmitPage.clickRubricCell(0, 1, 0);
-        questionSubmitPage.clickRubricCell(0, 0, 0);
-
-        // Submit
-        questionSubmitPage.clickSubmitButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, questionSubmitPage.getStatus());
-        
-        assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
-                "alice.b.tmms@gmail.tmt",
-                "alice.b.tmms@gmail.tmt"));
-        
     }
 
     private void testEditPage() throws Exception {
@@ -348,12 +321,14 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     public void testDeleteQuestionAction() {
         ______TS("RUBRIC: qn delete then cancel");
 
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
+        feedbackEditPage.getDeleteQuestionLink(1).click();
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         ______TS("RUBRIC: qn delete then accept");
 
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
+        feedbackEditPage.getDeleteQuestionLink(1).click();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
@@ -445,18 +420,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         return loginAdminToPage(browser, editUrl,
                 InstructorFeedbackResultsPage.class);
-    }
-
-    private FeedbackQuestionSubmitPage loginToStudentFeedbackQuestionSubmitPage(
-            String studentName, String fsName, String questionId) {
-        StudentAttributes s = testData.students.get(studentName);
-        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
-                .withUserId(s.googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())
-                .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
-        
-        return loginAdminToPage(browser, editUrl, FeedbackQuestionSubmitPage.class);
     }
 
     @AfterClass

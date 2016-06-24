@@ -8,13 +8,11 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackRankOptionsQuestionDetails;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
@@ -54,58 +52,6 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.waitForAndDismissAlertModal();
         assertTrue(submitPage.isElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0-0"));
         assertFalse(submitPage.isElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0-0"));
-
-        ______TS("Rank options: single question submission page");
-        FeedbackQuestionAttributes singleRankOptionsFq =
-                BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 1);
-        assertNull(BackDoor.getFeedbackResponse(singleRankOptionsFq.getId(),
-                                                "alice.b.tmms@gmail.tmt",
-                                                "tmms.helper1@gmail.tmt"));
-        FeedbackQuestionSubmitPage rankOptionsQuestionSubmitPage = loginToStudentFeedbackQuestionSubmitPage(
-                                                                        "alice.tmms@FRankUiT.CS4221",
-                                                                        "student", singleRankOptionsFq.getId());
-
-        rankOptionsQuestionSubmitPage.selectResponseTextDropdown(1, 0, 0, "2");
-        rankOptionsQuestionSubmitPage.selectResponseTextDropdown(1, 0, 1, "1");
-        
-        rankOptionsQuestionSubmitPage.selectResponseTextDropdown(1, 1, 1, "1");
-        
-        rankOptionsQuestionSubmitPage.clickSubmitButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, rankOptionsQuestionSubmitPage.getStatus());
-        
-        assertNotNull(BackDoor.getFeedbackResponse(singleRankOptionsFq.getId(),
-                                                   "alice.b.tmms@gmail.tmt",
-                                                   "tmms.helper1@gmail.tmt"));
-        
-        ______TS("Rank recipients: single question submission page");
-        FeedbackQuestionAttributes singleRankRecipientsfq =
-                BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 3);
-        FeedbackQuestionSubmitPage rankRecipientsQuestionSubmitPage =
-                loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRankUiT.CS4221", "student",
-                                                         singleRankRecipientsfq.getId());
-        
-        assertNull(BackDoor.getFeedbackResponse(singleRankRecipientsfq.getId(),
-                                        "alice.b.tmms@gmail.tmt",
-                                        "alice.b.tmms@gmail.tmt"));
-        assertNull(BackDoor.getFeedbackResponse(singleRankRecipientsfq.getId(),
-                                         "alice.b.tmms@gmail.tmt",
-                                         "benny.c.tmms@gmail.tmt"));
-
-        rankRecipientsQuestionSubmitPage.selectResponseTextDropdown(1, 0, 0, "2");
-        rankRecipientsQuestionSubmitPage.selectResponseTextDropdown(1, 1, 0, "1");
-        
-        rankRecipientsQuestionSubmitPage.selectResponseTextDropdown(1, 1, 0, "1");
-        
-        rankRecipientsQuestionSubmitPage.clickSubmitButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, rankRecipientsQuestionSubmitPage.getStatus());
-        
-        assertNotNull(BackDoor.getFeedbackResponse(singleRankRecipientsfq.getId(),
-                                                   "alice.b.tmms@gmail.tmt",
-                                                   "alice.b.tmms@gmail.tmt"));
-        assertNotNull(BackDoor.getFeedbackResponse(singleRankRecipientsfq.getId(),
-                                                    "alice.b.tmms@gmail.tmt",
-                                                    "benny.c.tmms@gmail.tmt"));
-
         ______TS("Rank submission");
         
         submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRankUiT.CS4221", "student");
@@ -157,15 +103,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertNotNull(BackDoor.getFeedbackResponse(fq2.getId(),
                                         "alice.b.tmms@gmail.tmt",
                                         "tmms.test@gmail.tmt"));
-        
-        FeedbackQuestionAttributes fq3 = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 3);
-        assertNotNull(BackDoor.getFeedbackResponse(fq3.getId(),
-                                        "alice.b.tmms@gmail.tmt",
-                                        "alice.b.tmms@gmail.tmt"));
-        assertNotNull(BackDoor.getFeedbackResponse(fq3.getId(),
-                                        "alice.b.tmms@gmail.tmt",
-                                        "benny.c.tmms@gmail.tmt"));
-        
+           
         // Go back to submission page and verify html
         submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRankUiT.CS4221", "student");
         
@@ -423,11 +361,13 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     public void testDeleteQuestionAction() {
         ______TS("rank: qn delete");
 
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+        feedbackEditPage.getDeleteQuestionLink(2).click();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 2));
         
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
+        feedbackEditPage.getDeleteQuestionLink(1).click();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
     }
@@ -485,18 +425,6 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         }
         
         return loginAdminToPage(browser, resultsPageUrl, InstructorFeedbackResultsPage.class);
-    }
-
-    private FeedbackQuestionSubmitPage loginToStudentFeedbackQuestionSubmitPage(
-            String studentName, String fsName, String questionId) {
-        StudentAttributes s = testData.students.get(studentName);
-        AppUrl submitPageUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
-                            .withUserId(s.googleId)
-                            .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                            .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())
-                            .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
-        
-        return loginAdminToPage(browser, submitPageUrl, FeedbackQuestionSubmitPage.class);
     }
 
     @AfterClass
