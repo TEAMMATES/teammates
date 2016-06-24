@@ -98,7 +98,7 @@ $(document).ready(function() {
         
         // hide the panel accordingly based on panel-check checkbox
         $("input[id^='panel-check']").each(function() {
-            var panelIdx = $(this).attr('id').split('-')[1];
+            var panelIdx = $(this).attr('id').split('-')[2];
             if (this.checked) {
                 $('#panel-display-' + panelIdx).show();
             } else {

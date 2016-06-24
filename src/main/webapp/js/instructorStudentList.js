@@ -32,7 +32,7 @@ $(document).ready(function() {
 
     // Binding for changes in the Courses checkboxes.
     $('input[id^="course-check"]').on('change', function() {
-        var courseIdx = $(this).attr('id').split('-')[1];
+        var courseIdx = $(this).attr('id').split('-')[2];
         var heading = $('#panelHeading-' + courseIdx);
         // Check/hide all section that is in this course
         heading.trigger('click');
@@ -40,8 +40,8 @@ $(document).ready(function() {
 
     // Binding for Sections checkboxes
     $(document).on('change', '.section-check', function() {
-        var courseIdx = $(this).attr('id').split('-')[1];
-        var sectionIdx = $(this).attr('id').split('-')[2];
+        var courseIdx = $(this).attr('id').split('-')[2];
+        var sectionIdx = $(this).attr('id').split('-')[3];
 
         // Check/hide all teams that is in this section
         if (this.checked) {
@@ -170,7 +170,7 @@ function triggerAjax(e) {
 
 // Binding check for course selection
 function checkCourseBinding(e) {
-    var courseIdx = $(e).attr('id').split('-')[1];
+    var courseIdx = $(e).attr('id').split('-')[2];
 
     // Check/hide all section that is in this course
     if ($(e).prop('checked')) {
@@ -280,8 +280,8 @@ function applyFilters() {
  */
 function filterSection() {
     $('input[id^="section-check"]').each(function() {
-        var courseIdx = $(this).attr('id').split('-')[1];
-        var sectionIdx = $(this).attr('id').split('-')[2];
+        var courseIdx = $(this).attr('id').split('-')[2];
+        var sectionIdx = $(this).attr('id').split('-')[3];
         if (this.checked) {
             $('#studentsection-c' + courseIdx + '\\.' + sectionIdx).show();
         } else {
@@ -295,9 +295,9 @@ function filterSection() {
  */
 function filterTeam() {
     $('input[id^="team-check"]').each(function() {
-        var courseIdx = $(this).attr('id').split('-')[1];
-        var sectionIdx = $(this).attr('id').split('-')[2];
-        var teamIdx = $(this).attr('id').split('-')[3];
+        var courseIdx = $(this).attr('id').split('-')[2];
+        var sectionIdx = $(this).attr('id').split('-')[3];
+        var teamIdx = $(this).attr('id').split('-')[4];
         if (this.checked) {
             $('#studentteam-c' + courseIdx + '\\.' + sectionIdx + '\\.' + teamIdx).parent().show();
         } else {
