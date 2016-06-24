@@ -1238,16 +1238,17 @@ public class Logic {
      * * All parameters are non-null. <br>
      */
     public void sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName,
-                                                   String userToSendFeedbackSubmissionConfirmationEmail)
+                                                   String userId, String unregisteredStudentEmail,
+                                                   String unregisteredStudentRegKey)
             throws EntityDoesNotExistException {
  
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userToSendFeedbackSubmissionConfirmationEmail);
 
         feedbackSessionsLogic.sendConfirmationEmailForSubmission(courseId,
                                                                  feedbackSessionName,
-                                                                 userToSendFeedbackSubmissionConfirmationEmail);
+                                                                 userId, unregisteredStudentEmail,
+                                                                 unregisteredStudentRegKey);
     }
 
     /**

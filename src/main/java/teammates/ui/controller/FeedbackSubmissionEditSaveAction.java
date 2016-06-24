@@ -32,6 +32,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected String feedbackSessionName;
     protected FeedbackSubmissionEditPageData data;
     protected boolean hasValidResponse;
+    protected boolean isSendEmail;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -171,10 +172,15 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         } else {
             removeRespondant();
         }
-        
-        String userEmail = getRequestParamValue("user");
-        logic.sendConfirmationEmailForSubmission(courseId, feedbackSessionName, userEmail);
-        
+               
+        if (isSendEmail) {
+            String user = getRequestParamValue(Const.ParamsNames.USER_ID);
+            String unregisteredStudentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+            String unregisteredStudentRegisterationKey = getRequestParamValue(Const.ParamsNames.REGKEY);
+     
+            logic.sendConfirmationEmailForSubmission(courseId, feedbackSessionName, user,
+                    unregisteredStudentEmail, unregisteredStudentRegisterationKey);
+        }
         return createSpecificRedirectResult();
     }
     

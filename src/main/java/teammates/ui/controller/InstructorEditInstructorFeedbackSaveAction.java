@@ -45,6 +45,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail);
 
         moderatedInstructor = logic.getInstructorForEmail(courseId, moderatedInstructorEmail);
+        isSendEmail = false;
         
         // If the instructor doesn't exist
         if (moderatedInstructor == null) {

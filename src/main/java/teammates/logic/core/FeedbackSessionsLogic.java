@@ -1516,7 +1516,6 @@ public class FeedbackSessionsLogic {
     
     public List<EmailWrapper> sendReminderForFeedbackSessionParticularUsers(String courseId,
             String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
-
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_REMIND + courseId + "/" + feedbackSessionName);
         }
@@ -1553,17 +1552,29 @@ public class FeedbackSessionsLogic {
         }
     }
     
-    public EmailWrapper sendConfirmationEmailForSubmission(String courseId,
-            String feedbackSessionName, String userEmail) throws EntityDoesNotExistException {
+    public EmailWrapper sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName,
+                                                           String userId, String unregisteredStudentEmail,
+                                                           String regKey)
+                    throws EntityDoesNotExistException {
         
         FeedbackSessionAttributes session = getFeedbackSession(feedbackSessionName, courseId);
-
-        StudentAttributes student = studentsLogic.isStudentInCourse(courseId, userEmail)
-                ? studentsLogic.getStudentForEmail(courseId, userEmail) : null;
-                
-        InstructorAttributes instructor = instructorsLogic.isEmailOfInstructorOfCourse(userEmail, courseId)
-                ? instructorsLogic.getInstructorForEmail(courseId, userEmail) : null;
-                
+        StudentAttributes student = null;
+        InstructorAttributes instructor = null;
+        
+        if (userId != null) {
+            student = studentsLogic.isStudentInAnyCourse(userId)
+                    ? studentsLogic.getStudentForCourseIdAndGoogleId(courseId, userId) : null;
+            instructor = instructorsLogic.isGoogleIdOfInstructorOfCourse(userId, courseId)
+                    ? instructorsLogic.getInstructorForGoogleId(courseId, userId) : null;
+        }
+        
+        if (student == null && unregisteredStudentEmail != null) {
+            student = new StudentAttributes();
+            student.email = unregisteredStudentEmail;
+            student.name = "";
+            student.key = regKey;
+        }
+        
         try {
             EmailWrapper email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmails(
                     session, student, instructor);
@@ -1587,7 +1598,7 @@ public class FeedbackSessionsLogic {
     
     public void scheduleFeedbackRemindEmailsForParticularUsers(String courseId,
             String feedbackSessionName, String[] usersToRemind) {
-      
+    
         HashMap<String, String[]> paramMap = new HashMap<String, String[]>();
         paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[]{feedbackSessionName});
         paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[]{courseId});

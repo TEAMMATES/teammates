@@ -1,6 +1,5 @@
 package teammates.logic.core;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -71,7 +70,7 @@ public class EmailGenerator {
     public List<EmailWrapper> generateFeedbackSessionReminderEmails(
             FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructorsToRemind, List<InstructorAttributes> instructorsToNotify) {
-
+        
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
         List<EmailWrapper> emails =
@@ -93,7 +92,6 @@ public class EmailGenerator {
     public EmailWrapper generateFeedbackSubmissionConfirmationEmails(
             FeedbackSessionAttributes session, StudentAttributes student,
             InstructorAttributes instructor) {
-        
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
         EmailWrapper email = new EmailWrapper();
@@ -106,7 +104,7 @@ public class EmailGenerator {
             email = generateFeedbackSessionEmailBaseForStudentSubmissionConfirmation(course, session,
                     student, template, EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject());
         }
-
+        
         String timeStamp = TimeHelper.formatTime12H(Calendar.getInstance().getTime());
         email.setContent(email.getContent().replace("${status}", "has been successfully submitted by you on " + timeStamp));
 
@@ -133,11 +131,6 @@ public class EmailGenerator {
                                  .withSessionName(session.getFeedbackSessionName())
                                  .toAbsoluteString();
         
-        String reportUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
-                                 .withCourseId(course.getId())
-                                 .withSessionName(session.getFeedbackSessionName())
-                                 .toAbsoluteString();
-        
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", instructor.name,
                 "${courseName}", course.getName(),
@@ -145,12 +138,10 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${submitUrl}", submitUrl,
-                "${reportUrl}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
-        System.out.println("papa"+emailBody);
         email.setContent(emailBody);
         return email;
     }
@@ -307,14 +298,7 @@ public class EmailGenerator {
                                  .withRegistrationKey(StringHelper.encrypt(student.key))
                                  .withStudentEmail(student.email)
                                  .toAbsoluteString();
-        
-        String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
-                                 .withCourseId(course.getId())
-                                 .withSessionName(session.getFeedbackSessionName())
-                                 .withRegistrationKey(StringHelper.encrypt(student.key))
-                                 .withStudentEmail(student.email)
-                                 .toAbsoluteString();
-        
+
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", student.name,
                 "${courseName}", course.getName(),
@@ -322,7 +306,6 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${submitUrl}", submitUrl,
-                "${reportUrl}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);

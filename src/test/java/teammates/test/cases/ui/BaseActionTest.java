@@ -324,7 +324,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
         
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
-        verifyCanAccess(submissionParams);
+        verifyCanAccess(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
         
     }
@@ -359,7 +359,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         InstructorAttributes otherInstructor = data.instructors.get("instructor1OfCourse2");
         
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
-        verifyCanAccess(submissionParams);
+        verifyCanAccess(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
         
         verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         verifyCannotMasquerade(addUserIdToParams(otherInstructor.googleId, submissionParams));
