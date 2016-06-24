@@ -89,18 +89,18 @@ public class EmailSender {
     /**
      * Sends the given {@code message} and generates a log report.
      */
-    public void sendEmailWithLogging(EmailWrapper message) throws Exception {
+    public void sendEmailWithLogging(EmailWrapper message) {
         sendEmail(message, true);
     }
     
     /**
      * Sends the given {@code message} without generating a log report.
      */
-    public void sendEmailWithoutLogging(EmailWrapper message) throws Exception {
+    public void sendEmailWithoutLogging(EmailWrapper message) {
         sendEmail(message, false);
     }
     
-    private void sendEmail(EmailWrapper message, boolean isWithLogging) throws Exception {
+    private void sendEmail(EmailWrapper message, boolean isWithLogging) {
         service.sendEmail(message);
         if (isWithLogging) {
             generateLogReport(message);
@@ -120,7 +120,7 @@ public class EmailSender {
     /**
      * Sends the given {@code errorReport}.
      */
-    public void sendErrorReport(EmailWrapper errorReport) throws Exception {
+    public void sendErrorReport(EmailWrapper errorReport) {
         sendEmailWithoutLogging(errorReport);
         log.info("Sent crash report: " + errorReport.getInfoForLogging());
     }

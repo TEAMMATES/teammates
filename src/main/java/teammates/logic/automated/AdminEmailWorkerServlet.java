@@ -56,7 +56,7 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
 
     }
     
-    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws Exception {
+    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) {
         
         EmailWrapper email =
                 new EmailGenerator().generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),
