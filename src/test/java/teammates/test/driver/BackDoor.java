@@ -236,7 +236,7 @@ public final class BackDoor {
         return makePostRequest(params);
     }
     
-    public static boolean getWhetherPictureIsPresentInGcs(String pictureKey) {
+    public static boolean isPicturePresentInGcs(String pictureKey) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_IS_PICTURE_PRESENT_IN_GCS);
         params.put(BackDoorServlet.PARAMETER_PICTURE_KEY, pictureKey);
         return Boolean.parseBoolean(makePostRequest(params));

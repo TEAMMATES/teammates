@@ -278,7 +278,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     private void verifyPictureIsPresent(String pictureKey) {
-        assertTrue(BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
+        assertTrue(BackDoor.isPicturePresentInGcs(pictureKey));
     }
 
     private StudentProfilePage getProfilePageForStudent(String studentId) {

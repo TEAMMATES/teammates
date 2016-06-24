@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -24,6 +25,7 @@ import com.google.appengine.tools.cloudstorage.RetryParams;
 public final class GoogleCloudStorageHelper {
     
     private static final int MAX_READING_LENGTH = 900000;
+    private static final Logger log = Utils.getLogger();
     
     private GoogleCloudStorageHelper() {
         // utility class
@@ -46,7 +48,11 @@ public final class GoogleCloudStorageHelper {
      * Deletes the file with the specified {@link BlobKey} in the Google Cloud Storage.
      */
     public static void deleteFile(BlobKey fileKey) {
-        BlobstoreServiceFactory.getBlobstoreService().delete(fileKey);
+        try {
+            BlobstoreServiceFactory.getBlobstoreService().delete(fileKey);
+        } catch (Exception e) {
+            log.warning("Trying to delete non-existent file with key: " + fileKey.getKeyString());
+        }
     }
     
     /**
