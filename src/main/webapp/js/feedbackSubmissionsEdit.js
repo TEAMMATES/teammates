@@ -12,6 +12,17 @@ function isPreview() {
 
 $(document).ready(function() {
 
+    statusMessage = 'You can use the button at bottom of form to submit your responses \
+            anytime and continue with other answers.';
+
+    setStatusMessage(statusMessage, StatusType.INFO);
+	
+    $('#response_save_button').click(function() {
+        $('#isRedirectPage').val('false');
+        submitPageUsingAjax();
+        $('#isRedirectPage').val('true');
+    });
+
     /**
      * Handles Keyup and Keydown on Text question to display response length
      */
@@ -31,7 +42,7 @@ $(document).ready(function() {
 
     $('form[name="form_submit_response"], form[name="form_student_submit_response"]').submit(function() {
         formatRubricQuestions();
-
+        
         var validationStatus = true;
 
         validationStatus &= validateConstSumQuestions();
@@ -965,4 +976,22 @@ function getWarningMessage() {
 function updateTextQuestionCharCount(textAreaId, charCountId) {
     var cs = $('#' + textAreaId).val().length;
     $('#' + charCountId).text(cs);
+}
+
+function submitPageUsingAjax() {
+    $('form').find('.last-submitted').text('Submitting question');
+    $.ajax({
+        type: 'POST',
+        url: 'instructorFeedbackSubmissionEditSave',
+        data: $('form').serialize(),
+        cache: false,
+        success: function(message) {
+            if (message.isError) {
+                $('form').find('.last-submitted').text('Error occured while submitting');
+            } else {
+                $('form').find('#last-submitted').text(
+                        'Last submitted at ' + message.lastSavedAt);
+            }
+        }
+    });
 }

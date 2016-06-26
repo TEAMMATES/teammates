@@ -1,6 +1,8 @@
 package teammates.ui.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -172,7 +174,16 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             removeRespondant();
         }
         
-        return createSpecificRedirectResult();
+        if (Boolean.valueOf(getRequestParamValue("isRedirectPage"))) {
+            return createSpecificRedirectResult();
+        } else {
+            String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
+            
+            FeedbackSubmissionSaveDraftNotificationAjaxPageData lastSubmittedTimeStamp =
+                    new FeedbackSubmissionSaveDraftNotificationAjaxPageData(account, timeStamp, isError);
+            
+            return createAjaxResult(lastSubmittedTimeStamp);
+        }
     }
     
     /**

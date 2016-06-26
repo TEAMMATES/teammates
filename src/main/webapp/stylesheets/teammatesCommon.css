@@ -200,6 +200,10 @@ Apply to thead to make headers not bold.
     margin-bottom: 15px;
 }
 
+.margin-left-10px {
+    margin-left: 10px;
+}
+
 .margin-center-horizontal {
     margin: 0 auto;
 }
