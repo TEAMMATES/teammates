@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -89,18 +90,18 @@ public class EmailSender {
     /**
      * Sends the given {@code message} and generates a log report.
      */
-    public void sendEmailWithLogging(EmailWrapper message) throws Exception {
+    public void sendEmailWithLogging(EmailWrapper message) throws EmailSendingException {
         sendEmail(message, true);
     }
     
     /**
      * Sends the given {@code message} without generating a log report.
      */
-    public void sendEmailWithoutLogging(EmailWrapper message) throws Exception {
+    public void sendEmailWithoutLogging(EmailWrapper message) throws EmailSendingException {
         sendEmail(message, false);
     }
     
-    private void sendEmail(EmailWrapper message, boolean isWithLogging) throws Exception {
+    private void sendEmail(EmailWrapper message, boolean isWithLogging) throws EmailSendingException {
         service.sendEmail(message);
         if (isWithLogging) {
             generateLogReport(message);
@@ -120,7 +121,7 @@ public class EmailSender {
     /**
      * Sends the given {@code errorReport}.
      */
-    public void sendErrorReport(EmailWrapper errorReport) throws Exception {
+    public void sendErrorReport(EmailWrapper errorReport) throws EmailSendingException {
         sendEmailWithoutLogging(errorReport);
         log.info("Sent crash report: " + errorReport.getInfoForLogging());
     }
