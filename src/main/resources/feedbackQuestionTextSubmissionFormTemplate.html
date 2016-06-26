@@ -2,15 +2,16 @@
     ${disabled} id="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
     name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
     data-lengthTextId="responseLength-${questionIndex}-${responseIndex}" data-recommendedText="${recommendedLength}">${existingResponse}</textarea>
-<div class="margin-top-7px">
+<div class="margin-top-7px text-color-gray font-weight-normal">
     <div class="col-md-6 padding-0" ${recommendedLengthDisplay}>
-        <label class="text-color-gray font-weight-normal">Recommended length for the answer: </label>
-        <label class="text-color-gray font-weight-normal" id="recommendedLength-${questionIndex}-${responseIndex}">${recommendedLength}</label>
-        <label class="text-color-gray font-weight-normal"> words</label>
+        Recommended length for the answer:
+        <span id="recommendedLength-${questionIndex}-${responseIndex}">
+            ${recommendedLength} </span>
+        words
     </div>
     <div class="pull-right">
-        <label class="text-color-gray font-weight-normal">Response length: </label>
-        <label class="text-color-gray font-weight-normal" id="responseLength-${questionIndex}-${responseIndex}">0</label>
-        <label class="text-color-gray font-weight-normal"> words</label>
+        Response length:
+        <span id="responseLength-${questionIndex}-${responseIndex}">0</span>
+        words 
     </div>
 </div>
