@@ -332,9 +332,10 @@ function collapseIfPrivateSession() {
 }
 
 $(document).ready(function() {
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true
-        });
-    }
+    var isEdit = typeof readyFeedbackEditPage === 'function';
+
+    richTextEditorBuilder.initEditor('#instructions', {
+        inline: true,
+        readonly: isEdit
+    });
 });
