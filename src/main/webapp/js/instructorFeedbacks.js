@@ -333,6 +333,8 @@ function collapseIfPrivateSession() {
 
 $(document).ready(function() {
     if (typeof richTextEditorBuilder !== 'undefined') {
-        richTextEditorBuilder.initEditor('#instructions', true);
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true
+        });
     }
 });

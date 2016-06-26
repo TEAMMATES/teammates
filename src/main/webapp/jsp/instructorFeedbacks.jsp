@@ -7,7 +7,7 @@
 <c:set var="jsIncludes">
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
     
-    <script type="text/javascript" src="/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="/js/lib/tinymce.min.js"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
 
     <script type="text/javascript" src="/js/datepicker.js"></script>
