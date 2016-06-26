@@ -62,8 +62,6 @@ public class FeedbackResponsesLogic {
 
     public FeedbackResponseAttributes getFeedbackResponse(
             String feedbackQuestionId, String giverEmail, String recipient) {
-        // TODO: check what is this line doing here!!!
-        log.warning(feedbackQuestionId);
         return frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
     }
     

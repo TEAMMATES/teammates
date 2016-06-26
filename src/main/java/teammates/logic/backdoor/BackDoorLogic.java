@@ -42,8 +42,6 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class BackDoorLogic extends Logic {
     private static final Logger log = Utils.getLogger();
@@ -591,18 +589,13 @@ public class BackDoorLogic extends Logic {
         }
     }
 
-    public String isPicturePresentInGcs(String pictureKey) {
-        try {
-            BlobstoreServiceFactory.getBlobstoreService().fetchData(new BlobKey(pictureKey), 0, 10);
-            return BackDoorServlet.RETURN_VALUE_TRUE;
-        } catch (IllegalArgumentException | BlobstoreFailureException e) {
-            return BackDoorServlet.RETURN_VALUE_FALSE;
-        }
+    public boolean isPicturePresentInGcs(String pictureKey) {
+        return GoogleCloudStorageHelper.doesFileExistInGcs(new BlobKey(pictureKey));
     }
 
     public void uploadAndUpdateStudentProfilePicture(String googleId,
             byte[] pictureData) throws EntityDoesNotExistException, IOException {
-        String pictureKey = GoogleCloudStorageHelper.writeDataToGcs(googleId, pictureData);
+        String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(googleId, pictureData);
         updateStudentProfilePicture(googleId, pictureKey);
     }
 }

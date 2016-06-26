@@ -71,6 +71,7 @@
                   <input name="fsname" type="hidden" value="Second Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
+                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                 </form>
                 <br>
                 <div>
@@ -174,7 +175,7 @@
               </label>
               <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
                 <div class="input-group">
-                  <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
+                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
                   <a class="input-group-addon btn btn-default">
                     <span class="glyphicon glyphicon-search">
                     </span>
@@ -252,7 +253,7 @@
   <br>
   <br>
   <div class="panel panel-success">
-    <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
+    <div class="panel-heading" data-target="#panelBodyCollapse-section-0-1" id="panelHeading-section-0-1" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-9 panel-heading-text">
           <strong>
@@ -270,11 +271,22 @@
           </div>
         </div>
       </div>
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="fsname" type="hidden" value="Second Session">
+        <input name="frgroupbysection" type="hidden" value="None">
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="frgroupbyteam" type="hidden" value="on">
+        <input name="frsorttype" type="hidden" value="recipient-question-giver">
+        <input id="showStats-0" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input id="mainIndex-0" name="frmainindex" type="hidden" value="-1">
+      </form>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-1">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-section-0-1" style="height: auto;">
       <div class="panel-body" id="sectionBody-0">
         <div class="panel panel-warning">
-          <div class="panel-heading" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-0-1" id="panelHeading-0-1" style="cursor: pointer;">
             <div class="inline panel-heading-text">
               <strong>
                 -
@@ -289,10 +301,10 @@
               </span>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-2">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-0-1">
             <div class="panel-body background-color-warning">
               <div class="panel panel-primary">
-                <div class="panel-heading" data-target="#panelBodyCollapse-3" id="panelHeading-3" style="cursor: pointer;">
+                <div class="panel-heading" data-target="#panelBodyCollapse-0-2" id="panelHeading-0-2" style="cursor: pointer;">
                   To:
                   <div class="inline panel-heading-text">
                     <strong>
@@ -307,7 +319,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-3">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-0-2">
                   <div class="panel-body">
                     <div class="panel panel-info">
                       <div class="panel-heading">
@@ -315,11 +327,11 @@
                         <span class="text-preserve-space">
                           Rate the class 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-9-recipient-0-question-1" onclick="toggleAdditionalQuestionInfo('9-recipient-0-question-1')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-9-section-0-recipient-0-question-1" onclick="toggleAdditionalQuestionInfo('9-section-0-recipient-0-question-1')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-9-recipient-0-question-1" style="display:none;">
+                            <span id="questionAdditionalInfo-9-section-0-recipient-0-question-1" style="display:none;">
                               Numerical-scale question:
                               <br>
                               Minimum value: -5. Increment: 0.25. Maximum value: 5.
@@ -462,11 +474,11 @@
                         <span class="text-preserve-space">
                           Rate the class as a team 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-12-recipient-0-question-2" onclick="toggleAdditionalQuestionInfo('12-recipient-0-question-2')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-12-section-0-recipient-0-question-2" onclick="toggleAdditionalQuestionInfo('12-section-0-recipient-0-question-2')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-12-recipient-0-question-2" style="display:none;">
+                            <span id="questionAdditionalInfo-12-section-0-recipient-0-question-2" style="display:none;">
                               Numerical-scale question:
                               <br>
                               Minimum value: 0. Increment: 5.0. Maximum value: 1000.
@@ -675,7 +687,7 @@
     </div>
   </div>
   <div class="panel panel-success">
-    <div class="panel-heading" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
+    <div class="panel-heading" data-target="#panelBodyCollapse-section-1-2" id="panelHeading-section-1-2" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-9 panel-heading-text">
           <strong>
@@ -693,11 +705,22 @@
           </div>
         </div>
       </div>
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-1" id="seeMore-1" style="display:none;">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="fsname" type="hidden" value="Second Session">
+        <input name="frgroupbysection" type="hidden" value="Section A">
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="frgroupbyteam" type="hidden" value="on">
+        <input name="frsorttype" type="hidden" value="recipient-question-giver">
+        <input id="showStats-1" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input id="mainIndex-1" name="frmainindex" type="hidden" value="-1">
+      </form>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-4">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-section-1-2" style="height: auto;">
       <div class="panel-body" id="sectionBody-1">
         <div class="panel panel-warning">
-          <div class="panel-heading" data-target="#panelBodyCollapse-5" id="panelHeading-5" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-1-1" id="panelHeading-1-1" style="cursor: pointer;">
             <div class="inline panel-heading-text">
               <strong>
                 Team 1&lt;/td&gt;&lt;/div&gt;'"
@@ -708,7 +731,7 @@
               </span>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-5">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-1-1">
             <div class="panel-body background-color-warning">
               <div class="resultStatistics">
                 <h3>
@@ -1163,7 +1186,7 @@
                     </h3>
                   </div>
                   <div class="col-sm-3 h3">
-                    <a class="btn btn-warning btn-xs pull-right" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-team-1" title="">
+                    <a class="btn btn-warning btn-xs pull-right" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-team-0" title="">
                       Collapse Students
                     </a>
                   </div>
@@ -1171,7 +1194,7 @@
                 <hr class="margin-top-0">
               </div>
               <div class="panel panel-primary">
-                <div class="panel-heading" data-target="#panelBodyCollapse-6" id="panelHeading-6" style="cursor: pointer;">
+                <div class="panel-heading" data-target="#panelBodyCollapse-1-2" id="panelHeading-1-2" style="cursor: pointer;">
                   To:
                   <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     <strong>
@@ -1190,7 +1213,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-6">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-1-2">
                   <div class="panel-body">
                     <div class="panel panel-info">
                       <div class="panel-heading">
@@ -1198,11 +1221,11 @@
                         <span class="text-preserve-space">
                           Who are your teammates? 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-2-recipient-1-question-1" onclick="toggleAdditionalQuestionInfo('2-recipient-1-question-1')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-2-section-1-recipient-0-question-1" onclick="toggleAdditionalQuestionInfo('2-section-1-recipient-0-question-1')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-2-recipient-1-question-1" style="display:none;">
+                            <span id="questionAdditionalInfo-2-section-1-recipient-0-question-1" style="display:none;">
                               Multiple-choice (multiple answers) question options:
                               <br>
                               The options for this question is automatically generated from the list of all students in this course.
@@ -1329,11 +1352,11 @@
                         <span class="text-preserve-space">
                           Which teams do you like? 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-3-recipient-1-question-2" onclick="toggleAdditionalQuestionInfo('3-recipient-1-question-2')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-3-section-1-recipient-0-question-2" onclick="toggleAdditionalQuestionInfo('3-section-1-recipient-0-question-2')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-3-recipient-1-question-2" style="display:none;">
+                            <span id="questionAdditionalInfo-3-section-1-recipient-0-question-2" style="display:none;">
                               Multiple-choice (multiple answers) question options:
                               <br>
                               The options for this question is automatically generated from the list of all teams in this course.
@@ -1474,11 +1497,11 @@
                         <span class="text-preserve-space">
                           Rate our product. 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-4-recipient-1-question-3" onclick="toggleAdditionalQuestionInfo('4-recipient-1-question-3')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-4-section-1-recipient-0-question-3" onclick="toggleAdditionalQuestionInfo('4-section-1-recipient-0-question-3')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-4-recipient-1-question-3" style="display:none;">
+                            <span id="questionAdditionalInfo-4-section-1-recipient-0-question-3" style="display:none;">
                               Numerical-scale question:
                               <br>
                               Minimum value: 1. Increment: 0.5. Maximum value: 5.
@@ -1629,11 +1652,11 @@
                         <span class="text-preserve-space">
                           How important are the following factors to you? Give points accordingly. 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-5-recipient-1-question-4" onclick="toggleAdditionalQuestionInfo('5-recipient-1-question-4')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-5-section-1-recipient-0-question-4" onclick="toggleAdditionalQuestionInfo('5-section-1-recipient-0-question-4')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-5-recipient-1-question-4" style="display:none;">
+                            <span id="questionAdditionalInfo-5-section-1-recipient-0-question-4" style="display:none;">
                               Distribute points (among options) question options:
                               <ul style="list-style-type: disc;margin-left: 20px;">
                                 <li>
@@ -1787,11 +1810,11 @@
                         <span class="text-preserve-space">
                           Split points among the your team members and yourself, according to how much you think each member has contributed. 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-6-recipient-1-question-5" onclick="toggleAdditionalQuestionInfo('6-recipient-1-question-5')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-6-section-1-recipient-0-question-5" onclick="toggleAdditionalQuestionInfo('6-section-1-recipient-0-question-5')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-6-recipient-1-question-5" style="display:none;">
+                            <span id="questionAdditionalInfo-6-section-1-recipient-0-question-5" style="display:none;">
                               Distribute points (among recipients) question
                               <br>
                               Points per recipient: 100
@@ -1988,11 +2011,11 @@
                         <span class="text-preserve-space">
                           Rate the contribution of yourself and your team members towards the latest project. 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-7-recipient-1-question-6" onclick="toggleAdditionalQuestionInfo('7-recipient-1-question-6')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-7-section-1-recipient-0-question-6" onclick="toggleAdditionalQuestionInfo('7-section-1-recipient-0-question-6')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-7-recipient-1-question-6" style="display:none;">
+                            <span id="questionAdditionalInfo-7-section-1-recipient-0-question-6" style="display:none;">
                               Team contribution question
                             </span>
                           </span>
@@ -2139,7 +2162,7 @@
                 </div>
               </div>
               <div class="panel panel-primary">
-                <div class="panel-heading" data-target="#panelBodyCollapse-7" id="panelHeading-7" style="cursor: pointer;">
+                <div class="panel-heading" data-target="#panelBodyCollapse-1-3" id="panelHeading-1-3" style="cursor: pointer;">
                   To:
                   <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     <strong>
@@ -2158,7 +2181,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-7">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-1-3">
                   <div class="panel-body">
                     <div class="panel panel-info">
                       <div class="panel-heading">
@@ -2166,11 +2189,11 @@
                         <span class="text-preserve-space">
                           Split points among the your team members and yourself, according to how much you think each member has contributed. 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-6-recipient-2-question-1" onclick="toggleAdditionalQuestionInfo('6-recipient-2-question-1')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-6-section-1-recipient-1-question-1" onclick="toggleAdditionalQuestionInfo('6-section-1-recipient-1-question-1')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-6-recipient-2-question-1" style="display:none;">
+                            <span id="questionAdditionalInfo-6-section-1-recipient-1-question-1" style="display:none;">
                               Distribute points (among recipients) question
                               <br>
                               Points per recipient: 100
@@ -2367,11 +2390,11 @@
                         <span class="text-preserve-space">
                           Rate the contribution of yourself and your team members towards the latest project. 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-7-recipient-2-question-2" onclick="toggleAdditionalQuestionInfo('7-recipient-2-question-2')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-7-section-1-recipient-1-question-2" onclick="toggleAdditionalQuestionInfo('7-section-1-recipient-1-question-2')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-7-recipient-2-question-2" style="display:none;">
+                            <span id="questionAdditionalInfo-7-section-1-recipient-1-question-2" style="display:none;">
                               Team contribution question
                             </span>
                           </span>
@@ -2518,7 +2541,7 @@
                 </div>
               </div>
               <div class="panel panel-primary">
-                <div class="panel-heading" data-target="#panelBodyCollapse-8" id="panelHeading-8" style="cursor: pointer;">
+                <div class="panel-heading" data-target="#panelBodyCollapse-1-4" id="panelHeading-1-4" style="cursor: pointer;">
                   To:
                   <div class="inline panel-heading-text">
                     <strong>
@@ -2533,7 +2556,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-8">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-1-4">
                   <div class="panel-body">
                     <div class="panel panel-info">
                       <div class="panel-heading">
@@ -2612,7 +2635,7 @@
                 </div>
               </div>
               <div class="panel panel-default">
-                <div class="panel-heading" data-target="#panelBodyCollapse-9" id="panelHeading-9" style="cursor: pointer;">
+                <div class="panel-heading" data-target="#panelBodyCollapse-1-5" id="panelHeading-1-5" style="cursor: pointer;">
                   To:
                   <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     <strong>
@@ -2631,7 +2654,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-9">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-1-5">
                   <div class="panel-body">
                     <i>
                       There are no responses received by this user or you may not have the permission to see the response
@@ -2643,7 +2666,7 @@
           </div>
         </div>
         <div class="panel panel-warning">
-          <div class="panel-heading" data-target="#panelBodyCollapse-10" id="panelHeading-10" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-1-6" id="panelHeading-1-6" style="cursor: pointer;">
             <div class="inline panel-heading-text">
               <strong>
                 Team 2
@@ -2654,7 +2677,7 @@
               </span>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-10">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-1-6">
             <div class="panel-body background-color-warning">
               <div class="resultStatistics">
                 <h3>
@@ -2766,7 +2789,7 @@
                     </h3>
                   </div>
                   <div class="col-sm-3 h3">
-                    <a class="btn btn-warning btn-xs pull-right" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-team-2" title="">
+                    <a class="btn btn-warning btn-xs pull-right" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-team-1" title="">
                       Collapse Students
                     </a>
                   </div>
@@ -2774,7 +2797,7 @@
                 <hr class="margin-top-0">
               </div>
               <div class="panel panel-primary">
-                <div class="panel-heading" data-target="#panelBodyCollapse-11" id="panelHeading-11" style="cursor: pointer;">
+                <div class="panel-heading" data-target="#panelBodyCollapse-1-7" id="panelHeading-1-7" style="cursor: pointer;">
                   To:
                   <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     <strong>
@@ -2793,7 +2816,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-11">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-1-7">
                   <div class="panel-body">
                     <div class="panel panel-info">
                       <div class="panel-heading">
@@ -2801,11 +2824,11 @@
                         <span class="text-preserve-space">
                           Split points among the your team members and yourself, according to how much you think each member has contributed. 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-6-recipient-4-question-1" onclick="toggleAdditionalQuestionInfo('6-recipient-4-question-1')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-6-section-1-recipient-3-question-1" onclick="toggleAdditionalQuestionInfo('6-section-1-recipient-3-question-1')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-6-recipient-4-question-1" style="display:none;">
+                            <span id="questionAdditionalInfo-6-section-1-recipient-3-question-1" style="display:none;">
                               Distribute points (among recipients) question
                               <br>
                               Points per recipient: 100
@@ -3060,7 +3083,7 @@
                 </div>
               </div>
               <div class="panel panel-primary">
-                <div class="panel-heading" data-target="#panelBodyCollapse-12" id="panelHeading-12" style="cursor: pointer;">
+                <div class="panel-heading" data-target="#panelBodyCollapse-1-8" id="panelHeading-1-8" style="cursor: pointer;">
                   To:
                   <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     <strong>
@@ -3079,7 +3102,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-12">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-1-8">
                   <div class="panel-body">
                     <div class="panel panel-info">
                       <div class="panel-heading">
@@ -3087,11 +3110,11 @@
                         <span class="text-preserve-space">
                           Split points among the your team members and yourself, according to how much you think each member has contributed. 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-6-recipient-5-question-1" onclick="toggleAdditionalQuestionInfo('6-recipient-5-question-1')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-6-section-1-recipient-4-question-1" onclick="toggleAdditionalQuestionInfo('6-section-1-recipient-4-question-1')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-6-recipient-5-question-1" style="display:none;">
+                            <span id="questionAdditionalInfo-6-section-1-recipient-4-question-1" style="display:none;">
                               Distribute points (among recipients) question
                               <br>
                               Points per recipient: 100
@@ -3346,7 +3369,7 @@
                 </div>
               </div>
               <div class="panel panel-default">
-                <div class="panel-heading" data-target="#panelBodyCollapse-13" id="panelHeading-13" style="cursor: pointer;">
+                <div class="panel-heading" data-target="#panelBodyCollapse-1-9" id="panelHeading-1-9" style="cursor: pointer;">
                   To:
                   <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     <strong>
@@ -3365,7 +3388,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-13">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-1-9">
                   <div class="panel-body">
                     <i>
                       There are no responses received by this user or you may not have the permission to see the response
@@ -3374,7 +3397,7 @@
                 </div>
               </div>
               <div class="panel panel-default">
-                <div class="panel-heading" data-target="#panelBodyCollapse-14" id="panelHeading-14" style="cursor: pointer;">
+                <div class="panel-heading" data-target="#panelBodyCollapse-1-10" id="panelHeading-1-10" style="cursor: pointer;">
                   To:
                   <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     <strong>
@@ -3393,7 +3416,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-14">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-1-10">
                   <div class="panel-body">
                     <i>
                       There are no responses received by this user or you may not have the permission to see the response
@@ -3405,14 +3428,14 @@
           </div>
         </div>
         <div class="panel panel-warning">
-          <div class="panel-heading" data-target="#panelBodyCollapse-15" id="panelHeading-15" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-1-11" id="panelHeading-1-11" style="cursor: pointer;">
             <div class="inline panel-heading-text">
               <strong>
                 Anonymous student ${participant.hash}'s Team
               </strong>
             </div>
             <div class="pull-right">
-              <a class="btn btn-warning btn-xs" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-team-3" title="">
+              <a class="btn btn-warning btn-xs" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-team-2" title="">
                 Collapse Students
               </a>
                
@@ -3420,10 +3443,10 @@
               </span>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-15">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-1-11">
             <div class="panel-body background-color-warning">
               <div class="panel panel-primary">
-                <div class="panel-heading" data-target="#panelBodyCollapse-16" id="panelHeading-16" style="cursor: pointer;">
+                <div class="panel-heading" data-target="#panelBodyCollapse-1-12" id="panelHeading-1-12" style="cursor: pointer;">
                   To:
                   <div class="inline panel-heading-text">
                     <strong>
@@ -3438,7 +3461,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-16">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-1-12">
                   <div class="panel-body">
                     <div class="panel panel-info">
                       <div class="panel-heading">
@@ -3446,11 +3469,11 @@
                         <span class="text-preserve-space">
                           Rate you and your team members work. 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-8-recipient-6-question-1" onclick="toggleAdditionalQuestionInfo('8-recipient-6-question-1')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-8-section-1-recipient-5-question-1" onclick="toggleAdditionalQuestionInfo('8-section-1-recipient-5-question-1')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-8-recipient-6-question-1" style="display:none;">
+                            <span id="questionAdditionalInfo-8-section-1-recipient-5-question-1" style="display:none;">
                               Numerical-scale question:
                               <br>
                               Minimum value: 1. Increment: 0.5. Maximum value: 5.
@@ -3532,11 +3555,11 @@
                         <span class="text-preserve-space">
                           Rate the contribution of ideas from yourself and your team members in the last meeting. 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-10-recipient-6-question-2" onclick="toggleAdditionalQuestionInfo('10-recipient-6-question-2')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-10-section-1-recipient-5-question-2" onclick="toggleAdditionalQuestionInfo('10-section-1-recipient-5-question-2')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-10-recipient-6-question-2" style="display:none;">
+                            <span id="questionAdditionalInfo-10-section-1-recipient-5-question-2" style="display:none;">
                               Team contribution question
                             </span>
                           </span>
@@ -3619,14 +3642,14 @@
           </div>
         </div>
         <div class="panel panel-warning">
-          <div class="panel-heading" data-target="#panelBodyCollapse-17" id="panelHeading-17" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-1-13" id="panelHeading-1-13" style="cursor: pointer;">
             <div class="inline panel-heading-text">
               <strong>
                 Anonymous student ${participant.hash}'s Team
               </strong>
             </div>
             <div class="pull-right">
-              <a class="btn btn-warning btn-xs" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-team-4" title="">
+              <a class="btn btn-warning btn-xs" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-team-3" title="">
                 Collapse Students
               </a>
                
@@ -3634,10 +3657,10 @@
               </span>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-17">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-1-13">
             <div class="panel-body background-color-warning">
               <div class="panel panel-primary">
-                <div class="panel-heading" data-target="#panelBodyCollapse-18" id="panelHeading-18" style="cursor: pointer;">
+                <div class="panel-heading" data-target="#panelBodyCollapse-1-14" id="panelHeading-1-14" style="cursor: pointer;">
                   To:
                   <div class="inline panel-heading-text">
                     <strong>
@@ -3652,7 +3675,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-18">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-1-14">
                   <div class="panel-body">
                     <div class="panel panel-info">
                       <div class="panel-heading">
@@ -3660,11 +3683,11 @@
                         <span class="text-preserve-space">
                           Rate you and your team members work. 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-8-recipient-7-question-1" onclick="toggleAdditionalQuestionInfo('8-recipient-7-question-1')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-8-section-1-recipient-6-question-1" onclick="toggleAdditionalQuestionInfo('8-section-1-recipient-6-question-1')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-8-recipient-7-question-1" style="display:none;">
+                            <span id="questionAdditionalInfo-8-section-1-recipient-6-question-1" style="display:none;">
                               Numerical-scale question:
                               <br>
                               Minimum value: 1. Increment: 0.5. Maximum value: 5.
@@ -3746,11 +3769,11 @@
                         <span class="text-preserve-space">
                           Rate the contribution of ideas from yourself and your team members in the last meeting. 
                           <span style=" white-space: normal;">
-                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-10-recipient-7-question-2" onclick="toggleAdditionalQuestionInfo('10-recipient-7-question-2')">
+                            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-10-section-1-recipient-6-question-2" onclick="toggleAdditionalQuestionInfo('10-section-1-recipient-6-question-2')">
                               [more]
                             </a>
                             <br>
-                            <span id="questionAdditionalInfo-10-recipient-7-question-2" style="display:none;">
+                            <span id="questionAdditionalInfo-10-section-1-recipient-6-question-2" style="display:none;">
                               Team contribution question
                             </span>
                           </span>
@@ -3836,7 +3859,7 @@
     </div>
   </div>
   <div class="panel panel-success">
-    <div class="panel-heading" data-target="#panelBodyCollapse-19" id="panelHeading-19" style="cursor: pointer;">
+    <div class="panel-heading" data-target="#panelBodyCollapse-section-2-3" id="panelHeading-section-2-3" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-9 panel-heading-text">
           <strong>
@@ -3854,63 +3877,26 @@
           </div>
         </div>
       </div>
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-2" id="seeMore-2" style="display:none;">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="fsname" type="hidden" value="Second Session">
+        <input name="frgroupbysection" type="hidden" value="Section B">
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="frgroupbyteam" type="hidden" value="on">
+        <input name="frsorttype" type="hidden" value="recipient-question-giver">
+        <input id="showStats-2" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input id="mainIndex-2" name="frmainindex" type="hidden" value="-1">
+      </form>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-19">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-section-2-3" style="height: auto;">
       <div class="panel-body" id="sectionBody-2">
-        <div class="panel panel-warning">
-          <div class="panel-heading" data-target="#panelBodyCollapse-20" id="panelHeading-20" style="cursor: pointer;">
-            <div class="inline panel-heading-text">
-              <strong>
-                Team 3
-              </strong>
-            </div>
-            <div class="pull-right">
-              <a class="btn btn-warning btn-xs" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-team-5" title="">
-                Collapse Students
-              </a>
-               
-              <span class="glyphicon glyphicon-chevron-up">
-              </span>
-            </div>
-          </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-20">
-            <div class="panel-body background-color-warning">
-              <div class="panel panel-default">
-                <div class="panel-heading" data-target="#panelBodyCollapse-21" id="panelHeading-21" style="cursor: pointer;">
-                  To:
-                  <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    <strong>
-                      Emily
-                    </strong>
-                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    <a href="mailto:CFResultsUiT.emily.f@gmail.tmt">
-                      [CFResultsUiT.emily.f@gmail.tmt]
-                    </a>
-                  </div>
-                  <div class="pull-right">
-                     
-                    <div class="display-icon" style="display:inline;">
-                      <span class="glyphicon glyphicon-chevron-up pull-right">
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-21">
-                  <div class="panel-body">
-                    <i>
-                      There are no responses received by this user or you may not have the permission to see the response
-                    </i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        There are no responses for this section yet or you do not have access to the responses collected so far.
       </div>
     </div>
   </div>
   <div class="panel panel-warning">
-    <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-22" id="panelHeading-22" style="cursor: pointer;">
+    <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="Second Session">
@@ -3923,7 +3909,7 @@
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-22" style="height: auto;">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-4" style="height: auto;">
       <div class="panel-body padding-0">
         <table class="table table-striped table-bordered margin-0">
           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
