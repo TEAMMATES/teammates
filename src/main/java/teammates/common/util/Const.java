@@ -125,11 +125,9 @@ public final class Const {
         /** This is the limit after which TEAMMATES will send error message.
          * Must be within the range of int */
         public static final int MAX_PROFILE_PIC_SIZE = 5000000;
-        /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
-        public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 11000000;
         
         /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
-        public static final long MAX_ADMIN_EMAIL_FILE_LIMIT_FOR_BLOBSTORE_API = 11000000;
+        public static final long MAX_FILE_LIMIT_FOR_BLOBSTOREAPI = 11000000;
         
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
@@ -412,6 +410,8 @@ public final class Const {
         public static final String COMMENT_DELETE = "Delete this comment";
         
         public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
+        
+        public static final String ACTION_NOT_ALLOWED = "You do not have the permissions to access this feature";
     }
     
     public static class FeedbackQuestion {
@@ -706,6 +706,8 @@ public final class Const {
         public static final String COMMENTS_SHOWGIVERTO = "showgiverto";
         public static final String COMMENTS_SHOWRECIPIENTTO = "showrecipientto";
         public static final String SECTION_NAME = "sectionname";
+        public static final String FEEDBACK_QUESTION_FILTER_TEXT = "filtertext";
+        
         public static final String TEAM_NAME = "teamname";
         public static final String COMMENTS = "comments";
         public static final String TEAMMATES = "teammates";

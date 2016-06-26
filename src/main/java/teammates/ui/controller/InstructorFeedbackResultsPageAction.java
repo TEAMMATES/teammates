@@ -16,15 +16,15 @@ import teammates.ui.controller.InstructorFeedbackResultsPageData.ViewType;
 public class InstructorFeedbackResultsPageAction extends Action {
 
     private static final String ALL_SECTION_OPTION = "All";
-    private static final int DEFAULT_QUERY_RANGE = 1000;
     private static final int DEFAULT_SECTION_QUERY_RANGE = 2500;
-    private static final int QUERY_RANGE_FOR_AJAX_TESTING = 5;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String filterText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT);
+
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
 
@@ -50,7 +50,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         // TODO move into another action and another page data class
         boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         if (isLoadingCsvResultsAsHtml) {
-            return createAjaxResultForCsvTableLoadedInHtml(courseId, feedbackSessionName, instructor, data, selectedSection);
+            return createAjaxResultForCsvTableLoadedInHtml(
+                    courseId, feedbackSessionName, instructor, data, selectedSection, filterText);
         }
         data.setSessionResultsHtmlTableAsString("");
         data.setAjaxStatus("");
@@ -76,8 +77,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String isTestingAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
-        int queryRange = isTestingAjax == null ? DEFAULT_QUERY_RANGE : QUERY_RANGE_FOR_AJAX_TESTING;
-
+   
         if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null
                 && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
             // bundle for all questions and all sections
@@ -85,7 +85,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                      logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                                                            feedbackSessionName, courseId,
                                                                            instructor.email,
-                                                                           queryRange, sortType));
+                                                                           DEFAULT_SECTION_QUERY_RANGE, sortType));
         } else if (Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
             data.setBundle(getBundleForQuestionView(isTestingAjax, courseId, feedbackSessionName, instructor, data,
                                                     selectedSection, sortType, questionId));
@@ -200,19 +200,18 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private ActionResult createAjaxResultForCsvTableLoadedInHtml(String courseId, String feedbackSessionName,
                                     InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                    String selectedSection)
+                                    String selectedSection, String filterText)
                                     throws EntityDoesNotExistException {
         try {
             if (selectedSection.contentEquals(ALL_SECTION_OPTION)) {
                 data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
                                             logic.getFeedbackSessionResultSummaryAsCsv(
-                                                                            courseId, feedbackSessionName,
-                                                                            instructor.email)));
+                                                    courseId, feedbackSessionName, instructor.email, filterText)));
             } else {
                 data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
                                             logic.getFeedbackSessionResultSummaryInSectionAsCsv(
-                                                                            courseId, feedbackSessionName,
-                                                                            instructor.email, selectedSection)));
+                                                    courseId, feedbackSessionName,
+                                                    instructor.email, selectedSection, filterText)));
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block

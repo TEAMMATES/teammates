@@ -150,6 +150,7 @@ function filterResults(rawSearchText) {
 }
 
 function updateResultsFilter() {
+    $('input[id=filterTextForDownload]').val($('#results-search-box').val());
     filterResults($('#results-search-box').val());
 }
 
@@ -207,10 +208,35 @@ function bindCollapseEvents(panels, nPanels) {
             if ($(heading[0]).attr('class') === 'panel-heading') {
                 $(heading[0]).click(toggleSingleCollapse);
             }
-            $(heading[0]).attr('data-target', '#panelBodyCollapse-' + numPanels);
-            $(heading[0]).attr('id', 'panelHeading-' + numPanels);
+
+            var sectionIndex = '';
+
+            /*
+             * There is one call of bindCollapseEvents() for outer section panels and one call per request
+             * for every section's content.
+             * For outer section panels we add prefix in format "-section-<sectionIndex>".
+             * For panels inside section we add prefix in format "-<sectionIndex>-". This is done in order
+             * to have fixed IDs for panels regardless of asynchronous execution of requests.
+            */
+            var isSectionPanel = true;
+            var sectionBody = $(heading).next().find('[id^="sectionBody-"]');
+
+            if (sectionBody.length === 0) {
+                sectionBody = $(heading).parents('[id^="sectionBody-"]');
+                isSectionPanel = false;
+            }
+
+            if (sectionBody.length !== 0) {
+                sectionIndex = sectionBody.attr('id').match(/sectionBody-(\d+)/)[1] + '-';
+                if (isSectionPanel) {
+                    sectionIndex = 'section-' + sectionIndex;
+                }
+            }
+
+            $(heading[0]).attr('data-target', '#panelBodyCollapse-' + sectionIndex + numPanels);
+            $(heading[0]).attr('id', 'panelHeading-' + sectionIndex + numPanels);
             $(heading[0]).css('cursor', 'pointer');
-            $(bodyCollapse[0]).attr('id', 'panelBodyCollapse-' + numPanels);
+            $(bodyCollapse[0]).attr('id', 'panelBodyCollapse-' + sectionIndex + numPanels);
         }
     }
     return numPanels;
@@ -229,6 +255,18 @@ function displayAjaxRetryMessageForPanelHeading($element) {
     var chevronDown = '<span class="glyphicon glyphicon-chevron-down"></span>';
     var ajaxErrorEnd = '</div>';
     $element.html(ajaxErrorStart + warningSign + errorMsg + chevronDown + ajaxErrorEnd);
+}
+
+function isEmptySection(content) {
+    var panelsInSection = content.find('div.panel');
+
+    return panelsInSection.length === 0;
+}
+
+function removeSection(id) {
+    var $heading = $('[id^=panelHeading-section-' + id + ']');
+
+    $heading.parent().remove();
 }
 
 $(document).ready(function() {

@@ -25,13 +25,15 @@ public final class Sanitizer {
                 .allowStandardUrlProtocols()
                 .allowAttributes("title").globally()
                 .allowAttributes("href").onElements("a")
+                .allowAttributes("src").onElements("img")
                 .allowAttributes("align")
                     .matching(true, "center", "left", "right", "justify", "char")
                     .onElements("p")
                 .allowElements(
-                    "a", "p", "div", "i", "b", "em", "blockquote", "tt", "strong",
-                    "br", "ul", "ol", "li")
+                    "a", "p", "div", "i", "b", "em", "blockquote", "tt", "strong", "hr",
+                    "br", "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6", "img")
                 .allowElements("quote", "ecode")
+                .allowStyling()
                 .toFactory();
 
     private Sanitizer() {
