@@ -179,11 +179,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-1"));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-1"));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-1"));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-1"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-1"));
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
 
@@ -192,11 +192,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-0"));
+        assertTrue(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-0"));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-0"));
+        assertFalse(resultsPage.clickQuestionAdditionalInfoButton(8, "section-1-giver-1-recipient-0"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "section-1-giver-1-recipient-0"));
 
         ______TS("test sort by giver > question > recipient");
 
@@ -393,71 +393,65 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "giver-recipient-question");
 
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.waitForPageToLoad();
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGRQ.html");
 
         ______TS("Typical case: test view photo for view by giver > recipient > question");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(
-                5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverAndViewStudentPhotoOnBody(
-                5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
-        
-        ______TS("Failure case: ajax error for giver > recipient > question");
-        // Change fs name so that the ajax request will fail
-        resultsPage.changeFsNameInAjaxLoadResponsesForm(1, "invalidFsName");
-        resultsPage.clickAjaxLoadResponsesPanel(1);
-        resultsPage.waitForAjaxError(1);
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
         
         ______TS("Typical case: ajax for view by giver > question > recipient");
         
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "giver-question-recipient");
         
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGQR.html");
                 
         ______TS("Typical case: test view photo for view by giver > question > recipient");
         
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(
-                5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.clickViewPhotoLink(5, "profile_picture_default.png");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.clickViewPhotoLink("1-2", "profile_picture_default.png");
 
         ______TS("Typical case: ajax for view by recipient > question > giver");
 
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "recipient-question-giver");
 
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByRQG.html");
 
         ______TS("Typical case: test view photo for view by recipient > question > giver");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(
-                5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.clickViewPhotoLink(6, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.clickViewPhotoLink("1-2", "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         
         ______TS("Typical case: ajax for view by recipient > giver > question");
 
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "recipient-giver-question");
 
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByRGQ.html");
 
         ______TS("Typical case: test view photo for view by recipient > giver > question");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(
-                5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverAndViewStudentPhotoOnBody(
-                5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
     }
 
     public void testFilterAction() throws Exception {
@@ -497,7 +491,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickInstructorPanelCollapseStudentsButton();
         resultsPage.waitForInstructorPanelStudentPanelsToCollapse();
         assertEquals("Expand Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
-        resultsPage.verifySpecifiedPanelIdsAreCollapsed(new int[] { 3, 4, 5 });
+        resultsPage.verifySpecifiedPanelIdsAreCollapsed(new String[] { "0-2", "0-3", "0-4" });
 
         resultsPage.clickGroupByTeam();
         resultsPage.displayByQuestion();
@@ -591,60 +585,61 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: add empty feedback response comment");
 
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "");
-        resultsPage.verifyCommentFormErrorMessage("-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "");
+        resultsPage.verifyCommentFormErrorMessage("-0-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
 
         ______TS("Typical case: add new feedback response comments");
 
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "test comment 1");
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "test comment 2");
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-1-1\"");
-        resultsPage.verifyCommentRowContent("-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyContains("id=\"visibility-options-0-1-1-2\"");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 1");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 2");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-0-1-1\"");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyContains("id=\"visibility-options-0-1-0-1-2\"");
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyCommentRowContent("-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
 
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1", "test comment 3");
-        resultsPage.verifyCommentRowContent("-1-1-1-1", "test comment 3", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1-1", "test comment 3");
+        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "test comment 3", "CFResultsUiT.instr@gmail.tmt");
 
         ______TS("Typical case: edit existing feedback response comment");
 
-        resultsPage.editFeedbackResponseComment("-0-1-1-1", "edited test comment");
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "edited test comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.editFeedbackResponseComment("-1-1-1-1-1", "edited test comment");
+        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "CFResultsUiT.instr@gmail.tmt");
 
         ______TS("Typical case: delete existing feedback response comment");
 
-        resultsPage.deleteFeedbackResponseComment("-0-1-1-1");
-        resultsPage.verifyRowMissing("-0-1-1-1");
+        resultsPage.deleteFeedbackResponseComment("-1-1-1-1-1");
+        resultsPage.verifyRowMissing("-1-1-1-1-1");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
 
         ______TS("Typical case: add edit and delete successively");
 
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "successive action comment");
-        resultsPage.verifyCommentRowContent("-0-1-1-2", "successive action comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "successive action comment");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-3", "successive action comment", "CFResultsUiT.instr@gmail.tmt");
 
-        resultsPage.editFeedbackResponseComment("-0-1-1-2", "edited successive action comment");
-        resultsPage.verifyCommentRowContent("-0-1-1-2", "edited successive action comment", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-1-1", 1);
+        resultsPage.editFeedbackResponseComment("-0-1-0-1-3", "edited successive action comment");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-3", "edited successive action comment",
+                "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-0-1-3", 1);
 
-        resultsPage.deleteFeedbackResponseComment("-0-1-1-2");
-        resultsPage.verifyRowMissing("-0-1-1-2");
+        resultsPage.deleteFeedbackResponseComment("-0-1-0-1-3");
+        resultsPage.verifyRowMissing("-0-0-1-1-3");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyRowMissing("-0-1-1-2");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyRowMissing("-0-0-1-1-3");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
 
     }

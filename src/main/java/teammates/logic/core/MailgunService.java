@@ -15,7 +15,7 @@ import teammates.common.util.EmailWrapper;
  * Email sender service provided by Mailgun.
  * Reference: https://cloud.google.com/appengine/docs/java/mail/mailgun
  */
-public class MailgunService implements EmailSenderService {
+public class MailgunService extends EmailSenderService {
     
     /**
      * {@inheritDoc}
@@ -42,11 +42,8 @@ public class MailgunService implements EmailSenderService {
         return formData;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void sendEmail(EmailWrapper wrapper) {
+    protected void sendEmailWithService(EmailWrapper wrapper) {
         FormDataMultiPart email = parseToEmail(wrapper);
         Client client = Client.create();
         client.addFilter(new HTTPBasicAuthFilter("api", Config.MAILGUN_APIKEY));

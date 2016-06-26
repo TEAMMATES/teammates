@@ -21,7 +21,7 @@ import teammates.common.util.EmailWrapper;
  * 
  * @see MimeMessage
  */
-public class JavamailService implements EmailSenderService {
+public class JavamailService extends EmailSenderService {
     
     /**
      * {@inheritDoc}
@@ -45,11 +45,8 @@ public class JavamailService implements EmailSenderService {
         return email;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void sendEmail(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
+    protected void sendEmailWithService(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
         MimeMessage email = parseToEmail(wrapper);
         Transport.send(email);
     }

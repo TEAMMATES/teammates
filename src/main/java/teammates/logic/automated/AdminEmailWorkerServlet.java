@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
@@ -56,7 +57,7 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
 
     }
     
-    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws Exception {
+    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws EmailSendingException {
         
         EmailWrapper email =
                 new EmailGenerator().generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),

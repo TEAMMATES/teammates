@@ -71,6 +71,7 @@
                   <input name="fsname" type="hidden" value="Second Session">
                   <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
+                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                 </form>
                 <br>
                 <div>
@@ -174,7 +175,7 @@
               </label>
               <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
                 <div class="input-group">
-                  <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
+                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
                   <a class="input-group-addon btn btn-default">
                     <span class="glyphicon glyphicon-search">
                     </span>
@@ -229,7 +230,7 @@
   <br>
   <br>
   <div class="panel panel-success">
-    <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
+    <div class="panel-heading" data-target="#panelBodyCollapse-section-0-1" id="panelHeading-section-0-1" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-9 panel-heading-text">
           <strong>
@@ -247,11 +248,22 @@
           </div>
         </div>
       </div>
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
+        <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+        <input name="fsname" type="hidden" value="Second Session">
+        <input name="frgroupbysection" type="hidden" value="None">
+        <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+        <input name="frgroupbyteam" type="hidden" value="null">
+        <input name="frsorttype" type="hidden" value="recipient-giver-question">
+        <input id="showStats-0" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input id="mainIndex-0" name="frmainindex" type="hidden" value="-1">
+      </form>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-1">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-section-0-1" style="height: auto;">
       <div class="panel-body" id="sectionBody-0">
         <div class="panel panel-primary">
-          <div class="panel-heading" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-0-1" id="panelHeading-0-1" style="cursor: pointer;">
             To:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
               <strong>
@@ -270,7 +282,7 @@
               </div>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-2">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-0-1">
             <div class="panel-body">
               <div class="row ">
                 <div class="col-md-2">
@@ -307,11 +319,11 @@
                       <span class="text-preserve-space">
                         Please choose the best choice for the following sub-questions. 
                         <span style=" white-space: normal;">
-                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-giver-1-recipient-0" onclick="toggleAdditionalQuestionInfo('1-giver-1-recipient-0')">
+                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-section-0-giver-1-recipient-0" onclick="toggleAdditionalQuestionInfo('1-section-0-giver-1-recipient-0')">
                             [more]
                           </a>
                           <br>
-                          <span id="questionAdditionalInfo-1-giver-1-recipient-0" style="display:none;">
+                          <span id="questionAdditionalInfo-1-section-0-giver-1-recipient-0" style="display:none;">
                             Rubric question sub-questions:
                             <p>
                               a) This student has done a good job.
@@ -341,13 +353,13 @@
                           </span>
                           <br>
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,1)" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,1, { sectionIndex: 0 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
                       </div>
-                      <ul class="list-group" id="responseCommentTable-0-1-1" style="display:none">
-                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-0-1-1" style="display: none;">
+                      <ul class="list-group" id="responseCommentTable-0-0-1-1" style="display:none">
+                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-0-0-1-1" style="display: none;">
                           <form class="responseCommentAddForm">
                             <div class="form-group form-inline">
                               <div class="form-group text-muted">
@@ -358,13 +370,13 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-1-1" onclick="toggleVisibilityEditForm(0,1,1)">
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-0-1-1" onclick="toggleVisibilityAddForm(0,1,1, { sectionIndex: 0 })">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
                               </a>
                             </div>
-                            <div class="panel panel-default" id="visibility-options-0-1-1" style="display: none;">
+                            <div class="panel panel-default" id="visibility-options-0-0-1-1" style="display: none;">
                               <div class="panel-heading">
                                 Visibility Options
                               </div>
@@ -381,7 +393,7 @@
                                       Can see your name
                                     </th>
                                   </tr>
-                                  <tr id="response-giver-0-1-1">
+                                  <tr id="response-giver-0-0-1-1">
                                     <td class="text-left">
                                       <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
                                         Response Giver
@@ -394,7 +406,7 @@
                                       <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                   </tr>
-                                  <tr id="response-students-0-1-1">
+                                  <tr id="response-students-0-0-1-1">
                                     <td class="text-left">
                                       <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
                                         Other students in this course
@@ -407,7 +419,7 @@
                                       <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                     </td>
                                   </tr>
-                                  <tr id="response-instructors-0-1-1">
+                                  <tr id="response-instructors-0-0-1-1">
                                     <td class="text-left">
                                       <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
                                         Instructors
@@ -424,14 +436,14 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <textarea class="form-control" id="responseCommentAddForm-0-1-1" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
+                              <textarea class="form-control" id="responseCommentAddForm-0-0-1-1" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
                               </textarea>
                             </div>
                             <div class="col-sm-offset-5">
-                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-0-1-1" type="button">
+                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-0-0-1-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,1);" type="button" value="Cancel">
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,1, { sectionIndex: 0 });" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="0">
@@ -452,7 +464,7 @@
           </div>
         </div>
         <div class="panel panel-primary">
-          <div class="panel-heading" data-target="#panelBodyCollapse-3" id="panelHeading-3" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-0-2" id="panelHeading-0-2" style="cursor: pointer;">
             To:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
               <strong>
@@ -471,7 +483,7 @@
               </div>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-3">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-0-2">
             <div class="panel-body">
               <div class="row ">
                 <div class="col-md-2">
@@ -508,11 +520,11 @@
                       <span class="text-preserve-space">
                         Please choose the best choice for the following sub-questions. 
                         <span style=" white-space: normal;">
-                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-giver-1-recipient-1" onclick="toggleAdditionalQuestionInfo('1-giver-1-recipient-1')">
+                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-section-0-giver-1-recipient-1" onclick="toggleAdditionalQuestionInfo('1-section-0-giver-1-recipient-1')">
                             [more]
                           </a>
                           <br>
-                          <span id="questionAdditionalInfo-1-giver-1-recipient-1" style="display:none;">
+                          <span id="questionAdditionalInfo-1-section-0-giver-1-recipient-1" style="display:none;">
                             Rubric question sub-questions:
                             <p>
                               a) This student has done a good job.
@@ -542,13 +554,13 @@
                           </span>
                           <br>
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,1)" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,1, { sectionIndex: 0 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
                       </div>
-                      <ul class="list-group" id="responseCommentTable-1-1-1" style="display:none">
-                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1" style="display: none;">
+                      <ul class="list-group" id="responseCommentTable-0-1-1-1" style="display:none">
+                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-0-1-1-1" style="display: none;">
                           <form class="responseCommentAddForm">
                             <div class="form-group form-inline">
                               <div class="form-group text-muted">
@@ -559,13 +571,13 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-1" onclick="toggleVisibilityEditForm(1,1,1)">
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-1-1-1" onclick="toggleVisibilityAddForm(1,1,1, { sectionIndex: 0 })">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
                               </a>
                             </div>
-                            <div class="panel panel-default" id="visibility-options-1-1-1" style="display: none;">
+                            <div class="panel panel-default" id="visibility-options-0-1-1-1" style="display: none;">
                               <div class="panel-heading">
                                 Visibility Options
                               </div>
@@ -582,7 +594,7 @@
                                       Can see your name
                                     </th>
                                   </tr>
-                                  <tr id="response-giver-1-1-1">
+                                  <tr id="response-giver-0-1-1-1">
                                     <td class="text-left">
                                       <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
                                         Response Giver
@@ -595,7 +607,7 @@
                                       <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                   </tr>
-                                  <tr id="response-students-1-1-1">
+                                  <tr id="response-students-0-1-1-1">
                                     <td class="text-left">
                                       <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
                                         Other students in this course
@@ -608,7 +620,7 @@
                                       <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                     </td>
                                   </tr>
-                                  <tr id="response-instructors-1-1-1">
+                                  <tr id="response-instructors-0-1-1-1">
                                     <td class="text-left">
                                       <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
                                         Instructors
@@ -625,14 +637,14 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <textarea class="form-control" id="responseCommentAddForm-1-1-1" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
+                              <textarea class="form-control" id="responseCommentAddForm-0-1-1-1" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
                               </textarea>
                             </div>
                             <div class="col-sm-offset-5">
-                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-1" type="button">
+                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-0-1-1-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,1);" type="button" value="Cancel">
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,1, { sectionIndex: 0 });" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="1">
@@ -684,11 +696,11 @@
                       <span class="text-preserve-space">
                         Please choose the best choice for the following sub-questions. 
                         <span style=" white-space: normal;">
-                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-giver-2-recipient-1" onclick="toggleAdditionalQuestionInfo('1-giver-2-recipient-1')">
+                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-section-0-giver-2-recipient-1" onclick="toggleAdditionalQuestionInfo('1-section-0-giver-2-recipient-1')">
                             [more]
                           </a>
                           <br>
-                          <span id="questionAdditionalInfo-1-giver-2-recipient-1" style="display:none;">
+                          <span id="questionAdditionalInfo-1-section-0-giver-2-recipient-1" style="display:none;">
                             Rubric question sub-questions:
                             <p>
                               a) This student has done a good job.
@@ -718,13 +730,13 @@
                           </span>
                           <br>
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,2,1)" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,2,1, { sectionIndex: 0 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
                       </div>
-                      <ul class="list-group" id="responseCommentTable-1-2-1" style="display:none">
-                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-2-1" style="display: none;">
+                      <ul class="list-group" id="responseCommentTable-0-1-2-1" style="display:none">
+                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-0-1-2-1" style="display: none;">
                           <form class="responseCommentAddForm">
                             <div class="form-group form-inline">
                               <div class="form-group text-muted">
@@ -735,13 +747,13 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-2-1" onclick="toggleVisibilityEditForm(1,2,1)">
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-1-2-1" onclick="toggleVisibilityAddForm(1,2,1, { sectionIndex: 0 })">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
                               </a>
                             </div>
-                            <div class="panel panel-default" id="visibility-options-1-2-1" style="display: none;">
+                            <div class="panel panel-default" id="visibility-options-0-1-2-1" style="display: none;">
                               <div class="panel-heading">
                                 Visibility Options
                               </div>
@@ -758,7 +770,7 @@
                                       Can see your name
                                     </th>
                                   </tr>
-                                  <tr id="response-giver-1-2-1">
+                                  <tr id="response-giver-0-1-2-1">
                                     <td class="text-left">
                                       <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
                                         Response Giver
@@ -771,7 +783,7 @@
                                       <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                   </tr>
-                                  <tr id="response-students-1-2-1">
+                                  <tr id="response-students-0-1-2-1">
                                     <td class="text-left">
                                       <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
                                         Other students in this course
@@ -784,7 +796,7 @@
                                       <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                     </td>
                                   </tr>
-                                  <tr id="response-instructors-1-2-1">
+                                  <tr id="response-instructors-0-1-2-1">
                                     <td class="text-left">
                                       <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
                                         Instructors
@@ -801,14 +813,14 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <textarea class="form-control" id="responseCommentAddForm-1-2-1" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
+                              <textarea class="form-control" id="responseCommentAddForm-0-1-2-1" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
                               </textarea>
                             </div>
                             <div class="col-sm-offset-5">
-                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-2-1" type="button">
+                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-0-1-2-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,2,1);" type="button" value="Cancel">
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,2,1, { sectionIndex: 0 });" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="1">
@@ -832,7 +844,7 @@
     </div>
   </div>
   <div class="panel panel-warning">
-    <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
+    <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
         <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
         <input name="fsname" type="hidden" value="Second Session">
@@ -845,7 +857,7 @@
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-4" style="height: auto;">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
       <div class="panel-body">
         All students have responded to some questions in this session.
       </div>

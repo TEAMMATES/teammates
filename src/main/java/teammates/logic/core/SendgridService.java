@@ -16,7 +16,7 @@ import teammates.common.util.EmailWrapper;
  * 
  * @see SendGrid
  */
-public class SendgridService implements EmailSenderService {
+public class SendgridService extends EmailSenderService {
     
     /**
      * {@inheritDoc}
@@ -39,11 +39,8 @@ public class SendgridService implements EmailSenderService {
         return email;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void sendEmail(EmailWrapper wrapper) throws SendGridException {
+    protected void sendEmailWithService(EmailWrapper wrapper) throws SendGridException {
         Email email = parseToEmail(wrapper);
         SendGrid sendgrid = new SendGrid(Config.SENDGRID_APIKEY);
         Response response = sendgrid.send(email);

@@ -71,6 +71,7 @@
                   <input name="fsname" type="hidden" value="Second Session">
                   <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
+                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                 </form>
                 <br>
                 <div>
@@ -174,7 +175,7 @@
               </label>
               <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
                 <div class="input-group">
-                  <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
+                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
                   <a class="input-group-addon btn btn-default">
                     <span class="glyphicon glyphicon-search">
                     </span>
@@ -229,7 +230,7 @@
   <br>
   <br>
   <div class="panel panel-success">
-    <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
+    <div class="panel-heading" data-target="#panelBodyCollapse-section-0-1" id="panelHeading-section-0-1" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-9 panel-heading-text">
           <strong>
@@ -247,11 +248,22 @@
           </div>
         </div>
       </div>
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
+        <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+        <input name="fsname" type="hidden" value="Second Session">
+        <input name="frgroupbysection" type="hidden" value="None">
+        <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+        <input name="frgroupbyteam" type="hidden" value="null">
+        <input name="frsorttype" type="hidden" value="recipient-question-giver">
+        <input id="showStats-0" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input id="mainIndex-0" name="frmainindex" type="hidden" value="-1">
+      </form>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-1">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-section-0-1" style="height: auto;">
       <div class="panel-body" id="sectionBody-0">
         <div class="panel panel-primary">
-          <div class="panel-heading" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-0-1" id="panelHeading-0-1" style="cursor: pointer;">
             To:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
               <strong>
@@ -270,7 +282,7 @@
               </div>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-2">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-0-1">
             <div class="panel-body">
               <div class="panel panel-info">
                 <div class="panel-heading">
@@ -278,11 +290,11 @@
                   <span class="text-preserve-space">
                     Please choose the best choice for the following sub-questions. 
                     <span style=" white-space: normal;">
-                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-recipient-0-question-1" onclick="toggleAdditionalQuestionInfo('1-recipient-0-question-1')">
+                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-section-0-recipient-0-question-1" onclick="toggleAdditionalQuestionInfo('1-section-0-recipient-0-question-1')">
                         [more]
                       </a>
                       <br>
-                      <span id="questionAdditionalInfo-1-recipient-0-question-1" style="display:none;">
+                      <span id="questionAdditionalInfo-1-section-0-recipient-0-question-1" style="display:none;">
                         Rubric question sub-questions:
                         <p>
                           a) This student has done a good job.
@@ -455,7 +467,7 @@
           </div>
         </div>
         <div class="panel panel-primary">
-          <div class="panel-heading" data-target="#panelBodyCollapse-3" id="panelHeading-3" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-0-2" id="panelHeading-0-2" style="cursor: pointer;">
             To:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
               <strong>
@@ -474,7 +486,7 @@
               </div>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-3">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-0-2">
             <div class="panel-body">
               <div class="panel panel-info">
                 <div class="panel-heading">
@@ -482,11 +494,11 @@
                   <span class="text-preserve-space">
                     Please choose the best choice for the following sub-questions. 
                     <span style=" white-space: normal;">
-                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-recipient-1-question-1" onclick="toggleAdditionalQuestionInfo('1-recipient-1-question-1')">
+                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-section-0-recipient-1-question-1" onclick="toggleAdditionalQuestionInfo('1-section-0-recipient-1-question-1')">
                         [more]
                       </a>
                       <br>
-                      <span id="questionAdditionalInfo-1-recipient-1-question-1" style="display:none;">
+                      <span id="questionAdditionalInfo-1-section-0-recipient-1-question-1" style="display:none;">
                         Rubric question sub-questions:
                         <p>
                           a) This student has done a good job.
@@ -703,7 +715,7 @@
     </div>
   </div>
   <div class="panel panel-warning">
-    <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
+    <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
         <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
         <input name="fsname" type="hidden" value="Second Session">
@@ -716,7 +728,7 @@
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-4" style="height: auto;">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
       <div class="panel-body">
         All students have responded to some questions in this session.
       </div>

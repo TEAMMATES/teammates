@@ -100,45 +100,77 @@
                                     <c:out value="${student.studentEmail}"/>
                                 </td>
                                 <td class="no-print align-center">
-                                    <a class="btn btn-default btn-xs student-view-for-test"
-                                       href="${student.courseStudentDetailsLink}"
-                                       title="<%= Const.Tooltips.COURSE_STUDENT_DETAILS %>"
-                                       target="_blank"
+                                    <c:set var="viewButtonEnabled" value="${section.allowedToViewStudentInSection}" />
+                                    <a class="btn btn-default btn-xs<c:if test="${not viewButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                       <c:choose>
+                                           <c:when test="${not viewButtonEnabled}">
+                                              title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                              disabled
+                                           </c:when>
+                                           <c:otherwise>
+                                              title="<%= Const.Tooltips.COURSE_STUDENT_DETAILS %>"
+                                              href="${student.courseStudentDetailsLink}"
+                                              target="_blank"
+                                           </c:otherwise>
+                                       </c:choose>
                                        data-toggle="tooltip"
-                                       data-placement="top"
-                                       <c:if test="${not section.allowedToViewStudentInSection}">disabled</c:if>>
+                                       data-placement="top">
                                         View
                                     </a>
-                                    <a class="btn btn-default btn-xs student-edit-for-test"
-                                       href="${student.courseStudentEditLink}"
-                                       title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
-                                       target="_blank"
+                                    <c:set var="editButtonEnabled" value="${section.allowedToModifyStudent}" />
+                                    <a class="btn btn-default btn-xs<c:if test="${not editButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                       <c:choose>
+                                           <c:when test="${not editButtonEnabled}">
+                                              title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                              disabled
+                                           </c:when>
+                                           <c:otherwise>
+                                              title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
+                                              href="${student.courseStudentEditLink}"
+                                              target="_blank"
+                                           </c:otherwise>
+                                       </c:choose>
                                        data-toggle="tooltip"
-                                       data-placement="top"
-                                       <c:if test="${not section.allowedToModifyStudent}">disabled</c:if>>
+                                       data-placement="top">
                                         Edit
                                     </a>
                                     <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
-                                        <a class="btn btn-default btn-xs student-edit-for-test"
-                                           href="${student.courseStudentRemindLink}"
-                                           title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
+                                        <c:set var="remindButtonEnabled" value="${section.allowedToModifyStudent}" />
+                                        <a class="btn btn-default btn-xs<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                           <c:choose>
+                                               <c:when test="${not remindButtonEnabled}">
+                                                  title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                                  disabled
+                                               </c:when>
+                                               <c:otherwise>
+                                                  title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
+                                                  href="${student.courseStudentRemindLink}"
+                                                  onclick="return toggleSendRegistrationKey()"
+                                               </c:otherwise>
+                                           </c:choose>
                                            data-toggle="tooltip"
-                                           data-placement="top"
-                                           onclick="return toggleSendRegistrationKey()"
-                                           <c:if test="${not section.allowedToModifyStudent}">disabled</c:if>>
+                                           data-placement="top">
                                             Send Invite
                                         </a>
                                     </c:if>
-                                    <a class="btn btn-default btn-xs student-delete-for-test"
-                                       href="${student.courseStudentDeleteLink}"
-                                       onclick="return toggleDeleteStudentConfirmation(${student.toggleDeleteConfirmationParams})"
-                                       title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"
+                                    <c:set var="deleteButtonEnabled" value="${section.allowedToModifyStudent}" />
+                                    <a class="btn btn-default btn-xs<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                       <c:choose>
+                                           <c:when test="${not deleteButtonEnabled}">
+                                              title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                              disabled
+                                           </c:when>
+                                           <c:otherwise>
+                                              title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"
+                                              onclick="return toggleDeleteStudentConfirmation(${student.toggleDeleteConfirmationParams})"
+                                              href="${student.courseStudentDeleteLink}"
+                                           </c:otherwise>
+                                       </c:choose>
                                        data-toggle="tooltip"
-                                       data-placement="top"
-                                       <c:if test="${not section.allowedToModifyStudent}">disabled</c:if>>
+                                       data-placement="top">
                                         Delete
                                     </a>
-                                    <a class="btn btn-default btn-xs student-records-for-test"
+                                    <a class="btn btn-default btn-xs"
                                        href="${student.courseStudentRecordsLink}"
                                        title="<%= Const.Tooltips.COURSE_STUDENT_RECORDS %>"
                                        target="_blank"
@@ -146,19 +178,27 @@
                                        data-placement="top">
                                         All Records
                                     </a>
+                                    <c:set var="commentButtonEnabled" value="${section.allowedToGiveCommentInSection}" />
                                     <div class="btn-group">
-                                        <a class="btn btn-default btn-xs cursor-default"
-                                           href="javascript:;"
-                                           title="<%= Const.Tooltips.COURSE_STUDENT_COMMENT %>"
+                                        <a class="btn btn-default btn-xs cursor-default<c:if test="${not commentButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                        <c:choose>
+                                            <c:when test="${not commentButtonEnabled}">
+                                               title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                                               disabled
+                                            </c:when>
+                                            <c:otherwise>
+                                               title="<%= Const.Tooltips.COURSE_STUDENT_COMMENT %>"
+                                               href="$javascript:;"
+                                            </c:otherwise>
+                                        </c:choose>
                                            data-toggle="tooltip"
-                                           data-placement="top"
-                                           href="javascript:;">
+                                           data-placement="top">
                                             Add Comment
                                         </a>
-                                        <a class="btn btn-default btn-xs dropdown-toggle"
+                                        <a class="btn btn-default btn-xs dropdown-toggle<c:if test="${not commentButtonEnabled}"> disabled</c:if>"
                                            href="javascript:;"
                                            data-toggle="dropdown"
-                                           <c:if test="${not section.allowedToGiveCommentInSection}">disabled</c:if>>
+                                           <c:if test="${not commentButtonEnabled}">disabled</c:if>>
                                             <span class="caret"></span><span class="sr-only">Add comments</span>
                                         </a>
                                         <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">

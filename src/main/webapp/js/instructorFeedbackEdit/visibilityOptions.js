@@ -1,26 +1,64 @@
-/**
- * Hides or show visibility checkboxes frame
- * @param elem is the anchor link being clicked on.
- */
-function toggleVisibilityOptions(elem) {
-    var $elementParent = $(elem).closest('form');
-    var $options = $elementParent.find('.visibilityOptions');
-    var $visibilityMessage = $elementParent.find('.visibilityMessage');
+var ROW_RECIPIENT = 1;
+var ROW_GIVER_TEAM = 2;
+var ROW_RECIPIENT_TEAM = 3;
+var ROW_OTHER_STUDENTS = 4;
+var ROW_INSTRUCTORS = 5;
+
+// ////////////// //
+// EVENT HANDLERS //
+// ////////////// //
+
+function toggleVisibilityEditTab(clickedButton) {
+    var $containingForm = $(clickedButton).closest('form');
+    var $editTab = $containingForm.find('.visibilityOptions');
+    var $previewTab = $containingForm.find('.visibilityMessage');
 
     // enable edit
-    $elementParent.find('[id|="questionedittext"]').click();
+    $containingForm.find('[id|="questionedittext"]').click();
 
-    if ($options.is(':hidden')) {
-        giverType = $elementParent.find('select[name="givertype"]');
-        recipientType = $elementParent.find('select[name="recipienttype"]');
-        $options.show();
-        $visibilityMessage.hide();
-        feedbackGiverUpdateVisibilityOptions(giverType);
-        feedbackRecipientUpdateVisibilityOptions(recipientType);
+    if ($editTab.is(':hidden')) {
+        $editTab.show();
+        $previewTab.hide();
+        updateEditTab($containingForm);
     } else {
-        $options.hide();
-        $visibilityMessage.show();
+        $editTab.hide();
+        $previewTab.show();
     }
+}
+
+function toggleVisibilityPreviewTab(clickedButton) {
+    var $containingForm = $(clickedButton).closest('form');
+    var $editTab = $containingForm.find('.visibilityOptions');
+
+    $editTab.hide();
+    var $disabledInputs = $containingForm.find('input:disabled, select:disabled');
+    $disabledInputs.prop('disabled', false);
+
+    updateEditTab($containingForm);
+
+    updatePreviewTab($containingForm);
+    $disabledInputs.prop('disabled', true);
+}
+
+function getVisibilityMessageIfPreviewIsActive(clickedButton) {
+    var $containingForm = $(clickedButton).closest('form');
+    
+    if ($containingForm.find('.visibilityMessageButton').hasClass('active')) {
+        updatePreviewTab($containingForm);
+    }
+}
+
+// ////////////// //
+// HELPER METHODS //
+// ////////////// //
+
+/**
+ * Updates the Edit Visibility tab to show/hide visibility option rows
+ * according to the feedback path
+ */
+function updateEditTab($containingForm) {
+    updateEditTabAccordingToGiver($containingForm);
+    updateEditTabAccordingToRecipient($containingForm);
 }
 
 /**
@@ -53,38 +91,32 @@ function formatCheckBoxes() {
     // TODO: change class -> name?
     $('input[class*="answerCheckbox"]').change(function() {
         if (!$(this).is(':checked')) {
-            var visibilityOptionsRow = $(this).closest('tr');
-            visibilityOptionsRow.find('input[class*="giverCheckbox"]')
-                                     .prop('checked', false);
-            visibilityOptionsRow.find('input[class*="recipientCheckbox"]')
-                                     .prop('checked', false);
+            var $editTabRows = $(this).closest('tr');
+            $editTabRows.find('input[class*="giverCheckbox"]').prop('checked', false);
+            $editTabRows.find('input[class*="recipientCheckbox"]').prop('checked', false);
         }
     });
     $('input[class*="giverCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
-            var visibilityOptionsRow = $(this).closest('tr');
-            visibilityOptionsRow.find('input[class*="answerCheckbox"]')
-                                     .prop('checked', true)
-                                     .trigger('change');
+            var $editTabRows = $(this).closest('tr');
+            $editTabRows.find('input[class*="answerCheckbox"]').prop('checked', true).trigger('change');
         }
     });
     $('input[class*="recipientCheckbox"]').change(function() {
         if ($(this).is(':checked')) {
-            var visibilityOptionsRow = $(this).closest('tr');
-            visibilityOptionsRow.find('input[class*="answerCheckbox"]')
-                                     .prop('checked', true);
+            var $editTabRows = $(this).closest('tr');
+            $editTabRows.find('input[class*="answerCheckbox"]').prop('checked', true);
         }
     });
     $('input[name=receiverLeaderCheckbox]').change(function() {
-        var visibilityOptionsRow = $(this).closest('tr');
-        visibilityOptionsRow.find('input[name=receiverFollowerCheckbox]')
-                                 .prop('checked', $(this).prop('checked'));
+        var $editTabRows = $(this).closest('tr');
+        $editTabRows.find('input[name=receiverFollowerCheckbox]').prop('checked', $(this).prop('checked'));
     });
 }
 
-function enableRow(elem, row) {
-    var $visibilityOptions = $(elem).closest('form').find('.visibilityOptions');
-    var $table = $visibilityOptions.find('table');
+function enableRow($containingForm, row) {
+    var $editTab = $containingForm.find('.visibilityOptions');
+    var $table = $editTab.find('table');
     var $tdElements = $($table.children().children()[row]).children();
     
     if ($tdElements.parent().prop('tagName') === 'tr') {
@@ -93,9 +125,9 @@ function enableRow(elem, row) {
     $tdElements.unwrap().wrapAll('<tr>');
 }
 
-function disableRow(elem, row) {
-    var $visibilityOptions = $(elem).closest('form').find('.visibilityOptions');
-    var $table = $visibilityOptions.find('table');
+function disableRow($containingForm, row) {
+    var $editTab = $containingForm.find('.visibilityOptions');
+    var $table = $editTab.find('table');
     var $tdElements = $($table.children().children()[row]).children();
     
     if ($tdElements.parent().prop('tagName') === 'hide') {
@@ -105,22 +137,22 @@ function disableRow(elem, row) {
     $tdElements.parent().hide();
 }
 
-function feedbackRecipientUpdateVisibilityOptions(elem) {
-    var $elem = $(elem);
-    if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType($elem.val())) {
+function updateEditTabAccordingToRecipient($containingForm) {
+    var recipientType = $containingForm.find('select[name="recipienttype"]').val();
+    if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType)) {
         // show the row Recipient(s) and hide the row Recipient's Team Members
-        enableRow($elem, 1);
-        disableRow($elem, 3);
+        enableRow($containingForm, ROW_RECIPIENT);
+        disableRow($containingForm, ROW_RECIPIENT_TEAM);
         return;
-    } else if ($elem.val() === 'NONE') {
+    } else if (recipientType === 'NONE') {
         // hide both the row Recipient(s) and the row Recipient's Team Members
-        disableRow($elem, 3);
-        disableRow($elem, 1);
+        disableRow($containingForm, ROW_RECIPIENT_TEAM);
+        disableRow($containingForm, ROW_RECIPIENT);
         return;
     }
     
-    enableRow($elem, 1);
-    enableRow($elem, 3);
+    enableRow($containingForm, ROW_RECIPIENT);
+    enableRow($containingForm, ROW_RECIPIENT_TEAM);
 }
 
 /**
@@ -133,44 +165,25 @@ function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipien
            || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
 }
 
-function feedbackGiverUpdateVisibilityOptions(elem) {
-    var $elem = $(elem);
-    if ($elem.val() === 'INSTRUCTORS' || $elem.val() === 'TEAMS') {
-        disableRow($elem, 2);
+function updateEditTabAccordingToGiver($containingForm) {
+    var giverType = $containingForm.find('select[name="givertype"]').val();
+    if (giverType === 'INSTRUCTORS' || giverType === 'TEAMS') {
+        disableRow($containingForm, 2);
         return;
     }
-    enableRow($elem, 2);
-}
-
-function toggleVisibilityMessage(elem) {
-    var $elementParent = $(elem).closest('form');
-    var $options = $elementParent.find('.visibilityOptions');
-
-    var $giverType = $elementParent.find('select[name="givertype"]');
-    var $recipientType = $elementParent.find('select[name="recipienttype"]');
-
-    $options.hide();
-    var $disabledInputs = $elementParent.find('input:disabled, select:disabled');
-    $disabledInputs.prop('disabled', false);
-
-    feedbackGiverUpdateVisibilityOptions($giverType);
-    feedbackRecipientUpdateVisibilityOptions($recipientType);
-
-    getVisibilityMessage(elem);
-    $disabledInputs.prop('disabled', true);
+    enableRow($containingForm, 2);
 }
 
 // Meant to be declared outside to prevent unncessary AJAX calls
 var previousFormDataMap = {};
 
 /**
- * Used to get the visibility message of a form closest
- * to the button element provided
- * @param buttonElem
+ * Updates the Preview Visibility tab according to configurations in the
+ * Edit Visibility tab (using AJAX)
+ * @param $containingForm
  */
-function getVisibilityMessage(buttonElem) {
-    var $form = $(buttonElem).closest('form');
-    var questionNum = $form.find('[name=questionnum]').val();
+function updatePreviewTab($containingForm) {
+    var questionNum = $containingForm.find('[name=questionnum]').val();
     var newQuestionNum = $('input[name=questionnum]').last().val();
     
     if (questionNum === newQuestionNum) {
@@ -179,19 +192,19 @@ function getVisibilityMessage(buttonElem) {
         tallyCheckboxes(questionNum);
     }
     
-    var formData = $form.serialize();
+    var formData = $containingForm.serialize();
     
-    var $formOptions = $form.find('.visibilityOptions');
-    var $formVisibility = $form.find('.visibilityMessage');
+    var $editTab = $containingForm.find('.visibilityOptions');
+    var $previewTab = $containingForm.find('.visibilityMessage');
     
     if (previousFormDataMap[questionNum] === formData) {
-        $formOptions.hide();
-        $formVisibility.show();
+        $editTab.hide();
+        $previewTab.show();
         return;
     }
 
     // empty current visibility message in the form
-    $formVisibility.html('');
+    $previewTab.html('');
     
     var url = '/page/instructorFeedbackQuestionvisibilityMessage';
     $.ajax({
@@ -199,45 +212,37 @@ function getVisibilityMessage(buttonElem) {
         url: url,
         data: formData,
         success: function(data) {
-            updateVisibilityMessageButton($form, true);
+            updateToggleVisibilityPreviewButton($containingForm, true);
             
             // update stored form data
             previousFormDataMap[questionNum] = formData;
             
-            $formVisibility.html(formatVisibilityMessageHtml(data.visibilityMessage));
-            $formVisibility.show();
-            $formOptions.hide();
+            $previewTab.html(formatPreviewTabHtml(data.visibilityMessage));
+            $previewTab.show();
+            $editTab.hide();
         },
         error: function() {
-            updateVisibilityMessageButton($form, false);
-            $form.find('.visibilityOptionsLabel').click();
+            updateToggleVisibilityPreviewButton($containingForm, false);
+            $containingForm.find('.visibilityOptionsLabel').click();
         }
     });
 }
 
-function updateVisibilityMessageButton($form, isLoadSuccessful) {
-    var visibilityButton = $form.find('.visibilityMessageButton');
+function updateToggleVisibilityPreviewButton($containingForm, isLoadSuccessful) {
+    var $visibilityPreviewButton = $containingForm.find('.visibilityMessageButton');
     
-    var radioInput = visibilityButton.find('input[type="radio"]');
+    var $radioInput = $visibilityPreviewButton.find('input[type="radio"]');
     var icon = '<span class="glyphicon glyphicon-'
                + (isLoadSuccessful ? 'eye-open' : 'warning-sign')
                + '"></span>';
     var message = isLoadSuccessful ? 'Preview Visibility'
                                    : 'Visibility preview failed to load. Click here to retry.';
     
-    visibilityButton.html(icon + ' ' + message)
-                    .prepend(radioInput);
+    $visibilityPreviewButton.html(icon + ' ' + message)
+                            .prepend($radioInput);
 }
 
-function getVisibilityMessageIfPreviewIsActive(buttonElem) {
-    var $form = $(buttonElem).closest('form');
-    
-    if ($form.find('.visibilityMessageButton').hasClass('active')) {
-        getVisibilityMessage(buttonElem);
-    }
-}
-
-function formatVisibilityMessageHtml(visibilityMessage) {
+function formatPreviewTabHtml(visibilityMessage) {
     var htmlString = 'This is the visibility as seen by the feedback giver.';
     htmlString += '<ul class="background-color-warning">';
     for (var i = 0; i < visibilityMessage.length; i++) {
