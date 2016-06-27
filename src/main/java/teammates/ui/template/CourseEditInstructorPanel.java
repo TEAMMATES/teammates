@@ -2,6 +2,8 @@ package teammates.ui.template;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
@@ -55,28 +57,32 @@ public class CourseEditInstructorPanel {
                                    List<String> feedbackNames) {
         firstBlankSectionRowIndex = sectionNames.size();
         List<CourseEditSectionRow> rows = new ArrayList<CourseEditSectionRow>();
-        List<CourseEditSectionRow> blankRows = new ArrayList<CourseEditSectionRow>();
+        Map<Integer, String> specialSectionNames = new TreeMap<Integer, String>();
+        Map<Integer, String> nonSpecialSectionNames = new TreeMap<Integer, String>();
+        
         int sectionIndex = -1;
         for (String sectionName : sectionNames) {
             sectionIndex++;
-            CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames,
-                                                                       sectionIndex, instructor,
-                                                                       instructorIndex, feedbackNames);
-            
-            // break section rows into special and blank lists
-            if (sectionRow.isSectionSpecial()) {
-                rows.add(sectionRow);
+            if (isSectionSpecial(sectionName)) {
+                specialSectionNames.put(sectionIndex, sectionName);
             } else {
-                blankRows.add(sectionRow);
+                nonSpecialSectionNames.put(sectionIndex, sectionName);
                 if (firstBlankSectionRowIndex == sectionNames.size()) {
-                    firstBlankSectionRowIndex = sectionRow.getSectionIndex();
+                    firstBlankSectionRowIndex = sectionIndex;
                 }
             }
         }
         
-        // append blank list to the special list, so all special rows appear before blank rows
-        for (CourseEditSectionRow blankRow : blankRows) {
-            rows.add(blankRow);
+        int panelIndex = -1;
+        for (Map.Entry<Integer, String> sectionNameEntry : specialSectionNames.entrySet()) {
+            panelIndex++;
+            sectionIndex = sectionNameEntry.getKey();
+            String sectionName = sectionNameEntry.getValue();
+            CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, sectionIndex,
+                                                                       panelIndex, instructor,
+                                                                       instructorIndex, feedbackNames);
+            
+            rows.add(sectionRow);
         }
         return rows;
     }
@@ -135,6 +141,10 @@ public class CourseEditInstructorPanel {
     
     public List<ElementTag> getPermissionInputGroup3() {
         return permissionInputGroup3;
+    }
+    
+    private boolean isSectionSpecial(String sectionName) {
+        return instructor != null && instructor.privileges.isSectionSpecial(sectionName);
     }
     
     private List<ElementTag> createPermissionInputGroup3ForInstructorPanel() {
