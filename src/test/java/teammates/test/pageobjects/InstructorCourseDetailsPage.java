@@ -163,10 +163,10 @@ public class InstructorCourseDetailsPage extends AppPage {
     
     private WebElement getAllRecordsLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
+        WebElement fourthLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
         
-        if ("All Records".equals(thirdLink.getText())) {
-            return thirdLink;
+        if ("All Records".equals(fourthLink.getText())) {
+            return fourthLink;
         }
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(5)"));
     }

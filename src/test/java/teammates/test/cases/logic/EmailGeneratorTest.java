@@ -99,6 +99,20 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         verifyEmail(emails.get(0), student1.email, subject, "/sessionPublishedEmailForStudent.html");
         
+        ______TS("no email alerts sent for sessions not answerable/viewable for students");
+        
+        FeedbackSessionAttributes privateSession =
+                fsLogic.getFeedbackSession("Private feedback session", "idOfTypicalCourse2");
+        
+        emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(privateSession);
+        assertTrue(emails.isEmpty());
+        
+        emails = new EmailGenerator().generateFeedbackSessionClosingEmails(privateSession);
+        assertTrue(emails.isEmpty());
+        
+        emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(privateSession);
+        assertTrue(emails.isEmpty());
+        
     }
     
     @Test

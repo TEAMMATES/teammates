@@ -147,23 +147,33 @@ public class InstructorStudentListPage extends AppPage {
     }
 
     private WebElement getViewLink(String rowId) {
-        return getStudentLink("student-view-for-test", rowId);
+        WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(1)"));
     }
 
     private WebElement getEditLink(String rowId) {
-        return getStudentLink("student-edit-for-test", rowId);
+        WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(2)"));
     }
 
     private WebElement getViewRecordsLink(String rowId) {
-        return getStudentLink("student-records-for-test", rowId);
+        WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
+        WebElement fourthLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
+        
+        if ("All Records".equals(fourthLink.getText())) {
+            return fourthLink;
+        }
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(5)"));
     }
 
     private WebElement getDeleteLink(String rowId) {
-        return getStudentLink("student-delete-for-test", rowId);
-    }
-
-    private WebElement getStudentLink(String className, String rowId) {
-        return browser.driver.findElement(By.id("student-c" + rowId)).findElement(By.className(className));
+        WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
+        WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(3)"));
+        
+        if ("Delete".equals(thirdLink.getText())) {
+            return thirdLink;
+        }
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
     }
 
     private String getElementText(By locator) {

@@ -6,8 +6,8 @@
 <link href="/favicon.png" rel="shortcut icon">
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-<link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
 <script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
 </script>
@@ -17,11 +17,11 @@
 </script>
 <script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
 </script>
-<script src="/js/common.js" type="text/javascript">
-</script>
-<script src="/bootstrap/js/bootstrap.min.js" type="text/javascript">
+<script src="/js/lib/bootstrap.min.js" type="text/javascript">
 </script>
 <script src="/js/lib/bootbox.min.js" type="text/javascript">
+</script>
+<script src="/js/common.js" type="text/javascript">
 </script>
 <link href="/stylesheets/datepicker.css" media="screen" rel="stylesheet" type="text/css">
 <script src="/js/datepicker.js" type="text/javascript">
@@ -997,7 +997,7 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Discard new question" data-placement="top" data-toggle="tooltip" onclick="cancelEdit(-1)" title="">
+              <a class="btn btn-primary btn-xs" data-original-title="Discard new question" data-placement="top" data-toggle="tooltip" onclick="discardChanges(-1)" title="">
                 Cancel
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="Delete this question" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(-1)" title="">
@@ -1638,13 +1638,13 @@
             (Who can see the responses?)
           </div>
           <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel" onchange="toggleVisibilityEditTab(this)">
               <input type="radio">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit Visibility
             </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton" onchange="toggleVisibilityPreviewTab(this)">
               <input type="radio">
               <span class="glyphicon glyphicon-eye-open">
               </span>
