@@ -182,7 +182,6 @@ function registerResponseCommentCheckboxEvent() {
     $('body').on('click', 'ul[id^="responseCommentTable"] * input[type=checkbox]', function(e) {
         var table = $(this).closest('table');
         var form = table.closest('form');
-        var visibilityOptions = [];
         var target = $(e.target);
         var visibilityOptionsRow = target.closest('tr');
         
@@ -195,16 +194,7 @@ function registerResponseCommentCheckboxEvent() {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
-        table.find('.answerCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showresponsecommentsto']").val(visibilityOptions.join(', '));
-        
-        visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showresponsegiverto']").val(visibilityOptions.join(', '));
+        resetVisibilityHiddenFields(form, table);
     });
 }
 
@@ -369,9 +359,14 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
 }
 
 function resetResponseAddCommentForm(id) {
-    $('#showResponseCommentAddForm' + id).find('form[class="responseCommentAddForm"]')[0].reset();
+    var form = $('#showResponseCommentAddForm' + id).find('form[class="responseCommentAddForm"]');
+    form[0].reset();
     $('#frComment-visibility-options-trigger' + id)
         .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+    
+    var table = form.find('table').eq(0);
+    resetVisibilityHiddenFields(form, table);
+    
     $('#visibility-options' + id).hide();
 }
 
@@ -379,7 +374,32 @@ function resetResponseEditCommentForm(id) {
     document.getElementById('responseCommentEditForm' + id).reset();
     $('#frComment-visibility-options-trigger' + id)
         .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+    
+    var form = $('#responseCommentEditForm' + id);
+    var table = form.find('table').eq(0);
+    resetVisibilityHiddenFields(form, table);
+    
     $('#visibility-options' + id).hide();
+}
+
+function resetVisibilityHiddenFields(form, table) {
+    visibilityOptions = [];
+    table.find('.answerCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find("input[name='showcommentsto']").val(visibilityOptions.join(', '));
+    
+    visibilityOptions = [];
+    table.find('.giverCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find("input[name='showgiverto']").val(visibilityOptions.join(', '));
+    
+    visibilityOptions = [];
+    table.find('.recipientCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find("input[name='showrecipientto']").val(visibilityOptions.join(', '));
 }
 
 function showNewlyAddedResponseCommentEditForm(addedIndex) {
@@ -480,21 +500,6 @@ function registerCheckboxEventForVisibilityOptions() {
             visiblityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
-        table.find('.answerCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showcommentsto']").val(visibilityOptions.join(', '));
-        
-        visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showgiverto']").val(visibilityOptions.join(', '));
-        
-        visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showrecipientto']").val(visibilityOptions.join(', '));
+        resetVisibilityHiddenFields(form, table);
     });
 }

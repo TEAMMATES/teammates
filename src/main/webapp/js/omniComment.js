@@ -336,7 +336,6 @@ $(document).ready(function() {
     $('input[type=checkbox]').click(function(e) {
         var table = $(this).closest('table');
         var form = table.closest('form');
-        var visibilityOptions = [];
         var target = $(e.target);
         var visibilityOptionsRow = target.closest('tr');
         
@@ -349,22 +348,7 @@ $(document).ready(function() {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
-        table.find('.answerCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showcommentsto']").val(visibilityOptions.join(', '));
-        
-        visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showgiverto']").val(visibilityOptions.join(', '));
-        
-        visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function() {
-            visibilityOptions.push($(this).val());
-        });
-        form.find("input[name='showrecipientto']").val(visibilityOptions.join(', '));
+        resetVisibilityHiddenFields(form, table);
     });
 });
 
@@ -401,7 +385,10 @@ function enableComment(commentIdx) {
     $('#commentBar-' + commentIdx).hide();
     $('#plainCommentText' + commentIdx).hide();
     $("div[id='commentTextEdit" + commentIdx + "']").show();
-    document.getElementById("form_commentedit-" + commentIdx).reset();
+    document.getElementById('form_commentedit-' + commentIdx).reset();
+    var form = $('#form_commentedit-' + commentIdx);
+    var table = form.find('table').eq(0);
+    resetVisibilityHiddenFields(form, table)
     $('#visibility-options' + commentIdx).hide();
     var visibilityOptions = '#visibility-options-trigger' + commentIdx;
     $(visibilityOptions).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
@@ -412,6 +399,26 @@ function disableComment(commentIdx) {
     $('#commentBar-' + commentIdx).show();
     $('#plainCommentText' + commentIdx).show();
     $("div[id='commentTextEdit" + commentIdx + "']").hide();
+}
+
+function resetVisibilityHiddenFields(form, table) {
+    visibilityOptions = [];
+    table.find('.answerCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find("input[name='showcommentsto']").val(visibilityOptions.join(', '));
+    
+    visibilityOptions = [];
+    table.find('.giverCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find("input[name='showgiverto']").val(visibilityOptions.join(', '));
+    
+    visibilityOptions = [];
+    table.find('.recipientCheckbox:checked').each(function() {
+        visibilityOptions.push($(this).val());
+    });
+    form.find("input[name='showrecipientto']").val(visibilityOptions.join(', '));
 }
 
 function checkComment(form) {
