@@ -15,12 +15,12 @@ $(document).ready(function() {
     /**
      * Handles Keyup and Keydown on Text question to display response length
      */
-    $('textarea[id^="responsetext-"]').keyup(function() {
-        updateTextQuestionCharCount(this.id, $(this).data('lengthtextid'), $(this).data('recommendedtext'));
+    $('textarea[id^="responsetext-"]').on('input', function() {
+        updateTextQuestionWordsCount(this.id, $(this).data('length-text-id'), $(this).data('recommended-text'));
     });
 
-    $('textarea[id^="responsetext-"]').keydown(function() {
-        updateTextQuestionCharCount(this.id, $(this).data('lengthtextid'), $(this).data('recommendedtext'));
+    $('textarea[id^="responsetext-"]').on('input', function() {
+        updateTextQuestionWordsCount(this.id, $(this).data('length-text-id'), $(this).data('recommended-text'));
     });
 
     /**
@@ -962,22 +962,29 @@ function getWarningMessage() {
  * @param textAreaId - Id of text area for which char are to be counted
  * @param charCountId - Id of Label to display length of text area
  */
-function updateTextQuestionCharCount(textAreaId, charCountId, recommendedLength) {
-    var cs = $('#' + textAreaId).val().trim().split(/\s+/).length;
-    
-    if ($('#' + textAreaId).val().length === 0) {
-        $('#' + charCountId).text('0');
+function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLength) {
+	
+    var $response = $('#' + textAreaId).val();
+    var $wordsCountElement = $('#' + wordsCountId);
+    var $wordsCountElementText = $('#' + wordsCountId).text();
+
+    var wordsCount = $response.split(/\s/g).filter(function(item) {
+        return item.match(/\w/);
+    }).length;
+
+    if ($response.length === 0) {
+        $wordsCountElement.text('0');
     } else {
-        $('#' + charCountId).text(cs);
+        $wordsCountElement.text(wordsCount);
     }
 
     var upperLimit = recommendedLength + recommendedLength * 0.1;
     var lowerLimit = recommendedLength - recommendedLength * 0.1;
 
-    if ($('#' + charCountId).text() > lowerLimit
-            && $('#' + charCountId).text() < upperLimit) {
-        $('#' + charCountId).css('color', 'green');
+    if ($wordsCountElementText > lowerLimit
+            && $wordsCountElementText < upperLimit) {
+        $wordsCountElement.css('color', 'green');
     } else {
-        $('#' + charCountId).css('color', 'gray');
+        $wordsCountElement.css('color', 'gray');
     }
 }
