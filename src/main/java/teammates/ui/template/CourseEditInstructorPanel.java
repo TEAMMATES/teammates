@@ -56,48 +56,90 @@ public class CourseEditInstructorPanel {
     private List<CourseEditSectionRow> createSectionRows(int instructorIndex, List<String> sectionNames,
                                    List<String> feedbackNames) {
         firstBlankSectionRowIndex = sectionNames.size();
-        List<CourseEditSectionRow> rows = new ArrayList<CourseEditSectionRow>();
         Map<Integer, String> specialSectionNames = new TreeMap<Integer, String>();
         Map<Integer, String> nonSpecialSectionNames = new TreeMap<Integer, String>();
         
-        int sectionIndex = -1;
+        distinguishSpecialAndNonSpecialSections(sectionNames, specialSectionNames, nonSpecialSectionNames);
+
+        List<CourseEditSectionRow> rows = 
+                createSpecialAndNonSpecialSectionRowsInOrder(instructorIndex, sectionNames, feedbackNames,
+                                                             specialSectionNames, nonSpecialSectionNames);
+        return rows;
+    }
+    
+    /**
+     * Splits the list of section names into two mappings of Integer => String
+     * matching the index of the section to the section's name.
+     */
+    private void distinguishSpecialAndNonSpecialSections(List<String> sectionNames,
+            Map<Integer, String> specialSectionNames, Map<Integer, String> nonSpecialSectionNames) {
+        int sectionIndex = 0;
+        
         for (String sectionName : sectionNames) {
-            sectionIndex++;
             if (isSectionSpecial(sectionName)) {
                 specialSectionNames.put(sectionIndex, sectionName);
             } else {
                 nonSpecialSectionNames.put(sectionIndex, sectionName);
             }
+            sectionIndex++;
         }
+    }
+    
+    /**
+     * Creates a list of section rows such that all rows for special sections 
+     * occur before those of non-special sections.
+     */
+    private List<CourseEditSectionRow> createSpecialAndNonSpecialSectionRowsInOrder(int instructorIndex,
+            List<String> sectionNames, List<String> feedbackNames,
+            Map<Integer, String> specialSectionNames, Map<Integer, String> nonSpecialSectionNames) {
+        List<CourseEditSectionRow> rows = new ArrayList<CourseEditSectionRow>();
         
-        int panelIndex = -1;
+        createSpecialSectionRows(instructorIndex, sectionNames, feedbackNames, rows, specialSectionNames);
+        createNonSpecialSectionRows(instructorIndex, sectionNames, feedbackNames, rows, nonSpecialSectionNames);
+        return rows;
+    }
+    
+    /**
+     * Adds special section rows as defined in {@code specialSectionNames} to {@code rows}.
+     */
+    private void createSpecialSectionRows(int instructorIndex, List<String> sectionNames,
+            List<String> feedbackNames, List<CourseEditSectionRow> rows,
+            Map<Integer, String> specialSectionNames) {
+        int panelIndex = rows.size();
+        
         for (Map.Entry<Integer, String> sectionNameEntry : specialSectionNames.entrySet()) {
-            panelIndex++;
-            sectionIndex = sectionNameEntry.getKey();
+            int sectionIndex = sectionNameEntry.getKey();
             String sectionName = sectionNameEntry.getValue();
             CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, sectionIndex,
                                                                        panelIndex, instructor,
                                                                        instructorIndex, feedbackNames);
             
             rows.add(sectionRow);
+            panelIndex++;
         }
+    }
+    
+    /**
+     * Adds non special sections as defined in {@code nonSpecialSectionNames} to {@code rows}.
+     */
+    private void createNonSpecialSectionRows(int instructorIndex, List<String> sectionNames,
+            List<String> feedbackNames, List<CourseEditSectionRow> rows,
+            Map<Integer, String> nonSpecialSectionNames) {
+        int panelIndex = rows.size();
         
         for (Map.Entry<Integer, String> sectionNameEntry : nonSpecialSectionNames.entrySet()) {
-            panelIndex++;
-            
             if (firstBlankSectionRowIndex == sectionNames.size()) {
                 firstBlankSectionRowIndex = panelIndex;
             }
-            
-            sectionIndex = sectionNameEntry.getKey();
+            int sectionIndex = sectionNameEntry.getKey();
             String sectionName = sectionNameEntry.getValue();
             CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, sectionIndex,
                                                                        panelIndex, instructor,
                                                                        instructorIndex, feedbackNames);
             
             rows.add(sectionRow);
+            panelIndex++;
         }
-        return rows;
     }
     
     public List<CourseEditSectionRow> getSectionRows() {
