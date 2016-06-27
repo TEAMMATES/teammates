@@ -48,6 +48,12 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "My comments"
         };
+        
+        String[] paramsWithMissingResponses = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "true"
+        };
 
         ______TS("Typical case: results downloadable");
 
@@ -123,6 +129,17 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         ______TS("Typical case: results with a filter text");
 
         action = getAction(paramsWithFilterText);
+        result = (FileDownloadResult) action.executeAndPostProcess();
+        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
+        assertEquals(expectedFileName, result.getFileName());
+        verifyFileContentForDownloadWithFilterText(result.getFileContent(), session);
+        
+        ______TS("Typical case: results without missing responses");
+        action = getAction(paramsWithMissingResponses);
         result = (FileDownloadResult) action.executeAndPostProcess();
         expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
