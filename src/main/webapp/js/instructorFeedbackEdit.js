@@ -94,6 +94,8 @@ function bindFeedbackSessionEditFormSubmission() {
         // Prevent form submission
         event.preventDefault();
         
+        // populate hidden input
+        tinyMCE.get('instructions').save();
         var $form = $(event.target);
         // Use Ajax to submit form data
         $.ajax({
@@ -119,6 +121,13 @@ function bindFeedbackSessionEditFormSubmission() {
     });
 }
 
+function destroyEditor(id) {
+    var currentEditor = tinyMCE.get(id);
+    if (currentEditor) {
+        currentEditor.destroy();
+    }
+}
+
 /**
  * Disables the editing of feedback session details.
  */
@@ -129,6 +138,13 @@ function disableEditFS() {
     });
     $('#form_feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
+
+    destroyEditor('instructions');
+    richTextEditorBuilder.initEditor('#instructions', {
+        inline: true,
+        readonly: true
+    });
+
     $('#fsEditLink').show();
     $('#fsSaveLink').hide();
     $('#button_submit').hide();
@@ -163,6 +179,12 @@ function enableEditFS() {
                               .not($sessionOpeningReminder)
                               .not('.disabled')
                               .prop('disabled', false);
+
+    destroyEditor('instructions');
+    richTextEditorBuilder.initEditor('#instructions', {
+        inline: true
+    });
+
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit').show();

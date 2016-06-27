@@ -14,8 +14,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -1198,8 +1196,7 @@ public class FeedbackSessionsLogic {
         newSession.setCreatorEmail(oldSession.getCreatorEmail());
         newSession.setCreatedTime(oldSession.getCreatedTime());
 
-        Text newInstructions = newSession.getInstructions();
-        if (newInstructions == null || newInstructions.getValue().isEmpty()) {
+        if (newSession.getInstructions() == null) {
             newSession.setInstructions(oldSession.getInstructions());
         }
         if (newSession.getStartTime() == null) {
