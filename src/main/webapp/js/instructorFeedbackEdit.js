@@ -95,7 +95,9 @@ function bindFeedbackSessionEditFormSubmission() {
         event.preventDefault();
         
         // populate hidden input
-        tinyMCE.get('instructions').save();
+        if (typeof tinyMCE !== 'undefined') {
+            tinyMCE.get('instructions').save();
+        }
         var $form = $(event.target);
         // Use Ajax to submit form data
         $.ajax({
@@ -122,6 +124,9 @@ function bindFeedbackSessionEditFormSubmission() {
 }
 
 function destroyEditor(id) {
+    if (typeof tinyMCE === 'undefined') {
+        return;
+    }
     var currentEditor = tinyMCE.get(id);
     if (currentEditor) {
         currentEditor.destroy();
@@ -140,10 +145,12 @@ function disableEditFS() {
                                   .prop('disabled', true);
 
     destroyEditor('instructions');
-    richTextEditorBuilder.initEditor('#instructions', {
-        inline: true,
-        readonly: true
-    });
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            readonly: true
+        });
+    }
 
     $('#fsEditLink').show();
     $('#fsSaveLink').hide();
@@ -181,9 +188,11 @@ function enableEditFS() {
                               .prop('disabled', false);
 
     destroyEditor('instructions');
-    richTextEditorBuilder.initEditor('#instructions', {
-        inline: true
-    });
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true
+        });
+    }
 
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();

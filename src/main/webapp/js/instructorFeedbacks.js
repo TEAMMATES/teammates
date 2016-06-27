@@ -334,8 +334,10 @@ function collapseIfPrivateSession() {
 $(document).ready(function() {
     var isEdit = typeof readyFeedbackEditPage === 'function';
 
-    richTextEditorBuilder.initEditor('#instructions', {
-        inline: true,
-        readonly: isEdit
-    });
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            readonly: isEdit
+        });
+    }
 });
