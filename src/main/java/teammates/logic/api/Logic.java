@@ -1511,6 +1511,7 @@ public class Logic {
     public String getFeedbackSessionResultSummaryAsCsv(String courseId,
                                                        String feedbackSessionName,
                                                        String instructorEmail,
+                                                       String filterText,
                                                        boolean isMissingResponsesShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
@@ -1518,7 +1519,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                feedbackSessionName, courseId, instructorEmail, isMissingResponsesShown);
+                feedbackSessionName, courseId, instructorEmail, filterText, isMissingResponsesShown);
     }
 
     /**
@@ -1530,6 +1531,7 @@ public class Logic {
                                                                 String feedbackSessionName,
                                                                 String instructorEmail,
                                                                 String section,
+                                                                String filterText,
                                                                 boolean isMissingResponsesShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
@@ -1541,6 +1543,7 @@ public class Logic {
                                                                                     courseId,
                                                                                     instructorEmail,
                                                                                     section,
+                                                                                    filterText,
                                                                                     isMissingResponsesShown);
     }
     

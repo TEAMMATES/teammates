@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -837,15 +838,17 @@ public class FeedbackSessionsLogic {
     }
 
     public String getFeedbackSessionResultsSummaryAsCsv(
-            String feedbackSessionName, String courseId, String userEmail, boolean isMissingResponsesShown)
+            String feedbackSessionName, String courseId,
+            String userEmail, String filterText, boolean isMissingResponsesShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         return getFeedbackSessionResultsSummaryInSectionAsCsv(
-                feedbackSessionName, courseId, userEmail, null, isMissingResponsesShown);
+                feedbackSessionName, courseId, userEmail, null, filterText, isMissingResponsesShown);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
-            String feedbackSessionName, String courseId, String userEmail, String section, boolean isMissingResponsesShown)
+            String feedbackSessionName, String courseId,
+            String userEmail, String section, String filterText, boolean isMissingResponsesShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         long indicatedRange = (section == null) ? 10000 : -1;
@@ -874,13 +877,34 @@ public class FeedbackSessionsLogic {
         }
 
         exportBuilder.append(Const.EOL).append(Const.EOL);
-
-        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
-                .getQuestionResponseMap().entrySet()) {
+        
+        Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet =
+                results.getQuestionResponseMap().entrySet();
+        
+        if (filterText != null && !filterText.isEmpty()) {
+            entrySet = filterQuestions(entrySet, filterText.toLowerCase());
+        }
+        
+        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
             exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(results, entry, isMissingResponsesShown));
         }
         return exportBuilder.toString();
         
+    }
+
+    private Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> filterQuestions(
+            Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet,
+            String filterText) {
+        
+        for (Iterator<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> it =
+                entrySet.iterator(); it.hasNext(); ) {
+            Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry = it.next();
+            if (!entry.getKey().getQuestionMetaData().getValue().toLowerCase().contains(filterText)) {
+                it.remove();
+            }
+        }
+       
+        return entrySet;
     }
 
     private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(

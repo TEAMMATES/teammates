@@ -94,9 +94,6 @@ public class BackDoorServlet extends HttpServlet {
     public static final String PARAMETER_PICTURE_KEY = "PARAMETER_PICTURE_KEY";
     public static final String PARAMETER_PICTURE_DATA = "PARAMETER_PICTURE_DATA";
     
-    public static final String RETURN_VALUE_TRUE = "true";
-    public static final String RETURN_VALUE_FALSE = "false";
-    
     private static final Logger log = Utils.getLogger();
 
     @Override
@@ -162,7 +159,7 @@ public class BackDoorServlet extends HttpServlet {
             return backDoorLogic.getStudentProfileAsJson(googleId);
         } else if (action.equals(OPERATION_IS_PICTURE_PRESENT_IN_GCS)) {
             String pictureKey = req.getParameter(PARAMETER_PICTURE_KEY);
-            return backDoorLogic.isPicturePresentInGcs(pictureKey);
+            return String.valueOf(backDoorLogic.isPicturePresentInGcs(pictureKey));
         } else if (action.equals(OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID)) {
             String instructorId = req.getParameter(PARAMETER_INSTRUCTOR_ID);
             String courseId = req.getParameter(PARAMETER_COURSE_ID);

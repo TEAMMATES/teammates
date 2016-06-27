@@ -875,7 +875,7 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Discard new question" data-placement="top" data-toggle="tooltip" onclick="cancelEdit(-1)" title="">
+              <a class="btn btn-primary btn-xs" data-original-title="Discard new question" data-placement="top" data-toggle="tooltip" onclick="discardChanges(-1)" title="">
                 Cancel
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="Delete this question" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(-1)" title="">
@@ -1516,13 +1516,13 @@
             (Who can see the responses?)
           </div>
           <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel" onchange="toggleVisibilityEditTab(this)">
               <input type="radio">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit Visibility
             </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton" onchange="toggleVisibilityPreviewTab(this)">
               <input type="radio">
               <span class="glyphicon glyphicon-eye-open">
               </span>

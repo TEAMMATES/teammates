@@ -254,7 +254,8 @@ $(document).ready(function() {
 });
 
 function removeUnwantedVisibilityOptions(commentId) {
-    var addFormId = 'showResponseCommentAddForm-' + commentId.split('-').splice(0, 3).join('-');
+    var commentIds = commentId.split('-');
+    var addFormId = 'showResponseCommentAddForm-' + commentIds.splice(0, commentIds.length).join('-');
     var checkboxesInInAddForm = $('#' + addFormId).find('tr').find('input.visibilityCheckbox');
     var valuesOfCheckbox = [];
     for (var i = 0; i < checkboxesInInAddForm.length; i++) {
@@ -294,8 +295,16 @@ function setFormErrorMessage(submitButton, msg) {
     }
 }
 
-function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
-    var id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndx;
+function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, opts) {
+    var id;
+    var isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
+
+    if (isIncludeSection) {
+        id = '-' + opts.sectionIndex + '-' + recipientIndex + '-' + giverIndex + '-' + qnIndx;
+    } else {
+        id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndx;
+    }
+
     $('#responseCommentTable' + id).show();
     if ($('#responseCommentTable' + id + ' > li').length <= 1) {
         $('#responseCommentTable' + id).css('margin-top', '15px');
@@ -304,8 +313,16 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
     $('#responseCommentAddForm' + id).focus();
 }
 
-function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
-    var id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndx;
+function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, opts) {
+    var id;
+    var isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
+
+    if (isIncludeSection) {
+        id = '-' + opts.sectionIndex + '-' + recipientIndex + '-' + giverIndex + '-' + qnIndx;
+    } else {
+        id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndx;
+    }
+
     if ($('#responseCommentTable' + id + ' > li').length <= 1) {
         $('#responseCommentTable' + id).css('margin-top', '0');
         $('#responseCommentTable' + id).hide();
@@ -314,13 +331,22 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
     removeFormErrorMessage($('#button_save_comment_for_add' + id));
 }
 
-function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
+function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, opts) {
     var id;
+    var isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
+
     if (giverIndex || qnIndex || commentIndex) {
-        id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndex + '-' + commentIndex;
+        if (isIncludeSection) {
+            id = '-' + opts.sectionIndex + '-' + recipientIndex + '-' + giverIndex + '-' + qnIndex + '-' + commentIndex;
+        } else {
+            id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndex + '-' + commentIndex;
+        }
+    } else if (isIncludeSection) {
+        id = '-' + opts.sectionIndex + '-' + recipientIndex;
     } else {
         id = '-' + recipientIndex;
     }
+
     var commentBar = $('#plainCommentText' + id).parent().find('#commentBar' + id);
     commentBar.hide();
     $('#plainCommentText' + id).hide();
@@ -329,17 +355,57 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     $('#responseCommentEditForm' + id + ' > div > textarea').focus();
 }
 
-function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIndex) {
+function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, opts) {
     var id;
-    if (questionIdx || responseIdx || commentIndex) {
-        if (commentIndex) {
-            id = '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx + '-' + commentIndex;
+    var isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
+
+    if (questionIdx || responseIdx) {
+        if (isIncludeSection) {
+            id = '-' + opts.sectionIndex + '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx;
         } else {
             id = '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx;
         }
+    } else if (isIncludeSection) {
+        id = '-' + opts.sectionIndex + '-' + sessionIdx;
     } else {
         id = '-' + sessionIdx;
     }
+
+    var visibilityEditForm = $('#visibility-options' + id);
+    if (visibilityEditForm.is(':visible')) {
+        visibilityEditForm.hide();
+        $('#frComment-visibility-options-trigger' + id)
+            .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+
+    } else {
+        visibilityEditForm.show();
+        $('#frComment-visibility-options-trigger' + id)
+            .html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
+    }
+}
+
+function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIndex, opts) {
+    var id;
+    var isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
+
+    if (questionIdx || responseIdx || commentIndex) {
+        if (commentIndex) {
+            if (isIncludeSection) {
+                id = '-' + opts.sectionIndex + '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx + '-' + commentIndex;
+            } else {
+                id = '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx + '-' + commentIndex;
+            }
+        } else if (isIncludeSection) {
+            id = '-' + opts.sectionIndex + '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx;
+        } else {
+            id = '-' + sessionIdx + '-' + questionIdx + '-' + responseIdx;
+        }
+    } else if (isIncludeSection) {
+        id = '-' + opts.sectionIndex + '-' + sessionIdx;
+    } else {
+        id = '-' + sessionIdx;
+    }
+
     var visibilityEditForm = $('#visibility-options' + id);
     if (visibilityEditForm.is(':visible')) {
         visibilityEditForm.hide();
@@ -353,13 +419,22 @@ function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentI
     }
 }
 
-function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
+function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, opts) {
     var id;
+    var isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
+
     if (giverIndex || qnIndex || commentIndex) {
-        id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndex + '-' + commentIndex;
+        if (isIncludeSection) {
+            id = '-' + opts.sectionIndex + '-' + recipientIndex + '-' + giverIndex + '-' + qnIndex + '-' + commentIndex;
+        } else {
+            id = '-' + recipientIndex + '-' + giverIndex + '-' + qnIndex + '-' + commentIndex;
+        }
+    } else if (isIncludeSection) {
+        id = '-' + opts.sectionIndex + '-' + recipientIndex;
     } else {
         id = '-' + recipientIndex;
     }
+
     var commentBar = $('#plainCommentText' + id).parent().find('#commentBar' + id);
     commentBar.show();
     $('#plainCommentText' + id).show();
