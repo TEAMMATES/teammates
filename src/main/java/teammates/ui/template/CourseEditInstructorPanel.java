@@ -67,9 +67,6 @@ public class CourseEditInstructorPanel {
                 specialSectionNames.put(sectionIndex, sectionName);
             } else {
                 nonSpecialSectionNames.put(sectionIndex, sectionName);
-                if (firstBlankSectionRowIndex == sectionNames.size()) {
-                    firstBlankSectionRowIndex = sectionIndex;
-                }
             }
         }
         
@@ -87,6 +84,11 @@ public class CourseEditInstructorPanel {
         
         for (Map.Entry<Integer, String> sectionNameEntry : nonSpecialSectionNames.entrySet()) {
             panelIndex++;
+            
+            if (firstBlankSectionRowIndex == sectionNames.size()) {
+                firstBlankSectionRowIndex = panelIndex;
+            }
+            
             sectionIndex = sectionNameEntry.getKey();
             String sectionName = sectionNameEntry.getValue();
             CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, sectionIndex,
