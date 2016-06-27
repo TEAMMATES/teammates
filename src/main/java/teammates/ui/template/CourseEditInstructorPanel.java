@@ -61,7 +61,7 @@ public class CourseEditInstructorPanel {
         
         distinguishSpecialAndNonSpecialSections(sectionNames, specialSectionNames, nonSpecialSectionNames);
 
-        List<CourseEditSectionRow> rows = 
+        List<CourseEditSectionRow> rows =
                 createSpecialAndNonSpecialSectionRowsInOrder(instructorIndex, sectionNames, feedbackNames,
                                                              specialSectionNames, nonSpecialSectionNames);
         return rows;
@@ -86,7 +86,7 @@ public class CourseEditInstructorPanel {
     }
     
     /**
-     * Creates a list of section rows such that all rows for special sections 
+     * Creates a list of section rows such that all rows for special sections
      * occur before those of non-special sections.
      */
     private List<CourseEditSectionRow> createSpecialAndNonSpecialSectionRowsInOrder(int instructorIndex,
