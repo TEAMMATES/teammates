@@ -84,6 +84,17 @@ public class CourseEditInstructorPanel {
             
             rows.add(sectionRow);
         }
+        
+        for (Map.Entry<Integer, String> sectionNameEntry : nonSpecialSectionNames.entrySet()) {
+            panelIndex++;
+            sectionIndex = sectionNameEntry.getKey();
+            String sectionName = sectionNameEntry.getValue();
+            CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, sectionIndex,
+                                                                       panelIndex, instructor,
+                                                                       instructorIndex, feedbackNames);
+            
+            rows.add(sectionRow);
+        }
         return rows;
     }
     
