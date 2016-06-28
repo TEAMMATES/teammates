@@ -22,7 +22,7 @@ $(document).ready(function() {
 
     $('.panel-heading.student_feedback').click(toggleSingleCollapse);
 
-    $('input[type=checkbox]').click(function(e) {
+    $('body').on('click', 'input[type=checkbox]', function(e) {
         var table = $(this).closest('table');
         var form = table.closest('form');
         var target = $(e.target);
@@ -37,7 +37,7 @@ $(document).ready(function() {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
-        resetVisibilityHiddenFields(form, table);
+        recordsResetVisibilityHiddenFields(form, table);
     });
 
     readyStudentRecordsPage();
@@ -132,7 +132,7 @@ function enableComment(commentIdx) {
     document.getElementById("form_commentedit-" + commentIdx).reset();
     var form = $('#form_commentedit-' + commentIdx);
     var table = form.find('table').eq(0);
-    resetVisibilityHiddenFields(form, table);
+    recordsResetVisibilityHiddenFields(form, table);
     $('#visibility-options' + commentIdx).hide();
     var visibilityOptions = '#visibility-options-trigger' + commentIdx;
     $(visibilityOptions).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
@@ -145,7 +145,7 @@ function disableComment(commentIdx) {
     $('div[id="commentTextEdit' + commentIdx + '"]').hide();
 }
 
-function resetVisibilityHiddenFields(form, table) {
+function recordsResetVisibilityHiddenFields(form, table) {
     visibilityOptions = [];
     table.find('.answerCheckbox:checked').each(function() {
         visibilityOptions.push($(this).val());

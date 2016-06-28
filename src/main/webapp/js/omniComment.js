@@ -333,7 +333,7 @@ $(document).ready(function() {
         }
     });
     
-    $('input[type=checkbox]').click(function(e) {
+    $('body').on('click', 'input[type=checkbox]', function(e) {
         var table = $(this).closest('table');
         var form = table.closest('form');
         var target = $(e.target);
