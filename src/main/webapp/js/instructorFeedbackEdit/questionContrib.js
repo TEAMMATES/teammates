@@ -93,9 +93,10 @@ function setContribQnVisibilityFormat(questionNum) {
 }
 
 function fixContribQnGiverRecipient(questionNum) {
-    var idSuffix = questionNum ? '-' + questionNum : '';
-    var $giverType = $('#givertype' + idSuffix);
-    var $recipientType = $('#recipienttype' + idSuffix);
+    var idSuffix = questionNum || 'New';
+    var $questionTable = $('#questionTable' + idSuffix);
+    var $giverType = $questionTable.find('[id^=givertype]');
+    var $recipientType = $questionTable.find('[id^=recipienttype]');
 
     // Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
     $giverType.find('option').not('[value="STUDENTS"]').hide();
@@ -106,5 +107,11 @@ function fixContribQnGiverRecipient(questionNum) {
 
     $giverType.find('option').filter('[value="STUDENTS"]').prop('selected', true);
     $recipientType.find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('selected', true);
+
+    // simulate a click to update the text of the dropdown menu button
+    $questionTable.find('.feedback-path-dropdown-option[data-giver-type="STUDENTS"]'
+            + '[data-recipient-type="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').click();
+    // the dropdown button is not an input tag and has no property "disabled", so .addClass is used
+    $questionTable.find('.feedback-path-dropdown > button').addClass('disabled');
 }
 

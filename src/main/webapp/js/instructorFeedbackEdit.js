@@ -408,6 +408,7 @@ function hideNewQuestionAndShowNewQuestionForm() {
     // re-enables all feedback path options, which may have been hidden by team contribution question
     $('#givertype').find('option').show().prop('disabled', false);
     $('#recipienttype').find('option').show().prop('disabled', false);
+    $('#questionTableNew').find('.feedback-path-dropdown > button').removeClass('disabled');
 }
 
 /**
