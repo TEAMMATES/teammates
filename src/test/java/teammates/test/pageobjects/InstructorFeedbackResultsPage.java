@@ -10,6 +10,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -32,6 +33,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
+    
+    @FindBy(id = "indicate-missing-responses-checkbox")
+    public WebElement indicateMissingResponsesCheckbox;
     
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
@@ -130,6 +134,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         showStatsCheckbox.click();
     }
 
+    public void clickIndicateMissingResponses() {
+        indicateMissingResponsesCheckbox.click();
+    }
+    
     public void fillSearchBox(String s) {
         this.fillTextBox(browser.driver.findElement(By.id("results-search-box")), s);
     }
@@ -247,8 +255,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void waitForPanelsToExpand() {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
-        
-        waitForElementsVisibility(webElements);
+        for (WebElement element : webElements) {
+            try {
+                waitForElementVisibility(element);
+            } catch (StaleElementReferenceException e) {
+                // Case when element has been removed after JS processing
+            }
+        }
     }
 
     public boolean verifyAllStatsVisibility() {
@@ -260,6 +273,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return true;
     }
 
+    public boolean verifyMissingResponsesVisibility() {
+        List<WebElement> pendingResponses = browser.driver.findElements(By.className("pending_response_row"));
+        return pendingResponses.isEmpty();
+    }
+    
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
         commentRow.findElement(By.tagName("form")).findElement(By.tagName("a")).click();
@@ -302,7 +320,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         ajaxPanels.click();
     }
 
-    public void clickViewPhotoLink(int panelBodyIndex, String urlRegex) {
+    public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) {
         String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
         WebElement photoCell = browser.driver.findElement(By.id(idOfPanelBody))
                                              .findElements(By.cssSelector(".profile-pic-icon-click"))
@@ -322,7 +340,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         actions.moveByOffset(100, 100).click().perform();
     }
 
-    public void hoverClickAndViewStudentPhotoOnHeading(int panelHeadingIndex, String urlRegex) {
+    public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         String idOfPanelHeading = "panelHeading-" + panelHeadingIndex;
         WebElement photoDiv = browser.driver.findElement(By.id(idOfPanelHeading))
@@ -346,7 +364,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                  + "document.getElementsByClassName('popover')[0])");
     }
 
-    public void hoverAndViewStudentPhotoOnBody(int panelBodyIndex, String urlRegex) {
+    public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex) {
         String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
         WebElement photoLink = browser.driver.findElements(By.cssSelector('#' + idOfPanelBody + "> .panel-body > .row"))
                                              .get(0)
@@ -428,7 +446,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void waitForInstructorPanelStudentPanelsToCollapse() {
-        List<WebElement> studentPanels = browser.driver.findElements(By.cssSelector("#panelBodyCollapse-2 .panel-collapse"));
+        List<WebElement> studentPanels = browser.driver.findElements(
+                By.cssSelector("#panelBodyCollapse-0-1 .panel-collapse"));
         waitForElementsToDisappear(studentPanels);
     }
     
@@ -439,8 +458,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         assertTrue(panel.isDisplayed());
     }
 
-    public void verifySpecifiedPanelIdsAreCollapsed(int[] ids) {
-        for (int id : ids) {
+    public void verifySpecifiedPanelIdsAreCollapsed(String[] ids) {
+        for (String id : ids) {
             WebElement panel = browser.driver.findElement(By.id("panelBodyCollapse-" + id));
             assertFalse(panel.isDisplayed());
         }

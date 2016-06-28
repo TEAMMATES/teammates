@@ -63,8 +63,8 @@ Important: When a version is specified, please install that version instead of t
    If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.<br>
    This value must be a valid **JDK 1.7** directory.<br>
    * `src/main/resources/build.properties`<br>
-   For now, property values can remain as they are.
-   If you want to use SendGrid for developing and testing email features, create a free SendGrid account, create an API key, and update the relevant values in `build.properties`
+   For now, property values can remain as they are.<br>
+   (Optional) If you want to use alternative email services to develop and test email features, refer to [this document](emails.md).
    * `src/test/resources/test.properties`<br>
    Append a unique id (e.g. your name) to **each** of the default accounts found at the bottom of this file. 
    e.g. change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`<br>
@@ -249,7 +249,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 * **Google App Engine SDK** [version 1.9.27]
 * **GitHub** : Used to host the repo and code reviewing.
 * **Gradle** : Build and dependency management tool.
-* **CheckStyle, PMD, FindBugs, ESLint** [all latest stable versions]: Static analysis tools for code quality check. The details of these tools can be found in [this document](staticAnalysis.md).
+* **CheckStyle, PMD, FindBugs, Macker, ESLint** [all latest stable versions]: Static analysis tools for code quality check. The details of these tools can be found in [this document](staticAnalysis.md).
 * [**PowerPointLabs**](http://PowerPointLabs.info) [Sister project]: Used for creating demo videos.
 * Optional: [**HubTurbo**](https://github.com/HubTurbo/HubTurbo/wiki/Getting-Started) [Sister project]: 
   Can be used as a client for accessing the GitHub issue tracker.
@@ -273,7 +273,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
   Comes with App Engine SDK.
 * **Java Persistence API (JPA)** [version 1.0]: JPA is a standard interface for accessing databases in Java, providing an automatic mapping between Java classes and database tables.
 * **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
-* **SendGrid** Alternative framework to JavaMail for sending emails.
+* **SendGrid, Mailgun, Mailjet** Alternative framework to JavaMail for sending emails. The details of these tools can be found in [this document](emails.md).
 * **Google Cloud SDK**: This is a set of tools that helps us manage resources and applications hosted on Google Cloud Platform. We use it to run client scripts on GAE remotely.
 
 ####Tools used in testing

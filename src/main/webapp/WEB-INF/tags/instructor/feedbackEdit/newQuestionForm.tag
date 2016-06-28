@@ -67,7 +67,7 @@
                 <div class="col-sm-5 mobile-margin-top-10px">
                     <span class="mobile-no-pull pull-right">
                         <a class="btn btn-primary btn-xs"
-                            onclick="cancelEdit(-1)" data-toggle="tooltip" data-placement="top"
+                            onclick="discardChanges(-1)" data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_CANCEL_NEW %>">
                             Cancel
                         </a>

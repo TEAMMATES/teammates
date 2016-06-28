@@ -796,17 +796,14 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." data-placement="top" data-toggle="tooltip" id="questiongetlink-1" onclick="getQuestionLink(1)" title="">
-                Get Link
-              </a>
               <a class="btn btn-primary btn-xs" data-original-title="Edit this question" data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,1)" title="">
                 Edit
               </a>
               <a class="btn btn-primary btn-xs" id="questionsavechangestext-1" style="display:none">
                 Save Changes
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="Discard your changes" data-placement="top" data-toggle="tooltip" id="questioncanceledit-1" onclick="cancelEdit(1)" style="display:none" title="">
-                Cancel
+              <a class="btn btn-primary btn-xs" data-original-title="Discard your changes" data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-1" onclick="discardChanges(1)" style="display:none" title="">
+                Discard Changes
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="Delete this question" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(1)" title="">
                 Delete
@@ -1036,13 +1033,13 @@
             (Who can see the responses?)
           </div>
           <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityOptions(this)">
+            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityEditTab(this)">
               <input disabled="" type="radio">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit Visibility
             </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityMessage(this)">
+            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityPreviewTab(this)">
               <input disabled="" type="radio">
               <span class="glyphicon glyphicon-eye-open">
               </span>
@@ -1284,7 +1281,7 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Discard new question" data-placement="top" data-toggle="tooltip" onclick="cancelEdit(-1)" title="">
+              <a class="btn btn-primary btn-xs" data-original-title="Discard new question" data-placement="top" data-toggle="tooltip" onclick="discardChanges(-1)" title="">
                 Cancel
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="Delete this question" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(-1)" title="">
@@ -1528,28 +1525,57 @@
               <div class="col-sm-6">
                 <div class="form-inline">
                   <div class="row">
-                    <div class="col-md-5 col-lg-4">
+                    <div class="col-md-12">
                       <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
                         <b>
-                          Points to distribute
+                          Total Points to distribute:
                         </b>
                       </label>
                     </div>
-                    <div class="col-md-4">
-                      <select class="width-100-pc select form-control margin-bottom-7px" disabled="" id="constSumPointsPerOptionSelect--1" name="constSumPointsPerOption">
-                        <option value="false">
-                          in total:
-                        </option>
-                        <option id="constSumOption_Option--1" value="true">
-                          per option:
-                        </option>
-                        <option id="constSumOption_Recipient--1" value="true">
-                          per recipient:
-                        </option>
-                      </select>
+                    <div class="col-xs-12 margin-bottom-7px padding-left-35px">
+                      <div class="col-xs-1">
+                        <input checked="" id="constSumPointsTotal--1" name="constSumPointsPerOption" type="radio" value="false">
+                      </div>
+                      <div class="col-xs-4 padding-0 col-sm-4">
+                        <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                      </div>
+                      <div class="col-xs-6 padding-0">
+                        <label class="margin-top-7px padding-left-7px">
+                          in total
+                        </label>
+                      </div>
                     </div>
-                    <div class="col-md-3">
-                      <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                    <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Option--1">
+                      <div class="col-xs-1">
+                        <input id="constSumPointsPerOption--1" name="constSumPointsPerOption" type="radio" value="true">
+                      </div>
+                      <div class="col-xs-4 padding-0">
+                        <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                      </div>
+                      <div class="col-xs-6 padding-0">
+                        <label class="margin-top-7px padding-left-7px">
+                          X
+                        </label>
+                        <label class="margin-top-7px">
+                          number of options
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Recipient--1" style="display:none">
+                      <div class="col-xs-1">
+                        <input id="constSumPointsPerRecipient--1" name="constSumPointsPerOption" type="radio" value="true">
+                      </div>
+                      <div class="col-xs-4 padding-0">
+                        <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                      </div>
+                      <div class="col-xs-6 padding-0">
+                        <label class="margin-top-7px padding-left-7px">
+                          X
+                        </label>
+                        <label class="margin-top-7px">
+                          number of recipients
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1896,13 +1922,13 @@
             (Who can see the responses?)
           </div>
           <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel" onchange="toggleVisibilityEditTab(this)">
               <input type="radio">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit Visibility
             </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton" onchange="toggleVisibilityPreviewTab(this)">
               <input type="radio">
               <span class="glyphicon glyphicon-eye-open">
               </span>

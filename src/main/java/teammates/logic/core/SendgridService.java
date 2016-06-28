@@ -10,7 +10,13 @@ import com.sendgrid.SendGridException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
 
-public class SendgridService implements EmailSenderService {
+/**
+ * Email sender service provided by SendGrid.
+ * Reference: https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid
+ * 
+ * @see SendGrid
+ */
+public class SendgridService extends EmailSenderService {
     
     /**
      * {@inheritDoc}
@@ -19,13 +25,13 @@ public class SendgridService implements EmailSenderService {
     public Email parseToEmail(EmailWrapper wrapper) {
         Email email = new Email();
         email.setFrom(wrapper.getSenderEmail());
-        email.setFromName(wrapper.getSenderName());
-        email.setReplyTo(wrapper.getReplyTo());
-        for (String recipient : wrapper.getRecipientsList()) {
-            email.addTo(recipient);
+        if (wrapper.getSenderName() != null && !wrapper.getSenderName().isEmpty()) {
+            email.setFromName(wrapper.getSenderName());
         }
-        for (String bcc : wrapper.getBccList()) {
-            email.addBcc(bcc);
+        email.setReplyTo(wrapper.getReplyTo());
+        email.addTo(wrapper.getRecipient());
+        if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
+            email.addBcc(wrapper.getBcc());
         }
         email.setSubject(wrapper.getSubject());
         email.setHtml(wrapper.getContent());
@@ -33,11 +39,8 @@ public class SendgridService implements EmailSenderService {
         return email;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void sendEmail(EmailWrapper wrapper) throws SendGridException {
+    protected void sendEmailWithService(EmailWrapper wrapper) throws SendGridException {
         Email email = parseToEmail(wrapper);
         SendGrid sendgrid = new SendGrid(Config.SENDGRID_APIKEY);
         Response response = sendgrid.send(email);

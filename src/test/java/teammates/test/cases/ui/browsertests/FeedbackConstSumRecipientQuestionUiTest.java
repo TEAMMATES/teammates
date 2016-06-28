@@ -84,7 +84,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
         ______TS("CONST SUM: set points options");
 
-        feedbackEditPage.selectConstSumPointsOptions("per recipient:", -1);
+        feedbackEditPage.selectConstSumPointsOptions("PerRecipient", -1);
         feedbackEditPage.fillConstSumPointsBox("100", -1);
         
     }
@@ -109,7 +109,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 1);
         feedbackEditPage.fillConstSumPointsBox("200", 1);
-        feedbackEditPage.selectConstSumPointsOptions("in total:", 1);
+        feedbackEditPage.selectConstSumPointsOptions("Total", 1);
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
@@ -120,13 +120,14 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     @Override
     public void testDeleteQuestionAction() {
         ______TS("CONSTSUM: qn delete then cancel");
-
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
+        feedbackEditPage.getDeleteQuestionLink(1).click();
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         ______TS("CONSTSUM: qn delete then accept");
 
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
+        feedbackEditPage.getDeleteQuestionLink(1).click();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }

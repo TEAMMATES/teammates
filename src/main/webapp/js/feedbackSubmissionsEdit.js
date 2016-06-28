@@ -29,7 +29,7 @@ $(document).ready(function() {
      */
     $('textarea[id^="responsetext-"]').keyup();
 
-    $('form[name="form_submit_response"], form[name="form_student_submit_response"]').submit(function() {
+    $('form[name="form_submit_response"]').submit(function() {
         formatRubricQuestions();
 
         var validationStatus = true;

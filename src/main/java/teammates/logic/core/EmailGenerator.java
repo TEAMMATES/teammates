@@ -38,16 +38,6 @@ public class EmailGenerator {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     
-    private final String senderEmail;
-    private final String senderName;
-    private final String replyTo;
-    
-    public EmailGenerator() {
-        senderEmail = "Admin@" + Config.getAppId() + ".appspotmail.com";
-        senderName = "TEAMMATES Admin";
-        replyTo = Config.SUPPORT_EMAIL;
-    }
-    
     /**
      * Generates the feedback session opening emails for the given {@code session}.
      */
@@ -56,8 +46,11 @@ public class EmailGenerator {
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
         
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
-        List<StudentAttributes> students = fsLogic.isFeedbackSessionForStudentsToAnswer(session)
+        boolean isEmailNeeded = fsLogic.isFeedbackSessionForStudentsToAnswer(session);
+        List<InstructorAttributes> instructors = isEmailNeeded
+                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                                                 : new ArrayList<InstructorAttributes>();
+        List<StudentAttributes> students = isEmailNeeded
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<StudentAttributes>();
         
@@ -140,8 +133,9 @@ public class EmailGenerator {
     public List<EmailWrapper> generateFeedbackSessionClosingEmails(FeedbackSessionAttributes session) {
         
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+        boolean isEmailNeeded = fsLogic.isFeedbackSessionForStudentsToAnswer(session);
         
-        if (fsLogic.isFeedbackSessionForStudentsToAnswer(session)) {
+        if (isEmailNeeded) {
             List<StudentAttributes> studentsForCourse = studentsLogic.getStudentsForCourse(session.getCourseId());
             
             for (StudentAttributes student : studentsForCourse) {
@@ -162,7 +156,9 @@ public class EmailGenerator {
         
         String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSING;
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
+        List<InstructorAttributes> instructors = isEmailNeeded
+                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                                                 : new ArrayList<InstructorAttributes>();
         
         List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
                                                                       EmailType.FEEDBACK_CLOSING.getSubject());
@@ -180,8 +176,11 @@ public class EmailGenerator {
         String template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
         
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
-        List<StudentAttributes> students = fsLogic.isFeedbackSessionViewableToStudents(session)
+        boolean isEmailNeeded = fsLogic.isFeedbackSessionViewableToStudents(session);
+        List<InstructorAttributes> instructors = isEmailNeeded
+                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                                                 : new ArrayList<InstructorAttributes>();
+        List<StudentAttributes> students = isEmailNeeded
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<StudentAttributes>();
         
@@ -329,7 +328,7 @@ public class EmailGenerator {
                 "${joinUrl}", joinUrl);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
-        email.addBcc(Config.SUPPORT_EMAIL);
+        email.setBcc(Config.SUPPORT_EMAIL);
         email.setSubject(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), shortName));
         email.setContent(emailBody);
         return email;
@@ -499,10 +498,10 @@ public class EmailGenerator {
     
     private EmailWrapper getEmptyEmailAddressedToEmail(String recipient) {
         EmailWrapper email = new EmailWrapper();
-        email.addRecipient(recipient);
-        email.setSenderEmail(senderEmail);
-        email.setSenderName(senderName);
-        email.setReplyTo(replyTo);
+        email.setRecipient(recipient);
+        email.setSenderEmail(Config.EMAIL_SENDEREMAIL);
+        email.setSenderName(Config.EMAIL_SENDERNAME);
+        email.setReplyTo(Config.EMAIL_REPLYTO);
         return email;
     }
     

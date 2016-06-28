@@ -42,6 +42,12 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         String[] paramsWithNullFeedbackSessionName = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId()
         };
+        
+        String[] paramsWithFilterText = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "My comments"
+        };
 
         ______TS("Typical case: results downloadable");
 
@@ -113,8 +119,44 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
+        
+        ______TS("Typical case: results with a filter text");
+
+        action = getAction(paramsWithFilterText);
+        result = (FileDownloadResult) action.executeAndPostProcess();
+        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
+        assertEquals(expectedFileName, result.getFileName());
+        verifyFileContentForDownloadWithFilterText(result.getFileContent(), session);
     }
 
+    private void verifyFileContentForDownloadWithFilterText(String fileContent,
+            FeedbackSessionAttributes session) {
+        /*
+        full testing of file content is
+        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
+        */
+        
+        String[] expected = {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 3,\"My comments on the class\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
+                // CHECKSTYLE.ON:LineLength
+        };
+        
+        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+    
+    }
+    
     private void verifyFileContentForSession1InCourse1(String fileContent,
                                                        FeedbackSessionAttributes session) {
         /*
