@@ -972,7 +972,7 @@ public class FeedbackSessionsLogic {
         if (isMissingResponsesShown) {
             exportBuilder.append(getRemainingRowsInCsvFormat(fsrBundle, entry, question, questionDetails,
                                                 possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver));
-        } 
+        }
         
         exportBuilder.append(Const.EOL + Const.EOL);
         return exportBuilder;
