@@ -24,9 +24,6 @@ import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentRecordsPageAction extends Action {
 
-    // string from CommentsLogic
-    private static final String ANONYMOUS_GIVER = "Anonymous";
-
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
@@ -130,8 +127,8 @@ public class InstructorStudentRecordsPageAction extends Action {
      * @param courseId
      * @return A map with instructor email => comments mappings.
      */
-    private Map<String, List<CommentAttributes>> mapCommentsToGiverEmail(List<CommentAttributes> comments,
-                                                             InstructorAttributes instructor) {
+    private Map<String, List<CommentAttributes>> mapCommentsToGiverEmail(
+            List<CommentAttributes> comments, InstructorAttributes instructor) {
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap =
                 new TreeMap<String, List<CommentAttributes>>();
         // add an element representing the current instructor to allow "no comments" to display correctly
@@ -165,7 +162,9 @@ public class InstructorStudentRecordsPageAction extends Action {
         giverEmailToGiverNameMap.put(InstructorStudentRecordsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST,
                                      Const.DISPLAYED_NAME_FOR_SELF_IN_COMMENTS);
         
-        giverEmailToGiverNameMap.put(ANONYMOUS_GIVER, ANONYMOUS_GIVER);
+        // keep the original naming of an anonymous giver
+        giverEmailToGiverNameMap.put(Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT,
+                                     Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT);
         for (String giverEmail : giverEmails) {
             if (!giverEmailToGiverNameMap.containsKey(giverEmail)) {
                 InstructorAttributes giverInstructor = logic.getInstructorForEmail(courseId, giverEmail);
