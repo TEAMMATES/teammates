@@ -385,10 +385,14 @@ function submitCommentForm(commentIdx) {
 }
 
 function deleteComment(commentIdx) {
-    if (confirm('Are you sure you want to delete this comment?')) {
+    var messageText = 'Are you sure you want to delete this comment?';
+    var okCallback = function() {
         document.getElementById('commentedittype-' + commentIdx).value = 'delete';
         return submitCommentForm(commentIdx);
-    }
+    };
+    BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
+                                         BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                                         StatusType.WARNING);
     return false;
 }
 
