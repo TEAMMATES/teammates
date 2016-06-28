@@ -1,6 +1,8 @@
 package teammates.test.cases;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.testng.AssertJUnit;
@@ -189,6 +191,24 @@ public class BaseTestCase {
     
     protected static void fail(String message) {
         AssertJUnit.fail(message);
+    }
+    
+    /**
+     * Invokes the method named {@code methodName} as defined in the {@code definingClass}.
+     * @param definingClass     the class which defines the method
+     * @param methodName
+     * @param parameterTypes    the parameter types of the method,
+     *                          which must be passed in the same order defined in the method
+     * @param invokingObject    the object which invokes the method, can be {@code null} if the method is static
+     * @param args              the arguments to be passed to the method invocation
+     */
+    protected static Object invokePrivateMethod(Class<?> definingClass, String methodName, Class<?>[] parameterTypes,
+                                                Object invokingObject, Object[] args)
+            throws NoSuchMethodException, SecurityException, IllegalAccessException,
+                   IllegalArgumentException, InvocationTargetException {
+        Method method = definingClass.getDeclaredMethod(methodName, parameterTypes);
+        method.setAccessible(true);
+        return method.invoke(invokingObject, args);
     }
     
 }
