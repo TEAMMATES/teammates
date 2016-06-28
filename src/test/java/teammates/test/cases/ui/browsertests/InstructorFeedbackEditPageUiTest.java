@@ -383,6 +383,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("Try re-editing a question after cancelling, making sure that form controls still work");
         feedbackEditPage.clickEditQuestionButton(qnIndex);
+        feedbackEditPage.enableOtherFeedbackPathOptions(qnIndex);
         feedbackEditPage.selectRecipientsToBeStudents(qnIndex);
         assertTrue(feedbackEditPage.isOptionForSelectingNumberOfEntitiesVisible(qnIndex));
 

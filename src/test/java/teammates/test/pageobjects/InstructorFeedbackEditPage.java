@@ -739,6 +739,24 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
         selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
     }
+    
+    public void enableOtherFeedbackPathOptions(int qnNumber) {
+        WebElement questionTable = browser.driver.findElement(By.id("questionTable" + qnNumber));
+        WebElement dropdownButton = questionTable.findElement(By.cssSelector(".feedback-path-dropdown > button"));
+        WebElement otherOption = questionTable.findElement(
+                                     By.className("feedback-path-dropdown-option-other"));
+        dropdownButton.click();
+        otherOption.click();
+    }
+
+    public void enableOtherFeedbackPathOptionsForNewQuestion() {
+        WebElement questionTable = browser.driver.findElement(By.id("questionTableNew"));
+        WebElement dropdownButton = questionTable.findElement(By.cssSelector(".feedback-path-dropdown > button"));
+        WebElement otherOption = questionTable.findElement(
+                                     By.className("feedback-path-dropdown-option-other"));
+        dropdownButton.click();
+        otherOption.click();
+    }
 
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
         // Select start date
