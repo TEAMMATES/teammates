@@ -48,7 +48,7 @@
             <li><a class="feedback-path-dropdown-option feedback-path-dropdown-option-custom" href="javascript:;" data-path-description="Custom Feedback Path">Custom Feedback Path</a></li>
         </ul>
     </div>
-    <div class="feedback-path-others"<c:if test="${fqForm.feedbackPathSettings.isCommonPathSelected || isNewQuestion}"> style="display:none;"</c:if>">
+    <div class="feedback-path-others margin-top-7px"<c:if test="${fqForm.feedbackPathSettings.isCommonPathSelected || isNewQuestion}"> style="display:none;"</c:if>">
         <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px"
             data-toggle="tooltip" data-placement="top"
             title="<%= Const.Tooltips.FEEDBACK_SESSION_GIVER %>">  
