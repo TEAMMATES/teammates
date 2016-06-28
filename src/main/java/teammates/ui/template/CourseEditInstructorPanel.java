@@ -53,8 +53,8 @@ public class CourseEditInstructorPanel {
         }
     }
 
-    private List<CourseEditSectionRow> createSectionRows(int instructorIndex, List<String> sectionNames,
-                                   List<String> feedbackNames) {
+    private List<CourseEditSectionRow> createSectionRows(
+            int instructorIndex, List<String> sectionNames, List<String> feedbackNames) {
         firstBlankSectionRowIndex = sectionNames.size();
         Map<Integer, String> specialSectionNames = new TreeMap<Integer, String>();
         Map<Integer, String> nonSpecialSectionNames = new TreeMap<Integer, String>();
@@ -68,7 +68,7 @@ public class CourseEditInstructorPanel {
     }
     
     /**
-     * Splits the list of section names into two mappings of Integer => String
+     * Splits the list of section names into two Integer to String mappings
      * matching the index of the section to the section's name.
      */
     private void distinguishSpecialAndNonSpecialSections(List<String> sectionNames,
@@ -89,8 +89,8 @@ public class CourseEditInstructorPanel {
      * Creates a list of section rows such that all rows for special sections
      * occur before those of non-special sections.
      */
-    private List<CourseEditSectionRow> createSpecialAndNonSpecialSectionRowsInOrder(int instructorIndex,
-            List<String> sectionNames, List<String> feedbackNames,
+    private List<CourseEditSectionRow> createSpecialAndNonSpecialSectionRowsInOrder(
+            int instructorIndex, List<String> sectionNames, List<String> feedbackNames,
             Map<Integer, String> specialSectionNames, Map<Integer, String> nonSpecialSectionNames) {
         List<CourseEditSectionRow> rows = new ArrayList<CourseEditSectionRow>();
         
@@ -102,9 +102,9 @@ public class CourseEditInstructorPanel {
     /**
      * Adds special section rows as defined in {@code specialSectionNames} to {@code rows}.
      */
-    private void createSpecialSectionRows(int instructorIndex, List<String> sectionNames,
-            List<String> feedbackNames, List<CourseEditSectionRow> rows,
-            Map<Integer, String> specialSectionNames) {
+    private void createSpecialSectionRows(
+            int instructorIndex, List<String> sectionNames, List<String> feedbackNames,
+            List<CourseEditSectionRow> rows, Map<Integer, String> specialSectionNames) {
         int panelIndex = rows.size();
         
         for (Map.Entry<Integer, String> sectionNameEntry : specialSectionNames.entrySet()) {
@@ -122,9 +122,9 @@ public class CourseEditInstructorPanel {
     /**
      * Adds non special sections as defined in {@code nonSpecialSectionNames} to {@code rows}.
      */
-    private void createNonSpecialSectionRows(int instructorIndex, List<String> sectionNames,
-            List<String> feedbackNames, List<CourseEditSectionRow> rows,
-            Map<Integer, String> nonSpecialSectionNames) {
+    private void createNonSpecialSectionRows(
+            int instructorIndex, List<String> sectionNames, List<String> feedbackNames,
+            List<CourseEditSectionRow> rows, Map<Integer, String> nonSpecialSectionNames) {
         int panelIndex = rows.size();
         
         for (Map.Entry<Integer, String> sectionNameEntry : nonSpecialSectionNames.entrySet()) {
