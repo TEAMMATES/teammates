@@ -13,6 +13,8 @@ public class FeedbackQuestionFeedbackPathSettings {
 
     private FeedbackParticipantType selectedGiver;
     private FeedbackParticipantType selectedRecipient;
+
+    private boolean isCommonPathSelected;
     
     private boolean isNumberOfEntitiesToGiveFeedbackToChecked;
     private int numOfEntitiesToGiveFeedbackToValue;
@@ -33,6 +35,14 @@ public class FeedbackQuestionFeedbackPathSettings {
         this.numOfEntitiesToGiveFeedbackToValue = numOfEntitiesToGiveFeedbackToValue;
     }
     
+    public boolean getIsCommonPathSelected() {
+        return isCommonPathSelected;
+    }
+
+    public void setIsCommonPathSelected(boolean isCommonPathSelected) {
+        this.isCommonPathSelected = isCommonPathSelected;
+    }
+
     public FeedbackParticipantType getSelectedRecipient() {
         return selectedRecipient;
     }

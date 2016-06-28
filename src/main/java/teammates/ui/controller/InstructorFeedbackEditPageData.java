@@ -153,6 +153,13 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                            ? question.numberOfEntitiesToGiveFeedbackTo
                                                            : 1);
 
+        boolean isCommonGiver = Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS.containsKey(question.giverType);
+        boolean isCorrespondingCommonRecipient =
+                    Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS.get(question.giverType)
+                                                                .contains(question.recipientType);
+        boolean isCommonPath = isCommonGiver && isCorrespondingCommonRecipient;
+        settings.setIsCommonPathSelected(isCommonPath);
+
         return settings;
     }
 
