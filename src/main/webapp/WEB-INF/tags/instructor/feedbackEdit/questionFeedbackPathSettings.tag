@@ -5,12 +5,50 @@
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
+<c:set var="isNewQuestion" value="${empty fqForm.questionNumberSuffix}" />
 
 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
     </div>
-    <div class="feedback-path-others"<c:if test="${fqForm.feedbackPathSettings.isCommonPathSelected}"> style="display:none;"</c:if>>
+    <div class="feedback-path-dropdown btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <c:choose>
+                <c:when test="${isNewQuestion}">
+                    Please select a feedback path <span class="caret"></span>
+                </c:when>
+                <c:when test="${fqForm.feedbackPathSettings.isCommonPathSelected}">
+                    ${fqForm.feedbackPathSettings.selectedGiver.displayNameGiver} will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> ${fqForm.feedbackPathSettings.selectedRecipient.displayNameRecipient}</span>
+                </c:when>
+                <c:otherwise>
+                    Other
+                </c:otherwise>
+            </c:choose>
+        </button>
+        <ul class="dropdown-menu">
+            <c:forEach items="<%= Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS %>" var="commonPath">
+                <li class="dropdown-submenu">
+                    <c:set var="commonGiver" value="${commonPath.key}" />
+                    <a>${commonGiver.displayNameGiver} will give feedback on...</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <c:forEach items="${commonPath.value}" var="commonRecipient">
+                                <a class="feedback-path-dropdown-option" href="javascript:;"
+                                   data-giver-type="${commonGiver}" data-recipient-type="${commonRecipient}"
+                                   data-path-description="${commonGiver.displayNameGiver} will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> ${commonRecipient.displayNameRecipient}">
+                                   ${commonRecipient.displayNameRecipient}
+                                </a>
+                            </c:forEach>
+                        </li>
+                    </ul>
+                </li>
+            </c:forEach>
+            <li role="separator" class="divider"></li>
+            <li><a class="feedback-path-dropdown-option feedback-path-dropdown-option-other" href="javascript:;" data-path-description="Other">Other</a></li>
+            <li><a class="feedback-path-dropdown-option feedback-path-dropdown-option-custom" href="javascript:;" data-path-description="Custom Feedback Path">Custom Feedback Path</a></li>
+        </ul>
+    </div>
+    <div class="feedback-path-others"<c:if test="${fqForm.feedbackPathSettings.isCommonPathSelected || isNewQuestion}"> style="display:none;"</c:if>">
         <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px"
             data-toggle="tooltip" data-placement="top"
             title="<%= Const.Tooltips.FEEDBACK_SESSION_GIVER %>">  
@@ -76,5 +114,4 @@
         </div>
     </div>
 </div>
-
 <br>
