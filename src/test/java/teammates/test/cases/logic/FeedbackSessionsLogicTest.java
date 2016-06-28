@@ -1758,7 +1758,17 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         };
         
         assertEquals(StringUtils.join(expected, Const.EOL), export);
-       
+      
+        ______TS("MSQ results without statistics");
+        
+        session = newDataBundle.feedbackSessions.get("msqSession");
+        instructor = newDataBundle.instructors.get("instructor1OfCourse1");
+        
+        export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, false);
+        
+        assertFalse(export.contains("Summary Statistics"));
+        
         ______TS("Non-existent Course/Session");
         
         try {
