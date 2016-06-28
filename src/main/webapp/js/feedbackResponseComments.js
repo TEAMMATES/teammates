@@ -194,7 +194,7 @@ function registerResponseCommentCheckboxEvent() {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
-        resetVisibilityHiddenFields(form, table);
+        feedbackResetVisibilityHiddenFields(form, table);
     });
 }
 
@@ -365,7 +365,7 @@ function resetResponseAddCommentForm(id) {
         .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
     
     var table = form.find('table').eq(0);
-    resetVisibilityHiddenFields(form, table);
+    feedbackResetVisibilityHiddenFields(form, table);
     
     $('#visibility-options' + id).hide();
 }
@@ -377,12 +377,12 @@ function resetResponseEditCommentForm(id) {
     
     var form = $('#responseCommentEditForm' + id);
     var table = form.find('table').eq(0);
-    resetVisibilityHiddenFields(form, table);
+    feedbackResetVisibilityHiddenFields(form, table);
     
     $('#visibility-options' + id).hide();
 }
 
-function resetVisibilityHiddenFields(form, table) {
+function feedbackResetVisibilityHiddenFields(form, table) {
     visibilityOptions = [];
     table.find('.answerCheckbox:checked').each(function() {
         visibilityOptions.push($(this).val());
@@ -497,9 +497,9 @@ function registerCheckboxEventForVisibilityOptions() {
         }
         if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
                 && target.prop('checked')) {
-            visiblityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
+            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
-        resetVisibilityHiddenFields(form, table);
+        feedbackResetVisibilityHiddenFields(form, table);
     });
 }

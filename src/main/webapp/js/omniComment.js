@@ -348,7 +348,7 @@ $(document).ready(function() {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
         
-        resetVisibilityHiddenFields(form, table);
+        omniResetVisibilityHiddenFields(form, table);
     });
 });
 
@@ -388,7 +388,7 @@ function enableComment(commentIdx) {
     document.getElementById('form_commentedit-' + commentIdx).reset();
     var form = $('#form_commentedit-' + commentIdx);
     var table = form.find('table').eq(0);
-    resetVisibilityHiddenFields(form, table)
+    omniResetVisibilityHiddenFields(form, table)
     $('#visibility-options' + commentIdx).hide();
     var visibilityOptions = '#visibility-options-trigger' + commentIdx;
     $(visibilityOptions).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
@@ -401,7 +401,7 @@ function disableComment(commentIdx) {
     $("div[id='commentTextEdit" + commentIdx + "']").hide();
 }
 
-function resetVisibilityHiddenFields(form, table) {
+function omniResetVisibilityHiddenFields(form, table) {
     visibilityOptions = [];
     table.find('.answerCheckbox:checked').each(function() {
         visibilityOptions.push($(this).val());
