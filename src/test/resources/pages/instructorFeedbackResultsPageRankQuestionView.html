@@ -72,6 +72,7 @@
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="sectionname" type="hidden" value="All">
                   <input id="filterTextForDownload" name="filtertext" type="hidden">
+                  <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="false">
                 </form>
                 <br>
                 <div>
@@ -196,7 +197,7 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input id="show-stats-checkbox" name="frshowstats" onchange="updateStatsCheckBox();" type="checkbox">
                   Show Statistics
                 </label>
               </div>
@@ -567,6 +568,17 @@
                   <tbody>
                     <tr>
                       <td>
+                        Organisation
+                      </td>
+                      <td>
+                        2 , 2
+                      </td>
+                      <td>
+                        2
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
                         Introduction
                       </td>
                       <td>
@@ -585,17 +597,6 @@
                       </td>
                       <td>
                         1
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Organisation
-                      </td>
-                      <td>
-                        2 , 2
-                      </td>
-                      <td>
-                        2
                       </td>
                     </tr>
                   </tbody>

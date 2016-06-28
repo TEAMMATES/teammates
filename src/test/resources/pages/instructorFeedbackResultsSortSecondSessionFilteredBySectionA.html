@@ -72,6 +72,7 @@
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="Section A">
                   <input id="filterTextForDownload" name="filtertext" type="hidden">
+                  <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
@@ -196,7 +197,7 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" onchange="updateStatsCheckBox();" type="checkbox">
                   Show Statistics
                 </label>
               </div>
@@ -1501,17 +1502,6 @@
                   <tbody>
                     <tr>
                       <td>
-                        Fun
-                      </td>
-                      <td>
-                        55
-                      </td>
-                      <td>
-                        55
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
                         Grades
                       </td>
                       <td>
@@ -1519,6 +1509,17 @@
                       </td>
                       <td>
                         45
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Fun
+                      </td>
+                      <td>
+                        55
+                      </td>
+                      <td>
+                        55
                       </td>
                     </tr>
                   </tbody>
@@ -1891,20 +1892,6 @@
                   <tbody>
                     <tr>
                       <td>
-                        Team 2
-                      </td>
-                      <td>
-                        Charlie Dávis
-                      </td>
-                      <td>
-                        50
-                      </td>
-                      <td>
-                        50
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
                         Team 1&lt;/td&gt;&lt;/div&gt;'"
                       </td>
                       <td>
@@ -1915,6 +1902,20 @@
                       </td>
                       <td>
                         90
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Team 2
+                      </td>
+                      <td>
+                        Charlie Dávis
+                      </td>
+                      <td>
+                        50
+                      </td>
+                      <td>
+                        50
                       </td>
                     </tr>
                     <tr>
