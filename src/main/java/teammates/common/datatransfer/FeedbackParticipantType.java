@@ -127,4 +127,18 @@ public enum FeedbackParticipantType {
             return super.toString();
         }
     }
+
+    /**
+     * Getter method for JSTL to access the {@code displayNameGiver} property directly
+     */
+    public String getDisplayNameGiver() {
+        return displayNameGiver;
+    }
+
+    /**
+     * Getter method for JSTL to access the {@code displayNameRecipient} property directly
+     */
+    public String getDisplayNameRecipient() {
+        return displayNameRecipient;
+    }
 }
