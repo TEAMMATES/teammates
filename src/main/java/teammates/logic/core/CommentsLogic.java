@@ -38,6 +38,9 @@ import teammates.storage.api.StudentsDb;
  */
 public class CommentsLogic {
     
+    private static final String ANONYMOUS_GIVER = "Anonymous";
+    private static final String ANONYMOUS_RECEIVER = "Anonymous";
+    
     private static CommentsLogic instance;
 
     @SuppressWarnings("unused") //used by test
@@ -145,7 +148,12 @@ public class CommentsLogic {
         iterator = comments.iterator();
         while (iterator.hasNext()) {
             CommentAttributes c = iterator.next();
-            if (c.recipients.isEmpty() || "Anonymous".equals(c.recipients.iterator().next())) {
+            String firstRecipient = null;
+            if (!c.recipients.isEmpty()) {
+                firstRecipient = c.recipients.iterator().next();
+            }
+            // ANONYMOUS_RECEIVER is guaranteed to be the only recipient if the receiver name is hidden
+            if (firstRecipient == null || ANONYMOUS_RECEIVER.equals(firstRecipient)) {
                 iterator.remove();
             }
         }
@@ -503,7 +511,7 @@ public class CommentsLogic {
     
     private void removeGiverNameByVisibilityOptions(CommentAttributes c, CommentParticipantType viewerType) {
         if (!c.showGiverNameTo.contains(viewerType)) {
-            c.giverEmail = "Anonymous";
+            c.giverEmail = ANONYMOUS_GIVER;
         }
     }
 
@@ -512,7 +520,7 @@ public class CommentsLogic {
         removeGiverNameByVisibilityOptions(c, viewerType);
         if (!c.showRecipientNameTo.contains(viewerType)) {
             c.recipients = new HashSet<String>();
-            c.recipients.add("Anonymous");
+            c.recipients.add(ANONYMOUS_RECEIVER);
         }
     }
     
