@@ -154,15 +154,19 @@ function textAreaAdjust(o) {
 }
 
 /**
- * Pops up confirmation dialog whether to delete specified comment
+ * Pops up confirmation modal whether to delete specified comment
  * @param comment index
  * @returns
  */
 function deleteComment(commentIdx) {
-    if (confirm('Are you sure you want to delete this comment?')) {
+    var messageText = 'Are you sure you want to delete this comment?';
+    var okCallback = function() {
         document.getElementById(COMMENT_EDITTYPE + '-' + commentIdx).value = 'delete';
         return submitCommentForm(commentIdx);
-    }
+    };
+    BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
+                                         BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                                         StatusType.WARNING);
     return false;
 }
 
