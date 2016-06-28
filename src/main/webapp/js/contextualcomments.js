@@ -5,6 +5,7 @@ $(document).ready(function() {
         } else {
             $('#commentArea').show();
             $('form[name="form_commentadd"]')[0].reset();
+            commentRecipientSelectChangeHandler();
             $('#visibility-options').hide();
             $('#visibility-options-trigger').html('<span class="glyphicon glyphicon-eye-close"></span> '
                                                   + 'Show Visibility Options');
