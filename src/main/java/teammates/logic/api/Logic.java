@@ -1511,14 +1511,15 @@ public class Logic {
     public String getFeedbackSessionResultSummaryAsCsv(String courseId,
                                                        String feedbackSessionName,
                                                        String instructorEmail,
-                                                       String filterText)
+                                                       String filterText, 
+                                                       boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                feedbackSessionName, courseId, instructorEmail, filterText);
+                feedbackSessionName, courseId, instructorEmail, filterText, isStatsShown);
     }
 
     /**
@@ -1530,7 +1531,8 @@ public class Logic {
                                                                 String feedbackSessionName,
                                                                 String instructorEmail,
                                                                 String section,
-                                                                String filterText)
+                                                                String filterText,
+                                                                boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1541,7 +1543,8 @@ public class Logic {
                                                                                     courseId,
                                                                                     instructorEmail,
                                                                                     section,
-                                                                                    filterText);
+                                                                                    filterText,
+                                                                                    isStatsShown);
     }
     
     /**

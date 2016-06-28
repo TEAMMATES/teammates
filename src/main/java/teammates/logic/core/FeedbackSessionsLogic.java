@@ -838,14 +838,16 @@ public class FeedbackSessionsLogic {
     }
 
     public String getFeedbackSessionResultsSummaryAsCsv(
-            String feedbackSessionName, String courseId, String userEmail, String filterText)
+            String feedbackSessionName, String courseId, String userEmail, String filterText, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
-        return getFeedbackSessionResultsSummaryInSectionAsCsv(feedbackSessionName, courseId, userEmail, null, filterText);
+        return getFeedbackSessionResultsSummaryInSectionAsCsv(
+                feedbackSessionName, courseId, userEmail, null, filterText, isStatsShown);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
-            String feedbackSessionName, String courseId, String userEmail, String section, String filterText)
+            String feedbackSessionName, String courseId, String userEmail, String section,
+            String filterText, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         long indicatedRange = (section == null) ? 10000 : -1;
@@ -883,7 +885,7 @@ public class FeedbackSessionsLogic {
         }
         
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
-            exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(results, entry));
+            exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(results, entry, isStatsShown));
         }
         return exportBuilder.toString();
         
@@ -906,7 +908,7 @@ public class FeedbackSessionsLogic {
 
     private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(
             FeedbackSessionResultsBundle fsrBundle,
-            Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry) {
+            Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry, boolean isStatsShown) {
         
         FeedbackQuestionAttributes question = entry.getKey();
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
@@ -920,7 +922,7 @@ public class FeedbackSessionsLogic {
         
         String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
                                     question, fsrBundle);
-        if (!statistics.isEmpty()) {
+        if (!statistics.isEmpty() && isStatsShown) {
             exportBuilder.append("Summary Statistics,").append(Const.EOL);
             exportBuilder.append(statistics).append(Const.EOL);
         }
