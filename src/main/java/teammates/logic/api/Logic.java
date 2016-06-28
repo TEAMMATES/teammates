@@ -1511,7 +1511,7 @@ public class Logic {
     public String getFeedbackSessionResultSummaryAsCsv(String courseId,
                                                        String feedbackSessionName,
                                                        String instructorEmail,
-                                                       String filterText, 
+                                                       String filterText,
                                                        boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         

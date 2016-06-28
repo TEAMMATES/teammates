@@ -64,7 +64,7 @@ public class InstructorFeedbackResultsSessionPanel {
         return selectedSection;
     }
     
-    public boolean getIsStatsShown(){
+    public boolean getIsStatsShown() {
         return isStatsShown;
     }
     

@@ -52,7 +52,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         if (isLoadingCsvResultsAsHtml) {
             return createAjaxResultForCsvTableLoadedInHtml(
-                    courseId, feedbackSessionName, instructor, data, selectedSection, filterText, Boolean.valueOf(showStats));
+                    courseId, feedbackSessionName, instructor, data,
+                    selectedSection, filterText, Boolean.valueOf(showStats));
         }
         data.setSessionResultsHtmlTableAsString("");
         data.setAjaxStatus("");
@@ -206,7 +207,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
             if (selectedSection.contentEquals(ALL_SECTION_OPTION)) {
                 data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
                                             logic.getFeedbackSessionResultSummaryAsCsv(
-                                                    courseId, feedbackSessionName, instructor.email, filterText, isStatsShown)));
+                                                    courseId, feedbackSessionName, instructor.email,
+                                                    filterText, isStatsShown)));
             } else {
                 data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
                                             logic.getFeedbackSessionResultSummaryInSectionAsCsv(
