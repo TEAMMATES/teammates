@@ -239,7 +239,6 @@ function enableHoverToDisplayEditOptions() {
 $(document).ready(function() {
     registerResponseCommentsEvent();
     registerResponseCommentCheckboxEvent();
-    registerCheckboxEventForVisibilityOptions();
     enableHoverToDisplayEditOptions();
 });
 
@@ -481,25 +480,4 @@ function updateBadgeForPendingComments(numberOfPendingComments) {
     $('.badge').text(numberOfPendingComments);
     $('.badge').parent().attr('data-original-title', 'Send email notification to ' + numberOfPendingComments
                               + ' recipient(s) of comments pending notification');
-}
-
-function registerCheckboxEventForVisibilityOptions() {
-    $('body').on('click', 'div[class*="student-record-comments"] * input[type=checkbox]', function(e) {
-        var table = $(this).closest('table');
-        var form = table.closest('form');
-        var visibilityOptions = [];
-        var target = $(e.target);
-        var visibilityOptionsRow = target.closest('tr');
-        
-        if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
-            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
-        }
-        if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
-                && target.prop('checked')) {
-            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
-        }
-        
-        feedbackResetVisibilityHiddenFields(form, table);
-    });
 }
