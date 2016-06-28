@@ -1,6 +1,5 @@
 package teammates.test.cases.logic;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1188,23 +1187,18 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    private static StudentEnrollDetails invokeEnrollStudent(StudentAttributes student)
-            throws Exception {
-        Method privateMethod = StudentsLogic.class.getDeclaredMethod("enrollStudent",
-                new Class[] { StudentAttributes.class, Boolean.class });
-        privateMethod.setAccessible(true);
-        Object[] params = new Object[] { student, false };
-        return (StudentEnrollDetails) privateMethod.invoke(StudentsLogic.inst(), params);
+    private static StudentEnrollDetails invokeEnrollStudent(StudentAttributes student) throws Exception {
+        return (StudentEnrollDetails) invokePrivateMethod(StudentsLogic.class, "enrollStudent",
+                                                          new Class<?>[] { StudentAttributes.class, Boolean.class },
+                                                          StudentsLogic.inst(), new Object[] { student, false });
     }
     
     @SuppressWarnings("unchecked")
     private static List<String> invokeGetInvalidityInfoInEnrollLines(String lines, String courseId)
             throws Exception {
-        Method privateMethod = StudentsLogic.class.getDeclaredMethod("getInvalidityInfoInEnrollLines",
-                                    new Class[] { String.class, String.class });
-        privateMethod.setAccessible(true);
-        Object[] params = new Object[] { lines, courseId };
-        return (List<String>) privateMethod.invoke(StudentsLogic.inst(), params);
+        return (List<String>) invokePrivateMethod(StudentsLogic.class, "getInvalidityInfoInEnrollLines",
+                                                  new Class<?>[] { String.class, String.class },
+                                                  StudentsLogic.inst(), new Object[] { lines, courseId });
     }
         
     @AfterClass()

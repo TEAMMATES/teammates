@@ -1,7 +1,6 @@
 package teammates.test.cases.common;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -232,19 +231,15 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
     }
 
     private int invokeLocateColumnIndexes(String line) throws Exception {
-        Method privateMethod = StudentAttributesFactory.class.getDeclaredMethod("locateColumnIndexes",
-                                                                                String.class);
-        privateMethod.setAccessible(true);
-
-        return (Integer) privateMethod.invoke(new StudentAttributesFactory(), line);
+        return (int) invokePrivateMethod(StudentAttributesFactory.class, "locateColumnIndexes",
+                                         new Class<?>[] { String.class },
+                                         new StudentAttributesFactory(), new Object[] { line });
     }
 
     private String[] invokeSplitLineIntoColumns(String line) throws Exception {
-        Method privateMethod = StudentAttributesFactory.class.getDeclaredMethod("splitLineIntoColumns",
-                                                                                String.class);
-        privateMethod.setAccessible(true);
-
-        return (String[]) privateMethod.invoke(new StudentAttributesFactory(), line);
+        return (String[]) invokePrivateMethod(StudentAttributesFactory.class, "splitLineIntoColumns",
+                                              new Class<?>[] { String.class },
+                                              new StudentAttributesFactory(), new Object[] { line });
     }
 
     @AfterClass
