@@ -397,8 +397,9 @@ function restoreOriginal(questionNum) {
         $('#button_question_submit-' + questionNum).hide();
     }
 
-    // re-attach onChange event to show/hide numEntitiesBox according to recipient type
+    // re-attach events for form elements
     $('#' + FEEDBACK_QUESTION_RECIPIENTTYPE + '-' + questionNum).change(updateVisibilityOfNumEntitiesBox);
+    FeedbackPath.attachEvents();
 }
 
 function hideNewQuestionAndShowNewQuestionForm() {
@@ -409,6 +410,7 @@ function hideNewQuestionAndShowNewQuestionForm() {
     $('#givertype').find('option').show().prop('disabled', false);
     $('#recipienttype').find('option').show().prop('disabled', false);
     $('#questionTableNew').find('.feedback-path-dropdown > button').removeClass('disabled');
+    FeedbackPath.attachEvents();
 }
 
 /**

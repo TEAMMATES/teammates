@@ -154,10 +154,9 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                            : 1);
 
         boolean isCommonGiver = Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS.containsKey(question.giverType);
-        boolean isCorrespondingCommonRecipient =
-                    Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS.get(question.giverType)
-                                                                .contains(question.recipientType);
-        boolean isCommonPath = isCommonGiver && isCorrespondingCommonRecipient;
+        boolean isCommonPath =
+                    isCommonGiver && Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS.get(question.giverType)
+                                                           .contains(question.recipientType);
         settings.setIsCommonPathSelected(isCommonPath);
 
         return settings;
