@@ -163,13 +163,12 @@ $(document).on('ajaxComplete ready', function() {
     }
     
     $('form').submit(function() {
-        $(this).find("button[type='submit']").prop('disabled',true);
-     });
-    
+        $(this).find("button[type='submit']").prop('disabled', true);
+    });
+
     $('[id^="button_submit"]').click(function() {
-        console.log("Yes");
-        $(this).prop('disabled',true);
-     });
+        $(this).prop('disabled', true);
+    });
 });
 
 /**
