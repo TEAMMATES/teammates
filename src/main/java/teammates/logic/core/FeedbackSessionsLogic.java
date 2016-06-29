@@ -1102,6 +1102,29 @@ public class FeedbackSessionsLogic {
         }
         return sessionsToSendEmailsFor;
     }
+    
+    /**
+     * Criteria: must be published, publishEmail must be enabled and
+     * resultsVisibleTime must be custom.
+     * 
+     * @return returns a list of sessions that require automated emails to be
+     *         sent as they are published
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedUnpublishedEmailsToBeSent() {
+        List<FeedbackSessionAttributes> sessions =
+                fsDb.getFeedbackSessionsWithUnsentUnpublishedEmail();
+        List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
+                new ArrayList<FeedbackSessionAttributes>();
+
+        for (FeedbackSessionAttributes session : sessions) {
+            // automated emails are required only for custom unpublish times
+            if (!session.isPublished() && session.isPublishedEmailEnabled()
+                    && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())) {
+                sessionsToSendEmailsFor.add(session);
+            }
+        }
+        return sessionsToSendEmailsFor;
+    }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
@@ -1493,6 +1516,9 @@ public class FeedbackSessionsLogic {
         sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
 
         updateFeedbackSession(sessionToUnpublish);
+        if (sessionToUnpublish.isPublishedEmailEnabled()) {
+            sendFeedbackSessionUnpublishedEmail(sessionToUnpublish);
+        }
     }
 
     public List<EmailWrapper> sendReminderForFeedbackSession(String courseId,
@@ -1637,6 +1663,14 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackSessionAttributes session : sessions) {
             sendFeedbackSessionPublishedEmail(session);
+        }
+    }
+    
+    public void scheduleFeedbackSessionUnpublishedEmails() {
+        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedAutomatedUnpublishedEmailsToBeSent();
+
+        for (FeedbackSessionAttributes session : sessions) {
+            sendFeedbackSessionUnpublishedEmail(session);
         }
     }
 
@@ -2620,10 +2654,23 @@ public class FeedbackSessionsLogic {
             // or else leave it as sent if so.
             newSession.setSentPublishedEmail(true);
         }
+        
+     // set sentUnpublishedEmail as false if the session has been unpublished but is
+        // going to be published now.
+        if (oldSession.isSentUnpublishedEmail() && newSession.isPublished()) {
+            newSession.setSentUnpublishedEmail(false);
+        } else if (oldSession.isSentUnpublishedEmail()) {
+            // or else leave it as sent if so.
+            newSession.setSentUnpublishedEmail(true);
+        }
     }
 
     private void sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
         addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_PUBLISHED);
+    }
+    
+    private void sendFeedbackSessionUnpublishedEmail(FeedbackSessionAttributes session) {
+        addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_UNPUBLISHED);
     }
 
     private void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes session, EmailType emailType) {

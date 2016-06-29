@@ -95,6 +95,9 @@ public class FeedbackSession {
     
     @Persistent
     private boolean sentPublishedEmail;
+    
+    @Persistent
+    private Boolean sentUnpublishedEmail;
 
     //TODO change to primitive types and update getter
     @Persistent
@@ -106,21 +109,21 @@ public class FeedbackSession {
     @Persistent
     private Boolean isPublishedEmailEnabled;
     
-    public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
-            FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
+    public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
+            Text instructions, Date createdTime, Date startTime, Date endTime, Date sessionVisibleFromTime,
+            Date resultsVisibleFromTime, double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
+            boolean sentOpenEmail, boolean sentPublishedEmail, boolean sentUnpublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
              sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
-             feedbackSessionType, sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled,
+             feedbackSessionType, sentOpenEmail, sentPublishedEmail, sentUnpublishedEmail, isOpeningEmailEnabled,
              isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
-    public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
-            FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
+    public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
+            Text instructions, Date createdTime, Date startTime, Date endTime, Date sessionVisibleFromTime,
+            Date resultsVisibleFromTime, double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
+            boolean sentOpenEmail, boolean sentPublishedEmail, boolean sentUnpublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
             Set<String> instructorList, Set<String> studentList) {
         this.feedbackSessionName = feedbackSessionName;
@@ -138,6 +141,7 @@ public class FeedbackSession {
         this.feedbackSessionType = feedbackSessionType;
         this.sentOpenEmail = sentOpenEmail;
         this.sentPublishedEmail = sentPublishedEmail;
+        this.sentUnpublishedEmail = sentUnpublishedEmail;
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
@@ -269,6 +273,18 @@ public class FeedbackSession {
         this.sentPublishedEmail = sentPublishedEmail;
     }
     
+    public boolean isSentUnpublishedEmail() {
+        if (sentUnpublishedEmail == null){
+            return true;
+        }
+        
+        return sentUnpublishedEmail;
+    }
+
+    public void setSentUnpublishedEmail(boolean sentUnpublishedEmail) {
+        this.sentUnpublishedEmail = sentUnpublishedEmail;
+    }
+    
     public boolean isOpeningEmailEnabled() {
         // Legacy data might not have this field
         if (isOpeningEmailEnabled == null) {
@@ -336,6 +352,7 @@ public class FeedbackSession {
                 + ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
                 + feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
                 + ", sentPublishedEmail=" + sentPublishedEmail
+                + ", sentUnpublishedEmail=" + sentUnpublishedEmail
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
