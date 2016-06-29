@@ -2423,7 +2423,7 @@
 
 
 
-                                                <hide style="display: none;">
+                                                <tr style="display: none;">
                                                     <td class="text-left">
                                                         <div data-toggle="tooltip" data-placement="top" title="Control what team members of feedback recipients can view">
                                                             Recipient's Team Members
@@ -2438,7 +2438,7 @@
                                                     <td>
                                                         <input class="visibilityCheckbox recipientCheckbox1" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                                                     </td>
-                                                </hide>
+                                                </tr>
 
 
 
