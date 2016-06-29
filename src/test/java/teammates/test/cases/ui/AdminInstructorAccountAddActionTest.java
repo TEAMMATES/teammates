@@ -154,9 +154,9 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength)
             throws Exception {
         AdminInstructorAccountAddAction a = new AdminInstructorAccountAddAction();
-        return (String) invokePrivateMethod(a.getClass(), "generateNextDemoCourseId",
-                                            new Class<?>[] { String.class, int.class },
-                                            a, new Object[] { instructorEmailOrProposedCourseId, maximumIdLength });
+        return (String) invokeMethod(a.getClass(), "generateNextDemoCourseId",
+                                     new Class<?>[] { String.class, int.class },
+                                     a, new Object[] { instructorEmailOrProposedCourseId, maximumIdLength });
     }
 
     private Action getAction(String... parameters) {

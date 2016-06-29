@@ -202,8 +202,8 @@ public class BaseTestCase {
      * @param invokingObject    the object which invokes the method, can be {@code null} if the method is static
      * @param args              the arguments to be passed to the method invocation
      */
-    protected static Object invokePrivateMethod(Class<?> definingClass, String methodName, Class<?>[] parameterTypes,
-                                                Object invokingObject, Object[] args)
+    protected static Object invokeMethod(Class<?> definingClass, String methodName, Class<?>[] parameterTypes,
+                                         Object invokingObject, Object[] args)
             throws NoSuchMethodException, SecurityException, IllegalAccessException,
                    IllegalArgumentException, InvocationTargetException {
         Method method = definingClass.getDeclaredMethod(methodName, parameterTypes);
