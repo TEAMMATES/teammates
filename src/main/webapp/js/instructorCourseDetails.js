@@ -12,6 +12,7 @@ $(document).ready(function() {
 
     attachEventToRemindStudentsButton();
     attachEventToSendInviteLink();
+    attachEventToDeleteStudentLink();
 });
 
 function submitFormAjax() {
@@ -71,14 +72,16 @@ function attachEventToSendInviteLink() {
     });
 }
 
-/**
- * Function that shows confirmation dialog for removing a student from a course
- * @param studentName
- * @param courseId
- * @returns
- */
-function toggleDeleteStudentConfirmation(courseId, studentName) {
-    return confirm('Are you sure you want to remove ' + studentName + ' from the course ' + courseId + '?');
+function attachEventToDeleteStudentLink() {
+    $('.course-student-delete-link').on('click', function(event) {
+        $clickedLink = $(event.target);
+        var messageText = 'Are you sure you want to remove ' + $clickedLink.data('studentNameForJs')
+                          + ' from the course ' + $clickedLink.data('courseNameForJs') + '?';
+
+        if (!confirm(messageText)) {
+            event.preventDefault();
+        }
+    });
 }
 
 /**
