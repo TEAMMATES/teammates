@@ -10,6 +10,7 @@ $(document).ready(function() {
         selectElementContents(document.getElementById('detailsTable'));
     });
 
+    attachEventToRemindStudentsButton();
     attachEventToSendInviteLink();
 });
 
@@ -46,6 +47,19 @@ function submitFormAjax() {
     });
 }
 
+function attachEventToRemindStudentsButton() {
+    $('#button_remind').on('click', function(event) {
+        var $clickedButton = $(event.target);
+        var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an '
+                          + 'automatic invite to students at the opening time of each session. Send a join '
+                          + 'request to all yet-to-join students in ' + $clickedButton.data('courseId')
+                          + ' anyway?';
+        if (confirm(messageText)) {
+            window.location = $clickedButton.attr('href');
+        }
+    });
+}
+
 function attachEventToSendInviteLink() {
     var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
                       + 'invite to students at the opening time of each session. Send a join request anyway?';
@@ -58,15 +72,13 @@ function attachEventToSendInviteLink() {
 }
 
 /**
- * Function to trigger registration key sending to every unregistered students
- * in the course.
- * @param courseID
+ * Function that shows confirmation dialog for removing a student from a course
+ * @param studentName
+ * @param courseId
+ * @returns
  */
-function toggleSendRegistrationKeysConfirmation(courseID) {
-    return confirm('Usually, there is no need to use this feature because TEAMMATES'
-                   + ' sends an automatic invite to students at the opening time of'
-                   + ' each session. Send a join request to all yet-to-join students in '
-                   + courseID + ' anyway?');
+function toggleDeleteStudentConfirmation(courseId, studentName) {
+    return confirm('Are you sure you want to remove ' + studentName + ' from the course ' + courseId + '?');
 }
 
 /**
