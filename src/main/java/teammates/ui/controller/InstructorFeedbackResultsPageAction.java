@@ -205,16 +205,17 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                     throws EntityDoesNotExistException {
         try {
             if (selectedSection.contentEquals(ALL_SECTION_OPTION)) {
-                data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
-                                            logic.getFeedbackSessionResultSummaryAsCsv(
-                                                    courseId, feedbackSessionName,
-                                                    instructor.email, filterText, isMissingResponsesShown)));
+                data.setSessionResultsHtmlTableAsString(
+                        StringHelper.csvToHtmlTable(
+                                logic.getFeedbackSessionResultSummaryAsCsv(
+                                        courseId, feedbackSessionName, instructor.email,
+                                        filterText, isMissingResponsesShown)));
             } else {
-                data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
-                                            logic.getFeedbackSessionResultSummaryInSectionAsCsv(
-                                                    courseId, feedbackSessionName,
-                                                    instructor.email, selectedSection,
-                                                    filterText, isMissingResponsesShown)));
+                data.setSessionResultsHtmlTableAsString(
+                        StringHelper.csvToHtmlTable(
+                                logic.getFeedbackSessionResultSummaryInSectionAsCsv(
+                                        courseId, feedbackSessionName, instructor.email,
+                                        selectedSection, filterText, isMissingResponsesShown)));
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block

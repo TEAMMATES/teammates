@@ -847,8 +847,8 @@ public class FeedbackSessionsLogic {
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
-            String feedbackSessionName, String courseId,
-            String userEmail, String section, String filterText, boolean isMissingResponsesShown)
+            String feedbackSessionName, String courseId, String userEmail,
+            String section, String filterText, boolean isMissingResponsesShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         long indicatedRange = (section == null) ? 10000 : -1;
@@ -970,8 +970,10 @@ public class FeedbackSessionsLogic {
         
         // add the rows for the possible givers and recipients who have missing responses
         if (isMissingResponsesShown) {
-            exportBuilder.append(getRemainingRowsInCsvFormat(fsrBundle, entry, question, questionDetails,
-                                                possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver));
+            exportBuilder.append(
+                    getRemainingRowsInCsvFormat(
+                            fsrBundle, entry, question, questionDetails,
+                            possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver));
         }
         
         exportBuilder.append(Const.EOL + Const.EOL);
