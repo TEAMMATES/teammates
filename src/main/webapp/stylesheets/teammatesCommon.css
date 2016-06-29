@@ -876,3 +876,8 @@ Prevent Long URL From Breaking Out of Container
         white-space: nowrap;
     }
 }
+
+.toolTipDecorate {
+	border-bottom: 1px dashed #808080;
+	text-decoration: none;
+}

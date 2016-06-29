@@ -161,6 +161,10 @@ $(document).on('ajaxComplete ready', function() {
     if (isTouchDevice()) {
         $tooltips.tooltip('disable');
     }
+    
+    $('span[data-toggle="tooltip"]').each(function() {
+        $( this ).addClass("toolTipDecorate");
+    });
 });
 
 /**
