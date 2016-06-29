@@ -2449,6 +2449,16 @@ public class Logic {
         return commentsLogic.getCommentsForReceiver(courseId, giverEmail, recipientType, receiver);
     }
     
+    public List<CommentAttributes> getCommentsForReceiverVisibleToInstructor(
+            String courseId, CommentParticipantType recipientType, String receiver, String instructorEmail)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, recipientType);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
+        return commentsLogic.getCommentsForReceiverVisibleToInstructor(courseId, recipientType, receiver, instructorEmail);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.

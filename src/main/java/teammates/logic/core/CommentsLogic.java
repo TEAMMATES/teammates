@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -103,6 +104,59 @@ public class CommentsLogic {
         return commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
     }
     
+    /**
+     * Gets comments for a particular receiver, then filters out comments that the instructor cannot see.
+     * @param courseId
+     * @param recipientType
+     * @param receiverEmail
+     * @param instructorEmail
+     * @return List of comments visible to the instructor, directed at the receiver.
+     * @throws EntityDoesNotExistException
+     */
+    public List<CommentAttributes> getCommentsForReceiverVisibleToInstructor(
+            String courseId, CommentParticipantType recipientType, String receiverEmail, String instructorEmail)
+            throws EntityDoesNotExistException {
+        verifyIsCoursePresent(courseId, "get");
+        verifyIsInstructorOfCourse(courseId, instructorEmail);
+        List<CommentAttributes> commentsFromDb =
+                commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
+        Iterator<CommentAttributes> iterator = commentsFromDb.iterator();
+        List<CommentAttributes> comments = new LinkedList<CommentAttributes>();
+        HashSet<String> commentsVisitedSet = new HashSet<String>();
+        boolean canViewCommentsFromOthers =
+                canViewCommentsFromOthers(courseId, recipientType, receiverEmail, instructorEmail);
+        
+        // add in the instructor's own comments to the list
+        while (iterator.hasNext()) {
+            CommentAttributes c = iterator.next();
+            if (c.giverEmail.equals(instructorEmail)) {
+                comments.add(c);
+                preventAppendingThisCommentAgain(commentsVisitedSet, c);
+                iterator.remove();
+            } else if (!canViewCommentsFromOthers) {
+                iterator.remove();
+            }
+        }
+        
+        // add in other instructor's comments, but only if they are visible to instructors
+        removeNonVisibleCommentsForInstructor(commentsFromDb, commentsVisitedSet, comments);
+        
+        // remove comments if the receiver is now anonymous
+        iterator = comments.iterator();
+        while (iterator.hasNext()) {
+            CommentAttributes c = iterator.next();
+            String firstRecipient = null;
+            if (!c.recipients.isEmpty()) {
+                firstRecipient = c.recipients.iterator().next();
+            }
+            // ANONYMOUS_RECEIVER is guaranteed to be the only recipient if the receiver name is hidden
+            if (firstRecipient == null || Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(firstRecipient)) {
+                iterator.remove();
+            }
+        }
+        return comments;
+    }
+
     public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState sendingState)
            throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId, "get");
@@ -432,9 +486,29 @@ public class CommentsLogic {
         }
     }
     
+    private boolean canViewCommentsFromOthers(String courseId, CommentParticipantType recipientType,
+                                              String receiverEmail, String instructorEmail) {
+        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, instructorEmail);
+        if (CommentParticipantType.PERSON.equals(recipientType)) {
+            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, receiverEmail);
+            if (student != null) {
+                return instructor.isAllowedForPrivilege(
+                        student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
+            }
+        } else if (CommentParticipantType.TEAM.equals(recipientType)) {
+            String sectionName = studentsLogic.getSectionForTeam(courseId, receiverEmail);
+            return instructor.isAllowedForPrivilege(
+                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
+        } else if (CommentParticipantType.SECTION.equals(recipientType)) {
+            return instructor.isAllowedForPrivilege(
+                    receiverEmail, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
+        }
+        return false;
+    }
+    
     private void removeGiverNameByVisibilityOptions(CommentAttributes c, CommentParticipantType viewerType) {
         if (!c.showGiverNameTo.contains(viewerType)) {
-            c.giverEmail = "Anonymous";
+            c.giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
         }
     }
 
@@ -443,7 +517,7 @@ public class CommentsLogic {
         removeGiverNameByVisibilityOptions(c, viewerType);
         if (!c.showRecipientNameTo.contains(viewerType)) {
             c.recipients = new HashSet<String>();
-            c.recipients.add("Anonymous");
+            c.recipients.add(Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT);
         }
     }
     
