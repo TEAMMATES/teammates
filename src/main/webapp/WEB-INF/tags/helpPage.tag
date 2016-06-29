@@ -31,13 +31,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-2">
-                    <span>[<a href="/index.html">TEAMMATES</a>]</span>
+                    <span>[<a href="/index.jsp">TEAMMATES</a>]</span>
                 </div>
                 <div class="col-md-8">
                     [hosted on <a href="http://code.google.com/appengine/">Google App Engine</a>]
                 </div>
                 <div class="col-md-2">
-                    <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]</span>
+                    <span>[Send <a class="link" href="../contact.jsp" target="_blank">Feedback</a>]</span>
                 </div>
             </div>
         </div>

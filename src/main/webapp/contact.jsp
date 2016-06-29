@@ -13,6 +13,6 @@
             Bug reports or Feature requests can be submitted to
            above email address.</p>
          <br>
-         <p><span class="bold">Interested in joining us?: </span>Visit our <a href="https://github.com/TEAMMATES/repo">Developer Website</a>.</p>
+         <p><span class="bold">Interested in joining us?: </span>Visit our <a href="https://github.com/TEAMMATES/teammates">Developer Website</a>.</p>
     </div>
 </t:staticPage>

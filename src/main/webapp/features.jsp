@@ -3,7 +3,7 @@
     <div id="contentHolder">
         <br>
         <p>
-          Here is an overview of some notable TEAMMATES features. The <a href="instructorHelp.html">help
+          Here is an overview of some notable TEAMMATES features. The <a href="instructorHelp.jsp">help
             page</a> contains more details about how to use these features. <br> <br>
         
         <div class="feature-details">
@@ -172,7 +172,7 @@
         <img src="images/raised-edge.png" width="600px"> 
         
         
-        <br> <br> For more details about these features, visit the <a href="instructorHelp.html"
-          target="_blank">Instructor Help</a> page or <a href="contact.html">email us</a>. <br> <br> <br>
+        <br> <br> For more details about these features, visit the <a href="instructorHelp.jsp"
+          target="_blank">Instructor Help</a> page or <a href="contact.jsp">email us</a>. <br> <br> <br>
     </div>
 </t:staticPage>

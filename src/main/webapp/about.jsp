@@ -719,7 +719,7 @@
                 <br>
                 <p class="bold">
                     Would you like to join the TEAMMATES team as a contributor? <a
-                        href="contact.html">Contact Us</a>.
+                        href="contact.jsp">Contact Us</a>.
                 </p>
             </div>
         </div>

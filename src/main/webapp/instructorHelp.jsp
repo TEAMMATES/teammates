@@ -292,7 +292,7 @@
 
                                 <br>
                                 <br>See
-                                <a href="/instructorHelp.html#sessionTypes">here</a> for more info about session types.</li>
+                                <a href="#sessionTypes">here</a> for more info about session types.</li>
 
                         </ul>
                         <br>
@@ -318,7 +318,7 @@
                 <span class="text-bold">While the session is open</span>
                 <div class="helpSectionContent">
                     You can view responses any time after the session is open, even when the session is still ongoing. Just go to the ‘Sessions’ page and click the corresponding ‘View results/responses’ link.
-                    <a href="/instructorHelp.html#sessionTypes">Session Types
+                    <a href="#sessionTypes">Session Types
                     </a> section has more information about the reports available for different session types.
                     <br>
                     <br>Students will be sent a reminder 24 hours before the closing time of a session. In addition, you can send further reminders to students any time while a session is open using the ‘remind’ link.
@@ -5539,7 +5539,7 @@
                                                     </div>
                                                     <div class="col-sm-3 pull-right">
                                                         [
-                                                        <a href="/instructorHelp.html#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
+                                                        <a href="#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
                                                     </div>
                                                 </div>
                                                 <div class="row">
