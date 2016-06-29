@@ -3,10 +3,10 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="instructorIndex" required="true" %>
-<%@ attribute name="sectionIndex" required="true" %>
+<%@ attribute name="panelIndex" required="true" %>
 <%@ attribute name="sectionRow" type="teammates.ui.template.CourseEditSectionRow" required="true" %>
 
-<div id="tuneSectionPermissionsDiv${sectionIndex}ForInstructor${instructorIndex}" 
+<div id="tuneSectionPermissionsDiv${panelIndex}ForInstructor${instructorIndex}" 
         <c:if test="${not sectionRow.sectionSpecial}"> 
             style="display: none;"
         </c:if> >
@@ -31,7 +31,7 @@
                 </div>
                 
                 <div class="col-sm-1">
-                    <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(${instructorIndex}, ${sectionIndex})" class="pull-right">
+                    <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(${instructorIndex}, ${panelIndex})" class="pull-right">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
                 </div>
@@ -44,7 +44,7 @@
                 </div>
             </div>
             
-            <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${sectionIndex}set" value="${sectionRow.sectionSpecial}"/>
+            <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${panelIndex}set" value="${sectionRow.sectionSpecial}"/>
         </div>
         
         <div class="panel-body">
@@ -71,7 +71,7 @@
             
             <course:courseEditTuneSessionPermissionsDiv 
                     instructorIndex="${instructorIndex}"
-                    sectionIndex="${sectionIndex}"
+                    panelIndex="${panelIndex}"
                     sectionRow="${sectionRow}"
             />
         </div>

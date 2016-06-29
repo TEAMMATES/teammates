@@ -4,14 +4,14 @@
 <%@ tag import="teammates.common.util.FieldValidator" %>
 
 <%@ attribute name="instructorIndex" required="true" %>
-<%@ attribute name="sectionIndex" required="true" %>
+<%@ attribute name="panelIndex" required="true" %>
 <%@ attribute name="sectionRow" type="teammates.ui.template.CourseEditSectionRow" required="true" %>
 
-<div id="tuneSessionPermissionsDiv${sectionIndex}ForInstructor${instructorIndex}" class="row"
+<div id="tuneSessionPermissionsDiv${panelIndex}ForInstructor${instructorIndex}" class="row"
         <c:if test="${not sectionRow.sessionsInSectionSpecial}">
             style="display: none;"
         </c:if> >
-    <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${sectionIndex}sessionsset" value="${sectionRow.sessionsInSectionSpecial}"/>
+    <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${panelIndex}sessionsset" value="${sectionRow.sessionsInSectionSpecial}"/>
     
     <table class="table table-striped">
         <thead>
