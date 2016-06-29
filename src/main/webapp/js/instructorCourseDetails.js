@@ -9,6 +9,8 @@ $(document).ready(function() {
     $('#studentTableWindow').on('shown.bs.modal', function() {
         selectElementContents(document.getElementById('detailsTable'));
     });
+
+    attachEventToSendInviteLink();
 });
 
 function submitFormAjax() {
@@ -44,15 +46,15 @@ function submitFormAjax() {
     });
 }
 
-/**
- * Functions to trigger registration key sending to a specific student in the
- * course.
- * Currently no confirmation dialog is shown.
- */
-function toggleSendRegistrationKey() {
-    return confirm('Usually, there is no need to use this feature because TEAMMATES '
-                   + 'sends an automatic invite to students at the opening time of each'
-                   + ' session. Send a join request anyway?');
+function attachEventToSendInviteLink() {
+    var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
+                      + 'invite to students at the opening time of each session. Send a join request anyway?';
+
+    $('.course-student-remind-link').on('click', function(event) {
+        if (!confirm(messageText)) {
+            event.preventDefault();
+        }
+    });
 }
 
 /**
