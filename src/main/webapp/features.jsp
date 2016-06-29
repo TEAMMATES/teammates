@@ -1,44 +1,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<t:staticPage>
-  <div id="mainContainer">
-    <div id="header">
-      <div id="headerWrapper">
-        <div id="imageHolder">
-          <a href="/index.html"> <img
-            alt="TEAMMATES[Logo] - Online Feedback Management System for Education"
-            src="images/teammateslogo.jpg" width="150px" height="47px">
-          </a>
-        </div>
-        <div id="menuHolder">
-          <div id="textHolder">
-            <ul id="navbar">
-              <li><a href="index.html">Home</a></li>
-              <li class="current"><strong>Features</strong></li>
-              <li><a href="about.html">About Us</a></li>
-              <li><a href="contact.html">Contact</a></li>
-              <li><a href="terms.html">Terms of Use</a></li>
-            </ul>
-          </div>
-          <div id="loginHolder">
-            <form action="/login" style="float: left" name="studentLogin">
-              <input type="submit" name="student" class="button" id="btnStudentLogin"
-                value="Student Login">
-            </form>
-            <form action="/login" name="instructorLogin" style="float: left">
-              <input type="submit" name="instructor" class="button" id="btnInstructorLogin"
-                value=" Instructor Login">
-            </form>
-          </div>
-          <div style="clear: both;"></div>
-        </div>
-        <div style="clear: both;"></div>
-      </div>
-    </div>
-
-    <div id="mainContent">
-
-      <div id="contentHolder">
-
+<t:staticPage currentPage="features">
+    <div id="contentHolder">
         <br>
         <p>
           Here is an overview of some notable TEAMMATES features. The <a href="instructorHelp.html">help
@@ -212,7 +174,5 @@
         
         <br> <br> For more details about these features, visit the <a href="instructorHelp.html"
           target="_blank">Instructor Help</a> page or <a href="contact.html">email us</a>. <br> <br> <br>
-      </div>
     </div>
-  </div>
 </t:staticPage>
