@@ -7,7 +7,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <div class="panel panel-primary">
     <div class="panel-body fill-plain">
-        <form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE%>" method="post" class="form form-horizontal">
+        <form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE%>" method="post" id="instructor-student-edit-form" class="form form-horizontal">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${studentInfoTable.course}">
             <div class="form-group">
                 <label class="col-sm-1 control-label">Student Name:</label>
@@ -59,7 +59,7 @@
             <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
             <br>
             <div class="align-center">
-                <input type="submit" class="btn btn-primary" id="button_submit" name="submit" value="Save Changes">
+                <input type="submit" class="btn btn-primary" id="button_submit" value="Save Changes">
             </div>
             <br>
             <br>
