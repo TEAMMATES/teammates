@@ -163,7 +163,7 @@ $(document).on('ajaxComplete ready', function() {
     }
     
     $('span[data-toggle="tooltip"]').each(function() {
-        $( this ).addClass("toolTipDecorate");
+        $(this).addClass('toolTipDecorate');
     });
 });
 
