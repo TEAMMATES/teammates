@@ -639,22 +639,6 @@
             }
             
         },
-        "commentHelper":{
-            "courseId":"ISR.CS2104",
-            "giverEmail":"teammates.test.Helper@gmail.tmt",
-            "recipientType":"PERSON",
-            "recipients":["benny.c.tmms@gmail.tmt"],
-            "status": "FINAL",
-            "showCommentTo": [],
-            "showGiverNameTo": [],
-            "showRecipientNameTo": [],
-            "receiverEmail":"benny.c.tmms@gmail.tmt",
-            "createdAt":"2012-05-01 08:51 AM UTC",
-            "commentText":{
-                "value":"Comment 1 from ISR.CS2104 teammates.test Instructor to Benny"
-            }
-            
-        },
         "comment2":{
             "courseId":"ISR.CS2104",
             "giverEmail":"teammates.test@gmail.tmt",
@@ -668,6 +652,86 @@
             "createdAt":"2012-06-01 07:20 PM UTC",
             "commentText":{
                 "value":"Comment 2 from ISR.CS2104 teammates.test Instructor to Benny"
+            }
+            
+        },
+        "commentHelper1":{
+            "courseId":"ISR.CS2104",
+            "giverEmail":"teammates.test.Helper@gmail.tmt",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.tmt"],
+            "status": "FINAL",
+            "showCommentTo": [],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
+            "receiverEmail":"benny.c.tmms@gmail.tmt",
+            "createdAt":"2012-05-01 08:54 AM UTC",
+            "commentText":{
+                "value":"Comment 1 from ISR.CS2104 teammates.test.Helper Instructor to Benny"
+            }
+            
+        },
+        "commentHelper2":{
+            "courseId":"ISR.CS2104",
+            "giverEmail":"teammates.test.Helper@gmail.tmt",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.tmt"],
+            "status": "FINAL",
+            "showCommentTo": ["INSTRUCTOR"],
+            "showGiverNameTo": ["INSTRUCTOR"],
+            "showRecipientNameTo": ["INSTRUCTOR"],
+            "receiverEmail":"benny.c.tmms@gmail.tmt",
+            "createdAt":"2012-05-01 08:49 AM UTC",
+            "commentText":{
+                "value":"Comment 2 from ISR.CS2104 teammates.test.Helper Instructor to Benny, viewable by instructors"
+            }
+            
+        },
+        "commentHelper3":{
+            "courseId":"ISR.CS2104",
+            "giverEmail":"teammates.test.Helper@gmail.tmt",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.tmt"],
+            "status": "FINAL",
+            "showCommentTo": ["INSTRUCTOR"],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": ["INSTRUCTOR"],
+            "receiverEmail":"benny.c.tmms@gmail.tmt",
+            "createdAt":"2012-05-01 08:35 AM UTC",
+            "commentText":{
+                "value":"Comment 3 from ISR.CS2104 teammates.test.Helper Instructor (anonymously) to Benny, viewable by instructors"
+            }
+            
+        },
+        "commentHelper4":{
+            "courseId":"ISR.CS2104",
+            "giverEmail":"teammates.test.Helper@gmail.tmt",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.tmt"],
+            "status": "FINAL",
+            "showCommentTo": ["INSTRUCTOR"],
+            "showGiverNameTo": ["INSTRUCTOR"],
+            "showRecipientNameTo": [],
+            "receiverEmail":"benny.c.tmms@gmail.tmt",
+            "createdAt":"2012-05-01 08:21 AM UTC",
+            "commentText":{
+                "value":"Comment 4 from ISR.CS2104 teammates.test.Helper Instructor to Benny (anonymously), viewable by instructors"
+            }
+            
+        },
+        "commentCS1101":{
+            "courseId":"ISR.CS1101",
+            "giverEmail":"teammates.instr@gmail.tmt",
+            "recipientType":"PERSON",
+            "recipients":["teammates.test@gmail.tmt"],
+            "status": "FINAL",
+            "showCommentTo": ["INSTRUCTOR"],
+            "showGiverNameTo": ["INSTRUCTOR"],
+            "showRecipientNameTo": ["INSTRUCTOR"],
+            "receiverEmail":"benny.c.tmms@gmail.tmt",
+            "createdAt":"2012-05-01 09:10 AM UTC",
+            "commentText":{
+                "value":"Comment from ISR.CS1101 teammates.instr Instructor to Teammates Test, viewable by instructors"
             }
             
         }

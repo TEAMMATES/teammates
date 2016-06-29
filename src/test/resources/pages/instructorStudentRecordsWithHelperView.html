@@ -49,19 +49,19 @@
                         <b>
                           Benny Charlés (Team 1&lt;/td&gt;&lt;/div&gt;'", benny.c.tmms@gmail.tmt)
                         </b>
-                        [Tue, 01 May 2012, 08:51 AM UTC]
+                        [Tue, 01 May 2012, 08:54 AM UTC]
                       </span>
                       <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" id="commentdelete-1" onclick="return deleteComment('1');" title="" type="button">
                         <span class="glyphicon glyphicon-trash glyphicon-primary">
                         </span>
                       </a>
-                      <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1" onclick="return enableEdit(1, 1);" title="" type="button">
+                      <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1" onclick="return enableEdit(1, 4);" title="" type="button">
                         <span class="glyphicon glyphicon-pencil glyphicon-primary">
                         </span>
                       </a>
                     </div>
                     <div id="plainCommentText1" style="margin-left: 15px;">
-                      Comment 1 from ISR.CS2104 teammates.test Instructor to Benny
+                      Comment 1 from ISR.CS2104 teammates.test.Helper Instructor to Benny
                     </div>
                     <form action="/page/instructorStudentCommentEdit" class="form_comment" id="form_commentedit-1" method="post" name="form_commentedit">
                       <div id="commentTextEdit1" style="display: none;">
@@ -183,7 +183,7 @@
                         </div>
                         <div class="form-group">
                           <textarea class="form-control" id="commentText1" name="commenttext" placeholder="Your comment about this student" rows="3">
-                            Comment 1 from ISR.CS2104 teammates.test Instructor to Benny
+                            Comment 1 from ISR.CS2104 teammates.test.Helper Instructor to Benny
                           </textarea>
                         </div>
                         <div class="col-sm-offset-5">
@@ -204,6 +204,498 @@
                       <input name="user" type="hidden" value="ISR.teammates.test.Helper">
                     </form>
                   </li>
+                  <li class="list-group-item list-group-item-warning">
+                    <div id="commentBar-2">
+                      <span class="text-muted">
+                        To
+                        <b>
+                          Benny Charlés (Team 1&lt;/td&gt;&lt;/div&gt;'", benny.c.tmms@gmail.tmt)
+                        </b>
+                        [Tue, 01 May 2012, 08:49 AM UTC]
+                      </span>
+                      <span class="glyphicon glyphicon-eye-open" data-original-title="This comment is visible to instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
+                      </span>
+                      <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" id="commentdelete-2" onclick="return deleteComment('2');" title="" type="button">
+                        <span class="glyphicon glyphicon-trash glyphicon-primary">
+                        </span>
+                      </a>
+                      <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-2" onclick="return enableEdit(2, 4);" title="" type="button">
+                        <span class="glyphicon glyphicon-pencil glyphicon-primary">
+                        </span>
+                      </a>
+                    </div>
+                    <div id="plainCommentText2" style="margin-left: 15px;">
+                      Comment 2 from ISR.CS2104 teammates.test.Helper Instructor to Benny, viewable by instructors
+                    </div>
+                    <form action="/page/instructorStudentCommentEdit" class="form_comment" id="form_commentedit-2" method="post" name="form_commentedit">
+                      <div id="commentTextEdit2" style="display: none;">
+                        <div class="form-group form-inline">
+                          <div class="form-group text-muted">
+                            <p>
+                              Comment about Benny Charlés (Team 1&lt;/td&gt;&lt;/div&gt;'", benny.c.tmms@gmail.tmt):
+                            </p>
+                            You may change comment's visibility using the visibility options on the right hand side.
+                          </div>
+                          <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger2">
+                            <span class="glyphicon glyphicon-eye-close">
+                            </span>
+                            Show Visibility Options
+                          </a>
+                        </div>
+                        <div class="panel panel-default" id="visibility-options2" style="display: none;">
+                          <div class="panel-heading">
+                            Visibility Options
+                          </div>
+                          <table class="table text-center" style="color: #000;">
+                            <tbody>
+                              <tr>
+                                <th class="text-center">
+                                  User/Group
+                                </th>
+                                <th class="text-center">
+                                  Can see your comment
+                                </th>
+                                <th class="text-center">
+                                  Can see giver's name
+                                </th>
+                                <th class="text-center">
+                                  Can see recipient's name
+                                </th>
+                              </tr>
+                              <tr id="recipient-person2">
+                                <td class="text-left">
+                                  <div data-original-title="Control what comment recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Recipient(s)
+                                  </div>
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="PERSON">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="PERSON">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="PERSON">
+                                </td>
+                              </tr>
+                              <tr id="recipient-team2">
+                                <td class="text-left">
+                                  <div data-original-title="Control what team members of comment recipients can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Recipient's Team
+                                  </div>
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="TEAM">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="TEAM">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="TEAM">
+                                </td>
+                              </tr>
+                              <tr id="recipient-section2">
+                                <td class="text-left">
+                                  <div data-original-title="Control what other students in the same section can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Recipient's Section
+                                  </div>
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="SECTION">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="SECTION">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="SECTION">
+                                </td>
+                              </tr>
+                              <tr id="recipient-course2">
+                                <td class="text-left">
+                                  <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Other students in this course
+                                  </div>
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="COURSE">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="text-left">
+                                  <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Instructors
+                                  </div>
+                                </td>
+                                <td>
+                                  <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR">
+                                </td>
+                                <td>
+                                  <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR">
+                                </td>
+                                <td>
+                                  <input checked="" class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR">
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="form-group">
+                          <textarea class="form-control" id="commentText2" name="commenttext" placeholder="Your comment about this student" rows="3">
+                            Comment 2 from ISR.CS2104 teammates.test.Helper Instructor to Benny, viewable by instructors
+                          </textarea>
+                        </div>
+                        <div class="col-sm-offset-5">
+                          <input class="btn btn-primary" id="commentsave-2" onclick="return submitCommentForm('2');" title="Save comment" type="submit" value="Save">
+                          <input class="btn btn-default" onclick="return disableComment('2');" type="button" value="Cancel">
+                        </div>
+                      </div>
+                      <input id="commentedittype-2" name="commentedittype" type="hidden" value="edit">
+                      <input name="commentid" type="hidden" value="${comment.id}">
+                      <input name="courseid" type="hidden" value="ISR.CS2104">
+                      <input name="commentpage" type="hidden" value="false">
+                      <input name="studentemail" type="hidden" value="benny.c.tmms@gmail.tmt">
+                      <input name="recipienttype" type="hidden" value="PERSON">
+                      <input name="recipients" type="hidden" value="benny.c.tmms@gmail.tmt">
+                      <input name="showcommentsto" type="hidden" value="INSTRUCTOR">
+                      <input name="showgiverto" type="hidden" value="INSTRUCTOR">
+                      <input name="showrecipientto" type="hidden" value="INSTRUCTOR">
+                      <input name="user" type="hidden" value="ISR.teammates.test.Helper">
+                    </form>
+                  </li>
+                  <li class="list-group-item list-group-item-warning">
+                    <div id="commentBar-3">
+                      <span class="text-muted">
+                        To
+                        <b>
+                          Benny Charlés (Team 1&lt;/td&gt;&lt;/div&gt;'", benny.c.tmms@gmail.tmt)
+                        </b>
+                        [Tue, 01 May 2012, 08:35 AM UTC]
+                      </span>
+                      <span class="glyphicon glyphicon-eye-open" data-original-title="This comment is visible to instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
+                      </span>
+                      <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" id="commentdelete-3" onclick="return deleteComment('3');" title="" type="button">
+                        <span class="glyphicon glyphicon-trash glyphicon-primary">
+                        </span>
+                      </a>
+                      <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-3" onclick="return enableEdit(3, 4);" title="" type="button">
+                        <span class="glyphicon glyphicon-pencil glyphicon-primary">
+                        </span>
+                      </a>
+                    </div>
+                    <div id="plainCommentText3" style="margin-left: 15px;">
+                      Comment 3 from ISR.CS2104 teammates.test.Helper Instructor (anonymously) to Benny, viewable by instructors
+                    </div>
+                    <form action="/page/instructorStudentCommentEdit" class="form_comment" id="form_commentedit-3" method="post" name="form_commentedit">
+                      <div id="commentTextEdit3" style="display: none;">
+                        <div class="form-group form-inline">
+                          <div class="form-group text-muted">
+                            <p>
+                              Comment about Benny Charlés (Team 1&lt;/td&gt;&lt;/div&gt;'", benny.c.tmms@gmail.tmt):
+                            </p>
+                            You may change comment's visibility using the visibility options on the right hand side.
+                          </div>
+                          <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger3">
+                            <span class="glyphicon glyphicon-eye-close">
+                            </span>
+                            Show Visibility Options
+                          </a>
+                        </div>
+                        <div class="panel panel-default" id="visibility-options3" style="display: none;">
+                          <div class="panel-heading">
+                            Visibility Options
+                          </div>
+                          <table class="table text-center" style="color: #000;">
+                            <tbody>
+                              <tr>
+                                <th class="text-center">
+                                  User/Group
+                                </th>
+                                <th class="text-center">
+                                  Can see your comment
+                                </th>
+                                <th class="text-center">
+                                  Can see giver's name
+                                </th>
+                                <th class="text-center">
+                                  Can see recipient's name
+                                </th>
+                              </tr>
+                              <tr id="recipient-person3">
+                                <td class="text-left">
+                                  <div data-original-title="Control what comment recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Recipient(s)
+                                  </div>
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="PERSON">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="PERSON">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="PERSON">
+                                </td>
+                              </tr>
+                              <tr id="recipient-team3">
+                                <td class="text-left">
+                                  <div data-original-title="Control what team members of comment recipients can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Recipient's Team
+                                  </div>
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="TEAM">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="TEAM">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="TEAM">
+                                </td>
+                              </tr>
+                              <tr id="recipient-section3">
+                                <td class="text-left">
+                                  <div data-original-title="Control what other students in the same section can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Recipient's Section
+                                  </div>
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="SECTION">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="SECTION">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="SECTION">
+                                </td>
+                              </tr>
+                              <tr id="recipient-course3">
+                                <td class="text-left">
+                                  <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Other students in this course
+                                  </div>
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="COURSE">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="text-left">
+                                  <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Instructors
+                                  </div>
+                                </td>
+                                <td>
+                                  <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR">
+                                </td>
+                                <td>
+                                  <input checked="" class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR">
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="form-group">
+                          <textarea class="form-control" id="commentText3" name="commenttext" placeholder="Your comment about this student" rows="3">
+                            Comment 3 from ISR.CS2104 teammates.test.Helper Instructor (anonymously) to Benny, viewable by instructors
+                          </textarea>
+                        </div>
+                        <div class="col-sm-offset-5">
+                          <input class="btn btn-primary" id="commentsave-3" onclick="return submitCommentForm('3');" title="Save comment" type="submit" value="Save">
+                          <input class="btn btn-default" onclick="return disableComment('3');" type="button" value="Cancel">
+                        </div>
+                      </div>
+                      <input id="commentedittype-3" name="commentedittype" type="hidden" value="edit">
+                      <input name="commentid" type="hidden" value="${comment.id}">
+                      <input name="courseid" type="hidden" value="ISR.CS2104">
+                      <input name="commentpage" type="hidden" value="false">
+                      <input name="studentemail" type="hidden" value="benny.c.tmms@gmail.tmt">
+                      <input name="recipienttype" type="hidden" value="PERSON">
+                      <input name="recipients" type="hidden" value="benny.c.tmms@gmail.tmt">
+                      <input name="showcommentsto" type="hidden" value="INSTRUCTOR">
+                      <input name="showgiverto" type="hidden" value="">
+                      <input name="showrecipientto" type="hidden" value="INSTRUCTOR">
+                      <input name="user" type="hidden" value="ISR.teammates.test.Helper">
+                    </form>
+                  </li>
+                  <li class="list-group-item list-group-item-warning">
+                    <div id="commentBar-4">
+                      <span class="text-muted">
+                        To
+                        <b>
+                          Benny Charlés (Team 1&lt;/td&gt;&lt;/div&gt;'", benny.c.tmms@gmail.tmt)
+                        </b>
+                        [Tue, 01 May 2012, 08:21 AM UTC]
+                      </span>
+                      <span class="glyphicon glyphicon-eye-open" data-original-title="This comment is visible to instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
+                      </span>
+                      <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" id="commentdelete-4" onclick="return deleteComment('4');" title="" type="button">
+                        <span class="glyphicon glyphicon-trash glyphicon-primary">
+                        </span>
+                      </a>
+                      <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-4" onclick="return enableEdit(4, 4);" title="" type="button">
+                        <span class="glyphicon glyphicon-pencil glyphicon-primary">
+                        </span>
+                      </a>
+                    </div>
+                    <div id="plainCommentText4" style="margin-left: 15px;">
+                      Comment 4 from ISR.CS2104 teammates.test.Helper Instructor to Benny (anonymously), viewable by instructors
+                    </div>
+                    <form action="/page/instructorStudentCommentEdit" class="form_comment" id="form_commentedit-4" method="post" name="form_commentedit">
+                      <div id="commentTextEdit4" style="display: none;">
+                        <div class="form-group form-inline">
+                          <div class="form-group text-muted">
+                            <p>
+                              Comment about Benny Charlés (Team 1&lt;/td&gt;&lt;/div&gt;'", benny.c.tmms@gmail.tmt):
+                            </p>
+                            You may change comment's visibility using the visibility options on the right hand side.
+                          </div>
+                          <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger4">
+                            <span class="glyphicon glyphicon-eye-close">
+                            </span>
+                            Show Visibility Options
+                          </a>
+                        </div>
+                        <div class="panel panel-default" id="visibility-options4" style="display: none;">
+                          <div class="panel-heading">
+                            Visibility Options
+                          </div>
+                          <table class="table text-center" style="color: #000;">
+                            <tbody>
+                              <tr>
+                                <th class="text-center">
+                                  User/Group
+                                </th>
+                                <th class="text-center">
+                                  Can see your comment
+                                </th>
+                                <th class="text-center">
+                                  Can see giver's name
+                                </th>
+                                <th class="text-center">
+                                  Can see recipient's name
+                                </th>
+                              </tr>
+                              <tr id="recipient-person4">
+                                <td class="text-left">
+                                  <div data-original-title="Control what comment recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Recipient(s)
+                                  </div>
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="PERSON">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="PERSON">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="PERSON">
+                                </td>
+                              </tr>
+                              <tr id="recipient-team4">
+                                <td class="text-left">
+                                  <div data-original-title="Control what team members of comment recipients can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Recipient's Team
+                                  </div>
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="TEAM">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="TEAM">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="TEAM">
+                                </td>
+                              </tr>
+                              <tr id="recipient-section4">
+                                <td class="text-left">
+                                  <div data-original-title="Control what other students in the same section can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Recipient's Section
+                                  </div>
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="SECTION">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="SECTION">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="SECTION">
+                                </td>
+                              </tr>
+                              <tr id="recipient-course4">
+                                <td class="text-left">
+                                  <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Other students in this course
+                                  </div>
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="COURSE">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="text-left">
+                                  <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Instructors
+                                  </div>
+                                </td>
+                                <td>
+                                  <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR">
+                                </td>
+                                <td>
+                                  <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR">
+                                </td>
+                                <td>
+                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR">
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="form-group">
+                          <textarea class="form-control" id="commentText4" name="commenttext" placeholder="Your comment about this student" rows="3">
+                            Comment 4 from ISR.CS2104 teammates.test.Helper Instructor to Benny (anonymously), viewable by instructors
+                          </textarea>
+                        </div>
+                        <div class="col-sm-offset-5">
+                          <input class="btn btn-primary" id="commentsave-4" onclick="return submitCommentForm('4');" title="Save comment" type="submit" value="Save">
+                          <input class="btn btn-default" onclick="return disableComment('4');" type="button" value="Cancel">
+                        </div>
+                      </div>
+                      <input id="commentedittype-4" name="commentedittype" type="hidden" value="edit">
+                      <input name="commentid" type="hidden" value="${comment.id}">
+                      <input name="courseid" type="hidden" value="ISR.CS2104">
+                      <input name="commentpage" type="hidden" value="false">
+                      <input name="studentemail" type="hidden" value="benny.c.tmms@gmail.tmt">
+                      <input name="recipienttype" type="hidden" value="PERSON">
+                      <input name="recipients" type="hidden" value="benny.c.tmms@gmail.tmt">
+                      <input name="showcommentsto" type="hidden" value="INSTRUCTOR">
+                      <input name="showgiverto" type="hidden" value="INSTRUCTOR">
+                      <input name="showrecipientto" type="hidden" value="">
+                      <input name="user" type="hidden" value="ISR.teammates.test.Helper">
+                    </form>
+                  </li>
                   <li class="list-group-item list-group-item-warning" id="comment_box" style="display: none;">
                     <form action="/page/instructorStudentCommentAdd" class="form_comment" method="post" name="form_commentadd">
                       <div class="form-group form-inline">
@@ -213,13 +705,13 @@
                           </p>
                           The default visibility for your comment is private. You may change it using the visibility options.
                         </div>
-                        <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger2">
+                        <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger5">
                           <span class="glyphicon glyphicon-eye-close">
                           </span>
                           Show Visibility Options
                         </a>
                       </div>
-                      <div class="panel panel-default" id="visibility-options2" style="display: none;">
+                      <div class="panel panel-default" id="visibility-options5" style="display: none;">
                         <div class="panel-heading">
                           Visibility Options
                         </div>
@@ -239,7 +731,7 @@
                                 Can see recipient's name
                               </th>
                             </tr>
-                            <tr id="recipient-person2">
+                            <tr id="recipient-person5">
                               <td class="text-left">
                                 <div data-original-title="Control what comment recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
                                   Recipient(s)
@@ -255,7 +747,7 @@
                                 <input class="visibilityCheckbox recipientCheckbox" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="PERSON">
                               </td>
                             </tr>
-                            <tr id="recipient-team2">
+                            <tr id="recipient-team5">
                               <td class="text-left">
                                 <div data-original-title="Control what team members of comment recipients can view" data-placement="top" data-toggle="tooltip" title="">
                                   Recipient's Team
@@ -271,7 +763,7 @@
                                 <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="TEAM">
                               </td>
                             </tr>
-                            <tr id="recipient-section2">
+                            <tr id="recipient-section5">
                               <td class="text-left">
                                 <div data-original-title="Control what other students in the same section can view" data-placement="top" data-toggle="tooltip" title="">
                                   Recipient's Section
@@ -287,7 +779,7 @@
                                 <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="SECTION">
                               </td>
                             </tr>
-                            <tr id="recipient-course2">
+                            <tr id="recipient-course5">
                               <td class="text-left">
                                 <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
                                   Other students in this course
