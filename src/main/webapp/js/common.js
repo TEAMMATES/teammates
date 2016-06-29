@@ -161,6 +161,15 @@ $(document).on('ajaxComplete ready', function() {
     if (isTouchDevice()) {
         $tooltips.tooltip('disable');
     }
+    
+    $('form').submit(function() {
+        $(this).find("button[type='submit']").prop('disabled',true);
+     });
+    
+    $('[id^="button_submit"]').click(function() {
+        console.log("Yes");
+        $(this).prop('disabled',true);
+     });
 });
 
 /**
