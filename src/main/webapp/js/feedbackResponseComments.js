@@ -119,53 +119,57 @@ var editCommentHandler = function(e) {
 
 var deleteCommentHandler = function(e) {
     var submitButton = $(this);
-    var formObject = $(this).parent();
-    var deletedCommentRow = $(this).closest('li');
-    var formData = formObject.serialize();
-    var editForm = submitButton.parent().next().next().next();
-    var frCommentList = submitButton.closest('.comments');
-    var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
-    
-    e.preventDefault();
-    
-    $.ajax({
-        type: 'POST',
-        url: submitButton.attr('href') + '?' + formData,
-        beforeSend: function() {
-            submitButton.html("<img src='/images/ajax-loader.gif'/>");
-        },
-        error: function() {
-            if (editForm.is(':visible')) {
-                setFormErrorMessage(editForm.find('div > a'), 'Failed to delete comment. Please try again.');
-            } else if (frCommentList.parent().find('div.delete_error_msg').length === 0) {
-                frCommentList.after('<div class="delete_error_msg alert alert-danger">'
-                                    + 'Failed to delete comment. Please try again.</div>');
-            }
-            submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
-        },
-        success: function(data) {
-            if (data.isError) {
+
+    deleteResponseComment(function() {
+        var formObject = submitButton.parent();
+        var deletedCommentRow = submitButton.closest('li');
+        var formData = formObject.serialize();
+        var editForm = submitButton.parent().next().next().next();
+        var frCommentList = submitButton.closest('.comments');
+        var panelHeading = submitButton.parents("[id^='panel_display-']").find('.panel-heading').first();
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: submitButton.attr('href') + '?' + formData,
+            beforeSend: function() {
+                submitButton.html("<img src='/images/ajax-loader.gif'/>");
+            },
+            error: function() {
                 if (editForm.is(':visible')) {
-                    setFormErrorMessage(editForm.find('div > a'), data.errorMessage);
+                    setFormErrorMessage(editForm.find('div > a'), 'Failed to delete comment. Please try again.');
                 } else if (frCommentList.parent().find('div.delete_error_msg').length === 0) {
-                    frCommentList.after('<div class="delete_error_msg alert alert-danger">' + data.errorMessage + '</div>');
+                    frCommentList.after('<div class="delete_error_msg alert alert-danger">'
+                                        + 'Failed to delete comment. Please try again.</div>');
                 }
                 submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
-            } else if (isInCommentsPage()) {
-                reloadFeedbackResponseComments(formObject, panelHeading);
-            } else {
-                var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
-                if (numberOfItemInFrCommentList.length <= 2) {
-                    deletedCommentRow.parent().hide();
+            },
+            success: function(data) {
+                if (data.isError) {
+                    if (editForm.is(':visible')) {
+                        setFormErrorMessage(editForm.find('div > a'), data.errorMessage);
+                    } else if (frCommentList.parent().find('div.delete_error_msg').length === 0) {
+                        frCommentList.after('<div class="delete_error_msg alert alert-danger">'
+                                + data.errorMessage + '</div>');
+                    }
+                    submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
+                } else if (isInCommentsPage()) {
+                    reloadFeedbackResponseComments(formObject, panelHeading);
+                } else {
+                    var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
+                    if (numberOfItemInFrCommentList.length <= 2) {
+                        deletedCommentRow.parent().hide();
+                    }
+                    if (frCommentList.find('li').length <= 1) {
+                        frCommentList.hide();
+                    }
+                    deletedCommentRow.remove();
+                    frCommentList.parent().find('div.delete_error_msg').remove();
                 }
-                if (frCommentList.find('li').length <= 1) {
-                    frCommentList.hide();
-                }
-                deletedCommentRow.remove();
-                frCommentList.parent().find('div.delete_error_msg').remove();
             }
-        }
+        });
     });
+    return false;
 };
 
 function registerResponseCommentsEvent() {
@@ -500,6 +504,14 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
         $clickedElement.find('div[class^="placeholder-img-loading"]').html('');
     });
     
+}
+
+function deleteResponseComment(callback) {
+    BootboxWrapper.showModalConfirmation('Warning', 'Are you sure you want to remove this comment ?', function(result) {
+        if (result) {
+            callback();
+        }
+    });
 }
 
 /**
