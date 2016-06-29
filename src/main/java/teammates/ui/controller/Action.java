@@ -12,6 +12,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
@@ -30,12 +31,10 @@ import teammates.logic.api.Logic;
  * perform that action.
  */
 public abstract class Action {
-    protected static Logger log = Utils.getLogger();
-    
-    protected Logic logic;
+    protected static final Logger log = Utils.getLogger();
     
     /** This is used to ensure unregistered users don't access certain pages in the system */
-    public String regkey = null;
+    public String regkey;
     
     /** This will be the admin user if the application is running under the masquerade mode. */
     public AccountAttributes loggedInUser;
@@ -44,7 +43,9 @@ public abstract class Action {
     public AccountAttributes account;
     
     /** This is the unregistered and not loggedin student's attributes. */
-    public StudentAttributes student = null;
+    public StudentAttributes student;
+    
+    protected Logic logic;
     
     /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
     protected String requestUrl;
@@ -61,7 +62,7 @@ public abstract class Action {
     /** Whether the execution completed without any errors or
      * when we are unable to perform the requested action(s)
      **/
-    protected boolean isError = false;
+    protected boolean isError;
     
     /** Session that contains status message information */
     protected HttpSession session;
@@ -70,9 +71,9 @@ public abstract class Action {
     protected HttpServletRequest request;
     
     /** This is for authentication at Action Level */
-    private String authenticationRedirectUrl = ""; 
+    private String authenticationRedirectUrl = "";
     
-    /** Initializes variables. 
+    /** Initializes variables.
      * Aborts with an {@link UnauthorizedAccessException} if the user is not
      * logged in or if a non-admin tried to masquerade as another user.
      * 
@@ -85,7 +86,7 @@ public abstract class Action {
     @SuppressWarnings("unchecked")
     protected void initialiseAttributes(HttpServletRequest req) {
         request = req;
-        requestUrl = HttpRequestHelper.getRequestedURL(request);
+        requestUrl = HttpRequestHelper.getRequestedUrl(request);
         logic = new Logic();
         requestParameters = request.getParameterMap();
         session = request.getSession();
@@ -135,16 +136,16 @@ public abstract class Action {
                 log.severe("TEAMMATES accessed using old join link");
             }
             return legacyRegkey;
-        } else {
-            return regkey;
         }
+        return regkey;
     }
 
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
             AccountAttributes loggedInUser) {
         if (loggedInUser == null) { // Unregistered but loggedin user
-            loggedInUser = new AccountAttributes();
-            loggedInUser.googleId = currentUser.id;
+            AccountAttributes newLoggedInUser = new AccountAttributes();
+            newLoggedInUser.googleId = currentUser.id;
+            return newLoggedInUser;
         }
         return loggedInUser;
     }
@@ -154,19 +155,17 @@ public abstract class Action {
         if (regkey != null && loggedInUserId != null) {
             student = logic.getStudentForRegistrationKey(regkey);
             boolean isKnownKey = student != null;
-            if (isKnownKey) {
-                if (student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
-                    String expectedId = StringHelper.obscure(student.googleId);
-                    expectedId = StringHelper.encrypt(expectedId);
-                    String redirectUrl = Config.getAppUrl(Const.ActionURIs.LOGOUT)
-                                              .withUserId(StringHelper.encrypt(loggedInUserId))
-                                              .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
-                                              .withParam(Const.ParamsNames.HINT, expectedId)
-                                              .toString();
-                    
-                    setRedirectPage(redirectUrl);
-                    return false;
-                }
+            if (isKnownKey && student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
+                String expectedId = StringHelper.obscure(student.googleId);
+                expectedId = StringHelper.encrypt(expectedId);
+                String redirectUrl = Config.getAppUrl(Const.ActionURIs.LOGOUT)
+                                          .withUserId(StringHelper.encrypt(loggedInUserId))
+                                          .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
+                                          .withParam(Const.ParamsNames.HINT, expectedId)
+                                          .toString();
+                
+                setRedirectPage(redirectUrl);
+                return false;
             }
         }
         return true;
@@ -174,10 +173,11 @@ public abstract class Action {
 
     protected AccountAttributes authenticateNotLoggedInUser(String email, String courseId) {
         student = logic.getStudentForRegistrationKey(regkey);
-        boolean isUnknownKey = (student == null);
+        boolean isUnknownKey = student == null;
         boolean isARegisteredUser = !isUnknownKey && student.googleId != null && !student.googleId.isEmpty();
-        boolean isMissingAdditionalAuthenticationInfo = (email == null) || (courseId == null);
-        boolean isAuthenticationFailure = !isUnknownKey && (!student.email.equals(email) || !student.course.equals(courseId));
+        boolean isMissingAdditionalAuthenticationInfo = email == null || courseId == null;
+        boolean isAuthenticationFailure = !isUnknownKey
+                                          && (!student.email.equals(email) || !student.course.equals(courseId));
         
         AccountAttributes loggedInUser = null;
         
@@ -204,7 +204,8 @@ public abstract class Action {
     }
 
     private boolean doesUserNeedToLogin(UserType currentUser) {
-        boolean userNeedsGoogleAccountForPage = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
+        boolean userNeedsGoogleAccountForPage =
+                !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean userIsNotLoggedIn = currentUser == null;
         boolean noRegkeyGiven = getRegkeyFromRequest() == null;
         
@@ -221,79 +222,83 @@ public abstract class Action {
         
         AccountAttributes account = null;
         
-        if (!isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
-            account = loggedInUser;
-            boolean isUserLoggedIn = (account.googleId != null);
-            if (isPersistenceIssue() && isHomePage()) {
-                // let the user go through as this is a persistence issue
-            } else if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
-                if (regkey != null && student != null) {
-                    // TODO: encrypt the email as currently anyone with the regkey can
-                    //       get the email because of this redirect:                    
-                    String joinUrl = Config.getAppUrl(student.getRegistrationUrl())
-                                        .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
-                                        .toString();
-                    setRedirectPage(joinUrl);
-                    return null;
+        if (isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
+            if (loggedInUserType.isAdmin) {
+                // Allowing admin to masquerade as another user
+                account = logic.getAccount(paramRequestedUserId);
+                if (account == null) { // Unregistered user
+                    regkey = getRegkeyFromRequest();
+                    if (regkey == null) {
+                        // since admin is masquerading, fabricate a regkey
+                        regkey = "any-non-null-value";
+                    }
+                    account = new AccountAttributes();
+                    account.googleId = paramRequestedUserId;
                 }
-                
-                throw new UnauthorizedAccessException("Unregistered user for a page that needs registration");
-            } else if (isPageNotCourseJoinRelated() && doesRegkeyBelongToUnregisteredStudent() && isUserLoggedIn) {
-                String redirectUrl = Config.getAppUrl(student.getRegistrationUrl())
-                                      .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
-                                      .toString();
-                setRedirectPage(redirectUrl);
-                return null;
+                return account;
             }
-        } else if (loggedInUserType.isAdmin) {
-            // Allowing admin to masquerade as another user
-            account = logic.getAccount(paramRequestedUserId);
-            if (account == null) { // Unregistered user
-                regkey = getRegkeyFromRequest();
-                if (regkey == null) {
-                    // since admin is masquerading, fabricate a regkey
-                    regkey = "any-non-null-value";
-                }
-                account = new AccountAttributes();
-                account.googleId = paramRequestedUserId;
-            }
-        } else {
-            throw new UnauthorizedAccessException("User " + loggedInUserType.id +
-                      " is trying to masquerade as " + paramRequestedUserId +
-                      " without admin permission.");
+            throw new UnauthorizedAccessException("User " + loggedInUserType.id
+                                                + " is trying to masquerade as " + paramRequestedUserId
+                                                + " without admin permission.");
         }
         
+        account = loggedInUser;
+        if (isPersistenceIssue() && isHomePage()) {
+            // let the user go through as this is a persistence issue
+        } else if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
+            if (regkey != null && student != null) {
+                // TODO: encrypt the email as currently anyone with the regkey can
+                //       get the email because of this redirect:
+                String joinUrl = Config.getAppUrl(student.getRegistrationUrl())
+                                    .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
+                                    .toString();
+                setRedirectPage(joinUrl);
+                return null;
+            }
+            
+            throw new UnauthorizedAccessException("Unregistered user for a page that needs registration");
+        }
+        
+        boolean isUserLoggedIn = account.googleId != null;
+        if (isPageNotCourseJoinRelated() && doesRegkeyBelongToUnregisteredStudent() && isUserLoggedIn) {
+            String redirectUrl = Config.getAppUrl(student.getRegistrationUrl())
+                                  .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
+                                  .toString();
+            setRedirectPage(redirectUrl);
+            return null;
+        }
+   
         return account;
     }
 
     protected boolean isPersistenceIssue() {
-        String persistenceCheckString1 = 
+        String persistenceCheckString1 =
                 getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
         
         return persistenceCheckString1 != null;
     }
 
     private boolean isPageNotCourseJoinRelated() {
-        String currentURI = request.getRequestURI();
-        return !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN) &&
-               !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW) &&
-               !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
+        String currentUri = request.getRequestURI();
+        return !currentUri.equals(Const.ActionURIs.STUDENT_COURSE_JOIN)
+               && !currentUri.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+               && !currentUri.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
     }
 
     private boolean isHomePage() {
-        String currentURI = request.getRequestURI();
-        return currentURI.equals(Const.ActionURIs.STUDENT_HOME_PAGE) ||
-               currentURI.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        String currentUri = request.getRequestURI();
+        return currentUri.equals(Const.ActionURIs.STUDENT_HOME_PAGE)
+               || currentUri.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
 
     private boolean doesRegkeyBelongToUnregisteredStudent() {
-        return student != null &&
-               !student.isRegistered();
+        return student != null && !student.isRegistered();
     }
 
     private boolean doesUserNeedRegistration(AccountAttributes user) {
-        boolean userNeedsRegistrationForPage = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(request.getRequestURI()) &&
-                !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
+        boolean userNeedsRegistrationForPage =
+                !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(request.getRequestURI())
+                && !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean userIsNotRegistered = user.createdAt == null;
         return userNeedsRegistrationForPage && userIsNotRegistered;
     }
@@ -319,22 +324,27 @@ public abstract class Action {
     /** ------------------------------------------------ */
 
     /**
-     * Executes the action (as implemented by a child class). Before passing 
+     * Executes the action (as implemented by a child class). Before passing
      * the result to the caller, it does some post processing: <br>
-     * 1. If the original request contained a URL to redirect after performing 
+     * 1. If the original request contained a URL to redirect after performing
      *    the action, the result will be replaced with a new 'redirect' type
      *    result. Note: Redirection is not allowed to third-party destinations. <br>
      * 2. User ID, error flag, and the status message will be added to the response,
      *    to be encoded into the URL. The error flag is also added to the
      *    {@code isError} flag in the {@link ActionResult} object.
      */
-    public ActionResult executeAndPostProcess() throws EntityDoesNotExistException {
+    public ActionResult executeAndPostProcess() {
         if (!isValidUser()) {
             return createRedirectResult(getAuthenticationRedirectUrl());
         }
         
         // get the result from the child class.
-        ActionResult response = execute();
+        ActionResult response;
+        try {
+            response = execute();
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
+        }
         
         // set error flag of the result
         response.isError = isError;
@@ -342,7 +352,7 @@ public abstract class Action {
         // Set the common parameters for the response
         if (logic.getCurrentUser() != null) {
             response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
-        } 
+        }
         
         if (regkey != null) {
             response.responseParams.put(Const.ParamsNames.REGKEY, regkey);
@@ -353,11 +363,11 @@ public abstract class Action {
             }
             
             if (getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME) != null) {
-                response.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, 
+                response.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME,
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
             }
         }
-        response.responseParams.put(Const.ParamsNames.ERROR, "" + response.isError);
+        response.responseParams.put(Const.ParamsNames.ERROR, Boolean.toString(response.isError));
         
         // Pass status message using session to prevent XSS attack
         if (!response.getStatusMessage().isEmpty()) {
@@ -369,10 +379,12 @@ public abstract class Action {
 
     /**
      * Adds the list of status messages from ActionResult into session variables.
-     * @param response ActionResult 
+     * @param response ActionResult
      */
     protected void putStatusMessageToSession(ActionResult response) {
-        List<StatusMessage> statusMessagesToUser = (List<StatusMessage>) session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
+        @SuppressWarnings("unchecked")
+        List<StatusMessage> statusMessagesToUser =
+                (List<StatusMessage>) session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
         
         if (statusMessagesToUser == null) {
             statusMessagesToUser = new ArrayList<StatusMessage>();
@@ -389,20 +401,21 @@ public abstract class Action {
      * 3. If the action requires showing a page, prepare the matching PageData object.<br>
      * 4. Set the status messages to be shown to the user (if any) and to the admin (compulsory).
      *    The latter is used for generating the adminActivityLogPage.
-     * @throws NullPostParametersException 
      */
+    // TODO handle the EntityDoesNotExistException properly in the method body so it does not
+    // have to be re-thrown here
     protected abstract ActionResult execute() throws EntityDoesNotExistException;
 
     /**
-     * @return The log message in the special format used for generating 
+     * @return The log message in the special format used for generating
      *   the 'activity log' for the Admin.
      */
     public String getLogMessage() {
         UserType currentUser = logic.getCurrentUser();
         
-        ActivityLogEntry activityLogEntry = new ActivityLogEntry(account, 
+        ActivityLogEntry activityLogEntry = new ActivityLogEntry(account,
                                                                  isInMasqueradeMode(),
-                                                                 statusToAdmin, 
+                                                                 statusToAdmin,
                                                                  requestUrl,
                                                                  student,
                                                                  currentUser);
@@ -432,9 +445,8 @@ public abstract class Action {
      * Generates a {@link ShowPageResult} with the information in this object.
      */
     public ShowPageResult createShowPageResult(String destination, PageData pageData) {
-        return new ShowPageResult(destination, 
+        return new ShowPageResult(destination,
                                   account,
-                                  requestParameters,
                                   pageData,
                                   statusToUser);
     }
@@ -445,37 +457,33 @@ public abstract class Action {
      */
     public AjaxResult createAjaxResult(PageData pageData) {
         return new AjaxResult(account,
-                              requestParameters,
                               statusToUser,
                               pageData);
     }
     
     /**
-     * Generates a {@link AjaxResult} with the information in the {@code pageData}, 
+     * Generates a {@link AjaxResult} with the information in the {@code pageData},
      * but without removing any status message from the session.
      */
     public AjaxResult createAjaxResultWithoutClearingStatusMessage(PageData pageData) {
         return new AjaxResult(account,
-                              requestParameters,
                               statusToUser,
                               pageData, false);
     }
     
-    protected boolean isJoinedCourse(String courseId, String googleId) {
-        if (student != null) {
-            return true;
-        } else {
+    protected boolean isJoinedCourse(String courseId) {
+        if (student == null) {
             return logic.getStudentForGoogleId(courseId, account.googleId) != null;
         }
+        return true;
     }
 
     /**
      * Generates a {@link RedirectResult} with the information in this object.
      */
     public RedirectResult createRedirectResult(String destination) {
-        return new RedirectResult(destination, 
+        return new RedirectResult(destination,
                                   account,
-                                  requestParameters,
                                   statusToUser);
     }
     
@@ -483,9 +491,8 @@ public abstract class Action {
      * Generates a {@link FileDownloadResult} with the information in this object.
      */
     public FileDownloadResult createFileDownloadResult(String fileName, String fileContent) {
-        return new FileDownloadResult("filedownload", 
+        return new FileDownloadResult("filedownload",
                                       account,
-                                      requestParameters,
                                       statusToUser,
                                       fileName,
                                       fileContent);
@@ -495,7 +502,7 @@ public abstract class Action {
         String errorMessage = "You are not registered in the course " + Sanitizer.sanitizeForHtml(courseId);
         statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
         isError = true;
-        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage; 
+        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage;
         return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
     }
     
@@ -503,7 +510,6 @@ public abstract class Action {
         return new ImageResult("imagedisplay",
                                blobKey,
                                account,
-                               requestParameters,
                                statusToUser);
     }
 
@@ -537,17 +543,17 @@ public abstract class Action {
     }
 
     protected boolean isInMasqueradeMode() {
-        try { 
-            return (!loggedInUser.googleId.equals(account.googleId));
-        } catch (NullPointerException e) {
-            return false;
+        if (loggedInUser != null && loggedInUser.googleId != null && account != null) {
+            return !loggedInUser.googleId.equals(account.googleId);
         }
+        return false;
     }
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {
-        return loggedInUser != null && requestedUserId != null &&
-               !requestedUserId.trim().equals("null") &&
-               !loggedInUser.googleId.equals(requestedUserId);
+        return loggedInUser != null && requestedUserId != null
+               && !"null".equals(requestedUserId.trim())
+               && loggedInUser.googleId != null
+               && !loggedInUser.googleId.equals(requestedUserId);
     }
     
     // ===================== Utility methods used by some child classes========

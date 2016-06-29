@@ -1,14 +1,11 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNull;
-
 import java.io.IOException;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
@@ -21,7 +18,6 @@ import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.common.util.GoogleCloudStorageHelper;
 
 public class ProfilesDbTest extends BaseComponentTestCase {
     
@@ -29,12 +25,12 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     private AccountsDb accountsDb = new AccountsDb();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
-    @Test 
-    public void testGetStudentProfile() throws Exception{
+    @Test
+    public void testGetStudentProfile() {
         
         ______TS("success case");
         // implicitly tested in update
@@ -92,8 +88,8 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             signalFailureToDetectException(" - EntityDoesNotExistException");
         } catch (EntityDoesNotExistException edne) {
             AssertHelper.assertContains(
-                EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId, 
-                edne.getMessage());
+                    EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId,
+                    edne.getMessage());
             a.studentProfile.googleId = a.googleId;
         }
     }
@@ -104,7 +100,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         profilesDb.updateStudentProfile(a.studentProfile);
         
         // picture should not be deleted
-        assertTrue(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId, true));
+        assertTrue(doesFileExistInGcs(new BlobKey(a.studentProfile.pictureKey)));
     }
 
     private void testUpdateProfileSuccessWithNoPictureKey(AccountAttributes a)
@@ -139,7 +135,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         profilesDb.updateStudentProfile(a.studentProfile);
         
         // picture should not be deleted
-        assertTrue(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId, true));
+        assertTrue(doesFileExistInGcs(new BlobKey(a.studentProfile.pictureKey)));
     }
     
     @Test
@@ -188,7 +184,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             AssertHelper.assertContains("GoogleId is empty", ae.getMessage());
         }
         
-        // picture key        
+        // picture key
         try {
             profilesDb.updateStudentProfilePicture(a.googleId, "");
             signalFailureToDetectException();
@@ -204,7 +200,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             profilesDb.updateStudentProfilePicture("non-eXisTEnt", "random");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            AssertHelper.assertContains(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + "non-eXisTEnt", 
+            AssertHelper.assertContains(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + "non-eXisTEnt",
                     edne.getMessage());
         }
     }
@@ -243,13 +239,13 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     }
 
     private void testDeletePictureSuccess(AccountAttributes a)
-            throws EntityDoesNotExistException, IOException {
+            throws EntityDoesNotExistException {
         ______TS("delete picture");
         
         profilesDb.deleteStudentProfilePicture(a.googleId);
         StudentProfileAttributes updatedProfile = profilesDb.getStudentProfile(a.studentProfile.googleId);
         
-        assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId + "1", true));
+        assertFalse(doesFileExistInGcs(new BlobKey(updatedProfile.pictureKey)));
         assertEquals("", updatedProfile.pictureKey);
     }
     
@@ -261,7 +257,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     private String uploadDefaultPictureForProfile(String googleId)
             throws IOException {
         // we upload a small text file as the actual file does not matter here
-        return GoogleCloudStorageHelper.writeFileToGcs(googleId, "src/test/resources/images/not_a_picture.txt", "");
+        return writeFileToGcs(googleId, "src/test/resources/images/not_a_picture.txt");
     }
 
     private AccountAttributes createNewAccount() throws Exception {

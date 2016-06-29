@@ -2,13 +2,19 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Utils;
 
 public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
+    
+    private static final Logger log = Utils.getLogger();
+    
     /**
      * List of integers, the size of the list corresponds to the number of sub-questions
      * Each integer at index i, represents the choice chosen for sub-question i
@@ -32,11 +38,11 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
         String rawResponses = answer[0];
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
 
-        initializeEmptyAnswerList(fqd.numOfRubricSubQuestions);
+        initializeEmptyAnswerList(fqd.getNumOfRubricSubQuestions());
         
         // Parse and extract answers
         String[] subQuestionResponses = rawResponses.split(Pattern.quote(","));
-        for (int i=0 ; i<subQuestionResponses.length ; i++) {
+        for (int i = 0; i < subQuestionResponses.length; i++) {
             String[] subQuestionIndexAndChoice = subQuestionResponses[i].split(Pattern.quote("-"));
             
             if (subQuestionIndexAndChoice.length != 2) {
@@ -48,13 +54,14 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             try {
                 int subQuestionIndex = Integer.parseInt(subQuestionIndexAndChoice[0]);
                 int subQuestionChoice = Integer.parseInt(subQuestionIndexAndChoice[1]);
-                if (subQuestionIndex >=0 && subQuestionIndex <fqd.numOfRubricSubQuestions &&
-                        subQuestionChoice >=0 && subQuestionChoice <fqd.numOfRubricChoices) {
+                if (subQuestionIndex >= 0 && subQuestionIndex < fqd.getNumOfRubricSubQuestions()
+                        && subQuestionChoice >= 0 && subQuestionChoice < fqd.getNumOfRubricChoices()) {
                     setAnswer(subQuestionIndex, subQuestionChoice);
                 } // else the indexes are invalid.
             } catch (NumberFormatException e) {
                 // Failed to parse, ignore response.
-            } 
+                log.warning(TeammatesException.toStringWithStackTrace(e));
+            }
         }
     }
     
@@ -65,7 +72,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
      */
     private void initializeEmptyAnswerList(int numSubQuestions) {
         answer = new ArrayList<Integer>();
-        for (int i=0 ; i<numSubQuestions ; i++) {
+        for (int i = 0; i < numSubQuestions; i++) {
             answer.add(-1);
         }
     }
@@ -78,24 +85,25 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
-        String html = "";
-        for (int i=0 ; i<answer.size() ; i++) {
+        StringBuilder html = new StringBuilder(100);
+        for (int i = 0; i < answer.size(); i++) {
             int chosenIndex = answer.get(i);
             String chosenChoice = "";
             if (chosenIndex == -1) {
-                chosenChoice = "<span class=\"color_neutral\"><i>" + 
-                        Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + 
-                        "</i></span>";
-                html += StringHelper.integerToLowerCaseAlphabeticalIndex(i+1) + ") " + chosenChoice + "<br>";
+                chosenChoice = "<span class=\"color_neutral\"><i>"
+                             + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE
+                             + "</i></span>";
+                html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice + "<br>");
             } else {
-                chosenChoice = Sanitizer.sanitizeForHtml(fqd.rubricChoices.get(answer.get(i)));
-                html += StringHelper.integerToLowerCaseAlphabeticalIndex(i+1) + ") " + chosenChoice
-                        + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex+1) + ")</i></span><br>";
+                chosenChoice = Sanitizer.sanitizeForHtml(fqd.getRubricChoices().get(answer.get(i)));
+                html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice
+                            + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex + 1)
+                            + ")</i></span><br>");
             }
             
         }
         
-        return html;
+        return html.toString();
     }
 
     @Override

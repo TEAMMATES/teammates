@@ -24,8 +24,8 @@ public class AdminAccountDetailsStudentCourseListTableRow {
     
     private ElementTag createRemoveButton() {
         String content = "<span class=\"glyphicon glyphicon-trash\"></span>Remove From Course";
-        String href = AdminAccountDetailsPageData.getAdminDeleteStudentFromCourseLink(googleId, courseDetails.id);
-        return new ElementTag(content, "id", "student_" + courseDetails.id, "class",
+        String href = AdminAccountDetailsPageData.getAdminDeleteStudentFromCourseLink(googleId, courseDetails.getId());
+        return new ElementTag(content, "id", "student_" + courseDetails.getId(), "class",
                               "btn btn-danger btn-sm", "href", href);
     }
 }

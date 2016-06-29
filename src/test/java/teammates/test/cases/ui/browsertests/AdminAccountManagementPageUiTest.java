@@ -1,10 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,14 +21,14 @@ import teammates.test.pageobjects.BrowserPool;
  * Covers the 'accounts management' view for admins.
  * SUT: {@link AdminAccountManagementPage}
  */
-public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
+public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static AppUrl accountsPageUrl;
     private static AdminAccountManagementPage accountsPage;
     private static DataBundle testData;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/AdminAccountManagementPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -41,7 +36,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
     }
     
     @Test
-    public void testAll(){
+    public void testAll() {
         testContent();
         //no input validation to check
         testViewAccountDetailsLink();
@@ -59,7 +54,8 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         accountsPage.verifyIsCorrectPage();
         assertTrue(accountsPage.isTableVisible());
         
-        List<String> expectedTableHeaders = Arrays.asList("Account Info", "Instructor for", "Institute", "Create At", "Options");
+        List<String> expectedTableHeaders =
+                Arrays.asList("Account Info", "Instructor for", "Institute", "Create At", "Options");
         assertEquals(expectedTableHeaders, accountsPage.getTableHeaders());
     }
 
@@ -83,17 +79,17 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         logPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
-    public void testDeleteInstructorStatusAction(){
+    public void testDeleteInstructorStatusAction() {
         
         ______TS("action: delete instructor status");
         
         String idOfInstructorToDelete = "AAMgtUiT.instr1";
         accountsPage.clickDeleteInstructorStatus(idOfInstructorToDelete)
             .verifyStatus(Const.StatusMessages.INSTRUCTOR_STATUS_DELETED);
-        assertEquals(false, BackDoor.getAccount(idOfInstructorToDelete).isInstructor);
+        assertFalse(BackDoor.getAccount(idOfInstructorToDelete).isInstructor);
     }
 
-    public void testDeleteInstructorAccountAction(){
+    public void testDeleteInstructorAccountAction() {
         
         ______TS("action: delete account");
         
@@ -109,15 +105,15 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
     }
     
     private void loginToAdminAccountsManagementPage(String instructorIdToShow) {
-        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true&googleId=" + instructorIdToShow);
-        accountsPage = loginAdminToPageForAdminUiTests(browser, accountsPageUrl, AdminAccountManagementPage.class);
-        // Extra 60 seconds of wait as it can take a longer time to load in non-dev environments
+        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE
+                                    + "?all=true&googleId=" + instructorIdToShow);
+        accountsPage = loginAdminToPage(browser, accountsPageUrl, AdminAccountManagementPage.class);
         accountsPage.waitForAdminAccountsManagementPageToFinishLoading();
         accountsPage.verifyIsCorrectPage();
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

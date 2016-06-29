@@ -8,6 +8,7 @@ import teammates.common.util.Sanitizer;
 
 public class InstructorFeedbackResultsFilterPanel {
     private boolean isStatsShown;
+    private boolean isMissingResponsesShown;
     private String courseId;
     private String feedbackSessionName;
     private boolean isAllSectionsSelected;
@@ -20,16 +21,17 @@ public class InstructorFeedbackResultsFilterPanel {
     public InstructorFeedbackResultsFilterPanel(boolean isStatsShown,
                                     FeedbackSessionAttributes session, boolean isAllSectionsSelected,
                                     String selectedSection, boolean isGroupedByTeam, String sortType,
-                                    String resultsLink, List<String> sections) {
+                                    String resultsLink, List<String> sections,
+                                    boolean isMissingResponsesShown) {
         this.isStatsShown = isStatsShown;
-        this.courseId = Sanitizer.sanitizeForHtml(session.courseId);
-        this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.feedbackSessionName);
+        this.courseId = Sanitizer.sanitizeForHtml(session.getCourseId());
+        this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.getFeedbackSessionName());
         this.isAllSectionsSelected = isAllSectionsSelected;
         this.selectedSection = selectedSection;
         this.isGroupedByTeam = isGroupedByTeam;
         this.sortType = sortType;
         this.resultsLink = resultsLink;
-        
+        this.isMissingResponsesShown = isMissingResponsesShown;
         List<String> sanitizedSections = new ArrayList<>();
         for (String s : sections) {
             sanitizedSections.add(Sanitizer.sanitizeForHtml(s));
@@ -41,6 +43,10 @@ public class InstructorFeedbackResultsFilterPanel {
         return isStatsShown;
     }
 
+    public boolean isMissingResponsesShown() {
+        return isMissingResponsesShown;
+    }
+    
     public String getCourseId() {
         return courseId;
     }

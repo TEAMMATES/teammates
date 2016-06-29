@@ -8,8 +8,12 @@ import teammates.common.util.Const.SystemParams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class Utils {
+public final class Utils {
 
+    private Utils() {
+        // utility class
+    }
+    
     /** 
      * This method should be used when instantiating loggers within the system.
      * @return A {@link Logger} class configured with the name of the calling class.
@@ -21,10 +25,7 @@ public class Utils {
 
     /**
      * This creates a Gson object that can handle the Date format we use in the
-     * Json file and also reformat the Json string in pretty-print format. <br>
-     * Technique found in <a href=
-     * "http://code.google.com/p/google-gson/source/browse/trunk/gson/src/test/java/com/google/gson/functional/DefaultTypeAdaptersTest.java?spec=svn327&r=327"
-     * >here </a>
+     * Json file and also reformat the Json string in pretty-print format.
      */
     public static Gson getTeammatesGson() {
         return new GsonBuilder()

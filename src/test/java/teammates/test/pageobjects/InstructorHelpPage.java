@@ -1,6 +1,5 @@
 package teammates.test.pageobjects;
 
-
 public class InstructorHelpPage extends AppPage {
 
     public InstructorHelpPage(Browser browser) {

@@ -4,22 +4,22 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Url;
 
 /**
- * PageData object that is sent back as a result of InstructorFeedbackEditCopy. 
- * Specifies a page for the user to be redirected to as a result of the form submission. 
+ * PageData object that is sent back as a result of InstructorFeedbackEditCopy.
+ * Specifies a page for the user to be redirected to as a result of the form submission.
  *
  */
 public class InstructorFeedbackEditCopyData extends PageData {
     public final String redirectUrl;
     public final String errorMessage;
     
-    public InstructorFeedbackEditCopyData(AccountAttributes account, 
+    public InstructorFeedbackEditCopyData(AccountAttributes account,
                                           Url redirectUrl, String errorMessage) {
         super(account);
-        String redirectUrlAsString = redirectUrl != null ? redirectUrl.toString() 
-                                                         : "";
+        String redirectUrlAsString = redirectUrl == null ? ""
+                                                         : redirectUrl.toString();
         this.redirectUrl = redirectUrlAsString;
-        this.errorMessage = errorMessage != null ? errorMessage
-                                                 : "";
+        this.errorMessage = errorMessage == null ? ""
+                                                 : errorMessage;
     }
     
     /**

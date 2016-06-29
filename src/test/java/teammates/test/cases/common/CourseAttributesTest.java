@@ -1,14 +1,13 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.*;
 import static teammates.common.util.Const.EOL;
-import static teammates.common.util.FieldValidator.*;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -17,51 +16,50 @@ public class CourseAttributesTest extends BaseTestCase {
     //TODO: add test for constructor
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
 
     @Test
     public void testValidate() {
         
-        CourseAttributes c = generateValidCourseAttributesObject();
+        CourseAttributes validCourse = generateValidCourseAttributesObject();
         
-        assertEquals("valid value", true, c.isValid());
+        assertTrue("valid value", validCourse.isValid());
         
         
-        String veryLongId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH+1);
+        String veryLongId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         String emptyName = "";
-        c.id = veryLongId;
-        c.name = emptyName;
+        CourseAttributes invalidCourse = new CourseAttributes(veryLongId, emptyName);
         
-        assertEquals("invalid value", false, c.isValid());
-        String errorMessage = 
-                String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_TOO_LONG) + EOL + 
-                String.format(COURSE_NAME_ERROR_MESSAGE, c.name, REASON_EMPTY);
-        assertEquals("invalid value", errorMessage, StringHelper.toString(c.getInvalidityInfo()));
+        assertFalse("invalid value", invalidCourse.isValid());
+        String errorMessage =
+                String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(),
+                              FieldValidator.REASON_TOO_LONG) + EOL
+                + String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, invalidCourse.getName(),
+                                FieldValidator.REASON_EMPTY);
+        assertEquals("invalid value", errorMessage, StringHelper.toString(invalidCourse.getInvalidityInfo()));
     }
 
     @Test
-    public void testGetValidityInfo(){
+    public void testGetValidityInfo() {
         //already tested in testValidate() above
     }
     
     @Test
-    public void testIsValid(){
+    public void testIsValid() {
         //already tested in testValidate() above
     }
     
     @Test
-    public void testToString(){
+    public void testToString() {
         CourseAttributes c = generateValidCourseAttributesObject();
-        assertEquals("valid value", "[CourseAttributes] id: valid-id-$_abc name: valid-name isArchived: false", c.toString());
+        assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name isArchived: false", c.toString());
     }
     
     public static CourseAttributes generateValidCourseAttributesObject() {
         CourseAttributes c;
-        c = new CourseAttributes();
-        c.id = "valid-id-$_abc";
-        c.name = "valid-name";
+        c = new CourseAttributes("valid-id-$_abc", "valid-name");
         return c;
     }
 

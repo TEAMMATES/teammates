@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.util.Date;
 
 import org.testng.annotations.BeforeClass;
@@ -25,7 +21,7 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
     }
 
@@ -35,14 +31,14 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
 
         String[] paramsNormal = {
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
         String[] paramsWithNullCourseId = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
         String[] paramsWithNullFeedbackSessionName = {
-                Const.ParamsNames.COURSE_ID, session.courseId
+                Const.ParamsNames.COURSE_ID, session.getCourseId()
         };
 
         ______TS("Typical successful case: session unpublishable");
@@ -65,8 +61,8 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
 
         try {
             unpublishAction.executeAndPostProcess();
-        } catch (Throwable e) {
-            assertTrue(e instanceof AssertionError);
+            signalFailureToDetectException("AssertionError expected");
+        } catch (AssertionError e) {
             errorMessage = e.getMessage();
         }
 
@@ -79,8 +75,8 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
 
         try {
             unpublishAction.executeAndPostProcess();
-        } catch (Throwable e) {
-            assertTrue(e instanceof AssertionError);
+            signalFailureToDetectException("AssertionError expected");
+        } catch (AssertionError e) {
             errorMessage = e.getMessage();
         }
 
@@ -96,7 +92,8 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?error=true"
                               + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertEquals("Session is already unpublished.", result.getStatusMessage());
+        assertEquals("Error unpublishing feedback session: Session has already been unpublished.",
+                     result.getStatusMessage());
         assertTrue(result.isError);
 
         makeFeedbackSessionPublished(session);
@@ -108,18 +105,18 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         Date endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         Date resultsVisibleFromTimeForPublishedSession = TimeHelper.getDateOffsetToCurrentTime(-1);
 
-        session.startTime = startTime;
-        session.endTime = endTime;
+        session.setStartTime(startTime);
+        session.setEndTime(endTime);
 
         if (isPublished) {
-            session.resultsVisibleFromTime = resultsVisibleFromTimeForPublishedSession;
+            session.setResultsVisibleFromTime(resultsVisibleFromTimeForPublishedSession);
             assertTrue(session.isPublished());
         } else {
-            session.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
             assertFalse(session.isPublished());
         }
 
-        session.sentPublishedEmail = true;
+        session.setSentPublishedEmail(true);
 
         new FeedbackSessionsDb().updateFeedbackSession(session);
     }

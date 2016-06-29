@@ -28,12 +28,12 @@ public class DataMigrationForSearchableInstructors extends RemoteApiClient {
     }
 
     @SuppressWarnings("deprecation")
-    private List<InstructorAttributes> getAllInstructors(){
+    private List<InstructorAttributes> getAllInstructors() {
        
         return logic.getAllInstructors();
     }
     
-    private void updateDocumentForInstructor(InstructorAttributes instructor){
+    private void updateDocumentForInstructor(InstructorAttributes instructor) {
         logic.putDocument(instructor);
     }
 

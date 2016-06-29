@@ -1,32 +1,27 @@
 package teammates.test.cases.automated;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.HashMap;
 import java.util.List;
-
-import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Const.ParamsNames;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionPublishedMailAction;
-import teammates.logic.core.Emails;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.logic.core.Emails.EmailType;
 import teammates.test.util.Priority;
+
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 @Priority(-1)
 public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTaskQueueTestCase {
@@ -68,22 +63,22 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
     
     @Test
-    public void testAdditionOfTaskToTaskQueue() throws Exception {        
+    public void testAdditionOfTaskToTaskQueue() throws Exception {
         FeedbackSessionPublishedCallback.resetTaskCount();
         
         ______TS("3 sessions unpublished, 1 published and emails unsent");
         int counter = 0;
 
-        while(counter < 10){
+        while (counter < 10) {
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
-            if(FeedbackSessionPublishedCallback.verifyTaskCount(1)){
+            if (FeedbackSessionPublishedCallback.verifyTaskCount(1)) {
                 break;
             }
         }
@@ -96,92 +91,93 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         
         // Publish session by moving automated publish time
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        session1.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        session1.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
         fsLogic.updateFeedbackSession(session1);
         verifyPresentInDatastore(session1);
         
         // Do a manual publish
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions.get("session2InCourse1");
-        session2.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+        session2.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         fsLogic.updateFeedbackSession(session2);
         verifyPresentInDatastore(session2);
         
         // Publish session by moving automated publish time and disable publish reminder
         FeedbackSessionAttributes session3 = dataBundle.feedbackSessions.get("gracePeriodSession");
-        session3.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        session3.isPublishedEmailEnabled = false;
+        session3.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session3.setPublishedEmailEnabled(false);
         fsLogic.updateFeedbackSession(session3);
         verifyPresentInDatastore(session3);
             
         // Check that 3 published sessions will have emails sent as
         // Manually publish sessions have emails also added to the task queue
-        fsLogic.publishFeedbackSession(session2.feedbackSessionName, session2.courseId);
+        fsLogic.publishFeedbackSession(session2.getFeedbackSessionName(), session2.getCourseId());
 
         counter = 0;
 
-        while(counter < 10){
+        while (counter < 10) {
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
-            if(FeedbackSessionPublishedCallback.verifyTaskCount(3)){
+            if (FeedbackSessionPublishedCallback.verifyTaskCount(3)) {
                 break;
             }
         }
         assertEquals(3, FeedbackSessionPublishedCallback.taskCount);
         
         ______TS("unpublish a session");
-        fsLogic.unpublishFeedbackSession(session2.feedbackSessionName, session2.courseId);
+        fsLogic.unpublishFeedbackSession(session2.getFeedbackSessionName(), session2.getCourseId());
         
         counter = 0;
 
-        while(counter < 10){
+        while (counter < 10) {
             counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
-            if(FeedbackSessionPublishedCallback.verifyTaskCount(2)){
+            if (FeedbackSessionPublishedCallback.verifyTaskCount(2)) {
                 break;
             }
         }
-        if(counter == 10){
+        if (counter == 10) {
             assertEquals(FeedbackSessionPublishedCallback.taskCount, 2);
         }
        
     }
 
     @Test
-    public void testFeedbackSessionPublishedMailAction() throws Exception{
+    public void testFeedbackSessionPublishedMailAction() throws Exception {
 
-        ______TS("MimeMessage Test : activate all sessions with mails sent");
+        ______TS("Emails Test : activate all sessions with mails sent");
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
-            fs.sentPublishedEmail = true;
+            fs.setSentPublishedEmail(true);
             fsLogic.updateFeedbackSession(fs);
-            assertTrue(fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId).sentPublishedEmail);
+            assertTrue(fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId()).isSentPublishedEmail());
         }
-        ______TS("MimeMessage Test : set session 1 to unsent emails and publish");
+        ______TS("Emails Test : set session 1 to unsent emails and publish");
         // Modify session to set as published but emails unsent
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        session1.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        session1.sentPublishedEmail = false;
+        String courseName = CoursesLogic.inst().getCourse(session1.getCourseId()).getName();
+        session1.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session1.setSentPublishedEmail(false);
         fsLogic.updateFeedbackSession(session1);
         
         HashMap<String, String> paramMap = createParamMapForAction(session1);
         EmailAction fsPublishedAction = new FeedbackSessionPublishedMailAction(paramMap);
-        int course1StudentCount = 5; 
+        int course1StudentCount = 5;
         int course1InstructorCount = 5;
         
-        List<MimeMessage> preparedEmails = fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
+        List<EmailWrapper> preparedEmails = fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
 
-        for (MimeMessage m : preparedEmails) {
-            String subject = m.getSubject();
-            assertTrue(subject.contains(session1.feedbackSessionName));
-            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
+        for (EmailWrapper email : preparedEmails) {
+            assertEquals(String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(), courseName,
+                                       session1.getFeedbackSessionName()),
+                         email.getSubject());
         }
         
         ______TS("testing whether no more mails are sent");
         FeedbackSessionPublishedCallback.resetTaskCount();
         fsLogic.scheduleFeedbackSessionPublishedEmails();
-        if(!FeedbackSessionPublishedCallback.verifyTaskCount(0)){
+        if (!FeedbackSessionPublishedCallback.verifyTaskCount(0)) {
             assertEquals(FeedbackSessionPublishedCallback.taskCount, 0);
         }
     }
@@ -191,8 +187,8 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         HashMap<String, String> paramMap = new HashMap<String, String>();
         
         paramMap.put(ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_PUBLISHED.toString());
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.feedbackSessionName);
-        paramMap.put(ParamsNames.EMAIL_COURSE, fs.courseId);
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.getFeedbackSessionName());
+        paramMap.put(ParamsNames.EMAIL_COURSE, fs.getCourseId());
         
         return paramMap;
     }

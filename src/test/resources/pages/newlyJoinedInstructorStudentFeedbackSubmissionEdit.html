@@ -13,13 +13,16 @@
     </script>
     ${studentmotd.container}
   </div>
-  <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_student_submit_response">
+  <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_submit_response">
     <input name="fsname" type="hidden" value="First team feedback session">
     <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo">
     <input name="user" type="hidden" value="${test.instructor}">
     <div id="statusMessagesToUser">
       <div class="overflow-auto alert alert-warning statusMessage">
-        You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
+        <strong>
+          The feedback session is currently not open for submissions.
+        </strong>
+        You can view the questions and any submitted responses for this feedback session but cannot submit new responses.
       </div>
     </div>
     <script src="/js/statusMessage.js" type="text/javascript">
@@ -574,9 +577,20 @@
               </span>
             </div>
             <div class="col-sm-12">
-              <textarea class="form-control" cols="100%" disabled="" name="responsetext-2-0" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-2-0" disabled="" id="responsetext-2-0" name="responsetext-2-0" rows="4">
                 I was the project lead. I designed the application architecture and managed the project to ensure we deliver the product on time.
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-2-0">
+                  129
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-2-0" type="hidden" value="${question.id}%AHPUiT.instr1@gmail.tmt%AHPUiT.instr1@gmail.tmt">
             </div>
           </div>
@@ -630,9 +644,20 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" disabled="" name="responsetext-3-0" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-3-0" disabled="" id="responsetext-3-0" name="responsetext-3-0" rows="4">
                 A bit weak in terms of technical skills. He spent lots of time in picking up the skills. Although a bit slow in development, his attitude is good.
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-3-0">
+                  146
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-3-0" type="hidden" value="${question.id}%AHPUiT.instr1@gmail.tmt%charlie.d.tmms@gmail.tmt">
             </div>
           </div>
@@ -660,9 +685,20 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" disabled="" name="responsetext-3-1" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-3-1" disabled="" id="responsetext-3-1" name="responsetext-3-1" rows="4">
                 Francis is the designer of the project. He did a good job!
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-3-1">
+                  58
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-3-1" type="hidden" value="${question.id}%AHPUiT.instr1@gmail.tmt%francis.g.tmms@gmail.tmt">
             </div>
           </div>
@@ -690,9 +726,20 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" disabled="" name="responsetext-3-2" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-3-2" disabled="" id="responsetext-3-2" name="responsetext-3-2" rows="4">
                 Gene is the programmer for our team. She put in a lot of effort in coding a significant portion of the project.
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-3-2">
+                  111
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-3-2" type="hidden" value="${question.id}%AHPUiT.instr1@gmail.tmt%gene.h.tmms@gmail.tmt">
             </div>
           </div>
@@ -740,9 +787,20 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" disabled="" name="responsetext-4-0" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-4-0" disabled="" id="responsetext-4-0" name="responsetext-4-0" rows="4">
                 I had a great time with this team. Thanks for all the support from the members.
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-4-0">
+                  79
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-4-0" type="hidden" value="${question.id}%AHPUiT.instr1@gmail.tmt%Team 2">
             </div>
           </div>
@@ -799,9 +857,20 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" disabled="" name="responsetext-5-0" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-5-0" disabled="" id="responsetext-5-0" name="responsetext-5-0" rows="4">
                 Good try Charlie! Thanks for showing great effort in picking up the skills.
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-5-0">
+                  75
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-5-0" type="hidden" value="${question.id}%AHPUiT.instr1@gmail.tmt%charlie.d.tmms@gmail.tmt">
             </div>
           </div>
@@ -829,9 +898,20 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" disabled="" name="responsetext-5-1" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-5-1" disabled="" id="responsetext-5-1" name="responsetext-5-1" rows="4">
                 Nice work Francis!
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-5-1">
+                  18
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-5-1" type="hidden" value="${question.id}%AHPUiT.instr1@gmail.tmt%francis.g.tmms@gmail.tmt">
             </div>
           </div>
@@ -859,9 +939,20 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" disabled="" name="responsetext-5-2" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-5-2" disabled="" id="responsetext-5-2" name="responsetext-5-2" rows="4">
                 Keep up the good work Gene!
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-5-2">
+                  27
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-5-2" type="hidden" value="${question.id}%AHPUiT.instr1@gmail.tmt%gene.h.tmms@gmail.tmt">
             </div>
           </div>
@@ -871,7 +962,7 @@
     <br>
     <br>
     <div class="bold align-center">
-      <input class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="" id="response_submit_button" style="background: #66727A;" title="" type="submit" value="Submit Feedback">
+      <input class="btn btn-primary center-block" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="" id="response_submit_button" style="background: #66727A;" title="" type="submit" value="Submit Feedback">
     </div>
     <br>
     <br>

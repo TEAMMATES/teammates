@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -10,9 +7,8 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
@@ -23,11 +19,11 @@ import teammates.ui.controller.StudentProfilePictureAction;
 
 public class StudentProfilePictureActionTest extends BaseActionTest {
 
-    private final DataBundle _dataBundle = getTypicalDataBundle();
-    private StudentProfilePictureAction _action;
-    private ImageResult _result;
-    private final AccountAttributes _account = _dataBundle.accounts.get("student1InCourse1");
-    private final StudentAttributes _student = _dataBundle.students.get("student1InCourse1");
+    private final DataBundle dataBundle = getTypicalDataBundle();
+    private StudentProfilePictureAction action;
+    private ImageResult result;
+    private final AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
+    private final StudentAttributes student = dataBundle.students.get("student1InCourse1");
 
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -43,16 +39,16 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         testActionWithEmailAndCourse();
     }
 
-    public void testActionWithNoParams() throws Exception {
+    public void testActionWithNoParams() {
 
         ______TS("Failure case: no parameters given");
-        gaeSimulation.loginAsStudent(_account.googleId);
+        gaeSimulation.loginAsStudent(account.googleId);
 
         String[] submissionParams = new String[] {};
 
-        _action = getAction(submissionParams);
+        action = getAction(submissionParams);
         try {
-            _action.executeAndPostProcess();
+            action.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals("expected blob-key, or student email with courseId", ae.getMessage());
@@ -67,40 +63,40 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
      * 
      * @throws Exception
      */
-    public void testActionWithBlobKey() throws Exception {
+    public void testActionWithBlobKey() {
         testActionWithBlobKeySuccess();
         testActionWithBlobKeySuccessMasquerade();
     }
 
-    protected void testActionWithBlobKeySuccess() throws Exception {
+    protected void testActionWithBlobKeySuccess() {
         ______TS("Typical case: using blobkey");
-        gaeSimulation.loginAsStudent(_account.googleId);
+        gaeSimulation.loginAsStudent(account.googleId);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.BLOB_KEY, _account.studentProfile.pictureKey
+                Const.ParamsNames.BLOB_KEY, account.studentProfile.pictureKey
         };
-        _action = getAction(submissionParams);
-        _result = (ImageResult) _action.executeAndPostProcess();
+        action = getAction(submissionParams);
+        result = (ImageResult) action.executeAndPostProcess();
 
-        assertFalse(_result.isError);
-        assertEquals("", _result.getStatusMessage());
-        assertEquals(_account.studentProfile.pictureKey, _result.blobKey);
+        assertFalse(result.isError);
+        assertEquals("", result.getStatusMessage());
+        assertEquals(account.studentProfile.pictureKey, result.blobKey);
         verifyLogMessageForActionWithBlobKey(false);
     }
 
-    protected void testActionWithBlobKeySuccessMasquerade() throws Exception {
+    protected void testActionWithBlobKeySuccessMasquerade() {
         ______TS("Typical case: masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.USER_ID, _account.googleId,
-                Const.ParamsNames.BLOB_KEY, _account.studentProfile.pictureKey
+                Const.ParamsNames.USER_ID, account.googleId,
+                Const.ParamsNames.BLOB_KEY, account.studentProfile.pictureKey
         };
-        _action = getAction(addUserIdToParams(_account.googleId, submissionParams));
-        _result = (ImageResult) _action.executeAndPostProcess();
+        action = getAction(addUserIdToParams(account.googleId, submissionParams));
+        result = (ImageResult) action.executeAndPostProcess();
 
-        assertFalse(_result.isError);
-        assertEquals("", _result.getStatusMessage());
+        assertFalse(result.isError);
+        assertEquals("", result.getStatusMessage());
         verifyLogMessageForActionWithBlobKey(true);
     }
 
@@ -111,7 +107,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
      * @throws Exception
      */
     public void testActionWithEmailAndCourse() throws Exception {
-        AccountAttributes instructor = _dataBundle.accounts.get("instructor1OfCourse1");
+        AccountAttributes instructor = dataBundle.accounts.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor("idOfInstructor1OfCourse1");
 
         testActionWithEmailAndCourseSuccessTypical(instructor);
@@ -120,39 +116,38 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         testActionWithEmailAndCourseUnauthorisedInstructor();
     }
 
-    protected void testActionWithEmailAndCourseSuccessTypical(AccountAttributes instructor)
-            throws Exception {
+    protected void testActionWithEmailAndCourseSuccessTypical(AccountAttributes instructor) {
 
         ______TS("Typical case: using email and course");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(_student.email),
-                Const.ParamsNames.COURSE_ID, StringHelper.encrypt(_student.course)
+                Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(student.email),
+                Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
         };
 
-        _action = getAction(submissionParams);
-        _result = (ImageResult) _action.executeAndPostProcess();
+        action = getAction(submissionParams);
+        result = (ImageResult) action.executeAndPostProcess();
 
-        assertFalse(_result.isError);
-        assertEquals("", _result.getStatusMessage());
-        assertEquals("asdf34&hfn3!@", _result.blobKey);
+        assertFalse(result.isError);
+        assertEquals("", result.getStatusMessage());
+        assertEquals("asdf34&hfn3!@", result.blobKey);
         verifyLogMessageForActionWithEmailAndCourse(instructor, false);
     }
 
-    protected void testActionWithEmailAndCourseNoStudent() throws Exception {
+    protected void testActionWithEmailAndCourseNoStudent() {
         ______TS("Failure case: student does not exist");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt("random-email"),
-                Const.ParamsNames.COURSE_ID, StringHelper.encrypt(_student.course)
+                Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
         };
 
-        _action = getAction(submissionParams);
+        action = getAction(submissionParams);
         try {
-            _action.executeAndPostProcess();
+            action.executeAndPostProcess();
             signalFailureToDetectException("Entity Does not exist");
-        } catch (EntityDoesNotExistException uae) {
-            assertEquals("student with " + _student.course + "/random-email", uae.getMessage());
+        } catch (EntityNotFoundException enfe) {
+            assertEquals("student with " + student.course + "/random-email", enfe.getMessage());
         }
     }
 
@@ -169,7 +164,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     @SuppressWarnings("deprecation")
     private InstructorAttributes createNewInstructorForUnregCourse()
             throws Exception {
-        String course = _dataBundle.courses.get("unregisteredCourse").id;
+        String course = dataBundle.courses.get("unregisteredCourse").getId();
         AccountsLogic.inst().createAccount(new AccountAttributes("unregInsId", "unregName", true,
                                                                  "unregIns@unregcourse.com", "unregInstitute"));
         InstructorAttributes instructor = new InstructorAttributes("unregInsId", course, "unregName",
@@ -178,36 +173,35 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         return instructor;
     }
 
-    private void testActionForStudentWithEmptyGoogleId() throws Exception {
+    private void testActionForStudentWithEmptyGoogleId() {
         ______TS("Failure case: no profile available (unreg student)");
 
-        StudentAttributes student = _dataBundle.students.get("student2InUnregisteredCourse");
-        Assumption.assertIsEmpty(student.googleId);
+        StudentAttributes student = dataBundle.students.get("student2InUnregisteredCourse");
+        assertTrue(student.googleId.isEmpty());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(student.email),
                 Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
         };
 
-        _action = getAction(submissionParams);
-        _result = (ImageResult) _action.executeAndPostProcess();
+        action = getAction(submissionParams);
+        result = (ImageResult) action.executeAndPostProcess();
 
-        assertEquals("", _result.blobKey);
+        assertEquals("", result.blobKey);
     }
 
-    protected void testActionWithEmailAndCourseUnauthorisedInstructor()
-            throws Exception {
+    protected void testActionWithEmailAndCourseUnauthorisedInstructor() {
         ______TS("Failure case: instructor not from same course");
-        AccountAttributes unauthInstructor = _dataBundle.accounts.get("instructor1OfCourse2");
+        AccountAttributes unauthInstructor = dataBundle.accounts.get("instructor1OfCourse2");
         gaeSimulation.loginAsInstructor(unauthInstructor.googleId);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(_student.email),
-                Const.ParamsNames.COURSE_ID, StringHelper.encrypt(_student.course)
+                Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(student.email),
+                Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
         };
 
-        _action = getAction(submissionParams);
+        action = getAction(submissionParams);
         try {
-            _action.executeAndPostProcess();
+            action.executeAndPostProcess();
             signalFailureToDetectException("Unauthorised Access");
         } catch (UnauthorizedAccessException uae) {
             assertEquals("User is not instructor of the course that student belongs to", uae.getMessage());
@@ -223,20 +217,20 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                                                              boolean isMasquerade) {
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePic|||studentProfilePic"
                                   + "|||true|||Instructor" + (isMasquerade ? "(M)" : "") + "|||"
-                                  + instructor.name + "|||" + instructor.googleId + "|||"+ instructor.email
+                                  + instructor.name + "|||" + instructor.googleId + "|||" + instructor.email
                                   + "|||Requested Profile Picture by instructor/other students|||/page/studentProfilePic";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, _action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     private void verifyLogMessageForActionWithBlobKey(boolean isMasquerade) {
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePic|||studentProfilePic"
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
-                                  + _account.name + "|||" + _account.googleId + "|||" + _student.email
+                                  + account.name + "|||" + account.googleId + "|||" + student.email
                                   + "|||Requested Profile Picture by student directly|||/page/studentProfilePic";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, _action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private StudentProfilePictureAction getAction(String... params) throws Exception {
+    private StudentProfilePictureAction getAction(String... params) {
         return (StudentProfilePictureAction) (gaeSimulation.getActionObject(uri, params));
     }
 

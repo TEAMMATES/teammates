@@ -37,6 +37,25 @@ public class InstructorFeedbackResultsSectionPanel {
         participantPanels = new LinkedHashMap<String, List<InstructorFeedbackResultsParticipantPanel>>();
     }
     
+    public InstructorFeedbackResultsSectionPanel(String name, String nameForDisplay, boolean loadByAjax) {
+        this();
+        sectionName = name;
+        sectionNameForDisplay = nameForDisplay;
+        isLoadSectionResponsesByAjax = loadByAjax;
+    }
+
+    /**
+     * Adds a participant panel. The participant panel will not be grouped with any team panel.
+     * @see {@link #addParticipantPanel(String, InstructorFeedbackResultsParticipantPanel)}
+     */
+    public void addParticipantPanel(InstructorFeedbackResultsParticipantPanel participantPanel) {
+        addParticipantPanel("", participantPanel);
+    }
+    
+    /**
+     * Adds a participant panel. The participant panel is grouped with the team panel with team {@code currentTeam}.
+     * @see {@link #addParticipantPanel(InstructorFeedbackResultsParticipantPanel)}
+     */
     public void addParticipantPanel(String currentTeam,
                                     InstructorFeedbackResultsParticipantPanel giverPanel) {
         List<InstructorFeedbackResultsParticipantPanel> teamsMembersPanels;
@@ -50,8 +69,7 @@ public class InstructorFeedbackResultsSectionPanel {
         teamsMembersPanels.add(giverPanel);
         participantPanels.put(currentTeam, teamsMembersPanels);
     }
-    
-    
+
     public String getPanelClass() {
         return panelClass;
     }
@@ -74,7 +92,7 @@ public class InstructorFeedbackResultsSectionPanel {
 
     public void setParticipantPanels(
                                     Map<String, List<InstructorFeedbackResultsParticipantPanel>> participantPanels) {
-        this.participantPanels = participantPanels; 
+        this.participantPanels = participantPanels;
     }
 
     public Map<String, List<InstructorFeedbackResultsQuestionTable>> getTeamStatisticsTable() {
@@ -149,9 +167,9 @@ public class InstructorFeedbackResultsSectionPanel {
         this.isAbleToLoadResponses = isUnableToLoadResponses;
     }
 
-
     public List<InstructorFeedbackResultsParticipantPanel> getParticipantPanelsInSortedOrder() {
-        List<InstructorFeedbackResultsParticipantPanel> sortedPanels = new ArrayList<InstructorFeedbackResultsParticipantPanel>();
+        List<InstructorFeedbackResultsParticipantPanel> sortedPanels =
+                new ArrayList<InstructorFeedbackResultsParticipantPanel>();
         for (Collection<InstructorFeedbackResultsParticipantPanel> participantsPanels : participantPanels.values()) {
             sortedPanels.addAll(participantsPanels);
         }

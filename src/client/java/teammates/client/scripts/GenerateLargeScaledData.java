@@ -1,8 +1,6 @@
 package teammates.client.scripts;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.DataBundle;
@@ -12,41 +10,41 @@ import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.storage.datastore.Datastore;
 import teammates.test.driver.TestProperties;
-import teammates.common.util.FileHelper;
+import teammates.test.util.FileHelper;
 
-public class GenerateLargeScaledData extends RemoteApiClient{
-    private static Logger logger = Logger.getLogger(GenerateLargeScaledData.class.getName());
+public class GenerateLargeScaledData extends RemoteApiClient {
     
     public static void main(String[] args) throws IOException {
         GenerateLargeScaledData dataGenerator = new GenerateLargeScaledData();
         dataGenerator.doOperationRemotely();
     }
     
+    @Override
     protected void doOperation() {
         Datastore.initialize(); //TODO: push to parent class
         Logic logic = new Logic();
         DataBundle largeScaleBundle = loadDataBundle("/largeScaleTest.json");
         
-        try{
+        try {
             int index = 0;
             /*
-            for(StudentAttributes student : largeScaleBundle.students.values()){
+            for (StudentAttributes student : largeScaleBundle.students.values()) {
                 logic.createStudent(student);
                 index++;
-                if(index % 100 == 0){
+                if (index % 100 == 0) {
                     logger.info("Create student " + index);
                 }
             }
             */
           
-            for(FeedbackResponseAttributes response : largeScaleBundle.feedbackResponses.values()){
+            for (FeedbackResponseAttributes response : largeScaleBundle.feedbackResponses.values()) {
                 logic.createFeedbackResponse(injectRealIds(response));
                 index++;
-                if(index % 100 == 0){
-                    logger.info("Create response " + index);
+                if (index % 100 == 0) {
+                    System.out.println("Create response " + index);
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -55,7 +53,7 @@ public class GenerateLargeScaledData extends RemoteApiClient{
         try {
             int qnNumber = Integer.parseInt(response.feedbackQuestionId);
         
-            response.feedbackQuestionId = 
+            response.feedbackQuestionId =
                 FeedbackQuestionsLogic.inst().getFeedbackQuestion(
                         response.feedbackSessionName, response.courseId,
                         qnNumber).getId();
@@ -66,16 +64,15 @@ public class GenerateLargeScaledData extends RemoteApiClient{
         return response;
     }
     
-    private static DataBundle loadDataBundle(String pathToJsonFile){
-        if(pathToJsonFile.startsWith("/")){
-            pathToJsonFile = TestProperties.TEST_DATA_FOLDER + pathToJsonFile;
-        }
-        String jsonString;
+    protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
         try {
-            jsonString = FileHelper.readFile(pathToJsonFile);
-        } catch (FileNotFoundException e) {
+            String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
+                                  + pathToJsonFileParam;
+            String jsonString = FileHelper.readFile(pathToJsonFile);
+            return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
     }
+
 }

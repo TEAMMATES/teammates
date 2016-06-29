@@ -20,11 +20,11 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.google.gson.Gson;
 
 /**
- * The search result bundle for {@link FeedbackResponseCommentAttributes}. 
+ * The search result bundle for {@link FeedbackResponseCommentAttributes}.
  */
 public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundle {
-    private int numberOfCommentFound = 0;
-    public Map<String, List<FeedbackResponseCommentAttributes>> comments = new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+    public Map<String, List<FeedbackResponseCommentAttributes>> comments =
+            new HashMap<String, List<FeedbackResponseCommentAttributes>>();
     public Map<String, List<FeedbackResponseAttributes>> responses = new HashMap<String, List<FeedbackResponseAttributes>>();
     public Map<String, List<FeedbackQuestionAttributes>> questions = new HashMap<String, List<FeedbackQuestionAttributes>>();
     public Map<String, FeedbackSessionAttributes> sessions = new HashMap<String, FeedbackSessionAttributes>();
@@ -33,7 +33,9 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     public Map<String, String> responseRecipientTable = new HashMap<String, String>();
     public Set<String> instructorEmails = new HashSet<String>();
     
-    public Cursor cursor = null;
+    public Cursor cursor;
+    
+    private int numberOfCommentFound;
     
     private Set<String> isAdded = new HashSet<String>();
     
@@ -43,8 +45,6 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    
-    public FeedbackResponseCommentSearchResultBundle(){}
     
     public Map<String, List<FeedbackQuestionAttributes>> getQuestions() {
         return questions;
@@ -56,30 +56,32 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
      */
     public FeedbackResponseCommentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                                  List<InstructorAttributes> instructors) {
-        if(results == null) return this;
+        if (results == null) {
+            return this;
+        }
         
         //get instructor's information
         instructorEmails = new HashSet<String>();
         instructorCourseIdList = new HashSet<String>();
-        for(InstructorAttributes ins:instructors){
+        for (InstructorAttributes ins : instructors) {
             instructorEmails.add(ins.email);
             instructorCourseIdList.add(ins.courseId);
         }
         
         cursor = results.getCursor();
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
-        for(ScoredDocument doc:filteredResults){
+        for (ScoredDocument doc : filteredResults) {
             //get FeedbackResponseComment from results
             FeedbackResponseCommentAttributes comment = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(),
                     FeedbackResponseCommentAttributes.class);
-            if(frcLogic.getFeedbackResponseComment(comment.getId()) == null){
+            if (frcLogic.getFeedbackResponseComment(comment.getId()) == null) {
                 frcLogic.deleteDocument(comment);
                 continue;
             }
             comment.sendingState = CommentSendingState.SENT;
             List<FeedbackResponseCommentAttributes> commentList = comments.get(comment.feedbackResponseId);
-            if(commentList == null){
+            if (commentList == null) {
                 commentList = new ArrayList<FeedbackResponseCommentAttributes>();
                 comments.put(comment.feedbackResponseId, commentList);
             }
@@ -87,50 +89,50 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             
             //get related response from results
             FeedbackResponseAttributes response = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).getText(),
                     FeedbackResponseAttributes.class);
-            if(frLogic.getFeedbackResponse(response.getId()) == null){
+            if (frLogic.getFeedbackResponse(response.getId()) == null) {
                 frcLogic.deleteDocument(comment);
                 continue;
             }
             List<FeedbackResponseAttributes> responseList = responses.get(response.feedbackQuestionId);
-            if(responseList == null){
+            if (responseList == null) {
                 responseList = new ArrayList<FeedbackResponseAttributes>();
                 responses.put(response.feedbackQuestionId, responseList);
             }
-            if(!isAdded.contains(response.getId())){
+            if (!isAdded.contains(response.getId())) {
                 isAdded.add(response.getId());
                 responseList.add(response);
             }
             
             //get related question from results
             FeedbackQuestionAttributes question = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).getText(),
                     FeedbackQuestionAttributes.class);
-            if(fqLogic.getFeedbackQuestion(question.getId()) == null){
+            if (fqLogic.getFeedbackQuestion(question.getId()) == null) {
                 frcLogic.deleteDocument(comment);
                 continue;
             }
             List<FeedbackQuestionAttributes> questionList = questions.get(question.feedbackSessionName);
-            if(questionList == null){
+            if (questionList == null) {
                 questionList = new ArrayList<FeedbackQuestionAttributes>();
                 questions.put(question.feedbackSessionName, questionList);
             }
-            if(!isAdded.contains(question.getId())){
+            if (!isAdded.contains(question.getId())) {
                 isAdded.add(question.getId());
                 questionList.add(question);
             }
             
             //get related session from results
             FeedbackSessionAttributes session = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(),
                     FeedbackSessionAttributes.class);
-            if(fsLogic.getFeedbackSession(session.getSessionName(), session.courseId) == null){
+            if (fsLogic.getFeedbackSession(session.getSessionName(), session.getCourseId()) == null) {
                 frcLogic.deleteDocument(comment);
                 continue;
             }
-            if(!isAdded.contains(session.feedbackSessionName)){
-                isAdded.add(session.feedbackSessionName);
+            if (!isAdded.contains(session.getFeedbackSessionName())) {
+                isAdded.add(session.getFeedbackSessionName());
                 sessions.put(session.getSessionName(), session);
             }
             
@@ -145,7 +147,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             
             String commentGiverName = extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
-            commentGiverTable.put(comment.getId().toString(), getFilteredCommentGiverName(response, comment, commentGiverName));
+            commentGiverTable.put(comment.getId().toString(),
+                                  getFilteredCommentGiverName(response, comment, commentGiverName));
             numberOfCommentFound++;
         }
         
@@ -164,32 +167,26 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         return this;
     }
     
-    private String getFilteredCommentGiverName(FeedbackResponseAttributes response, FeedbackResponseCommentAttributes comment, String name){
-        if (!isCommentGiverNameVisibleToInstructor(response, comment)) {
-            name = "Anonymous";
-        }
-        return name;
+    private String getFilteredCommentGiverName(FeedbackResponseAttributes response,
+                                               FeedbackResponseCommentAttributes comment, String name) {
+        return isCommentGiverNameVisibleToInstructor(response, comment) ? name : "Anonymous";
     }
     
-    private String getFilteredGiverName(FeedbackResponseAttributes response, String name){
+    private String getFilteredGiverName(FeedbackResponseAttributes response, String name) {
         FeedbackQuestionAttributes question = getFeedbackQuestion(response);
-        if (!isNameVisibleToInstructor(response, question.showGiverNameTo) 
+        if (!isNameVisibleToInstructor(response, question.showGiverNameTo)
                 && question.giverType != FeedbackParticipantType.SELF) {
-            String hash = Integer.toString(Math.abs(name.hashCode()));
-            name = question.giverType.toSingularFormString();
-            name = "Anonymous " + name + " " + hash;
+            return FeedbackSessionResultsBundle.getAnonName(question.giverType, name);
         }
         return name;
     }
     
-    private String getFilteredRecipientName(FeedbackResponseAttributes response, String name){
+    private String getFilteredRecipientName(FeedbackResponseAttributes response, String name) {
         FeedbackQuestionAttributes question = getFeedbackQuestion(response);
-        if (!isNameVisibleToInstructor(response, question.showRecipientNameTo) 
-                && question.recipientType != FeedbackParticipantType.SELF 
+        if (!isNameVisibleToInstructor(response, question.showRecipientNameTo)
+                && question.recipientType != FeedbackParticipantType.SELF
                 && question.recipientType != FeedbackParticipantType.NONE) {
-            String hash = Integer.toString(Math.abs(name.hashCode()));
-            name = question.recipientType.toSingularFormString();
-            name = "Anonymous " + name + " " + hash;
+            return FeedbackSessionResultsBundle.getAnonName(question.recipientType, name);
         }
         return name;
     }
@@ -197,8 +194,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     private FeedbackQuestionAttributes getFeedbackQuestion(
             FeedbackResponseAttributes response) {
         FeedbackQuestionAttributes question = null;
-        for(FeedbackQuestionAttributes qn:questions.get(response.feedbackSessionName)){
-            if(qn.getId().equals(response.feedbackQuestionId)){
+        for (FeedbackQuestionAttributes qn : questions.get(response.feedbackSessionName)) {
+            if (qn.getId().equals(response.feedbackQuestionId)) {
                 question = qn;
                 break;
             }
@@ -206,47 +203,48 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         return question;
     }
     
-    private boolean isCommentGiverNameVisibleToInstructor(FeedbackResponseAttributes response, 
-            FeedbackResponseCommentAttributes comment){
-        List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
+    private boolean isCommentGiverNameVisibleToInstructor(FeedbackResponseAttributes response,
+                                                          FeedbackResponseCommentAttributes comment) {
         //in the old ver, name is always visible
-        if(comment.isVisibilityFollowingFeedbackQuestion){
+        if (comment.isVisibilityFollowingFeedbackQuestion) {
             return true;
         }
         
         //comment giver can always see
-        if(instructorEmails.contains(comment.giverEmail)){
+        if (instructorEmails.contains(comment.giverEmail)) {
             return true;
         }
-        for(FeedbackParticipantType type:showNameTo){
-            if(type == FeedbackParticipantType.GIVER
-                    && instructorEmails.contains(response.giverEmail)){
+        List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
+        for (FeedbackParticipantType type : showNameTo) {
+            if (type == FeedbackParticipantType.GIVER
+                    && instructorEmails.contains(response.giver)) {
                 return true;
-            } else if(type == FeedbackParticipantType.INSTRUCTORS
-                    && instructorCourseIdList.contains(response.courseId)){
+            } else if (type == FeedbackParticipantType.INSTRUCTORS
+                    && instructorCourseIdList.contains(response.courseId)) {
                 return true;
-            } else if(type == FeedbackParticipantType.RECEIVER
-                    && instructorEmails.contains(response.recipientEmail)){
+            } else if (type == FeedbackParticipantType.RECEIVER
+                    && instructorEmails.contains(response.recipient)) {
                 return true;
             }
-        }   
+        }
         return false;
     }
     
-    private boolean isNameVisibleToInstructor(FeedbackResponseAttributes response, List<FeedbackParticipantType> showNameTo){
+    private boolean isNameVisibleToInstructor(FeedbackResponseAttributes response,
+                                              List<FeedbackParticipantType> showNameTo) {
         //giver can always see
-        if(instructorEmails.contains(response.giverEmail)){
+        if (instructorEmails.contains(response.giver)) {
             return true;
         }
-        for(FeedbackParticipantType type:showNameTo){
-            if(type == FeedbackParticipantType.INSTRUCTORS
-                    && instructorCourseIdList.contains(response.courseId)){
+        for (FeedbackParticipantType type : showNameTo) {
+            if (type == FeedbackParticipantType.INSTRUCTORS
+                    && instructorCourseIdList.contains(response.courseId)) {
                 return true;
-            } else if(type == FeedbackParticipantType.RECEIVER
-                    && instructorEmails.contains(response.recipientEmail)){
+            } else if (type == FeedbackParticipantType.RECEIVER
+                    && instructorEmails.contains(response.recipient)) {
                 return true;
             }
-        }   
+        }
         return false;
     }
 

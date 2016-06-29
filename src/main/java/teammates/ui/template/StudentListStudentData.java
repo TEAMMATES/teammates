@@ -25,10 +25,12 @@ public class StudentListStudentData {
         this.toggleDeleteConfirmationParams = "'" + Sanitizer.sanitizeForJs(course) + "','"
                                             + Sanitizer.sanitizeForJs(studentName) + "'";
         this.photoUrl = photoUrl;
-        this.courseStudentDetailsLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
-                                                                            course, studentEmail, googleId);
-        this.courseStudentEditLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT,
-                                                                         course, studentEmail, googleId);
+        this.courseStudentDetailsLink =
+                furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
+                                                    course, studentEmail, googleId);
+        this.courseStudentEditLink =
+                furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT,
+                                                    course, studentEmail, googleId);
         this.courseStudentRemindLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_REMIND,
                                                                            course, studentEmail, googleId);
         this.courseStudentDeleteLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
@@ -37,8 +39,9 @@ public class StudentListStudentData {
                                                                             course, studentEmail, googleId);
     }
 
-    private String furnishLinkWithCourseEmailAndUserId(String link, String course, String studentEmail,
+    private String furnishLinkWithCourseEmailAndUserId(String rawLink, String course, String studentEmail,
                                                        String googleId) {
+        String link = rawLink;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, course);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);

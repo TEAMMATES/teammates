@@ -7,7 +7,6 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -18,7 +17,7 @@ import com.google.appengine.api.datastore.Text;
 
 public class AdminEmailAttributes extends EntityAttributes {
     
-    public String emailId = null;
+    public String emailId;
     public List<String> addressReceiver;
     public List<String> groupReceiver;
     public String subject;
@@ -27,8 +26,7 @@ public class AdminEmailAttributes extends EntityAttributes {
     public Text content;
     public boolean isInTrashBin;
     
-    
-    public AdminEmailAttributes(AdminEmail ae){
+    public AdminEmailAttributes(AdminEmail ae) {
         this.emailId = ae.getEmailId();
         this.addressReceiver = ae.getAddressReceiver();
         this.groupReceiver = ae.getGroupReceiver();
@@ -39,11 +37,11 @@ public class AdminEmailAttributes extends EntityAttributes {
         this.isInTrashBin = ae.getIsInTrashBin();
     }
     
-    public AdminEmailAttributes(String subject, 
+    public AdminEmailAttributes(String subject,
                                 List<String> addressReceiver,
                                 List<String> groupReceiver,
                                 Text content,
-                                Date sendDate){
+                                Date sendDate) {
         this.subject = subject;
         this.addressReceiver = addressReceiver;
         this.groupReceiver = groupReceiver;
@@ -58,11 +56,15 @@ public class AdminEmailAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL_CONTENT, content);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForEmailContent(content);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL_SUBJECT, subject);
-        if(!error.isEmpty()) { errors.add(error); }
+        error = validator.getInvalidityInfoForEmailSubject(subject);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
        
         return errors;
     }
@@ -98,67 +100,67 @@ public class AdminEmailAttributes extends EntityAttributes {
         this.content = new Text(Sanitizer.sanitizeForHtml(content.getValue()));
     }
     
-    public String getEmailId(){
+    public String getEmailId() {
         return this.emailId;
     }
     
-    public List<String> getAddressReceiver(){
+    public List<String> getAddressReceiver() {
         return this.addressReceiver;
     }
     
-    public List<String> getGroupReceiver(){
+    public List<String> getGroupReceiver() {
         return this.groupReceiver;
     }
     
-    public String getSubject(){
+    public String getSubject() {
         return this.subject;
     }
     
-    public Date getSendDate(){
+    public Date getSendDate() {
         return this.sendDate;
     }
     
-    public Date getCreateDate(){
+    public Date getCreateDate() {
         return this.createDate;
     }
     
-    public Text getContent(){
+    public Text getContent() {
         return this.content;
     }
     
-    public boolean getIsInTrashBin(){
+    public boolean getIsInTrashBin() {
         return this.isInTrashBin;
     }
     
-    public String getSendDateForDisplay(){
-        if(this.sendDate == null){
+    public String getSendDateForDisplay() {
+        if (this.sendDate == null) {
             return "Draft";
         }
         
         Calendar cal = Calendar.getInstance();
         cal.setTime(this.sendDate);
-        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         
         return TimeHelper.formatTime12H(cal.getTime());
     }
     
-    public String getCreateDateForDisplay(){
+    public String getCreateDateForDisplay() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(this.createDate);
-        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         
         return TimeHelper.formatTime12H(cal.getTime());
     }
     
-    public String getContentForDisplay(){
+    public String getContentForDisplay() {
         return StringHelper.recoverFromSanitizedText(this.getContent().getValue());
     }
     
-    public String getFirstAddressReceiver(){
+    public String getFirstAddressReceiver() {
         return this.addressReceiver.get(0);
     }
     
-    public String getFirstGroupReceiver(){
+    public String getFirstGroupReceiver() {
         return getGroupReceiver().get(0);
     }
 }

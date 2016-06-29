@@ -1,6 +1,8 @@
 package teammates.ui.controller;
 
+// CHECKSTYLE.OFF:AvoidStarImport as there would be many (>100) import lines added if we were to import all of the ActionURIs
 import static teammates.common.util.Const.ActionURIs.*;
+// CHECKSTYLE.ON:AvoidStarImport
 
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -8,17 +10,18 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.exception.PageNotFoundException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Utils;
 
 /**
  * Is used to generate the matching {@link Action} for a given URI.
  */
 public class ActionFactory {
-    protected static Logger log = Utils.getLogger();
+    private static final Logger log = Utils.getLogger();
     
     private static HashMap<String, Class<? extends Action>> actionMappings = new HashMap<String, Class<? extends Action>>();
     
-    static{
+    static {
         map(ADMIN_HOME_PAGE, AdminHomePageAction.class);
         map(ADMIN_ACCOUNT_DELETE, AdminAccountDeleteAction.class);
         map(ADMIN_ACTIVITY_LOG_PAGE, AdminActivityLogPageAction.class);
@@ -26,7 +29,7 @@ public class ActionFactory {
         map(ADMIN_ACCOUNT_MANAGEMENT_PAGE, AdminAccountManagementPageAction.class);
         map(ADMIN_EXCEPTION_TEST, AdminExceptionTestAction.class);
         map(ADMIN_INSTRUCTORACCOUNT_ADD, AdminInstructorAccountAddAction.class);
-        map(ADMIN_SESSIONS_PAGE,AdminSessionsPageAction.class);
+        map(ADMIN_SESSIONS_PAGE, AdminSessionsPageAction.class);
         map(ADMIN_SEARCH_PAGE, AdminSearchPageAction.class);
         map(ADMIN_STUDENT_GOOGLE_ID_RESET, AdminStudentGoogleIdResetAction.class);
         map(ADMIN_EMAIL_COMPOSE_PAGE, AdminEmailComposePageAction.class);
@@ -83,6 +86,7 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_PUBLISH, InstructorFeedbackPublishAction.class);
         map(INSTRUCTOR_FEEDBACK_UNPUBLISH, InstructorFeedbackUnpublishAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_ADD, InstructorFeedbackQuestionAddAction.class);
+        map(INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE, InstructorFeedbackQuestionCopyPageAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_COPY, InstructorFeedbackQuestionCopyAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_EDIT, InstructorFeedbackQuestionEditAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE, InstructorFeedbackQuestionVisibilityMessageAction.class);
@@ -97,8 +101,6 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_STATS_PAGE, FeedbackSessionStatsPageAction.class);
         map(INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE, InstructorFeedbackSubmissionEditPageAction.class);
         map(INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE, InstructorFeedbackSubmissionEditSaveAction.class);
-        map(INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, InstructorFeedbackQuestionSubmissionEditPageAction.class);
-        map(INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE, InstructorFeedbackQuestionSubmissionEditSaveAction.class);
         map(INSTRUCTOR_HOME_PAGE, InstructorHomePageAction.class);
         map(INSTRUCTOR_SEARCH_PAGE, InstructorSearchPageAction.class);
         map(INSTRUCTOR_STUDENT_LIST_PAGE, InstructorStudentListPageAction.class);
@@ -118,8 +120,6 @@ public class ActionFactory {
         map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, StudentFeedbackSubmissionEditPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);
-        map(STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, StudentFeedbackQuestionSubmissionEditPageAction.class);
-        map(STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE, StudentFeedbackQuestionSubmissionEditSaveAction.class);
         map(STUDENT_PROFILE_PAGE, StudentProfilePageAction.class);
         map(STUDENT_PROFILE_PICTURE, StudentProfilePictureAction.class);
         map(STUDENT_PROFILE_PICTURE_UPLOAD, StudentProfilePictureUploadAction.class);
@@ -153,14 +153,15 @@ public class ActionFactory {
     private static Action getAction(String uri) {
         Class<? extends Action> controllerClass = actionMappings.get(uri);
         
-        if(controllerClass == null){
+        if (controllerClass == null) {
             throw new PageNotFoundException(uri);
         }
         
         try {
             return controllerClass.newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("Could not create the action for :" + uri);
+            throw new RuntimeException("Could not create the action for " + uri + ": "
+                                       + TeammatesException.toStringWithStackTrace(e));
         }
         
     }

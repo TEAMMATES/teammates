@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
-<%@ tag import="teammates.logic.core.Emails.EmailType" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackEdit" prefix="feedbackEdit" %>
@@ -37,13 +36,6 @@
                 <div class="col-sm-5 mobile-margin-top-10px">
                     <span class="mobile-no-pull pull-right">
                         <a class="btn btn-primary btn-xs"
-                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GETLINK %>-${fqForm.questionIndex}"
-                            data-toggle="tooltip" data-placement="top"
-                            title="<%= Const.Tooltips.FEEDBACK_QUESTION_GETLINK %>"
-                            onclick="getQuestionLink(${fqForm.questionIndex})">
-                            Get Link
-                        </a>
-                        <a class="btn btn-primary btn-xs"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT %>-${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_EDIT %>"
@@ -55,11 +47,11 @@
                             Save Changes
                         </a>
                         <a class="btn btn-primary btn-xs" style="display:none"
-                            onclick="cancelEdit(${fqForm.questionIndex})"
-                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_CANCELEDIT %>-${fqForm.questionIndex}"
+                            onclick="discardChanges(${fqForm.questionIndex})"
+                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES %>-${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top"
-                            title="<%= Const.Tooltips.FEEDBACK_QUESTION_CANCEL %>">
-                            Cancel
+                            title="<%= Const.Tooltips.FEEDBACK_QUESTION_DISCARDCHANGES %>">
+                            Discard Changes
                         </a>
                         <a class="btn btn-primary btn-xs"
                             onclick="deleteQuestion(${fqForm.questionIndex})"

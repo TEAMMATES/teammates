@@ -17,17 +17,8 @@ public class InstructorStudentListPage extends AppPage {
     @FindBy(id = "buttonSearch")
     private WebElement searchButton;
 
-    @FindBy(id = "show_email")
-    private WebElement showEmailLink;
-
     @FindBy(id = "displayArchivedCourses_check")
     private WebElement displayArchiveOptions;
-
-    @FindBy(id = "course_all")
-    private WebElement selectAll;
-
-    @FindBy(id = "course_check-0")
-    private WebElement checkBoxOne;
 
     public InstructorStudentListPage(Browser browser) {
         super(browser);
@@ -98,7 +89,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public void checkCourse(int courseIdx) {
         browser.driver.findElement(By.id("course_check-" + courseIdx)).click();
-        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-preload.gif']"));
+        waitForAjaxLoaderGifToDisappear();
     }
 
     public void clickDisplayArchiveOptions() {
@@ -123,7 +114,7 @@ public class InstructorStudentListPage extends AppPage {
         int id = 0;
         while (isElementPresent(By.id("panelHeading-" + id))) {
             if (getElementText(By.xpath("//div[@id='panelHeading-" + id + "']//strong"))
-                 .startsWith("[" + courseId + "]")) {
+                    .startsWith("[" + courseId + "]")) {
                 return id;
             }
             id++;
@@ -138,7 +129,7 @@ public class InstructorStudentListPage extends AppPage {
         for (int i = 0; i < studentCount; i++) {
             String studentNameInRow = getStudentNameInRow(courseNumber, i);
             if (studentNameInRow.equals(studentName)) {
-                return (courseNumber + "." + i);
+                return courseNumber + "." + i;
             }
         }
         return "";
@@ -156,23 +147,33 @@ public class InstructorStudentListPage extends AppPage {
     }
 
     private WebElement getViewLink(String rowId) {
-        return getStudentLink("student-view-for-test", rowId);
+        WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(1)"));
     }
 
     private WebElement getEditLink(String rowId) {
-        return getStudentLink("student-edit-for-test", rowId);
+        WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(2)"));
     }
 
     private WebElement getViewRecordsLink(String rowId) {
-        return getStudentLink("student-records-for-test", rowId);
+        WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
+        WebElement fourthLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
+        
+        if ("All Records".equals(fourthLink.getText())) {
+            return fourthLink;
+        }
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(5)"));
     }
 
     private WebElement getDeleteLink(String rowId) {
-        return getStudentLink("student-delete-for-test", rowId);
-    }
-
-    private WebElement getStudentLink(String className, String rowId) {
-        return browser.driver.findElement(By.id("student-c" + rowId)).findElement(By.className(className));
+        WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
+        WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(3)"));
+        
+        if ("Delete".equals(thirdLink.getText())) {
+            return thirdLink;
+        }
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
     }
 
     private String getElementText(By locator) {

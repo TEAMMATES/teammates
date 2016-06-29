@@ -451,7 +451,7 @@
             "courseId":"SFSubmitUiT.CS2104",
             "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
-                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
+                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":true}"
             },
             "questionNumber":"7",
             "questionType":"MCQ",
@@ -498,7 +498,7 @@
             "courseId":"SFSubmitUiT.CS2104",
             "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
-                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMsqChoices\":3,\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"otherEnabled\":false}"
+                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMsqChoices\":3,\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"otherEnabled\":true}"
             },
             "questionNumber":"9",
             "questionType":"MSQ",

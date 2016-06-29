@@ -9,8 +9,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class StudentFeedbackResultsPageAction extends Action {
@@ -34,8 +34,6 @@ public class StudentFeedbackResultsPageAction extends Action {
 
         data.student = getCurrentStudent(courseId);
         data.setBundle(logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email));
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
-                                                                            data.getBundle().getQuestionResponseMapSortedByRecipient();
 
         if (data.getBundle() == null) {
             // not covered because GateKeeper will detect this as unauthorized exception, but we can
@@ -44,35 +42,32 @@ public class StudentFeedbackResultsPageAction extends Action {
                                                   + " does not exist in " + courseId + ".");
         }
 
-        if (data.getBundle().feedbackSession.isPublished() == false) {
+        if (!data.getBundle().feedbackSession.isPublished()) {
             throw new UnauthorizedAccessException("This feedback session is not yet visible.");
         }
 
         if (data.getBundle().isStudentHasSomethingNewToSee(data.student)) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SOMETHINGNEW, StatusMessageColor.INFO));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SOMETHINGNEW,
+                                               StatusMessageColor.INFO));
         } else {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_NOTHINGNEW, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_NOTHINGNEW,
+                                               StatusMessageColor.WARNING));
         }
 
         statusToAdmin = "Show student feedback result page<br>"
                         + "Session Name: " + feedbackSessionName + "<br>"
                         + "Course ID: " + courseId;
         
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
+                                        data.getBundle().getQuestionResponseMapSortedByRecipient();
         data.init(questionsWithResponses);
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_RESULTS, data);
     }
 
-    // The following methods are overridden by the unregistered version of this action
-
-    protected boolean isJoinedCourse(String courseId) {
-        return isJoinedCourse(courseId, account.googleId);
-    }
-
     protected StudentAttributes getCurrentStudent(String courseId) {
-        if (student != null) {
-            return student;
-        } else {
+        if (student == null) {
             return logic.getStudentForGoogleId(courseId, account.googleId);
         }
+        return student;
     }
 }

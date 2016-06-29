@@ -13,9 +13,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -33,7 +33,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, studentsInfo);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), 
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId),
                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         /* Process enrollment list and setup data for page result */
@@ -44,7 +44,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
             InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account,
                                                                     courseId, students, hasSection, studentsInfo);
             
-            statusToAdmin = "Students Enrolled in Course <span class=\"bold\">[" 
+            statusToAdmin = "Students Enrolled in Course <span class=\"bold\">["
                             + courseId + "]:</span><br>" + sanitizedStudentsInfo.replace("\n", "<br>");
 
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, pageData);
@@ -60,10 +60,11 @@ public class InstructorCourseEnrollSaveAction extends Action {
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e);
             
-            statusToUser.add(new StatusMessage("The enrollment failed, possibly because some students were re-enrolled before "
-                                             + "the previous enrollment action was still being processed by TEAMMATES database "
-                                             + "servers. Please try again after about 10 minutes. If the problem persists, "
-                                             + "please contact TEAMMATES support", StatusMessageColor.DANGER));
+            statusToUser.add(
+                    new StatusMessage("The enrollment failed, possibly because some students were re-enrolled before "
+                                      + "the previous enrollment action was still being processed by TEAMMATES database "
+                                      + "servers. Please try again after about 10 minutes. If the problem persists, "
+                                      + "please contact TEAMMATES support", StatusMessageColor.DANGER));
             
             InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
             
@@ -72,9 +73,9 @@ public class InstructorCourseEnrollSaveAction extends Action {
         }
     }
 
-    private boolean hasSections(List<StudentAttributes>[] students){
-        for(List<StudentAttributes> studentList : students){
-            for(StudentAttributes student : studentList){
+    private boolean hasSections(List<StudentAttributes>[] students) {
+        for (List<StudentAttributes> studentList : students) {
+            for (StudentAttributes student : studentList) {
                 if (!student.section.equals(Const.DEFAULT_SECTION)) {
                     return true;
                 }
@@ -89,7 +90,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
         Collections.sort(students, new Comparator<StudentAttributes>() {
             @Override
             public int compare(StudentAttributes o1, StudentAttributes o2) {
-                return (o1.updateStatus.numericRepresentation - o2.updateStatus.numericRepresentation);
+                return o1.updateStatus.numericRepresentation - o2.updateStatus.numericRepresentation;
             }
         });
 

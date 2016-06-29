@@ -21,7 +21,7 @@
     <c:otherwise>
         <c:set var="fsIndex" value="${data.feedbackSessionIndex}" />
         <c:forEach items="${data.questionCommentsMap}" var="questionCommentsEntry" varStatus="responseEntriesStatus">
-            <div class="panel panel-info">
+            <div class="panel panel-info feedback-question-panel">
                 <div class="panel-heading">
                     <c:set var="question" value="${questionCommentsEntry.key}"/>
                     <b>Question ${question.questionNumber}</b>:
@@ -31,13 +31,13 @@
                 <table class="table">
                     <tbody>
                         <c:forEach items="${questionCommentsEntry.value}" var="response" varStatus="responseStatus">
-                            <tr>
+                            <tr class="feedback-response-giver-recipient-row table-row-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}">
                                 <td><b>From:</b> ${fn:escapeXml(response.giverName)} <b>To:</b> ${fn:escapeXml(response.recipientName)}</td>
                             </tr>
-                            <tr>
+                            <tr class="table-row-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}">
                                 <td><strong>Response: </strong>${response.answerHtml}</td>
                             </tr>
-                            <tr class="active">
+                            <tr class="active table-row-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}">
                                 <td>Comment(s):
                                     <button type="button"
                                             class="btn btn-default btn-xs icon-button pull-right"
@@ -50,17 +50,17 @@
                                     </button>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="table-row-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}">
                                 <td>
                                     <ul class="list-group comments"
                                         id="responseCommentTable-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
                                         <c:if test="${empty response.feedbackResponseComments}">style="display: none;"</c:if>>
                                         <c:forEach var="frc" items="${response.feedbackResponseComments}" varStatus="frcStatus">
-                                            <shared:feedbackResponseComment frc="${frc}"
-                                                                            firstIndex="${fsIndex}"
-                                                                            secondIndex="${responseEntriesStatus.count}"
-                                                                            thirdIndex="${responseStatus.count}"
-                                                                            frcIndex="${frcStatus.count}" />
+                                            <shared:feedbackResponseCommentRow frc="${frc}"
+                                                                               firstIndex="${fsIndex}"
+                                                                               secondIndex="${responseEntriesStatus.count}"
+                                                                               thirdIndex="${responseStatus.count}"
+                                                                               frcIndex="${frcStatus.count}" />
                                         </c:forEach>
                                         <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}"
                                                                            firstIndex="${fsIndex}"

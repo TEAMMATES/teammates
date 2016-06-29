@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +14,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.StudentHomePageData;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
@@ -24,7 +22,7 @@ import teammates.ui.template.HomeFeedbackSessionRow;
 import teammates.ui.template.StudentFeedbackSessionActions;
 import teammates.ui.template.StudentHomeFeedbackSessionRow;
 
-public class StudentHomePageDataTest {
+public class StudentHomePageDataTest extends BaseTestCase {
     private List<CourseDetailsBundle> courses;
     
     private FeedbackSessionAttributes submittedSession;
@@ -61,10 +59,10 @@ public class StudentHomePageDataTest {
     }
     
     private void testCourseTableMeta(CourseAttributes course, CourseTable table) {
-        assertEquals(course.id, table.getCourseId());
-        assertEquals(course.name, table.getCourseName());
+        assertEquals(course.getId(), table.getCourseId());
+        assertEquals(course.getName(), table.getCourseName());
         assertEquals(1, table.getButtons().size());
-        testViewTeamButton(table.getButtons().get(0), course.id);
+        testViewTeamButton(table.getButtons().get(0), course.getId());
     }
     
     private void testViewTeamButton(ElementTag tag, String courseId) {
@@ -121,8 +119,8 @@ public class StudentHomePageDataTest {
     private void testFeedbackSession(int index, HomeFeedbackSessionRow row, FeedbackSessionAttributes session,
             String expectedTooltip, String expectedStatus) {
         StudentHomeFeedbackSessionRow studentRow = (StudentHomeFeedbackSessionRow) row;
-        assertEquals(session.feedbackSessionName, studentRow.getName());
-        assertEquals(TimeHelper.formatTime12H(session.endTime), studentRow.getEndTime());
+        assertEquals(session.getFeedbackSessionName(), studentRow.getName());
+        assertEquals(TimeHelper.formatTime12H(session.getEndTime()), studentRow.getEndTime());
         assertEquals(expectedTooltip, studentRow.getTooltip());
         assertEquals(expectedStatus, studentRow.getStatus());
         assertEquals(index, studentRow.getIndex());
@@ -191,11 +189,11 @@ public class StudentHomePageDataTest {
     private FeedbackSessionAttributes createFeedbackSession(String name,
             int offsetStart, int offsetEnd, int offsetPublish) {
         FeedbackSessionAttributes session = new FeedbackSessionAttributes();
-        session.feedbackSessionName = name;
-        session.startTime = TimeHelper.getHoursOffsetToCurrentTime(offsetStart);
-        session.endTime = TimeHelper.getHoursOffsetToCurrentTime(offsetEnd);
-        session.resultsVisibleFromTime = TimeHelper.getHoursOffsetToCurrentTime(offsetPublish);
-        session.sessionVisibleFromTime = TimeHelper.getHoursOffsetToCurrentTime(-1);
+        session.setFeedbackSessionName(name);
+        session.setStartTime(TimeHelper.getHoursOffsetToCurrentTime(offsetStart));
+        session.setEndTime(TimeHelper.getHoursOffsetToCurrentTime(offsetEnd));
+        session.setResultsVisibleFromTime(TimeHelper.getHoursOffsetToCurrentTime(offsetPublish));
+        session.setSessionVisibleFromTime(TimeHelper.getHoursOffsetToCurrentTime(-1));
         return session;
     }
 

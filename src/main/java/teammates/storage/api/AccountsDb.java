@@ -3,15 +3,10 @@ package teammates.storage.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Query;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EntityAttributes;
@@ -22,9 +17,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 /**
  * Handles CRUD Operations for accounts.
@@ -32,13 +30,12 @@ import teammates.storage.entity.StudentProfile;
  * 
  */
 public class AccountsDb extends EntitiesDb {
-    private static final Logger log = Utils.getLogger();
     
     /**
-     * Preconditions: 
+     * Preconditions:
      * <br> * {@code accountToAdd} is not null and has valid data.
      */
-    public void createAccount(AccountAttributes accountToAdd) 
+    public void createAccount(AccountAttributes accountToAdd)
             throws InvalidParametersException {
         // TODO: use createEntity once there is a proper way to add instructor accounts.
         try {
@@ -54,7 +51,7 @@ public class AccountsDb extends EntitiesDb {
             try {
                 updateAccount(accountToAdd, true);
             } catch (EntityDoesNotExistException edne) {
-                // This situation is not tested as replicating such a situation is 
+                // This situation is not tested as replicating such a situation is
                 // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
@@ -62,16 +59,17 @@ public class AccountsDb extends EntitiesDb {
     }
     
     /* This function is used for persisting data bundle in testing process */
-    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException{
+    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount)
+            throws InvalidParametersException {
         
         List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
-        if(updateAccount){
-            for(EntityAttributes entity : accountsToUpdate){
+        if (updateAccount) {
+            for (EntityAttributes entity : accountsToUpdate) {
                 AccountAttributes account = (AccountAttributes) entity;
                 try {
                     updateAccount(account, true);
                 } catch (EntityDoesNotExistException e) {
-                 // This situation is not tested as replicating such a situation is 
+                 // This situation is not tested as replicating such a situation is
                  // difficult during testing
                     Assumption.fail("Entity found be already existing and not existing simultaneously");
                 }
@@ -82,8 +80,8 @@ public class AccountsDb extends EntitiesDb {
     /**
      * Gets the data transfer version of the account. Does not retrieve the profile
      * if the given parameter is false<br>
-     * Preconditions: 
-     * <br> * All parameters are non-null. 
+     * Preconditions:
+     * <br> * All parameters are non-null.
      * @return Null if not found.
      */
     public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
@@ -94,10 +92,9 @@ public class AccountsDb extends EntitiesDb {
         if (a == null) {
             return null;
         }
-        closePM();
+        closePm();
         
-        AccountAttributes accAttr = new AccountAttributes(a);
-        return accAttr;
+        return new AccountAttributes(a);
     }
     
     public AccountAttributes getAccount(String googleId) {
@@ -109,7 +106,7 @@ public class AccountsDb extends EntitiesDb {
      *   Returns an empty list if no such accounts are found.
      */
     public List<AccountAttributes> getInstructorAccounts() {
-        Query q = getPM().newQuery(Account.class);
+        Query q = getPm().newQuery(Account.class);
         q.setFilter("isInstructor == true");
         
         @SuppressWarnings("unchecked")
@@ -127,10 +124,10 @@ public class AccountsDb extends EntitiesDb {
     }
 
     /**
-     * Preconditions: 
+     * Preconditions:
      * <br> * {@code accountToAdd} is not null and has valid data.
      */
-    public void updateAccount(AccountAttributes a, boolean updateStudentProfile) 
+    public void updateAccount(AccountAttributes a, boolean updateStudentProfile)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, a);
         
@@ -157,15 +154,15 @@ public class AccountsDb extends EntitiesDb {
             
             // if the student profile has changed then update the store
             // this is to maintain integrity of the modified date.
-            if(!(existingProfile.toString().equals(a.studentProfile.toString()))) {
+            if (!(existingProfile.toString().equals(a.studentProfile.toString()))) {
                 accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
             }
         }
         log.info(a.getBackupIdentifier());
-        closePM();
+        closePm();
     }
     
-    public void updateAccount(AccountAttributes a) 
+    public void updateAccount(AccountAttributes a)
             throws InvalidParametersException, EntityDoesNotExistException {
         if (a != null && a.studentProfile == null) {
             a.studentProfile = new StudentProfileAttributes();
@@ -177,7 +174,7 @@ public class AccountsDb extends EntitiesDb {
     /**
      * Note: This is a non-cascade delete. <br>
      *   <br> Fails silently if there is no such account.
-     * <br> Preconditions: 
+     * <br> Preconditions:
      * <br> * {@code googleId} is not null.
      */
     public void deleteAccount(String googleId) {
@@ -189,44 +186,42 @@ public class AccountsDb extends EntitiesDb {
             return;
         }
         
-        if (!accountToDelete.studentProfile.pictureKey.equals("")) {
+        if (!accountToDelete.studentProfile.pictureKey.isEmpty()) {
             deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
-        closePM();
+        closePm();
     }
     
-    public void deleteAccounts(Collection<AccountAttributes> accounts){
+    public void deleteAccounts(Collection<AccountAttributes> accounts) {
 
-        for(AccountAttributes accountToDelete : accounts){
-            if (!accountToDelete.studentProfile.pictureKey.equals("")) {
+        for (AccountAttributes accountToDelete : accounts) {
+            if (!accountToDelete.studentProfile.pictureKey.isEmpty()) {
                 deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
             }
         }
         deleteEntities(accounts);
-        closePM();
+        closePm();
     }
 
     private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
         
         try {
             Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
-            Account account = getPM().getObjectById(Account.class, key);
+            Account account = getPm().getObjectById(Account.class, key);
             
             if (JDOHelper.isDeleted(account)) {
                 return null;
-            } else if (retrieveStudentProfile) {
-                if (account.getStudentProfile() == null) {
-                    // This situation cannot be reproduced and hence not tested
-                    // This only happens when existing data in the store do not have a profile 
-                    account.setStudentProfile(new StudentProfile(account.getGoogleId()));
-                }
+            } else if (retrieveStudentProfile && account.getStudentProfile() == null) {
+                // This situation cannot be reproduced and hence not tested
+                // This only happens when existing data in the store do not have a profile
+                account.setStudentProfile(new StudentProfile(account.getGoogleId()));
             }
             
             return account;
-        } catch (IllegalArgumentException iae){
-            return null;            
-        } catch(JDOObjectNotFoundException je) {
+        } catch (IllegalArgumentException iae) {
+            return null;
+        } catch (JDOObjectNotFoundException je) {
             return null;
         }
     }
@@ -237,7 +232,7 @@ public class AccountsDb extends EntitiesDb {
 
     @Override
     protected Object getEntity(EntityAttributes entity) {
-        return getAccountEntity(((AccountAttributes)entity).googleId);
+        return getAccountEntity(((AccountAttributes) entity).googleId);
     }
 }
 

@@ -1,21 +1,17 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertNull;
-
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.util.FileHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.FileHelper;
 
 public class GodModeTest extends BaseUiTestCase {
     
@@ -25,7 +21,8 @@ public class GodModeTest extends BaseUiTestCase {
     private static final String ACTUAL_FILENAME = "/godmode.html";
     private static final String ACTUAL_FILEPATH = TestProperties.TEST_PAGES_FOLDER + ACTUAL_FILENAME;
     private static final String EXPECTED_FILEPATH = TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedOutput.html";
-    private static final String EXPECTED_PART_FILEPATH = TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedPartOutput.html";
+    private static final String EXPECTED_PART_FILEPATH =
+            TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedPartOutput.html";
     
     private static Browser browser;
     private static AppPage page;
@@ -34,7 +31,7 @@ public class GodModeTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        TestProperties.inst().verifyReadyForGodMode();
+        TestProperties.verifyReadyForGodMode();
         injectContextDependentValuesIntoActualFile();
         browser = BrowserPool.getBrowser();
         page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl(ACTUAL_FILENAME));
@@ -43,13 +40,7 @@ public class GodModeTest extends BaseUiTestCase {
     private static void injectContextDependentValuesIntoActualFile() throws Exception {
         initialContent = FileHelper.readFile(ACTUAL_FILEPATH);
         String changedContent = HtmlHelper.injectContextDependentValuesForTest(initialContent);
-        writeToFile(ACTUAL_FILEPATH, changedContent);
-    }
-
-    private static void writeToFile(String filePath, String content) throws Exception {
-        FileWriter output = new FileWriter(new File(filePath));
-        output.write(content);
-        output.close();
+        FileHelper.saveFile(ACTUAL_FILEPATH, changedContent);
     }
 
     @Test
@@ -81,7 +72,7 @@ public class GodModeTest extends BaseUiTestCase {
         // run the God mode with non-existent expected file
         runGodModeRoutine(isPart);
         
-        writeToFile(OUTPUT_FILEPATH, PLACEHOLDER_CONTENT);
+        FileHelper.saveFile(OUTPUT_FILEPATH, PLACEHOLDER_CONTENT);
         
         try {
             // should fail as the expected output file has the wrong content
@@ -95,15 +86,7 @@ public class GodModeTest extends BaseUiTestCase {
         runGodModeRoutine(isPart);
         
         // delete the output file generated
-        deleteFile(OUTPUT_FILEPATH);
-    }
-    
-    private static void deleteFile(String filePath) {
-        File file = new File(filePath);
-        if (!file.delete()) {
-            print("Delete failed: " + file.getAbsolutePath());
-            file.deleteOnExit();
-        }
+        FileHelper.deleteFile(OUTPUT_FILEPATH);
     }
     
     private void runGodModeRoutine(boolean isPart) throws Exception {
@@ -138,7 +121,7 @@ public class GodModeTest extends BaseUiTestCase {
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
         System.clearProperty("godmode");
-        writeToFile(ACTUAL_FILEPATH, initialContent);
+        FileHelper.saveFile(ACTUAL_FILEPATH, initialContent);
     }
 
 }

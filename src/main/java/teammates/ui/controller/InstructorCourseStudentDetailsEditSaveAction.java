@@ -9,14 +9,13 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCoursesPageAction {
-    
-    
+public class InstructorCourseStudentDetailsEditSaveAction extends Action {
+
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
@@ -30,7 +29,6 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         new GateKeeper().verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
-        boolean hasSection = logic.hasIndicatedSections(courseId);
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         
         if (student == null) {
@@ -44,7 +42,8 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         student.email = getRequestParamValue(Const.ParamsNames.NEW_STUDENT_EMAIL);
         student.team = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
         student.section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
-        student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);    
+        student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);
+        boolean hasSection = logic.hasIndicatedSections(courseId);
         
         student.name = Sanitizer.sanitizeName(student.name);
         student.email = Sanitizer.sanitizeEmail(student.email);
@@ -53,8 +52,17 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         student.comments = Sanitizer.sanitizeTextField(student.comments);
         
         try {
-            student.updateWithExistingRecord(logic.getStudentForEmail(courseId, studentEmail));
-            logic.validateSections(Arrays.asList(student), courseId);
+            StudentAttributes originalStudentAttribute = logic.getStudentForEmail(courseId, studentEmail);
+            student.updateWithExistingRecord(originalStudentAttribute);
+            
+            boolean isSectionChanged = student.isSectionChanged(originalStudentAttribute);
+            boolean isTeamChanged = student.isTeamChanged(originalStudentAttribute);
+            if (isSectionChanged) {
+                logic.validateSectionsAndTeams(Arrays.asList(student), courseId);
+            } else if (isTeamChanged) {
+                logic.validateTeams(Arrays.asList(student), courseId);
+            }
+            
             logic.updateStudent(studentEmail, student);
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Student <span class=\"bold\">" + studentEmail + "'s</span> details in "

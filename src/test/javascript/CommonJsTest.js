@@ -39,11 +39,9 @@ QUnit.test('isDate(date)', function(assert) {
     assert.equal(isDate('02 Apr 2012'), true, 'Valid Date string without time');
     assert.equal(isDate('    12/12/01'), true, 'With Spacing in front');
     assert.equal(isDate('12 12 01       '), true, 'With Spacing behind');
-    assert.equal(isDate('            12-12-01       '), false, 'With Spacing,' +
-        ' invalid on Firefox and valid on Chrome');
+    assert.equal(isDate('            12-12-01       '), false, 'With Spacing, invalid on Firefox and valid on Chrome');
     assert.equal(isDate('a12-12-2001'), false, 'a12-12-2001 - not in proper format');
-    assert.equal(isDate('    a      12 12 2001'), false,
-        '    a      12 12 2001 - not in proper format');
+    assert.equal(isDate('    a      12 12 2001'), false, '    a      12 12 2001 - not in proper format');
     assert.equal(isDate('12/12/2001   a  '), false, '12/12/2001   a  - not in proper format');
 });
 
@@ -84,59 +82,61 @@ QUnit.test('setStatusMessage(message,status)', function(assert) {
     $('body').append('<div id="statusMessagesToUser"></div>');
     var message = 'Status Message';
 
-    //isError = false: class = overflow-auto alert alert-warning
-    //isError = true: class = overflow-auto alert alert-danger
+    // isError = false: class = overflow-auto alert alert-warning
+    // isError = true: class = overflow-auto alert alert-danger
 
     setStatusMessage(message);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage'),
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
         'Default message status without specifying status of message (info)');
     clearStatusMessages();
     
     setStatusMessage(message, StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage'),
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
         'Info message status by specifying status of message (StatusType.INFO)');
     clearStatusMessages();
     
     setStatusMessage(message, StatusType.SUCCESS);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-success statusMessage'),
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-success statusMessage',
         'Success message status by specifying status of message (StatusType.SUCCESS)');
     clearStatusMessages();
     
     setStatusMessage(message, StatusType.WARNING);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-warning statusMessage'),
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-warning statusMessage',
         'Warning message status by specifying status of message (StatusType.WARNING)');
     clearStatusMessages();
     
     setStatusMessage(message, StatusType.DANGER);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-danger statusMessage'),
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-danger statusMessage',
         'Danger message status by specifying status of message (StatusType.DANGER)');
     clearStatusMessages();
     
     setStatusMessage('');
     assert.equal($('#statusMessagesToUser .statusMessage').html(), undefined, 'Empty message');
-    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === undefined), "Empty message without status");
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === undefined, 'Empty message without status');
     clearStatusMessages();
     
     setStatusMessage('', StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), undefined, 'Empty message');
-    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === undefined), "Empty message with status (any status will be the same)");
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === undefined,
+              'Empty message with status (any status will be the same)');
     clearStatusMessages();
     
-    setStatusMessage(message, "random");
+    setStatusMessage(message, 'random');
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage'), 'Message with random status (defaulted to info)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
+              'Message with random status (defaulted to info)');
 });
 
 QUnit.test('clearStatusMessages()', function(assert) {
     clearStatusMessages();
     assert.equal($('#statusMessagesToUser').html(), '', 'Status message cleared');
-    assert.ok(($('#statusMessagesToUser').css('background-color') === 'rgba(0, 0, 0, 0)' || $(
-        '#statusMessagesToUser').css('background-color') === 'transparent'), 'No background');
+    assert.ok($('#statusMessagesToUser').css('background-color') === 'rgba(0, 0, 0, 0)' || $(
+        '#statusMessagesToUser').css('background-color') === 'transparent', 'No background');
 });
 
 QUnit.test('checkEvaluationForm()', function(assert) {
@@ -158,7 +158,7 @@ QUnit.test('isValidGoogleId(googleId)', function(assert) {
     assert.equal(isValidGoogleId(' hello@GMail.COm \t\n '), false, 'hello@gmail.com - invalid');
     assert.equal(isValidGoogleId('wrong!'), false, 'wrong! - invalid');
     assert.equal(isValidGoogleId('not*correct'), false, 'not*correct - invalid');
-    assert.equal(isValidGoogleId('is/not\correct'), false, 'is/not\correct - invalid');
+    assert.equal(isValidGoogleId('is/not\\correct'), false, 'is/not\\correct - invalid');
 });
 
 QUnit.test('isEmailValid(email)', function(assert) {
@@ -170,7 +170,7 @@ QUnit.test('isEmailValid(email)', function(assert) {
 });
 
 QUnit.test('isNameValid(name)', function(assert) {
-    assert.equal(isNameValid('	Tom Jacobs,.	\'()-\/ \\  '), true,
+    assert.equal(isNameValid('\tTom Jacobs,.\t\'()-/ \\  '), true,
         'alphanumerics, fullstop, comma, round brackets, slashes, apostrophe, hyphen - valid');
     assert.equal(isNameValid(generateRandomString(NAME_MAX_LENGTH)), true,
         'Maximum characters - valid');
@@ -184,7 +184,7 @@ QUnit.test('isNameValid(name)', function(assert) {
     assert.equal(isNameValid('&Tom'), false, '& character - invalid');
     assert.equal(isNameValid('J%cobs '), false, '% character - invalid');
     assert.equal(isNameValid('Jacobs*'), false, '* character - invalid');
-    assert.equal(isNameValid('	+123	 '), false, '+ character - invalid');
+    assert.equal(isNameValid('\t+123\t '), false, '+ character - invalid');
     assert.equal(isNameValid('a b c $ 1 2 3 4'), false, '$ character - invalid');
     assert.equal(isNameValid('1@2@3  456'), false, '@ character - invalid');
     assert.equal(isNameValid('Tom = Tom'), false, '= character - invalid');

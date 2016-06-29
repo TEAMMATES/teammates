@@ -10,10 +10,13 @@ import java.util.List;
 public class CommentsForStudentsTable {
     private String giverDetails;
     private String extraClass = "";
-    private List<Comment> rows;
+    private List<CommentRow> rows;
     private boolean instructorAllowedToGiveComment;
     
-    public CommentsForStudentsTable(String giverDetails, List<Comment> rows) {
+    // used by StudentRecords to mark a table as representing the instructor using the system
+    private boolean isRepresentingSelf;
+    
+    public CommentsForStudentsTable(String giverDetails, List<CommentRow> rows) {
         this.giverDetails = giverDetails;
         this.rows = rows;
     }
@@ -22,7 +25,7 @@ public class CommentsForStudentsTable {
         return giverDetails;
     }
     
-    public List<Comment> getRows() {
+    public List<CommentRow> getRows() {
         return rows;
     }
     
@@ -40,6 +43,14 @@ public class CommentsForStudentsTable {
     
     public boolean isInstructorAllowedToGiveComment() {
         return instructorAllowedToGiveComment;
+    }
+    
+    public boolean isRepresentingSelf() {
+        return isRepresentingSelf;
+    }
+    
+    public void setIsRepresentingSelf(boolean isRepresentingSelf) {
+        this.isRepresentingSelf = isRepresentingSelf;
     }
 
 }

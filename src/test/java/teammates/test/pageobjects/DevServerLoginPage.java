@@ -3,7 +3,6 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-
 public class DevServerLoginPage extends LoginPage {
     
     @FindBy(id = "email")
@@ -15,17 +14,13 @@ public class DevServerLoginPage extends LoginPage {
     @FindBy(xpath = "/html/body/form/div/p[3]/input[1]")
     private WebElement loginButton;
 
-    public DevServerLoginPage(Browser browser){
+    public DevServerLoginPage(Browser browser) {
         super(browser);
     }
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return containsExpectedPageContents(getPageSource());
-    }
-    
-    public static boolean containsExpectedPageContents(String pageSource) {
-        return pageSource.contains("<h3>Not logged in</h3>");
+        return getPageSource().contains("<h3>Not logged in</h3>");
     }
 
     @Override
@@ -39,11 +34,11 @@ public class DevServerLoginPage extends LoginPage {
 
     @Override
     public AppPage loginAsInstructorUnsuccessfully(String userName, String password) {
-            fillTextBox(emailTextBox, userName);
-            loginButton.click();
-            waitForPageToLoad();
-            browser.isAdminLoggedIn = false;
-            return this;
+        fillTextBox(emailTextBox, userName);
+        loginButton.click();
+        waitForPageToLoad();
+        browser.isAdminLoggedIn = false;
+        return this;
     }
 
     @Override
@@ -96,6 +91,5 @@ public class DevServerLoginPage extends LoginPage {
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorHomePage.class);
     }
-    
-    
+
 }

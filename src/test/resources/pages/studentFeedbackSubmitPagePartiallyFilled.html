@@ -13,7 +13,7 @@
     </script>
     ${studentmotd.container}
   </div>
-  <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_student_submit_response">
+  <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_submit_response">
     <input name="fsname" type="hidden" value="First Session">
     <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104">
     <input name="user" type="hidden" value="SFSubmitUiT.alice.b">
@@ -128,9 +128,20 @@
               </span>
             </div>
             <div class="col-sm-12">
-              <textarea class="form-control" cols="100%" name="responsetext-1-0" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-1-0" id="responsetext-1-0" name="responsetext-1-0" rows="4">
                 Test Self Feedback
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-1-0">
+                  18
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-1-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
             </div>
           </div>
@@ -196,9 +207,20 @@
               </select>
             </div>
             <div class="col-sm-8">
-              <textarea class="form-control" cols="100%" name="responsetext-2-0" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-2-0" id="responsetext-2-0" name="responsetext-2-0" rows="4">
                 Response to Benny.
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-2-0">
+                  18
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-2-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.benny.c@gmail.tmt">
             </div>
           </div>
@@ -232,9 +254,20 @@
               </select>
             </div>
             <div class="col-sm-8">
-              <textarea class="form-control" cols="100%" name="responsetext-2-1" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-2-1" id="responsetext-2-1" name="responsetext-2-1" rows="4">
                 Response to student who is going to drop out.
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-2-1">
+                  45
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-2-1" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%drop.out@gmail.tmt">
             </div>
           </div>
@@ -268,9 +301,20 @@
               </select>
             </div>
             <div class="col-sm-8">
-              <textarea class="form-control" cols="100%" name="responsetext-2-2" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-2-2" id="responsetext-2-2" name="responsetext-2-2" rows="4">
                 Response to extra guy.
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-2-2">
+                  22
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-2-2" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%extra.guy@gmail.tmt">
             </div>
           </div>
@@ -321,8 +365,19 @@
               </span>
             </div>
             <div class="col-sm-12">
-              <textarea class="form-control" cols="100%" name="responsetext-3-0" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-3-0" id="responsetext-3-0" name="responsetext-3-0" rows="4">
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-3-0">
+                  0
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
             </div>
           </div>
         </div>
@@ -375,9 +430,20 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" name="responsetext-4-0" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-4-0" id="responsetext-4-0" name="responsetext-4-0" rows="4">
                 Feedback to team 3
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-4-0">
+                  18
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
               <input name="responseid-4-0" type="hidden" value="${question.id}%Team >'&quot;< 1</td></div>'&quot;%Team 3">
             </div>
           </div>
@@ -402,8 +468,19 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" name="responsetext-4-1" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-4-1" id="responsetext-4-1" name="responsetext-4-1" rows="4">
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-4-1">
+                  0
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
             </div>
           </div>
         </div>
@@ -450,8 +527,19 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" name="responsetext-5-0" rows="4">
+              <textarea class="form-control" cols="100%" data-lengthtextid="responseLength-5-0" id="responsetext-5-0" name="responsetext-5-0" rows="4">
               </textarea>
+              <div class="pull-right margin-top-7px">
+                <label class="text-color-gray font-weight-normal">
+                  Response length:
+                </label>
+                <label class="text-color-gray font-weight-normal" id="responseLength-5-0">
+                  0
+                </label>
+                <label class="text-color-gray font-weight-normal">
+                  characters
+                </label>
+              </div>
             </div>
           </div>
         </div>
@@ -495,10 +583,10 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-6-0" style="display:none;max-width:125px">
-                <option selected="" value="">
+              <select class="participantSelect middlealign form-control" name="responserecipient-6-0" style="display:none;max-width:125px">
+                <option value="">
                 </option>
-                <option value="SFSubmitUiT.alice.b@gmail.tmt">
+                <option selected="" value="SFSubmitUiT.alice.b@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -529,8 +617,21 @@
                       </div>
                     </td>
                   </tr>
+                  <tr>
+                    <td>
+                      <div class="radio">
+                        <label class="bold-label">
+                          <input checked="" data-text="otherOptionText" name="responsetext-6-0" type="radio" value="Features">
+                          Other
+                        </label>
+                        <input class="form-control margin-top-2px" id="otherOptionText-6-0" name="otherOptionText-6-0" type="text" value="Features">
+                        <input id="mcqIsOtherOptionAnswer-6-0" name="mcqIsOtherOptionAnswer-6-0" type="hidden" value="1">
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
+              <input name="responseid-6-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
             </div>
           </div>
         </div>
@@ -698,10 +799,10 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-8-0" style="display:none;max-width:125px">
-                <option selected="" value="">
+              <select class="participantSelect middlealign form-control" name="responserecipient-8-0" style="display:none;max-width:125px">
+                <option value="">
                 </option>
-                <option value="SFSubmitUiT.alice.b@gmail.tmt">
+                <option selected="" value="SFSubmitUiT.alice.b@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -746,6 +847,18 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
+                          <input checked="" data-text="msqOtherOptionText" name="responsetext-8-0" type="checkbox" value="Features">
+                          Other
+                        </label>
+                        <input class="form-control margin-top-2px" id="msqOtherOptionText-8-0" name="msqOtherOptionText-8-0" type="text" value="Features">
+                        <input id="msqIsOtherOptionAnswer-8-0" name="msqIsOtherOptionAnswer-8-0" type="hidden" value="1">
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
                           <input name="responsetext-8-0" type="checkbox" value="">
                           <i>
                             None of the above
@@ -756,6 +869,7 @@
                   </tr>
                 </tbody>
               </table>
+              <input name="responseid-8-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
             </div>
           </div>
         </div>
@@ -2473,7 +2587,7 @@
     <br>
     <br>
     <div class="bold align-center">
-      <input class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback">
+      <input class="btn btn-primary center-block" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback">
     </div>
     <br>
     <br>

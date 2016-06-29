@@ -1,7 +1,7 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
 
@@ -10,13 +10,11 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -27,12 +25,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "button_sortFromName")
     public WebElement sortTableGiverButton;
 
-    @FindBy(id = "button_sortToName")
-    private WebElement sortTableRecipientButton;
-
-    @FindBy(id = "button_sortFeedback")
-    private WebElement sortTableAnswerButton;
-
     @FindBy(id = "collapse-panels-button")
     public WebElement collapseExpandButton;
     
@@ -41,6 +33,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
+    
+    @FindBy(id = "indicate-missing-responses-checkbox")
+    public WebElement indicateMissingResponsesCheckbox;
     
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
@@ -68,7 +63,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     /**
-     * Waits until the page structure is loaded. 
+     * Waits until the page structure is loaded.
      * Does not wait for all the content that are loaded by ajax to load.
      */
     public void waitForPageStructureToLoad() {
@@ -139,6 +134,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         showStatsCheckbox.click();
     }
 
+    public void clickIndicateMissingResponses() {
+        indicateMissingResponsesCheckbox.click();
+    }
+    
     public void fillSearchBox(String s) {
         this.fillTextBox(browser.driver.findElement(By.id("results-search-box")), s);
     }
@@ -147,39 +146,38 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement button = browser.driver.findElement(By.linkText("[Edit]"));
         button.click();
         
-        InstructorFeedbackEditPage editPage = changePageType(InstructorFeedbackEditPage.class); 
+        InstructorFeedbackEditPage editPage = changePageType(InstructorFeedbackEditPage.class);
         editPage.waitForPageToLoad();
         return editPage;
     }
 
     public boolean clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {
         WebElement qnAdditionalInfoButton = browser.driver.findElement(By.id("questionAdditionalInfoButton-"
-                                                                             + qnNumber + "-" + additionalInfoId));    
+                                                                             + qnNumber + "-" + additionalInfoId));
         qnAdditionalInfoButton.click();
         // Check if links toggle properly.
         WebElement qnAdditionalInfo = browser.driver.findElement(By.id("questionAdditionalInfo-"
-                                                                       + qnNumber + "-" + additionalInfoId));    
+                                                                       + qnNumber + "-" + additionalInfoId));
         return qnAdditionalInfo.isDisplayed();
     }
 
     public String getQuestionAdditionalInfoButtonText(int qnNumber, String additionalInfoId) {
         WebElement qnAdditionalInfoButton = browser.driver.findElement(By.id("questionAdditionalInfoButton-"
-                                                                             + qnNumber + "-" + additionalInfoId));    
+                                                                             + qnNumber + "-" + additionalInfoId));
         return qnAdditionalInfoButton.getText();
     }
 
     public void addFeedbackResponseComment(String addResponseCommentId, String commentText) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 5);
         WebElement addResponseCommentForm = browser.driver.findElement(By.id(addResponseCommentId));
         WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
         WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
         showResponseCommentAddFormButton.click();
-        wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
+        waitForElementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea")));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
         addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
-        if (commentText.equals("")) {
+        if (commentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
-            wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
+            waitForElementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea")));
         } else {
             // non-empty comment: wait until the add comment form disappears
             waitForElementToDisappear(By.id(addResponseCommentId));
@@ -244,7 +242,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     
     /**
      * Waits for all the panels to collapse.
-     */    
+     */
     public void waitForPanelsToCollapse() {
         By panelCollapseSelector = By.cssSelector("div[id^='panelBodyCollapse-']");
         
@@ -257,19 +255,29 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void waitForPanelsToExpand() {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
-        
-        waitForElementsVisibility(webElements);
+        for (WebElement element : webElements) {
+            try {
+                waitForElementVisibility(element);
+            } catch (StaleElementReferenceException e) {
+                // Case when element has been removed after JS processing
+            }
+        }
     }
 
     public boolean verifyAllStatsVisibility() {
         for (WebElement e : browser.driver.findElements(By.className("resultStatistics"))) {
-            if (e.getCssValue("display").equals("none")) {
+            if ("none".equals(e.getCssValue("display"))) {
                 return false;
             }
         }
         return true;
     }
 
+    public boolean verifyMissingResponsesVisibility() {
+        List<WebElement> pendingResponses = browser.driver.findElements(By.className("pending_response_row"));
+        return pendingResponses.isEmpty();
+    }
+    
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
         commentRow.findElement(By.tagName("form")).findElement(By.tagName("a")).click();
@@ -277,27 +285,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
-        WebElement commentRow;
-        try {
-            commentRow = wait.until(ExpectedConditions.presenceOfElementLocated(
-                                                               By.id("responseCommentRow" + commentRowIdSuffix)));
-        } catch (TimeoutException e) {
-            fail("Timeout!");
-            commentRow = null;
-        }
-        try {
-            wait.until(ExpectedConditions.textToBePresentInElement(commentRow.findElement(By.id("plainCommentText"
-                                                                                                + commentRowIdSuffix)),
-                                                                   commentText));
-        } catch (TimeoutException e) {
-            fail("Not expected message");
-        }
-        try {
-            assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName));
-        } catch (AssertionError e) {
-            assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains("you"));
-        }
+        By commentRowSelector = By.id("responseCommentRow" + commentRowIdSuffix);
+        waitForElementPresence(commentRowSelector);
+        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
+        WebElement commentRow = browser.driver.findElement(commentRowSelector);
+        assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName)
+                   || commentRow.findElement(By.className("text-muted")).getText().contains("you"));
     }
 
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
@@ -308,11 +301,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void verifyRowMissing(String rowIdSuffix) {
         try {
-            waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-loader.gif']"));
+            waitForAjaxLoaderGifToDisappear();
             browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
             fail("Row expected to be missing found.");
         } catch (NoSuchElementException expected) {
             // row expected to be missing
+            return;
         }
     }
 
@@ -326,7 +320,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         ajaxPanels.click();
     }
 
-    public void clickViewPhotoLink(int panelBodyIndex, String urlRegex) throws Exception {
+    public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) {
         String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
         WebElement photoCell = browser.driver.findElement(By.id(idOfPanelBody))
                                              .findElements(By.cssSelector(".profile-pic-icon-click"))
@@ -346,7 +340,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         actions.moveByOffset(100, 100).click().perform();
     }
 
-    public void hoverClickAndViewStudentPhotoOnHeading(int panelHeadingIndex, String urlRegex) throws Exception {
+    public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         String idOfPanelHeading = "panelHeading-" + panelHeadingIndex;
         WebElement photoDiv = browser.driver.findElement(By.id(idOfPanelHeading))
@@ -366,12 +360,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                                        .get(0)
                                                        .getAttribute("src"));
 
-        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
+        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
+                                 + "document.getElementsByClassName('popover')[0])");
     }
 
-    public void hoverAndViewStudentPhotoOnBody(int panelBodyIndex, String urlRegex) throws Exception {
+    public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex) {
         String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
-        WebElement photoLink = browser.driver.findElements(By.cssSelector('#'+idOfPanelBody + "> .panel-body > .row"))
+        WebElement photoLink = browser.driver.findElements(By.cssSelector('#' + idOfPanelBody + "> .panel-body > .row"))
                                              .get(0)
                                              .findElements(By.className("profile-pic-icon-hover"))
                                              .get(0);
@@ -385,11 +380,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                                                  .getAttribute("src"));
 
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
+        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
+                                 + "document.getElementsByClassName('popover')[0])");
     }
     
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                  int tableCol, String urlRegex) throws Exception {
+                                                  int tableCol, String urlRegex) {
         String idOfQuestionBody = "questionBody-" + questionBodyIndex;
 
         /*
@@ -397,15 +393,17 @@ public class InstructorFeedbackResultsPage extends AppPage {
          * regarding unix systems and current testing version of Selenium and Firefox
          */
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(document.getElementById('" +  idOfQuestionBody + "')" +
-                                           ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']" +
-                                           ".querySelectorAll('td')['" + tableCol + "']" +
-                                           ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
+        jsExecutor.executeScript(
+                "$(document.getElementById('" + idOfQuestionBody + "')"
+                + ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']"
+                + ".querySelectorAll('td')['" + tableCol + "']"
+                + ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
         
         waitForElementPresence(By.cssSelector(".popover-content"));
         
-        jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]" +
-                                           ".getElementsByTagName('a')[0].click();");
+        jsExecutor.executeScript(
+                "document.getElementsByClassName('popover-content')[0]"
+                + ".getElementsByTagName('a')[0].click();");
 
         waitForElementPresence(By.cssSelector(".popover-content > img"));
 
@@ -413,22 +411,24 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                                                  .get(0)
                                                                  .getAttribute("src"));
 
-        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
+        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
+                                 + "document.getElementsByClassName('popover')[0])");
     }
 
     public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                       String urlRegex) throws Exception {
+                                                       String urlRegex) {
         hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 1, urlRegex);
     }
 
     public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                           String urlRegex) throws Exception {
+                                                           String urlRegex) {
         hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 3, urlRegex);
     }
 
     public void removeNavBar() {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementsByClassName('navbar-fixed-top')[0].parentNode.removeChild(document.getElementsByClassName('navbar-fixed-top')[0])");
+        jsExecutor.executeScript("document.getElementsByClassName('navbar-fixed-top')[0].parentNode.removeChild("
+                                 + "document.getElementsByClassName('navbar-fixed-top')[0])");
     }
 
     public void verifyModerateResponseButtonBelongsTo(WebElement btn, String email) {
@@ -446,12 +446,20 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void waitForInstructorPanelStudentPanelsToCollapse() {
-        List<WebElement> studentPanels = browser.driver.findElements(By.cssSelector("#panelBodyCollapse-2 .panel-collapse"));
+        List<WebElement> studentPanels = browser.driver.findElements(
+                By.cssSelector("#panelBodyCollapse-0-1 .panel-collapse"));
         waitForElementsToDisappear(studentPanels);
     }
+    
+    public void verifyPanelForParticipantIsDisplayed(String participantIdentifier) {
+        WebElement panel = browser.driver.findElement(
+                By.xpath("//div[contains(@class, 'panel-primary') or contains(@class, 'panel-default')]"
+                            + "[contains(.,'[" + participantIdentifier + "]')]"));
+        assertTrue(panel.isDisplayed());
+    }
 
-    public void verifySpecifiedPanelIdsAreCollapsed(int[] ids) {
-        for (int id : ids) {
+    public void verifySpecifiedPanelIdsAreCollapsed(String[] ids) {
+        for (String id : ids) {
             WebElement panel = browser.driver.findElement(By.id("panelBodyCollapse-" + id));
             assertFalse(panel.isDisplayed());
         }
@@ -471,31 +479,29 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void changeFsNameInAjaxLoadResponsesForm(int indexOfForm, String newFsName) {
         
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('.ajax_submit:eq(" + indexOfForm 
-                         + ") [name=\"fsname\"]').val('" + newFsName + "')");     
+        js.executeScript("$('.ajax_submit:eq(" + indexOfForm
+                         + ") [name=\"fsname\"]').val('" + newFsName + "')");
     }
     
     public void changeFsNameInNoResponsePanelForm(String newFsName) {
         
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('.ajax_response_rate_submit [name=\"fsname\"]').val('" + newFsName + "')");     
+        js.executeScript("$('.ajax_response_rate_submit [name=\"fsname\"]').val('" + newFsName + "')");
     }
     
     public void waitForAjaxError(int indexOfForm) {
-        By ajaxErrorSelector = By.cssSelector(".ajax_submit:nth-of-type(" + indexOfForm 
+        By ajaxErrorSelector = By.cssSelector(".ajax_submit:nth-of-type(" + indexOfForm
                                         + ") .ajax-error");
         waitForElementPresence(ajaxErrorSelector);
-        WebElement ajaxError = browser.driver.findElement(ajaxErrorSelector);
         
-        assertEquals("[ Failed to load. Click here to retry. ]", ajaxError.getText());
+        waitForTextContainedInElementPresence(ajaxErrorSelector, "[ Failed to load. Click here to retry. ]");
     }
     
     public void waitForAjaxErrorOnNoResponsePanel() {
         By ajaxErrorSelector = By.cssSelector(".ajax_response_rate_submit .ajax-error");
         waitForElementPresence(ajaxErrorSelector);
-        WebElement ajaxError = browser.driver.findElement(ajaxErrorSelector);
         
-        assertEquals("[ Failed to load. Click here to retry. ]", ajaxError.getText());
+        waitForTextContainedInElementPresence(ajaxErrorSelector, "[ Failed to load. Click here to retry. ]");
     }
     
 }

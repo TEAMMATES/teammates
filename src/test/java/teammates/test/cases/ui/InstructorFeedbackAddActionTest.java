@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -17,7 +15,7 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackAddActionTest extends BaseActionTest {
     
-    private final DataBundle dataBundle = getTypicalDataBundle();    
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -27,7 +25,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 =
                 dataBundle.instructors.get("instructor1OfCourse1");
         String expectedString = "";
@@ -80,9 +78,9 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         ShowPageResult pr = (ShowPageResult) a.executeAndPostProcess();
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACKS
                          + "?error=true"
-                         + "&user=idOfInstructor1OfCourse1"; 
+                         + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedString, pr.getDestinationWithParams());
-        assertEquals(true, pr.isError);
+        assertTrue(pr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
         
         
@@ -94,9 +92,9 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         pr = (ShowPageResult) a.executeAndPostProcess();
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACKS
                          + "?error=true"
-                         + "&user=idOfInstructor1OfCourse1"; 
+                         + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedString, pr.getDestinationWithParams());
-        assertEquals(true, pr.isError);
+        assertTrue(pr.isError);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||"
@@ -187,7 +185,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                          + "?courseid=" + instructor1ofCourse1.courseId
                          + "&fsname=masquerade+session"
                          + "&user=" + instructor1ofCourse1.googleId
-                         + "&error=false"; 
+                         + "&error=false";
         assertEquals(expectedString, rr.getDestinationWithParams());
         
         expectedString =
@@ -211,7 +209,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         
         try {
             a = getAction(params);
-            rr = (RedirectResult) a.executeAndPostProcess();     
+            rr = (RedirectResult) a.executeAndPostProcess();
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.COURSE_ID),
                          e.getMessage());
@@ -220,7 +218,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourseCascade(instructor1ofCourse1.courseId);
     }
     
-    private InstructorFeedbackAddAction getAction (String... params) throws Exception {
+    private InstructorFeedbackAddAction getAction(String... params) {
         return (InstructorFeedbackAddAction) gaeSimulation.getActionObject(uri, params);
     }
 }

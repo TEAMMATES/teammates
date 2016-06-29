@@ -7,6 +7,8 @@ import teammates.ui.controller.PageData;
 
 public class InstructorFeedbackSessionActions {
     
+    private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
+
     private boolean privateSession;
 
     private String courseId;
@@ -27,12 +29,10 @@ public class InstructorFeedbackSessionActions {
 
     private FeedbackSessionPublishButton publishButton;
 
-    private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
-
     public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                             InstructorAttributes instructor) {
-        String courseId = session.courseId;
-        String feedbackSessionName = session.feedbackSessionName;
+        String courseId = session.getCourseId();
+        String feedbackSessionName = session.getFeedbackSessionName();
 
         this.privateSession = session.isPrivateSession();
 
@@ -44,21 +44,26 @@ public class InstructorFeedbackSessionActions {
         this.deleteLink = data.getInstructorFeedbackDeleteLink(courseId, feedbackSessionName, returnUrl);
         this.submitLink = data.getInstructorFeedbackSubmissionEditLink(courseId, feedbackSessionName);
         this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName, returnUrl);
-        this.remindParticularStudentsPageLink = data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId,
-                                                                                                           feedbackSessionName);
+        this.remindParticularStudentsPageLink =
+                data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId, feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
 
         this.allowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         this.allowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+        boolean shouldEnableSubmitLink =
+                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         if (!shouldEnableSubmitLink) {
-            shouldEnableSubmitLink = instructor.isAllowedForPrivilegeAnySection(session.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            shouldEnableSubmitLink =
+                    instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         }
         
         this.allowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
-        this.allowedToRemind = session.isOpened() && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        this.allowedToRemind =
+                session.isOpened()
+                && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             
-        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor, 
+        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
                                                               PUBLISH_BUTTON_TYPE);
     }
 

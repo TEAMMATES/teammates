@@ -10,17 +10,16 @@ import java.util.Map;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbacksPageAction extends Action {
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
-        // This can be null. Non-null value indicates the page is being loaded 
+    protected ActionResult execute() {
+        // This can be null. Non-null value indicates the page is being loaded
         // to add a feedback to the specified course
         String courseIdForNewSession = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionToHighlight = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
@@ -30,13 +29,13 @@ public class InstructorFeedbacksPageAction extends Action {
                 
         if (courseIdForNewSession != null) {
             new GateKeeper().verifyAccessible(
-                    logic.getInstructorForGoogleId(courseIdForNewSession, account.googleId), 
+                    logic.getInstructorForGoogleId(courseIdForNewSession, account.googleId),
                     logic.getCourse(courseIdForNewSession),
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         }
 
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
-        data.setUsingAjax((isUsingAjax != null));
+        data.setUsingAjax(isUsingAjax != null);
         
         
         boolean omitArchived = true; // TODO: implement as a request parameter
@@ -59,7 +58,8 @@ public class InstructorFeedbacksPageAction extends Action {
         
         if (courses.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
-                                                 .replace("${user}", "?user=" + account.googleId), StatusMessageColor.WARNING));
+                                                       .replace("${user}", "?user=" + account.googleId),
+                                               StatusMessageColor.WARNING));
         }
         
         statusToAdmin = "Number of feedback sessions: " + existingFeedbackSessions.size();
@@ -72,22 +72,21 @@ public class InstructorFeedbacksPageAction extends Action {
     }
     
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
-            List<InstructorAttributes> instructorList) throws EntityDoesNotExistException {
+            List<InstructorAttributes> instructorList) {
         
         List<FeedbackSessionAttributes> sessions =
                 logic.getFeedbackSessionsListForInstructor(instructorList);
         return sessions;
     }
 
-    protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList)
-            throws EntityDoesNotExistException {
+    protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList) {
         
         List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorList);
         
         Collections.sort(courses, new Comparator<CourseAttributes>() {
             @Override
-            public int compare(CourseAttributes c1, CourseAttributes c2){
-                return c1.id.compareTo(c2.id);
+            public int compare(CourseAttributes c1, CourseAttributes c2) {
+                return c1.getId().compareTo(c2.getId());
             }
         });
         

@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
@@ -16,22 +15,21 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.DevServerLoginPage;
-import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
+import teammates.test.pageobjects.LoginPage;
 
-public class BaseUiTestCase extends BaseTestCase {
+public abstract class BaseUiTestCase extends BaseTestCase {
 
     /** indicates if the test-run is to use GodMode */
-    protected static Boolean enableGodMode = false;
+    protected static boolean isGodModeEnabled;
 
     /**
-     * Checks if the current test-run should use godmode, 
+     * Checks if the current test-run should use godmode,
      * if yes, enables GodMode
      */
     @BeforeSuite
     public static void checkAndEnableGodMode() {
-        if (enableGodMode) {
+        if (isGodModeEnabled) {
             System.setProperty("godmode", "true");
         }
     }
@@ -42,7 +40,7 @@ public class BaseUiTestCase extends BaseTestCase {
      * {@code relativeUrl} must start with a "/".
      */
     protected static AppUrl createUrl(String relativeUrl) {
-        return new AppUrl(TestProperties.inst().TEAMMATES_URL + relativeUrl);
+        return new AppUrl(TestProperties.TEAMMATES_URL + relativeUrl);
     }
     
     /**
@@ -51,64 +49,42 @@ public class BaseUiTestCase extends BaseTestCase {
      * {@code testFileName} must start with a "/".
      */
     protected static Url createLocalUrl(String testFileName) throws IOException {
-        return new Url("file:///" + new File(".").getCanonicalPath() + "/" 
+        return new Url("file:///" + new File(".").getCanonicalPath() + "/"
                                   + TestProperties.TEST_PAGES_FOLDER + testFileName);
     }
     
-    /**
-     * Do an initial loginAdminToPage (may or may not involve explicit logging in action),
-     * logs out, then logs in again (this time it will be an explicit logging in).
-     * This is to handle the cases in admin UI tests where the admin username has to be the
-     * one specified in <code>${test.admin}</code>.
-     */
-    protected static <T extends AppPage> T loginAdminToPageForAdminUiTests(Browser browser, AppUrl url,
-                                                                           Class<T> typeOfPage) {
-        loginAdminToPage(browser, url, typeOfPage);
-        logout(browser);
-        return loginAdminToPage(browser, url, typeOfPage);
-    }
-
     /**
      * Logs in a page using admin credentials (i.e. in masquerade mode).
      */
     protected static <T extends AppPage> T loginAdminToPage(Browser browser, AppUrl url, Class<T> typeOfPage) {
         
-        String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT; 
-        String adminPassword = TestProperties.inst().TEST_ADMIN_PASSWORD;
-        
-        String instructorId = url.get(Const.ParamsNames.USER_ID);
-        
-        if(instructorId==null){ //admin using system as admin
-            instructorId = adminUsername;
-        }
-        
-        if(browser.isAdminLoggedIn){
+        if (browser.isAdminLoggedIn) {
             browser.driver.get(url.toAbsoluteString());
             try {
                 return AppPage.getNewPageInstance(browser, typeOfPage);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 //ignore and try to logout and login again if fail.
+                ignorePossibleException();
             }
         }
         
-        //logout and attempt to load the requested URL. This will be 
+        //logout and attempt to load the requested URL. This will be
         //  redirected to a dev-server/google login page
         logout(browser);
         browser.driver.get(url.toAbsoluteString());
-        String pageSource = browser.driver.getPageSource();
+        
+        String adminUsername = TestProperties.TEST_ADMIN_ACCOUNT;
+        String adminPassword = TestProperties.TEST_ADMIN_PASSWORD;
+        
+        String instructorId = url.get(Const.ParamsNames.USER_ID);
+        
+        if (instructorId == null) { //admin using system as admin
+            instructorId = adminUsername;
+        }
         
         //login based on the login page type
-        if(DevServerLoginPage.containsExpectedPageContents(pageSource)){
-            DevServerLoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
-            loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
-
-        } else if(GoogleLoginPage.containsExpectedPageContents(pageSource)){
-            GoogleLoginPage loginPage = AppPage.getNewPageInstance(browser, GoogleLoginPage.class);
-            loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
-        
-        } else {
-            throw new IllegalStateException("Not a valid login page :" + pageSource);
-        }
+        LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
+        loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
         
         //After login, the browser should be redirected to the page requested originally.
         //  No need to reload. In fact, reloading might results in duplicate request to the server.
@@ -140,22 +116,22 @@ public class BaseUiTestCase extends BaseTestCase {
         int counter = 0;
         String backDoorOperationStatus = "";
         int retryLimit;
-        if(TestProperties.inst().isDevServer()){
+        if (TestProperties.isDevServer()) {
             retryLimit = 5;
         } else {
             retryLimit = 1;
         }
 
-        while(counter < retryLimit){
+        while (counter < retryLimit) {
             counter++;
             backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
-            if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
+            if (backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)) {
                 break;
             }
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
-        if(counter >= retryLimit){
-            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        if (counter >= retryLimit) {
+            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
 
@@ -167,22 +143,22 @@ public class BaseUiTestCase extends BaseTestCase {
         int counter = 0;
         String backDoorOperationStatus = "";
         int retryLimit;
-        if(TestProperties.inst().isDevServer()){
+        if (TestProperties.isDevServer()) {
             retryLimit = 5;
         } else {
             retryLimit = 1;
         }
 
-        while(counter < retryLimit){
+        while (counter < retryLimit) {
             counter++;
             backDoorOperationStatus = BackDoor.removeDataBundleFromDb(testData);
-            if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
+            if (backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)) {
                 break;
             }
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
-        if(counter >= retryLimit){
-            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        if (counter >= retryLimit) {
+            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
     
@@ -193,22 +169,22 @@ public class BaseUiTestCase extends BaseTestCase {
         int counter = 0;
         String backDoorOperationStatus = "";
         int retryLimit;
-        if(TestProperties.inst().isDevServer()){
+        if (TestProperties.isDevServer()) {
             retryLimit = 5;
         } else {
             retryLimit = 1;
         }
 
-        while(counter < retryLimit){
+        while (counter < retryLimit) {
             counter++;
             backDoorOperationStatus = BackDoor.removeAndRestoreDataBundleFromDb(testData);
-            if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
+            if (backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)) {
                 break;
             }
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
-        if(counter >= retryLimit){
-            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        if (counter >= retryLimit) {
+            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
     
@@ -216,22 +192,22 @@ public class BaseUiTestCase extends BaseTestCase {
         int counter = 0;
         String backDoorOperationStatus = "";
         int retryLimit;
-        if(TestProperties.inst().isDevServer()){
+        if (TestProperties.isDevServer()) {
             retryLimit = 5;
         } else {
             retryLimit = 1;
         }
 
-        while(counter < retryLimit){
+        while (counter < retryLimit) {
             counter++;
             backDoorOperationStatus = BackDoor.putDocuments(testData);
-            if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
+            if (backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)) {
                 break;
             }
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
-        if(counter >= retryLimit){
-            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        if (counter >= retryLimit) {
+            assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
 

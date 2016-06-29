@@ -43,17 +43,18 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         Assumption.assertNotNull(response);
         boolean isCreatorOnly = true;
         
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, response.giverSection, 
+        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, response.giverSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, response.recipientSection, 
+        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
-        InstructorFeedbackResponseCommentAjaxPageData data = 
+        InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
         
-        String giverEmail = response.giverEmail;
-        String recipientEmail = response.recipientEmail;
-        FeedbackSessionResultsBundle bundle = logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, instructor.email);
+        String giverEmail = response.giver;
+        String recipientEmail = response.recipient;
+        FeedbackSessionResultsBundle bundle =
+                logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, instructor.email);
 
         String giverName = bundle.getGiverNameForResponse(response);
         String giverTeamName = bundle.getTeamNameForEmail(giverEmail);
@@ -112,9 +113,10 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         if (!data.isError) {
             statusToAdmin += "InstructorFeedbackResponseCommentAddAction:<br>"
                            + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
-                           + "in course/feedback session: " + feedbackResponseComment.courseId + "/" 
+                           + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                            + feedbackResponseComment.feedbackSessionName + "<br>"
-                           + "by: " + feedbackResponseComment.giverEmail + " at " + feedbackResponseComment.createdAt + "<br>"
+                           + "by: " + feedbackResponseComment.giverEmail + " at "
+                           + feedbackResponseComment.createdAt + "<br>"
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
         
@@ -122,27 +124,26 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         data.commentId = commentId;
         data.showCommentToString = joinParticipantTypes(createdComment.showCommentTo, ",");
         data.showGiverNameToString = joinParticipantTypes(createdComment.showGiverNameTo, ",");
-        
+
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }
 
     private String joinParticipantTypes(List<FeedbackParticipantType> participants, String joiner) {
         if (participants.isEmpty()) {
             return "";
-        } else {
-            String result = "";
-            for (FeedbackParticipantType fpt: participants) {
-                result += fpt + joiner;
-            }
-            return result.substring(0, result.length() - joiner.length());
         }
+        StringBuilder result = new StringBuilder();
+        for (FeedbackParticipantType fpt : participants) {
+            result.append(fpt).append(joiner);
+        }
+        return result.substring(0, result.length() - joiner.length());
     }
     
     private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
-        return (comment.isVisibleTo(FeedbackParticipantType.GIVER)
+        return comment.isVisibleTo(FeedbackParticipantType.GIVER)
              || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)
              || comment.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
              || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-             || comment.isVisibleTo(FeedbackParticipantType.STUDENTS));
+             || comment.isVisibleTo(FeedbackParticipantType.STUDENTS);
     }
 }

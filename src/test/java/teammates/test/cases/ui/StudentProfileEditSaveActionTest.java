@@ -1,9 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -28,12 +23,12 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE;
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
         
         testActionWithInvalidParameters(student);
@@ -41,7 +36,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         testActionInMasqueradeMode(student);
     }
 
-    private void testActionWithInvalidParameters(AccountAttributes student) throws EntityDoesNotExistException {
+    private void testActionWithInvalidParameters(AccountAttributes student) {
         gaeSimulation.loginAsStudent(student.googleId);
         ______TS("Failure case: invalid parameters");
         
@@ -69,13 +64,13 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
         
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
-                                  + "|||true|||Student|||"+ student.name +"|||" + student.googleId
+                                  + "|||true|||Student|||" + student.name + "|||" + student.googleId
                                   + "|||" + student.email + "|||" + Const.ACTION_RESULT_FAILURE
                                   + " : " + result.getStatusMessage() + "|||/page/studentProfileEditSave";
         AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
     }
 
-    private void testActionTypicalSuccess(AccountAttributes student) throws EntityDoesNotExistException {
+    private void testActionTypicalSuccess(AccountAttributes student) {
         String[] submissionParams = createValidParamsForProfile();
         StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
         gaeSimulation.loginAsStudent(student.googleId);
@@ -94,7 +89,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         verifyLogMessage(student, action, expectedProfile, false);
     }
 
-    private void testActionInMasqueradeMode(AccountAttributes student) throws EntityDoesNotExistException {
+    private void testActionInMasqueradeMode(AccountAttributes student) {
 
         ______TS("Typical case: masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");
@@ -122,7 +117,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         expectedProfile.modifiedDate = action.account.studentProfile.modifiedDate;
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
-                                  + student.name +"|||" + student.googleId + "|||" + student.email
+                                  + student.name + "|||" + student.googleId + "|||" + student.email
                                   + "|||Student Profile for <span class=\"bold\">(" + student.googleId
                                   + ")</span> edited.<br>" + expectedProfile.toString()
                                   + "|||/page/studentProfileEditSave";

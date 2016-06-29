@@ -12,7 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Represents emails composed by Admin 
+ * Represents emails composed by Admin
  */
 
 @PersistenceCapable
@@ -20,13 +20,12 @@ public class AdminEmail {
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
     private String emailId;
     
     @Persistent
     //this stores the address string eg."example1@test.com,example2@test.com...."
     private List<String> addressReceiver;
-   
     
     @Persistent
     //this stores the blobkey string of the email list file uploaded to Google Cloud Storage
@@ -58,7 +57,8 @@ public class AdminEmail {
      * @param content
      *          html email content
      */
-    public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject, Text content, Date sendDate){
+    public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject,
+                      Text content, Date sendDate) {
         this.emailId = null;
         this.addressReceiver = addressReceiver;
         this.groupReceiver = groupReceiver;
@@ -69,59 +69,59 @@ public class AdminEmail {
         this.isInTrashBin = false;
     }
     
-    public void setAddressReceiver(List<String> receiver){
+    public void setAddressReceiver(List<String> receiver) {
         this.addressReceiver = receiver;
     }
     
-    public void setGroupReceiver(List<String> receiver){
+    public void setGroupReceiver(List<String> receiver) {
         this.groupReceiver = receiver;
     }
     
-    public void setSubject(String subject){
+    public void setSubject(String subject) {
         this.subject = subject;
     }
     
-    public void setContent(Text content){
+    public void setContent(Text content) {
         this.content = content;
     }
     
-    public void setIsInTrashBin(boolean isInTrashBin){
+    public void setIsInTrashBin(boolean isInTrashBin) {
         this.isInTrashBin = isInTrashBin;
     }
     
-    public void setSendDate(Date sendDate){
+    public void setSendDate(Date sendDate) {
         this.sendDate = sendDate;
     }
     
-    public String getEmailId(){
+    public String getEmailId() {
         return this.emailId;
     }
     
-    public List<String> getAddressReceiver(){
+    public List<String> getAddressReceiver() {
         return this.addressReceiver;
     }
     
-    public List<String> getGroupReceiver(){
+    public List<String> getGroupReceiver() {
         return this.groupReceiver;
     }
      
-    public String getSubject(){
+    public String getSubject() {
         return this.subject;
     }
     
-    public Date getSendDate(){
+    public Date getSendDate() {
         return this.sendDate;
     }
     
-    public Text getContent(){
+    public Text getContent() {
         return this.content;
     }
     
-    public boolean getIsInTrashBin(){
+    public boolean getIsInTrashBin() {
         return this.isInTrashBin;
     }
     
-    public Date getCreateDate(){
+    public Date getCreateDate() {
         return this.createDate;
     }
 }

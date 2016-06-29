@@ -1,13 +1,16 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
-import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.StringHelper;
+import teammates.common.util.Templates;
+import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
+import teammates.common.util.Templates.FeedbackQuestion.Slots;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     
@@ -40,25 +43,25 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
             int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
-        return FeedbackQuestionFormTemplates.populateTemplate(
-                FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
-                "${disabled}", sessionIsOpen ? "" : "disabled",
-                "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                "${qnIdx}", Integer.toString(qnIdx),
-                "${responseIdx}", Integer.toString(responseIdx),
-                "${existingResponse}", Sanitizer.sanitizeForHtml(existingResponseDetails.getAnswerString()));
+        return Templates.populateTemplate(
+                FormTemplates.TEXT_SUBMISSION_FORM,
+                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Slots.TEXT_EXISTING_RESPONSE, Sanitizer.sanitizeForHtml(existingResponseDetails.getAnswerString()));
     }
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
-        return FeedbackQuestionFormTemplates.populateTemplate(
-                FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
-                "${disabled}", sessionIsOpen ? "" : "disabled",
-                "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                "${qnIdx}", Integer.toString(qnIdx),
-                "${responseIdx}", Integer.toString(responseIdx),
-                "${existingResponse}", "");
+        return Templates.populateTemplate(
+                FormTemplates.TEXT_SUBMISSION_FORM,
+                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Slots.TEXT_EXISTING_RESPONSE, "");
     }
 
     @Override
@@ -86,8 +89,8 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         
-        @SuppressWarnings("unused")
         String html = "";
+        /*
         int averageLength = 0;
         int minLength = Integer.MAX_VALUE;
         int maxLength = Integer.MIN_VALUE;
@@ -97,8 +100,12 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         for(FeedbackResponseAttributes response : responses){
             numResponses++;
             String answerString = response.getResponseDetails().getAnswerString();
-            minLength = (StringHelper.countWords(answerString) < minLength) ? StringHelper.countWords(answerString) : minLength;
-            maxLength = (StringHelper.countWords(answerString) > maxLength) ? StringHelper.countWords(answerString) : maxLength;
+            minLength = StringHelper.countWords(answerString) < minLength
+                        ? StringHelper.countWords(answerString)
+                        : minLength;
+            maxLength = StringHelper.countWords(answerString) > maxLength
+                        ? StringHelper.countWords(answerString)
+                        : maxLength;
             totalLength += StringHelper.countWords(answerString);
         }
         
@@ -109,11 +116,10 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                         "${averageLength}", Integer.toString(averageLength),
                         "${minLength}", (minLength == Integer.MAX_VALUE)? "-" : Integer.toString(minLength),
                         "${maxLength}", (maxLength == Integer.MIN_VALUE)? "-" : Integer.toString(maxLength));
-        
+        */
         //TODO: evaluate what statistics are needed for text questions later.
-        return "";
+        return html;
     }
-    
 
     @Override
     public String getQuestionResultStatisticsCsv(
@@ -130,21 +136,29 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<option value = \"TEXT\">"+Const.FeedbackQuestionTypeNames.TEXT+"</option>";
+        return "<li data-questiontype = \"TEXT\"><a>" + Const.FeedbackQuestionTypeNames.TEXT + "</a></li>";
     }
 
     @Override
     public List<String> validateQuestionDetails() {
-        List<String> errors = new ArrayList<String>();
-        return errors;
+        return new ArrayList<String>();
     }
 
     @Override
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
-        List<String> errors = new ArrayList<String>();
-        return errors;
+        return new ArrayList<String>();
+    }
+
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return null;
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
     }
 
 }

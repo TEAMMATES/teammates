@@ -14,14 +14,15 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.ui.template.FeedbackResponseComment;
+import teammates.common.util.StringHelper;
+import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackResultsQuestionDetails;
 import teammates.ui.template.FeedbackResultsResponse;
 import teammates.ui.template.FeedbackResultsResponseTable;
 import teammates.ui.template.StudentFeedbackResultsQuestionWithResponses;
 
 public class StudentFeedbackResultsPageData extends PageData {
-    private FeedbackSessionResultsBundle bundle = null;
+    private FeedbackSessionResultsBundle bundle;
     private String registerMessage;
     private List<StudentFeedbackResultsQuestionWithResponses> feedbackResultsQuestionsWithResponses;
     
@@ -32,22 +33,18 @@ public class StudentFeedbackResultsPageData extends PageData {
     public void init(Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
         
         String joinUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                                                   .withRegistrationKey(student.key)
+                                                   .withRegistrationKey(StringHelper.encrypt(student.key))
                                                    .withStudentEmail(student.email)
                                                    .withCourseId(student.course)
                                                    .toString();
         
-        registerMessage = String.format(Const.StatusMessages.UNREGISTERED_STUDENT_RESULTS, 
+        registerMessage = String.format(Const.StatusMessages.UNREGISTERED_STUDENT_RESULTS,
                                             student.name, joinUrl);
         createFeedbackResultsQuestionsWithResponses(questionsWithResponses);
     }
 
     public FeedbackSessionResultsBundle getBundle() {
         return bundle;
-    }
-    
-    public AccountAttributes getAccount() {
-        return account;
     }
     
     public String getRegisterMessage() {
@@ -68,19 +65,20 @@ public class StudentFeedbackResultsPageData extends PageData {
         feedbackResultsQuestionsWithResponses = new ArrayList<StudentFeedbackResultsQuestionWithResponses>();
         int questionIndex = 1;
         
-        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> 
+        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
                                    questionWithResponses : questionsWithResponses.entrySet()) {
             
             FeedbackQuestionAttributes question = questionWithResponses.getKey();
             List<FeedbackResponseAttributes> responsesBundle = questionWithResponses.getValue();
-            FeedbackQuestionDetails questionDetailsBundle = question.getQuestionDetails(); 
+            FeedbackQuestionDetails questionDetailsBundle = question.getQuestionDetails();
             
             /* Contain only those attributes which will be displayed on the page */
-            FeedbackResultsQuestionDetails questionDetails = createQuestionDetails(
-                                                                 questionIndex, question, questionDetailsBundle, responsesBundle);
+            FeedbackResultsQuestionDetails questionDetails =
+                    createQuestionDetails(questionIndex, question, questionDetailsBundle, responsesBundle);
             List<FeedbackResultsResponseTable> responseTables = createResponseTables(question, responsesBundle);
             
-            feedbackResultsQuestionsWithResponses.add(new StudentFeedbackResultsQuestionWithResponses(questionDetails, responseTables));
+            feedbackResultsQuestionsWithResponses.add(
+                    new StudentFeedbackResultsQuestionWithResponses(questionDetails, responseTables));
             questionIndex++;
             
         }
@@ -99,20 +97,20 @@ public class StudentFeedbackResultsPageData extends PageData {
      * @return Only those details which will be displayed on the page are returned
      */
     private FeedbackResultsQuestionDetails createQuestionDetails(
-                                    int questionIndex, FeedbackQuestionAttributes question, 
-                                    FeedbackQuestionDetails questionDetailsBundle, 
+                                    int questionIndex, FeedbackQuestionAttributes question,
+                                    FeedbackQuestionDetails questionDetailsBundle,
                                     List<FeedbackResponseAttributes> responsesBundle) {
         
-        String questionText = questionDetailsBundle.questionText;
+        String questionText = questionDetailsBundle.getQuestionText();
         String additionalInfo = questionDetailsBundle.getQuestionAdditionalInfoHtml(questionIndex, "");
-        String studentEmail = (student != null) ? student.email : null;
+        String studentEmail = student == null ? null : student.email;
         String questionResultStatistics = questionDetailsBundle.getQuestionResultStatisticsHtml(
                                                                     responsesBundle, question, studentEmail,
                                                                     bundle, "student");
 
         boolean isIndividualResponsesShownToStudents = questionDetailsBundle.isIndividualResponsesShownToStudents();
         
-        return new FeedbackResultsQuestionDetails(Integer.toString(questionIndex), questionText, additionalInfo, 
+        return new FeedbackResultsQuestionDetails(Integer.toString(questionIndex), questionText, additionalInfo,
                                                       questionResultStatistics, isIndividualResponsesShownToStudents);
     }
     
@@ -125,18 +123,34 @@ public class StudentFeedbackResultsPageData extends PageData {
     private List<FeedbackResultsResponseTable> createResponseTables(
                                     FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responsesBundle) {
 
-        List<FeedbackResultsResponseTable> responseTables = new ArrayList<FeedbackResultsResponseTable>();        
+        List<FeedbackResultsResponseTable> responseTables = new ArrayList<FeedbackResultsResponseTable>();
         List<String> recipients = new ArrayList<String>();
         
         for (FeedbackResponseAttributes singleResponse : responsesBundle) {
-            if (!recipients.contains(singleResponse.recipientEmail)) {
-                recipients.add(singleResponse.recipientEmail);
-            }           
+            if (!recipients.contains(singleResponse.recipient)) {
+                recipients.add(singleResponse.recipient);
+            }
         }
         
-        for (String recipientEmail : recipients) {
-            List<FeedbackResponseAttributes> responsesBundleForRecipient = filterResponsesByRecipientEmail(recipientEmail, responsesBundle);
-            responseTables.add(createResponseTable(question, responsesBundleForRecipient));
+        for (String recipient : recipients) {
+            List<FeedbackResponseAttributes> responsesForRecipient =
+                    filterResponsesByRecipientEmail(recipient, responsesBundle);
+            
+            boolean isUserRecipient = student.email.equals(recipient);
+            boolean isUserTeamRecipient = question.recipientType == FeedbackParticipantType.TEAMS
+                                          && student.team.equals(recipient);
+            String recipientName;
+            if (isUserRecipient) {
+                recipientName = "You";
+            } else if (isUserTeamRecipient) {
+                recipientName = String.format("Your Team (%s)", bundle.getNameForEmail(recipient));
+            } else {
+                recipientName = bundle.getNameForEmail(recipient);
+            }
+            
+            responseTables.add(createResponseTable(question,
+                                                   responsesForRecipient,
+                                                   recipientName));
         }
         return responseTables;
     }
@@ -144,48 +158,49 @@ public class StudentFeedbackResultsPageData extends PageData {
     /**
      * Creates a feedback results responses table for a recipient
      * @param question  Question for which the responses are generated
-     * @param responsesBundleForRecipient  All responses for the question having a particular recipient 
+     * @param responsesBundleForRecipient  All responses for the question having a particular recipient
      * @return Feedback results responses table for a question and a recipient
      */
-    private FeedbackResultsResponseTable createResponseTable(FeedbackQuestionAttributes question, 
-                                    List<FeedbackResponseAttributes> responsesBundleForRecipient) {
+    private FeedbackResultsResponseTable createResponseTable(FeedbackQuestionAttributes question,
+                                    List<FeedbackResponseAttributes> responsesBundleForRecipient,
+                                    String recipientNameParam) {
         
         List<FeedbackResultsResponse> responses = new ArrayList<FeedbackResultsResponse>();
-        String recipientName = responsesBundleForRecipient == null || responsesBundleForRecipient.isEmpty() ?
-                                 "" : bundle.getRecipientNameForResponse(responsesBundleForRecipient.get(0));
      
-        for (FeedbackResponseAttributes singleResponse : responsesBundleForRecipient) {
-            String giverName = bundle.getGiverNameForResponse(singleResponse);
-
+        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+        String recipientName = recipientNameParam;
+        for (FeedbackResponseAttributes response : responsesBundleForRecipient) {
+            String giverName = bundle.getGiverNameForResponse(response);
+            String displayedGiverName;
+            
             /* Change display name to 'You' or 'Your team' if necessary */
-            if (question.giverType == FeedbackParticipantType.TEAMS) {
-                if (student.team.equals(giverName)) {
-                    giverName = "Your Team (" + giverName + ")";
-                }
-            } else if (student.email.equals(singleResponse.giverEmail)) {
-                giverName = "You";
+            boolean isUserGiver = student.email.equals(response.giver);
+            boolean isUserPartOfGiverTeam = student.team.equals(giverName);
+            if (question.giverType == FeedbackParticipantType.TEAMS && isUserPartOfGiverTeam) {
+                displayedGiverName = "Your Team (" + giverName + ")";
+            } else if (isUserGiver) {
+                displayedGiverName = "You";
+            } else {
+                displayedGiverName = giverName;
             }
             
-            if (question.recipientType == FeedbackParticipantType.TEAMS) {
-                if (student.team.equals(singleResponse.recipientEmail) && 
-                      !(recipientName.startsWith("Your Team (") && recipientName.endsWith(")"))) { // To avoid duplicate replacement
-                    recipientName = "Your Team (" + recipientName + ")";
-                }
-            } else if (student.email.equals(singleResponse.recipientEmail)
-                       && student.name.equals(recipientName)) {
-                recipientName = "You";
-            }
-
-            /* If the giver is the same user, show the real name of the receiver */
-            if (giverName.equals("You") && (!recipientName.equals("You"))) {
-                recipientName = bundle.getNameForEmail(singleResponse.recipientEmail);
+            boolean isUserRecipient = student.email.equals(response.recipient);
+            if (isUserGiver && !isUserRecipient) {
+                // If the giver is the user, show the real name of the recipient
+                // since the giver would know which recipient he/she gave the response to
+                recipientName = bundle.getNameForEmail(response.recipient);
+            } else if (!isUserGiver
+                       && !bundle.isRecipientVisible(response)) {
+                // Hide anonymous recipient entirely to prevent student from guessing the identity
+                // based on responses from other response givers
+                recipientName = bundle.getAnonNameWithoutNumericalId(question.recipientType);
             }
             
-            String answer = singleResponse.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
-            List<FeedbackResponseComment> comments = createStudentFeedbackResultsResponseComments(
-                                                                                          singleResponse.getId());
+            String answer = response.getResponseDetails().getAnswerHtml(questionDetails);
+            List<FeedbackResponseCommentRow> comments = createStudentFeedbackResultsResponseComments(
+                                                                                          response.getId());
             
-            responses.add(new FeedbackResultsResponse(giverName, answer, comments));
+            responses.add(new FeedbackResultsResponse(displayedGiverName, answer, comments));
         }
         return new FeedbackResultsResponseTable(recipientName, responses);
     }
@@ -195,17 +210,17 @@ public class StudentFeedbackResultsPageData extends PageData {
      * @param feedbackResponseId  Response ID for which comments are created
      * @return Comments for the response
      */
-    private List<FeedbackResponseComment> createStudentFeedbackResultsResponseComments(
+    private List<FeedbackResponseCommentRow> createStudentFeedbackResultsResponseComments(
                                                                                String feedbackResponseId) {
         
-        List<FeedbackResponseComment> comments = new ArrayList<FeedbackResponseComment>();
+        List<FeedbackResponseCommentRow> comments = new ArrayList<FeedbackResponseCommentRow>();
         List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(feedbackResponseId);
         
         if (commentsBundle != null) {
-            for (FeedbackResponseCommentAttributes comment : commentsBundle) { 
-                comments.add(new FeedbackResponseComment(comment, comment.giverEmail));
+            for (FeedbackResponseCommentAttributes comment : commentsBundle) {
+                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail));
             }
-        }        
+        }
         return comments;
     }
 
@@ -221,10 +236,10 @@ public class StudentFeedbackResultsPageData extends PageData {
         List<FeedbackResponseAttributes> responsesForRecipient = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponseAttributes singleResponse : responsesBundle) {
-            if (singleResponse.recipientEmail.equals(recipientEmail)) {
+            if (singleResponse.recipient.equals(recipientEmail)) {
                 responsesForRecipient.add(singleResponse);
-            }           
+            }
         }
         return responsesForRecipient;
-    }    
+    }
 }

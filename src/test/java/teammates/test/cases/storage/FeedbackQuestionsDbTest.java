@@ -1,21 +1,15 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -30,36 +24,10 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
     
-    @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
-                                              EntityDoesNotExistException {
-        
-        FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
-        
-        // remove possibly conflicting entity from the database
-        fqDb.deleteEntity(fq);
-        
-        fqDb.createEntity(fq);
-        verifyPresentInDatastore(fq, true);
-        
-        fq.setCreatedAt_NonProduction(null);
-        fq.setUpdatedAt_NonProduction(null);
-        
-        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        
-        ______TS("success : defaultTimeStamp for createdAt date");
-
-        assertEquals(defaultTimeStamp, fq.getCreatedAt());
-
-        ______TS("success : defaultTimeStamp for updatedAt date");
-
-        assertEquals(defaultTimeStamp, fq.getUpdatedAt());
-    }
-
     @Test
     public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
                                        EntityDoesNotExistException {
@@ -78,7 +46,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         String courseId = fq.courseId;
         int questionNumber = fq.questionNumber;
         
-        FeedbackQuestionAttributes feedbackQuestion = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
+        FeedbackQuestionAttributes feedbackQuestion =
+                fqDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
      
         // Assert dates are now.
         AssertHelper.assertDateIsNow(feedbackQuestion.getCreatedAt());
@@ -89,7 +58,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         feedbackQuestion.questionNumber++;
         fqDb.updateFeedbackQuestion(feedbackQuestion);
         
-        FeedbackQuestionAttributes updatedFq = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
+        FeedbackQuestionAttributes updatedFq =
+                fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
         
         // Assert lastUpdate has changed, and is now.
         assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
@@ -100,7 +70,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         feedbackQuestion.questionNumber++;
         fqDb.updateFeedbackQuestion(feedbackQuestion, true);
 
-        FeedbackQuestionAttributes updatedFqTwo = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
+        FeedbackQuestionAttributes updatedFqTwo =
+                fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
         
         // Assert lastUpdate has NOT changed.
         assertEquals(updatedFq.getUpdatedAt(), updatedFqTwo.getUpdatedAt());
@@ -214,15 +185,14 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         List<FeedbackQuestionAttributes> expected = createFeedbackQuestions(numToCreate);
 
-        List<FeedbackQuestionAttributes> questions = fqDb.getFeedbackQuestionsForSession(expected.get(0).
-                                                                                         feedbackSessionName,
-                                                                                         expected.get(0).courseId);
+        List<FeedbackQuestionAttributes> questions =
+                fqDb.getFeedbackQuestionsForSession(expected.get(0).feedbackSessionName, expected.get(0).courseId);
 
         for (int i = 0; i < numToCreate; i++) {
             expected.get(i).setId(questions.get(i).getId());
         }
 
-        assertEquals(questions.size(),numToCreate);
+        assertEquals(questions.size(), numToCreate);
         AssertHelper.assertSameContentIgnoreOrder(expected, questions);
 
         ______TS("null params");
@@ -263,23 +233,22 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("standard success case");
 
-        List<FeedbackQuestionAttributes> questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
-                                                                                           "testCourse",
-                                                                                           FeedbackParticipantType.
-                                                                                           INSTRUCTORS);
-        assertEquals(questions.size(),numOfQuestions[0]);
+        List<FeedbackQuestionAttributes> questions =
+                fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
+                                                      FeedbackParticipantType.INSTRUCTORS);
+        assertEquals(questions.size(), numOfQuestions[0]);
 
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
                                                           fqa.courseId, FeedbackParticipantType.STUDENTS);
-        assertEquals(questions.size(),numOfQuestions[1]);
+        assertEquals(questions.size(), numOfQuestions[1]);
 
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
                                                           fqa.courseId, FeedbackParticipantType.SELF);
-        assertEquals(questions.size(),numOfQuestions[2]);
+        assertEquals(questions.size(), numOfQuestions[2]);
 
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
                                                           fqa.courseId, FeedbackParticipantType.TEAMS);
-        assertEquals(questions.size(),numOfQuestions[3]);
+        assertEquals(questions.size(), numOfQuestions[3]);
 
         ______TS("null params");
 
@@ -368,7 +337,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                                                     modifiedQuestion.courseId,
                                                     modifiedQuestion.questionNumber);
         FeedbackQuestionDetails fqd = modifiedQuestion.getQuestionDetails();
-        fqd.questionText = "New question text!";
+        fqd.setQuestionText("New question text!");
         modifiedQuestion.setQuestionDetails(fqd);
         fqDb.updateFeedbackQuestion(modifiedQuestion);
 
@@ -376,7 +345,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
                                                     modifiedQuestion.courseId,
                                                     modifiedQuestion.questionNumber);
-        assertEquals("New question text!", modifiedQuestion.getQuestionDetails().questionText);
+        assertEquals("New question text!", modifiedQuestion.getQuestionDetails().getQuestionText());
 
         fqDb.deleteEntity(modifiedQuestion);
     }
@@ -396,7 +365,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqa.questionType = FeedbackQuestionType.TEXT;
         fqa.setQuestionDetails(questionDetails);
 
-        fqa.showGiverNameTo =  new ArrayList<FeedbackParticipantType>();
+        fqa.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
         fqa.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
         fqa.showResponsesTo = new ArrayList<FeedbackParticipantType>();
 
@@ -473,7 +442,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 }

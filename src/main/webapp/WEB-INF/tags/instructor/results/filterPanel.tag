@@ -14,19 +14,19 @@
                         </label>
                         <div class="col-sm-10" data-toggle="tooltip" title="View results in different formats">
                             <select id="viewSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" onchange="this.form.submit()">
-                                <option value="question"<c:if test="${filterPanel.sortType == 'question'}"> selected</c:if>>
+                                <option value="<%=Const.FeedbackSessionResults.QUESTION_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'question'}"> selected</c:if>>
                                     Group by - Question
                                 </option>
-                                <option value="giver-recipient-question"<c:if test="${filterPanel.sortType == 'giver-recipient-question'}"> selected</c:if>>
+                                <option value="<%=Const.FeedbackSessionResults.GRQ_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'giver-recipient-question'}"> selected</c:if>>
                                     Group by - Giver > Recipient > Question
                                 </option>
-                                <option value="recipient-giver-question"<c:if test="${filterPanel.sortType == 'recipient-giver-question'}"> selected</c:if>>
+                                <option value="<%=Const.FeedbackSessionResults.RGQ_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'recipient-giver-question'}"> selected</c:if>>
                                     Group by - Recipient > Giver > Question
                                 </option>
-                                <option value="giver-question-recipient"<c:if test="${filterPanel.sortType == 'giver-question-recipient'}"> selected</c:if>>
+                                <option value="<%=Const.FeedbackSessionResults.GQR_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'giver-question-recipient'}"> selected</c:if>>
                                     Group by - Giver > Question > Recipient
                                 </option>
-                                <option value="recipient-question-giver"<c:if test="${empty filterPanel.sortType or filterPanel.sortType == 'recipient-question-giver'}"> selected</c:if>>
+                                <option value="<%=Const.FeedbackSessionResults.RQG_SORT_TYPE%>"<c:if test="${empty filterPanel.sortType or filterPanel.sortType == 'recipient-question-giver'}"> selected</c:if>>
                                     Group by - Recipient > Question > Giver
                                 </option>
                             </select>
@@ -40,7 +40,7 @@
                         </label>
                         <div class="col-sm-10" data-toggle="tooltip" title="Filter the results in the current view">
                             <div class="input-group">
-                                <input type="text" id="results-search-box" class="form-control" placeholder="${filterPanel.sortType == 'question' ? 'Type keywords from the question to filter' : 'Type student/team name/section name to filter'}" onchange="updateResultsFilter()">
+                                <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT%>" id="results-search-box" class="form-control" placeholder="${filterPanel.sortType == 'question' ? 'Type keywords from the question to filter' : 'Type student/team name/section name to filter'}" onchange="updateResultsFilter()">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
@@ -59,6 +59,17 @@
                           <label<c:if test="${filterPanel.sortType == 'recipient-giver-question' or filterPanel.sortType == 'giver-recipient-question'}"> class="text-strike"</c:if>>
                               <input type="checkbox" id="show-stats-checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"<c:if test="${filterPanel.statsShown}"> checked</c:if>> Show Statistics
                           </label>
+                      </div>
+                  </div>
+                  <div data-toggle="tooltip" title="Indicate missing responses">
+                      <div class="checkbox padding-top-0 min-height-0">
+                          <input type="checkbox" 
+                                onchange="this.form.submit()" 
+                                id="indicate-missing-responses-checkbox" 
+                                value="true" 
+                                name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES%>"
+                                <c:if test="${filterPanel.missingResponsesShown}"> checked</c:if>> 
+                          Indicate Missing Responses
                       </div>
                   </div>
                 </div>

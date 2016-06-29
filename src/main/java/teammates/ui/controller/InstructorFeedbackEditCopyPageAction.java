@@ -5,16 +5,13 @@ import java.util.List;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.Logic;
-
 
 public class InstructorFeedbackEditCopyPageAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
 
@@ -30,22 +27,20 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         
         // Only add courses to data if the course is not archived and instructor has sufficient permissions
         for (CourseAttributes course : allCourses) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.getId(), account.googleId);
             
             boolean isAllowedToMakeSession =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-            boolean isArchived = Logic.isCourseArchived(course.id, account.googleId);
 
-            if (!isArchived && isAllowedToMakeSession) {
+            if (!instructor.isArchived && isAllowedToMakeSession) {
                 coursesToAddToData.add(course);
             }
         }
         
         CourseAttributes.sortByCreatedDate(coursesToAddToData);
         
-        InstructorFeedbackEditCopyPageData data = 
-            new InstructorFeedbackEditCopyPageData(account, coursesToAddToData, courseId, 
-                                                   feedbackSessionName);
+        InstructorFeedbackEditCopyPageData data =
+                new InstructorFeedbackEditCopyPageData(account, coursesToAddToData, courseId, feedbackSessionName);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_COPY_MODAL, data);
     }

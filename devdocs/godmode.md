@@ -4,6 +4,8 @@
 
 Typically browser tests involve comparing the source of the webpage to an existing *expected* source. This serves to verify the DOM structure (HTML) of the page. However, creating new browser tests and updating outdated ones require considerable effort on the developer's part. In addition, ensuring that the generated *expected* source code works across computers, browsers, user accounts, and execution times is harder still. To overcome this problem, GodMode provides a simple way to create and update *expected* source files for browser tests and ensure the necessary cross-compatibility.
 
+GodMode has been extended and now is also able to create and update *expected* source files for email content tests. It works with the same underlying principle as the one for browser tests.
+
 
 ##How does GodMode work?
 
@@ -14,7 +16,7 @@ The essential idea is to reverse the process of testing. We use the _actual_ sou
 
 GodMode can be activated in two different ways. 
 
-1. If we want to execute arbitrary tests using GodMode, then update BaseUiTestCase class and set `enableGodMode = true` at the top of the class implementation. Now all test runs would have GodMode enabled. Please remember to set it back to false when done.
+1. If we want to execute arbitrary tests using GodMode, then update `BaseUiTestCase` class (or `EmailGeneratorTest` class if testing email content) and set `isGodModeEnabled = true` at the top of the class implementation. Now all test runs would have GodMode enabled. Please remember to set it back to false when done.
 
 2. If we want to run a particular test suite using GodMode, then go to `Run -> Run Configurations` and update the appropriate one with the `-Dgodmode=true` VM argument. Please remember to remove the argument before committing the changes
 
@@ -25,8 +27,8 @@ Note: The first option encompasses the functionality of the second. By updating 
 
 GodMode is typically used in the following two situations:
 
-1. To create a new source file for a (new) browser test.
-2. To update existing source files to reflect intended changes to the UI of the web pages.
+1. To create a new source file for a (new) browser test or email content test.
+2. To update existing source files to reflect intended changes to the UI of the web pages or the email content.
 
 The following example describes the behaviour of GodMode and how it can be used in practice.
 Let us consider the case where the following line of test code is executed with GodMode enabled:
@@ -41,6 +43,11 @@ Here are three possible situations and the corresponding behaviours of GodMode w
 2. If `studentHomeTypicalHTML.html` exists but has the wrong content, GodMode will update the source file with the correct content. The effect of this is that the test case will pass subsequent test runs with/without GodMode enabled.
 
 3. If `studentHomeTypicalHTML.html` does not exist, GodMode will create a source file with the given name AND with the correct content. The effect of this is that the test case will pass subsequent test runs with/without GodMode enabled.
+
+The same idea applies to email content test:
+```java
+EmailChecker.verifyEmailContent(email, recipient, subject, "/studentCourseJoinEmail.html");
+```
 
 
 ##Best Practices##

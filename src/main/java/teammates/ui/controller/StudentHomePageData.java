@@ -31,12 +31,13 @@ public class StudentHomePageData extends PageData {
         return courseTables;
     }
     
-    private void setCourseTables(List<CourseDetailsBundle> courses, Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
+    private void setCourseTables(List<CourseDetailsBundle> courses,
+                                 Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
         courseTables = new ArrayList<CourseTable>();
         int startingSessionIdx = 0; // incremented for each session row without resetting between courses
         for (CourseDetailsBundle courseDetails : courses) {
             CourseTable courseTable = new CourseTable(courseDetails.course,
-                                                      createCourseTableLinks(courseDetails.course.id),
+                                                      createCourseTableLinks(courseDetails.course.getId()),
                                                       createSessionRows(courseDetails.feedbackSessions,
                                                                         sessionSubmissionStatusMap,
                                                                         startingSessionIdx));
@@ -47,28 +48,27 @@ public class StudentHomePageData extends PageData {
     
     private List<ElementTag> createCourseTableLinks(String courseId) {
         List<ElementTag> links = new ArrayList<ElementTag>();
-        links.add(new ElementTag(
-            "View Team",
-            "href", getStudentCourseDetailsLink(courseId),
-            "title", Const.Tooltips.STUDENT_COURSE_DETAILS
-        ));
+        links.add(new ElementTag("View Team",
+                                 "href", getStudentCourseDetailsLink(courseId),
+                                 "title", Const.Tooltips.STUDENT_COURSE_DETAILS));
         return links;
     }
     
     private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
-            Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap, int sessionIdx) {
+            Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap, int startingSessionIdx) {
         List<HomeFeedbackSessionRow> rows = new ArrayList<>();
         
+        int sessionIdx = startingSessionIdx;
         for (FeedbackSessionDetailsBundle session : feedbackSessions) {
             FeedbackSessionAttributes feedbackSession = session.feedbackSession;
-            String sessionName = feedbackSession.feedbackSessionName;
+            String sessionName = feedbackSession.getFeedbackSessionName();
             boolean hasSubmitted = sessionSubmissionStatusMap.get(feedbackSession);
             
             rows.add(new StudentHomeFeedbackSessionRow(
                     PageData.sanitizeForHtml(sessionName),
                     getStudentHoverMessageForSession(feedbackSession, hasSubmitted),
                     getStudentStatusForSession(feedbackSession, hasSubmitted),
-                    TimeHelper.formatTime12H(feedbackSession.endTime),
+                    TimeHelper.formatTime12H(feedbackSession.getEndTime()),
                     getStudentFeedbackSessionActions(feedbackSession, hasSubmitted),
                     sessionIdx));
             
@@ -83,7 +83,7 @@ public class StudentHomePageData extends PageData {
      * @param hasSubmitted Whether the student had submitted the session or not.
      * @return The submission status of the student for a given feedback session as a String.
      */
-    private String getStudentStatusForSession(FeedbackSessionAttributes session, boolean hasSubmitted){
+    private String getStudentStatusForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
         if (session.isOpened()) {
             return hasSubmitted ? "Submitted" : "Pending";
         }
@@ -104,25 +104,25 @@ public class StudentHomePageData extends PageData {
      * @param hasSubmitted Whether the student had submitted the session or not.
      * @return The hover message to explain feedback session submission status.
      */
-    private String getStudentHoverMessageForSession(FeedbackSessionAttributes session, boolean hasSubmitted){
-        String msg = "";
+    private String getStudentHoverMessageForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
+        StringBuilder msg = new StringBuilder();
         
         Boolean isAwaiting = session.isWaitingToOpen();
         
         if (isAwaiting) {
-            msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING;
-        } else if (hasSubmitted){
-            msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED;
+            msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING);
+        } else if (hasSubmitted) {
+            msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED);
         } else {
-            msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING;
-        }        
-        if (session.isClosed()){
-            msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED;
+            msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING);
+        }
+        if (session.isClosed()) {
+            msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED);
         }
         if (session.isPublished()) {
-            msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED;
+            msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED);
         }
-        return msg;
+        return msg.toString();
     }
     
     /**
@@ -133,8 +133,8 @@ public class StudentHomePageData extends PageData {
      */
     private StudentFeedbackSessionActions getStudentFeedbackSessionActions(
             FeedbackSessionAttributes fs, boolean hasSubmitted) {
-        String resultsLink = getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName);
-        String responseEditLink = getStudentFeedbackSubmissionEditLink(fs.courseId, fs.feedbackSessionName);
+        String resultsLink = getStudentFeedbackResultsLink(fs.getCourseId(), fs.getFeedbackSessionName());
+        String responseEditLink = getStudentFeedbackSubmissionEditLink(fs.getCourseId(), fs.getFeedbackSessionName());
         return new StudentFeedbackSessionActions(fs, resultsLink, responseEditLink, hasSubmitted);
     }
 }

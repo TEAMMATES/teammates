@@ -1,8 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -25,7 +22,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         String instructorId = instructor.googleId;
 
@@ -56,7 +53,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
         assertEquals(instructor.courseId, data.getCourseId());
     }
 
-    private InstructorStudentListAjaxPageAction getAction(String... params) throws Exception {
+    private InstructorStudentListAjaxPageAction getAction(String... params) {
         return (InstructorStudentListAjaxPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

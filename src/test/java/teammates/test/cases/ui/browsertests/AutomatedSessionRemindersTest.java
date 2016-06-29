@@ -1,6 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -24,7 +23,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
     private static DataBundle testData;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/AutomatedSessionRemindersTest.json");
         
@@ -32,21 +31,21 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
          * In this test, we set the email address of the accounts to be the same as the
          * support email address. When running the test against a production server,
          * email alerts will be sent to the specified support email address.
-         * The tester should manually check the email box after running the test suite. 
+         * The tester should manually check the email box after running the test suite.
          */
         
         testData.accounts.get("instructorWithEvals").email = Config.SUPPORT_EMAIL;
         testData.instructors.get("AutSessRem.instructor").email = Config.SUPPORT_EMAIL;
         testData.students.get("alice.tmms@AutSessRem.course").email = Config.SUPPORT_EMAIL;
-        testData.feedbackSessions.get("closingSession").creatorEmail = Config.SUPPORT_EMAIL;
-        testData.feedbackSessions.get("openingSession").creatorEmail = Config.SUPPORT_EMAIL;
-        testData.feedbackSessions.get("publishedSession").creatorEmail = Config.SUPPORT_EMAIL;
+        testData.feedbackSessions.get("closingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
+        testData.feedbackSessions.get("openingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
+        testData.feedbackSessions.get("publishedSession").setCreatorEmail(Config.SUPPORT_EMAIL);
         testData.feedbackQuestions.get("question").creatorEmail = Config.SUPPORT_EMAIL;
         
         //Set closing time of one feedback session in 23+ hours ahead of now.
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
-        int _23hours59min_InMilliSeconds = (60*23+59)*60*1000;
-        closingFeedbackSession.endTime = TimeHelper.getMsOffsetToCurrentTime(_23hours59min_InMilliSeconds);
+        int numMillisecondsIn23Hours59Minutes = (60 * 23 + 59) * 60 * 1000;
+        closingFeedbackSession.setEndTime(TimeHelper.getMsOffsetToCurrentTime(numMillisecondsIn23Hours59Minutes));
 
         //Opening time for one feedback session already set to some time in the past.
         
@@ -57,25 +56,25 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testFeedbackSessionOpeningReminders(){
+    public void testFeedbackSessionOpeningReminders() {
         AppUrl openingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
         loginAdminToPage(browser, openingRemindersUrl, GenericAppPage.class);
     }
     
     @Test
-    public void testFeedbackSesssionClosingReminders(){
+    public void testFeedbackSesssionClosingReminders() {
         AppUrl closingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
         loginAdminToPage(browser, closingRemindersUrl, GenericAppPage.class);
     }
     
     @Test
-    public void testFeedbackSessionPublishedReminders(){
+    public void testFeedbackSessionPublishedReminders() {
         AppUrl publishedRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
         loginAdminToPage(browser, publishedRemindersUrl, GenericAppPage.class);
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

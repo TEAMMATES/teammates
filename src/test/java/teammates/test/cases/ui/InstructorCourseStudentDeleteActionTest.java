@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -13,21 +11,19 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseStudentDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
-
 public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE;
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() {
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -44,7 +40,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         RedirectResult redirectResult = (RedirectResult) action.executeAndPostProcess();
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
-        assertEquals(false, redirectResult.isError);
+        assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.STUDENT_DELETED, redirectResult.getStatusMessage());
         
         AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorCourseStudentDelete|||instructorCourseStudentDelete|||"
@@ -55,7 +51,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         
     }
     
-    private InstructorCourseStudentDeleteAction getAction(String... params) throws Exception{
+    private InstructorCourseStudentDeleteAction getAction(String... params) {
         return (InstructorCourseStudentDeleteAction) (gaeSimulation.getActionObject(uri, params));
     }
     

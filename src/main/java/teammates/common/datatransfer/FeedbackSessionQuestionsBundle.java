@@ -11,9 +11,9 @@ import java.util.Set;
 
 public class FeedbackSessionQuestionsBundle {
 
-    public FeedbackSessionAttributes feedbackSession = null;
-    public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle = null;
-    public Map<String, Map<String, String>> recipientList = null;
+    public FeedbackSessionAttributes feedbackSession;
+    public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle;
+    public Map<String, Map<String, String>> recipientList;
 
     public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession,
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle,
@@ -53,7 +53,7 @@ public class FeedbackSessionQuestionsBundle {
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>(this.questionResponseBundle.keySet());
 
-        for (FeedbackQuestionAttributes question : questions){
+        for (FeedbackQuestionAttributes question : questions) {
             if (question.getId().equals(questionId)) {
                 return question;
             }
@@ -75,6 +75,7 @@ public class FeedbackSessionQuestionsBundle {
                                                              .get(feedbackQuestionId).entrySet());
 
         Collections.sort(sortedList, new Comparator<Map.Entry<String, String>>() {
+            @Override
             public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
                 // Sort by value (name).
                 int compare = o1.getValue().compareTo(o2.getValue());
@@ -115,7 +116,8 @@ public class FeedbackSessionQuestionsBundle {
         
         for (FeedbackQuestionAttributes question : questionResponseBundle.keySet()) {
             boolean isGiverVisibleToInstructor = question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-            boolean isRecipientVisibleToInstructor = question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            boolean isRecipientVisibleToInstructor =
+                    question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
             boolean isResponseVisibleToInstructor = question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
             if (!isResponseVisibleToInstructor || !isGiverVisibleToInstructor || !isRecipientVisibleToInstructor) {

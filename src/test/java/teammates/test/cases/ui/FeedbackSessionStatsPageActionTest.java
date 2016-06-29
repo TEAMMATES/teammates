@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -20,12 +18,12 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String[] submissionParams;
@@ -36,17 +34,17 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         
         FeedbackSessionAttributes accessableFeedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
         submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
         
         FeedbackSessionStatsPageAction a = getAction(addUserIdToParams(instructorId, submissionParams));
-        AjaxResult r = (AjaxResult)a.executeAndPostProcess();
+        AjaxResult r = (AjaxResult) a.executeAndPostProcess();
         FeedbackSessionStatsPageData data = (FeedbackSessionStatsPageData) r.data;
        
         assertEquals("?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-        assertEquals(10,data.sessionDetails.stats.expectedTotal);
-        assertEquals(4,data.sessionDetails.stats.submittedTotal);
+        assertEquals(10, data.sessionDetails.stats.expectedTotal);
+        assertEquals(4, data.sessionDetails.stats.submittedTotal);
         assertEquals("", r.getStatusMessage());
         
         ______TS("fail: instructor accesses stats of non-existent feedback session");
@@ -63,18 +61,18 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         
         try {
-            r = (AjaxResult)a.executeAndPostProcess();
+            r = (AjaxResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             doesThrowUnauthorizedAccessException = true;
             exceptionMessage = e.getMessage();
         }
         
-        assertEquals(true, doesThrowUnauthorizedAccessException);
+        assertTrue(doesThrowUnauthorizedAccessException);
         assertEquals("Trying to access system using a non-existent feedback session entity", exceptionMessage);
         assertEquals("", r.getStatusMessage());
     }
     
-    private FeedbackSessionStatsPageAction getAction(String... params) throws Exception {
+    private FeedbackSessionStatsPageAction getAction(String... params) {
         return (FeedbackSessionStatsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
-<%@ tag import="teammates.logic.core.Emails.EmailType" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
@@ -15,16 +14,16 @@
 
 <div class="col-sm-12 padding-15px background-color-light-green">
     <div class="col-sm-12 padding-0 margin-bottom-7px">
-        <b>Visibility</b> (Who can see the responses?)
+        <b class="visibility-title">Visibility</b> (Who can see the responses?)
     </div>
     <div class="col-sm-6 btn-group" data-toggle="buttons">
         <label class="btn btn-xs btn-info visibilityOptionsLabel"
             id="visibilityOptionsLabel${fqForm.questionNumberSuffix}"
-            onchange="toggleVisibilityOptions(this)">
+            onchange="toggleVisibilityEditTab(this)">
             <input type="radio">
             <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
         </label>
-        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton${fqForm.questionNumberSuffix}" onchange="toggleVisibilityMessage(this)">
+        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton${fqForm.questionNumberSuffix}" onchange="toggleVisibilityPreviewTab(this)">
             <input type="radio">
             <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
         </label>

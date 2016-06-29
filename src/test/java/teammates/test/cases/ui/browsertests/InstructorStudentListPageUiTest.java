@@ -1,8 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-
 import java.io.File;
 
 import org.testng.annotations.AfterClass;
@@ -14,7 +11,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.FileHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
@@ -27,6 +23,7 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorStudentListPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
+import teammates.test.util.FileHelper;
 import teammates.test.util.Priority;
 
 /**
@@ -170,7 +167,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
     }
 
-    public void testLinks() throws Exception {
+    public void testLinks() {
 
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
@@ -178,7 +175,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
 
         ______TS("link: enroll");
-        String courseId = testData.courses.get("course2").id;
+        String courseId = testData.courses.get("course2").getId();
         InstructorCourseEnrollPage enrollPage = viewPage.clickEnrollStudents(courseId);
         enrollPage.verifyIsCorrectPage(courseId);
         viewPage = enrollPage.goToPreviousPage(InstructorStudentListPage.class);
@@ -234,7 +231,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         ThreadHelper.waitFor(500);
         String studentName = testData.students.get("Student2Course2").name;
         String studentEmail = testData.students.get("Student2Course2").email;
-        String courseId = testData.courses.get("course2").id;
+        String courseId = testData.courses.get("course2").getId();
 
         viewPage.clickDeleteAndCancel(courseId, studentName);
         assertNotNull(BackDoor.getStudent(courseId, studentEmail));
@@ -280,7 +277,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 

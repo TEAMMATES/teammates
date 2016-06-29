@@ -22,26 +22,38 @@ $(document).ready(function() {
 
     $('.panel-heading.student_feedback').click(toggleSingleCollapse);
 
-    $('input[type=checkbox]').click(function() {
-        var table = $(this).parent().parent().parent().parent();
-        var form = table.parent().parent().parent();
+    $('input[type=checkbox]').click(function(e) {
+        var table = $(this).closest('table');
+        var form = table.closest('form');
         var visibilityOptions = [];
-        table.find('.answerCheckbox:checked').each(function () {
+        var target = $(e.target);
+        var visibilityOptionsRow = target.closest('tr');
+        
+        if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
+        }
+        if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
+                && target.prop('checked')) {
+            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
+        }
+        
+        table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find('input[name="showcommentsto"]').val(visibilityOptions.toString());
+        form.find('input[name="showcommentsto"]').val(visibilityOptions.join(', '));
 
         visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function () {
+        table.find('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find('input[name="showgiverto"]').val(visibilityOptions.toString());
+        form.find('input[name="showgiverto"]').val(visibilityOptions.join(', '));
 
         visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function () {
+        table.find('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
-        form.find('input[name="showrecipientto"]').val(visibilityOptions.toString());
+        form.find('input[name="showrecipientto"]').val(visibilityOptions.join(', '));
     });
 
     readyStudentRecordsPage();
@@ -66,7 +78,7 @@ function readyStudentRecordsPage() {
     });
 
     // Open the comment box if so desired by the request
-    if (showCommentBox == 'yes') {
+    if (showCommentBox === 'yes') {
         $('#button_add_comment').click();
     }
 }
@@ -76,7 +88,7 @@ function readyStudentRecordsPage() {
  * Currently done this way because the link is placed on a different column
  */
 function submitCommentForm(commentIdx) {
-    $('#form_commentedit-'+commentIdx).submit();
+    $('#form_commentedit-' + commentIdx).submit();
     return false;
 }
 
@@ -112,7 +124,7 @@ function hideAddCommentBox() {
 function enableEdit(commentIdx, maxComments) {
     var i = 1;
     while (i <= maxComments) {
-        if (commentIdx == i) {
+        if (commentIdx === i) {
             enableComment(i);
         } else {
             disableComment(i);
@@ -123,22 +135,22 @@ function enableEdit(commentIdx, maxComments) {
 }
 
 function enableComment(commentIdx) {
-    $('#' + 'commentBar-' + commentIdx).hide();
-    $('#' + 'plainCommentText' + commentIdx).hide();
+    $('#commentBar-' + commentIdx).hide();
+    $('#plainCommentText' + commentIdx).hide();
     $('div[id="commentTextEdit' + commentIdx + '"]').show();
     $('textarea[id="commentText' + commentIdx + '"]').val($('#plainCommentText' + commentIdx).text());
     $('textarea[id="commentText' + commentIdx + '"]').focus();
 }
 
 function disableComment(commentIdx) {
-    $('#' + 'commentBar-' + commentIdx).show();
-    $('#' + 'plainCommentText' + commentIdx).show();
+    $('#commentBar-' + commentIdx).show();
+    $('#plainCommentText' + commentIdx).show();
     $('div[id="commentTextEdit' + commentIdx + '"]').hide();
 }
 
 function textAreaAdjust(o) {
-    o.style.height = '1px';
-    o.style.height = (o.scrollHeight+5) + 'px';
+    var height = o.scrollHeight + 5;
+    o.style.height = height + 'px';
 }
 
 /**
@@ -150,21 +162,21 @@ function deleteComment(commentIdx) {
     if (confirm('Are you sure you want to delete this comment?')) {
         document.getElementById(COMMENT_EDITTYPE + '-' + commentIdx).value = 'delete';
         return submitCommentForm(commentIdx);
-    } else {
-        return false;
     }
+    return false;
 }
 
 function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     $('.tooltip').hide();
     var targetDiv = $(sender).find('div[id^="target-feedback-"]');
     var fsNameForUrl = encodeURIComponent(fsName);
-    var url = '/page/instructorStudentRecordsAjaxPage?courseid=' + courseId + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
+    var url = '/page/instructorStudentRecordsAjaxPage?courseid=' + courseId
+              + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
     $(sender).find('div[class^="placeholder-img-loading"]').html('<img src="/images/ajax-loader.gif">');
-    targetDiv.load(url, function( response, status, xhr ) {
-      if (status == 'success') {
-          $(sender).removeAttr('onclick');
-      }
-      $(sender).find('div[class^="placeholder-img-loading"]').html('');
+    targetDiv.load(url, function(response, status) {
+        if (status === 'success') {
+            $(sender).removeAttr('onclick');
+        }
+        $(sender).find('div[class^="placeholder-img-loading"]').html('');
     });
 }
