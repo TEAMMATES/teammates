@@ -21,11 +21,12 @@
                     ${fqForm.feedbackPathSettings.selectedGiver.displayNameGiver} will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> ${fqForm.feedbackPathSettings.selectedRecipient.displayNameRecipient}</span>
                 </c:when>
                 <c:otherwise>
-                    Other options
+                    Other predefined combinations
                 </c:otherwise>
             </c:choose>
         </button>
         <ul class="dropdown-menu">
+            <li class="dropdown-header">Common feedback path combinations</li>
             <c:forEach items="<%= Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS %>" var="commonPath">
                 <li class="dropdown-submenu">
                     <c:set var="commonGiver" value="${commonPath.key}" />
@@ -44,8 +45,8 @@
                 </li>
             </c:forEach>
             <li role="separator" class="divider"></li>
-            <li><a class="feedback-path-dropdown-option feedback-path-dropdown-option-other" href="javascript:;" data-path-description="Other options">Other options</a></li>
-            <li><a class="feedback-path-dropdown-option feedback-path-dropdown-option-custom" href="javascript:;" data-path-description="Custom Feedback Path">Custom Feedback Path</a></li>
+            <li><a class="feedback-path-dropdown-option feedback-path-dropdown-option-other" href="javascript:;" data-path-description="Other predefined combinations">Other predefined combinations</a></li>
+            <li><a class="feedback-path-dropdown-option feedback-path-dropdown-option-custom" href="javascript:;" data-path-description="Custom Feedback Path">Custom feedback path</a></li>
         </ul>
     </div>
     <div class="feedback-path-others margin-top-7px"<c:if test="${fqForm.feedbackPathSettings.isCommonPathSelected || isNewQuestion}"> style="display:none;"</c:if>">
