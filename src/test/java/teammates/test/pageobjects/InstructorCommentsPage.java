@@ -144,6 +144,15 @@ public class InstructorCommentsPage extends AppPage {
             checkbox.click();
         }
     }
+    
+    public void clickAllGiverCheckboxes(String suffix) {
+        List<WebElement> giverCheckboxes = browser.driver
+                                           .findElement(By.id("visibility-options-" + suffix))
+                                           .findElements(By.className("giverCheckbox"));
+        for (WebElement checkbox : giverCheckboxes) {
+            checkbox.click();
+        }
+    }
 
     public void fillTextareaToEditStudentCommentForRow(int i, String text) {
         WebElement textarea = browser.driver.findElement(By.id("commentText" + i));
@@ -152,8 +161,25 @@ public class InstructorCommentsPage extends AppPage {
         textarea.sendKeys(text);
     }
     
+    public String getTextareaTextForStudentCommentForRow(int i) {
+        WebElement textarea = browser.driver.findElement(By.id("commentText" + i));
+        return textarea.getAttribute("value");
+    }
+    
+    public boolean isCheckboxSelectedForStudentCommentForRow(int i, int row, int col) {
+        WebElement visibilityOptions = browser.driver.findElement(By.id("visibility-options" + i));
+        WebElement visibilityRow = visibilityOptions.findElements(By.cssSelector("tr")).get(row + 1);
+        WebElement checkbox = visibilityRow.findElements(By.cssSelector("input")).get(col);
+        return checkbox.isSelected();
+    }
+    
     public void saveEditStudentCommentForRow(int i) {
         browser.driver.findElement(By.id("commentsave-" + i)).click();
+        waitForPageToLoad();
+    }
+    
+    public void cancelStudentCommentForRow(int i) {
+        browser.driver.findElement(By.cssSelector("#commentTextEdit" + i + " input[value='Cancel']")).click();
         waitForPageToLoad();
     }
 
@@ -164,7 +190,7 @@ public class InstructorCommentsPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx, String text) {
+    public void fillTextareaToAddResponseComment(int sessionIdx, int questionIdx, int responseIdx, String text) {
         WebElement textarea = browser.driver.findElement(
                 By.id("responseCommentAddForm-" + sessionIdx + "-" + questionIdx + "-" + responseIdx));
         textarea.click();
@@ -179,6 +205,23 @@ public class InstructorCommentsPage extends AppPage {
         textarea.click();
         textarea.clear();
         textarea.sendKeys(text);
+    }
+    
+    public String getTextareaTextForEditResponseCommentForRow(String suffix) {
+        WebElement textarea = browser.driver.findElement(By.id("responsecommenttext-" + suffix));
+        return textarea.getAttribute("value");
+    }
+    
+    public String getTextareaTextForAddResponseCommentForRow(String suffix) {
+        WebElement textarea = browser.driver.findElement(By.id("responseCommentAddForm-" + suffix));
+        return textarea.getAttribute("value");
+    }
+    
+    public boolean isCheckboxSelectedForResponseCommentForRow(String suffix, int row, int col) {
+        WebElement visibilityOptions = browser.driver.findElement(By.id("visibility-options-" + suffix));
+        WebElement visibilityRow = visibilityOptions.findElements(By.cssSelector("tr")).get(row + 1);
+        WebElement checkbox = visibilityRow.findElements(By.cssSelector("input")).get(col);
+        return checkbox.isSelected();
     }
 
     public void addResponseComment(int sessionIdx, int questionIdx, int responseIdx) {
@@ -199,6 +242,18 @@ public class InstructorCommentsPage extends AppPage {
         browser.driver.findElement(
                 By.id("button_save_comment_for_edit-" + sessionIdx + "-"
                       + questionIdx + "-" + responseIdx + "-" + commentIdx)).click();
+        waitForPageToLoad();
+    }
+
+    public void cancelAddResponseComment(String suffix) {
+        browser.driver.findElement(By.cssSelector("#showResponseCommentAddForm-" + suffix
+                                                  + " input[value='Cancel']")).click();
+        waitForPageToLoad();
+    }
+
+    public void cancelEditResponseComment(String suffix) {
+        browser.driver.findElement(By.cssSelector("#responseCommentEditForm-" + suffix
+                                                  + " input[value='Cancel']")).click();
         waitForPageToLoad();
     }
 
