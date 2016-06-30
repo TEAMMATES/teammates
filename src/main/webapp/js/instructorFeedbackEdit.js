@@ -215,6 +215,7 @@ function enableQuestion(questionNum) {
     $currentQuestionTable.find('#rubricAddSubQuestionLink-' + questionNum).show();
     $currentQuestionTable.find('.rubricRemoveChoiceLink-' + questionNum).show();
     $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + questionNum).show();
+    $currentQuestionTable.find('.custom-feedback-paths-row').show();
 
     if ($('#generateOptionsCheckbox-' + questionNum).prop('checked')) {
         $('#mcqChoiceTable-' + questionNum).hide();
@@ -322,6 +323,10 @@ function disableQuestion(questionNum) {
     $currentQuestionTable.find('#rubricAddSubQuestionLink-' + questionNum).hide();
     $currentQuestionTable.find('.rubricRemoveChoiceLink-' + questionNum).hide();
     $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + questionNum).hide();
+    $currentQuestionTable.find('.custom-feedback-paths-row').hide();
+    $currentQuestionTable.find('.custom-feedback-paths-display').hide();
+    $currentQuestionTable.find('.toggle-custom-feedback-paths-display-link')
+                         .text('Show details and further customizations');
     
     moveAssignWeightsCheckbox($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
 
@@ -469,6 +474,7 @@ function showNewQuestionFrame(type) {
     
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
+    $('#questionTableNew .custom-feedback-paths-display').hide();
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
     getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
@@ -832,3 +838,15 @@ function getQuestionIdSuffix(questionNum) {
     return idSuffix;
 }
 
+function toggleCustomFeedbackPathsDisplay(toggleLink) {
+    var $toggleLink = $(toggleLink);
+    var $customFeedbackPathsDisplay = $toggleLink.closest('.custom-feedback-paths-row')
+                                                 .find('.custom-feedback-paths-display');
+    if ($customFeedbackPathsDisplay.is(':visible')) {
+        $customFeedbackPathsDisplay.hide();
+        $toggleLink.text('Show details and further customizations');
+    } else {
+        $customFeedbackPathsDisplay.show();
+        $toggleLink.text('Hide details and further customizations');
+    }
+}
