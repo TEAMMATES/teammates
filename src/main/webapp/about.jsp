@@ -172,7 +172,7 @@
                     <img src="images/teammembers/nimantha.png" width="100px">
                 </td>
                 <td class="coreTeamDetailsCell">
-                    Nimantha Baranasuriya <br><br>
+                    Nimantha Baranasuriya<br><br>
                     Project Admin (2013 - )
                     <br>
                 </td>
@@ -207,44 +207,57 @@
                 </li>
                 <li>
                     <img src="images/teammembers/shawn.png" width="80px"> 
-                    Shawn Lee (Area Lead, Snr Developer)</li>
+                    Shawn Lee (Area Lead, Snr Developer)
+                </li>
                 <li>
                     <img src="images/teammembers/yangmo.png" width="80px"> 
-                    Yang Mo (Area Lead, Snr Developer)</li>
+                    Yang Mo (Area Lead, Snr Developer)
+                </li>
                 <li>
                     <img src="images/teammembers/arnold.png" width="80px"> 
-                    Arnold Koroa (Area Lead, Snr Developer)</li>
+                    Arnold Koroa (Area Lead, Snr Developer)
+                </li>
                 <li>
                     <img src="images/teammembers/ivan.png" width="80px"> 
-                    Ivan Poon (Area Lead, Snr Developer)</li>
+                    Ivan Poon (Area Lead, Snr Developer)
+                </li>
                 <li>
                     <img src="images/teammembers/jamesdjuhartono.png" width="80px"> 
-                    James Djuhartono (Area Lead, Snr Developer)</li>
+                    James Djuhartono (Area Lead, Snr Developer)
+                </li>
                 <li>
                     <img src="images/teammembers/ryan.png" width="80px"> 
-                    Ryan Chang (Snr Developer)</li>
+                    Ryan Chang (Snr Developer)
+                </li>
                 <li>
                     <img src="images/teammembers/theongsiang.png" width="80px"> 
-                    Oo Theong Siang (Area Lead, Snr Developer)</li>
+                    Oo Theong Siang (Area Lead, Snr Developer)
+                </li>
                 <li>
                     <img src="images/teammembers/hunar.png" width="80px"> 
-                    Hunar Khanna (Area Lead, Snr Developer)</li>
+                    Hunar Khanna (Area Lead, Snr Developer)
+                </li>
                 <li>
                     <img src="images/teammembers/qiaoliang.png" width="80px"> 
-                    Qiao Liang (Area Lead, Snr Developer)</li>
+                    Qiao Liang (Area Lead, Snr Developer)
+                </li>
                 <li>
                     <img src="images/teammembers/kenny.png" width="80px"> 
-                    Tan How Cheng Kenny (Area Lead, Snr Developer)</li>
+                    Tan How Cheng Kenny (Area Lead, Snr Developer)
+                </li>
                 <li>
                     <img src="images/teammembers/chunteck.png" width="80px"> 
-                    Goh Chun Teck (Project Lead, Area Lead, Snr Developer)</li>
+                    Goh Chun Teck (Project Lead, Area Lead, Snr Developer)
+                </li>
                 <li>
                     <img src="images/teammembers/wangsha.png" width="80px"> 
-                    Wang Sha (Project Lead, Area Lead, Snr Developer)</li>
+                    Wang Sha (Project Lead, Area Lead, Snr Developer)
+                </li>
                 <li>
                     <img src="images/teammembers/james.png" width="80px"> 
-                    Long Dam Tuan, James (Project Lead, Area Lead, Snr Developer)</li>
-                    <br>
+                    Long Dam Tuan, James (Project Lead, Area Lead, Snr Developer)
+                </li>
+                <br>
                 <li>Aldrian Obaja (Area Lead, Snr Developer)</li>
                 <li>Kalpit Jain (Area Lead, Snr Developer)</li>
                 <li>Shakthi Priya Kathirvelu (Area Lead, Snr Developer)</li>
@@ -482,7 +495,8 @@
                 <li>Shum Chee How 
                     [bug reporting/fixing, enhancements]
                 </li>
-                <li>Siddhant Gupta[<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASiddhant085"
+                <li>Siddhant Gupta
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASiddhant085"
                         target="_blank">bug reporting/fixing,enhancements</a>]
                 </li>
                 <li>Sim Shengming, Eugene 

@@ -22,7 +22,7 @@
             <h2 id="caption">Flexible feedback paths</h2>
             <img src="images/feature-flexiblefeedbackpaths.png" width="500px" alt="Flexible feedback paths">
             <div class="feature-description">
-                There are many other feedback paths available. Some examples: <br>
+                There are many other feedback paths available. Some examples:<br>
                 a) feedback between teams<br>
                 b) from instructors to students<br>
                 c) from each student to three other students
@@ -37,8 +37,9 @@
                 If you plan to publish the responses collected, you can set the visibility level for each question i.e. who can see the<br>
                 (i) response text,<br>
                 (ii) the identity of the feedback giver, and<br>
-                (iii) the identity of the feedback receiver.</div>
+                (iii) the identity of the feedback receiver.
             </div>
+        </div>
         <img src="images/raised-edge.png" width="600px">
 
         <div class="feature-details">
@@ -92,7 +93,7 @@
                 Students can submit responses and view published responses using the unique links TEAMMATES email them, without having to login or signup.
                 <br><br>
                 If they login to TEAMMATES using their Google accounts (optional), they can access all TEAMMATES courses in one page and access even more features such as setting up profiles.
-          </div>
+            </div>
         </div>
         <img src="images/raised-edge.png" width="600px">
 
@@ -114,7 +115,8 @@
                 You can add comments about students, teams, or responses collected. You can even share these comments with students/instructors.
                 <br><br>
                 Fine-grained visibility control is available for comments too.
-                For example, you can give a comment to a student that the receiving student can see while other students in the course can only see the comment text but cannot see the recipient name.</div>
+                For example, you can give a comment to a student that the receiving student can see while other students in the course can only see the comment text but cannot see the recipient name.
+            </div>
         </div>
         <img src="images/raised-edge.png" width="600px">
 
@@ -127,7 +129,7 @@
                 <span class="tiny-text"> [<a href="https://www.flickr.com/photos/meatheadmovers">photo source</a>]</span>
                 <br><br>
                 You can access all data about a student in one page, just by typing a part of the student’s name in our search box. In a single page you can see,<br>
-                * Student’s profile <br>
+                * Student’s profile<br>
                 * All feedback given/received by the student<br>
                 * All comments received by the student
             </div>
@@ -151,7 +153,7 @@
             <div class="feature-description">
                 TEAMMATES can support a course of any size (even beyond 1,000 students), as long as you divide the students into sections of no more than 100 students.
                 There is no limit on the number of courses or sessions you could have either.
-          </div>
+            </div>
         </div>
         <img src="images/raised-edge.png" width="600px">         
         

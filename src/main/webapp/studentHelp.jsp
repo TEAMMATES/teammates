@@ -37,8 +37,9 @@
                 <ol>
                     <li>
                         You used a different Google account to access TEAMMATES in the past.
-                        In that case, you need to  use the same Google account to access TEAMMATES again.
-                        Logout and re-login using the other Google account.</li> 
+                        In that case, you need to use the same Google account to access TEAMMATES again.
+                        Logout and re-login using the other Google account.
+                    </li> 
                     <li>
                         You changed the primary email from a non-Gmail address to a Gmail address recently.
                         In that case, email <a href="mailto:teammates@comp.nus.edu.sg">teammates@comp.nus.edu.sg</a> so that we can reconfigure your account to use the new Gmail address.
