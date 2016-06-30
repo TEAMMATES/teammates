@@ -391,7 +391,7 @@ public class FieldValidator {
     /**
      * Checks if {@code feedbackSessionName} is a non-null non-empty string no longer than the specified length
      * {@code FEEDBACK_SESSION_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %), and has no
-     * unsantized HTML characters
+     * unsanitized HTML characters
      * @param feedbackSessionName
      * @return An explanation of why the {@code feedbackSessionName} is not acceptable.
      *         Returns an empty string if the {@code feedbackSessionName} is acceptable.
@@ -405,7 +405,7 @@ public class FieldValidator {
             return errorsFromAllowedNameValidation;
         }
 
-        // checks for unsantized HTML characters
+        // checks for unsanitized HTML characters
         String errorsFromNonHtmlValidation = getValidityInfoForNonHtmlField(FEEDBACK_SESSION_NAME_FIELD_NAME,
                                                                             feedbackSessionName);
         return errorsFromNonHtmlValidation;
