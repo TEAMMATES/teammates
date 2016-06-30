@@ -141,6 +141,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(
                 editedSession.getCourseId(), editedSession.getFeedbackSessionName());
+        editedSession.setInstructions(new Text("<p>" + editedSession.getInstructionsString() + "</p>"));
         assertEquals(editedSession.toString(), savedSession.toString());
         assertEquals("overflow-auto alert alert-success statusMessage",
                 feedbackEditPage.getStatusMessage().findElement(By.className("statusMessage")).getAttribute("class"));
@@ -175,7 +176,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                         editedSession.getInstructions(), editedSession.getGracePeriod());
         
         String expectedString = "The end time for this feedback session cannot be earlier than the start time.";
-        feedbackEditPage.verifyFieldValue("instructions", "Made some changes");
         feedbackEditPage.verifyStatus(expectedString);
     }
 
