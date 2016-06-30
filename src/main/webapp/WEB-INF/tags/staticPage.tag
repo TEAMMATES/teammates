@@ -74,7 +74,7 @@
                             <input type="submit" name="student" class="button" id="btnStudentLogin" value="Student Login">
                         </form>
                         <form action="/login" style="float: left;" name="instructorLogin">
-                            <input type="submit" name="instructor" class="button" id="btnInstructorLogin" value=" Instructor Login">
+                            <input type="submit" name="instructor" class="button" id="btnInstructorLogin" value="Instructor Login">
                         </form>
                     </div>
                     <div style="clear: both;"></div>

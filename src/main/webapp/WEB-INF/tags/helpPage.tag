@@ -16,8 +16,8 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]--> 
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<body style="padding-top: 0;">
+    <div class="navbar navbar-inverse navbar-static-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/index.jsp">TEAMMATES</a>
