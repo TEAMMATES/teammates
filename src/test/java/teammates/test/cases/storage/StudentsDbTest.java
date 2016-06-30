@@ -81,11 +81,10 @@ public class StudentsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    COURSE_ID_ERROR_MESSAGE
-                        .replace("${userInput}", s.course)
-                        .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
-                        .replace("${reason}", REASON_INCORRECT_FORMAT)
-                        .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
+                    getPopulatedErrorMessage(
+                        COURSE_ID_ERROR_MESSAGE, s.course,
+                        FieldValidator.COURSE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
                     e.getMessage());
         }
         verifyAbsentInDatastore(s);

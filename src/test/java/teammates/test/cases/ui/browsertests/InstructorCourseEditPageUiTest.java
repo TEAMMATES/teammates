@@ -598,11 +598,10 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.editCourseName("");
         courseEditPage.clickSaveCourseButton();
         courseEditPage.changePageType(InstructorCourseEditPage.class);
-        assertEquals(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                      .replace("${userInput}", "")
-                      .replace("${fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME)
-                      .replace("${reason}", FieldValidator.REASON_EMPTY)
-                      .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_NAME_MAX_LENGTH)),
+        assertEquals(getPopulatedErrorMessage(
+                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                         FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                         FieldValidator.COURSE_NAME_MAX_LENGTH),
                      courseEditPage.getStatus());
     }
     

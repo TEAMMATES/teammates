@@ -53,16 +53,16 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                                     result.getDestinationWithParams());
         List<String> expectedErrorMessages = new ArrayList<String>();
         
-        expectedErrorMessages.add(FieldValidator.INVALID_NAME_ERROR_MESSAGE
-                                      .replace("${userInput}", submissionParams[1])
-                                      .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                                      .replace("${reason}", FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR)
-                                      .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)));
-        expectedErrorMessages.add(FieldValidator.EMAIL_ERROR_MESSAGE
-                                      .replace("${userInput}", submissionParams[3])
-                                      .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                                      .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
-                                      .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)));
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, submissionParams[1],
+                                         FieldValidator.PERSON_NAME_FIELD_NAME,
+                                         FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                                         FieldValidator.PERSON_NAME_MAX_LENGTH));
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, submissionParams[3],
+                                         FieldValidator.EMAIL_FIELD_NAME,
+                                         FieldValidator.REASON_INCORRECT_FORMAT,
+                                         FieldValidator.EMAIL_MAX_LENGTH));
         
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
         

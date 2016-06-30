@@ -45,26 +45,23 @@ public class AccountAttributesTest extends BaseTestCase {
         
         account = createInvalidAccountAttributesObject();
         String expectedError =
-                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                    .replace("${userInput}", "")
-                    .replace("${fieldName}", FieldValidator.PERSON_NAME_FIELD_NAME)
-                    .replace("${reason}", FieldValidator.REASON_EMPTY)
-                    .replace("${maxLength}", String.valueOf(FieldValidator.PERSON_NAME_MAX_LENGTH)) + EOL
-                + FieldValidator.GOOGLE_ID_ERROR_MESSAGE
-                      .replace("${userInput}", "invalid google id")
-                      .replace("${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME)
-                      .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
-                      .replace("${maxLength}", String.valueOf(FieldValidator.GOOGLE_ID_MAX_LENGTH)) + EOL
-                + FieldValidator.EMAIL_ERROR_MESSAGE
-                      .replace("${userInput}", "invalid@email@com")
-                      .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                      .replace("${reason}", FieldValidator.REASON_INCORRECT_FORMAT)
-                      .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)) + EOL
-                + FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                      .replace("${userInput}", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                      .replace("${fieldName}", FieldValidator.INSTITUTE_NAME_FIELD_NAME)
-                      .replace("${reason}", FieldValidator.REASON_TOO_LONG)
-                      .replace("${maxLength}", String.valueOf(FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
+                getPopulatedErrorMessage(
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                    FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
+                      FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
+                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                      FieldValidator.INSTITUTE_NAME_MAX_LENGTH);
         assertFalse("all valid values", account.isValid());
         assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
         

@@ -406,9 +406,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidNationality = "{ Invalid Char Nationality";
         String actual = validator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Invalid nationality (invalid char) should return error string that is specific to nationality",
-                      INVALID_NAME_ERROR_MESSAGE.replace("${userInput}", invalidNationality)
-                                                .replace("${fieldName}", NATIONALITY_FIELD_NAME)
-                                                .replace("${reason}", REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
+                      getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, invalidNationality,
+                                               NATIONALITY_FIELD_NAME,
+                                               REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
                       actual);
     }
 
@@ -425,9 +425,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidSectionName = "Percent Symbol % Section";
         String actual = validator.getInvalidityInfoForSectionName(invalidSectionName);
         assertEquals("Invalid section name (invalid char) should return error string that is specific to section name",
-                     INVALID_NAME_ERROR_MESSAGE.replace("${userInput}", invalidSectionName)
-                                               .replace("${fieldName}", SECTION_NAME_FIELD_NAME)
-                                               .replace("${reason}", REASON_CONTAINS_INVALID_CHAR),
+                     getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, invalidSectionName,
+                                              SECTION_NAME_FIELD_NAME, REASON_CONTAINS_INVALID_CHAR),
                      actual);
     }
 
@@ -436,9 +435,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidCourseName = "Vertical Bar | Course";
         String actual = validator.getInvalidityInfoForCourseName(invalidCourseName);
         assertEquals("Invalid course name (invalid char) should return error string that is specific to course name",
-                     INVALID_NAME_ERROR_MESSAGE.replace("${userInput}", invalidCourseName)
-                                               .replace("${fieldName}", COURSE_NAME_FIELD_NAME)
-                                               .replace("${reason}", REASON_CONTAINS_INVALID_CHAR),
+                     getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, invalidCourseName,
+                                              COURSE_NAME_FIELD_NAME, REASON_CONTAINS_INVALID_CHAR),
                      actual);
     }
 
@@ -456,11 +454,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidEmailSubject = "";
         String actual = validator.getInvalidityInfoForEmailSubject(invalidEmailSubject);
         assertEquals("Invalid email subject (empty) should return error message that is specific to email subject",
-                     SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE
-                         .replace("${userInput}", invalidEmailSubject)
-                         .replace("${fieldName}", EMAIL_SUBJECT_FIELD_NAME)
-                         .replace("${reason}", REASON_EMPTY)
-                         .replace("${maxLength}", String.valueOf(EMAIL_SUBJECT_MAX_LENGTH)),
+                     getPopulatedErrorMessage(
+                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidEmailSubject,
+                         EMAIL_SUBJECT_FIELD_NAME, REASON_EMPTY, EMAIL_SUBJECT_MAX_LENGTH),
                      actual);
     }
 
@@ -474,7 +470,7 @@ public class FieldValidatorTest extends BaseTestCase {
     @Test
     public void invalidityInfoFor_invalidGender_returnErrorString() {
         String invalidGender = "alpha male";
-        String actual = validator.getInvalidityInfoForGender(invalidGender);
+        String actual = validator.getInvalidityInfoForGender(invalidGender)
         assertEquals("Invalid gender should return appropriate error stirng",
                      String.format(GENDER_ERROR_MESSAGE, invalidGender),
                      actual);

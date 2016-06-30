@@ -51,11 +51,10 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try {
             commentsDb.createEntity(c);
         } catch (InvalidParametersException e) {
-            assertEquals(COURSE_ID_ERROR_MESSAGE
-                             .replace("${userInput}", c.courseId)
-                             .replace("${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME)
-                             .replace("${reason}", REASON_INCORRECT_FORMAT)
-                             .replace("${maxLength}", String.valueOf(FieldValidator.COURSE_ID_MAX_LENGTH)),
+            assertEquals(getPopulatedErrorMessage(
+                             COURSE_ID_ERROR_MESSAGE, c.courseId,
+                             FieldValidator.COURSE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT,
+                             FieldValidator.COURSE_ID_MAX_LENGTH),
                          e.getLocalizedMessage());
         }
 
@@ -191,12 +190,11 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try {
             commentsDb.updateComment(c);
         } catch (InvalidParametersException e) {
-            assertEquals(EMAIL_ERROR_MESSAGE
-                             .replace("${userInput}", "invalid receiver email")
-                             .replace("${fieldName}", FieldValidator.EMAIL_FIELD_NAME)
-                             .replace("${reason}", REASON_INCORRECT_FORMAT)
-                             .replace("${maxLength}", String.valueOf(FieldValidator.EMAIL_MAX_LENGTH)),
-                    e.getLocalizedMessage());
+            assertEquals(getPopulatedErrorMessage(
+                             EMAIL_ERROR_MESSAGE, "invalid receiver email",
+                             FieldValidator.EMAIL_FIELD_NAME, REASON_INCORRECT_FORMAT,
+                             FieldValidator.EMAIL_MAX_LENGTH),
+                         e.getLocalizedMessage());
         }
         
         ______TS("comment not exist");
