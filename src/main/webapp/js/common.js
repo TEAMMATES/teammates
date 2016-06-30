@@ -163,7 +163,11 @@ $(document).on('ajaxComplete ready', function() {
     }
     
     $('form').submit(function() {
-        $(this).find("button[type='submit']").prop('disabled', true);
+        buttonElem = $(this).find("button[type='submit']");
+        currentText = buttonElem.text();
+        buttonElem.attr('data-loading-text', 
+                "<span class='glyphicon glyphicon-refresh glyphicon-spin'></span> "+currentText);
+        buttonElem.button('loading');
     });
 
 });
