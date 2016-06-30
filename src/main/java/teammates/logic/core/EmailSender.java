@@ -22,7 +22,10 @@ public class EmailSender {
     
     private static final Logger log = Utils.getLogger();
     
-    private EmailSenderService service;
+    private final EmailSenderService service;
+    
+    // for sending severe logs compilation and error report
+    private final JavamailService javamailService = new JavamailService();
     
     public EmailSender() {
         if (Config.isUsingSendgrid()) {
@@ -90,39 +93,29 @@ public class EmailSender {
     /**
      * Sends the given {@code message} and generates a log report.
      */
-    public void sendEmailWithLogging(EmailWrapper message) throws EmailSendingException {
-        sendEmail(message, true);
+    public void sendEmail(EmailWrapper message) throws EmailSendingException {
+        service.sendEmail(message);
+        
+        EmailLogEntry newEntry = new EmailLogEntry(message);
+        String emailLogInfo = newEntry.generateLogMessage();
+        log.info(emailLogInfo);
     }
     
     /**
-     * Sends the given {@code message} without generating a log report.
+     * Sends the given {@code message} with Javamail service regardless of configuration.
      */
-    public void sendEmailWithoutLogging(EmailWrapper message) throws EmailSendingException {
-        sendEmail(message, false);
-    }
-    
-    private void sendEmail(EmailWrapper message, boolean isWithLogging) throws EmailSendingException {
-        service.sendEmail(message);
-        if (isWithLogging) {
-            generateLogReport(message);
-        }
-    }
-    
-    private void generateLogReport(EmailWrapper message) {
-        try {
-            EmailLogEntry newEntry = new EmailLogEntry(message);
-            String emailLogInfo = newEntry.generateLogMessage();
-            log.info(emailLogInfo);
-        } catch (Exception e) {
-            log.severe("Failed to generate log for email: " + message.getInfoForLogging());
-        }
+    private void sendEmailWithJavamail(EmailWrapper message) throws EmailSendingException {
+        // GAE Javamail requires the sender email address to be of this format
+        message.setSenderEmail("admin@" + Config.getAppId() + ".appspotmail.com");
+        
+        javamailService.sendEmail(message);
     }
     
     /**
      * Sends the given {@code errorReport}.
      */
     public void sendErrorReport(EmailWrapper errorReport) throws EmailSendingException {
-        sendEmailWithoutLogging(errorReport);
+        sendEmailWithJavamail(errorReport);
         log.info("Sent crash report: " + errorReport.getInfoForLogging());
     }
     
@@ -146,7 +139,7 @@ public class EmailSender {
      */
     public void sendLogReport(EmailWrapper logReport) {
         try {
-            sendEmailWithoutLogging(logReport);
+            sendEmailWithJavamail(logReport);
         } catch (Exception e) {
             logSevereForErrorInSendingItem("log report", logReport, e);
         }
