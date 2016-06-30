@@ -1,6 +1,7 @@
 var NEW_QUESTION = -1;
 
 var questionsBeforeEdit = [];
+var customFeedbackPathsDataForEachQuestionBeforeEdit = [];
 
 $(document).ready(function() {
     readyFeedbackEditPage();
@@ -194,6 +195,8 @@ function enableEdit(questionNum, maxQuestions) {
 function backupQuestion(questionNum) {
     questionsBeforeEdit[questionNum] = questionsBeforeEdit[questionNum]
                                 || $('#questionTable' + questionNum + ' > .panel-body').html();
+    customFeedbackPathsDataForEachQuestionBeforeEdit[questionNum] =
+            $('#questionTable' + questionNum + ' .custom-feedback-paths-spreadsheet').handsontable('getData');
 }
 
 /**
@@ -378,7 +381,7 @@ function discardChanges(questionNum) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
         $('#questionTable' + questionNum + ' > .panel-body').html(questionsBeforeEdit[questionNum]);
-
+        regenerateCustomFeedbackPathsSpreadsheet(questionNum);
         $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).show();
         $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
         $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + questionNum).hide();
@@ -854,6 +857,23 @@ function toggleCustomFeedbackPathsDisplay(toggleLink) {
         $toggleLink.text('Hide details and further customizations');
     }
 }
+
+function regenerateCustomFeedbackPathsSpreadsheet(questionNum) {
+    var data = customFeedbackPathsDataForEachQuestionBeforeEdit[questionNum];
+    var $container = $('#questionTable' + questionNum + ' .custom-feedback-paths-spreadsheet');
+    $container.handsontable({
+        data: data,
+        minRows: 10,
+        minCols: 2,
+        minSpareRows: 1,
+        rowHeaders: true,
+        colHeaders: true,
+        manualColumnResize: true,
+        manualRowResize: true,
+        stretchH: 'all'
+    });
+}
+
 function removeUnselectedCustomOptions() {
     $('option[value="CUSTOM"]').each(function() {
         var $customOption = $(this);
