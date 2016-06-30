@@ -94,6 +94,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         testEditQuestionLink();
         testEditQuestionAction();
+        
+        testToggleFeedbackPathDisplayLink();
 
         testGetQuestionLink();
         testCopyQuestion();
@@ -313,6 +315,21 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                    .contains("Instructors in this course can see your response, the name of the recipient, and your name."));
         
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+    }
+    
+    private void testToggleFeedbackPathDisplayLink() {
+
+        ______TS("Show feedback path details");
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertTrue(feedbackEditPage.isToggleCustomFeedbackPathsDisplayLinkVisible(1));
+        feedbackEditPage.clickToggleCustomFeedbackPathsDisplayLink(1);
+        assertTrue(feedbackEditPage.isCustomFeedbackPathsDisplayVisible(1));
+        
+        ______TS("Hide feedback path details");
+        feedbackEditPage.clickToggleCustomFeedbackPathsDisplayLink(1);
+        assertFalse(feedbackEditPage.isCustomFeedbackPathsDisplayVisible(1));
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(1));
+        assertFalse(feedbackEditPage.isToggleCustomFeedbackPathsDisplayLinkVisible(1));
     }
     
     private void testGetQuestionLink() {
