@@ -616,15 +616,15 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.selectRoleForInstructor(editInstructorIndex, "Custom");
         courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 1);
         courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
-        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 1);
-        courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 0);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 0, 0);
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 0);
         courseEditPage.clickSessionLevelInSectionLevel(editInstructorIndex, 0);
         courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
-        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 2, 2);
-        courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 1);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 1);
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 1, 0);
         courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
-        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 3, 3);
-        courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 2);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 2, 2);
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 2, 0);
         courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
 
         courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex + ">"),
@@ -648,10 +648,10 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         courseEditPage.clickEditInstructorLink(editInstructorIndex);
         courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 1);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 0, 0);
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 0);
         courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 1);
-        courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 0);
-        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 2, 2);
-        courseEditPage.clickViewStudentCheckBoxInSectionLevel(editInstructorIndex, 1);
+        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 1, 0);
         courseEditPage.clickHideSectionLevelPrivileges(editInstructorIndex, 2);
         courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
 
