@@ -335,10 +335,12 @@ $(document).ready(function() {
     var isEdit = typeof readyFeedbackEditPage === 'function';
 
     if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
             readonly: isEdit,
             fixed_toolbar_container: '#richToolbarContainer'
         });
+        /* eslint-enable camelcase */
     }
 });
