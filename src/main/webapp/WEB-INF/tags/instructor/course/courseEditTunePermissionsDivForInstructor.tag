@@ -40,7 +40,7 @@
                 <c:forEach items="${instructorPanel.sectionRows}" var="sectionRow">
                     <course:courseEditTuneSectionPermissionsDiv 
                             instructorIndex="${instructorPanel.index}"
-                            sectionIndex="${sectionRow.sectionIndex}"
+                            panelIndex="${sectionRow.panelIndex}"
                             sectionRow="${sectionRow}"
                     />
                 </c:forEach>
