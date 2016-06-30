@@ -34,7 +34,7 @@
  <%= Const.StatusMessages.FEEDBACK_QUESTION_EMPTY %>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" jsIncludes="${jsIncludes}">
-    
+    <feedbackEdit:customFeedbackPathsData sessionCreatorData="${data.creatorEmail}" studentsData="${data.studentsDataAsString}" instructorsData="${data.instructorsDataAsString}"/>
     <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" />
      
     <br>
