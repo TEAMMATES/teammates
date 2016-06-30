@@ -42,7 +42,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
                               + " in Course " + courseId + " was downloaded";
             } else {
                 fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
-                        courseId, feedbackSessionName, instructor.email, section, filterText, isMissingResponsesShown, isStatsShown);
+                        courseId, feedbackSessionName, instructor.email, section,
+                        filterText, isMissingResponsesShown, isStatsShown);
                 fileName = courseId + "_" + feedbackSessionName + "_" + section;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
                               + " in Course " + courseId + " within " + section + " was downloaded";

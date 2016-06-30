@@ -886,7 +886,8 @@ public class FeedbackSessionsLogic {
         }
         
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
-            exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(results, entry, isMissingResponsesShown, isStatsShown));
+            exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
+                    results, entry, isMissingResponsesShown, isStatsShown));
         }
         return exportBuilder.toString();
         

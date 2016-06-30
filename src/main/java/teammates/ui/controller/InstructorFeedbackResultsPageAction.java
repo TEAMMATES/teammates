@@ -55,7 +55,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         if (isLoadingCsvResultsAsHtml) {
             return createAjaxResultForCsvTableLoadedInHtml(
-                    courseId, feedbackSessionName, instructor, data, selectedSection, filterText, isMissingResponsesShown, Boolean.valueOf(showStats));
+                    courseId, feedbackSessionName, instructor, data, selectedSection,
+                    filterText, isMissingResponsesShown, Boolean.valueOf(showStats));
         }
         data.setSessionResultsHtmlTableAsString("");
         data.setAjaxStatus("");
@@ -201,7 +202,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private ActionResult createAjaxResultForCsvTableLoadedInHtml(String courseId, String feedbackSessionName,
                                     InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                    String selectedSection, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
+                                    String selectedSection, String filterText, boolean isMissingResponsesShown,
+                                    boolean isStatsShown)
                                     throws EntityDoesNotExistException {
         try {
             if (selectedSection.contentEquals(ALL_SECTION_OPTION)) {
