@@ -86,6 +86,8 @@ public class FeedbackSessionsLogic {
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
     private static final String ERROR_NON_EXISTENT_FS_CHECK = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "check");
     private static final String ERROR_NON_EXISTENT_FS_REMIND = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "remind");
+    private static final String ERROR_NON_EXISTENT_FS_CONFIRM = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
+                                                                "confirm submission");
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
     private static final String ERROR_NON_EXISTENT_FS_PUBLISH =
             String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "publish");
@@ -1556,6 +1558,10 @@ public class FeedbackSessionsLogic {
                                                            String userId, String unregisteredStudentEmail,
                                                            String regKey)
                     throws EntityDoesNotExistException {
+        
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CONFIRM + courseId + "/" + feedbackSessionName);
+        }
         
         FeedbackSessionAttributes session = getFeedbackSession(feedbackSessionName, courseId);
         StudentAttributes student = null;
