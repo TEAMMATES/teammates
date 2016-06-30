@@ -1563,15 +1563,17 @@ public class FeedbackSessionsLogic {
         
         if (userId != null) {
             student = studentsLogic.isStudentInAnyCourse(userId)
-                    ? studentsLogic.getStudentForCourseIdAndGoogleId(courseId, userId) : null;
+                      ? studentsLogic.getStudentForCourseIdAndGoogleId(courseId, userId)
+                      : null;
             instructor = instructorsLogic.isGoogleIdOfInstructorOfCourse(userId, courseId)
-                    ? instructorsLogic.getInstructorForGoogleId(courseId, userId) : null;
+                         ? instructorsLogic.getInstructorForGoogleId(courseId, userId)
+                         : null;
         }
         
         if (student == null && unregisteredStudentEmail != null) {
             student = new StudentAttributes();
             student.email = unregisteredStudentEmail;
-            student.name = "";
+            student.name = unregisteredStudentEmail;
             student.key = regKey;
         }
         
