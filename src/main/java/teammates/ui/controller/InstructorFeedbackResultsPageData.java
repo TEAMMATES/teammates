@@ -1723,7 +1723,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorFeedbackResultsSessionPanel getSessionPanel() {
         return new InstructorFeedbackResultsSessionPanel(
                 bundle.feedbackSession, getInstructorFeedbackSessionEditLink(),
-                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection, isStatsShown());
+                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection, isMissingResponsesShown, isStatsShown());
     }
     
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {
