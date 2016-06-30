@@ -203,9 +203,13 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <textarea class="form-control" cols="100%" disabled="" id="instructions" name="instructions" placeholder="e.g. Please answer all the given questions." rows="4">
-                    Instructions for first session
-                  </textarea>
+                  <div class="panel panel-default panel-body mce-content-body" id="instructions" spellcheck="false">
+                    <p>
+                      Instructions for first session
+                    </p>
+                  </div>
+                  <input name="instructions" type="hidden">
+                  <input name="instructions" type="hidden">
                 </div>
               </div>
             </div>
@@ -796,17 +800,14 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." data-placement="top" data-toggle="tooltip" id="questiongetlink-1" onclick="getQuestionLink(1)" title="">
-                Get Link
-              </a>
               <a class="btn btn-primary btn-xs" data-original-title="Edit this question" data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,1)" title="">
                 Edit
               </a>
               <a class="btn btn-primary btn-xs" id="questionsavechangestext-1" style="display:none">
                 Save Changes
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="Discard your changes" data-placement="top" data-toggle="tooltip" id="questioncanceledit-1" onclick="cancelEdit(1)" style="display:none" title="">
-                Cancel
+              <a class="btn btn-primary btn-xs" data-original-title="Discard your changes" data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-1" onclick="discardChanges(1)" style="display:none" title="">
+                Discard Changes
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="Delete this question" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(1)" title="">
                 Delete
@@ -1006,13 +1007,13 @@
             (Who can see the responses?)
           </div>
           <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityOptions(this)">
+            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityEditTab(this)">
               <input disabled="" type="radio">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit Visibility
             </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityMessage(this)">
+            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityPreviewTab(this)">
               <input disabled="" type="radio">
               <span class="glyphicon glyphicon-eye-open">
               </span>
@@ -1254,7 +1255,7 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Discard new question" data-placement="top" data-toggle="tooltip" onclick="cancelEdit(-1)" title="">
+              <a class="btn btn-primary btn-xs" data-original-title="Discard new question" data-placement="top" data-toggle="tooltip" onclick="discardChanges(-1)" title="">
                 Cancel
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="Delete this question" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(-1)" title="">
@@ -1895,13 +1896,13 @@
             (Who can see the responses?)
           </div>
           <div class="col-sm-6 btn-group" data-toggle="buttons">
-            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel" onchange="toggleVisibilityEditTab(this)">
               <input type="radio">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit Visibility
             </label>
-            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton" onchange="toggleVisibilityPreviewTab(this)">
               <input type="radio">
               <span class="glyphicon glyphicon-eye-open">
               </span>

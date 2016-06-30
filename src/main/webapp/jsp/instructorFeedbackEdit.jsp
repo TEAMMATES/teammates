@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/customFeedbackPaths.css" type="text/css" media="screen">
     
+    <script type="text/javascript" src="/js/lib/tinymce.min.js"></script>
+    <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/lib/handsontable.full.min.js"></script>
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>

@@ -5,13 +5,14 @@ import java.io.IOException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.ProfilesDb;
@@ -99,7 +100,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         profilesDb.updateStudentProfile(a.studentProfile);
         
         // picture should not be deleted
-        assertTrue(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId, true));
+        assertTrue(doesFileExistInGcs(new BlobKey(a.studentProfile.pictureKey)));
     }
 
     private void testUpdateProfileSuccessWithNoPictureKey(AccountAttributes a)
@@ -134,7 +135,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         profilesDb.updateStudentProfile(a.studentProfile);
         
         // picture should not be deleted
-        assertTrue(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId, true));
+        assertTrue(doesFileExistInGcs(new BlobKey(a.studentProfile.pictureKey)));
     }
     
     @Test
@@ -238,13 +239,13 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     }
 
     private void testDeletePictureSuccess(AccountAttributes a)
-            throws EntityDoesNotExistException, IOException {
+            throws EntityDoesNotExistException {
         ______TS("delete picture");
         
         profilesDb.deleteStudentProfilePicture(a.googleId);
         StudentProfileAttributes updatedProfile = profilesDb.getStudentProfile(a.studentProfile.googleId);
         
-        assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId + "1", true));
+        assertFalse(doesFileExistInGcs(new BlobKey(updatedProfile.pictureKey)));
         assertEquals("", updatedProfile.pictureKey);
     }
     

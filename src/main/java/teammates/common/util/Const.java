@@ -46,6 +46,9 @@ public final class Const {
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
     public static final String USER_NOT_IN_A_SECTION = "Not in a section";
     
+    public static final String DISPLAYED_NAME_FOR_SELF_IN_COMMENTS = "You";
+    public static final String DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT = "Anonymous";
+    
     public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
     public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
     
@@ -125,11 +128,9 @@ public final class Const {
         /** This is the limit after which TEAMMATES will send error message.
          * Must be within the range of int */
         public static final int MAX_PROFILE_PIC_SIZE = 5000000;
-        /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
-        public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 11000000;
         
         /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
-        public static final long MAX_ADMIN_EMAIL_FILE_LIMIT_FOR_BLOBSTORE_API = 11000000;
+        public static final long MAX_FILE_LIMIT_FOR_BLOBSTOREAPI = 11000000;
         
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
@@ -163,9 +164,7 @@ public final class Const {
                 ActionURIs.STUDENT_COURSE_JOIN_NEW,
                 ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
                 ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-                ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
-                ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
-                ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE
+                ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE
         );
         
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Arrays.asList(
@@ -383,10 +382,7 @@ public final class Const {
                 "Please enter the question for users to give feedback about. "
                 + "e.g. What is the biggest weakness of the presented product?";
         public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
-        public static final String FEEDBACK_QUESTION_GETLINK =
-                "Get a submission link to this particular question. "
-                + "Useful if you want students to answer individual questions separately or at different points in time.";
-        public static final String FEEDBACK_QUESTION_CANCEL = "Discard your changes";
+        public static final String FEEDBACK_QUESTION_DISCARDCHANGES = "Discard your changes";
         public static final String FEEDBACK_QUESTION_CANCEL_NEW = "Discard new question";
         public static final String FEEDBACK_QUESTION_DELETE = "Delete this question";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
@@ -417,6 +413,8 @@ public final class Const {
         public static final String COMMENT_DELETE = "Delete this comment";
         
         public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
+        
+        public static final String ACTION_NOT_ALLOWED = "You do not have the permissions to access this feature";
     }
     
     public static class FeedbackQuestion {
@@ -643,10 +641,9 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_NUMBEROFENTITIES = "numofrecipients";
         public static final String FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = "numofrecipientstype";
         public static final String FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
-        public static final String FEEDBACK_QUESTION_CANCELEDIT = "questioncanceledit";
+        public static final String FEEDBACK_QUESTION_DISCARDCHANGES = "questiondiscardchanges";
         public static final String FEEDBACK_QUESTION_EDITTYPE = "questionedittype";
         public static final String FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
-        public static final String FEEDBACK_QUESTION_GETLINK = "questiongetlink";
         public static final String FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
         public static final String FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
         public static final String FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
@@ -678,6 +675,7 @@ public final class Const {
         public static final String FEEDBACK_RESULTS_GROUPBYTEAM = "frgroupbyteam";
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
         public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
+        public static final String FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES = "frindicatemissingresponses";
         public static final String FEEDBACK_RESULTS_NEED_AJAX = "frneedajax";
         public static final String FEEDBACK_RESULTS_MAIN_INDEX = "frmainindex";
 
@@ -711,6 +709,8 @@ public final class Const {
         public static final String COMMENTS_SHOWGIVERTO = "showgiverto";
         public static final String COMMENTS_SHOWRECIPIENTTO = "showrecipientto";
         public static final String SECTION_NAME = "sectionname";
+        public static final String FEEDBACK_QUESTION_FILTER_TEXT = "filtertext";
+        
         public static final String TEAM_NAME = "teamname";
         public static final String COMMENTS = "comments";
         public static final String TEAMMATES = "teammates";
@@ -884,10 +884,6 @@ public final class Const {
         
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE =
-                "/page/instructorFeedbackQuestionSubmissionEditPage";
-        public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE =
-                "/page/instructorFeedbackQuestionSubmissionEditSave";
         
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
@@ -898,10 +894,7 @@ public final class Const {
         
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
-        public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE =
-                "/page/studentFeedbackQuestionSubmissionEditPage";
-        public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE =
-                "/page/studentFeedbackQuestionSubmissionEditSave";
+
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
@@ -1056,10 +1049,6 @@ public final class Const {
         
         public static final String MASHUP = "/mashup.jsp";
     
-        //View fragments
-        public static final String FOOTER = "/jsp/footer.jsp";
-        public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
-        
     }
 
     /* These are status messages that may be shown to the user */

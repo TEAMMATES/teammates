@@ -101,6 +101,19 @@ a#editUncommonSettingsButton:hover{
     cursor: hand;
 }
 
+/*
+Allow only mouse hover events for the element.
+!important is required to override Bootstrap .disabled class matches
+which usually match 2 classes (eg .btn.disabled)
+*/
+.mouse-hover-only {
+    pointer-events: auto !important;
+}
+
+.mouse-hover-only:active {
+    pointer-events: none !important;
+}
+
 .row-answered {
     background-color: #dff0d8;
 }

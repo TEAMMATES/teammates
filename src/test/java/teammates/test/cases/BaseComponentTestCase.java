@@ -30,6 +30,7 @@ import teammates.storage.api.StudentsDb;
 import teammates.test.driver.GaeSimulation;
 import teammates.test.util.FileHelper;
 
+import com.google.appengine.api.blobstore.BlobKey;
 import com.google.gson.Gson;
 
 /** Base class for Component tests.
@@ -60,7 +61,11 @@ public class BaseComponentTestCase extends BaseTestCase {
     
     protected static String writeFileToGcs(String googleId, String filename) throws IOException {
         byte[] image = FileHelper.readFileAsBytes(filename);
-        return GoogleCloudStorageHelper.writeDataToGcs(googleId, image);
+        return GoogleCloudStorageHelper.writeImageDataToGcs(googleId, image);
+    }
+    
+    protected static boolean doesFileExistInGcs(BlobKey fileKey) {
+        return GoogleCloudStorageHelper.doesFileExistInGcs(fileKey);
     }
     
     protected static void verifyAbsentInDatastore(AccountAttributes account) {

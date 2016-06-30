@@ -1,5 +1,17 @@
 var NEW_QUESTION = -1;
 
+var WARNING_DISCARD_CHANGES = 'Warning: Any unsaved changes will be lost';
+var CONFIRM_DISCARD_CHANGES = 'Are you sure you want to discard your unsaved edits?';
+var CONFIRM_DISCARD_NEW_QNS = 'Are you sure you want to discard this question?';
+
+var WARNING_DELETE_QNS = 'Warning: Deleted question cannot be recovered';
+var CONFIRM_DELETE_QNS = 'Are you sure you want to delete this question?';
+
+var WARNING_EDIT_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
+var CONFIRM_EDIT_DELETE_RESPONSES =
+        '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
+        + '<p>Are you sure you want to continue?</p>';
+
 var questionsBeforeEdit = [];
 var customFeedbackPathsDataForEachQuestionBeforeEdit = [];
 
@@ -11,11 +23,6 @@ $(document).ready(function() {
     removeUnselectedCustomOptions();
 });
 
-var WARNING_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
-var CONFIRMATION_BODY =
-        '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
-        + '<p>Are you sure you want to continue?</p>';
-var CONFIRM_DELETE = 'Yes, continue and delete the existing responses.';
 
 /**
  * This function is called on edit page load.
@@ -40,8 +47,9 @@ function readyFeedbackEditPage() {
                 event.currentTarget.submit();
             };
             BootboxWrapper.showModalConfirmation(
-                    WARNING_DELETE_RESPONSES, CONFIRMATION_BODY, okCallback, null,
-                    CONFIRM_DELETE, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+                    WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
+                    BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                    StatusType.DANGER);
         }
     });
 
@@ -88,6 +96,10 @@ function bindFeedbackSessionEditFormSubmission() {
         // Prevent form submission
         event.preventDefault();
         
+        // populate hidden input
+        if (typeof tinyMCE !== 'undefined') {
+            tinyMCE.get('instructions').save();
+        }
         var $form = $(event.target);
         // Use Ajax to submit form data
         $.ajax({
@@ -113,6 +125,16 @@ function bindFeedbackSessionEditFormSubmission() {
     });
 }
 
+function destroyEditor(id) {
+    if (typeof tinyMCE === 'undefined') {
+        return;
+    }
+    var currentEditor = tinyMCE.get(id);
+    if (currentEditor) {
+        currentEditor.destroy();
+    }
+}
+
 /**
  * Disables the editing of feedback session details.
  */
@@ -123,6 +145,15 @@ function disableEditFS() {
     });
     $('#form_feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
+
+    destroyEditor('instructions');
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            readonly: true
+        });
+    }
+
     $('#fsEditLink').show();
     $('#fsSaveLink').hide();
     $('#button_submit').hide();
@@ -157,6 +188,14 @@ function enableEditFS() {
                               .not($sessionOpeningReminder)
                               .not('.disabled')
                               .prop('disabled', false);
+
+    destroyEditor('instructions');
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true
+        });
+    }
+
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit').show();
@@ -255,7 +294,7 @@ function enableQuestion(questionNum) {
     
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).hide();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).show();
-    $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + questionNum).show();
+    $('#' + FEEDBACK_QUESTION_DISCARDCHANGES + '-' + questionNum).show();
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('edit');
     $('#button_question_submit-' + questionNum).show();
 }
@@ -352,31 +391,40 @@ function deleteQuestion(questionNum) {
     if (questionNum === NEW_QUESTION) {
         location.reload();
         return false;
-    } else if (confirm('Are you sure you want to delete this question?')) {
+    }
+
+    var okCallback = function() {
         $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('delete');
         $('#form_editquestion-' + questionNum).submit();
-        return true;
-    }
+    };
+    BootboxWrapper.showModalConfirmation(
+            WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback, null,
+            BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+            StatusType.DANGER);
     return false;
 }
 
 /**
- * Allows users to cancel editing questions
+ * Allows users to discard unsaved edits to the question
  */
-function cancelEdit(questionNum) {
+function discardChanges(questionNum) {
     var confirmationMsg = questionNum === NEW_QUESTION
-                        ? 'Are you sure you want to cancel adding this question?'
-                        : 'Are you sure you want to cancel your changes?';
-    if (confirm(confirmationMsg)) {
-        discardChanges(questionNum);
-    }
+                          ? CONFIRM_DISCARD_NEW_QNS
+                          : CONFIRM_DISCARD_CHANGES;
+    var okCallback = function() {
+        restoreOriginal(questionNum);
+    };
+    BootboxWrapper.showModalConfirmation(
+            WARNING_DISCARD_CHANGES, confirmationMsg, okCallback, null,
+            BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+            StatusType.WARNING);
 }
 
 /**
  * Discards new changes made and restores the original question
  * @param questionNum
  */
-function discardChanges(questionNum) {
+function restoreOriginal(questionNum) {
     if (questionNum === NEW_QUESTION) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
@@ -384,7 +432,7 @@ function discardChanges(questionNum) {
         regenerateCustomFeedbackPathsSpreadsheet(questionNum);
         $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).show();
         $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
-        $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + questionNum).hide();
+        $('#' + FEEDBACK_QUESTION_DISCARDCHANGES + '-' + questionNum).hide();
         $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('');
         $('#button_question_submit-' + questionNum).hide();
     }
@@ -396,6 +444,10 @@ function discardChanges(questionNum) {
 function hideNewQuestionAndShowNewQuestionForm() {
     $('#questionTableNew').hide();
     $('#addNewQuestionTable').show();
+
+    // re-enables all feedback path options, which may have been hidden by team contribution question
+    $('#givertype').find('option').show().prop('disabled', false);
+    $('#recipienttype').find('option').show().prop('disabled', false);
 }
 
 /**
@@ -717,27 +769,6 @@ function formatQuestionNumbers() {
             $selector.prop('disabled', true);
         }
     });
-}
-
-function getQuestionLink(questionNum) {
-    var courseid = $('input[name="courseid"]').val();
-    var fsname = encodeURIComponent($('input[name="fsname"]').val());
-    
-    var questionId = $('#form_editquestion-' + questionNum).find('input[name="questionid"]').val();
-    
-    var giverType = $('#givertype-' + questionNum).val();
-    
-    var actionUrl = giverType === 'STUDENTS' || giverType === 'TEAMS'
-                  ? '/page/studentFeedbackQuestionSubmissionEditPage'
-                  : '/page/instructorFeedbackQuestionSubmissionEditPage';
-    
-    var questionLink = window.location.protocol + '//'
-                     + window.location.host + actionUrl
-                     + '?courseid=' + courseid
-                     + '&fsname=' + fsname
-                     + '&questionid=' + questionId;
-    
-    setStatusMessage('Link for question ' + questionNum + ': ' + questionLink, StatusType.WARNING);
 }
 
 /**

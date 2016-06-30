@@ -41,10 +41,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "graceperiod")
     private WebElement gracePeriodDropdown;
-    
-    @FindBy(id = "instructions")
-    private WebElement instructionsTextBox;
-    
+
     @FindBy(id = "editUncommonSettingsButton")
     private WebElement uncommonSettingsButton;
     
@@ -143,9 +140,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "button_preview_instructor")
     private WebElement previewAsInstructorButton;
-    
-    @FindBy(id = "questiongetlink-1")
-    private WebElement getLinkButton;
 
     private InstructorCopyFsToModal fsCopyToModal;
     
@@ -158,7 +152,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Edit Feedback Session</h1>");
     }
-    
+
     public InstructorCopyFsToModal getFsCopyToModal() {
         return fsCopyToModal;
     }
@@ -407,15 +401,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.xpath("//a[@onclick='deleteQuestion(" + qnIndex + ")']"));
     }
     
-    public WebElement getCancelQuestionLink(int qnIndex) {
-        return browser.driver.findElement(By.xpath("//a[@onclick='cancelEdit(" + qnIndex + ")']"));
+    public WebElement getDiscardChangesLink(int qnIndex) {
+        return browser.driver.findElement(By.xpath("//a[@onclick='discardChanges(" + qnIndex + ")']"));
     }
     
-    public boolean isCancelEditButtonVisible(int qnIndex) {
-        WebElement cancelEditButton =
-                browser.driver.findElement(By.xpath("//a[@onclick='cancelEdit(" + qnIndex + ")']"));
+    public boolean isDiscardChangesButtonVisible(int qnIndex) {
+        WebElement discardChangesButton =
+                browser.driver.findElement(By.xpath("//a[@onclick='discardChanges(" + qnIndex + ")']"));
         
-        return cancelEditButton.isDisplayed();
+        return discardChangesButton.isDisplayed();
     }
     
     public void clickEditSessionButton() {
@@ -730,6 +724,17 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickNewQuestionButton() {
         openNewQuestionButton.click();
     }
+
+    public boolean isAllFeedbackPathOptionsEnabled() {
+        List<WebElement> options = browser.driver.findElements(By.cssSelector("#givertype option"));
+        options.addAll(browser.driver.findElements(By.cssSelector("#recipienttype option")));
+        for (WebElement option : options) {
+            if (!option.isEnabled()) {
+                return false;
+            }
+        }
+        return true;
+    }
     
     public void selectGiverToBeStudents() {
         selectDropdownByVisibleValue(giverDropdown, "Students in this course");
@@ -771,8 +776,8 @@ public class InstructorFeedbackEditPage extends AppPage {
                                      TimeHelper.convertToDisplayValueInTimeDropDown(endTime));
         
         // Fill in instructions
-        fillTextBox(instructionsTextBox, instructions.getValue());
-    
+        fillRichTextEditor("instructions", instructions.getValue());
+
         // Select grace period
         selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
     
@@ -969,10 +974,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(FeedbackSubmitPage.class);
-    }
-    
-    public void clickGetLinkButton() {
-        getLinkButton.click();
     }
     
     public void clickCopyTableAtRow(int rowIndex) {
