@@ -337,7 +337,8 @@ $(document).ready(function() {
     if (typeof richTextEditorBuilder !== 'undefined') {
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
-            readonly: isEdit
+            readonly: isEdit,
+            fixed_toolbar_container: '#richToolbarContainer'
         });
     }
 });

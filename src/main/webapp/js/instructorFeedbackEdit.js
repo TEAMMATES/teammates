@@ -190,7 +190,8 @@ function enableEditFS() {
     destroyEditor('instructions');
     if (typeof richTextEditorBuilder !== 'undefined') {
         richTextEditorBuilder.initEditor('#instructions', {
-            inline: true
+            inline: true,
+            fixed_toolbar_container: '#richToolbarContainer'
         });
     }
 
