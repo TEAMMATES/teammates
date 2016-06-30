@@ -18,98 +18,6 @@ import teammates.test.cases.BaseTestCase;
 
 public class FieldValidatorTest extends BaseTestCase {
 
-    public static final String ERROR_MESSAGE_EMAIL_EMPTY =
-            "\"\" is not acceptable to TEAMMATES as a/an email because it is empty. An email address contains "
-            + "some text followed by one '@' sign followed by some more text. It cannot be longer than 254 "
-            + "characters, cannot be empty and cannot contain spaces.";
-
-    public static final String ERROR_MESSAGE_EMAIL_TOO_LONG =
-            "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-            + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-            + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@c.gov\" is not acceptable "
-            + "to TEAMMATES as a/an email because it is too long. An email address contains some text followed "
-            + "by one '@' sign followed by some more text. It cannot be longer than 254 characters, cannot "
-            + "be empty and cannot contain spaces.";
-
-    public static final String ERROR_MESSAGE_EMAIL_INCORRECT_FORMAT_SPACE_AFTER_AT_SYMBOL =
-            "\"woMAN@com. sg\" is not acceptable to TEAMMATES as a/an email because it is not in the correct "
-            + "format. An email address contains some text followed by one '@' sign followed by some more "
-            + "text. It cannot be longer than 254 characters, cannot be empty and cannot contain spaces.";
-
-    public static final String ERROR_MESSAGE_EMAIL_INCORRECT_FORMAT_SPACE_BEFORE_AT_SYMBOL =
-            "\"man woman@com.sg\" is not acceptable to TEAMMATES as a/an email because it is not in the correct "
-            + "format. An email address contains some text followed by one '@' sign followed by some more "
-            + "text. It cannot be longer than 254 characters, cannot be empty and cannot contain spaces.";
-
-    public static final String ERROR_MESSAGE_EMAIL_INCORRECT_FORMAT_TWO_AT_SYMBOL =
-            "\"man@woman@com.lk\" is not acceptable to TEAMMATES as a/an email because it is not in the correct "
-            + "format. An email address contains some text followed by one '@' sign followed by some more "
-            + "text. It cannot be longer than 254 characters, cannot be empty and cannot contain spaces.";
-
-    public static final String ERROR_MESSAGE_GOOGLE_ID_EMPTY =
-            "\"\" is not acceptable to TEAMMATES as a/an Google ID because it is empty. A Google ID must be a "
-            + "valid id already registered with Google. It cannot be longer than 254 characters, cannot be "
-            + "empty and cannot contain spaces.";
-
-    public static final String ERROR_MESSAGE_GOOGLE_ID_TOO_LONG =
-            "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-            + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-            + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to "
-            + "TEAMMATES as a/an Google ID because it is too long. A Google ID must be a valid id already "
-            + "registered with Google. It cannot be longer than 254 characters, cannot be empty and cannot "
-            + "contain spaces.";
-
-    public static final String ERROR_MESSAGE_GOOGLE_ID_INCORRECT_FORMAT_CONTAINS_SPACES =
-            "\"invalid google id with spaces\" is not acceptable to TEAMMATES as a/an Google ID because it is not "
-            + "in the correct format. A Google ID must be a valid id already registered with Google. It "
-            + "cannot be longer than 254 characters, cannot be empty and cannot contain spaces.";
-
-    public static final String ERROR_MESSAGE_GOOGLE_ID_INCORRECT_FORMAT_CONTAINS_HTML_CHAR =
-            "\"invalid google id with HTML&#x2f;&lt; special characters\" is not acceptable to TEAMMATES as "
-            + "a/an Google ID because it is not in the correct format. A Google ID must be a valid id already "
-            + "registered with Google. It cannot be longer than 254 characters, cannot be empty and cannot "
-            + "contain spaces.";
-
-    public static final String ERROR_MESSAGE_PERSON_NAME_EMPTY =
-            "\"\" is not acceptable to TEAMMATES as a/an person name because it is empty. The value of a/an person "
-            + "name should be no longer than 100 characters. It should not be empty.";
-
-    public static final String ERROR_MESSAGE_COURSE_ID_EMPTY =
-            "\"\" is not acceptable to TEAMMATES as a/an course ID because it is empty. A course ID can contain "
-            + "letters, numbers, fullstops, hyphens, underscores, and dollar signs. It cannot be longer than "
-            + "40 characters, cannot be empty and cannot contain spaces.";
-
-    public static final String ERROR_MESSAGE_COURSE_ID_TOO_LONG =
-            "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an course ID "
-            + "because it is too long. A course ID can contain letters, numbers, fullstops, hyphens, "
-            + "underscores, and dollar signs. It cannot be longer than 40 characters, cannot be empty and "
-            + "cannot contain spaces.";
-
-    public static final String ERROR_MESSAGE_COURSE_ID_INCORRECT_FORMAT_CONTAINS_SPACES =
-            "\"my course id with spaces\" is not acceptable to TEAMMATES as a/an course ID because it is not in "
-            + "the correct format. A course ID can contain letters, numbers, fullstops, hyphens, "
-            + "underscores, and dollar signs. It cannot be longer than 40 characters, cannot be empty and "
-            + "cannot contain spaces.";
-
-    public static final String ERROR_MESSAGE_COURSE_ID_INCORRECT_FORMAT_CONTAINS_INVALID_CHAR =
-            "\"cour@s*hy#\" is not acceptable to TEAMMATES as a/an course ID because it is not in the correct "
-            + "format. A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar "
-            + "signs. It cannot be longer than 40 characters, cannot be empty and cannot contain spaces.";
-
-    public static final String ERROR_MESSAGE_FEEDBACK_SESSION_NAME_TOO_LONG =
-            "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an feedback session "
-            + "name because it is too long. The value of a/an feedback session name should be no longer than 38 "
-            + "characters. It should not be empty.";
-
-    public static final String ERROR_MESSAGE_INSTITUTE_NAME_TOO_LONG =
-            "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to "
-            + "TEAMMATES as a/an institute name because it is too long. The value of a/an institute name should "
-            + "be no longer than 64 characters. It should not be empty.";
-
-    public static final String ERROR_MESSAGE_TEAM_NAME_EMPTY =
-            "\"\" is not acceptable to TEAMMATES as a/an team name because it is empty. The value of a/an team "
-            + "name should be no longer than 60 characters. It should not be empty.";
-
     public FieldValidator validator = new FieldValidator();
     
     @BeforeClass
@@ -388,7 +296,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidPersonName = "";
         String actual = validator.getInvalidityInfoForPersonName(invalidPersonName);
         assertEquals("Invalid person name (empty) should return error message that is specific to person name",
-                     ERROR_MESSAGE_PERSON_NAME_EMPTY,
+                     "\"\" is not acceptable to TEAMMATES as a/an person name because it is empty. The value "
+                         + "of a/an person name should be no longer than 100 characters. It should not be "
+                         + "empty.",
                      actual);
     }
 
@@ -397,7 +307,10 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidInstituteName = StringHelper.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
         String actual = validator.getInvalidityInfoForInstituteName(invalidInstituteName);
         assertEquals("Invalid institute name (too long) should return error message that is specific to institute name",
-                     ERROR_MESSAGE_INSTITUTE_NAME_TOO_LONG,
+                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not "
+                         + "acceptable to TEAMMATES as a/an institute name because it is too long. The value "
+                         + "of a/an institute name should be no longer than 64 characters. It should not be "
+                         + "empty.",
                      actual);
     }
 
@@ -418,7 +331,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidTeamName = "";
         String actual = validator.getInvalidityInfoForTeamName(invalidTeamName);
         assertEquals("Invalid team name (empty) should return error message that is specific to team name",
-                     ERROR_MESSAGE_TEAM_NAME_EMPTY, actual);
+                     "\"\" is not acceptable to TEAMMATES as a/an team name because it is empty. The value "
+                         + "of a/an team name should be no longer than 60 characters. It should not be empty.",
+                     actual);
     }
 
     @Test
@@ -449,7 +364,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidSessionName = StringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
         String actual = validator.getInvalidityInfoForFeedbackSessionName(invalidSessionName);
         assertEquals("Invalid feedback session name (too long) should return error message specfic to feedback session name",
-                     ERROR_MESSAGE_FEEDBACK_SESSION_NAME_TOO_LONG,
+                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an "
+                         + "feedback session name because it is too long. The value of a/an feedback session "
+                         + "name should be no longer than 38 characters. It should not be empty.",
                      actual);
     }
 
@@ -530,7 +447,9 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForGoogleId_invalid_returnErrorString() {
         String emptyId = "";
         assertEquals("Invalid Google ID (empty) should return appropriate error message",
-                     ERROR_MESSAGE_GOOGLE_ID_EMPTY,
+                     "\"\" is not acceptable to TEAMMATES as a/an Google ID because it is empty. A Google "
+                         + "ID must be a valid id already registered with Google. It cannot be longer than "
+                         + "254 characters, cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForGoogleId(emptyId));
 
         String whitespaceId = "     ";
@@ -545,20 +464,31 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String tooLongId = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Google ID (too long) should return appropriate error message",
-                     ERROR_MESSAGE_GOOGLE_ID_TOO_LONG,
+                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                         + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                         + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                         + "aaaaaaaa\" is not acceptable to TEAMMATES as a/an Google ID because it is too "
+                         + "long. A Google ID must be a valid id already registered with Google. It cannot "
+                         + "be longer than 254 characters, cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForGoogleId(tooLongId));
 
         String idWithSpaces = "invalid google id with spaces";
         assertEquals("Invalid Google ID (with spaces) should return appropriate error message",
-                     ERROR_MESSAGE_GOOGLE_ID_INCORRECT_FORMAT_CONTAINS_SPACES,
+                     "\"invalid google id with spaces\" is not acceptable to TEAMMATES as a/an Google ID "
+                         + "because it is not in the correct format. A Google ID must be a valid id already "
+                         + "registered with Google. It cannot be longer than 254 characters, cannot be empty "
+                         + "and cannot contain spaces.",
                      validator.getInvalidityInfoForGoogleId(idWithSpaces));
 
         String idWithInvalidHtmlChar = "invalid google id with HTML/< special characters";
         assertEquals("Invalid Google ID (contains HTML characters) should return appropriate error message",
-                     ERROR_MESSAGE_GOOGLE_ID_INCORRECT_FORMAT_CONTAINS_HTML_CHAR,
+                     "\"invalid google id with HTML&#x2f;&lt; special characters\" is not acceptable to "
+                         + "TEAMMATES as a/an Google ID because it is not in the correct format. A Google ID "
+                         + "must be a valid id already registered with Google. It cannot be longer than 254 "
+                         + "characters, cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForGoogleId(idWithInvalidHtmlChar));
     }
-    
+
     @Test
     public void testGetInvalidityInfoForEmail_null_throwException() {
         String errorMessage = "Did not throw the expected AssertionError for null email";
@@ -589,7 +519,10 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForEmail_invalid_returnErrorString() {
         String emptyEmail = "";
         assertEquals("Invalid email (empty) should return appropriate error string",
-                     ERROR_MESSAGE_EMAIL_EMPTY,
+                     "\"\" is not acceptable to TEAMMATES as a/an email because it is empty. An email "
+                         + "address contains some text followed by one '@' sign followed by some more text. "
+                         + "It cannot be longer than 254 characters, cannot be empty and cannot contain "
+                         + "spaces.",
                      validator.getInvalidityInfoForEmail(emptyEmail));
 
         String untrimmedEmail = "  untrimmed@email.com  ";
@@ -604,22 +537,37 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String tooLongEmail = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH + 1) + "@c.gov";
         assertEquals("Invalid email (too long) should return appropriate error string",
-                     ERROR_MESSAGE_EMAIL_TOO_LONG,
+                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                         + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                         + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                         + "aaaaaaaa@c.gov\" is not acceptable to TEAMMATES as a/an email because it is too "
+                         + "long. An email address contains some text followed by one '@' sign followed by "
+                         + "some more text. It cannot be longer than 254 characters, cannot be empty and "
+                         + "cannot contain spaces.",
                      validator.getInvalidityInfoForEmail(tooLongEmail));
 
         String emailWithSpaceAfterAtSymbol = "woMAN@com. sg";
         assertEquals("Invalid email (space character after '@') should return appropriate error string",
-                     ERROR_MESSAGE_EMAIL_INCORRECT_FORMAT_SPACE_AFTER_AT_SYMBOL,
+                     "\"woMAN@com. sg\" is not acceptable to TEAMMATES as a/an email because it is not in "
+                         + "the correct format. An email address contains some text followed by one '@' sign "
+                         + "followed by some more text. It cannot be longer than 254 characters, cannot be "
+                         + "empty and cannot contain spaces.",
                      validator.getInvalidityInfoForEmail(emailWithSpaceAfterAtSymbol));
 
         String emailWithSpaceBeforeAtSymbol = "man woman@com.sg";
         assertEquals("Invalid email (space character before '@') should return appropriate error string",
-                     ERROR_MESSAGE_EMAIL_INCORRECT_FORMAT_SPACE_BEFORE_AT_SYMBOL,
+                     "\"man woman@com.sg\" is not acceptable to TEAMMATES as a/an email because it "
+                         + "is not in the correct format. An email address contains some text followed by "
+                         + "one '@' sign followed by some more text. It cannot be longer than 254 "
+                         + "characters, cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForEmail(emailWithSpaceBeforeAtSymbol));
 
         String emailWithMultipleAtSymbol = "man@woman@com.lk";
         assertEquals("Invalid email (multiple '@' characters) should return appropriate error string",
-                     ERROR_MESSAGE_EMAIL_INCORRECT_FORMAT_TWO_AT_SYMBOL,
+                     "\"man@woman@com.lk\" is not acceptable to TEAMMATES as a/an email because it is not "
+                         + "in the correct format. An email address contains some text followed by one '@' "
+                         + "sign followed by some more text. It cannot be longer than 254 characters, "
+                         + "cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForEmail(emailWithMultipleAtSymbol));
     }
 
@@ -679,7 +627,9 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForCourseId_invalid_returnErrorString() {
         String emptyCourseId = "";
         assertEquals("Invalid Course ID (empty) should return appropriate error string",
-                     ERROR_MESSAGE_COURSE_ID_EMPTY,
+                     "\"\" is not acceptable to TEAMMATES as a/an course ID because it is empty. A course ID "
+                         + "can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
+                         + "It cannot be longer than 40 characters, cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForCourseId(emptyCourseId));
 
         String untrimmedCourseId = " $cs1101-sem1.2_ ";
@@ -694,17 +644,26 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String tooLongCourseId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Course ID (too long) should return appropriate error string",
-                     ERROR_MESSAGE_COURSE_ID_TOO_LONG,
+                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an "
+                         + "course ID because it is too long. A course ID can contain letters, numbers, "
+                         + "fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 40 "
+                         + "characters, cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForCourseId(tooLongCourseId));
 
         String courseIdWithSpaces = "my course id with spaces";
         assertEquals("Invalid Course ID (contains spaces) should return appropriate error string",
-                     ERROR_MESSAGE_COURSE_ID_INCORRECT_FORMAT_CONTAINS_SPACES,
+                     "\"my course id with spaces\" is not acceptable to TEAMMATES as a/an course ID because "
+                         + "it is not in the correct format. A course ID can contain letters, numbers, "
+                         + "fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 40 "
+                         + "characters, cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForCourseId(courseIdWithSpaces));
 
         String courseIdWithInvalidChar = "cour@s*hy#";
         assertEquals("Invalid Course ID (invalid char) should return appropriate error string",
-                     ERROR_MESSAGE_COURSE_ID_INCORRECT_FORMAT_CONTAINS_INVALID_CHAR,
+                     "\"cour@s*hy#\" is not acceptable to TEAMMATES as a/an course ID because it is not in "
+                         + "the correct format. A course ID can contain letters, numbers, fullstops, "
+                         + "hyphens, underscores, and dollar signs. It cannot be longer than 40 characters, "
+                         + "cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForCourseId(courseIdWithInvalidChar));
     }
 
