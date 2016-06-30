@@ -2,7 +2,10 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 import java.util.List;
+
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -41,7 +44,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     protected void doOperation() {
         Datastore.initialize();
         
-        List<FeedbackSession> feedbackSessionList = feedbackSessionsDb.getAllFeedbackSessionEntities();
+        List<FeedbackSession> feedbackSessionList = getAllFeedbackSessionEntities();
         System.out.println("There is/are " + feedbackSessionList.size() + " session(s).");
         
         if (isPreview) {
@@ -93,7 +96,8 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
         
         FeedbackSessionAttributes sessionAttribute = new FeedbackSessionAttributes(session);
         feedbackSessionsDb.deleteEntity(sessionAttribute);
-        sessionAttribute.feedbackSessionName = StringHelper.removeExtraSpace(sessionAttribute.getFeedbackSessionName());
+        sessionAttribute.setFeedbackSessionName(
+                StringHelper.removeExtraSpace(sessionAttribute.getFeedbackSessionName()));
         feedbackSessionsDb.createEntity(sessionAttribute);
     }
 
@@ -143,5 +147,11 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     
     protected PersistenceManager getPM() {
         return Datastore.getPersistenceManager();
+    }
+    
+    @SuppressWarnings("unchecked")
+    private List<FeedbackSession> getAllFeedbackSessionEntities() {
+        Query q = getPM().newQuery(FeedbackSession.class);
+        return (List<FeedbackSession>) q.execute();
     }
 }
