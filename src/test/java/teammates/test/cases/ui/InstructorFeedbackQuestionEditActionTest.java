@@ -983,7 +983,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         r = (RedirectResult) a.executeAndPostProcess();
 
         assertEquals(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH
-                     + "<br />" + Const.StatusMessages.FEEDBACK_QUESTION_EDITED,
+                     + "<br>" + Const.StatusMessages.FEEDBACK_QUESTION_EDITED,
                      r.getStatusMessage());
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"

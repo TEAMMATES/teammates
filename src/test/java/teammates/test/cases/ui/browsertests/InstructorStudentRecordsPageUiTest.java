@@ -75,7 +75,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         viewPage = getStudentRecordsPage();
         viewPage.verifyHtmlMainContent("/instructorStudentRecordsWithHelperView.html");
 
-        ______TS("content: normal student records with private feedback session");
+        ______TS("content: normal student records with other instructor's comments, private feedback session");
 
         instructor = testDataNormal.instructors.get("teammates.test.CS1101");
         student = testDataNormal.students.get("teammates.test@ISR.CS1101");
@@ -201,11 +201,21 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         ______TS("edit comment: success");
 
-        viewPage.editComment(1, "Edited comment 2 from CS2104 teammates.test Instructor to Benny")
+        viewPage.editComment(2, "Edited comment 2 from CS2104 teammates.test Instructor to Benny")
                 .verifyStatus("Comment edited");
 
         // Edit back so that restoreDataBundle can identify and delete the comment.
-        viewPage.editComment(1, "Comment 2 from ISR.CS2104 teammates.test Instructor to Benny");
+        viewPage.editComment(2, "Comment 2 from ISR.CS2104 teammates.test Instructor to Benny");
+        
+        ______TS("edit other instructor's comment: success");
+        
+        viewPage.editComment(5, "Edited comment 2 from CS2104 teammates.test.Helper Instructor to Benny, "
+                                + "viewable by instructors")
+                .verifyStatus("Comment edited");
+        
+        ______TS("delete other instructor's comment: success");
+        
+        viewPage.clickDeleteCommentAndConfirm(5).verifyStatus("Comment deleted");
 
     }
 

@@ -42,8 +42,6 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class BackDoorLogic extends Logic {
     private static final Logger log = Utils.getLogger();
@@ -389,11 +387,11 @@ public class BackDoorLogic extends Logic {
                 
     /**
     * This method is necessary to generate the feedbackQuestionId of the
-    * question the response is for.<br />
+    * question the response is for.<br>
     * Normally, the ID is already generated on creation,
-    * but the json file does not contain the actual response ID. <br />
+    * but the json file does not contain the actual response ID. <br>
     * Therefore the question number corresponding to the created response
-    * should be inserted in the json file in place of the actual response ID.<br />
+    * should be inserted in the json file in place of the actual response ID.<br>
     * This method will then generate the correct ID and replace the field.
      * @throws EntityDoesNotExistException
     **/
@@ -418,12 +416,12 @@ public class BackDoorLogic extends Logic {
     
     /**
     * This method is necessary to generate the feedbackQuestionId
-    * and feedbackResponseId of the question and response the comment is for.<br />
+    * and feedbackResponseId of the question and response the comment is for.<br>
     * Normally, the ID is already generated on creation,
-    * but the json file does not contain the actual response ID. <br />
+    * but the json file does not contain the actual response ID. <br>
     * Therefore the question number and questionNumber%giverEmail%recipient
     * corresponding to the created comment should be inserted in the json
-    * file in place of the actual ID.<br />
+    * file in place of the actual ID.<br>
     * This method will then generate the correct ID and replace the field.
      * @throws EntityDoesNotExistException
     **/
@@ -591,18 +589,13 @@ public class BackDoorLogic extends Logic {
         }
     }
 
-    public String isPicturePresentInGcs(String pictureKey) {
-        try {
-            BlobstoreServiceFactory.getBlobstoreService().fetchData(new BlobKey(pictureKey), 0, 10);
-            return BackDoorServlet.RETURN_VALUE_TRUE;
-        } catch (IllegalArgumentException | BlobstoreFailureException e) {
-            return BackDoorServlet.RETURN_VALUE_FALSE;
-        }
+    public boolean isPicturePresentInGcs(String pictureKey) {
+        return GoogleCloudStorageHelper.doesFileExistInGcs(new BlobKey(pictureKey));
     }
 
     public void uploadAndUpdateStudentProfilePicture(String googleId,
             byte[] pictureData) throws EntityDoesNotExistException, IOException {
-        String pictureKey = GoogleCloudStorageHelper.writeDataToGcs(googleId, pictureData);
+        String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(googleId, pictureData);
         updateStudentProfilePicture(googleId, pictureKey);
     }
 }

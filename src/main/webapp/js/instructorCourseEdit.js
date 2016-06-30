@@ -381,6 +381,58 @@ function bindChangingRole(index) {
     });
 }
 
+function bindCheckboxToggle() {
+    $('body').on('click', 'input[name^="cangivecommentinsection"]', function(e) {
+        var target = $(e.target);
+        var permissionGroup = target.closest('div');
+        if (target.prop('checked')) {
+            permissionGroup.find('input[name^="canviewstudentinsection"]').prop('checked', true);
+        }
+    });
+    
+    $('body').on('click', 'input[name^="canviewstudentinsection"]', function(e) {
+        var target = $(e.target);
+        var permissionGroup = target.closest('div');
+        if (!target.prop('checked')) {
+            permissionGroup.find('input[name^="cangivecommentinsection"]').prop('checked', false);
+        }
+    });
+    
+    $('body').on('click', 'input[name^="canmodifycommentinsection"]', function(e) {
+        var target = $(e.target);
+        var permissionGroup = target.closest('div');
+        if (target.prop('checked')) {
+            permissionGroup.find('input[name^="canviewcommentinsection"]').prop('checked', true);
+        }
+    });
+    
+    $('body').on('click', 'input[name^="canviewcommentinsection"]', function(e) {
+        var target = $(e.target);
+        var permissionGroup = target.closest('div');
+        if (!target.prop('checked')) {
+            permissionGroup.find('input[name^="canmodifycommentinsection"]').prop('checked', false);
+        }
+    });
+    
+    $('body').on('click', 'input[name^="canmodifysessioncommentinsection"]', function(e) {
+        var target = $(e.target);
+        var isIndividualSessionPrivilege = target.is('[name*="feedback"]');
+        var permissionGroup = isIndividualSessionPrivilege ? target.closest('tr') : target.closest('div');
+        if (target.prop('checked')) {
+            permissionGroup.find('input[name^="canviewsessioninsection"]').prop('checked', true);
+        }
+    });
+    
+    $('body').on('click', 'input[name^="canviewsessioninsection"]', function(e) {
+        var target = $(e.target);
+        var isIndividualSessionPrivilege = target.is('[name*="feedback"]');
+        var permissionGroup = isIndividualSessionPrivilege ? target.closest('tr') : target.closest('div');
+        if (!target.prop('checked')) {
+            permissionGroup.find('input[name^="canmodifysessioncommentinsection"]').prop('checked', false);
+        }
+    });
+}
+
 $(function() {
     var numOfInstr = $("form[id^='formEditInstructor']").length;
     for (var i = 0; i < numOfInstr; i++) {
@@ -407,6 +459,7 @@ $(document).ready(function() {
         var instrNum = $(this).attr('id').substring('instrCancelLink'.length);
         disableFormEditInstructor(instrNum);
     });
+    bindCheckboxToggle();
     var index = $('#new-instructor-index').val();
     bindChangingRole(index);
 });
