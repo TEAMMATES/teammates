@@ -175,7 +175,7 @@ $(document).on('ajaxComplete ready', function() {
             buttonElem.button('loading');
         }
 
-        if ($('.alert-danger').length) {
+        if ($('.alert').length) {
             buttonElem.button('reset');
         }
     });
