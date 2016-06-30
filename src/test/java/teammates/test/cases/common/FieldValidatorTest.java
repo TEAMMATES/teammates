@@ -406,10 +406,11 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidNationality = "{ Invalid Char Nationality";
         String actual = validator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Invalid nationality (invalid char) should return error string that is specific to nationality",
-                      getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, invalidNationality,
-                                               NATIONALITY_FIELD_NAME,
-                                               REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
-                      actual);
+                     "\"{ Invalid Char Nationality\" is not acceptable to TEAMMATES as a/an nationality "
+                         + "because it starts with a non-alphanumeric character. All nationality must start "
+                         + "with an alphanumeric character, and cannot contain any vertical bar (|) or "
+                         + "percent sign (%).",
+                     actual);
     }
 
     @Test
@@ -425,8 +426,10 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidSectionName = "Percent Symbol % Section";
         String actual = validator.getInvalidityInfoForSectionName(invalidSectionName);
         assertEquals("Invalid section name (invalid char) should return error string that is specific to section name",
-                     getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, invalidSectionName,
-                                              SECTION_NAME_FIELD_NAME, REASON_CONTAINS_INVALID_CHAR),
+                     "\"Percent Symbol % Section\" is not acceptable to TEAMMATES as a/an section name "
+                         + "because it contains invalid characters. All section name must start with an "
+                         + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign "
+                         + "(%).",
                      actual);
     }
 
@@ -435,8 +438,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidCourseName = "Vertical Bar | Course";
         String actual = validator.getInvalidityInfoForCourseName(invalidCourseName);
         assertEquals("Invalid course name (invalid char) should return error string that is specific to course name",
-                     getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, invalidCourseName,
-                                              COURSE_NAME_FIELD_NAME, REASON_CONTAINS_INVALID_CHAR),
+                     "\"Vertical Bar | Course\" is not acceptable to TEAMMATES as a/an course name because "
+                         + "it contains invalid characters. All course name must start with an alphanumeric "
+                         + "character, and cannot contain any vertical bar (|) or percent sign (%).",
                      actual);
     }
 
@@ -454,9 +458,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidEmailSubject = "";
         String actual = validator.getInvalidityInfoForEmailSubject(invalidEmailSubject);
         assertEquals("Invalid email subject (empty) should return error message that is specific to email subject",
-                     getPopulatedErrorMessage(
-                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidEmailSubject,
-                         EMAIL_SUBJECT_FIELD_NAME, REASON_EMPTY, EMAIL_SUBJECT_MAX_LENGTH),
+                     "\"\" is not acceptable to TEAMMATES as a/an email subject because it is empty. The "
+                         + "value of a/an email subject should be no longer than 200 characters. It should "
+                         + "not be empty.",
                      actual);
     }
 
