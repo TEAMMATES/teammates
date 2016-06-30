@@ -12,13 +12,17 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
 <c:set var="jsIncludes">
+    <link rel="stylesheet" href="/stylesheets/lib/handsontable.full.min.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/stylesheets/customFeedbackPaths.css" type="text/css" media="screen">
     
+    <script type="text/javascript" src="/js/lib/handsontable.full.min.js"></script>
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit/visibilityOptions.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit/customFeedbackPaths.js"></script>
 
     <!-- javascript for behaviors of the various question types -->
     <script type="text/javascript" src="/js/instructorFeedbackEdit/questionMcq.js"></script>

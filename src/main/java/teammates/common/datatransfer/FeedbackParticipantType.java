@@ -14,6 +14,7 @@ public enum FeedbackParticipantType {
     RECEIVER(false, false, true, "", "", "The receiving"),
     RECEIVER_TEAM_MEMBERS(false, false, true, "", "", "The recipient's team members"),
     NONE(false, true, false, "", "Nobody specific (For general class feedback)", ""),
+    CUSTOM(true, true, true, "Custom", "Custom", "Custom"),
     // Used by feedbackResponseComment:
     GIVER(false, false, true, "", "", "");
 
@@ -97,6 +98,8 @@ public enum FeedbackParticipantType {
             return "team";
         case OWN_TEAM:
             return "team";
+        case CUSTOM:
+            return "custom feedback participant";
         default:
             return super.toString();
         }

@@ -7,6 +7,7 @@ $(document).ready(function() {
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
+    removeUnselectedCustomOptions();
 });
 
 var WARNING_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
@@ -600,16 +601,19 @@ function copyOptions() {
         return;
     }
     
-    // Feedback giver setup
+    // Previous feedback path setup
     var $prevGiver = $('select[name="givertype"]').eq(-2);
-    var $currGiver = $('select[name="givertype"]').last();
-    
-    $currGiver.val($prevGiver.val());
-    
-    // Feedback recipient setup
     var $prevRecipient = $('select[name="recipienttype"]').eq(-2);
-    var $currRecipient = $('select[name="recipienttype"]').last();
     
+    // If previous feedback path was custom, there's no need to copy
+    if ($prevGiver.val() === 'CUSTOM' || $prevRecipient.val() === 'CUSTOM') {
+        return;
+    }
+    
+    // New question feedback path setup
+    var $currGiver = $('select[name="givertype"]').last();
+    var $currRecipient = $('select[name="recipienttype"]').last();
+    $currGiver.val($prevGiver.val());
     $currRecipient.val($prevRecipient.val());
     
     // Number of recipient setup
@@ -849,4 +853,12 @@ function toggleCustomFeedbackPathsDisplay(toggleLink) {
         $customFeedbackPathsDisplay.show();
         $toggleLink.text('Hide details and further customizations');
     }
+}
+function removeUnselectedCustomOptions() {
+    $('option[value="CUSTOM"]').each(function() {
+        var $customOption = $(this);
+        if (!$customOption.is(':selected')) {
+            $customOption.remove();
+        }
+    });
 }
