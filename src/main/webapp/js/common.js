@@ -166,9 +166,6 @@ $(document).on('ajaxComplete ready', function() {
         $(this).find("button[type='submit']").prop('disabled', true);
     });
 
-    $('[id^="button_submit"]').click(function() {
-        $(this).prop('disabled', true);
-    });
 });
 
 /**
