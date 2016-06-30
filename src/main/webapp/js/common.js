@@ -162,9 +162,8 @@ $(document).on('ajaxComplete ready', function() {
         $tooltips.tooltip('disable');
     }
     
-    $('span[data-toggle="tooltip"]').each(function() {
-        $(this).addClass('toolTipDecorate');
-    });
+    $('span[data-toggle="tooltip"]').addClass('.tool-tip-decorate');
+
 });
 
 /**

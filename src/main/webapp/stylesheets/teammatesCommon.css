@@ -395,7 +395,15 @@ Apply to thead to make headers not bold.
     border: 0;
 }
 
-/* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */ 
+/*
+Used for underlining span elements with extra information as titles.
+*/
+.tool-tip-decorate {
+	border-bottom: 1px dashed #808080;
+	text-decoration: none;
+}
+
+/* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
 /* Prevents content overflow in navbar*/
 @media (min-width: 768px) and (max-width: 991px) {
     .container>.navbar-header {
@@ -875,9 +883,4 @@ Prevent Long URL From Breaking Out of Container
     .text-nowrap {
         white-space: nowrap;
     }
-}
-
-.toolTipDecorate {
-	border-bottom: 1px dashed #808080;
-	text-decoration: none;
 }
