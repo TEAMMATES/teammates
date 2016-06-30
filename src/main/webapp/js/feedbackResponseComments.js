@@ -119,6 +119,7 @@ var editCommentHandler = function(e) {
 
 var deleteCommentHandler = function(e) {
     var submitButton = $(this);
+    e.preventDefault();
 
     deleteResponseComment(function() {
         var formObject = submitButton.parent();
@@ -127,7 +128,6 @@ var deleteCommentHandler = function(e) {
         var editForm = submitButton.parent().next().next().next();
         var frCommentList = submitButton.closest('.comments');
         var panelHeading = submitButton.parents("[id^='panel_display-']").find('.panel-heading').first();
-        e.preventDefault();
 
         $.ajax({
             type: 'POST',
@@ -507,11 +507,8 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
 }
 
 function deleteResponseComment(callback) {
-    BootboxWrapper.showModalConfirmation('Warning', 'Are you sure you want to remove this comment ?', function(result) {
-        if (result) {
-            callback();
-        }
-    });
+    BootboxWrapper.showModalConfirmation('Warning', 'Are you sure you want to remove this comment ?', callback, null,
+            BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
 }
 
 /**
