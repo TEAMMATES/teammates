@@ -1822,11 +1822,11 @@
                             <li>
                                 <a href="#fbRubric">Rubric question</a>
                             </li>
-		    <li>
-                        	<a href="#fbRankOptions">Rank Options question</a>
+                            <li>
+                            <a href="#fbRankOptions">Rank Options question</a>
                             </li>
-	            <li>
-                        	<a href="#fbRankRecipients">Rank Recipients question</a>
+                            <li>
+                            <a href="#fbRankRecipients">Rank Recipients question</a>
                             </li>
                         </ul>
                         <br>
@@ -3083,12 +3083,12 @@
                     <li>
                         <a href="#fbRubric">Rubric question</a>
                     </li>
-	    <li>
+                    <li>
                         <a href="#fbRankOptions">Rank Options question</a>
                     </li>
-	    <li>
+                    <li>
                         <a href="#fbRankRecipients">Rank Recipients question</a>
-                    </li>		    
+                    </li>
                 </ul>
 
                 <div class="row">
