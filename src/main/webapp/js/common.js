@@ -163,11 +163,21 @@ $(document).on('ajaxComplete ready', function() {
     }
     
     $('form').submit(function() {
-        buttonElem = $(this).find("button[type='submit']");
-        currentText = buttonElem.text();
-        buttonElem.attr('data-loading-text', 
-                "<span class='glyphicon glyphicon-refresh glyphicon-spin'></span> "+currentText);
-        buttonElem.button('loading');
+        buttonElem = $(this).find(':submit');
+        if (buttonElem.is('button')) {
+            currentText = buttonElem.text();
+            buttonElem.attr('data-loading-text', 
+                    "<span class='glyphicon glyphicon-refresh glyphicon-spin'></span> "+currentText);
+            buttonElem.button('loading');
+        } else {
+            currentText = buttonElem.val();
+            buttonElem.attr('data-loading-text', currentText);
+            buttonElem.button('loading');
+        }
+
+        if ($('.alert-danger').length) {
+            buttonElem.button('reset')
+        }
     });
 
 });
