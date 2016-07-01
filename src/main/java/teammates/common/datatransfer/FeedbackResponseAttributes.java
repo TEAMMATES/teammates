@@ -52,11 +52,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             String courseId, String feedbackQuestionId,
             FeedbackQuestionType feedbackQuestionType, String giverEmail, String giverSection,
             String recipientEmail, String recipientSection, Text responseMetaData) {
-        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.feedbackSessionName = feedbackSessionName;
+        this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
         this.feedbackQuestionType = feedbackQuestionType;
-        this.giver = Sanitizer.sanitizeEmail(giverEmail);
+        this.giver = giverEmail;
         this.giverSection = giverSection;
         this.recipient = recipientEmail;
         this.recipientSection = recipientSection;
