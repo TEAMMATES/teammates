@@ -11,15 +11,11 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.StringHelper;
-import teammates.storage.api.FeedbackResponseCommentsDb;
-import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.FeedbackQuestion;
@@ -28,15 +24,14 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 
 /**
- * Previews and removes extra spaces in FeedbackSessionAttributes, FeedbackResponseAttributes,
+ * Previews and removes extra spaces in the feedbackSessionName field of
+ * FeedbackSessionAttributes, FeedbackResponseAttributes,
  * FeedbackQuestionAttributes and FeedbackResponseCommentAttribute.
  */
 public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClient {
     private static final boolean isPreview = true;
     
     private FeedbackSessionsDb feedbackSessionsDb = new FeedbackSessionsDb();
-    private FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
-    private FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
     
     private List<String> courseIdsToRunOn = Arrays.asList();
     
@@ -141,15 +136,20 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
      */
     private void fixFeedbackResponseCommentsOfFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityDoesNotExistException {
-        List<FeedbackResponseCommentAttributes> feedbackResponseCommentList =
-                feedbackResponseCommentsDb.getFeedbackResponseCommentsForSession(session.getCourseId(),
-                                                                                 session.getFeedbackSessionName());
-        List<FeedbackResponseComment> commentsToSave = new ArrayList<>();
-        for (FeedbackResponseCommentAttributes comment : feedbackResponseCommentList) {
-            comment.feedbackSessionName = StringHelper.removeExtraSpace(comment.feedbackSessionName);
-            commentsToSave.add(comment.toEntity());
+        Query q = getPm().newQuery(FeedbackResponseComment.class);
+        
+        q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
+                    + "courseId == courseIdParam");
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> responseComments =
+                (List<FeedbackResponseComment>) q.execute(session.getFeedbackSessionName(),
+                                                          session.getCourseId());
+        
+        for (FeedbackResponseComment response : responseComments) {
+            response.setFeedbackSessionName(
+                    StringHelper.removeExtraSpace(response.getFeedbackSessionName()));
         }
-        getPm().makePersistentAll(commentsToSave);
         getPm().close();
     }
 
@@ -158,16 +158,19 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
      */
     private void fixFeedbackResponsesOfFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityDoesNotExistException {
-        List<FeedbackResponseAttributes> feedbackResponseList =
-                feedbackResponsesDb.getFeedbackResponsesForSession(
-                        session.getFeedbackSessionName(), session.getCourseId());
-        List<FeedbackResponse> responsesToSave = new ArrayList<>();
-        for (FeedbackResponseAttributes response : feedbackResponseList) {
-            response.feedbackSessionName = StringHelper.removeExtraSpace(response.feedbackSessionName);
-            responsesToSave.add(response.toEntity());
-        }
+        Query q = getPm().newQuery(FeedbackResponse.class);
         
-        getPm().makePersistentAll(responsesToSave);
+        q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
+                    + "courseId == courseIdParam");
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> responses =
+                (List<FeedbackResponse>) q.execute(session.getFeedbackSessionName(), session.getCourseId());
+        
+        for (FeedbackResponse response : responses) {
+            response.setFeedbackSessionName(
+                    StringHelper.removeExtraSpace(response.getFeedbackSessionName()));
+        }
         getPm().close();
     }
 
