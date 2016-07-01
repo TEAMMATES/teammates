@@ -42,7 +42,7 @@
                     </li> 
                     <li>
                         You changed the primary email from a non-Gmail address to a Gmail address recently.
-                        In that case, email <a href="mailto:teammates@comp.nus.edu.sg">teammates@comp.nus.edu.sg</a> so that we can reconfigure your account to use the new Gmail address.
+                        In that case, <a href="/contact.jsp">contact us</a> so that we can reconfigure your account to use the new Gmail address.
                     </li>
                 </ol>
             </div>
@@ -53,7 +53,7 @@
                 <b>What should I do if I'm unable to submit my responses?</b>
            </div>
            <div>
-               Email <a href="mailto:teammates@comp.nus.edu.sg">us</a> so that we can help you submit.
+               <a href="/contact.jsp">Contact us</a> so that we can help you submit.
                Note that we cannot do much if the submission deadline is over. It is not up to us (the TEAMMATES team) to accept overdue submissions.
            </div> 
         </li>
