@@ -170,7 +170,7 @@ $(document).on('ajaxComplete ready', function() {
                     "<span class='glyphicon glyphicon-refresh glyphicon-spin'></span> " + currentText);
             buttonElem.button('loading');
         } else {
-            // do nothing for now for input type button.
+            // do nothing for now for input type button
         }
     });
 
