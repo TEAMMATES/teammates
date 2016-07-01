@@ -188,12 +188,14 @@ function enableEditFS() {
                               .prop('disabled', false);
 
     destroyEditor('instructions');
+    /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
     if (typeof richTextEditorBuilder !== 'undefined') {
         richTextEditorBuilder.initEditor('#instructions', {
-            inline: true
+            inline: true,
+            fixed_toolbar_container: '#richtext-toolbar-container'
         });
     }
-
+    /* eslint-enable camelcase */
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit').show();
