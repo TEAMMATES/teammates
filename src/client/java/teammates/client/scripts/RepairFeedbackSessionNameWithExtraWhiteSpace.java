@@ -1,7 +1,11 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -34,18 +38,25 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     private FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
     private FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
     
+    private List<String> courseIdsToRunOn = Arrays.asList();
+    
     public static void main(String[] args) throws IOException {
         RepairFeedbackSessionNameWithExtraWhiteSpace migrator = new RepairFeedbackSessionNameWithExtraWhiteSpace();
         migrator.doOperationRemotely();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void doOperation() {
         Datastore.initialize();
         
-        List<FeedbackSession> feedbackSessionList = getAllFeedbackSessionEntities();
-        System.out.println("There is/are " + feedbackSessionList.size() + " session(s).");
+        List<FeedbackSession> feedbackSessions;
+        if (courseIdsToRunOn.isEmpty()) {
+            feedbackSessions = getAllFeedbackSessionEntities();
+        } else {
+            feedbackSessions = getFeedbackSessionEntitiesOfCourses(courseIdsToRunOn);
+        }
+        
+        System.out.println("There is/are " + feedbackSessions.size() + " session(s).");
         
         if (isPreview) {
             System.out.println("Checking extra spaces in feedback session name...");
@@ -53,9 +64,10 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
             System.out.println("Removing extra spaces in feedback session name...");
         }
         
+        Set<String> coursesAffected = new HashSet<>();
         try {
             int numberOfFeedbackSessionWithExtraWhiteSpacesInName = 0;
-            for (FeedbackSession session : feedbackSessionList) {
+            for (FeedbackSession session : feedbackSessions) {
                 if (hasExtraSpaces(session.getFeedbackSessionName())) {
                     numberOfFeedbackSessionWithExtraWhiteSpacesInName++;
                     if (isPreview) {
@@ -63,22 +75,34 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
                     } else {
                         fixFeedbackSession(session);
                     }
+                    coursesAffected.add(session.getCourseId());
                 }
             }
             
             if (isPreview) {
                 System.out.println("There are/is " + numberOfFeedbackSessionWithExtraWhiteSpacesInName
-                                   + "/" + feedbackSessionList.size() + " feedback session(s) with extra spaces in name!");
+                                   + "/" + feedbackSessions.size() + " feedback session(s) with extra spaces in name!");
             } else {
                 System.out.println(numberOfFeedbackSessionWithExtraWhiteSpacesInName
-                                   + "/" + feedbackSessionList.size() + " feedback session(s) have been fixed!");
+                                   + "/" + feedbackSessions.size() + " feedback session(s) have been fixed!");
                 System.out.println("Extra space removing done!");
             }
+            
+            printAffectedCourses(coursesAffected);
         } catch (InvalidParametersException | EntityDoesNotExistException | EntityAlreadyExistsException e) {
             e.printStackTrace();
         }
     }
-    
+
+    private void printAffectedCourses(Set<String> coursesAffected) {
+        System.out.println("Courses Affected: ");
+        StringBuilder coursesToRunOn = new StringBuilder();
+        for (String course : coursesAffected) {
+            coursesToRunOn.append(String.format("\"%s\", ", course));
+        }
+        System.out.println(coursesToRunOn.substring(0, coursesToRunOn.length() - 2));
+    }
+
     /**
      * Displays the feedback session.
      */
@@ -88,7 +112,8 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     }
 
     /**
-     * Remove extra spaces in feedback session's name
+     * Remove extra spaces in feedback session name of the feedback session and
+     * related questions, responses and feedback response comments.
      */
     private void fixFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
@@ -104,7 +129,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     }
 
     /**
-     * Fixes feedbackSessionName in FeedbackResponseComments
+     * Removes extra space in feedbackSessionName in FeedbackResponseComments
      */
     private void fixFeedbackResponseCommentsOfFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -118,7 +143,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     }
 
     /**
-     * Fixes feedbackSessionName in FeedbackResponses
+     * Removes extra space in feedbackSessionName in FeedbackResponses
      */
     private void fixFeedbackResponsesOfFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -132,7 +157,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     }
 
     /**
-     * Fixes feedbackSessionName in FeedbackQuestions
+     * Removes extra space in feedbackSessionName in FeedbackQuestions
      */
     private void fixFeedbackQuestionsOfFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -146,7 +171,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     }
     
     /**
-     * Check if there is extra space in the string.
+     * @return true if there is extra space in the string.
      */
     private boolean hasExtraSpaces(String s) {
         return !s.equals(StringHelper.removeExtraSpace(s));
@@ -160,5 +185,17 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     private List<FeedbackSession> getAllFeedbackSessionEntities() {
         Query q = getPm().newQuery(FeedbackSession.class);
         return (List<FeedbackSession>) q.execute();
+    }
+    
+    @SuppressWarnings("unchecked")
+    private List<FeedbackSession> getFeedbackSessionEntitiesOfCourses(List<String> courseIdsToRunOn) {
+        List<FeedbackSession> feedbackSessions = new ArrayList<>();
+        for (String course : courseIdsToRunOn) {
+            Query q = getPm().newQuery(FeedbackSession.class);
+            q.declareParameters("String courseIdParam");
+            q.setFilter("courseId == courseIdParam");
+            feedbackSessions.addAll((List<FeedbackSession>) q.execute(course));
+        }
+        return feedbackSessions;
     }
 }
