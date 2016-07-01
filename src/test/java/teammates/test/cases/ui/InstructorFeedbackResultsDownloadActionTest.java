@@ -48,12 +48,26 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "My comments"
         };
+        
+        String[] paramsWithMissingResponsesShown = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "selling point of your product",
+                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "true"
+        };
+        
+        String[] paramsWithMissingResponsesHidden = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "selling point of your product",
+                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "false"
+        };
 
         ______TS("Typical case: results downloadable");
 
         InstructorFeedbackResultsDownloadAction action = getAction(paramsNormal);
         FileDownloadResult result = (FileDownloadResult) action.executeAndPostProcess();
-
+        
         String expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
@@ -131,6 +145,28 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForDownloadWithFilterText(result.getFileContent(), session);
+        
+        ______TS("Typical case: results with missing responses shown");
+        action = getAction(paramsWithMissingResponsesShown);
+        result = (FileDownloadResult) action.executeAndPostProcess();
+        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
+        assertEquals(expectedFileName, result.getFileName());
+        verifyFileContentForDownloadWithMissingResponsesShown(result.getFileContent(), session);
+        
+        ______TS("Typical case: results with missing responses hidden");
+        action = getAction(paramsWithMissingResponsesHidden);
+        result = (FileDownloadResult) action.executeAndPostProcess();
+        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
+        assertEquals(expectedFileName, result.getFileName());
+        verifyFileContentForDownloadWithMissingResponsesHidden(result.getFileContent(), session);
     }
 
     private void verifyFileContentForDownloadWithFilterText(String fileContent,
@@ -150,6 +186,59 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
                 "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
+                // CHECKSTYLE.ON:LineLength
+        };
+        
+        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+    
+    }
+    
+    private void verifyFileContentForDownloadWithMissingResponsesShown(String fileContent,
+            FeedbackSessionAttributes session) {
+        /*
+        full testing of file content is
+        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
+        */
+        
+        String[] expected = {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 1,\"What is the best selling point of your product?\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\""
+                // CHECKSTYLE.ON:LineLength
+        };
+        
+        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+    
+    }
+    
+    private void verifyFileContentForDownloadWithMissingResponsesHidden(String fileContent,
+            FeedbackSessionAttributes session) {
+        /*
+        full testing of file content is
+        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
+        */
+        
+        String[] expected = {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "",
+                "",
+                "Question 1,\"What is the best selling point of your product?\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
                 // CHECKSTYLE.ON:LineLength
         };
         
