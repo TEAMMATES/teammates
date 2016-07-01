@@ -94,6 +94,10 @@ function bindFeedbackSessionEditFormSubmission() {
         // Prevent form submission
         event.preventDefault();
         
+        // populate hidden input
+        if (typeof tinyMCE !== 'undefined') {
+            tinyMCE.get('instructions').save();
+        }
         var $form = $(event.target);
         // Use Ajax to submit form data
         $.ajax({
@@ -119,6 +123,16 @@ function bindFeedbackSessionEditFormSubmission() {
     });
 }
 
+function destroyEditor(id) {
+    if (typeof tinyMCE === 'undefined') {
+        return;
+    }
+    var currentEditor = tinyMCE.get(id);
+    if (currentEditor) {
+        currentEditor.destroy();
+    }
+}
+
 /**
  * Disables the editing of feedback session details.
  */
@@ -129,6 +143,15 @@ function disableEditFS() {
     });
     $('#form_feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
+
+    destroyEditor('instructions');
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            readonly: true
+        });
+    }
+
     $('#fsEditLink').show();
     $('#fsSaveLink').hide();
     $('#button_submit').hide();
@@ -163,6 +186,14 @@ function enableEditFS() {
                               .not($sessionOpeningReminder)
                               .not('.disabled')
                               .prop('disabled', false);
+
+    destroyEditor('instructions');
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true
+        });
+    }
+
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit').show();
@@ -404,6 +435,10 @@ function restoreOriginal(questionNum) {
 function hideNewQuestionAndShowNewQuestionForm() {
     $('#questionTableNew').hide();
     $('#addNewQuestionTable').show();
+
+    // re-enables all feedback path options, which may have been hidden by team contribution question
+    $('#givertype').find('option').show().prop('disabled', false);
+    $('#recipienttype').find('option').show().prop('disabled', false);
 }
 
 /**

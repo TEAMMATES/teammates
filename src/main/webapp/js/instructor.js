@@ -200,7 +200,7 @@ function setupFsCopyModal() {
 function bindErrorImages(elements) {
     $(elements).children('img').on('error', function() {
         if ($(this).attr('src') !== '') {
-            $(this).attr('src', '../images/profile_picture_default.png');
+            $(this).attr('src', '/images/profile_picture_default.png');
         }
     });
 }

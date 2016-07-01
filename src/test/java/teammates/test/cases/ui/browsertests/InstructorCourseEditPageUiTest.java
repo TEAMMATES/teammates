@@ -175,7 +175,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                 InstructorCourseEditPage.COURSE_MODIFY_OTHERS_COMMENTS);
         
         courseEditPage.clickAddSectionLevelPrivilegesLink(newInstructorIndex);
-        courseEditPage.clickSectionSelectionCheckBox(newInstructorIndex, 0, 0);
+        courseEditPage.clickSectionSelectionCheckBox(newInstructorIndex, 0, 1);
         courseEditPage.clickSectionLevelPrivilegeLink(newInstructorIndex, 0,
                 InstructorCourseEditPage.SECTION_VIEW_STUDENTS);
         courseEditPage.clickSectionLevelPrivilegeLink(newInstructorIndex, 0,

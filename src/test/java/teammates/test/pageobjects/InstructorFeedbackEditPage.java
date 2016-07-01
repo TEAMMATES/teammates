@@ -41,10 +41,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "graceperiod")
     private WebElement gracePeriodDropdown;
-    
-    @FindBy(id = "instructions")
-    private WebElement instructionsTextBox;
-    
+
     @FindBy(id = "editUncommonSettingsButton")
     private WebElement uncommonSettingsButton;
     
@@ -155,7 +152,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Edit Feedback Session</h1>");
     }
-    
+
     public InstructorCopyFsToModal getFsCopyToModal() {
         return fsCopyToModal;
     }
@@ -703,6 +700,17 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickNewQuestionButton() {
         openNewQuestionButton.click();
     }
+
+    public boolean isAllFeedbackPathOptionsEnabled() {
+        List<WebElement> options = browser.driver.findElements(By.cssSelector("#givertype option"));
+        options.addAll(browser.driver.findElements(By.cssSelector("#recipienttype option")));
+        for (WebElement option : options) {
+            if (!option.isEnabled()) {
+                return false;
+            }
+        }
+        return true;
+    }
     
     public void selectGiverToBeStudents() {
         selectDropdownByVisibleValue(giverDropdown, "Students in this course");
@@ -744,8 +752,8 @@ public class InstructorFeedbackEditPage extends AppPage {
                                      TimeHelper.convertToDisplayValueInTimeDropDown(endTime));
         
         // Fill in instructions
-        fillTextBox(instructionsTextBox, instructions.getValue());
-    
+        fillRichTextEditor("instructions", instructions.getValue());
+
         // Select grace period
         selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
     

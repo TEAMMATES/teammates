@@ -46,6 +46,9 @@ public final class Const {
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
     public static final String USER_NOT_IN_A_SECTION = "Not in a section";
     
+    public static final String DISPLAYED_NAME_FOR_SELF_IN_COMMENTS = "You";
+    public static final String DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT = "Anonymous";
+    
     public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
     public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
     
@@ -125,11 +128,9 @@ public final class Const {
         /** This is the limit after which TEAMMATES will send error message.
          * Must be within the range of int */
         public static final int MAX_PROFILE_PIC_SIZE = 5000000;
-        /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
-        public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 11000000;
         
         /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
-        public static final long MAX_ADMIN_EMAIL_FILE_LIMIT_FOR_BLOBSTORE_API = 11000000;
+        public static final long MAX_FILE_LIMIT_FOR_BLOBSTOREAPI = 11000000;
         
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
@@ -412,6 +413,8 @@ public final class Const {
         public static final String COMMENT_DELETE = "Delete this comment";
         
         public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
+        
+        public static final String ACTION_NOT_ALLOWED = "You do not have the permissions to access this feature";
     }
     
     public static class FeedbackQuestion {
@@ -706,6 +709,8 @@ public final class Const {
         public static final String COMMENTS_SHOWGIVERTO = "showgiverto";
         public static final String COMMENTS_SHOWRECIPIENTTO = "showrecipientto";
         public static final String SECTION_NAME = "sectionname";
+        public static final String FEEDBACK_QUESTION_FILTER_TEXT = "filtertext";
+        
         public static final String TEAM_NAME = "teamname";
         public static final String COMMENTS = "comments";
         public static final String TEAMMATES = "teammates";
@@ -1044,9 +1049,6 @@ public final class Const {
         
         public static final String MASHUP = "/mashup.jsp";
     
-        //View fragments
-        public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
-        
     }
 
     /* These are status messages that may be shown to the user */
@@ -1076,7 +1078,7 @@ public final class Const {
                 + "If you don't remember which Google account you used previously, "
                 + "email us from the same email account to which you receive TEAMMATES emails."
                 + "<br>2. You changed the primary email from a non-Gmail address to a Gmail address recently. "
-                + "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> "
+                + "In that case, <a href=\"/contact.jsp\">email us</a> "
                 + "so that we can reconfigure your account to use the new Gmail address."
                 + "<br>3. You joined this course just a few seconds ago and your data "
                 + "may be still in the process of propagating through our servers. "
@@ -1287,8 +1289,8 @@ public final class Const {
         public static final String COMMENT_CLEARED_UNSUCCESSFULLY = "Notification for some pending comments fails to send";
         
         public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
-                + "<a href='/instructorHelp.html#gs' target='_blank'>Getting Started Guide</a>.<br>A video tour"
-                + " is also available in our <a href='/index.html' target='_blank'>home page</a>.";
+                + "<a href=\"/instructorHelp.jsp#gs\" target=\"_blank\">Getting Started Guide</a>.<br>A video tour"
+                + " is also available in our <a href=\"/index.jsp\" target=\"_blank\">home page</a>.";
         
         public static final String HINT_FOR_NO_SESSIONS_STUDENT =
                 "Currently, there are no open feedback sessions in the course %s. "
