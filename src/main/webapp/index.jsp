@@ -23,9 +23,9 @@
                         </h2>
                     </td>
                     <td style="text-align: right;">
-                        <a href="https://youtube.googleapis.com/v/mDtfmNmRwBM&hd=1&autoplay=1&rel=0" target="_blank"><img src="images/videoTour.png" height="40px"/></a>
+                        <a href="https://youtube.googleapis.com/v/mDtfmNmRwBM&hd=1&autoplay=1&rel=0" target="_blank"><img src="images/videoTour.png" height="40px"></a>
                         &nbsp;&nbsp;
-                        <a href="request.jsp"><img src="images/requestButton.png" height="40px"/></a>
+                        <a href="request.jsp"><img src="images/requestButton.png" height="40px"></a>
                     </td>
                 </tr>
             </table>
