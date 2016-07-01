@@ -31,60 +31,72 @@
                 <div class="col-xs-12 margin-bottom-7px padding-left-35px">
                     <div class="col-xs-1">
                         <input type="radio" id="constSumPointsTotal-${questionNumber}"
-                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}"
-                                value="false" checked>
+                            name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}"
+                            value="false" checked>
                     </div>
-                    <div class="col-xs-4 padding-0 col-sm-4">
-                        <input type="number" disabled class="form-control width-100-pc pointsBox"
+                    <div data-toggle="tooltip" data-placement="top"
+                        title="Respondents will have to distribute the total points specified here among the 
+                                ${optionRecipientDisplayName}. e.g. If you specify 100 points here and if there are 3 
+                                ${optionRecipientDisplayName}, respondents will have to distribute 100 points among 3 
+                                ${optionRecipientDisplayName}.">
+                        <div class="col-xs-4 padding-0 col-sm-4">
+                            <input type="number" disabled class="form-control width-100-pc pointsBox"
                                 name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
-                                id="constSumPoints-${questionNumber}"
-                                value="${constSumPoints}" min="1" step="1"
-                                onChange="updateConstSumPointsValue(${questionNumber})">
-                    </div>
-                    <div class="col-xs-6 padding-0">
-                        <label class="margin-top-7px padding-left-7px">in total</label>
-                    </div>
-
-                </div>
-                <div class="col-xs-12 margin-bottom-15px padding-left-35px"
-                        id="constSumOption_Option-${questionNumber}"${optionDisplay}>
-                    <div class="col-xs-1">
-                        <input type="radio"
-                                id="constSumPointsPerOption-${questionNumber}"
-                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}"
-                                value="true"${perOptionChecked}>
-                    </div>
-                    <div class="col-xs-4 padding-0">
-
-                        <input type="number" disabled class="form-control width-100-pc pointsBox"
-                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
-                                id="constSumPoints-${questionNumber}"
-                                value="${constSumPoints}" min="1" step="1"
-                                onChange="updateConstSumPointsValue(${questionNumber})">
-                    </div>
-                    <div class="col-xs-6 padding-0">
-                        <label class="margin-top-7px padding-left-7px">X</label>
-                        <label class="margin-top-7px">number of options</label>
+                                id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1"
+                                step="1" onChange="updateConstSumPointsValue(${questionNumber})">
+                        </div>
+                        <div class="col-xs-6 padding-0">
+                            <label class="margin-top-7px padding-left-7px">in
+                                total
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="col-xs-12 margin-bottom-15px padding-left-35px"
-                        id="constSumOption_Recipient-${questionNumber}"${recipientDisplay}>
+                    id="constSumOption_Option-${questionNumber}"${optionDisplay}>
                     <div class="col-xs-1">
-                        <input type="radio"
-                                id="constSumPointsPerRecipient-${questionNumber}"
-                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}"
-                                value="true"${perRecipientChecked}>
+                        <input type="radio" id="constSumPointsPerOption-${questionNumber}"
+                            name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}"
+                            value="true"${perOptionChecked}>
                     </div>
-                    <div class="col-xs-4 padding-0">
-                        <input type="number" disabled
+                    <div data-toggle="tooltip" data-placement="top"
+                        title="The number of points to distribute will vary based on the number of options. e.g. 
+                                If you specify 100 points here and if there are 3 options, the total number of points to 
+                                distribute among 3 options will be 300 (i.e. 100 x 3)">
+                        <div class="col-xs-4 padding-0">
+                            <input type="number" disabled class="form-control width-100-pc pointsBox"
+                                name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
+                                id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1"
+                                step="1" onChange="updateConstSumPointsValue(${questionNumber})">
+                        </div>
+                        <div class="col-xs-6 padding-0">
+                            <label class="margin-top-7px padding-left-7px">X</label>
+                            <label class="margin-top-7px"> (number of options) </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 margin-bottom-15px padding-left-35px"
+                    id="constSumOption_Recipient-${questionNumber}"${recipientDisplay}>
+                    <div class="col-xs-1">
+                        <input type="radio" id="constSumPointsPerRecipient-${questionNumber}"
+                            name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}"
+                            value="true"${perRecipientChecked}>
+                    </div>
+                    <div data-toggle="tooltip" data-placement="top"
+                        title="The number of points to distribute will vary based on the number of recipients. e.g. 
+                                If you specify 100 points here and if there are 3 recipients, the total number of points to 
+                                distribute among 3 recipients will be 300 (i.e. 100 x 3)">
+                        <div class="col-xs-4 padding-0">
+                            <input type="number" disabled
                                 class="form-control width-100-pc pointsBox"
                                 name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
-                                id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1" step="1"
-                                onChange="updateConstSumPointsValue(${questionNumber})">
-                    </div>
-                    <div class="col-xs-6 padding-0">
-                        <label class="margin-top-7px padding-left-7px">X</label>
-                        <label class="margin-top-7px">number of recipients</label>
+                                id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1"
+                                step="1" onChange="updateConstSumPointsValue(${questionNumber})">
+                        </div>
+                        <div class="col-xs-6 padding-0">
+                            <label class="margin-top-7px padding-left-7px">X</label>
+                            <label class="margin-top-7px">(number of recipients)</label>
+                        </div>
                     </div>
                 </div>
             </div>
