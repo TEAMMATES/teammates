@@ -93,10 +93,11 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                      boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
                                      boolean isPublishedEmailEnabled, Set<String> instructorList,
                                      Set<String> studentList) {
+
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorId;
-        this.instructions = Sanitizer.sanitizeTextField(instructions);
+        this.instructions = instructions == null ? null : new Text(Sanitizer.sanitizeForRichText(instructions.getValue()));
         this.createdTime = createdTime;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -131,7 +132,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
     
     public String getInstructionsString() {
-        return Sanitizer.sanitizeForHtml(instructions.getValue());
+        return Sanitizer.sanitizeForRichText(instructions.getValue());
     }
 
     @Override
@@ -409,7 +410,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     public void sanitizeForSaving() {
 
         if (instructions != null) {
-            this.instructions = new Text(Sanitizer.sanitizeForHtml(instructions.getValue()));
+            this.instructions = new Text(Sanitizer.sanitizeForRichText(instructions.getValue()));
         }
     }
 
