@@ -55,32 +55,26 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long",
-                "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as "
-                + "a/an my field because it is too long. The value of a/an my field should be no longer than 50 "
-                + "characters. It should not be empty.",
-                validator.getValidityInfoForSizeCappedNonEmptyString(
-                        typicalFieldName,
-                        maxLength,
-                        tooLongName));
+                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
+                         + "as a/an my field because it is too long. The value of a/an my field should be no "
+                         + "longer than 50 characters. It should not be empty.",
+                     validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, maxLength,
+                                                                          tooLongName));
         
         
         String emptyValue = "";
         assertEquals("invalid: empty",
-                "\"\" is not acceptable to TEAMMATES as a/an my field because it is empty. The value of a/an my field "
-                + "should be no longer than 50 characters. It should not be empty.",
-                validator.getValidityInfoForSizeCappedNonEmptyString(
-                        typicalFieldName,
-                        maxLength,
-                        emptyValue));
+                     "\"\" is not acceptable to TEAMMATES as a/an my field because it is empty. The value of "
+                         + "a/an my field should be no longer than 50 characters. It should not be empty.",
+                     validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, maxLength,
+                                                                          emptyValue));
         
         String untrimmedValue = " abc ";
         assertEquals("invalid: untrimmed",
-                "The provided my field is not acceptable to TEAMMATES as it contains only whitespace or "
-                + "contains extra spaces at the beginning or at the end of the text.",
-                validator.getValidityInfoForSizeCappedNonEmptyString(
-                        typicalFieldName,
-                        maxLength,
-                        untrimmedValue));
+                     "The provided my field is not acceptable to TEAMMATES as it contains only whitespace or "
+                         + "contains extra spaces at the beginning or at the end of the text.",
+                     validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, maxLength,
+                                                                          untrimmedValue));
     }
 
     @Test
@@ -151,22 +145,18 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String untrimmedValue = " abc ";
         assertEquals("invalid: untrimmed",
-                "The provided my field is not acceptable to TEAMMATES as it contains only whitespace or "
-                + "contains extra spaces at the beginning or at the end of the text.",
-                validator.getValidityInfoForSizeCappedPossiblyEmptyString(
-                        typicalFieldName,
-                        maxLength,
-                        untrimmedValue));
+                     "The provided my field is not acceptable to TEAMMATES as it contains only whitespace or "
+                         + "contains extra spaces at the beginning or at the end of the text.",
+                     validator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
+                                                                               untrimmedValue));
         
         String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long",
-                "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as "
-                + "a/an my field because it is too long. The value of a/an my field should be no longer than 50 "
-                + "characters.",
-                validator.getValidityInfoForSizeCappedPossiblyEmptyString(
-                        typicalFieldName,
-                        maxLength,
-                        tooLongName));
+                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
+                         + "as a/an my field because it is too long. The value of a/an my field should be no "
+                         + "longer than 50 characters.",
+                     validator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
+                                                                               tooLongName));
     }
     
     @Test
@@ -198,10 +188,10 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String nameContainInvalidChars = "Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
-                    "\"Dr. Amy-Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is not "
-                    + "acceptable to TEAMMATES as a/an name field because it contains invalid characters. All "
-                    + "name field must start with an alphanumeric character, and cannot contain any vertical "
-                    + "bar (|) or percent sign (%).",
+                     "\"Dr. Amy-Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is "
+                         + "not acceptable to TEAMMATES as a/an name field because it contains invalid "
+                         + "characters. All name field must start with an alphanumeric character, and cannot "
+                         + "contain any vertical bar (|) or percent sign (%).",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameContainInvalidChars));
         
@@ -210,9 +200,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
                      "\"!Amy-Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is not "
-                     + "acceptable to TEAMMATES as a/an name field because it starts with a non-alphanumeric "
-                     + "character. All name field must start with an alphanumeric character, and cannot "
-                     + "contain any vertical bar (|) or percent sign (%).",
+                         + "acceptable to TEAMMATES as a/an name field because it starts with a "
+                         + "non-alphanumeric character. All name field must start with an alphanumeric "
+                         + "character, and cannot contain any vertical bar (|) or percent sign (%).",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithNonAlphaNumChar));
         
@@ -221,9 +211,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String nameStartedWithBracesButHasInvalidChar = "{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
                      "\"{Amy} -Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is not "
-                     + "acceptable to TEAMMATES as a/an name field because it contains invalid characters. All "
-                     + "name field must start with an alphanumeric character, and cannot contain any "
-                     + "vertical bar (|) or percent sign (%).",
+                         + "acceptable to TEAMMATES as a/an name field because it contains invalid "
+                         + "characters. All name field must start with an alphanumeric character, and cannot "
+                         + "contain any vertical bar (|) or percent sign (%).",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithBracesButHasInvalidChar));
         
@@ -232,9 +222,9 @@ public class FieldValidatorTest extends BaseTestCase {
         String nameStartedWithCurlyBracketButHasNoEnd = "{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)";
         assertEquals("invalid: typical length started with non-alphanumeric character",
                      "\"{Amy -Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={[]\\:;&quot;&lt;&gt;?)\" is not "
-                     + "acceptable to TEAMMATES as a/an name field because it starts with a non-alphanumeric "
-                     + "character. All name field must start with an alphanumeric character, and cannot "
-                     + "contain any vertical bar (|) or percent sign (%).",
+                         + "acceptable to TEAMMATES as a/an name field because it starts with a "
+                         + "non-alphanumeric character. All name field must start with an alphanumeric "
+                         + "character, and cannot contain any vertical bar (|) or percent sign (%).",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithCurlyBracketButHasNoEnd));
         
@@ -260,35 +250,29 @@ public class FieldValidatorTest extends BaseTestCase {
         
         String tooLongName = StringHelper.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long",
-                "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an "
-                + "name field because it is too long. The value of a/an name field should be no longer than 50 "
-                + "characters. It should not be empty.",
-                validator.getValidityInfoForAllowedName(
-                        typicalFieldName,
-                        maxLength,
-                        tooLongName));
+                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
+                         + "as a/an name field because it is too long. The value of a/an name field should "
+                         + "be no longer than 50 characters. It should not be empty.",
+                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                                                             tooLongName));
         
         ______TS("failure: empty string");
         
         String emptyValue = "";
         assertEquals("invalid: empty",
-                "\"\" is not acceptable to TEAMMATES as a/an name field because it is empty. The value of a/an name "
-                + "field should be no longer than 50 characters. It should not be empty.",
-                validator.getValidityInfoForAllowedName(
-                        typicalFieldName,
-                        maxLength,
-                        emptyValue));
+                     "\"\" is not acceptable to TEAMMATES as a/an name field because it is empty. The value "
+                         + "of a/an name field should be no longer than 50 characters. It should not be empty.",
+                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                                                             emptyValue));
         
         ______TS("failure: untrimmed value");
         
         String untrimmedValue = " abc ";
         assertEquals("invalid: untrimmed",
-                "The provided name field is not acceptable to TEAMMATES as it contains only whitespace or "
-                + "contains extra spaces at the beginning or at the end of the text.",
-                validator.getValidityInfoForAllowedName(
-                        typicalFieldName,
-                        maxLength,
-                        untrimmedValue));
+                     "The provided name field is not acceptable to TEAMMATES as it contains only whitespace "
+                         + "or contains extra spaces at the beginning or at the end of the text.",
+                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                                                             untrimmedValue));
     }
 
     @Test
