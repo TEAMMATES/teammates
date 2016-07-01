@@ -192,7 +192,7 @@ function enableEditFS() {
     if (typeof richTextEditorBuilder !== 'undefined') {
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
-            fixed_toolbar_container: '#richToolbarContainer'
+            fixed_toolbar_container: '#richtext-toolbar-container'
         });
     }
     /* eslint-enable camelcase */
