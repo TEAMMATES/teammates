@@ -29,7 +29,7 @@
                         ${fqForm.questionTypeOptions}
                     </ul>
 
-                    <a href="/instructorHelp.jsp#fbQuestionTypes"
+                    <a href="<%= Const.ViewURIs.INSTRUCTOR_HELP %>#fbQuestionTypes"
                         target="_blank"> <i
                         class="glyphicon glyphicon-info-sign"></i>
                     </a> <a id="button_copy" class="btn btn-primary margin-bottom-7px" 

@@ -76,7 +76,7 @@
                     Sorry, we could not retrieve results. 
                     Please try again in a few minutes. If you continue to see this message, it could be because the report you are trying to display contains too much data to display in one page. e.g. more than 2,500 entries.
                     <ul><li>If that is the case, you can still use the 'By question' report to view responses. You can also download the results as a spreadsheet. If you would like to see the responses in other formats (e.g. 'Group by - Giver'), you can try to divide the course into smaller sections so that we can display responses one section at a time.</li>
-                    <li>If you believe the report you are trying to view is unlikely to have more than 2,500 entries, please <a href="/contact.jsp">contact us</a> so that we can investigate.</li></ul>
+                    <li>If you believe the report you are trying to view is unlikely to have more than 2,500 entries, please <a href="<%= Const.ViewURIs.CONTACT %>">contact us</a> so that we can investigate.</li></ul>
                 </c:when>
                 <c:when test="${isGroupedByTeam}">
                     <c:forEach var="teamPanel" items="${sectionPanel.participantPanels}">

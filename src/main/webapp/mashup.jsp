@@ -103,6 +103,7 @@
                                 <li><a href="#contact">Contact Page</a></li>
                                 <li><a href="#terms">Terms Of Use Page</a></li>
                                 <li><a href="#request">Request Account Page</a></li>
+                                <li><a href="#usermap">Usermap Page</a></li>
                                 <li><a href="#studentHelp">Student Help Page</a></li>
                                 <li><a href="#instructorHelp">Instructor Help Page</a></li>
                             </ul>
@@ -267,49 +268,55 @@
                 
                 <div class="pageinfo">Home Page</div>
                 <div id="index">
-                    <iframe class="full-width" src="/index.jsp"></iframe>
+                    <iframe class="full-width" src="<%= Const.ViewURIs.INDEX %>"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Features Page</div>
                 <div id="features">
-                    <iframe class="full-width" src="/features.jsp"></iframe>
+                    <iframe class="full-width" src="<%= Const.ViewURIs.FEATURES %>"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">About Us Page</div>
                 <div id="about">
-                    <iframe class="full-width" src="/about.jsp"></iframe>
+                    <iframe class="full-width" src="<%= Const.ViewURIs.ABOUT %>"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Contact Page</div>
                 <div id="contact">
-                    <iframe class="full-width" src="/contact.jsp"></iframe>
+                    <iframe class="full-width" src="<%= Const.ViewURIs.CONTACT %>"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Terms Of Use Page</div>
                 <div id="terms">
-                    <iframe class="full-width" src="/terms.jsp"></iframe>
+                    <iframe class="full-width" src="<%= Const.ViewURIs.TERMS %>"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Request Account Page</div>
                 <div id="request">
-                    <iframe class="full-width" src="/request.jsp"></iframe>
+                    <iframe class="full-width" src="<%= Const.ViewURIs.ACCOUNT_REQUEST %>"></iframe>
+                </div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Usermap Page</div>
+                <div id="usermap">
+                    <iframe class="full-width" src="<%= Const.ViewURIs.USERMAP %>"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Help Page</div>
                 <div id="studentHelp">
-                    <iframe class="full-width" src="/studentHelp.jsp"></iframe>
+                    <iframe class="full-width" src="<%= Const.ViewURIs.STUDENT_HELP %>"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Help Page</div>
                 <div id="instructorHelp">
-                    <iframe class="full-width" src="/instructorHelp.jsp"></iframe>
+                    <iframe class="full-width" src="<%= Const.ViewURIs.INSTRUCTOR_HELP %>"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
@@ -400,6 +407,9 @@
                 });
                 $('#request').find('iframe').on('load', function() {
                     calcHeight($('#request').find('iframe'));
+                });
+                $('#usermap').find('iframe').on('load', function() {
+                    calcHeight($('#usermap').find('iframe'));
                 });
                 $('#studentHelp').find('iframe').on('load', function() {
                     calcHeight($('#studentHelp').find('iframe'));

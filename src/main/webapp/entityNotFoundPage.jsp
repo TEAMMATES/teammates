@@ -1,4 +1,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="teammates.common.util.Const" %>
+<c:set var="contactPage" value="<%= Const.ViewURIs.CONTACT %>" />
 <% response.setStatus(500);%>
 <t:errorPage>
     <div class="row">
@@ -19,7 +22,7 @@
                     <br><br>
                 </li>
             </ul>
-            If the problem persists, please inform <a class="link" href="contact.jsp" target="_blank">TEAMMATES support team</a>.
+            If the problem persists, please inform <a class="link" href="${contactPage}" target="_blank">TEAMMATES support team</a>.
             <br><br>
             <b>Note: </b>If the problematic link was received via email, please also forward us the original email containing the link you clicked, to help us with the troubleshooting.
             <br><br>

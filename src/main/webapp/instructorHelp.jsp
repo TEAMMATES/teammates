@@ -1,4 +1,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="teammates.common.util.Const" %>
+<c:set var="contactPage" value="<%= Const.ViewURIs.CONTACT %>" />
 <t:helpPage>
     <h1>Help for Instructors</h1>
     <a name="#top"></a>
@@ -367,7 +370,7 @@
             <li>
                 <span class="text-bold">When you need help</span>
                 <div class="helpSectionContent">
-                    If you have a doubt or need our help, just <a href="/contact.jsp">contact us us</a>. We respond within 24 hours.
+                    If you have a doubt or need our help, just <a href="${contactPage}">contact us</a>. We respond within 24 hours.
                     <br><br>
                 </div>
             </li>
@@ -456,7 +459,7 @@
                     </b>
                     <div class="helpSectionContent">
                         The most likely reason for this is that the student has changed the primary email address associated with his/her Google ID.
-                        Please ask the student <a href="/contact.jsp">contact us</a> so that we help him to rectify the problem.
+                        Please ask the student to <a href="${contactPage}">contact us</a> so that we help him to rectify the problem.
                         <br>
                         <br>
                     </div>

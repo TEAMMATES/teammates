@@ -1,5 +1,6 @@
 <%@ tag description="Generic TEAMMATES Help Page" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ tag import="teammates.common.util.Const" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,7 @@
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/index.jsp">TEAMMATES</a>
+                <a class="navbar-brand" href="<%= Const.ViewURIs.INDEX %>">TEAMMATES</a>
             </div>
         </div>
     </div>
@@ -31,13 +32,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-2">
-                    <span>[<a href="/index.jsp">TEAMMATES</a>]</span>
+                    <span>[<a href="<%= Const.ViewURIs.INDEX %>">TEAMMATES</a>]</span>
                 </div>
                 <div class="col-md-8">
                     [hosted on <a href="http://code.google.com/appengine/">Google App Engine</a>]
                 </div>
                 <div class="col-md-2">
-                    <span>[Send <a class="link" href="/contact.jsp" target="_blank">Feedback</a>]</span>
+                    <span>[Send <a class="link" href="<%= Const.ViewURIs.CONTACT %>" target="_blank">Feedback</a>]</span>
                 </div>
             </div>
         </div>

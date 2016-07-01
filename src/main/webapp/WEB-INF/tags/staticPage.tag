@@ -1,5 +1,6 @@
 <%@ tag description="Generic TEAMMATES Static Page" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="currentPage" %>
 <!DOCTYPE html>
@@ -19,7 +20,7 @@
         <div id="header">
             <div id="headerWrapper">
                 <div id="imageHolder">
-                    <a href="/index.jsp">
+                    <a href="<%= Const.ViewURIs.INDEX %>">
                         <img alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects"
                              src="images/teammateslogo.jpg" width="150px" height="47px">
                     </a>
@@ -32,7 +33,7 @@
                                     <li class="current"><strong>Home</strong></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><a href="index.jsp">Home</a></li>
+                                    <li><a href="<%= Const.ViewURIs.INDEX %>">Home</a></li>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
@@ -40,7 +41,7 @@
                                     <li class="current"><strong>Features</strong></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><a href="features.jsp">Features</a></li>
+                                    <li><a href="<%= Const.ViewURIs.FEATURES %>">Features</a></li>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
@@ -48,7 +49,7 @@
                                     <li class="current"><strong>About Us</strong></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><a href="about.jsp">About Us</a></li>
+                                    <li><a href="<%= Const.ViewURIs.ABOUT %>">About Us</a></li>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
@@ -56,7 +57,7 @@
                                     <li class="current"><strong>Contact</strong></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><a href="contact.jsp">Contact</a></li>
+                                    <li><a href="<%= Const.ViewURIs.CONTACT %>">Contact</a></li>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
@@ -64,7 +65,7 @@
                                     <li class="current"><strong>Terms of Use</strong></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><a href="terms.jsp">Terms of Use</a></li>
+                                    <li><a href="<%= Const.ViewURIs.TERMS %>">Terms of Use</a></li>
                                 </c:otherwise>
                             </c:choose>
                         </ul>

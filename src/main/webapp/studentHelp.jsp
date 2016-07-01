@@ -1,4 +1,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="teammates.common.util.Const" %>
+<c:set var="contactPage" value="<%= Const.ViewURIs.CONTACT %>" />
 <t:helpPage>
     <h1>Help for Students</h1><br>
     <h4 class="text-color-primary">Getting Started</h4>
@@ -42,7 +45,7 @@
                     </li> 
                     <li>
                         You changed the primary email from a non-Gmail address to a Gmail address recently.
-                        In that case, <a href="/contact.jsp">contact us</a> so that we can reconfigure your account to use the new Gmail address.
+                        In that case, <a href="${contactPage}">contact us</a> so that we can reconfigure your account to use the new Gmail address.
                     </li>
                 </ol>
             </div>
@@ -53,7 +56,7 @@
                 <b>What should I do if I'm unable to submit my responses?</b>
            </div>
            <div>
-               <a href="/contact.jsp">Contact us</a> so that we can help you submit.
+               <a href="${contactPage}">Contact us</a> so that we can help you submit.
                Note that we cannot do much if the submission deadline is over. It is not up to us (the TEAMMATES team) to accept overdue submissions.
            </div> 
         </li>

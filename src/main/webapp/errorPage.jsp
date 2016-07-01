@@ -1,4 +1,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="teammates.common.util.Const" %>
+<c:set var="contactPage" value="<%= Const.ViewURIs.CONTACT %>" />
 <% response.setStatus(500);%>
 <t:errorPage>
     <br><br>
@@ -8,7 +11,7 @@
             <p>
                 There was an error in our server.<br>
                 Please try again in a few moments. <br><br>
-                If the error persists, please <a class="link" href="contact.jsp" target="_blank"> let us know </a>
+                If the error persists, please <a class="link" href="${contactPage}" target="_blank"> let us know </a>
             </p>
         </div>
     </div>
