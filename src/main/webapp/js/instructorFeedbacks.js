@@ -330,3 +330,14 @@ function collapseIfPrivateSession() {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();
     }
 }
+
+$(document).ready(function() {
+    var isEdit = typeof readyFeedbackEditPage === 'function';
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            readonly: isEdit
+        });
+    }
+});
