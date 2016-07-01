@@ -25,7 +25,7 @@ public class LogoutServlet extends HttpServlet {
     public final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String nextUrl = req.getParameter(Const.ParamsNames.NEXT_URL);
         if (nextUrl == null) {
-            nextUrl = "/index.html";
+            nextUrl = "/index.jsp";
         }
         String expectedId = req.getParameter(Const.ParamsNames.HINT);
         String actualId = req.getParameter(Const.ParamsNames.USER_ID);
