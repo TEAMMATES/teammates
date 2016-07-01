@@ -173,12 +173,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
-        this.giver = Sanitizer.sanitizeEmail(giver);
-        this.giverSection = Sanitizer.sanitizeTitle(giverSection);
-        this.recipient = Sanitizer.sanitizeEmail(recipient);
-        this.recipientSection = Sanitizer.sanitizeTitle(recipientSection);
+        // nothing to sanitize before saving
     }
     
     /** This method converts the given Feedback*ResponseDetails object to JSON for storing

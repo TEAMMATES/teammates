@@ -407,8 +407,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public void sanitizeForSaving() {
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
-        this.creatorEmail = Sanitizer.sanitizeForHtml(creatorEmail);
 
         if (instructions != null) {
             this.instructions = new Text(Sanitizer.sanitizeForHtml(instructions.getValue()));

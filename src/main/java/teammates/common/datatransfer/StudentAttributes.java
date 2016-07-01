@@ -361,11 +361,7 @@ public class StudentAttributes extends EntityAttributes {
     @Override
     public void sanitizeForSaving() {
         googleId = Sanitizer.sanitizeGoogleId(googleId);
-        email = Sanitizer.sanitizeEmail(email);
-        course = Sanitizer.sanitizeTitle(course);
         name = Sanitizer.sanitizeName(name);
-        team = Sanitizer.sanitizeTitle(team);
-        section = Sanitizer.sanitizeTitle(section);
         comments = Sanitizer.sanitizeTextField(comments);
     }
     
