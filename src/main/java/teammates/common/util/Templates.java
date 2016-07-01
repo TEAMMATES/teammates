@@ -49,6 +49,8 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-pendingCommentsCleared.html");
         public static final String SYSTEM_ERROR =
                 FileHelper.readResourceFile("systemErrorEmailTemplate.html");
+        public static final String SEVERE_ERROR_LOG_LINE =
+                FileHelper.readResourceFile("severeErrorLogLine.html");
         public static final String NEW_INSTRUCTOR_ACCOUNT_WELCOME =
                 FileHelper.readResourceFile("newInstructorAccountWelcome.html");
     }
@@ -321,7 +323,6 @@ public final class Templates {
             public static final String RECIPIENT_DISPLAY = "${recipientDisplay}";
             public static final String PER_OPTION_CHECKED = "${perOptionChecked}";
             public static final String PER_RECIPIENT_CHECKED = "${perRecipientChecked}";
-            public static final String OPTIONRECIPIENTDISPLAYNAME = "${optionRecipientDisplayName}";
             
             // Contribution
             public static final String CONTRIB_SELECT_FRAGMENTS_HTML = "${contribSelectFragmentsHtml}";

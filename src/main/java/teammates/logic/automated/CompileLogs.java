@@ -1,5 +1,6 @@
 package teammates.logic.automated;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import com.google.appengine.api.log.RequestLogs;
 
 public class CompileLogs {
     
-    public String doLogExam() {
+    public List<AppLogLine> doLogExam() {
         LogService logService = LogServiceFactory.getLogService();
 
         long endTime = new java.util.Date().getTime();
@@ -31,30 +32,25 @@ public class CompileLogs {
                                      .minLogLevel(LogLevel.ERROR);
         
         Iterator<RequestLogs> logIterator = logService.fetch(q).iterator();
-        StringBuilder message = new StringBuilder(100);
-
-        int numberOfErrors = 0;
+        List<AppLogLine> errorLogs = new ArrayList<AppLogLine>();
 
         while (logIterator.hasNext()) {
             RequestLogs requestLogs = logIterator.next();
             List<AppLogLine> logList = requestLogs.getAppLogLines();
 
-            for (int i = 0; i < logList.size(); i++) {
-                AppLogLine currentLog = logList.get(i);
+            for (AppLogLine currentLog : logList) {
                 LogLevel logLevel = currentLog.getLogLevel();
                 
-                if (LogService.LogLevel.FATAL.equals(logLevel) || LogService.LogLevel.ERROR.equals(logLevel)) {
-                    numberOfErrors++;
-                    message.append(numberOfErrors + ". Error Type: " + currentLog.getLogLevel().toString()
-                                   + "<br>Error Message: " + currentLog.getLogMessage() + "<br><br>");
+                if (LogLevel.FATAL == logLevel || LogLevel.ERROR == logLevel) {
+                    errorLogs.add(currentLog);
                 }
             }
         }
 
-        return message.toString();
+        return errorLogs;
     }
 
-    public void sendEmail(String logs) {
+    public void sendEmail(List<AppLogLine> logs) {
         // Do not send any emails if there are no severe logs; prevents spamming
         if (!logs.isEmpty()) {
             EmailWrapper message = new EmailGenerator().generateCompiledLogsEmail(logs);
