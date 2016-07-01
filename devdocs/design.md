@@ -61,7 +61,7 @@ Things to note:
 The UI consist of following pages:
 + Product pages (functional): e.g., 'courses' page. These require login.
 + Product pages (peripheral): e.g., help pages, error pages. etc.
-+ Website pages: These are the static pages of the product website. e.g., `contact.html`
++ Website pages: These are the static pages of the product website. e.g., `contact.jsp`
 
 ##Logic
 
