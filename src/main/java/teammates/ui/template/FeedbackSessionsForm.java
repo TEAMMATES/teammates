@@ -79,7 +79,7 @@ public class FeedbackSessionsForm {
       
         fsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(existingFs.getTimeZone());
 
-        fsForm.instructions = Sanitizer.sanitizeForHtml(existingFs.getInstructions().getValue());
+        fsForm.instructions = Sanitizer.sanitizeForRichText(existingFs.getInstructions().getValue());
         
         fsForm.fsStartDate = TimeHelper.formatDate(existingFs.getStartTime());
         fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getStartTime());
