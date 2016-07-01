@@ -9,13 +9,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -712,6 +712,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         return true;
     }
     
+    public void selectGiverToBe(FeedbackParticipantType giverType, int questionNumber) {
+        WebElement giverDropdown = browser.driver.findElement(By.id("givertype-" + questionNumber));
+        selectDropdownByActualValue(giverDropdown, giverType.toString());
+    }
+
+    public void selectRecipientToBe(FeedbackParticipantType recipientType, int questionNumber) {
+        WebElement giverDropdown = browser.driver.findElement(By.id("recipienttype-" + questionNumber));
+        selectDropdownByActualValue(giverDropdown, recipientType.toString());
+    }
+
     public void selectGiverToBeStudents() {
         selectDropdownByVisibleValue(giverDropdown, "Students in this course");
     }
