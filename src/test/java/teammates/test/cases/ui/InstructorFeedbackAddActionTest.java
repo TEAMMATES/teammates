@@ -106,17 +106,17 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         
-        ______TS("Add course with trailing space");
+        ______TS("Add course with extra space (in middle and trailing)");
         
         params = createParamsCombinationForFeedbackSession(
-                         instructor1ofCourse1.courseId, "Course with trailing space ", 1);
+                         instructor1ofCourse1.courseId, "Course with extra  space ", 1);
         
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
         
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                          + "?courseid=" + instructor1ofCourse1.courseId
-                         + "&fsname=Course+with+trailing+space"
+                         + "&fsname=Course+with+extra+space"
                          + "&user=" + instructor1ofCourse1.googleId
                          + "&error=false";
         assertEquals(expectedString, rr.getDestinationWithParams());
@@ -125,7 +125,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                 + "instr1@course1.tmt|||New Feedback Session "
-                + "<span class=\"bold\">(Course with trailing space)</span> for Course "
+                + "<span class=\"bold\">(Course with extra space)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
                 + "<span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
                 + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>"
@@ -135,7 +135,6 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
-        
         
         ______TS("timezone with minute offset");
         
