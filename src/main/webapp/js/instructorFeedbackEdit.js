@@ -523,7 +523,9 @@ function showNewQuestionFrame(type) {
     $('#empty_message').hide();
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
-    getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
+
+    $newQuestionForm = $('#questionTableNew').closest('form');
+    updatePreviewTab($newQuestionForm);
 }
 
 function hideAllNewQuestionForms() {
