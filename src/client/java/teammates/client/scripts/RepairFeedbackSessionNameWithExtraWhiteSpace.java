@@ -32,7 +32,7 @@ import teammates.storage.entity.FeedbackSession;
  * FeedbackQuestionAttributes and FeedbackResponseCommentAttribute.
  */
 public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClient {
-    private static final boolean isPreview = false;
+    private static final boolean isPreview = true;
     
     private FeedbackSessionsDb feedbackSessionsDb = new FeedbackSessionsDb();
     private FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
@@ -89,14 +89,14 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
             }
             
             if (!coursesAffected.isEmpty()) {
-                printAffectedCourses(coursesAffected);
+                showAffectedCourses(coursesAffected);
             }
         } catch (InvalidParametersException | EntityDoesNotExistException | EntityAlreadyExistsException e) {
             e.printStackTrace();
         }
     }
 
-    private void printAffectedCourses(Set<String> coursesAffected) {
+    private void showAffectedCourses(Set<String> coursesAffected) {
         System.out.println("Courses Affected: ");
         StringBuilder coursesToRunOn = new StringBuilder();
         for (String course : coursesAffected) {
@@ -119,6 +119,12 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
      */
     private void fixFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        if (feedbackSessionsDb.getFeedbackSession(session.getCourseId(),
+                StringHelper.removeExtraSpace(session.getFeedbackSessionName())) != null) {
+            throw new EntityAlreadyExistsException(
+                    "Will be unable to rename session as a session with the extra-space-removed name exists");
+        }
+        
         fixFeedbackQuestionsOfFeedbackSession(session);
         fixFeedbackResponsesOfFeedbackSession(session);
         fixFeedbackResponseCommentsOfFeedbackSession(session);
@@ -144,7 +150,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
             commentsToSave.add(comment.toEntity());
         }
         getPm().makePersistentAll(commentsToSave);
-        getPm().flush();
+        getPm().close();
     }
 
     /**
@@ -162,7 +168,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
         }
         
         getPm().makePersistentAll(responsesToSave);
-        getPm().flush();
+        getPm().close();
     }
 
     /**
@@ -176,14 +182,12 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
                     + "courseId == courseIdParam");
         @SuppressWarnings("unchecked")
-        List<FeedbackQuestion> questions = 
+        List<FeedbackQuestion> questions =
                 (List<FeedbackQuestion>) q.execute(session.getFeedbackSessionName(), session.getCourseId());
         
-        List<FeedbackQuestion> questionsToSave = new ArrayList<>();
         for (FeedbackQuestion question : questions) {
             question.setFeedbackSessionName(
                     StringHelper.removeExtraSpace(question.getFeedbackSessionName()));
-            questionsToSave.add(question);
         }
         getPm().close();
     }
