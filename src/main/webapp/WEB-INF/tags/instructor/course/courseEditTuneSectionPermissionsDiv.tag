@@ -9,7 +9,7 @@
 <div id="tuneSectionPermissionsDiv${panelIndex}ForInstructor${instructorIndex}" data-is-originally-displayed="${sectionRow.sectionSpecial}" 
     <c:if test="${not sectionRow.sectionSpecial}"> 
         style="display: none;"
-    </c:if>>
+    </c:if> >
     <div class="panel panel-info">
         <div class="panel-heading">
             <div class="row">
