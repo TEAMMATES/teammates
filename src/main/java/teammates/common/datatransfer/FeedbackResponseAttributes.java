@@ -134,7 +134,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     }
     
     @Override
-    public Object toEntity() {
+    public FeedbackResponse toEntity() {
         return new FeedbackResponse(feedbackSessionName, courseId,
                 feedbackQuestionId, feedbackQuestionType,
                 giver, giverSection, recipient, recipientSection, responseMetaData);
