@@ -362,3 +362,20 @@ h2.subcaption {
     padding: 5px;
     font-size: 14px;
 }
+
+.currentMemberContainer {
+    width: 150px;
+    margin: 5px 15px 0px 10px;
+    float: left;
+}
+
+.currentMemberContainer img {
+    width: 150px;
+    margin: 0px 20px 0px 10px;
+}
+
+.currentMemberContainer p {
+    margin: 2px 20px 0px 10px;
+    width: 150px;
+    text-align: center;
+}
