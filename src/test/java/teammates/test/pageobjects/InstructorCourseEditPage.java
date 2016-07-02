@@ -11,6 +11,36 @@ import teammates.common.util.Const;
 
 public class InstructorCourseEditPage extends AppPage {
     
+    public static final int INSTRUCTOR_TYPE_COOWNER = 0;
+    public static final int INSTRUCTOR_TYPE_MANAGER = 1;
+    public static final int INSTRUCTOR_TYPE_OBSERVER = 2;
+    public static final int INSTRUCTOR_TYPE_TUTOR = 3;
+    public static final int INSTRUCTOR_TYPE_CUSTOM = 4;
+    
+    public static final int COURSE_MODIFY_COURSE = 0;
+    public static final int COURSE_MODIFY_INSTRUCTORS = 1;
+    public static final int COURSE_MODIFY_SESSIONS = 2;
+    public static final int COURSE_MODIFY_STUDENTS = 3;
+    public static final int COURSE_VIEW_STUDENTS = 4;
+    public static final int COURSE_GIVE_STUDENT_COMMENTS = 5;
+    public static final int COURSE_VIEW_OTHERS_COMMENTS = 6;
+    public static final int COURSE_MODIFY_OTHERS_COMMENTS = 7;
+    public static final int COURSE_GIVE_RESPONSES_IN_SESSION = 8;
+    public static final int COURSE_VIEW_RESPONSES_IN_SESSION = 9;
+    public static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 10;
+    
+    public static final int SECTION_VIEW_STUDENTS = 0;
+    public static final int SECTION_GIVE_STUDENT_COMMENTS = 1;
+    public static final int SECTION_VIEW_OTHERS_COMMENTS = 2;
+    public static final int SECTION_MODIFY_OTHERS_COMMENTS = 3;
+    public static final int SECTION_GIVE_RESPONSES_IN_SESSION = 4;
+    public static final int SECTION_VIEW_RESPONSES_IN_SESSION = 5;
+    public static final int SECTION_MODIFY_RESPONSES_IN_SESSION = 6;
+    
+    public static final int SESSION_GIVE_RESPONSES = 0;
+    public static final int SESSION_VIEW_RESPONSES = 1;
+    public static final int SESSION_MODIFY_RESPONSES = 2;
+    
     @FindBy(id = "courseid")
     private WebElement courseIdTextBox;
     
@@ -141,9 +171,9 @@ public class InstructorCourseEditPage extends AppPage {
          *  <input>: radio button
          *  <a>: the details link
          *  <br>: break line
-         *  Therefore the formula for the position of the details link of the group i-th (count from 1) is i * 3 - 1
+         *  Therefore the formula for the position of the details link of the group i-th (count from 0) is i * 3 + 2
          */
-        int cssLinkNum = viewLinkNum * 3 - 1;
+        int cssLinkNum = viewLinkNum * 3 + 2;
         WebElement viewLink =
                 browser.driver.findElement(
                         By.cssSelector("#accessControlEditDivForInstr" + instrNum
