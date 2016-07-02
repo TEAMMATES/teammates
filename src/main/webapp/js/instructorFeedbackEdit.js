@@ -524,8 +524,8 @@ function showNewQuestionFrame(type) {
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
 
-    $newQuestionForm = $('#questionTableNew').closest('form');
-    updatePreviewTab($newQuestionForm);
+    var selectedFeedbackPathOption = $('#givertype');
+    matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption);
 }
 
 function hideAllNewQuestionForms() {
