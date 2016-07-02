@@ -888,7 +888,7 @@
               Who will give the feedback:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" disabled="" id="givertype-1" name="givertype" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+              <select class="form-control participantSelect" disabled="" id="givertype-1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
                 <option selected="" value="SELF">
                   Me (Session creator)
                 </option>
@@ -909,7 +909,7 @@
               Who the feedback is about:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" disabled="" id="recipienttype-1" name="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+              <select class="form-control participantSelect" disabled="" id="recipienttype-1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
                 <option selected="" value="SELF">
                   Giver (Self feedback)
                 </option>
@@ -1186,7 +1186,7 @@
               Who will give the feedback:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" disabled="" id="givertype-2" name="givertype" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+              <select class="form-control participantSelect" disabled="" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
                 <option selected="" value="SELF">
                   Me (Session creator)
                 </option>
@@ -1207,7 +1207,7 @@
               Who the feedback is about:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" disabled="" id="recipienttype-2" name="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+              <select class="form-control participantSelect" disabled="" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
                 <option selected="" value="SELF">
                   Giver (Self feedback)
                 </option>
@@ -2091,7 +2091,7 @@
               Who will give the feedback:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" id="givertype" name="givertype" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+              <select class="form-control participantSelect" id="givertype" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
                 <option value="SELF">
                   Me (Session creator)
                 </option>
@@ -2112,7 +2112,7 @@
               Who the feedback is about:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" id="recipienttype" name="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+              <select class="form-control participantSelect" id="recipienttype" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
                 <option value="SELF">
                   Giver (Self feedback)
                 </option>
