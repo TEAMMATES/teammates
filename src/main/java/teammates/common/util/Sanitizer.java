@@ -31,7 +31,7 @@ public final class Sanitizer {
                     .onElements("p")
                 .allowElements(
                     "a", "p", "div", "i", "b", "em", "blockquote", "tt", "strong", "hr",
-                    "br", "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6", "img")
+                    "br", "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6", "img", "span")
                 .allowElements("quote", "ecode")
                 .allowStyling()
                 .toFactory();
