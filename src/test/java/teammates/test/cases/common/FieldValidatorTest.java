@@ -253,8 +253,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
                          + "as a/an name field because it is too long. The value of a/an name field should "
                          + "be no longer than 50 characters. It should not be empty.",
-                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
-                                                             tooLongName));
+                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength, tooLongName));
         
         ______TS("failure: empty string");
         
@@ -262,8 +261,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: empty",
                      "\"\" is not acceptable to TEAMMATES as a/an name field because it is empty. The value "
                          + "of a/an name field should be no longer than 50 characters. It should not be empty.",
-                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
-                                                             emptyValue));
+                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength, emptyValue));
         
         ______TS("failure: untrimmed value");
         
@@ -271,8 +269,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: untrimmed",
                      "The provided name field is not acceptable to TEAMMATES as it contains only whitespace "
                          + "or contains extra spaces at the beginning or at the end of the text.",
-                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
-                                                             untrimmedValue));
+                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength, untrimmedValue));
     }
 
     @Test
@@ -281,8 +278,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String actual = validator.getInvalidityInfoForPersonName(invalidPersonName);
         assertEquals("Invalid person name (empty) should return error message that is specific to person name",
                      "\"\" is not acceptable to TEAMMATES as a/an person name because it is empty. The value "
-                         + "of a/an person name should be no longer than 100 characters. It should not be "
-                         + "empty.",
+                         + "of a/an person name should be no longer than 100 characters. It should not be empty.",
                      actual);
     }
 
@@ -293,8 +289,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Invalid institute name (too long) should return error message that is specific to institute name",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not "
                          + "acceptable to TEAMMATES as a/an institute name because it is too long. The value "
-                         + "of a/an institute name should be no longer than 64 characters. It should not be "
-                         + "empty.",
+                         + "of a/an institute name should be no longer than 64 characters. It should not be empty.",
                      actual);
     }
 
@@ -327,8 +322,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Invalid section name (invalid char) should return error string that is specific to section name",
                      "\"Percent Symbol % Section\" is not acceptable to TEAMMATES as a/an section name "
                          + "because it contains invalid characters. All section name must start with an "
-                         + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign "
-                         + "(%).",
+                         + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",
                      actual);
     }
 
@@ -505,8 +499,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Invalid email (empty) should return appropriate error string",
                      "\"\" is not acceptable to TEAMMATES as a/an email because it is empty. An email "
                          + "address contains some text followed by one '@' sign followed by some more text. "
-                         + "It cannot be longer than 254 characters, cannot be empty and cannot contain "
-                         + "spaces.",
+                         + "It cannot be longer than 254 characters, cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForEmail(emptyEmail));
 
         String untrimmedEmail = "  untrimmed@email.com  ";
