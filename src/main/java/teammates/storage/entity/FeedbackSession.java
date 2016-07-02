@@ -275,7 +275,7 @@ public class FeedbackSession {
     
     public boolean isSentUnpublishedEmail() {
         if (sentUnpublishedEmail == null){
-            return true;
+            return !sentPublishedEmail;
         }
         
         return sentUnpublishedEmail;
