@@ -532,37 +532,37 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.SELF, 1);
 
-        assertEnabledVisibilityOptionsIncludesOnly(Arrays.asList(
-                FeedbackParticipantType.RECEIVER, FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                    FeedbackParticipantType.RECEIVER_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS,
-                    FeedbackParticipantType.INSTRUCTORS),
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                              FeedbackParticipantType.RECEIVER_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS,
+                              FeedbackParticipantType.INSTRUCTORS),
                 1);
 
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.INSTRUCTORS, 1);
 
-        assertEnabledVisibilityOptionsIncludesOnly(Arrays.asList(
-                FeedbackParticipantType.RECEIVER, FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                    FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                              FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
                 1);
 
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.NONE, 1);
 
-        assertEnabledVisibilityOptionsIncludesOnly(Arrays.asList(
-                FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS,
-                    FeedbackParticipantType.INSTRUCTORS),
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS,
+                              FeedbackParticipantType.INSTRUCTORS),
                 1);
 
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.INSTRUCTORS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.NONE, 1);
 
-        assertEnabledVisibilityOptionsIncludesOnly(Arrays.asList(
-                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS), 1);
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS), 1);
     }
 
     private void assertEnabledVisibilityOptionsIncludesOnly(List<FeedbackParticipantType> expectedTypes,
-                                                           int questionNumber) {
+                                                            int questionNumber) {
         Set<String> expectedEnabledOptions = new HashSet<String>();
         for (FeedbackParticipantType expectedType : expectedTypes) {
             expectedEnabledOptions.add(expectedType.toString());
