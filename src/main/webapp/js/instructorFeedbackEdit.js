@@ -682,8 +682,7 @@ function copyOptions() {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
 
-    $containingForm = $currGiver.closest('form');
-    updateEditTab($containingForm);
+    matchVisibilityOptionToFeedbackPath($currGiver);
 }
 
 /**
