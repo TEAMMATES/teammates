@@ -158,6 +158,15 @@ function updateStatsCheckBox() {
     $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
 }
 
+function printView() {
+    $('.panel-success').printThis({
+        importCSS: true,
+        importStyle: true,
+        loadCSS: "/stylesheets/printview.css",
+        header: "<h1>Group By View</h1>"
+    });
+}
+
 function toggleCollapse(e, pans) {
     var expand = 'Expand';
     var collapse = 'Collapse';
