@@ -336,15 +336,6 @@ $.extend($.expr[':'], {
     }
 });
 
-/**
- * Function that shows confirmation dialog for removing a student from a course
- * @param studentName
- * @returns
- */
-function toggleDeleteStudentConfirmation(courseId, studentName) {
-    return confirm('Are you sure you want to remove ' + studentName + ' from the course ' + courseId + '?');
-}
- 
 function bindCollapseEvents(panels) {
     var numPanels = -1;
     for (var i = 0; i < panels.length; i++) {

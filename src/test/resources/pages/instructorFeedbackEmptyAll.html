@@ -1,5 +1,8 @@
 <html>
 <head>
+<style id="mceDefaultStyles" type="text/css">
+  .mce-content-body div.mce-resizehandle {position: absolute;border: 1px solid black;background: #FFF;width: 5px;height: 5px;z-index: 10000}.mce-content-body .mce-resizehandle:hover {background: #000}.mce-content-body img[data-mce-selected], hr[data-mce-selected] {outline: 1px solid black;resize: none}.mce-content-body .mce-clonedresizable {position: absolute;opacity: .5;filter: alpha(opacity=50);z-index: 10000}.mce-content-body .mce-resize-helper {background: #555;background: rgba(0,0,0,0.75);border-radius: 3px;border: 1px;color: white;display: none;font-family: sans-serif;font-size: 12px;white-space: nowrap;line-height: 14px;margin: 5px 10px;padding: 5px;position: absolute;z-index: 10001} img:-moz-broken {-moz-force-broken-image-icon:1;min-width:24px;min-height:24px}
+</style>
 <title>
   TEAMMATES - Instructor
 </title>
@@ -24,6 +27,10 @@
 <script src="/js/common.js" type="text/javascript">
 </script>
 <link href="/stylesheets/datepicker.css" media="screen" rel="stylesheet" type="text/css">
+<script src="/js/lib/tinymce.min.js" type="text/javascript">
+</script>
+<script src="/js/richTextEditor.js" type="text/javascript">
+</script>
 <script src="/js/datepicker.js" type="text/javascript">
 </script>
 <script src="/js/instructor.js" type="text/javascript">
@@ -38,8 +45,10 @@
 </script>
 <script src="/js/instructorFeedbacksSpecific.js" type="text/javascript">
 </script>
+<link href="http://localhost:8888/js/lib/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
+<link href="http://localhost:8888/js/lib/skins/lightgray/content.inline.min.css" rel="stylesheet">
 </head>
-<body>
+<body spellcheck="false">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -54,7 +63,7 @@
         <span class="icon-bar">
         </span>
       </button>
-      <a class="navbar-brand" href="/index.html">
+      <a class="navbar-brand" href="/index.jsp">
         TEAMMATES
       </a>
     </div>
@@ -91,7 +100,7 @@
           </a>
         </li>
         <li>
-          <a class="nav help" href="/instructorHelp.html" target="_blank">
+          <a class="nav help" href="/instructorHelp.jsp" target="_blank">
             Help
           </a>
         </li>
@@ -136,7 +145,7 @@
           </div>
           <div class="col-xs-1">
             <h5>
-              <a href="/instructorHelp.html#fbSetupSession" target="_blank">
+              <a href="/instructorHelp.jsp#fbSetupSession" target="_blank">
                 <span class="glyphicon glyphicon-info-sign">
                 </span>
               </a>
@@ -328,9 +337,14 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <textarea class="form-control" cols="100%" id="instructions" name="instructions" placeholder="e.g. Please answer all the given questions." rows="4">
-                    Please answer all the given questions.
-                  </textarea>
+                  <div id="richtext-toolbar-container">
+                  </div>
+                  <div class="panel panel-default panel-body mce-content-body" contenteditable="true" id="instructions" spellcheck="false" style="position: relative;">
+                    <p>
+                      Please answer all the given questions.
+                    </p>
+                  </div>
+                  <input name="instructions" type="hidden">
                 </div>
               </div>
             </div>
@@ -1075,7 +1089,7 @@
       <div class="col-md-2">
         <span>
           [
-          <a href="/index.html">
+          <a href="/index.jsp">
             TEAMMATES
           </a>
           V${version}]
@@ -1091,7 +1105,7 @@
       <div class="col-md-2">
         <span>
           [Send
-          <a class="link" href="../contact.html" target="_blank">
+          <a class="link" href="/contact.jsp" target="_blank">
             Feedback
           </a>
           ]

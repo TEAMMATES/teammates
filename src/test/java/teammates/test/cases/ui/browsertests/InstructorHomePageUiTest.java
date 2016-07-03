@@ -432,11 +432,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
         
         homePage.getFsCopyModal().verifyStatusMessage(
-                                     String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                                                   invalidFeedbackSessionName,
-                                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                                   FieldValidator.REASON_CONTAINS_INVALID_CHAR,
-                                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
+                getPopulatedErrorMessage(
+                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidFeedbackSessionName,
+                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                    FieldValidator.REASON_CONTAINS_INVALID_CHAR));
         homePage.getFsCopyModal().clickCloseButton();
         
         ______TS("Successful case: Home Page");

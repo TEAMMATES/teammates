@@ -56,6 +56,8 @@
                             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${sessionPanel.courseId}">
                             <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${sessionPanel.selectedSection}">
                             <input type="hidden" id="filterTextForDownload" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT %>">
+                            <input type="hidden" id="statsShownCheckBox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="${sessionPanel.isStatsShown}">
+                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="${sessionPanel.isMissingResponsesShown}">
                         </form>
                         <br>
                         <div>
