@@ -689,6 +689,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amanvijain"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Marianna Sternefeld 
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amesternefeld"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Nilesh Suthar 
                     [bug reporting/fixing, enhancements]
                 </li>
