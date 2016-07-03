@@ -244,6 +244,16 @@ public class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, String subject) {
         
+        String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                                 .withCourseId(course.getId())
+                                 .withSessionName(session.getFeedbackSessionName())
+                                 .toAbsoluteString();
+        
+        String reportUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+                                 .withCourseId(course.getId())
+                                 .withSessionName(session.getFeedbackSessionName())
+                                 .toAbsoluteString();
+        
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", instructor.name,
                 "${courseName}", course.getName(),
@@ -252,8 +262,8 @@ public class EmailGenerator {
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}",
                         "The email below has been sent to students of course: " + course.getId() + ".<p/><br>",
-                "${submitUrl}", "{The student's unique submission url appears here}",
-                "${reportUrl}", "{The student's unique results url appears here}",
+                "${submitUrl}", submitUrl,
+                "${reportUrl}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
