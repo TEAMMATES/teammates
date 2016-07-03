@@ -137,19 +137,16 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                            .toString(),
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
-        assertEquals(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                                   "",
-                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                   FieldValidator.REASON_EMPTY,
-                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                   FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
+        assertEquals(getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                         FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
                      pageResult.getStatusMessage());
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
                 + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name "
-                + "because it is empty. The value of feedback session name should be no longer than "
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as a/an feedback session name "
+                + "because it is empty. The value of a/an feedback session name should be no longer than "
                 + "38 characters. It should not be empty.|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         

@@ -11,6 +11,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -80,8 +81,10 @@ public class StudentsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(COURSE_ID_ERROR_MESSAGE, s.course,
-                            REASON_INCORRECT_FORMAT),
+                    getPopulatedErrorMessage(
+                        COURSE_ID_ERROR_MESSAGE, s.course,
+                        FieldValidator.COURSE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
                     e.getMessage());
         }
         verifyAbsentInDatastore(s);

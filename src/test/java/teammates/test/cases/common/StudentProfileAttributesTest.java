@@ -185,18 +185,28 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         List<String> expectedErrorMessages = new ArrayList<String>();
 
         // tests both the constructor and the invalidity info
-        expectedErrorMessages.add(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, profile.shortName,
-                                                FieldValidator.PERSON_NAME_FIELD_NAME,
-                                                FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                                                FieldValidator.PERSON_NAME_FIELD_NAME));
-        expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, profile.email,
-                                                FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessages.add(String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE, profile.institute,
-                                                FieldValidator.REASON_TOO_LONG));
-        expectedErrorMessages.add(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, profile.nationality,
-                                                FieldValidator.NATIONALITY_FIELD_NAME,
-                                                FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                                                FieldValidator.NATIONALITY_FIELD_NAME));
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(
+                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, profile.shortName,
+                    FieldValidator.PERSON_NAME_FIELD_NAME,
+                    FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                    FieldValidator.PERSON_NAME_MAX_LENGTH));
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(
+                    FieldValidator.EMAIL_ERROR_MESSAGE, profile.email,
+                    FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                    FieldValidator.EMAIL_MAX_LENGTH));
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, profile.institute,
+                    FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                    FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(
+                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, profile.nationality,
+                    FieldValidator.NATIONALITY_FIELD_NAME,
+                    FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                    FieldValidator.NATIONALITY_MAX_LENGTH));
         expectedErrorMessages.add(String.format(FieldValidator.GENDER_ERROR_MESSAGE, profile.gender));
         return expectedErrorMessages;
     }

@@ -72,6 +72,8 @@
                   <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
                   <input id="filterTextForDownload" name="filtertext" type="hidden">
+                  <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="false">
+                  <input name="frindicatemissingresponses" type="hidden" value="false">
                 </form>
                 <br>
                 <div>
@@ -196,7 +198,7 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label class="text-strike">
-                  <input id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input id="show-stats-checkbox" name="frshowstats" onchange="updateStatsCheckBox();" type="checkbox">
                   Show Statistics
                 </label>
               </div>
