@@ -51,36 +51,47 @@ function submitFormAjax() {
 function attachEventToRemindStudentsButton() {
     $('#button_remind').on('click', function(event) {
         var $clickedButton = $(event.target);
-        var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an '
-                          + 'automatic invite to students at the opening time of each session. Send a join '
-                          + 'request to all yet-to-join students in ' + $clickedButton.data('courseId')
-                          + ' anyway?';
-        if (confirm(messageText)) {
+        var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
+                          + 'invite to students at the opening time of each session. Send a join request to '
+                          + 'all yet-to-join students in ' + $clickedButton.data('courseId') + ' anyway?';
+        var okCallback = function() {
             window.location = $clickedButton.attr('href');
-        }
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm sending join requests', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
     });
 }
 
 function attachEventToSendInviteLink() {
-    var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
-                      + 'invite to students at the opening time of each session. Send a join request anyway?';
-
     $('.course-student-remind-link').on('click', function(event) {
-        if (!confirm(messageText)) {
-            event.preventDefault();
-        }
+        event.preventDefault();
+
+        var $clickedLink = $(event.target);
+        var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
+                          + 'invite to students at the opening time of each session. Send a join request anyway?';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm sending join request', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
     });
 }
 
 function attachEventToDeleteStudentLink() {
     $('.course-student-delete-link').on('click', function(event) {
-        $clickedLink = $(event.target);
-        var messageText = 'Are you sure you want to remove ' + $clickedLink.data('studentNameForJs')
-                          + ' from the course ' + $clickedLink.data('courseNameForJs') + '?';
+        event.preventDefault();
 
-        if (!confirm(messageText)) {
-            event.preventDefault();
-        }
+        var $clickedLink = $(event.target);
+        var messageText = 'Are you sure you want to remove ' + $clickedLink.data('studentName')
+                          + ' from the course ' + $clickedLink.data('courseName') + '?';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deletion', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
     });
 }
 
