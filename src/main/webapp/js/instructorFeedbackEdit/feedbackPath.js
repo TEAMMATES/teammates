@@ -8,14 +8,11 @@ var FeedbackPath = {
         FeedbackPath.attachEventsForAllOptions(allDropdownOptions);
 
         var commonOptions = allDropdownOptions.not(
-                '.feedback-path-dropdown-option-other, .feedback-path-dropdown-option-custom');
+                '.feedback-path-dropdown-option-other');
         FeedbackPath.attachEventsForCommonOptions(commonOptions);
 
         var otherOption = $('.feedback-path-dropdown-option-other');
         FeedbackPath.attachEventsForOtherOption(otherOption);
-
-        var customPathOption = $('.feedback-path-dropdown-option-custom');
-        FeedbackPath.attachEventsForCustomPathOption(customPathOption);
     },
 
     attachEventsForAllOptions: function(allDropdownOptions) {
@@ -44,15 +41,6 @@ var FeedbackPath = {
             var containingForm = FeedbackPath.getContainingForm(clickedElem);
 
             FeedbackPath.showOtherOption(containingForm);
-        });
-    },
-
-    attachEventsForCustomPathOption: function(customPathOption) {
-        customPathOption.on('click', function(event) {
-            var clickedElem = $(event.target);
-            var containingForm = FeedbackPath.getContainingForm(clickedElem);
-
-            FeedbackPath.hideOtherOption(containingForm);
         });
     },
 
