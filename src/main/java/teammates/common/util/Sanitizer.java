@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.PolicyFactory;
+
 import com.google.appengine.api.datastore.Text;
 
 /**
@@ -16,7 +19,23 @@ import com.google.appengine.api.datastore.Text;
  * and possible threats can be removed first.
  */
 public final class Sanitizer {
-    
+
+    private static PolicyFactory policy =
+            new HtmlPolicyBuilder()
+                .allowStandardUrlProtocols()
+                .allowAttributes("title").globally()
+                .allowAttributes("href").onElements("a")
+                .allowAttributes("src").onElements("img")
+                .allowAttributes("align")
+                    .matching(true, "center", "left", "right", "justify", "char")
+                    .onElements("p")
+                .allowElements(
+                    "a", "p", "div", "i", "b", "em", "blockquote", "tt", "strong", "hr",
+                    "br", "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6", "img", "span")
+                .allowElements("quote", "ecode")
+                .allowStyling()
+                .toFactory();
+
     private Sanitizer() {
         // utility class
     }
@@ -111,6 +130,17 @@ public final class Sanitizer {
                 .replace("\"", "\\\"")
                 .replace("'", "\\'")
                 .replace("#", "\\#"));
+    }
+
+    /**
+     * Sanitizes the string with rich-text.
+     * Removes disallowed elements based on defined policy.
+     */
+    public static String sanitizeForRichText(String content) {
+        if (content == null) {
+            return null;
+        }
+        return policy.sanitize(content);
     }
 
     /**
@@ -296,5 +326,12 @@ public final class Sanitizer {
             return "''";
         }
         return "concat(" + result.toString() + "'')";
+    }
+
+    /**
+     * @return text with all non-ASCII characters removed
+     */
+    public static String removeNonAscii(String text) {
+        return text.replaceAll("[^\\x00-\\x7F]", "");
     }
 }

@@ -11,6 +11,36 @@ import teammates.common.util.Const;
 
 public class InstructorCourseEditPage extends AppPage {
     
+    public static final int INSTRUCTOR_TYPE_COOWNER = 0;
+    public static final int INSTRUCTOR_TYPE_MANAGER = 1;
+    public static final int INSTRUCTOR_TYPE_OBSERVER = 2;
+    public static final int INSTRUCTOR_TYPE_TUTOR = 3;
+    public static final int INSTRUCTOR_TYPE_CUSTOM = 4;
+    
+    public static final int COURSE_MODIFY_COURSE = 0;
+    public static final int COURSE_MODIFY_INSTRUCTORS = 1;
+    public static final int COURSE_MODIFY_SESSIONS = 2;
+    public static final int COURSE_MODIFY_STUDENTS = 3;
+    public static final int COURSE_VIEW_STUDENTS = 4;
+    public static final int COURSE_GIVE_STUDENT_COMMENTS = 5;
+    public static final int COURSE_VIEW_OTHERS_COMMENTS = 6;
+    public static final int COURSE_MODIFY_OTHERS_COMMENTS = 7;
+    public static final int COURSE_GIVE_RESPONSES_IN_SESSION = 8;
+    public static final int COURSE_VIEW_RESPONSES_IN_SESSION = 9;
+    public static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 10;
+    
+    public static final int SECTION_VIEW_STUDENTS = 0;
+    public static final int SECTION_GIVE_STUDENT_COMMENTS = 1;
+    public static final int SECTION_VIEW_OTHERS_COMMENTS = 2;
+    public static final int SECTION_MODIFY_OTHERS_COMMENTS = 3;
+    public static final int SECTION_GIVE_RESPONSES_IN_SESSION = 4;
+    public static final int SECTION_VIEW_RESPONSES_IN_SESSION = 5;
+    public static final int SECTION_MODIFY_RESPONSES_IN_SESSION = 6;
+    
+    public static final int SESSION_GIVE_RESPONSES = 0;
+    public static final int SESSION_VIEW_RESPONSES = 1;
+    public static final int SESSION_MODIFY_RESPONSES = 2;
+    
     @FindBy(id = "courseid")
     private WebElement courseIdTextBox;
     
@@ -52,7 +82,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public InstructorCourseEditPage verifyIsCorrectPage(String courseId) {
-        assertEquals(courseId, this.getCourseId());
+        assertEquals(courseId, getCourseId());
         return this;
     }
     
@@ -126,7 +156,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public void clickDisplayedToStudentCheckBox(int instrNum) {
-        this.displayedToStudentCheckBox(instrNum).click();
+        getDisplayedToStudentCheckBox(instrNum).click();
     }
     
     public void selectRoleForInstructor(int instrNum, String role) {
@@ -141,9 +171,9 @@ public class InstructorCourseEditPage extends AppPage {
          *  <input>: radio button
          *  <a>: the details link
          *  <br>: break line
-         *  Therefore the formula for the position of the details link of the group i-th (count from 1) is i * 3 - 1
+         *  Therefore the formula for the position of the details link of the group i-th (count from 0) is i * 3 + 2
          */
-        int cssLinkNum = viewLinkNum * 3 - 1;
+        int cssLinkNum = viewLinkNum * 3 + 2;
         WebElement viewLink =
                 browser.driver.findElement(
                         By.cssSelector("#accessControlEditDivForInstr" + instrNum
@@ -179,36 +209,34 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public void clickCourseLevelPrivilegesLink(int instrNum, int linkNum) {
-        WebElement coursePanel = this.courseLevelPanel(instrNum);
-        coursePanel.findElements(By.cssSelector("input[type='checkbox']")).get(linkNum - 1).click();
+        WebElement coursePanel = getCourseLevelPanel(instrNum);
+        coursePanel.findElements(By.cssSelector("input[type='checkbox']")).get(linkNum).click();
     }
     
     public void clickAddSectionLevelPrivilegesLink(int instrNum) {
-        this.addSectionLevelPrivilegesLink(instrNum).click();
+        getAddSectionLevelPrivilegesLink(instrNum).click();
     }
     
     public void clickSectionSelectionCheckBox(int instrNum, int sectionLevelIndex, int sectionNum) {
-        this.sectionSelectionCheckBox(instrNum, sectionLevelIndex - 1, sectionNum - 1).click();
+        getSectionSelectionCheckBox(instrNum, sectionLevelIndex, sectionNum).click();
     }
     
-    public void clickViewStudentCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex) {
-        this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex,
-                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS).click();
+    public void clickSectionLevelPrivilegeLink(int instrNum, int sectionLevelIndex, int linkNum) {
+        getSectionLevelPanelCheckBox(instrNum, sectionLevelIndex, linkNum).click();
     }
     
-    public void clickViewOthersCommentsCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex) {
-        this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex,
-                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS).click();
+    public boolean isSectionLevelPrivilegeLinkClicked(int instrNum, int sectionLevelIndex, int linkNum) {
+        return getSectionLevelPanelCheckBox(instrNum, sectionLevelIndex, linkNum).isSelected();
     }
     
-    public void clickViewSessionResultsCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex) {
-        this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex,
-                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS).click();
+    public void clickSessionLevelPrivilegeLink(int instrNum, int sectionLevelIndex,
+                                               int sessionIndex, int linkNum) {
+        getSessionLevelTableCheckbox(instrNum, sectionLevelIndex, sessionIndex, linkNum).click();
     }
     
-    public void clickModifySessionResultCheckBoxInSectionLevel(int instrNum, int sectionLevelIndex) {
-        this.sectionLevelPanelCheckBox(instrNum, sectionLevelIndex,
-                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS).click();
+    public boolean isSessionLevelPrivilegeLinkClicked(int instrNum, int sectionLevelIndex,
+                                                      int sessionIndex, int linkNum) {
+        return getSessionLevelTableCheckbox(instrNum, sectionLevelIndex, sessionIndex, linkNum).isSelected();
     }
     
     public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelIndex) {
@@ -232,8 +260,10 @@ public class InstructorCourseEditPage extends AppPage {
         return isFormShownCorrectly;
     }
     
-    public boolean clickOnAccessLevelViewDetails(String role) {
-        WebElement viewDetailsLink = browser.driver.findElement(By.cssSelector(
+    public boolean clickOnNewInstructorAccessLevelViewDetails(String role) {
+        WebElement instructorForm = browser.driver.findElement(By.id("formAddInstructor"));
+        
+        WebElement viewDetailsLink = instructorForm.findElement(By.cssSelector(
                                             "a[onclick=\"showInstructorRoleModal('" + role + "')\"]"));
         viewDetailsLink.click();
         
@@ -354,39 +384,58 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElement(By.id("instructoremail" + instrNum));
     }
     
-    public WebElement displayedToStudentCheckBox(int instrNum) {
+    public WebElement getDisplayedToStudentCheckBox(int instrNum) {
         return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " input[name='"
                                                          + Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT
                                                          + "']"));
     }
     
-    public WebElement courseLevelPanel(int instrNum) {
+    public WebElement getCourseLevelPanel(int instrNum) {
         String permissionDivId = "tunePermissionsDivForInstructor" + instrNum;
         return browser.driver.findElement(By.id(permissionDivId))
                              .findElement(By.cssSelector("div.form-group>div>div.panel"));
     }
     
-    public WebElement addSectionLevelPrivilegesLink(int instrNum) {
+    public WebElement getAddSectionLevelPrivilegesLink(int instrNum) {
         return browser.driver.findElement(By.id("addSectionLevelForInstructor" + instrNum));
     }
     
-    public WebElement sectionLevelPanel(int instrNum, int sectionLevelIndex) {
+    public WebElement getSectionLevelPanel(int instrNum, int sectionLevelIndex) {
         String permissionDivId = "tuneSectionPermissionsDiv" + sectionLevelIndex + "ForInstructor" + instrNum;
         return browser.driver.findElement(By.id(permissionDivId));
     }
     
-    private WebElement sectionSelectionCheckBox(int instrNum, int sectionLevelIndex, int sectionNum) {
-        WebElement sectionPanel = this.sectionLevelPanel(instrNum, sectionLevelIndex);
+    private WebElement getSectionLevelPanelBody(int instrNum, int sectionLevelIndex) {
+        WebElement sectionPanel = getSectionLevelPanel(instrNum, sectionLevelIndex);
+        return sectionPanel.findElement(By.cssSelector("div[class='panel-body']"));
+    }
+    
+    private WebElement getSectionSelectionCheckBox(int instrNum, int sectionLevelIndex, int sectionNum) {
+        WebElement sectionPanel = getSectionLevelPanel(instrNum, sectionLevelIndex);
         String cssSelector = "input[name='" + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP
                              + sectionLevelIndex + Const.ParamsNames.INSTRUCTOR_SECTION + sectionNum + "']";
         return sectionPanel.findElement(By.cssSelector(cssSelector));
     }
     
-    private WebElement sectionLevelPanelCheckBox(int instrNum, int sectionLevelIndex, String checkBoxName) {
-        WebElement sectionPanel = this.sectionLevelPanel(instrNum, sectionLevelIndex);
-        String cssSelector = "input[type='checkbox'][name='" + checkBoxName
-                             + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionLevelIndex + "']";
-        return sectionPanel.findElement(By.cssSelector(cssSelector));
+    private WebElement getSectionLevelPanelCheckBox(int instrNum, int sectionLevelIndex, int checkBoxIndex) {
+        WebElement sectionPanelBody = getSectionLevelPanelBody(instrNum, sectionLevelIndex);
+        return sectionPanelBody.findElements(By.cssSelector("input[type='checkbox']")).get(checkBoxIndex);
+    }
+    
+    private WebElement getSessionLevelTableBody(int instrNum, int sectionLevelIndex) {
+        WebElement sectionPanelBody = getSectionLevelPanelBody(instrNum, sectionLevelIndex);
+        return sectionPanelBody.findElement(By.cssSelector("table"));
+    }
+    
+    private WebElement getSessionLevelTableRow(int instrNum, int sectionLevelIndex, int sessionIndex) {
+        WebElement sessionLevelTableBody = getSessionLevelTableBody(instrNum, sectionLevelIndex);
+        return sessionLevelTableBody.findElements(By.cssSelector("tbody tr")).get(sessionIndex);
+    }
+    
+    private WebElement getSessionLevelTableCheckbox(int instrNum, int sectionLevelIndex,
+                                                 int sessionIndex, int checkBoxIndex) {
+        WebElement sessionLevelTableRow = getSessionLevelTableRow(instrNum, sectionLevelIndex, sessionIndex);
+        return sessionLevelTableRow.findElements(By.cssSelector("input[type='checkbox']")).get(checkBoxIndex);
     }
 
 }

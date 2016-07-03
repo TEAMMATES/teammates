@@ -123,6 +123,9 @@
       <property name="max" value="125"/>
       <property name="tabWidth" value="4"/>
     </module>
+    <module name="SingleSpaceSeparator">
+      <property name="validateComments" value="true"/>
+    </module>
   </module>
   <module name="SuppressionFilter">
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>

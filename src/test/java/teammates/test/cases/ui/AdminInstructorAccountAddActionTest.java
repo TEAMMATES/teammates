@@ -125,7 +125,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         generateNextDemoCourseId.setAccessible(true);
         final String normalIdSuffix = ".gma-demo";
         final String atEmail = "@gmail.tmt";
-        final int normalIdSuffixLength = normalIdSuffix.length();  //9
+        final int normalIdSuffixLength = normalIdSuffix.length(); // 9
         final String strShortWithWordDemo =
                 StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2) + "-demo";
         final String strWayShorterThanMaximum =

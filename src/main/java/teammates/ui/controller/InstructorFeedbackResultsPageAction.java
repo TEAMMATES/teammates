@@ -16,15 +16,16 @@ import teammates.ui.controller.InstructorFeedbackResultsPageData.ViewType;
 public class InstructorFeedbackResultsPageAction extends Action {
 
     private static final String ALL_SECTION_OPTION = "All";
-    private static final int DEFAULT_QUERY_RANGE = 1000;
     private static final int DEFAULT_SECTION_QUERY_RANGE = 2500;
-    private static final int QUERY_RANGE_FOR_AJAX_TESTING = 5;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String filterText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT);
+        String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
+
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
 
@@ -45,21 +46,25 @@ public class InstructorFeedbackResultsPageAction extends Action {
             selectedSection = ALL_SECTION_OPTION;
         }
         
+        boolean isMissingResponsesShown = getRequestParamAsBoolean(
+                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
+        
         // this is for ajax loading of the html table in the modal
         // "(Non-English characters not displayed properly in the downloaded file? click here)"
         // TODO move into another action and another page data class
         boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         if (isLoadingCsvResultsAsHtml) {
-            return createAjaxResultForCsvTableLoadedInHtml(courseId, feedbackSessionName, instructor, data, selectedSection);
+            return createAjaxResultForCsvTableLoadedInHtml(
+                    courseId, feedbackSessionName, instructor, data, selectedSection,
+                    filterText, isMissingResponsesShown, Boolean.valueOf(showStats));
         }
         data.setSessionResultsHtmlTableAsString("");
         data.setAjaxStatus("");
         
-        String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
-        
+
         if (startIndex != null) {
             data.setStartIndex(Integer.parseInt(startIndex));
         }
@@ -69,12 +74,12 @@ public class InstructorFeedbackResultsPageAction extends Action {
             showStats = "on";
             groupByTeam = "on";
             sortType = Const.FeedbackSessionResults.QUESTION_SORT_TYPE;
+            isMissingResponsesShown = true;
         }
         
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String isTestingAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
-        int queryRange = isTestingAjax == null ? DEFAULT_QUERY_RANGE : QUERY_RANGE_FOR_AJAX_TESTING;
-
+   
         if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null
                 && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
             // bundle for all questions and all sections
@@ -82,7 +87,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                      logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                                                            feedbackSessionName, courseId,
                                                                            instructor.email,
-                                                                           queryRange, sortType));
+                                                                           DEFAULT_SECTION_QUERY_RANGE, sortType));
         } else if (Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
             data.setBundle(getBundleForQuestionView(isTestingAjax, courseId, feedbackSessionName, instructor, data,
                                                     selectedSection, sortType, questionId));
@@ -119,36 +124,35 @@ public class InstructorFeedbackResultsPageAction extends Action {
             isError = true;
         }
         
-
         switch (sortType) {
         case Const.FeedbackSessionResults.QUESTION_SORT_TYPE:
-            data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam);
+            data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
         case Const.FeedbackSessionResults.RGQ_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.RECIPIENT_GIVER_QUESTION);
+                                          ViewType.RECIPIENT_GIVER_QUESTION, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         case Const.FeedbackSessionResults.GRQ_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.GIVER_RECIPIENT_QUESTION);
+                                          ViewType.GIVER_RECIPIENT_QUESTION, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
         case Const.FeedbackSessionResults.RQG_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.RECIPIENT_QUESTION_GIVER);
+                                          ViewType.RECIPIENT_QUESTION_GIVER, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
         case Const.FeedbackSessionResults.GQR_SORT_TYPE:
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.GIVER_QUESTION_RECIPIENT);
+                                          ViewType.GIVER_QUESTION_RECIPIENT, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
         default:
             sortType = Const.FeedbackSessionResults.RGQ_SORT_TYPE;
             data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
-                                          ViewType.RECIPIENT_GIVER_QUESTION);
+                                          ViewType.RECIPIENT_GIVER_QUESTION, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }
@@ -198,19 +202,22 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private ActionResult createAjaxResultForCsvTableLoadedInHtml(String courseId, String feedbackSessionName,
                                     InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                    String selectedSection)
+                                    String selectedSection, String filterText, boolean isMissingResponsesShown,
+                                    boolean isStatsShown)
                                     throws EntityDoesNotExistException {
         try {
             if (selectedSection.contentEquals(ALL_SECTION_OPTION)) {
-                data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
-                                            logic.getFeedbackSessionResultSummaryAsCsv(
-                                                                            courseId, feedbackSessionName,
-                                                                            instructor.email)));
+                data.setSessionResultsHtmlTableAsString(
+                        StringHelper.csvToHtmlTable(
+                                logic.getFeedbackSessionResultSummaryAsCsv(
+                                        courseId, feedbackSessionName, instructor.email,
+                                        filterText, isMissingResponsesShown, isStatsShown)));
             } else {
-                data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
-                                            logic.getFeedbackSessionResultSummaryInSectionAsCsv(
-                                                                            courseId, feedbackSessionName,
-                                                                            instructor.email, selectedSection)));
+                data.setSessionResultsHtmlTableAsString(
+                        StringHelper.csvToHtmlTable(
+                                logic.getFeedbackSessionResultSummaryInSectionAsCsv(
+                                        courseId, feedbackSessionName, instructor.email,
+                                        selectedSection, filterText, isMissingResponsesShown, isStatsShown)));
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block

@@ -1,31 +1,37 @@
 package teammates.logic.core;
 
-import java.io.IOException;
-
 import org.jsoup.Jsoup;
 
-import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.sendgrid.SendGrid;
+import com.sendgrid.SendGrid.Email;
+import com.sendgrid.SendGrid.Response;
+import com.sendgrid.SendGridException;
 
 import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
 
-public class SendgridService implements EmailSenderService {
+/**
+ * Email sender service provided by SendGrid.
+ * Reference: https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid
+ * 
+ * @see SendGrid
+ */
+public class SendgridService extends EmailSenderService {
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public Sendgrid parseToEmail(EmailWrapper wrapper) throws JSONException {
-        Sendgrid email = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
+    public Email parseToEmail(EmailWrapper wrapper) {
+        Email email = new Email();
         email.setFrom(wrapper.getSenderEmail());
-        email.setFromName(wrapper.getSenderName());
-        email.setReplyTo(wrapper.getReplyTo());
-        for (String recipient : wrapper.getRecipientsList()) {
-            email.addTo(recipient);
+        if (wrapper.getSenderName() != null && !wrapper.getSenderName().isEmpty()) {
+            email.setFromName(wrapper.getSenderName());
         }
-        if (!wrapper.getBccList().isEmpty()) {
-            // Sendgrid does not support multiple BCCs
-            email.setBcc(wrapper.getBccList().get(0));
+        email.setReplyTo(wrapper.getReplyTo());
+        email.addTo(wrapper.getRecipient());
+        if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
+            email.addBcc(wrapper.getBcc());
         }
         email.setSubject(wrapper.getSubject());
         email.setHtml(wrapper.getContent());
@@ -33,13 +39,14 @@ public class SendgridService implements EmailSenderService {
         return email;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void sendEmail(EmailWrapper wrapper) throws JSONException, IOException {
-        Sendgrid email = parseToEmail(wrapper);
-        email.send();
+    protected void sendEmailWithService(EmailWrapper wrapper) throws SendGridException {
+        Email email = parseToEmail(wrapper);
+        SendGrid sendgrid = new SendGrid(Config.SENDGRID_APIKEY);
+        Response response = sendgrid.send(email);
+        if (response.getCode() != SUCCESS_CODE) {
+            log.severe("Email failed to send: " + response.getMessage());
+        }
     }
     
 }

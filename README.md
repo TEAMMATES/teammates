@@ -31,7 +31,7 @@ Here are some documents important for TEAMMATES developers:
 ### Main documents
   * [**Specification**](https://docs.google.com/document/d/1hjQQHYM3YId0EUSrGnJWG5AeFpDD_G7xg_d--7jg3vU/pub?embedded=true) 
     (short name: **Spec**) : Product specification, written from the developers 
-    point of view. The user's point of view is [here](http://teammatesv4.appspot.com/features.html).
+    point of view. The user's point of view is [here](http://teammatesv4.appspot.com/features.jsp).
   * The project [**vision, challenges, and principles**](/devdocs/overview.md) from a developer's perspective.
   * Software [**Design**](/devdocs/design.md) - Architecture, APIs, etc.
   * How to [**set up the developer environment**](/devdocs/settingUp.md)- e.g., tools and libraries used.
@@ -49,7 +49,7 @@ Here are some documents important for TEAMMATES developers:
     [JSP](https://docs.google.com/document/d/14bXfdveXvoIaPBYpL19m4PK6oPabSnnoawj6OGjOzD4/pub?embedded=true), 
     [JavaScript](https://docs.google.com/document/d/1gZ6WG6HBTJYHAtVkz9kzi_SUuzfXqzO-SvFnLuag2xM/pub?embedded=true),
     [CSS](https://docs.google.com/document/d/1wA9paRA9cS7ByStGbhRRUZLEzEzimrNQjIDPVqy1ScI/pub), 
-    [HTML](https://docs.google.com/document/d/12PJYbQoqjK-0LzaUuguQ4kGE--eikCcHfwzZDGwFOJ0/pub?embedded=true)
+    [HTML](https://github.com/nus-cs2103/website/blob/master/contents/coding-standards-html.md)
   * [**Developer Troubleshooting Guide**](/devdocs/troubleshooting-guide.md)
   * **Best practices** for : 
     [UI design](https://docs.google.com/document/d/1Vj59--sCYUfxgg-iLI53hMfc6YY1gguATTN_KXTQVUo/pub?embedded=true), 

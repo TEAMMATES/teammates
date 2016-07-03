@@ -70,7 +70,7 @@ public class AdminAccountManagementPage extends AppPage {
     private WebElement getAccountTable() {
         List<WebElement> tables = browser.driver.findElements(By.cssSelector("table"));
         if (!tables.isEmpty()) {
-            return tables.get(0);   // only get the first table
+            return tables.get(0); // only get the first table
         }
         return null;
     }

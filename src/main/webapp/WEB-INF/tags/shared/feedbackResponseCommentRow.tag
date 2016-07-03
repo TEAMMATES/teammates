@@ -8,8 +8,13 @@
 <%@ attribute name="firstIndex" %>
 <%@ attribute name="secondIndex" %>
 <%@ attribute name="thirdIndex" %>
+<%@ attribute name="fourthIndex" %>
 <%@ attribute name="frcIndex" %>
 <c:choose>
+    <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex && not empty frcIndex}">
+        <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
+        <c:set var="divIdAsJsParams" value="${firstIndex},${secondIndex},${thirdIndex},${frcIndex}, { sectionIndex: ${fourthIndex} }" />
+    </c:when>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
         <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
         <c:set var="divIdAsJsParams" value="${firstIndex},${secondIndex},${thirdIndex},${frcIndex}" />
@@ -19,6 +24,7 @@
         <c:set var="divIdAsJsParams" value="" />
     </c:otherwise>
 </c:choose>
+
 <li class="list-group-item list-group-item-warning${frc.extraClass}" id="responseCommentRow-${divId}">
     <div id="commentBar-${divId}">
         <span class="text-muted">

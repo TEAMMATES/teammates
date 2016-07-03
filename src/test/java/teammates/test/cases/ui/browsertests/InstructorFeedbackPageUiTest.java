@@ -180,14 +180,21 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.clickManualPublishTimeButton();
         
+        Text instructions = newSession.getInstructions();
+
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
-                newSession.getInstructions(), newSession.getGracePeriod());
+                instructions, newSession.getGracePeriod());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
         FeedbackSessionAttributes savedSession =
                 BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
+
+        // TinyMCE wraps text with <p> tag
+        newSession.setInstructions(new Text("<p>" + instructions.getValue() + "</p>"));
         assertEquals(newSession.toString(), savedSession.toString());
+        newSession.setInstructions(instructions);
+
         // Check that we are redirected to the edit page.
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackAddSuccess.html");
         
@@ -252,7 +259,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.toggleSendClosingEmailCheckbox();
         
         // fill in defaults
-        newSession.setInstructions(new Text("Please answer all the given questions."));
+        newSession.setInstructions(new Text("<p>Please answer all the given questions.</p>"));
         newSession.setGracePeriod(15);
         
         newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
@@ -315,7 +322,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickEditUncommonSettingsButton();
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickNeverPublishTimeButton();
-        
+
+        instructions = new Text("cannot see responses<script>test</script>$^/\\=?");
+
         newSession.setFeedbackSessionName("responses cant be seen my students 1 #");
         // start time in past
         newSession.setStartTime(TimeHelper.convertToDate("2012-05-01 4:00 AM UTC"));
@@ -323,7 +332,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
         newSession.setGracePeriod(25);
-        newSession.setInstructions(new Text("cannot \r\n see responses<script>test</script> $^/\\=?"));
+        newSession.setInstructions(instructions);
         newSession.setTimeZone(-2);
         newSession.setPublishedEmailEnabled(false);
         newSession.setClosingEmailEnabled(true);
@@ -335,12 +344,14 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod(), newSession.getTimeZone());
-        
+
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
+
+        newSession.setInstructions(new Text("<p>cannot see responses</p>\r\n\r\n<p>$^/&#61;?</p>"));
+
         assertEquals(newSession.toString(), savedSession.toString());
-        
-        
+
         ______TS("success case: timezone 0, custom publish time, very looong instructions (~ 500 words)");
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
@@ -368,6 +379,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
+        newSession.setInstructions(new Text("<p>" + newSession.getInstructionsString() + "</p>"));
         assertEquals(newSession.toString(), savedSession.toString());
         
         

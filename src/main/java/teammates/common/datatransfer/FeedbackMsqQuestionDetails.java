@@ -149,8 +149,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                             Slots.CHECKED, existingMsqResponse.contains(choices.get(i)) ? "checked" : "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            Slots.MSQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(choices.get(i)),
-                            Slots.MSQ_CHOICE_TEXT,  Sanitizer.sanitizeForHtml(choices.get(i)));
+                            Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(choices.get(i)),
+                            Slots.MSQ_CHOICE_TEXT, Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
         
@@ -179,8 +179,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                         Slots.CHECKED, existingMsqResponse.contains("") ? "checked" : "",
                         Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        Slots.MSQ_CHOICE_VALUE,  "",
-                        Slots.MSQ_CHOICE_TEXT,  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
+                        Slots.MSQ_CHOICE_VALUE, "",
+                        Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
         
         return Templates.populateTemplate(
@@ -234,8 +234,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                         Slots.CHECKED, "",
                         Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        Slots.MSQ_CHOICE_VALUE,  "",
-                        Slots.MSQ_CHOICE_TEXT,  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
+                        Slots.MSQ_CHOICE_VALUE, "",
+                        Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
         return Templates.populateTemplate(
@@ -301,7 +301,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
                             Slots.ITERATOR, Integer.toString(i),
-                            Slots.MSQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(msqChoices.get(i)),
+                            Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(msqChoices.get(i)),
                             Slots.MSQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
 
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -356,7 +356,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             for (int i = 0; i < numOfMsqChoices; i++) {
                 String optionFragment =
                         Templates.populateTemplate(optionFragmentTemplate,
-                                Slots.MSQ_CHOICE_VALUE,  Sanitizer.sanitizeForHtml(msqChoices.get(i)));
+                                Slots.MSQ_CHOICE_VALUE, Sanitizer.sanitizeForHtml(msqChoices.get(i)));
                 
                 optionListHtml.append(optionFragment);
             }

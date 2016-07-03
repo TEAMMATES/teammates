@@ -591,7 +591,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid Course ID (typical) should return empty string", "",
                      validator.getInvalidityInfoForCourseId(typicalCourseId));
         
-        String shortCourseId  = "c";
+        String shortCourseId = "c";
         assertEquals("Valid Course ID (short) should return empty string", "",
                      validator.getInvalidityInfoForCourseId(shortCourseId));
 

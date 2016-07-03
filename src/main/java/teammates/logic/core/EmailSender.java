@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -26,6 +27,10 @@ public class EmailSender {
     public EmailSender() {
         if (Config.isUsingSendgrid()) {
             service = new SendgridService();
+        } else if (Config.isUsingMailgun()) {
+            service = new MailgunService();
+        } else if (Config.isUsingMailjet()) {
+            service = new MailjetService();
         } else {
             service = new JavamailService();
         }
@@ -54,14 +59,18 @@ public class EmailSender {
     
     private void addEmailToTaskQueue(EmailWrapper message, long emailDelayTimer) {
         String emailSubject = message.getSubject();
+        String emailSenderName = message.getSenderName();
         String emailSender = message.getSenderEmail();
-        String emailReceiver = message.getFirstRecipient();
+        String emailReceiver = message.getRecipient();
         String emailReplyToAddress = message.getReplyTo();
         try {
             Map<String, String> paramMap = new HashMap<String, String>();
             paramMap.put(ParamsNames.EMAIL_SUBJECT, emailSubject);
             paramMap.put(ParamsNames.EMAIL_CONTENT, message.getContent());
             paramMap.put(ParamsNames.EMAIL_SENDER, emailSender);
+            if (emailSenderName != null && !emailSenderName.isEmpty()) {
+                paramMap.put(ParamsNames.EMAIL_SENDERNAME, emailSenderName);
+            }
             paramMap.put(ParamsNames.EMAIL_RECEIVER, emailReceiver);
             paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, emailReplyToAddress);
             
@@ -71,6 +80,7 @@ public class EmailSender {
         } catch (Exception e) {
             log.severe("Error when adding email to task queue: " + e.getMessage() + "\n"
                        + "Email sender: " + emailSender + "\n"
+                       + "Email sender name: " + emailSenderName + "\n"
                        + "Email receiver: " + emailReceiver + "\n"
                        + "Email subject: " + emailSubject + "\n"
                        + "Email reply to address: " + emailReplyToAddress);
@@ -80,18 +90,18 @@ public class EmailSender {
     /**
      * Sends the given {@code message} and generates a log report.
      */
-    public void sendEmailWithLogging(EmailWrapper message) throws Exception {
+    public void sendEmailWithLogging(EmailWrapper message) throws EmailSendingException {
         sendEmail(message, true);
     }
     
     /**
      * Sends the given {@code message} without generating a log report.
      */
-    public void sendEmailWithoutLogging(EmailWrapper message) throws Exception {
+    public void sendEmailWithoutLogging(EmailWrapper message) throws EmailSendingException {
         sendEmail(message, false);
     }
     
-    private void sendEmail(EmailWrapper message, boolean isWithLogging) throws Exception {
+    private void sendEmail(EmailWrapper message, boolean isWithLogging) throws EmailSendingException {
         service.sendEmail(message);
         if (isWithLogging) {
             generateLogReport(message);
@@ -111,7 +121,7 @@ public class EmailSender {
     /**
      * Sends the given {@code errorReport}.
      */
-    public void sendErrorReport(EmailWrapper errorReport) throws Exception {
+    public void sendErrorReport(EmailWrapper errorReport) throws EmailSendingException {
         sendEmailWithoutLogging(errorReport);
         log.info("Sent crash report: " + errorReport.getInfoForLogging());
     }

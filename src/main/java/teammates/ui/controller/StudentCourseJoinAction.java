@@ -11,7 +11,7 @@ import teammates.logic.api.Logic;
  * It asks the student for confirmation that the logged in account
  * belongs to him before redirecting him to the actual join action,
  * {@link StudentCourseJoinAuthenticatedAction}.
- * <br/><br/>
+ * <br><br>
  * This is done to prevent students from accidentally linking
  * his registration key with another student's google account.
  */
@@ -23,8 +23,8 @@ public class StudentCourseJoinAction extends Action {
         String nextUrl = getNextUrl();
         
         statusToAdmin = "Action Student Clicked Join Link"
-                        + (account.googleId == null ? "<br/>Email: " + account.email
-                                                    : "<br/>Google ID: " + account.googleId + "<br/>Key: " + regkey);
+                        + (account.googleId == null ? "<br>Email: " + account.email
+                                                    : "<br>Google ID: " + account.googleId + "<br>Key: " + regkey);
         
         if (logic.getCurrentUser() == null) {
             return createRedirectToAuthenticatedJoinPage(nextUrl);

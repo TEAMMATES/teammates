@@ -63,7 +63,7 @@ public class SanitizerTest extends BaseTestCase {
         String sanitized = Sanitizer.sanitizeForJs(unsanitized);
         assertEquals(expected, sanitized);
     }
-    
+
     @Test
     public void testSanitizeForHtml() {
         sanitizeHtml_receivesNull_returnsNull();
@@ -111,9 +111,32 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForRichText() {
-        // Not tested - using org.apache.commons.lang3.StringEscapeUtils.escapeHtml4()
+        assertEquals(null, Sanitizer.sanitizeForRichText(null));
+        assertEquals("", Sanitizer.sanitizeForRichText(""));
+        assertEquals("<p>wihtout changes</p>", Sanitizer.sanitizeForRichText("<p>wihtout changes</p>"));
+        assertEquals("<p>spaces test</p>", Sanitizer.sanitizeForRichText("<p >spaces test</p >"));
+        String actualRichText = "<body onload=\"alert('onload');\">"
+                                + "<a href=\"https://teammatesv4.appspot.com\" onclick=\"alert('fail');\"></a>"
+                                + "<script>alert('fail');</script>"
+                                + "<h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6>"
+                                + "<hr />"
+                                + "<img src=\"https://teammatesv4.appspot.com/images/overview.png\" />"
+                                + "<p style=\"text-align:center\"><strong>Content</strong></p>"
+                                + "<div onmouseover=\"alert('onmouseover');\"></div>"
+                                + "<iframe></iframe>"
+                                + "<input></input>"
+                                + "<span style=\"color:#339966\">Content</span>";
+        String expectedRichText = "<a href=\"https://teammatesv4.appspot.com\"></a>"
+                                  + "<h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6>"
+                                  + "<hr />"
+                                  + "<img src=\"https://teammatesv4.appspot.com/images/overview.png\" />"
+                                  + "<p style=\"text-align:center\"><strong>Content</strong></p>"
+                                  + "<div></div>"
+                                  + "<span style=\"color:#339966\">Content</span>";
+        String sanitized = Sanitizer.sanitizeForRichText(actualRichText);
+        assertEquals(expectedRichText, sanitized);
     }
-    
+
     @Test
     public void testSanitizeForCsv() {
         sanitizeCsv_receivesUnsanitized_returnsSanitized();
@@ -167,5 +190,15 @@ public class SanitizerTest extends BaseTestCase {
         expected = "concat('Team 1</td></div>',\"'\",'\"','')";
         assertEquals(expected, Sanitizer.convertStringForXPath(text));
         
+    }
+    
+    @Test
+    public void testRemoveNonAscii() {
+        assertEquals("Hello world!", Sanitizer.removeNonAscii("Hello world!"));
+        
+        assertEquals("", Sanitizer.removeNonAscii("©¡¢â"));
+        
+        assertEquals("Coevaluacin Prctica (Part 1)",
+                     Sanitizer.removeNonAscii("Coevaluación Práctica (Part 1)"));
     }
 }

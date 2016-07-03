@@ -19,17 +19,14 @@
       </div>
       <div class="col-sm-5 mobile-margin-top-10px">
         <span class="mobile-no-pull pull-right">
-          <a class="btn btn-primary btn-xs" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." data-placement="top" data-toggle="tooltip" id="questiongetlink-1" onclick="getQuestionLink(1)" title="">
-            Get Link
-          </a>
           <a class="btn btn-primary btn-xs" data-original-title="Edit this question" data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,2)" style="display: none;" title="">
             Edit
           </a>
           <a class="btn btn-primary btn-xs" id="questionsavechangestext-1" style="">
             Save Changes
           </a>
-          <a class="btn btn-primary btn-xs" data-original-title="Discard your changes" data-placement="top" data-toggle="tooltip" id="questioncanceledit-1" onclick="cancelEdit(1)" style="" title="">
-            Cancel
+          <a class="btn btn-primary btn-xs" data-original-title="Discard your changes" data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-1" onclick="discardChanges(1)" style="" title="">
+            Discard Changes
           </a>
           <a class="btn btn-primary btn-xs" data-original-title="Delete this question" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(1)" title="">
             Delete
@@ -105,7 +102,7 @@
           Who will give the feedback:
         </label>
         <div class="col-sm-8 col-lg-7">
-          <select class="form-control participantSelect" id="givertype-1" name="givertype" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+          <select class="form-control participantSelect" id="givertype-1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
             <option selected="" value="SELF">
               Me (Session creator)
             </option>
@@ -126,7 +123,7 @@
           Who the feedback is about:
         </label>
         <div class="col-sm-8 col-lg-7">
-          <select class="form-control participantSelect" id="recipienttype-1" name="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+          <select class="form-control participantSelect" id="recipienttype-1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
             <option selected="" value="SELF">
               Giver (Self feedback)
             </option>
@@ -184,13 +181,13 @@
         (Who can see the responses?)
       </div>
       <div class="col-sm-6 btn-group" data-toggle="buttons">
-        <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityOptions(this)">
+        <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityEditTab(this)">
           <input type="radio">
           <span class="glyphicon glyphicon-pencil">
           </span>
           Edit Visibility
         </label>
-        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityMessage(this)">
+        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityPreviewTab(this)">
           <input type="radio">
           <span class="glyphicon glyphicon-eye-open">
           </span>

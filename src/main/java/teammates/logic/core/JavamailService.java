@@ -14,7 +14,14 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.util.EmailWrapper;
 
-public class JavamailService implements EmailSenderService {
+/**
+ * Email sender service provided by JavaMail.
+ * This is the default service provided by Google App Engine.
+ * Reference: https://cloud.google.com/appengine/docs/java/mail/
+ * 
+ * @see MimeMessage
+ */
+public class JavamailService extends EmailSenderService {
     
     /**
      * {@inheritDoc}
@@ -23,24 +30,23 @@ public class JavamailService implements EmailSenderService {
     public MimeMessage parseToEmail(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
         Session session = Session.getDefaultInstance(new Properties(), null);
         MimeMessage email = new MimeMessage(session);
-        email.setFrom(new InternetAddress(wrapper.getSenderEmail(), wrapper.getSenderName()));
-        email.setReplyTo(new Address[] { new InternetAddress(wrapper.getReplyTo()) });
-        for (String recipient : wrapper.getRecipientsList()) {
-            email.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+        if (wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()) {
+            email.setFrom(new InternetAddress(wrapper.getSenderEmail()));
+        } else {
+            email.setFrom(new InternetAddress(wrapper.getSenderEmail(), wrapper.getSenderName()));
         }
-        for (String recipient : wrapper.getBccList()) {
-            email.addRecipient(Message.RecipientType.BCC, new InternetAddress(recipient));
+        email.setReplyTo(new Address[] { new InternetAddress(wrapper.getReplyTo()) });
+        email.addRecipient(Message.RecipientType.TO, new InternetAddress(wrapper.getRecipient()));
+        if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
+            email.addRecipient(Message.RecipientType.BCC, new InternetAddress(wrapper.getBcc()));
         }
         email.setSubject(wrapper.getSubject());
         email.setContent(wrapper.getContent(), "text/html");
         return email;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void sendEmail(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
+    protected void sendEmailWithService(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
         MimeMessage email = parseToEmail(wrapper);
         Transport.send(email);
     }

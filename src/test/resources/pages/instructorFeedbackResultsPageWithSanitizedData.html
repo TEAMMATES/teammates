@@ -71,6 +71,9 @@
                   <input name="fsname" type="hidden" value="Sanitized Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.SanitizedTeam">
                   <input name="sectionname" type="hidden" value="All">
+                  <input id="filterTextForDownload" name="filtertext" type="hidden">
+                  <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
+                  <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
@@ -174,7 +177,7 @@
               </label>
               <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
                 <div class="input-group">
-                  <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
+                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
                   <a class="input-group-addon btn btn-default">
                     <span class="glyphicon glyphicon-search">
                     </span>
@@ -195,9 +198,15 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" onchange="updateStatsCheckBox();" type="checkbox">
                   Show Statistics
                 </label>
+              </div>
+            </div>
+            <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
+              <div class="checkbox padding-top-0 min-height-0">
+                <input checked="" id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" onchange="this.form.submit()" type="checkbox" value="true">
+                Indicate Missing Responses
               </div>
             </div>
           </div>
@@ -251,6 +260,7 @@
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="question">
         <input id="showStats-1" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
@@ -288,7 +298,7 @@
               </div>
               <div class="col-sm-3 pull-right">
                 [
-                <a href="/instructorHelp.html#faq7a" id="interpret_help_link" target="_blank">
+                <a href="/instructorHelp.jsp#faq7a" id="interpret_help_link" target="_blank">
                   How do I interpret/use these values?
                 </a>
                 ]
