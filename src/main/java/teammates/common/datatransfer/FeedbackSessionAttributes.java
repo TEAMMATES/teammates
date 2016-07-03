@@ -83,8 +83,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                      boolean isPublishedEmailEnabled) {
         this(feedbackSessionName, courseId, creatorId, instructions, createdTime, startTime, endTime,
              sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
-             sentOpenEmail, sentPublishedEmail, sentUnpublishedEmail, isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
-             new HashSet<String>(), new HashSet<String>());
+             sentOpenEmail, sentPublishedEmail, sentUnpublishedEmail, isOpeningEmailEnabled, isClosingEmailEnabled,
+             isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
     public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId,

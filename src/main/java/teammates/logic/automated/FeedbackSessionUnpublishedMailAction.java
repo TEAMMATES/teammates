@@ -74,8 +74,8 @@ public class FeedbackSessionUnpublishedMailAction extends EmailAction {
     }
     
     private void initializeNameAndDescription() {
-        actionName = Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION;
-        actionDescription = "send published alert";
+        actionName = Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_UNPUBLISHED_MAIL_ACTION;
+        actionDescription = "send unpublished alert";
     }
 
     @Override

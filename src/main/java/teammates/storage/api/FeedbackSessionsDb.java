@@ -230,8 +230,6 @@ public class FeedbackSessionsDb extends EntitiesDb {
      * @return An empty list if no sessions are found that have unsent unpublished emails.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWithUnsentUnpublishedEmail() {
-        
-        
         List<FeedbackSession> fsList = getFeedbackSessionEntitiesWithUnsentUnpublishedEmail();
         List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
         
