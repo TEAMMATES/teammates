@@ -162,7 +162,17 @@ $(document).on('ajaxComplete ready', function() {
         $tooltips.tooltip('disable');
     }
     
-    $('span[data-toggle="tooltip"]').addClass('tool-tip-decorate');
+    /**
+     * Underlining all span elements with tool-tips except for 
+     * ones without a text value or text value being the 
+     * same as tool-tip value.
+    */
+    $('span[data-toggle="tooltip"]').each(function() {
+        textValue = $(this).text().replace(/\s/g, '')
+        if (textValue && (textValue != $(this).attr('data-original-title'))) {
+            $(this).addClass('tool-tip-decorate');
+        }
+    });
 });
 
 /**
