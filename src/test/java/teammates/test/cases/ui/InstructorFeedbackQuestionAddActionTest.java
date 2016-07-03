@@ -847,7 +847,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                      + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
                      result.getDestinationWithParams());
 
-        assertEquals("NONE is not a valid feedback giver..", result.getStatusMessage());
+        assertEquals("NONE is not a valid feedback giver.", result.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
