@@ -119,6 +119,8 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}", "",
+                "${submitMessage}", "go to this Web address:",
+                "${submitUrlMessage}", submitUrl,
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
@@ -230,6 +232,8 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}", "",
+                "${submitMessage}", "go to this Web address:",
+                "${submitUrlMessage}", submitUrl,
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
@@ -262,6 +266,8 @@ public class EmailGenerator {
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}",
                         "The email below has been sent to students of course: " + course.getId() + ".<p/><br>",
+                "${submitMessage}", "click",
+                "${submitUrlMessage}", "here",
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
