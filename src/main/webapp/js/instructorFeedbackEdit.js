@@ -898,7 +898,7 @@ function regenerateCustomFeedbackPathsSpreadsheet(questionNum) {
         minCols: 2,
         minSpareRows: 1,
         rowHeaders: true,
-        colHeaders: true,
+        colHeaders: ['Feedback giver', 'Feedback recipient'],
         manualColumnResize: true,
         manualRowResize: true,
         stretchH: 'all'
