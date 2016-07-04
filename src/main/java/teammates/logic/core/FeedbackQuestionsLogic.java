@@ -174,6 +174,12 @@ public class FeedbackQuestionsLogic {
                 copiableQuestions.addAll(questions);
             }
         }
+        sortCopiableQuestions(copiableQuestions);
+        
+        return copiableQuestions;
+    }
+
+    private void sortCopiableQuestions(List<FeedbackQuestionAttributes> copiableQuestions) {
         Collections.sort(copiableQuestions, new Comparator<FeedbackQuestionAttributes>() {
             @Override
             public int compare(FeedbackQuestionAttributes q1, FeedbackQuestionAttributes q2) {
@@ -201,8 +207,6 @@ public class FeedbackQuestionsLogic {
                 return q1Details.getQuestionText().compareTo(q2Details.getQuestionText());
             }
         });
-        
-        return copiableQuestions;
     }
     
     /**
@@ -274,10 +278,10 @@ public class FeedbackQuestionsLogic {
     }
     
     /**
-     * Gets a {@code List} of all questions for the list of questions that an
+     * Filters out a {@code List} of all questions for the list of questions that an
      * instructor can view/submit
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
+    public List<FeedbackQuestionAttributes> filterFeedbackQuestionsForInstructor(
             List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
         
         List<FeedbackQuestionAttributes> questions =
@@ -318,10 +322,10 @@ public class FeedbackQuestionsLogic {
     
     
     /**
-     * Gets a {@code List} of all questions from the given list of questions
+     * Filters out a {@code List} of all questions from the given list of questions
      * that students can view/submit
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
+    public List<FeedbackQuestionAttributes> filterFeedbackQuestionsForStudents(
             List<FeedbackQuestionAttributes> allQuestions) {
         
         List<FeedbackQuestionAttributes> questions =
@@ -337,6 +341,10 @@ public class FeedbackQuestionsLogic {
         return questions;
     }
     
+    /**
+     * Gets recipients for a given question.
+     * @return a mapping of recipients' emails (where applicable) to their names
+     */
     public Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
             throws EntityDoesNotExistException {
         
@@ -345,7 +353,11 @@ public class FeedbackQuestionsLogic {
         
         return getRecipientsForQuestion(question, giver, instructorGiver, studentGiver);
     }
-
+    
+    /**
+     * Gets recipients for a given question.
+     * @return a mapping of recipients' emails (where applicable) to their names
+     */
     public Map<String, String> getRecipientsForQuestion(
             FeedbackQuestionAttributes question, String giver,
             InstructorAttributes instructorGiver, StudentAttributes studentGiver)
@@ -355,6 +367,14 @@ public class FeedbackQuestionsLogic {
         
         FeedbackParticipantType recipientType = question.recipientType;
         
+        String giverTeam = getTeamNameForUser(giver, instructorGiver, studentGiver);
+        
+        addRecipientsBasedOnRecipientType(question, giver, studentGiver, recipients, recipientType, giverTeam);
+        return recipients;
+    }
+
+    private String getTeamNameForUser(String giver, InstructorAttributes instructorGiver,
+            StudentAttributes studentGiver) {
         String giverTeam = null;
         
         boolean isStudentGiver = studentGiver != null;
@@ -366,7 +386,12 @@ public class FeedbackQuestionsLogic {
         } else {
             giverTeam = giver;
         }
-        
+        return giverTeam;
+    }
+
+    private void addRecipientsBasedOnRecipientType(FeedbackQuestionAttributes question, String giver,
+            StudentAttributes studentGiver, Map<String, String> recipients,
+            FeedbackParticipantType recipientType, String giverTeam) throws EntityDoesNotExistException {
         switch (recipientType) {
         case SELF:
             if (question.giverType == FeedbackParticipantType.TEAMS) {
@@ -427,7 +452,6 @@ public class FeedbackQuestionsLogic {
         default:
             break;
         }
-        return recipients;
     }
     
     public boolean isQuestionHasResponses(String feedbackQuestionId) {
@@ -490,8 +514,7 @@ public class FeedbackQuestionsLogic {
     public void updateFeedbackQuestionNumber(FeedbackQuestionAttributes newQuestion)
         throws InvalidParametersException, EntityDoesNotExistException {
         
-        FeedbackQuestionAttributes oldQuestion =
-                fqDb.getFeedbackQuestion(newQuestion.getId());
+        FeedbackQuestionAttributes oldQuestion = fqDb.getFeedbackQuestion(newQuestion.getId());
 
         if (oldQuestion == null) {
             throw new EntityDoesNotExistException("Trying to update a feedback question that does not exist.");
@@ -676,7 +699,7 @@ public class FeedbackQuestionsLogic {
     }
     
     /**
-     * Deletes a question.<br> Question is identified by it's question number, and
+     * Deletes a question.<br> Question is identified by its question number, and
      * the feedback session name and course ID of the question.<br>
      * Can be used when the question ID is unknown. <br>
      * Cascade the deletion of all existing responses for the question and then
@@ -708,7 +731,9 @@ public class FeedbackQuestionsLogic {
         }
     }
     
-    // Shifts all question numbers after questionNumberToShiftFrom down by one.
+    /**
+     * Shifts all question numbers after questionNumberToShiftFrom down by one.
+     */
     private void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
             List<FeedbackQuestionAttributes> questionsToShift) {
         for (FeedbackQuestionAttributes question : questionsToShift) {
@@ -725,7 +750,7 @@ public class FeedbackQuestionsLogic {
         }
     }
     
-    /*
+    /**
      * Removes questions with no recipients.
      */
     public List<FeedbackQuestionAttributes> getQuestionsWithRecipients(

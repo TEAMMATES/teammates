@@ -508,7 +508,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
         expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
         
-        actualQuestions = fqLogic.getFeedbackQuestionsForInstructor(allQuestions, true);
+        actualQuestions = fqLogic.filterFeedbackQuestionsForInstructor(allQuestions, true);
         
         assertEquals(actualQuestions, expectedQuestions);
     }
@@ -549,7 +549,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         expectedQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
         
-        actualQuestions = fqLogic.getFeedbackQuestionsForStudents(allQuestions);
+        actualQuestions = fqLogic.filterFeedbackQuestionsForStudents(allQuestions);
         
         assertEquals(actualQuestions, expectedQuestions);
         
@@ -563,7 +563,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         expectedQuestions.add(getQuestionFromDatastore("team.feedback"));
         expectedQuestions.add(getQuestionFromDatastore("team.members.feedback"));
         
-        actualQuestions = fqLogic.getFeedbackQuestionsForStudents(allQuestions);
+        actualQuestions = fqLogic.filterFeedbackQuestionsForStudents(allQuestions);
         
         assertEquals(actualQuestions, expectedQuestions);
     }

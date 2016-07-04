@@ -1260,7 +1260,7 @@ public class FeedbackSessionsLogic {
         
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
-                    .getFeedbackQuestionsForInstructor(questions,
+                    .filterFeedbackQuestionsForInstructor(questions,
                             fsa.isCreator(instructor.email));
             
             if (!instructorQns.isEmpty()) {
@@ -1708,7 +1708,7 @@ public class FeedbackSessionsLogic {
             List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
             List<FeedbackQuestionAttributes> questions =
                     fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
-            List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
+            List<FeedbackQuestionAttributes> studentQns = fqLogic.filterFeedbackQuestionsForStudents(questions);
 
             if (!studentQns.isEmpty()) {
                 details.stats.expectedTotal += students.size();
@@ -1716,7 +1716,7 @@ public class FeedbackSessionsLogic {
         
             for (InstructorAttributes instructor : instructors) {
                 List<FeedbackQuestionAttributes> instructorQns =
-                        fqLogic.getFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.email));
+                        fqLogic.filterFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.email));
                 if (!instructorQns.isEmpty()) {
                     details.stats.expectedTotal += 1;
                 }
@@ -2394,7 +2394,7 @@ public class FeedbackSessionsLogic {
         List<StudentAttributes> students = roster.getStudents();
         List<InstructorAttributes> instructors = roster.getInstructors();
         List<FeedbackQuestionAttributes> studentQns = fqLogic
-                .getFeedbackQuestionsForStudents(questions);
+                .filterFeedbackQuestionsForStudents(questions);
 
         List<String> studentNoResponses = new ArrayList<String>();
         List<String> instructorNoResponses = new ArrayList<String>();
@@ -2411,7 +2411,7 @@ public class FeedbackSessionsLogic {
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
-                    .getFeedbackQuestionsForInstructor(questions,
+                    .filterFeedbackQuestionsForInstructor(questions,
                             fsa.isCreator(instructor.email));
             if (!instructorQns.isEmpty() && responseStatus.emailNameTable.get(instructor.email) == null) {
                 instructorNoResponses.add(instructor.email);
