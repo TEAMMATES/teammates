@@ -79,22 +79,6 @@ function attachEventToSendInviteLink() {
     });
 }
 
-function attachEventToDeleteStudentLink() {
-    $('.course-student-delete-link').on('click', function(event) {
-        event.preventDefault();
-
-        var $clickedLink = $(event.target);
-        var messageText = 'Are you sure you want to remove ' + $clickedLink.data('studentName')
-                          + ' from the course ' + $clickedLink.data('courseName') + '?';
-        var okCallback = function() {
-            window.location = $clickedLink.attr('href');
-        };
-
-        BootboxWrapper.showModalConfirmation('Confirm deletion', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
-    });
-}
-
 /**
  * function that select the whole table
  * @param el
