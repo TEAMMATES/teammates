@@ -244,8 +244,8 @@ public class FeedbackResponsesLogic {
      * Checks if the name is visible to the given user.
      * If {@code isGiverName} is false, it checks for recipient name instead.
      */
-    public boolean isNameVisibleTo(FeedbackQuestionAttributes question, 
-            FeedbackResponseAttributes response, String userEmail, 
+    public boolean isNameVisibleTo(FeedbackQuestionAttributes question,
+            FeedbackResponseAttributes response, String userEmail,
             UserType.Role role, boolean isGiverName, CourseRoster roster) {
 
         if (question == null) {
