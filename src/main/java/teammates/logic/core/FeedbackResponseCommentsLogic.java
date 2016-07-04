@@ -257,12 +257,12 @@ public class FeedbackResponseCommentsLogic {
         boolean userIsInstructor = role == Role.INSTRUCTOR;
         boolean userIsStudent = role == Role.STUDENT;
         
-        boolean isVisibleToUserAsIndividual = 
+        boolean isVisibleToUserAsIndividual =
                 isResponseCommentVisibleToUserAsIndividual(
                         userEmail, relatedResponse, relatedQuestion, comment,
                         isVisibleToGiver, userIsInstructor, userIsStudent);
         
-        boolean isVisibleToUserAsTeamMember = 
+        boolean isVisibleToUserAsTeamMember =
                 isResponseCommentVisibleToUserAsTeamMember(
                         student, studentsEmailInTeam, relatedResponse,
                         relatedQuestion, comment, userIsStudent);
