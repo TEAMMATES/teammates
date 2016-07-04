@@ -49,7 +49,7 @@ public class FeedbackSessionUnpublishedMailAction extends EmailAction {
     protected void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
-        feedbackObject.setSentUnpublishedEmail(true);
+        feedbackObject.setPublishedEmailEnabled(false);
         FeedbackSessionsLogic.inst().updateFeedbackSession(feedbackObject);
     }
 

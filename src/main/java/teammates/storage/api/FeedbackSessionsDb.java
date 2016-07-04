@@ -573,9 +573,9 @@ public class FeedbackSessionsDb extends EntitiesDb {
     private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentUnpublishedEmail() {
         Query q = getPm().newQuery(FeedbackSession.class);
         q.declareParameters("boolean sentParam, Enum notTypeParam");
-        q.setFilter("sentUnpublishedEmail == sentParam && feedbackSessionType != notTypeParam");
+        q.setFilter("sentPublishedEmail == sentParam && feedbackSessionType != notTypeParam");
         
-        return (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
+        return (List<FeedbackSession>) q.execute(true, FeedbackSessionType.PRIVATE);
     }
     
     private FeedbackSession getFeedbackSessionEntity(String feedbackSessionName, String courseId) {

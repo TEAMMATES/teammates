@@ -34,7 +34,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     private FeedbackSessionType feedbackSessionType;
     private boolean sentOpenEmail;
     private boolean sentPublishedEmail;
-    private boolean sentUnpublishedEmail;
     private boolean isOpeningEmailEnabled;
     private boolean isClosingEmailEnabled;
     private boolean isPublishedEmailEnabled;
@@ -64,7 +63,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.feedbackSessionType = fs.getFeedbackSessionType();
         this.sentOpenEmail = fs.isSentOpenEmail();
         this.sentPublishedEmail = fs.isSentPublishedEmail();
-        this.sentUnpublishedEmail = fs.isSentUnpublishedEmail();
         this.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
         this.isClosingEmailEnabled = fs.isClosingEmailEnabled();
         this.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
@@ -78,20 +76,20 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                      Text instructions, Date createdTime, Date startTime, Date endTime,
                                      Date sessionVisibleFromTime, Date resultsVisibleFromTime,
                                      double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
-                                     boolean sentOpenEmail, boolean sentPublishedEmail, boolean sentUnpublishedEmail,
+                                     boolean sentOpenEmail, boolean sentPublishedEmail,
                                      boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
                                      boolean isPublishedEmailEnabled) {
         this(feedbackSessionName, courseId, creatorId, instructions, createdTime, startTime, endTime,
              sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
-             sentOpenEmail, sentPublishedEmail, sentUnpublishedEmail, isOpeningEmailEnabled, isClosingEmailEnabled,
-             isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
+             sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
+             new HashSet<String>(), new HashSet<String>());
     }
 
     public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId,
                                      Text instructions, Date createdTime, Date startTime, Date endTime,
                                      Date sessionVisibleFromTime, Date resultsVisibleFromTime,
                                      double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
-                                     boolean sentOpenEmail, boolean sentPublishedEmail, boolean sentUnpublishedEmail,
+                                     boolean sentOpenEmail, boolean sentPublishedEmail,
                                      boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
                                      boolean isPublishedEmailEnabled, Set<String> instructorList,
                                      Set<String> studentList) {
@@ -109,7 +107,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.feedbackSessionType = feedbackSessionType;
         this.sentOpenEmail = sentOpenEmail;
         this.sentPublishedEmail = sentPublishedEmail;
-        this.sentUnpublishedEmail = sentUnpublishedEmail;
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
@@ -142,8 +139,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions, createdTime,
                                    startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                                    timeZone, gracePeriod, feedbackSessionType, sentOpenEmail, sentPublishedEmail,
-                                   sentUnpublishedEmail, isOpeningEmailEnabled, isClosingEmailEnabled,
-                                   isPublishedEmailEnabled, respondingInstructorList, respondingStudentList);
+                                   isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
+                                   respondingInstructorList, respondingStudentList);
     }
 
     @Override
@@ -430,7 +427,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                + ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
                + feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
                + ", sentPublishedEmail=" + sentPublishedEmail
-               + ", sentUnpublishedEmail=" + sentUnpublishedEmail
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
@@ -630,14 +626,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     public void setSentPublishedEmail(boolean sentPublishedEmail) {
         this.sentPublishedEmail = sentPublishedEmail;
-    }
-    
-    public boolean isSentUnpublishedEmail() {
-        return sentUnpublishedEmail;
-    }
-
-    public void setSentUnpublishedEmail(boolean sentUnpublishedEmail) {
-        this.sentUnpublishedEmail = sentUnpublishedEmail;
     }
 
     public boolean isOpeningEmailEnabled() {

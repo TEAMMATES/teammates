@@ -31,7 +31,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     private static FeedbackSessionType feedbackSessionType;
     private static boolean sentOpenEmail;
     private static boolean sentPublishedEmail;
-    private static boolean sentUnpublishedEmail;
     private static boolean isOpeningEmailEnabled;
     private static boolean isClosingEmailEnabled;
     private static boolean isPublishedEmailEnabled;
@@ -56,7 +55,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         feedbackSessionType = FeedbackSessionType.STANDARD;
         sentOpenEmail = false;
         sentPublishedEmail = false;
-        sentUnpublishedEmail = true;
         isOpeningEmailEnabled = false;
         isClosingEmailEnabled = false;
         isPublishedEmailEnabled = false;
@@ -65,8 +63,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 courseId, creatorId, instructions,
                 createdTime, startTime, endTime,
                 sessionVisibleFromTime, resultsVisibleFromTime,
-                timeZone, gracePeriod, feedbackSessionType, sentOpenEmail,
-                sentPublishedEmail, sentUnpublishedEmail,
+                timeZone, gracePeriod,
+                feedbackSessionType, sentOpenEmail, sentPublishedEmail,
                 isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled
                 );
     }
@@ -95,7 +93,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 "creator's email",
                 "session creation time"};
         for (String fieldName : fieldNames) {
-            expectedErrorMessage.add(String.format(FieldValidator.NON_NULL_FIELD_ERROR_MESSAGE, fieldName));
+            expectedErrorMessage.add(FieldValidator.NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName));
         }
         
         //expect all the error messages to be appended together.

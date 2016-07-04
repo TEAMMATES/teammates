@@ -2662,15 +2662,6 @@ public class FeedbackSessionsLogic {
             // or else leave it as sent if so.
             newSession.setSentPublishedEmail(true);
         }
-        
-     // set sentUnpublishedEmail as false if the session has been unpublished but is
-        // going to be published now.
-        if (oldSession.isSentUnpublishedEmail() && newSession.isPublished()) {
-            newSession.setSentUnpublishedEmail(false);
-        } else if (oldSession.isSentUnpublishedEmail()) {
-            // or else leave it as sent if so.
-            newSession.setSentUnpublishedEmail(true);
-        }
     }
 
     private void sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
