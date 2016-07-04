@@ -267,8 +267,7 @@ public class FeedbackResponseCommentsLogic {
                         student, studentsEmailInTeam, relatedResponse,
                         relatedQuestion, comment, userIsStudent);
         
-        boolean isVisibleResponseComment = isVisibleToUserAsIndividual || isVisibleToUserAsTeamMember;
-        return isVisibleResponseComment;
+        return isVisibleToUserAsIndividual || isVisibleToUserAsTeamMember;
     }
 
     private boolean isResponseCommentVisibleToUserAsIndividual(String userEmail,
@@ -292,14 +291,11 @@ public class FeedbackResponseCommentsLogic {
                 userIsStudent && isResponseCommentVisibleTo(relatedQuestion, comment,
                                                             FeedbackParticipantType.STUDENTS);
         
-        if (userIsInstructorAndResponseCommentIsVisibleToInstructors
+        return userIsInstructorAndResponseCommentIsVisibleToInstructors
                 || userIsResponseRecipientAndResponseCommentIsVisibleToRecipients
                 || userIsResponseGiverAndResponseCommentIsVisibleToGivers
                 || userIsResponseCommentGiver
-                || userIsStudentAndResponseCommentIsVisibleToStudents) {
-            return true;
-        }
-        return false;
+                || userIsStudentAndResponseCommentIsVisibleToStudents;
     }
 
     private boolean isResponseCommentVisibleToUserAsTeamMember(StudentAttributes student,
@@ -324,12 +320,9 @@ public class FeedbackResponseCommentsLogic {
                                            FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                 && studentsEmailInTeam.contains(relatedResponse.recipient);
         
-        if (userIsInResponseRecipientTeamAndResponseCommentIsVisibleToRecipients
+        return userIsInResponseRecipientTeamAndResponseCommentIsVisibleToRecipients
                 || userIsInResponseGiverTeamAndResponseCommentIsVisibleToGiversTeamMembers
-                || userIsInResponseRecipientTeamAndResponseCommentIsVisibleToRecipientsTeamMembers) {
-            return true;
-        }
-        return false;
+                || userIsInResponseRecipientTeamAndResponseCommentIsVisibleToRecipientsTeamMembers;
     }
 
     private FeedbackResponseCommentAttributes getExistingFeedbackResponseComment(

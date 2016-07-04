@@ -1857,11 +1857,6 @@ public class FeedbackSessionsLogic {
             }
         }
         
-        InstructorAttributes instructor = null;
-        if (role == Role.INSTRUCTOR) {
-            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        }
-        
         List<FeedbackResponseCommentAttributes> allResponseComments =
                 frcLogic.getFeedbackResponseCommentForSession(courseId,
                         feedbackSessionName);
