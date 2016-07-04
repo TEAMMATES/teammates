@@ -519,7 +519,7 @@ public class FeedbackResponsesLogic {
         for (FeedbackResponseAttributes response : responsesFromUser) {
             response.giverSection = newSection;
             frDb.updateFeedbackResponse(response);
-            frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
+            frcLogic.updateSectionsForFeedbackResponseCommentsForResponse(response.getId());
         }
 
         List<FeedbackResponseAttributes> responsesToUser =
@@ -528,7 +528,7 @@ public class FeedbackResponsesLogic {
         for (FeedbackResponseAttributes response : responsesToUser) {
             response.recipientSection = newSection;
             frDb.updateFeedbackResponse(response);
-            frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
+            frcLogic.updateSectionsForFeedbackResponseCommentsForResponse(response.getId());
         }
 
     }
@@ -595,7 +595,7 @@ public class FeedbackResponsesLogic {
         frDb.commitOutstandingChanges();
         
         if (isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment) {
-            frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
+            frcLogic.updateSectionsForFeedbackResponseCommentsForResponse(response.getId());
         }
     }
 

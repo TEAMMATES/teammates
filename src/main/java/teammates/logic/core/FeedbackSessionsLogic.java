@@ -1869,8 +1869,7 @@ public class FeedbackSessionsLogic {
             FeedbackResponseAttributes relatedResponse = relevantResponse.get(frc.feedbackResponseId);
             FeedbackQuestionAttributes relatedQuestion = relevantQuestions.get(frc.feedbackQuestionId);
             boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(userEmail, courseId,
-                    role, section, student, studentsEmailInTeam, relatedResponse,
-                    relatedQuestion, frc, instructor);
+                    role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (isVisibleResponseComment) {
                 if (!frcLogic.isNameVisibleTo(frc, relatedResponse, userEmail, roster)) {
                     frc.giverEmail = "Anonymous";
@@ -2153,8 +2152,7 @@ public class FeedbackSessionsLogic {
                 FeedbackResponseAttributes relatedResponse = relevantResponse.get(frc.feedbackResponseId);
                 FeedbackQuestionAttributes relatedQuestion = relevantQuestions.get(frc.feedbackQuestionId);
                 boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(userEmail, courseId,
-                        role, section, student, studentsEmailInTeam, relatedResponse,
-                        relatedQuestion, frc, instructor);
+                        role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
                 if (isVisibleResponseComment) {
                     if (!frcLogic.isNameVisibleTo(frc, relatedResponse, userEmail, roster)) {
                         frc.giverEmail = "Anonymous";
