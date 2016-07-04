@@ -249,7 +249,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         // All these responses should be gone after he changes teams
         
         frLogic.updateFeedbackResponsesForChangingTeam(
-                studentToUpdate.course, studentToUpdate.email, studentToUpdate.team, "Team 1.2");
+                studentToUpdate.course, studentToUpdate.email, studentToUpdate.team);
         
         teamQuestion = getQuestionFromDatastore("team.members.feedback");
         assertEquals(frLogic.getFeedbackResponsesForReceiverForQuestion(
