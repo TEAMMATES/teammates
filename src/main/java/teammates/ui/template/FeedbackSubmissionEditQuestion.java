@@ -18,6 +18,7 @@ public class FeedbackSubmissionEditQuestion {
     private boolean isModeratedQuestion;
     private boolean isRecipientNameHidden;
     private boolean isTeamQuestion;
+    private boolean isRecipientTeam;
     
     public FeedbackSubmissionEditQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx,
                                     boolean isModeratedQuestion) {
@@ -33,6 +34,8 @@ public class FeedbackSubmissionEditQuestion {
         this.isModeratedQuestion = isModeratedQuestion;
         isRecipientNameHidden = questionAttributes.isRecipientNameHidden();
         isTeamQuestion = questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS);
+        isRecipientTeam = questionAttributes.recipientType.equals(FeedbackParticipantType.TEAMS)
+                          || questionAttributes.recipientType.equals(FeedbackParticipantType.OWN_TEAM);
     }
 
     public String getCourseId() {
@@ -77,5 +80,9 @@ public class FeedbackSubmissionEditQuestion {
     
     public boolean isTeamQuestion() {
         return isTeamQuestion;
+    }
+    
+    public boolean isRecipientTeam() {
+        return isRecipientTeam;
     }
 }
