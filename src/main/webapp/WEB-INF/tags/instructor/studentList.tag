@@ -28,7 +28,7 @@
                     <th id="button_sortteam-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
                         Team <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
+                    <th id="button-sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
                         Student Name <span class="icon-sort unsorted"></span>
                     </th>
                     <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this)">

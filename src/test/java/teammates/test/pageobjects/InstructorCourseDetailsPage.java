@@ -13,7 +13,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     @FindBy (id = "button_sortstudentstatus")
     private WebElement sortByStatusIcon;
     
-    @FindBy (id = "button_sortstudentname-0")
+    @FindBy (id = "button-sortstudentname-0")
     private WebElement sortByNameIcon;
     
     @FindBy (id = "button_sortteam-0")
