@@ -97,7 +97,7 @@ $(document).ready(function() {
             $('input[id^="section_check-"]').parent().show();
             $('input[id^="team_check-"]').prop('checked', true);
             $('input[id^="team_check-"]').parent().show();
-            var headings = $('.ajax_submit');
+            var headings = $('.ajax-submit');
             for (var idx = 0; idx < headings.length; idx++) {
                 setTimeout(triggerAjax, 400 * idx, headings[idx]);
             }
@@ -115,7 +115,7 @@ $(document).ready(function() {
             var heads = $('.panel-heading');
             for (var i = 0; i < heads.length; i++) {
                 var className = $(heads[i]).attr('class');
-                if (className.indexOf('ajax_submit') === -1) {
+                if (className.indexOf('ajax-submit') === -1) {
                     $(heads[i]).trigger('click');
                 }
             }

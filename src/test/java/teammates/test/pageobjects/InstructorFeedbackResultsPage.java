@@ -311,7 +311,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickAjaxLoadResponsesPanel(int index) {
-        List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax_submit"));
+        List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax-submit"));
         ajaxPanels.get(index).click();
     }
     
@@ -479,7 +479,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void changeFsNameInAjaxLoadResponsesForm(int indexOfForm, String newFsName) {
         
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('.ajax_submit:eq(" + indexOfForm
+        js.executeScript("$('.ajax-submit:eq(" + indexOfForm
                          + ") [name=\"fsname\"]').val('" + newFsName + "')");
     }
     
@@ -490,7 +490,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void waitForAjaxError(int indexOfForm) {
-        By ajaxErrorSelector = By.cssSelector(".ajax_submit:nth-of-type(" + indexOfForm
+        By ajaxErrorSelector = By.cssSelector(".ajax-submit:nth-of-type(" + indexOfForm
                                         + ") .ajax-error");
         waitForElementPresence(ajaxErrorSelector);
         
