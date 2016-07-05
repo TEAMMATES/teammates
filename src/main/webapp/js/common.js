@@ -164,12 +164,11 @@ $(document).on('ajaxComplete ready', function() {
     
     /**
      * Underlining all span elements with tool-tips except for 
-     * ones without a text value or text value being the 
-     * same as tool-tip value.
+     * ones without a text value.
     */
     $('span[data-toggle="tooltip"]').each(function() {
         textValue = $(this).text().replace(/\s/g, '')
-        if (textValue && (textValue != $(this).attr('data-original-title'))) {
+        if (textValue) {
             $(this).addClass('tool-tip-decorate');
         }
     });
