@@ -9,7 +9,7 @@
         <div class="form-group form-inline">
             <label style="margin-right: 24px;">Recipient:</label> 
             
-            <select id="comment_recipient_select" class="form-control" disabled>
+            <select id="comment-recipient-select" class="form-control" disabled>
                 <option value="<%=CommentParticipantType.COURSE%>" selected>The whole class</option>
             </select>
             

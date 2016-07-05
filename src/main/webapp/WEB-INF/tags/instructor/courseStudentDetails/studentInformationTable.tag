@@ -50,7 +50,7 @@
     <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD %>" name="form_commentadd">
         <div class="form-group form-inline">
             <label style="margin-right: 24px;">Recipient:</label>
-            <select id="comment_recipient_select" class="form-control">
+            <select id="comment-recipient-select" class="form-control">
                 <option value="<%= CommentParticipantType.PERSON %>" selected>
                     ${fn:escapeXml(studentInfoTable.name)}
                 </option>

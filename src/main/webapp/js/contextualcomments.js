@@ -37,11 +37,11 @@ $(document).ready(function() {
         $('#commentArea').hide();
     });
     
-    $('#comment_recipient_select').change(commentRecipientSelectChangeHandler);
+    $('#comment-recipient-select').change(commentRecipientSelectChangeHandler);
     
     function commentRecipientSelectChangeHandler() {
         // TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
-        var selectedValue = $('#comment_recipient_select option:selected').val();
+        var selectedValue = $('#comment-recipient-select option:selected').val();
         if (selectedValue === 'PERSON') {
             $('input[name="recipienttype"]').val('PERSON');
             $('input[name="recipients"]').val($('#studentemail > p').text());
@@ -104,10 +104,10 @@ $(document).ready(function() {
     if (isShowCommentBox) {
         $('#button-add-comment').click();
         if (commentRecipient === 'team') {
-            $('#comment_recipient_select').val('TEAM');
+            $('#comment-recipient-select').val('TEAM');
             commentRecipientSelectChangeHandler();
         } else if (commentRecipient === 'section') {
-            $('#comment_recipient_select').val('SECTION');
+            $('#comment-recipient-select').val('SECTION');
             commentRecipientSelectChangeHandler();
         }
     }
