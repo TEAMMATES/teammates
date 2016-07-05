@@ -5561,7 +5561,7 @@
                                                                         <abbr title="Percived Contribution">PC</abbr>
                                                                         <span class="icon-sort unsorted"></span>
                                                                     </td>
-                                                                    <td class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="Perceived Contribution - Claimed Contribution">Diff
+                                                                    <td class="button-sort-none" id="button-sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="Perceived Contribution - Claimed Contribution">Diff
                                                                         <span class="icon-sort unsorted"></span>
                                                                     </td>
                                                                     <td class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="The list of points that this student received from others">Ratings Received</td>
