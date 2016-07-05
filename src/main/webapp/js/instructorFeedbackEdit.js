@@ -293,7 +293,7 @@ function enableQuestion(questionNum) {
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).show();
     $('#' + FEEDBACK_QUESTION_DISCARDCHANGES + '-' + questionNum).show();
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('edit');
-    $('#button_question_submit-' + questionNum).show();
+    $('#button-question-submit-' + questionNum).show();
 }
 
 function enableNewQuestion() {
@@ -332,7 +332,7 @@ function enableNewQuestion() {
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + NEW_QUESTION).hide();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + NEW_QUESTION).show();
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + NEW_QUESTION).val('edit');
-    $('#button_question_submit-' + NEW_QUESTION).show();
+    $('#button-question-submit-' + NEW_QUESTION).show();
 }
 
 /**
@@ -372,7 +372,7 @@ function disableQuestion(questionNum) {
 
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).show();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
-    $('#button_question_submit-' + questionNum).hide();
+    $('#button-question-submit-' + questionNum).hide();
 }
 
 /**
@@ -427,7 +427,7 @@ function restoreOriginal(questionNum) {
         $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
         $('#' + FEEDBACK_QUESTION_DISCARDCHANGES + '-' + questionNum).hide();
         $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('');
-        $('#button_question_submit-' + questionNum).hide();
+        $('#button-question-submit-' + questionNum).hide();
     }
 
     // re-attach onChange event to show/hide numEntitiesBox according to recipient type

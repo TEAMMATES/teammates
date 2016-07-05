@@ -472,7 +472,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void clickSaveExistingQuestionButton(int qnNumber) {
-        WebElement qnSaveLink = browser.driver.findElement(By.id("button_question_submit-" + qnNumber));
+        WebElement qnSaveLink = browser.driver.findElement(By.id("button-question-submit-" + qnNumber));
         qnSaveLink.click();
         waitForPageToLoad();
     }

@@ -84,7 +84,7 @@
             
             <div>
                 <span class="pull-right">
-                    <input id="button_question_submit-${fqForm.questionIndex}"
+                    <input id="button-question-submit-${fqForm.questionIndex}"
                            type="submit" class="btn btn-primary"
                            value="Save Changes" tabindex="0"
                            style="display:none">
