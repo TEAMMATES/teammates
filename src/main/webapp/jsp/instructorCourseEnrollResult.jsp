@@ -20,7 +20,7 @@
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Enrollment Results for ${data.courseId}" jsIncludes="${jsIncludes}">
     <div class="alert alert-success">
         <form name='goBack' action="${data.instructorCourseEnrollLink}" method="post" role="form"> 
-            Enrollment Successful. Summary given below. Click <a id="edit_enroll" href="javascript:document.forms['goBack'].submit()">here</a> to do further changes to the student list.
+            Enrollment Successful. Summary given below. Click <a id="edit-enroll" href="javascript:document.forms['goBack'].submit()">here</a> to do further changes to the student list.
             <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
             <input type="hidden" name="${STUDENTS_ENROLLMENT_INFO}" value="${fn:escapeXml(data.enrollStudents)}">
         </form>

@@ -5,7 +5,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class InstructorCourseEnrollResultPage extends AppPage {
     
-    @FindBy(id = "edit_enroll")
+    @FindBy(id = "edit-enroll")
     WebElement editLink;
 
     public InstructorCourseEnrollResultPage(Browser browser) {
