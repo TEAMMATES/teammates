@@ -104,8 +104,10 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
      * Displays the feedback session.
      */
     private void showFeedbackSession(FeedbackSession session) {
-        System.out.println("Feedback Session Name: \"" + session.getFeedbackSessionName() + "\" in "
+        System.out.println("Old Feedback Session Name: \"" + session.getFeedbackSessionName() + "\" in "
                            + session.getCourseId());
+        System.out.println("New Feedback Session Name: \"" + StringHelper.removeExtraSpace(session.getFeedbackSessionName())
+                + "\" in " + session.getCourseId());
     }
 
     /**
