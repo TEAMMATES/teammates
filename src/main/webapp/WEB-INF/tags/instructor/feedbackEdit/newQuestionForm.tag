@@ -8,7 +8,7 @@
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 <%@ attribute name="nextQnNum" required="true"%>
 
-<form class="form-horizontal form_question" role="form" method="post"
+<form class="form-horizontal form-question" role="form" method="post"
     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
     name="form-addquestions" onsubmit="tallyCheckboxes('')" >
     <div class="well well-plain inputTable" id="addNewQuestionTable">

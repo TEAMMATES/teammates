@@ -10,7 +10,7 @@
 <%@ attribute name="numQn" required="true"%>
 
 
-<form class="form-horizontal form_question" role="form" method="post"
+<form class="form-horizontal form-question" role="form" method="post"
     action="${fqForm.action}"
     id="form_editquestion-${fqForm.questionIndex}" name="form-editquestions"
     onsubmit="tallyCheckboxes(${fqForm.questionIndex})"

@@ -1884,7 +1884,7 @@
 
                 <div class="bs-example" id="settingQuestion">
 
-                    <form class="form-horizontal form_question" editstatus="hasResponses">
+                    <form class="form-horizontal form-question" editstatus="hasResponses">
                         <div class="panel panel-primary questionTable">
                             <div class="panel-heading">
                                 <div class="row">
@@ -2185,7 +2185,7 @@
 
 
                 <div class="bs-example">
-                    <form class="form-horizontal form_question" role="form">
+                    <form class="form-horizontal form-question" role="form">
                         <div class="panel panel-primary questionTable" id="questionTable1">
                             <div class="panel-heading">
                                 <div class="row">
@@ -3100,7 +3100,7 @@
                         <br> To setup a question of this type, simply provide the question text, feedback path(giver/recipient) and visibility options.
                         <br>
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form">
+                            <form class="form-horizontal form-question" role="form">
                                 <div class="panel panel-primary questionTable" id="questionTable1">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -3341,7 +3341,7 @@
                         <b>generating options</b> based on the list of students, teams and instructors in the course.
                         <br> Example with specified options:
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post">
+                            <form class="form-horizontal form-question" role="form" method="post">
                                 <div class="panel panel-primary questionTable" id="questionTable7">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -3630,7 +3630,7 @@
 
                         Example with generated options:
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" >
+                            <form class="form-horizontal form-question" role="form" method="post" >
                                 <div class="panel panel-primary questionTable" id="questionTable4">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -4045,7 +4045,7 @@
                         <br>
 
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" >
+                            <form class="form-horizontal form-question" role="form" method="post" >
                                 <div class="panel panel-primary questionTable" id="questionTable3">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -4427,7 +4427,7 @@
 
 
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" >
+                            <form class="form-horizontal form-question" role="form" method="post" >
                                 <div class="panel panel-primary questionTable" id="questionTable9">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -4926,7 +4926,7 @@
                         <b>Points to distribute X number of recipients</b> is set to 100, students will have to split 500 points in total to the 5 members.
 
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" >
+                            <form class="form-horizontal form-question" role="form" method="post" >
                                 <div class="panel panel-primary questionTable" id="questionTable10">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -5276,7 +5276,7 @@
                         <br> To setup the question, simply give some question text. The giver and recipient is fixed for this special question type.
                         <br>
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" >
+                            <form class="form-horizontal form-question" role="form" method="post" >
                                 <div class="panel panel-primary questionTable" id="questionTable11">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -6342,7 +6342,7 @@
                         <br>
                         <br>
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" >
+                            <form class="form-horizontal form-question" role="form" method="post" >
                                 <div class="panel panel-primary questionTable" id="questionTable12">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -6761,7 +6761,7 @@
                         <br>
                         <br>
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form-editquestions" onsubmit="tallyCheckboxes(3)">
+                            <form class="form-horizontal form-question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form-editquestions" onsubmit="tallyCheckboxes(3)">
                                 <div class="panel panel-primary questionTable" id="questionTable3">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -7141,7 +7141,7 @@
                         <br>
                         <br>
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post">
+                            <form class="form-horizontal form-question" role="form" method="post">
                                 <div class="panel panel-primary questionTable" id="questionTable4">
                                     <div class="panel-heading">
                                         <div class="row">

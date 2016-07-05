@@ -34,7 +34,7 @@ function readyFeedbackEditPage() {
     
     // Bind submit text links
     $('a[id|=questionsavechangestext]').click(function() {
-        $(this).parents('form.form_question').submit();
+        $(this).parents('form.form-question').submit();
     });
     
     // Bind submit actions
@@ -51,7 +51,7 @@ function readyFeedbackEditPage() {
         }
     });
 
-    $('form.form_question').submit(function() {
+    $('form.form-question').submit(function() {
         return checkFeedbackQuestion(this);
     });
 
