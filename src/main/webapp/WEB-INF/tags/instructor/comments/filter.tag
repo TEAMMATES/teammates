@@ -123,10 +123,10 @@
                             </label>
                         </div>
                         <div class="checkbox">
-                            <input id="status_check-private"
+                            <input id="status-check-private"
                                 type="checkbox"
                                 checked>
-                            <label for="status_check-private">
+                            <label for="status-check-private">
                                 Private
                             </label>
                         </div>
