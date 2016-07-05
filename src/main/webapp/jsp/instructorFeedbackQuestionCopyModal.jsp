@@ -8,7 +8,7 @@
             <th onclick="toggleSort(this);" id="button_sortid" class="button-sort-ascending" style="width:100px"> 
                 Course ID <span class="icon-sort sorted-ascending"></span>
             </th>
-            <th onclick="toggleSort(this);" id="button_sortfsname" class="button-sort-none" style="width:17%;">
+            <th onclick="toggleSort(this);" id="button-sortfsname" class="button-sort-none" style="width:17%;">
                 Session Name <span class="icon-sort unsorted"></span>
             </th>
             <th onclick="toggleSort(this);" id="button-sortfqtype" class="button-sort-none"> 
