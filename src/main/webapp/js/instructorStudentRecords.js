@@ -88,7 +88,7 @@ function readyStudentRecordsPage() {
  * Currently done this way because the link is placed on a different column
  */
 function submitCommentForm(commentIdx) {
-    $('#form_commentedit-' + commentIdx).submit();
+    $('#form-commentedit-' + commentIdx).submit();
     return false;
 }
 

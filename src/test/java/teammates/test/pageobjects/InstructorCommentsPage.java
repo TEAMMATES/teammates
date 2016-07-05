@@ -95,7 +95,7 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     public WebElement getStudentCommentRow(int rowIdx) {
-        return browser.driver.findElement(By.id("form_commentedit-" + rowIdx));
+        return browser.driver.findElement(By.id("form-commentedit-" + rowIdx));
     }
 
     public void clickStudentCommentEditForRow(int i) {

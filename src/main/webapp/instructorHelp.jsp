@@ -7914,7 +7914,7 @@
                             <ul class="list-group comments">
 
                                 <li id="4538783999459328" class="list-group-item list-group-item-warning status_display-public">
-                                    <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form-comment" id="form_commentedit-1">
+                                    <form method="post" action="/page/instructorStudentCommentEdit" name="form-commentedit" class="form-comment" id="form-commentedit-1">
                                         <div id="commentBar-1" style="display: block;">
 
                                             <span class="text-muted">To
@@ -8159,7 +8159,7 @@
                                             <ul class="list-group comments">
 
                                                 <li id="4691616115720192" class="list-group-item list-group-item-warning status_display-public">
-                                                    <form name="form_commentedit" class="form-comment" id="form_commentedit-1">
+                                                    <form name="form-commentedit" class="form-comment" id="form-commentedit-1">
                                                         <div id="commentBar-1">
 
                                                             <span class="text-muted">To

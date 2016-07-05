@@ -380,7 +380,7 @@ function hideAddCommentBox(id) {
 }
 
 function submitCommentForm(commentIdx) {
-    $('#form_commentedit-' + commentIdx).submit();
+    $('#form-commentedit-' + commentIdx).submit();
     return false;
 }
 
