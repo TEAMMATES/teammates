@@ -37,8 +37,8 @@
                 </div>
                 <br>
                 <div class="checkbox" style="display:none;">
-                    <input type="checkbox" value="" id="section_all"> 
-                    <label for="section_all"><strong>Select all</strong></label>
+                    <input type="checkbox" value="" id="section-all"> 
+                    <label for="section-all"><strong>Select all</strong></label>
                 </div>
                 <br>
                 <div id="sectionChoices">

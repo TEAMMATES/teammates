@@ -87,8 +87,8 @@ $(document).ready(function() {
     // Binding for 'Select All' course option
     $('#course-all').on('change', function() {
         if (this.checked) {
-            $('#section_all').prop('checked', true);
-            $('#section_all').parent().show();
+            $('#section-all').prop('checked', true);
+            $('#section-all').parent().show();
             $('#team_all').prop('checked', true);
             $('#team_all').parent().show();
             $('#show_email').parent().show();
@@ -102,8 +102,8 @@ $(document).ready(function() {
                 setTimeout(triggerAjax, 400 * idx, headings[idx]);
             }
         } else {
-            $('#section_all').prop('checked', false);
-            $('#section_all').parent().hide();
+            $('#section-all').prop('checked', false);
+            $('#section-all').parent().hide();
             $('#team_all').prop('checked', false);
             $('#team_all').parent().hide();
             $('#show_email').parent().hide();
@@ -124,7 +124,7 @@ $(document).ready(function() {
     });
 
     // Binding for "Select All" section option
-    $('#section_all').on('change', function() {
+    $('#section-all').on('change', function() {
         if (this.checked) {
             $('#team_all').prop('checked', true);
             $('#team_all').parent().show();
@@ -195,11 +195,11 @@ function checkCourseBinding(e) {
     
     // If none of of the courses are selected, hide the section"s 'Select All' option
     if ($('input[id^="course-check"]:checked').length === 0) {
-        $('#section_all').parent().hide();
+        $('#section-all').parent().hide();
         $('#team_all').parent().hide();
         $('#show_email').parent().hide();
     } else {
-        $('#section_all').parent().show();
+        $('#section-all').parent().show();
         $('#team_all').parent().show();
         $('#show_email').parent().show();
     }
@@ -217,9 +217,9 @@ function checkCourseBinding(e) {
  */
 function checkAllSectionsSelected() {
     if ($('input[id^="section_check"]:visible:checked').length === $('input[id^="section_check"]:visible').length) {
-        $('#section_all').prop('checked', true);
+        $('#section-all').prop('checked', true);
     } else {
-        $('#section_all').prop('checked', false);
+        $('#section-all').prop('checked', false);
     }
 }
 

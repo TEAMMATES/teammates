@@ -14,7 +14,7 @@ QUnit.test('filterSection()', function(assert) {
     // Deselect 1 section and select back usin Select All
     $('#section_check-1-0').click();
     assert.equal($('#studentsection-c1\\.0').is(':hidden'), true, 'Section not selected is hidden');
-    assert.equal($('#section_all').is(':checked'), false, 'Select all check should be removed');
+    assert.equal($('#section-all').is(':checked'), false, 'Select all check should be removed');
 
     assert.equal($('#student_email-c0\\.0').is(':visible'), true, '[Team 1]Alice Betsy\'s email visible');
     assert.equal($('#student_email-c0\\.1').is(':visible'), true, '[Team 2]Hugh Ivanov\'s email visible');
@@ -31,7 +31,7 @@ QUnit.test('filterSection()', function(assert) {
     assert.equal($('#student_email-c1\\.8').is(':hidden'), true, '[Team 3]Ian Jacobsson\'s email hidden');
     assert.equal($('#student_email-c1\\.9').is(':hidden'), true, '[Team 3]James K\'s email hidden');
 
-    $('#section_all').click();
+    $('#section-all').click();
     assert.equal($('#studentsection-c0\\.0').is(':visible'), true, 'All sections should be visible');
     assert.equal($('#studentsection-c0\\.1').is(':visible'), true, 'All sections should be visible');
     assert.equal($('#studentsection-c1\\.0').is(':visible'), true, 'All sections should be visible');
@@ -45,7 +45,7 @@ QUnit.test('filterSection()', function(assert) {
     $('#section_check-0-1').click();
     $('#team_check-0-10-0').click(); // deselect the invalid team section
     assert.equal($('#studentsection-c0\\.1').is(':hidden'), true, 'Section not selected is hidden');
-    assert.equal($('#section_all').is(':checked'), false, 'Select all check should be removed');
+    assert.equal($('#section-all').is(':checked'), false, 'Select all check should be removed');
 
     assert.equal($('#student_email-c0\\.0').is(':visible'), true, '[Team 1]Alice Betsy\'s email visible');
     assert.equal($('#student_email-c0\\.1').is(':hidden'), true, '[Team 2]Hugh Ivanov\'s email hidden');
