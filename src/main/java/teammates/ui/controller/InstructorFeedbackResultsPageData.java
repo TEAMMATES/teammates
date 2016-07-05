@@ -1002,7 +1002,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none", "onclick",
                                "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
         ElementTag giverElement =
-                new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick",
+                new ElementTag("Giver", "id", "button-sortFromName", "class", "button-sort-none", "onclick",
                                "toggleSort(this)", "style", "width: 15%; min-width: 65px;");
         ElementTag recipientTeamElement =
                 new ElementTag("Team", "id", "button_sortToTeam", "class", "button-sort-ascending", "onclick",
@@ -1060,7 +1060,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick",
                                "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
         ElementTag giverElement =
-                new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick",
+                new ElementTag("Giver", "id", "button-sortFromName", "class", "button-sort-none", "onclick",
                                "toggleSort(this)", "style", "width: 15%; min-width: 65px;");
         ElementTag responseElement =
                 new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick",

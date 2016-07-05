@@ -3966,7 +3966,7 @@
                                             <table class="table table-striped table-bordered dataTable margin-0">
                                                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                     <tr>
-                                                        <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                        <th id="button-sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
                                                             Giver
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
@@ -4357,7 +4357,7 @@
                                             <table class="table table-striped table-bordered dataTable margin-0">
                                                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                     <tr>
-                                                        <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                        <th id="button-sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
                                                             Giver
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
@@ -4846,7 +4846,7 @@
                                             <table class="table table-striped table-bordered dataTable margin-0">
                                                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                     <tr>
-                                                        <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                        <th id="button-sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
                                                             Giver
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
@@ -5738,7 +5738,7 @@
                                             <table class="table table-striped table-bordered dataTable margin-0">
                                                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                     <tr>
-                                                        <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                        <th id="button-sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
                                                             Giver
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>

@@ -22,7 +22,7 @@ import teammates.test.driver.AssertHelper;
 
 public class InstructorFeedbackResultsPage extends AppPage {
 
-    @FindBy(id = "button_sortFromName")
+    @FindBy(id = "button-sortFromName")
     public WebElement sortTableGiverButton;
 
     @FindBy(id = "collapse-panels-button")

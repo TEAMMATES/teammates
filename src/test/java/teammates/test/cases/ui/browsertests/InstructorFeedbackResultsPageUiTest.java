@@ -253,7 +253,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                            "3 Response to Emily.",
                            "4 Response to Charlie.");
 
-        verifySortingOrder(By.id("button_sortFromName"),
+        verifySortingOrder(By.id("button-sortFromName"),
                            "Alice Betsy",
                            "Benny Charles",
                            "Benny Charles",
