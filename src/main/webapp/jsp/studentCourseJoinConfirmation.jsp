@@ -35,7 +35,7 @@
 	            </c:choose>
 	        </p>
 	        <div class="align-center">
-	            <a href="${data.confirmUrl}" class="btn btn-success" id="button_confirm">
+	            <a href="${data.confirmUrl}" class="btn btn-success" id="button-confirm">
 	                <c:choose>
 	                    <c:when test="${data.redirectResult}">
 	                        Register as <strong>${data.account.googleId}</strong>
