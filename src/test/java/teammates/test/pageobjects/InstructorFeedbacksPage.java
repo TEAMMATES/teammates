@@ -78,7 +78,7 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_published")
     private WebElement sendPublishedEmailCheckbox;
     
-    @FindBy(id = "button_submit")
+    @FindBy(id = "button-submit")
     private WebElement submitButton;
     
     @FindBy(id = "button-copy")

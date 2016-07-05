@@ -154,7 +154,7 @@ function disableEditFS() {
 
     $('#fsEditLink').show();
     $('#fsSaveLink').hide();
-    $('#button_submit').hide();
+    $('#button-submit').hide();
 }
 
 /**
@@ -198,7 +198,7 @@ function enableEditFS() {
     /* eslint-enable camelcase */
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
-    $('#button_submit').show();
+    $('#button-submit').show();
 }
 
 function getCustomDateTimeFields() {
