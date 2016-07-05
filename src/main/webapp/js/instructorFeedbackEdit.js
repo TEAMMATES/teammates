@@ -592,8 +592,8 @@ function prepareQuestionForm(type) {
         hideAllNewQuestionForms();
         
         $('#constSumForm').show();
-        var optionText = $('#constSum_labelText-' + NEW_QUESTION).text();
-        $('#constSum_labelText-' + NEW_QUESTION).text(optionText.replace('option', 'recipient'));
+        var optionText = $('#constSum-labelText-' + NEW_QUESTION).text();
+        $('#constSum-labelText-' + NEW_QUESTION).text(optionText.replace('option', 'recipient'));
         var tooltipText = $('#constSum_tooltipText-' + NEW_QUESTION).attr('data-original-title');
         $('#constSum_tooltipText-' + NEW_QUESTION).attr('data-original-title', tooltipText.replace('option', 'recipient'));
         break;

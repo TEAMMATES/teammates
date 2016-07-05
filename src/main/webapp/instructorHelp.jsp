@@ -4576,7 +4576,7 @@
                                                               <label class="bold-label">
                                                                   <input type="checkbox" name="constSumUnevenDistribution" disabled
                                                                           id="constSum_UnevenDistribution-9">
-                                                                      <span id="constSum_labelText-9">
+                                                                      <span id="constSum-labelText-9">
                                                                           Every option to receive a different number of points</span>
                                                               </label>
                                                           </div>
@@ -5057,7 +5057,7 @@
                                                                     <input type="checkbox"
                                                                             name="constSumUnevenDistribution" disabled
                                                                             id="constSum_UnevenDistribution-10">
-                                                                    <span id="constSum_labelText-10">
+                                                                    <span id="constSum-labelText-10">
                                                                     Every Recipient to recieve a different number of points
                                                                     </span>
                                                                 </label>
