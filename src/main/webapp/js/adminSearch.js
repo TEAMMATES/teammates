@@ -110,11 +110,11 @@ function adminSearchCollapseAllStudents() {
 }
 
 function adminSearchDiscloseAllInstructors() {
-    $('.fslink_instructor').slideDown();
+    $('.fslink-instructor').slideDown();
     $('.instructorRow').attr('class', 'instructorRow active');
 }
 
 function adminSearchCollapseAllInstructors() {
-    $('.fslink_instructor').hide();
+    $('.fslink-instructor').hide();
     $('.instructorRow').attr('class', 'instructorRow');
 }

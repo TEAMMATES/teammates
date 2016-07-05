@@ -54,7 +54,7 @@
     </td>
 </tr>    
                                   
-<tr class="has-danger list-group fslink fslink_instructor fslink${instructor.id}" style="display: none;">
+<tr class="has-danger list-group fslink fslink-instructor fslink${instructor.id}" style="display: none;">
     <td colspan="5">
         <ul class="list-group">
             <%-- Email --%>
