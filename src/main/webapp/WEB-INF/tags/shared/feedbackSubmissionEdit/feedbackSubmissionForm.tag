@@ -6,7 +6,7 @@
 
 <%@ attribute name="moderatedPersonEmail" required="true" %>
 
-<form method="post" name="form_submit_response" action="${data.submitAction}">
+<form method="post" name="form-submit-response" action="${data.submitAction}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${data.bundle.feedbackSession.feedbackSessionName}">
     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${data.bundle.feedbackSession.courseId}">
     
