@@ -39,7 +39,7 @@ $(document).ready(function() {
     });
 
     // Binding for Sections checkboxes
-    $(document).on('change', '.section_check', function() {
+    $(document).on('change', '.section-check', function() {
         var courseIdx = $(this).attr('id').split('-')[1];
         var sectionIdx = $(this).attr('id').split('-')[2];
 
@@ -53,7 +53,7 @@ $(document).ready(function() {
         }
 
         // If none of of the sections are selected, hide the team's 'Select All' option
-        if ($('input[id^="section_check"]:checked').length === 0) {
+        if ($('input[id^="section-check"]:checked').length === 0) {
             $('#team_all').parent().hide();
             $('#show_email').parent().hide();
         } else {
@@ -93,8 +93,8 @@ $(document).ready(function() {
             $('#team_all').parent().show();
             $('#show_email').parent().show();
             $('input[id^="course-check"]').prop('checked', true);
-            $('input[id^="section_check-"]').prop('checked', true);
-            $('input[id^="section_check-"]').parent().show();
+            $('input[id^="section-check-"]').prop('checked', true);
+            $('input[id^="section-check-"]').parent().show();
             $('input[id^="team_check-"]').prop('checked', true);
             $('input[id^="team_check-"]').parent().show();
             var headings = $('.ajax-submit');
@@ -107,8 +107,8 @@ $(document).ready(function() {
             $('#team_all').prop('checked', false);
             $('#team_all').parent().hide();
             $('#show_email').parent().hide();
-            $('input[id^="section_check-"]').prop('checked', false);
-            $('input[id^="section_check-"]').parent().remove();
+            $('input[id^="section-check-"]').prop('checked', false);
+            $('input[id^="section-check-"]').parent().remove();
             $('input[id^="course-check"]').prop('checked', false);
             $('input[id^="team_check-"]').prop('checked', false);
             $('input[id^="team_check-"]').parent().remove();
@@ -129,14 +129,14 @@ $(document).ready(function() {
             $('#team_all').prop('checked', true);
             $('#team_all').parent().show();
             $('#show_email').parent().show();
-            $('input[id^="section_check-"]').prop('checked', true);
+            $('input[id^="section-check-"]').prop('checked', true);
             $('input[id^="team_check-"]').prop('checked', true);
             $('input[id^="team_check-"]').parent().show();
         } else {
             $('#team_all').prop('checked', false);
             $('#team_all').parent().hide();
             $('#show_email').parent().hide();
-            $('input[id^="section_check-"]').prop('checked', false);
+            $('input[id^="section-check-"]').prop('checked', false);
             $('input[id^="team_check-"]').prop('checked', false);
             $('input[id^="team_check-"]').parent().hide();
         }
@@ -174,13 +174,13 @@ function checkCourseBinding(e) {
 
     // Check/hide all section that is in this course
     if ($(e).prop('checked')) {
-        $('input[id^="section_check-' + courseIdx + '-"]').prop('checked', true);
-        $('input[id^="section_check-' + courseIdx + '-"]').parent().show();
+        $('input[id^="section-check-' + courseIdx + '-"]').prop('checked', true);
+        $('input[id^="section-check-' + courseIdx + '-"]').parent().show();
         $('input[id^="team_check-' + courseIdx + '-"]').prop('checked', true);
         $('input[id^="team_check-' + courseIdx + '-"]').parent().show();
     } else {
-        $('input[id^="section_check-' + courseIdx + '-"]').prop('checked', false);
-        $('input[id^="section_check-' + courseIdx + '-"]').parent().remove();
+        $('input[id^="section-check-' + courseIdx + '-"]').prop('checked', false);
+        $('input[id^="section-check-' + courseIdx + '-"]').parent().remove();
         $('input[id^="team_check-' + courseIdx + '-"]').prop('checked', false);
         $('input[id^="team_check-' + courseIdx + '-"]').parent().remove();
         $('div[id^="student_email-c' + courseIdx + '"]').remove();
@@ -216,7 +216,7 @@ function checkCourseBinding(e) {
  * Check if all available sections are selected
  */
 function checkAllSectionsSelected() {
-    if ($('input[id^="section_check"]:visible:checked').length === $('input[id^="section_check"]:visible').length) {
+    if ($('input[id^="section-check"]:visible:checked').length === $('input[id^="section-check"]:visible').length) {
         $('#section-all').prop('checked', true);
     } else {
         $('#section-all').prop('checked', false);
@@ -279,7 +279,7 @@ function applyFilters() {
  * Hide sections that are not selected
  */
 function filterSection() {
-    $('input[id^="section_check"]').each(function() {
+    $('input[id^="section-check"]').each(function() {
         var courseIdx = $(this).attr('id').split('-')[1];
         var sectionIdx = $(this).attr('id').split('-')[2];
         if (this.checked) {

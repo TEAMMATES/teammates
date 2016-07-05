@@ -49,8 +49,8 @@
                         <%-- generated here but to be appended to #sectionChoices in instructorStudentList.jsp
                              will be transported via JavaScript in instructorStudentListAjax.js --%>
                         <div class="checkbox section-to-be-transported">
-                            <input id="section_check-${courseIndex}-${sectionIndex}" type="checkbox" checked class="section_check">
-                            <label for="section_check-${courseIndex}-${sectionIndex}">
+                            <input id="section-check-${courseIndex}-${sectionIndex}" type="checkbox" checked class="section-check">
+                            <label for="section-check-${courseIndex}-${sectionIndex}">
                                 [${courseId}] : <c:out value="${section.sectionName}"/>
                             </label>
                         </div>
