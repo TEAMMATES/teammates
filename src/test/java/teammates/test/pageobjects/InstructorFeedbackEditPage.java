@@ -136,7 +136,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button-copy-submit")
     private WebElement copyQuestionSubmitButton;
     
-    @FindBy(id = "button_preview_student")
+    @FindBy(id = "button-preview-student")
     private WebElement previewAsStudentButton;
     
     @FindBy(id = "button-preview-instructor")

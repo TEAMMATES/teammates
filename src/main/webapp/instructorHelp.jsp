@@ -2532,7 +2532,7 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input id="button_preview_student" class="btn btn-primary" value="Preview as Student">
+                                        <input id="button-preview-student" class="btn btn-primary" value="Preview as Student">
                                     </div>
                                 </form>
                             </div>
