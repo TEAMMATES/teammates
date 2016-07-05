@@ -53,16 +53,22 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                      pageResult.getDestinationWithParams());
 
         assertTrue(pageResult.isError);
-        assertEquals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseId,
-                                        FieldValidator.REASON_INCORRECT_FORMAT), pageResult.getStatusMessage());
+        assertEquals(getPopulatedErrorMessage(
+                         FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseId,
+                         FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                         FieldValidator.COURSE_ID_MAX_LENGTH),
+                     pageResult.getStatusMessage());
 
         InstructorCoursesPageData pageData = (InstructorCoursesPageData) pageResult.data;
         assertEquals(1, pageData.getActiveCourses().getRows().size() + pageData.getArchivedCourses().getRows().size());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                                     + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                    + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseId,
-                                    FieldValidator.REASON_INCORRECT_FORMAT)
+                                    + getPopulatedErrorMessage(
+                                          FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourseId,
+                                          FieldValidator.COURSE_ID_FIELD_NAME,
+                                          FieldValidator.REASON_INCORRECT_FORMAT,
+                                          FieldValidator.COURSE_ID_MAX_LENGTH)
                                     + "|||/page/instructorCourseAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
 
