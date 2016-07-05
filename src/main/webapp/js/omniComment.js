@@ -100,9 +100,9 @@ $(document).ready(function() {
         $("input[id^='panel-check']").each(function() {
             var panelIdx = $(this).attr('id').split('-')[1];
             if (this.checked) {
-                $('#panel_display-' + panelIdx).show();
+                $('#panel-display-' + panelIdx).show();
             } else {
-                $('#panel_display-' + panelIdx).hide();
+                $('#panel-display-' + panelIdx).hide();
             }
         });
     }

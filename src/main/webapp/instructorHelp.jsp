@@ -8142,7 +8142,7 @@
                                 </div>
                             </div>
 
-                            <div id="panel_display-1">
+                            <div id="panel-display-1">
                                 <br>
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">

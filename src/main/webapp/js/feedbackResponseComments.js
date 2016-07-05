@@ -7,7 +7,7 @@ var addCommentHandler = function(e) {
     var cancelButton = $(this).next("input[value='Cancel']");
     var formObject = $(this).closest('form');
     var addFormRow = formObject.closest("li[id^='showResponseCommentAddForm']");
-    var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
+    var panelHeading = $(this).parents("[id^='panel-display-']").find('.panel-heading').first();
     var formData = formObject.serialize();
     var responseCommentId = addFormRow.parent().attr('id');
     var numberOfComments = addFormRow.parent().find('li').length;
@@ -67,7 +67,7 @@ var editCommentHandler = function(e) {
     var formObject = $(this).closest('form');
     var displayedText = formObject.siblings("div[id^='plainCommentText']").first();
     var commentBar = displayedText.parent().find('div[id^=commentBar]');
-    var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
+    var panelHeading = $(this).parents("[id^='panel-display-']").find('.panel-heading').first();
     var formData = formObject.serialize();
     
     e.preventDefault();
@@ -124,7 +124,7 @@ var deleteCommentHandler = function(e) {
     var formData = formObject.serialize();
     var editForm = submitButton.parent().next().next().next();
     var frCommentList = submitButton.closest('.comments');
-    var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
+    var panelHeading = $(this).parents("[id^='panel-display-']").find('.panel-heading').first();
     
     e.preventDefault();
     
