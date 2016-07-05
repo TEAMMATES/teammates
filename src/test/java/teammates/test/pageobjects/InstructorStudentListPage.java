@@ -17,7 +17,7 @@ public class InstructorStudentListPage extends AppPage {
     @FindBy(id = "buttonSearch")
     private WebElement searchButton;
 
-    @FindBy(id = "displayArchivedCourses_check")
+    @FindBy(id = "displayArchivedCourses-check")
     private WebElement displayArchiveOptions;
 
     public InstructorStudentListPage(Browser browser) {

@@ -14,7 +14,7 @@ public class InstructorCommentsPage extends AppPage {
     @FindBy(id = "option-check")
     private WebElement showMoreOptionsCheckbox;
     
-    @FindBy(id = "displayArchivedCourses_check")
+    @FindBy(id = "displayArchivedCourses-check")
     private WebElement isIncludeArchivedCoursesCheckbox;
     
     public InstructorCommentsPage(Browser browser) {

@@ -5,8 +5,8 @@
     <div class="row">
         <div class="col-md-3">
             <div class="checkbox">
-                <input id="displayArchivedCourses_check" type="checkbox"<c:if test="${filterBox.displayArchive}"> checked</c:if>>
-                <label for="displayArchivedCourses_check">Display Archived Courses</label>
+                <input id="displayArchivedCourses-check" type="checkbox"<c:if test="${filterBox.displayArchive}"> checked</c:if>>
+                <label for="displayArchivedCourses-check">Display Archived Courses</label>
             </div>
         </div>
     </div>

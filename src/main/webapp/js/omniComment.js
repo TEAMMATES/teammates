@@ -283,7 +283,7 @@ $(document).ready(function() {
     }
     
     // Binding for "Display Archived Courses" check box.
-    $('#displayArchivedCourses_check').change(function() {
+    $('#displayArchivedCourses-check').change(function() {
         var urlToGo = $('#displayArchivedCourses_link > a').attr('href');
         if (this.checked) {
             gotoUrlWithParam(urlToGo, 'displayarchive', 'true');

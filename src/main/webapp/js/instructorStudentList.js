@@ -11,7 +11,7 @@ $(document).ready(function() {
     bindCollapseEvents(panels);
 
     // Binding for "Display Archived Courses" check box.
-    $('#displayArchivedCourses_check').on('change', function() {
+    $('#displayArchivedCourses-check').on('change', function() {
         var urlToGo = $(location).attr('href');
         if (this.checked) {
             gotoUrlWithParam(urlToGo, 'displayarchive', 'true');

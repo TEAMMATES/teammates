@@ -16,10 +16,10 @@
         </div>
         <div class="col-md-3">
             <div class="checkbox">
-                <input id="displayArchivedCourses_check"
+                <input id="displayArchivedCourses-check"
                     type="checkbox"
                     ${displayArchive ? 'checked' : ''}>
-                <label for="displayArchivedCourses_check">
+                <label for="displayArchivedCourses-check">
                     Include Archived Courses
                 </label>
                 <div id="displayArchivedCourses_link" style="display:none;">
