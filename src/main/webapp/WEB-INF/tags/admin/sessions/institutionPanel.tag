@@ -16,7 +16,7 @@
             </a>
         </li>
     </ul>
-    <div class="table-responsive" id="table_${tableIndex}">
+    <div class="table-responsive" id="table-${tableIndex}">
         <table class="table table-striped dataTable">
             <thead>
                 <tr>

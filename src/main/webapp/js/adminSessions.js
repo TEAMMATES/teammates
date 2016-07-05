@@ -2,7 +2,7 @@ function toggleContent(id) {
 
     var duration = 500;
 
-    $('#table_' + id).slideToggle('slow');
+    $('#table-' + id).slideToggle('slow');
 
     var pill = $('#pill-' + id).attr('class');
 
