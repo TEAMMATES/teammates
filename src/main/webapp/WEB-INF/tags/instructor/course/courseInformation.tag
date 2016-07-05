@@ -34,7 +34,7 @@
 
 <div class="form-group">
     <label class="col-sm-3 control-label">Total students:</label>
-    <div class="col-sm-6" id="total_students">
+    <div class="col-sm-6" id="total-students">
         <p class="form-control-static">${courseDetails.stats.studentsTotal}</p>
     </div>
 </div>
