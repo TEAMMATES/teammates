@@ -20,7 +20,7 @@
 
 <div class="form-group">
     <label class="col-sm-3 control-label">Sections:</label>
-    <div class="col-sm-6" id="total_sections">
+    <div class="col-sm-6" id="total-sections">
         <p class="form-control-static">${courseDetails.stats.sectionsTotal}</p>
     </div>
 </div>
