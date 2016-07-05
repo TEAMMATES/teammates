@@ -154,7 +154,7 @@
                                     </c:if>
                                     <c:set var="deleteButtonEnabled" value="${section.allowedToModifyStudent}" />
                                     <a class="course-student-delete-link btn btn-default btn-xs<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
-                                        data-student-name="${student.studentNameForJs}" data-course-name="${student.courseNameForJs}"
+                                        data-student-name="${student.studentNameForJs}" data-course-id="${student.courseIdForJs}"
                                        <c:choose>
                                            <c:when test="${not deleteButtonEnabled}">
                                               title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"

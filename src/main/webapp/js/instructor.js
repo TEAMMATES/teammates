@@ -322,7 +322,7 @@ function attachEventToDeleteStudentLink() {
 
         var $clickedLink = $(event.target);
         var messageText = 'Are you sure you want to remove ' + $clickedLink.data('studentName')
-                          + ' from the course ' + $clickedLink.data('courseName') + '?';
+                          + ' from the course ' + $clickedLink.data('courseId') + '?';
         var okCallback = function() {
             window.location = $clickedLink.attr('href');
         };

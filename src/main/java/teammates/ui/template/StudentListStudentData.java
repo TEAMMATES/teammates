@@ -10,7 +10,7 @@ public class StudentListStudentData {
     private String studentEmail;
     private String studentStatus;
     private String studentNameForJs;
-    private String courseNameForJs;
+    private String courseIdForJs;
     private String photoUrl;
     private String courseStudentDetailsLink;
     private String courseStudentEditLink;
@@ -24,7 +24,7 @@ public class StudentListStudentData {
         this.studentEmail = studentEmail;
         this.studentStatus = studentStatus;
         this.studentNameForJs = Sanitizer.sanitizeForJs(studentName);
-        this.courseNameForJs = Sanitizer.sanitizeForJs(course);
+        this.courseIdForJs = Sanitizer.sanitizeForJs(course);
         this.photoUrl = photoUrl;
         this.courseStudentDetailsLink =
                 furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
@@ -65,8 +65,8 @@ public class StudentListStudentData {
         return studentNameForJs;
     }
 
-    public String getCourseNameForJs() {
-        return courseNameForJs;
+    public String getCourseIdForJs() {
+        return courseIdForJs;
     }
 
     public String getPhotoUrl() {
