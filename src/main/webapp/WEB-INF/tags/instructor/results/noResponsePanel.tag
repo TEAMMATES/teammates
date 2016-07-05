@@ -11,7 +11,7 @@
             <table class="table table-striped table-bordered margin-0">
                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                     <tr>
-                        <th id="button_sortFromTeam" class="button-sort-ascending"
+                        <th id="button-sortFromTeam" class="button-sort-ascending"
                             onclick="toggleSort(this)" style="width: 30%;">
                             Team<span class="icon-sort unsorted"></span>
                         </th>

@@ -999,7 +999,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void buildTableColumnHeaderForQuestionView(List<ElementTag> columnTags,
                                                        Map<String, Boolean> isSortable) {
         ElementTag giverTeamElement =
-                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none", "onclick",
+                new ElementTag("Team", "id", "button-sortFromTeam", "class", "button-sort-none", "onclick",
                                "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
         ElementTag giverElement =
                 new ElementTag("Giver", "id", "button-sortFromName", "class", "button-sort-none", "onclick",
@@ -1033,7 +1033,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                      Map<String, Boolean> isSortable) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag recipientTeamElement =
-                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick",
+                new ElementTag("Team", "id", "button-sortFromTeam", "class", "button-sort-ascending", "onclick",
                                "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
         ElementTag recipientElement =
                 new ElementTag("Recipient", "id", "button_sortTo", "class", "button-sort-none", "onclick",
@@ -1057,7 +1057,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                      Map<String, Boolean> isSortable) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag giverTeamElement =
-                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick",
+                new ElementTag("Team", "id", "button-sortFromTeam", "class", "button-sort-ascending", "onclick",
                                "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
         ElementTag giverElement =
                 new ElementTag("Giver", "id", "button-sortFromName", "class", "button-sort-none", "onclick",

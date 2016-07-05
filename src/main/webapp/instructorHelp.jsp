@@ -3970,7 +3970,7 @@
                                                             Giver
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
-                                                        <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                        <th id="button-sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                             Team
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
@@ -4361,7 +4361,7 @@
                                                             Giver
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
-                                                        <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                        <th id="button-sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                             Team
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
@@ -4850,7 +4850,7 @@
                                                             Giver
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
-                                                        <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                        <th id="button-sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                             Team
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
@@ -5742,7 +5742,7 @@
                                                             Giver
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
-                                                        <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                        <th id="button-sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                             Team
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
