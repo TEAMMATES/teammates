@@ -41,7 +41,7 @@
                                 <td>Comment(s):
                                     <button type="button"
                                             class="btn btn-default btn-xs icon-button pull-right"
-                                            id="button_add_comment-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
+                                            id="button-add-comment-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
                                             onclick="showResponseCommentAddForm(${fsIndex},${responseEntriesStatus.count},${responseStatus.count})"
                                             data-toggle="tooltip" data-placement="top"
                                             title="<%= Const.Tooltips.COMMENT_ADD %>"

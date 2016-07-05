@@ -160,7 +160,7 @@ public class InstructorCommentsPage extends AppPage {
     public void clickResponseCommentAdd(int sessionIdx, int questionIdx, int responseIdx) {
         waitForPageToLoad();
         browser.driver.findElement(
-                By.id("button_add_comment-" + sessionIdx + "-" + questionIdx + "-" + responseIdx)).click();
+                By.id("button-add-comment-" + sessionIdx + "-" + questionIdx + "-" + responseIdx)).click();
         waitForPageToLoad();
     }
 

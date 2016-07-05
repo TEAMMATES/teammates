@@ -93,7 +93,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
     
     public void clickAddCommentToCourseButton() {
-        browser.driver.findElement(By.id("button_add_comment")).click();
+        browser.driver.findElement(By.id("button-add-comment")).click();
     }
 
     public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentName) {

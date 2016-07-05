@@ -79,7 +79,7 @@ function readyStudentRecordsPage() {
 
     // Open the comment box if so desired by the request
     if (showCommentBox === 'yes') {
-        $('#button_add_comment').click();
+        $('#button-add-comment').click();
     }
 }
 

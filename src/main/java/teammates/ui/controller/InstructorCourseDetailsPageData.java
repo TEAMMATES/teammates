@@ -44,7 +44,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         
         String content = "<span class=\"glyphicon glyphicon-comment glyphicon-primary\"></span>";
         giveCommentButton = createButton(content, "btn btn-default btn-xs icon-button pull-right",
-                                         "button_add_comment", null, "", "tooltip", null, isDisabled);
+                                         "button-add-comment", null, "", "tooltip", null, isDisabled);
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         String onClick = "if(toggleSendRegistrationKeysConfirmation('"

@@ -39,7 +39,7 @@
                     <c:if test="${forRecordsPage && commentsForStudentsTable.representingSelf}">
                         <button type="button"
                                 class="btn btn-default btn-xs icon-button pull-right"
-                                id="button_add_comment"
+                                id="button-add-comment"
                                 onclick="showAddCommentBox();"
                                 data-toggle="tooltip"
                                 data-placement="top"

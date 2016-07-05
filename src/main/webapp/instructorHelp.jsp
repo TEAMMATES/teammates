@@ -7616,7 +7616,7 @@
                     <br>
                     <div class="bs-example">
                         <div class="well well-plain" id="courseInformationHeader">
-                            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" data-toggle="tooltip" data-placement="top" title="Give a comment about all students in the course">
+                            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button-add-comment" data-toggle="tooltip" data-placement="top" title="Give a comment about all students in the course">
                                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                             </button>
                             <div class="form form-horizontal">
@@ -7786,7 +7786,7 @@
                                     <div class="panel-body">
                                         <div style="clear:both; overflow: hidden">
                                             <div class="pull-left">4</div>
-                                            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(8,0,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button-add-comment" onclick="showResponseCommentAddForm(8,0,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
                                                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                             </button>
                                         </div>

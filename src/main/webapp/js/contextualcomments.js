@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#button_add_comment').click(function() {
+    $('#button-add-comment').click(function() {
         if ($('#commentArea').is(':visible')) {
             $('#commentArea').hide();
         } else {
@@ -102,7 +102,7 @@ $(document).ready(function() {
     }
     
     if (isShowCommentBox) {
-        $('#button_add_comment').click();
+        $('#button-add-comment').click();
         if (commentRecipient === 'team') {
             $('#comment_recipient_select').val('TEAM');
             commentRecipientSelectChangeHandler();

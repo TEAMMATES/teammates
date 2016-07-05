@@ -6,7 +6,7 @@
 <%@ tag import="teammates.common.datatransfer.CommentParticipantType" %>
 <div class="well well-plain">
     <button type="button" class="btn btn-default btn-xs icon-button pull-right"
-            id="button_add_comment" data-toggle="tooltip"
+            id="button-add-comment" data-toggle="tooltip"
             data-placement="top" title="Add comment"
         <c:if test="${not studentInfoTable.ableToAddComment}">disabled</c:if>>
         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
