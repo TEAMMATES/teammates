@@ -594,8 +594,8 @@ function prepareQuestionForm(type) {
         $('#constSumForm').show();
         var optionText = $('#constSum-labelText-' + NEW_QUESTION).text();
         $('#constSum-labelText-' + NEW_QUESTION).text(optionText.replace('option', 'recipient'));
-        var tooltipText = $('#constSum_tooltipText-' + NEW_QUESTION).attr('data-original-title');
-        $('#constSum_tooltipText-' + NEW_QUESTION).attr('data-original-title', tooltipText.replace('option', 'recipient'));
+        var tooltipText = $('#constSum-tooltipText-' + NEW_QUESTION).attr('data-original-title');
+        $('#constSum-tooltipText-' + NEW_QUESTION).attr('data-original-title', tooltipText.replace('option', 'recipient'));
         break;
     case 'CONTRIB':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONTRIB);

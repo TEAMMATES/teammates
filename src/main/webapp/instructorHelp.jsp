@@ -4569,7 +4569,7 @@
                                                   </div>
                                                   <div class="row">
                                                       <div class="col-sm-12">
-                                                          <div class="checkbox" id="constSum_tooltipText-9"
+                                                          <div class="checkbox" id="constSum-tooltipText-9"
                                                                   data-toggle="tooltip" data-placement="top"
                                                                   data-container="body"
                                                                   title="Ticking this prevents a giver from distributing the same number of points to multiple options">
@@ -5049,7 +5049,7 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-sm-12">
-                                                            <div class="checkbox" id="constSum_tooltipText-10"
+                                                            <div class="checkbox" id="constSum-tooltipText-10"
                                                                     data-toggle="tooltip" data-placement="top"
                                                                     data-container="body"
                                                                     title="Ticking this prevents a giver from distributing the same number of points to multiple recipients">
