@@ -100,7 +100,7 @@ public abstract class EmailAction {
         try {
             message = generateLogMessage(emails);
         } catch (Exception e) {
-            message = "<span class=\"color_red\">Unable to retrieve email targets in "
+            message = "<span class=\"color-red\">Unable to retrieve email targets in "
                             + actionName + ": " + actionDescription + ".</span>";
         }
         
@@ -112,7 +112,7 @@ public abstract class EmailAction {
                 
         String url = HttpRequestHelper.getRequestedUrl(req);
     
-        String message = "<span class=\"color_red\">Servlet Action failure in " + actionName + "<br>"
+        String message = "<span class=\"color-red\">Servlet Action failure in " + actionName + "<br>"
                        + e.getMessage() + "</span>";
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(actionName, actionDescription, null,
                                                                  message, url);
