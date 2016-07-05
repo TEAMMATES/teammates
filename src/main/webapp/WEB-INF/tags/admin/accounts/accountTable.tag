@@ -16,7 +16,7 @@
                     <th width="10%">Account Info</th>
                     <th width="5%">Instructor for</th>
                     <th width="20%" onclick="toggleSort(this); reLabelOrderedAccountEntries();" class="button-sort-ascending">
-                        Institute <span class="icon-sort unsorted" id="button_sort_institute"></span>
+                        Institute <span class="icon-sort unsorted" id="button-sort-institute"></span>
                     </th>
                     <th width="30%" onclick="toggleSort(this); reLabelOrderedAccountEntries();" class="button-sort-ascending">
                         Create At <span class="icon-sort unsorted" id="button-sort-createat"></span>
