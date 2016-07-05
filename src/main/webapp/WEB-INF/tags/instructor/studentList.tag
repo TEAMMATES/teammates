@@ -72,7 +72,7 @@
                             <c:if test="${fromStudentListPage}">
                                 <%-- generated here but to be appended to #teamChoices in instructorStudentList.jsp
                                      will be transported via JavaScript in instructorStudentListAjax.js --%>
-                                <div class="email-to-be-transported" id="student_email-c${courseIndex}.${studentIndex}">
+                                <div class="email-to-be-transported" id="student-email-c${courseIndex}.${studentIndex}">
                                     ${student.studentEmail}
                                 </div>
                             </c:if>

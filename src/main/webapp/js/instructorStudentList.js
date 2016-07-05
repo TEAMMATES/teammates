@@ -183,7 +183,7 @@ function checkCourseBinding(e) {
         $('input[id^="section-check-' + courseIdx + '-"]').parent().remove();
         $('input[id^="team_check-' + courseIdx + '-"]').prop('checked', false);
         $('input[id^="team_check-' + courseIdx + '-"]').parent().remove();
-        $('div[id^="student_email-c' + courseIdx + '"]').remove();
+        $('div[id^="student-email-c' + courseIdx + '"]').remove();
     }
     
     // If all the courses are selected, check the 'Select All' option
