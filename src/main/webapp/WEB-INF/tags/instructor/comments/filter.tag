@@ -22,7 +22,7 @@
                 <label for="displayArchivedCourses-check">
                     Include Archived Courses
                 </label>
-                <div id="displayArchivedCourses_link" style="display:none;">
+                <div id="displayArchivedCourses-link" style="display:none;">
                     <a href="${instructorCommentsLink}">link back to the page</a>
                 </div>
             </div>
