@@ -19,7 +19,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     @FindBy (id = "button_sortteam-0")
     private WebElement sortByTeamIcon;
     
-    @FindBy (id = "button_remind")
+    @FindBy (id = "button-remind")
     private WebElement remindAllButton;
 
     public InstructorCourseDetailsPage(Browser browser) {

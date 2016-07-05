@@ -51,7 +51,7 @@ public class InstructorCourseDetailsPageData extends PageData {
                           + sanitizeForJs(courseDetails.course.getId()) + "')) "
                           + "window.location.href='"
                           + sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId())) + "';";
-        courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null,
+        courseRemindButton = createButton(null, "btn btn-primary", "button-remind", null,
                                           Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
 
         this.sections = new ArrayList<StudentListSectionData>();
