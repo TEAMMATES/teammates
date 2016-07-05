@@ -5,7 +5,7 @@
 <table class="table-responsive table table-striped table-bordered">
     <tr>
         <th></th>
-        <th onclick="toggleSort(this);" class="button_sortsection button-sort-none">
+        <th onclick="toggleSort(this);" class="button-sortsection button-sort-none">
             Section
             <span class="icon-sort unsorted"></span>
         </th>

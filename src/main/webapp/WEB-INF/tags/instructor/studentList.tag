@@ -22,7 +22,7 @@
             <thead class="${tableHeaderClass}">
                 <tr id="resultsHeader-${courseIndex}">
                     <th>Photo</th>
-                    <th id="button_sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this)">
+                    <th id="button-sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this)">
                         Section <span class="icon-sort unsorted"></span>
                     </th>
                     <th id="button_sortteam-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">

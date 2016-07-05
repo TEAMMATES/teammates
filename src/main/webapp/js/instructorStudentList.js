@@ -150,7 +150,7 @@ $(document).ready(function() {
     });
 
     // Pre-sort each table
-    $('th[id^="button_sortsection-"]').each(function() {
+    $('th[id^="button-sortsection-"]').each(function() {
         toggleSort($(this));
     });
 
