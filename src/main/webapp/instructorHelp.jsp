@@ -5547,7 +5547,7 @@
                                                         <table class="table table-bordered table-responsive margin-0">
                                                             <thead>
                                                                 <tr>
-                                                                    <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);">Team
+                                                                    <td class="button-sort-ascending" id="button-sortteamname" onclick="toggleSort(this,1);">Team
                                                                         <span class="icon-sort unsorted"></span>
                                                                     </td>
                                                                     <td class="button-sort-none" id="button-sortname" onclick="toggleSort(this,2)">Student
@@ -7467,7 +7467,7 @@
                                         <table class="table table-bordered table-responsive margin-0">
                                             <thead>
                                             <tr>
-                                                <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);" style="width: 35%;">Recipient
+                                                <td class="button-sort-ascending" id="button-sortteamname" onclick="toggleSort(this,1);" style="width: 35%;">Recipient
                                                     <span class="icon-sort unsorted"></span></td>
                                                 <td class="button-sort-none" onclick="toggleSort(this,2);">Team
                                                     <span class="icon-sort unsorted"></span></td>
