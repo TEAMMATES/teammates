@@ -6,7 +6,7 @@
      aria-labelledby="remindModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" name="form_remind_list" role="form"
+            <form method="post" name="form-remind-list" role="form"
                   action="${remindParticularStudentsLink}"> 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" 
