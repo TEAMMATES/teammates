@@ -24,7 +24,7 @@ public class TableSortTest extends BaseUiTestCase {
     
     @Test
     public void testTableSortingId() {
-        verifySortingOrder(By.id("button_sortid"),
+        verifySortingOrder(By.id("button-sortid"),
             
                 "-13.5",
                 "-2",
@@ -135,8 +135,8 @@ public class TableSortTest extends BaseUiTestCase {
  
     @Test
     public void testStableSort() {
-        page.click(By.id("button_sortid"));
-        page.click(By.id("button_sortid"));
+        page.click(By.id("button-sortid"));
+        page.click(By.id("button-sortid"));
         page.click(By.id("button_sortname"));
 
         String[] idList = {

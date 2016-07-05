@@ -96,7 +96,7 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = "button_sortname")
     private WebElement sortByNameIcon;
     
-    @FindBy(id = "button_sortid")
+    @FindBy(id = "button-sortid")
     private WebElement sortByIdIcon;
     
     private InstructorCopyFsToModal fsCopyToModal;

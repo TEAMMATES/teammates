@@ -5,7 +5,7 @@
     <thead class="fill-primary">
         <tr>
             <th style="width:30px;">&nbsp;</th>
-            <th onclick="toggleSort(this);" id="button_sortid" class="button-sort-ascending" style="width:100px"> 
+            <th onclick="toggleSort(this);" id="button-sortid" class="button-sort-ascending" style="width:100px"> 
                 Course ID <span class="icon-sort sorted-ascending"></span>
             </th>
             <th onclick="toggleSort(this);" id="button-sortfsname" class="button-sort-none" style="width:17%;">
