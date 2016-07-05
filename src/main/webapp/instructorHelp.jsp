@@ -3898,7 +3898,7 @@
                                     </div>
                                     <strong>Question 4: </strong>
                                     <span >Which team do you think has the best feature?&nbsp;
-                                        <span ><a href="javascript:;" id="questionAdditionalInfoButton-4-" class="color_gray" onclick="toggleAdditionalQuestionInfo('4-')" data-more="[more]" data-less="[less]">[more]</a>
+                                        <span ><a href="javascript:;" id="questionAdditionalInfoButton-4-" class="color-gray" onclick="toggleAdditionalQuestionInfo('4-')" data-more="[more]" data-less="[less]">[more]</a>
                                             <br>
                                             <span id="questionAdditionalInfo-4-" style="display:none;">Multiple-choice (single answer) question options:
                                                 <br>The options for this question is automatically generated from the list of all teams in this course.</span>
@@ -4310,7 +4310,7 @@
                                     </div>
                                     <strong>Question 3: </strong>
                                     <span >Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;
-                                        <span ><a href="javascript:;" id="questionAdditionalInfoButton-3-" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-')" data-more="[more]" data-less="[less]">[more]</a>
+                                        <span ><a href="javascript:;" id="questionAdditionalInfoButton-3-" class="color-gray" onclick="toggleAdditionalQuestionInfo('3-')" data-more="[more]" data-less="[less]">[more]</a>
                                             <br>
                                             <span id="questionAdditionalInfo-3-" style="display:none;">Numerical-scale question:
                                                 <br>Minimum value: 1. Increment: 1.0. Maximum value: 5.</span>
@@ -4784,7 +4784,7 @@
                                     <strong>Question 9: </strong>
                                     <span >How important are the following factors to you? Give points accordingly.&nbsp;
                                         <span >
-                                            <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color_gray" onclick="toggleAdditionalQuestionInfo('9-')" data-more="[more]" data-less="[less]">[more]</a>
+                                            <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color-gray" onclick="toggleAdditionalQuestionInfo('9-')" data-more="[more]" data-less="[less]">[more]</a>
                                             <br>
                                             <span id="questionAdditionalInfo-9-" style="display:none;">Distribute points (among options) question options:
                                                 <ul style="list-style-type: disc;margin-left: 20px;">
@@ -5520,7 +5520,7 @@
                                     <strong>Question 1: </strong>
                                     <span >Please rate the estimated contribution of your team members and yourself.&nbsp;
                                         <span >
-                                            <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
+                                            <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color-gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
                                             <br>
                                             <span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
                                         </span>
@@ -7776,7 +7776,7 @@
                                     <div class="panel-heading">Question 3:
                                         <span >Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;
                                             <span >
-                                                <a href="javascript:;" id="questionAdditionalInfoButton-3-giver-0-recipient-8" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-giver-0-recipient-8')" data-more="[more]" data-less="[less]">[more]</a>
+                                                <a href="javascript:;" id="questionAdditionalInfoButton-3-giver-0-recipient-8" class="color-gray" onclick="toggleAdditionalQuestionInfo('3-giver-0-recipient-8')" data-more="[more]" data-less="[less]">[more]</a>
                                                 <br>
                                                 <span id="questionAdditionalInfo-3-giver-0-recipient-8" style="display:none;">Numerical-scale question:
                                                     <br>Minimum value: 1. Increment: 1.0. Maximum value: 5.</span>
