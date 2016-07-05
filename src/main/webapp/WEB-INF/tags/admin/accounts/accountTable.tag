@@ -53,7 +53,7 @@
                         <td id="${row.account.googleId}_institude">${row.account.institute}</td>
                         <td id="${row.account.googleId}-createAt">${row.createdAt}</td>
                         <td>
-                            <a class="btn btn-link btn-xs" id="${row.account.googleId}_details"
+                            <a class="btn btn-link btn-xs" id="${row.account.googleId}-details"
                                 href="${row.adminViewAccountDetailsLink}" target="blank">
                                 <span class="glyphicon glyphicon-info-sign"></span> View Details
                             </a>

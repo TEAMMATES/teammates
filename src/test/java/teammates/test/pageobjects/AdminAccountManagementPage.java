@@ -30,7 +30,7 @@ public class AdminAccountManagementPage extends AppPage {
 
     public AdminAccountDetailsPage clickViewInstructorDetails(
             String instructorId) {
-        browser.driver.findElement(By.id(instructorId + "_details")).click();
+        browser.driver.findElement(By.id(instructorId + "-details")).click();
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(AdminAccountDetailsPage.class);
