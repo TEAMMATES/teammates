@@ -395,9 +395,6 @@ Apply to thead to make headers not bold.
     border: 0;
 }
 
-/*
-Used for underlining span elements with extra information as titles.
-*/
 .tool-tip-decorate {
 	border-bottom: 1px dashed #808080;
 	text-decoration: none;
