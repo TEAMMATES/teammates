@@ -109,12 +109,12 @@ function checkComment(form) {
  * Show the comment box, focus comment text area and hide "Add Comment link"
  */
 function showAddCommentBox() {
-    $('#comment_box').show();
+    $('#comment-box').show();
     $('#commentText').focus();
 }
 
 function hideAddCommentBox() {
-    $('#comment_box').hide();
+    $('#comment-box').hide();
 }
 
 /**
