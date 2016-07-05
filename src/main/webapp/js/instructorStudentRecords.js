@@ -20,7 +20,7 @@ $(document).ready(function() {
         }
     });
 
-    $('.panel-heading.student_feedback').click(toggleSingleCollapse);
+    $('.panel-heading.student-feedback').click(toggleSingleCollapse);
 
     $('input[type=checkbox]').click(function(e) {
         var table = $(this).closest('table');
