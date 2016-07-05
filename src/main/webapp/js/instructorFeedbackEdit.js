@@ -275,7 +275,7 @@ function enableQuestion(questionNum) {
     
     if ($('#constSumToRecipients-' + questionNum).val() === 'true') {
         $('#constSumOptionTable-' + questionNum).hide();
-        $('#constSumOption_Option-' + questionNum).hide();
+        $('#constSumOption-Option-' + questionNum).hide();
         $('#constSumOption_Recipient-' + questionNum).show();
     } else {
         $('#constSumOptionTable-' + questionNum).show();
@@ -584,7 +584,7 @@ function prepareQuestionForm(type) {
         break;
     case 'CONSTSUM_RECIPIENT':
         $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '-' + NEW_QUESTION).val('true');
-        $('#constSumOption_Option-' + NEW_QUESTION).hide();
+        $('#constSumOption-Option-' + NEW_QUESTION).hide();
         $('#constSumOption_Recipient-' + NEW_QUESTION).show();
         hideConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
