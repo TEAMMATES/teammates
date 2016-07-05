@@ -48,11 +48,11 @@
                         <c:if test="${not empty commentsForStudentsTables}"> 
                             <c:set var="panelIdx" value="${panelIdx + 1}" scope="page" />
                             <div class="checkbox">
-                                <input id="panel_check-${panelIdx}"
+                                <input id="panel-check-${panelIdx}"
                                     type="checkbox"
                                     checked> 
                                 <label
-                                    for="panel_check-${panelIdx}">
+                                    for="panel-check-${panelIdx}">
                                     Students 
                                 </label>
                             </div>
@@ -60,10 +60,10 @@
                         <c:forEach items="${feedbackSessions}" var="fs"> 
                             <c:set var="panelIdx" value="${panelIdx + 1}" scope="page" />
                             <div class="checkbox">
-                                <input id="panel_check-${panelIdx}"
+                                <input id="panel-check-${panelIdx}"
                                     type="checkbox"
                                     checked> 
-                                <label for="panel_check-${panelIdx}">
+                                <label for="panel-check-${panelIdx}">
                                     Session: ${fs.sessionName}
                                 </label>
                             </div>

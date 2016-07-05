@@ -58,18 +58,18 @@ $(document).ready(function() {
     $('#panel-all').click(function() {
         // use panel-all checkbox to control its children checkboxes.
         if ($('#panel-all').is(':checked')) {
-            $('input[id^=panel_check]').prop('checked', true);
+            $('input[id^=panel-check]').prop('checked', true);
         } else {
-            $('input[id^=panel_check]').prop('checked', false);
+            $('input[id^=panel-check]').prop('checked', false);
         }
         
         filterPanel();
     });
     
     // Binding for changes in the panel check boxes
-    $('input[id^=panel_check]').change(function() {
-        // based on the selected panel_check check boxes, check/uncheck panel-all check box
-        if ($("input[id^='panel_check']:checked").length === $("input[id^='panel_check']").length) {
+    $('input[id^=panel-check]').change(function() {
+        // based on the selected panel-check check boxes, check/uncheck panel-all check box
+        if ($("input[id^='panel-check']:checked").length === $("input[id^='panel-check']").length) {
             $('#panel-all').prop('checked', true);
         } else {
             $('#panel-all').prop('checked', false);
@@ -79,8 +79,8 @@ $(document).ready(function() {
     });
     
     function filterPanel() {
-        // if no panel_check checkboxes are checked, show the no-comment box to user
-        if ($("input[id^='panel_check']:checked").length === 0) {
+        // if no panel-check checkboxes are checked, show the no-comment box to user
+        if ($("input[id^='panel-check']:checked").length === 0) {
             $('#no-comment-panel').show();
             // if all is checked, show giver and status for better user experience
             if ($('#panel-all').prop('checked')) {
@@ -96,8 +96,8 @@ $(document).ready(function() {
             $('#status_all').closest('.filter-options').show();
         }
         
-        // hide the panel accordingly based on panel_check checkbox
-        $("input[id^='panel_check']").each(function() {
+        // hide the panel accordingly based on panel-check checkbox
+        $("input[id^='panel-check']").each(function() {
             var panelIdx = $(this).attr('id').split('-')[1];
             if (this.checked) {
                 $('#panel_display-' + panelIdx).show();

@@ -73,7 +73,7 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     public void showCommentsForPanel(int panelIdx) {
-        browser.driver.findElement(By.id("panel_check-" + panelIdx)).click();
+        browser.driver.findElement(By.id("panel-check-" + panelIdx)).click();
     }
     
     public void showCommentsFromGiver(String giverIdx) {
