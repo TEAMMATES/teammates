@@ -739,7 +739,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("preview as instructor");
 
-        previewPage.waitForElementPresence(By.id("button_preview_instructor"));
+        previewPage.waitForElementPresence(By.id("button-preview-instructor"));
         previewPage = feedbackEditPage.clickPreviewAsInstructorButton();
         previewPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePreview.html");
         previewPage.closeCurrentWindowAndSwitchToParentWindow();

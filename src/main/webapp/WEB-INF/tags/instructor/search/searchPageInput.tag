@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div>
-    <form method="get" action="${data.instructorSearchLink}" name="search_form">       
+    <form method="get" action="${data.instructorSearchLink}" name="search-form">       
         <div class="well well-plain">
         
             <div class="form-group">

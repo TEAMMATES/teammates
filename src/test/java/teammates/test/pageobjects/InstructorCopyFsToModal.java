@@ -91,7 +91,7 @@ public class InstructorCopyFsToModal extends AppPage {
     }
 
     public void clickSubmitButton() {
-        WebElement fsCopySubmitButton = browser.driver.findElement(By.id("fscopy_submit"));
+        WebElement fsCopySubmitButton = browser.driver.findElement(By.id("fscopy-submit"));
         fsCopySubmitButton.click();
     }
     

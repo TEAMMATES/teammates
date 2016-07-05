@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-12">
 			<form method="get" action="${data.instructorSearchLink}" 
-			      name="search_form">
+			      name="search-form">
 			    <div class="input-group">
 			        <input type="text" id="searchbox"
 			               title="<%= Const.Tooltips.SEARCH_STUDENT %>"

@@ -8,9 +8,9 @@
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 <%@ attribute name="nextQnNum" required="true"%>
 
-<form class="form-horizontal form_question" role="form" method="post"
+<form class="form-horizontal form-question" role="form" method="post"
     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
-    name="form_addquestions" onsubmit="tallyCheckboxes('')" >
+    name="form-addquestions" onsubmit="tallyCheckboxes('')" >
     <div class="well well-plain inputTable" id="addNewQuestionTable">
        
         <div class="row">
@@ -18,7 +18,7 @@
                 <div class="col-sm-offset-3 col-sm-9">
 
                     <button
-                        id = "button_openframe"
+                        id = "button-openframe"
                         class="btn btn-primary margin-bottom-7px dropdown-toggle"
                         type="button" data-toggle="dropdown">
                         Add New Question <span class="caret"></span>
@@ -30,13 +30,13 @@
                     <a href="/instructorHelp.jsp#fbQuestionTypes"
                         target="_blank"> <i
                         class="glyphicon glyphicon-info-sign"></i>
-                    </a> <a id="button_copy" class="btn btn-primary margin-bottom-7px" 
+                    </a> <a id="button-copy" class="btn btn-primary margin-bottom-7px" 
                             data-actionlink="${data.instructorQuestionCopyPageLink}"
                             data-fsname="${fqForm.feedbackSessionName}" data-courseid="${fqForm.courseId}"
                             data-target="#copyModal" data-toggle="modal">
                         Copy Question
                     </a>
-                    <a id="button_done_editing" class="btn btn-primary margin-bottom-7px"
+                    <a id="button-done-editing" class="btn btn-primary margin-bottom-7px"
                         href="${fqForm.doneEditingLink}">
                         Done Editing
                     </a>
@@ -97,7 +97,7 @@
           
             <div>
                 <span class="pull-right">
-                    <input id="button_submit_add" class="btn btn-primary"
+                    <input id="button-submit-add" class="btn btn-primary"
                         type="submit" value="Save Question" tabindex="9">
                 </span>
             </div>

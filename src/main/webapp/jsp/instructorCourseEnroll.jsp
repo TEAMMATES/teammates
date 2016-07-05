@@ -31,7 +31,7 @@
                             
                             <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
                             
-                            <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md">
+                            <button type="submit" title="Enroll" id="button-enroll" name="button-enroll" class="btn btn-primary btn-md">
                                 Enroll students
                             </button>
                         </div>

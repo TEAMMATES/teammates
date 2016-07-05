@@ -2,8 +2,8 @@ QUnit.module('instructorStudentList.js');
 
 QUnit.test('filterSection()', function(assert) {
 
-    if (!$('#show_email').is(':checked')) {
-        $('#show_email').click();
+    if (!$('#show-email').is(':checked')) {
+        $('#show-email').click();
     }
 
     // Manually reset view first
@@ -12,9 +12,9 @@ QUnit.test('filterSection()', function(assert) {
     $('.div[id^="course-"]').show();
 
     // Deselect 1 section and select back usin Select All
-    $('#section_check-1-0').click();
+    $('#section-check-1-0').click();
     assert.equal($('#studentsection-c1\\.0').is(':hidden'), true, 'Section not selected is hidden');
-    assert.equal($('#section_all').is(':checked'), false, 'Select all check should be removed');
+    assert.equal($('#section-all').is(':checked'), false, 'Select all check should be removed');
 
     assert.equal($('#student_email-c0\\.0').is(':visible'), true, '[Team 1]Alice Betsy\'s email visible');
     assert.equal($('#student_email-c0\\.1').is(':visible'), true, '[Team 2]Hugh Ivanov\'s email visible');
@@ -31,21 +31,21 @@ QUnit.test('filterSection()', function(assert) {
     assert.equal($('#student_email-c1\\.8').is(':hidden'), true, '[Team 3]Ian Jacobsson\'s email hidden');
     assert.equal($('#student_email-c1\\.9').is(':hidden'), true, '[Team 3]James K\'s email hidden');
 
-    $('#section_all').click();
+    $('#section-all').click();
     assert.equal($('#studentsection-c0\\.0').is(':visible'), true, 'All sections should be visible');
     assert.equal($('#studentsection-c0\\.1').is(':visible'), true, 'All sections should be visible');
     assert.equal($('#studentsection-c1\\.0').is(':visible'), true, 'All sections should be visible');
-    assert.equal($('#section_check-0-0').is(':checked'), true, 'Course 2 Section A should be re-selected');
-    assert.equal($('#section_check-0-1').is(':checked'), true, 'Course 2 Section B should be re-selected');
-    assert.equal($('#section_check-1-0').is(':checked'), true, 'Course 3 Section C should be re-selected');
+    assert.equal($('#section-check-0-0').is(':checked'), true, 'Course 2 Section A should be re-selected');
+    assert.equal($('#section-check-0-1').is(':checked'), true, 'Course 2 Section B should be re-selected');
+    assert.equal($('#section-check-1-0').is(':checked'), true, 'Course 3 Section C should be re-selected');
 
     assert.equal($('[id^=student_email]:visible').length, 12, 'All emails (minus duplicate) should be visible again');
 
      // Deselect 1 section and select back by selecting that section
-    $('#section_check-0-1').click();
-    $('#team_check-0-10-0').click(); // deselect the invalid team section
+    $('#section-check-0-1').click();
+    $('#team-check-0-10-0').click(); // deselect the invalid team section
     assert.equal($('#studentsection-c0\\.1').is(':hidden'), true, 'Section not selected is hidden');
-    assert.equal($('#section_all').is(':checked'), false, 'Select all check should be removed');
+    assert.equal($('#section-all').is(':checked'), false, 'Select all check should be removed');
 
     assert.equal($('#student_email-c0\\.0').is(':visible'), true, '[Team 1]Alice Betsy\'s email visible');
     assert.equal($('#student_email-c0\\.1').is(':hidden'), true, '[Team 2]Hugh Ivanov\'s email hidden');
@@ -62,14 +62,14 @@ QUnit.test('filterSection()', function(assert) {
     assert.equal($('#student_email-c1\\.8').is(':visible'), true, '[Team 3]Ian Jacobsson\'s email visible');
     assert.equal($('#student_email-c1\\.9').is(':visible'), true, '[Team 3]James K\'s email visible');
 
-    $('#section_check-0-1').click();
+    $('#section-check-0-1').click();
     assert.equal($('#studentsection-c0\\.0').is(':visible'), true, 'All sections should be visible');
     assert.equal($('#studentsection-c0\\.1').is(':visible'), true, 'All sections should be visible');
     assert.equal($('#studentsection-c1\\.0').is(':visible'), true, 'All sections should be visible');
-    assert.equal($('#section_check-0-1').is(':checked'), true, 'Course 2 Section B should be re-selected');
-    assert.equal($('#team_check-0-1-0').is(':checked'), true, 'Course 2 Section B Team 2 should be selected');
-    assert.equal($('#team_check-0-1-1').is(':checked'), true, 'Course 2 Section B Team 3 should be selected');
-    assert.equal($('#team_check-0-10-0').is(':checked'), false, 'Course 2 Invalid Section Team should not be selected');
+    assert.equal($('#section-check-0-1').is(':checked'), true, 'Course 2 Section B should be re-selected');
+    assert.equal($('#team-check-0-1-0').is(':checked'), true, 'Course 2 Section B Team 2 should be selected');
+    assert.equal($('#team-check-0-1-1').is(':checked'), true, 'Course 2 Section B Team 3 should be selected');
+    assert.equal($('#team-check-0-10-0').is(':checked'), false, 'Course 2 Invalid Section Team should not be selected');
 
     assert.equal($('[id^=student_email]:visible').length, 12, 'All emails (minus duplicate) should be visible again');
 });
@@ -79,8 +79,8 @@ QUnit.test('filterTeam()', function(assert) {
     if (!$('#option_check').is(':checked')) {
         $('#option_check').click();
     }
-    if (!$('#show_email').is(':checked')) {
-        $('#show_email').click();
+    if (!$('#show-email').is(':checked')) {
+        $('#show-email').click();
     }
 
     // Manually reset view first
@@ -89,11 +89,11 @@ QUnit.test('filterTeam()', function(assert) {
     $('.div[id^="course-"]').show();
 
     // Deselect 2 team, and select back using Select All
-    $('#team_check-0-0-0').click();
-    $('#team_check-1-0-0').click();
+    $('#team-check-0-0-0').click();
+    $('#team-check-1-0-0').click();
     assert.equal($('#studentteam-c0\\.0\\.0').is(':hidden'), true, 'Team not selected is hidden');
     assert.equal($('#studentteam-c1\\.0\\.0').is(':hidden'), true, 'Team not selected is hidden');
-    assert.equal($('#team_all').is(':checked'), false, 'Select all check should be removed');
+    assert.equal($('#team-all').is(':checked'), false, 'Select all check should be removed');
 
     assert.equal($('#student_email-c0\\.0').is(':hidden'), true, '[Team 1]Alice Betsy\'s email hidden');
     assert.equal($('#student_email-c0\\.1').is(':visible'), true, '[Team 2]Hugh Ivanov\'s email visible');
@@ -110,26 +110,26 @@ QUnit.test('filterTeam()', function(assert) {
     assert.equal($('#student_email-c1\\.8').is(':visible'), true, '[Team 3]Ian Jacobsson\'s email visible');
     assert.equal($('#student_email-c1\\.9').is(':visible'), true, '[Team 3]James K\'s email visible');
 
-    $('#team_all').click();
+    $('#team-all').click();
     assert.equal($('#studentteam-c0\\.0\\.0').is(':visible'), true, 'All teams should be visible');
     assert.equal($('#studentteam-c0\\.1\\.0').is(':visible'), true, 'All teams should be visible');
     assert.equal($('#studentteam-c0\\.1\\.1').is(':visible'), true, 'All teams should be visible');
     assert.equal($('#studentteam-c1\\.0\\.0').is(':visible'), true, 'All teams should be visible');
     assert.equal($('#studentteam-c1\\.0\\.1').is(':visible'), true, 'All teams should be visible');
     assert.equal($('#studentteam-c1\\.0\\.2').is(':visible'), true, 'All teams should be visible');
-    assert.equal($('#team_check-0-0-0').is(':checked'), true, 'Course 2 Section A Team 1 checkbox should be re-selected');
-    assert.equal($('#team_check-0-1-0').is(':checked'), true, 'Course 2 Section B Team 2 checkbox should be re-selected');
-    assert.equal($('#team_check-0-1-1').is(':checked'), true, 'Course 2 Section B Team 3 checkbox should be re-selected');
-    assert.equal($('#team_check-1-0-0').is(':checked'), true, 'Course 3 Section C Team 1 checkbox should be re-selected');
-    assert.equal($('#team_check-1-0-1').is(':checked'), true, 'Course 3 Section C Team 2 checkbox should be re-selected');
-    assert.equal($('#team_check-1-0-2').is(':checked'), true, 'Course 3 Section C Team 3 checkbox should be re-selected');
+    assert.equal($('#team-check-0-0-0').is(':checked'), true, 'Course 2 Section A Team 1 checkbox should be re-selected');
+    assert.equal($('#team-check-0-1-0').is(':checked'), true, 'Course 2 Section B Team 2 checkbox should be re-selected');
+    assert.equal($('#team-check-0-1-1').is(':checked'), true, 'Course 2 Section B Team 3 checkbox should be re-selected');
+    assert.equal($('#team-check-1-0-0').is(':checked'), true, 'Course 3 Section C Team 1 checkbox should be re-selected');
+    assert.equal($('#team-check-1-0-1').is(':checked'), true, 'Course 3 Section C Team 2 checkbox should be re-selected');
+    assert.equal($('#team-check-1-0-2').is(':checked'), true, 'Course 3 Section C Team 3 checkbox should be re-selected');
 
     assert.equal($('[id^=student_email]:visible').length, 12, 'All emails (minus duplicate) should be visible again');
 
     // Deselect 1 team, and select back using the specific course check
-    $('#team_check-1-0-2').click();
+    $('#team-check-1-0-2').click();
     assert.equal($('#studentteam-c1\\.0\\.2').is(':hidden'), true, 'Team not selected is hidden');
-    assert.equal($('#team_all').is(':checked'), false, 'Select all check should be removed');
+    assert.equal($('#team-all').is(':checked'), false, 'Select all check should be removed');
 
     assert.equal($('#student_email-c0\\.0').is(':visible'), true, '[Team 1]Alice Betsy\'s email visible');
     assert.equal($('#student_email-c0\\.1').is(':visible'), true, '[Team 2]Hugh Ivanov\'s email visible');
@@ -146,9 +146,9 @@ QUnit.test('filterTeam()', function(assert) {
     assert.equal($('#student_email-c1\\.8').is(':hidden'), true, '[Team 3]Ian Jacobsson\'s email hidden');
     assert.equal($('#student_email-c1\\.9').is(':hidden'), true, '[Team 3]James K\'s email hidden');
 
-    $('#team_check-1-0-2').click();
+    $('#team-check-1-0-2').click();
     assert.equal($('#studentteam-c1\\.0\\.2').is(':visible'), true, 'Team selected is visible');
-    assert.equal($('#team_check-1-0-2').is(':checked'), true, 'Course 1 Team 1 checkbox should be re-selected');
+    assert.equal($('#team-check-1-0-2').is(':checked'), true, 'Course 1 Team 1 checkbox should be re-selected');
 
     assert.equal($('[id^=student_email]:visible').length, 12, 'All emails (minus 1 duplicate) should be visible again');
 });

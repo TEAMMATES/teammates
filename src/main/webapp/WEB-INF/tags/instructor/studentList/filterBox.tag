@@ -5,8 +5,8 @@
     <div class="row">
         <div class="col-md-3">
             <div class="checkbox">
-                <input id="displayArchivedCourses_check" type="checkbox"<c:if test="${filterBox.displayArchive}"> checked</c:if>>
-                <label for="displayArchivedCourses_check">Display Archived Courses</label>
+                <input id="displayArchivedCourses-check" type="checkbox"<c:if test="${filterBox.displayArchive}"> checked</c:if>>
+                <label for="displayArchivedCourses-check">Display Archived Courses</label>
             </div>
         </div>
     </div>
@@ -18,14 +18,14 @@
                 </div>
                 <br>
                 <div class="checkbox">
-                    <input type="checkbox" value="" id="course_all"> 
-                    <label for="course_all"><strong>Select all</strong></label>
+                    <input type="checkbox" value="" id="course-all"> 
+                    <label for="course-all"><strong>Select all</strong></label>
                 </div>
                 <br>
                 <c:forEach items="${filterBox.courses}" var="course" varStatus="i">
                     <div class="checkbox">
-                        <input id="course_check-${i.index}" type="checkbox">
-                        <label for="course_check-${i.index}">
+                        <input id="course-check-${i.index}" type="checkbox">
+                        <label for="course-check-${i.index}">
                             [${course.courseId}] : ${course.courseName}
                         </label>
                     </div>
@@ -37,8 +37,8 @@
                 </div>
                 <br>
                 <div class="checkbox" style="display:none;">
-                    <input type="checkbox" value="" id="section_all"> 
-                    <label for="section_all"><strong>Select all</strong></label>
+                    <input type="checkbox" value="" id="section-all"> 
+                    <label for="section-all"><strong>Select all</strong></label>
                 </div>
                 <br>
                 <div id="sectionChoices">
@@ -50,8 +50,8 @@
                 </div>
                 <br>
                 <div class="checkbox" style="display:none;">
-                    <input id="team_all" type="checkbox">
-                    <label for="team_all"><strong>Select All</strong></label>
+                    <input id="team-all" type="checkbox">
+                    <label for="team-all"><strong>Select All</strong></label>
                 </div>
                 <br>
                 <div id="teamChoices">
@@ -63,8 +63,8 @@
                 </div>
                 <br>
                 <div class="checkbox" style="display:none;">
-                    <input id="show_email" type="checkbox" checked>
-                    <label for="show_email"><strong>Show Emails</strong></label>
+                    <input id="show-email" type="checkbox" checked>
+                    <label for="show-email"><strong>Show Emails</strong></label>
                 </div>
                 <br>
                 <div id="emails">

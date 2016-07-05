@@ -16,10 +16,10 @@
                     <th width="10%">Account Info</th>
                     <th width="5%">Instructor for</th>
                     <th width="20%" onclick="toggleSort(this); reLabelOrderedAccountEntries();" class="button-sort-ascending">
-                        Institute <span class="icon-sort unsorted" id="button_sort_institute"></span>
+                        Institute <span class="icon-sort unsorted" id="button-sort-institute"></span>
                     </th>
                     <th width="30%" onclick="toggleSort(this); reLabelOrderedAccountEntries();" class="button-sort-ascending">
-                        Create At <span class="icon-sort unsorted" id="button_sort_createat"></span>
+                        Create At <span class="icon-sort unsorted" id="button-sort-createat"></span>
                     </th>
                     <th width="5%">Options</th>
                 </tr>
@@ -37,7 +37,7 @@
                             <br>
                             <span class="bold">Email: </span>${row.account.email}
                         </td>
-                        <td id="courses_${row.account.googleId}">
+                        <td id="courses-${row.account.googleId}">
                             <c:choose>
                                 <c:when test="${not empty row.instructorList}">
                                     Total Courses: ${fn:length(row.instructorList)}<br>
@@ -50,26 +50,26 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td id="${row.account.googleId}_institude">${row.account.institute}</td>
-                        <td id="${row.account.googleId}_createAt">${row.createdAt}</td>
+                        <td id="${row.account.googleId}-institude">${row.account.institute}</td>
+                        <td id="${row.account.googleId}-createAt">${row.createdAt}</td>
                         <td>
-                            <a class="btn btn-link btn-xs" id="${row.account.googleId}_details"
+                            <a class="btn btn-link btn-xs" id="${row.account.googleId}-details"
                                 href="${row.adminViewAccountDetailsLink}" target="blank">
                                 <span class="glyphicon glyphicon-info-sign"></span> View Details
                             </a>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <a class="btn btn-link btn-xs" id="${row.account.googleId}_delete"
+                            <a class="btn btn-link btn-xs" id="${row.account.googleId}-delete"
                                 href="${row.adminDeleteInstructorStatusLink}" role="button">
                                 <span class="glyphicon glyphicon-remove"></span> Delete Instructor Status
                             </a>
-                            <a class="btn btn-link btn-xs" id="${row.account.googleId}_deleteAccount"
+                            <a class="btn btn-link btn-xs" id="${row.account.googleId}-deleteAccount"
                                 href="${row.adminDeleteAccountLink}"
                                 onclick="return toggleDeleteAccountConfirmation('${row.account.googleId}')"> 
                                 <span class="glyphicon glyphicon-trash"></span> Delete Entire Account
                             </a>
 
                             <form method="post" target="blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
-                                <button type="submit"  id="${row.account.googleId}_recentActions" class="btn btn-link btn-xs">
+                                <button type="submit"  id="${row.account.googleId}-recentActions" class="btn btn-link btn-xs">
                                     <span class="glyphicon glyphicon-zoom-in"></span>
                                     View Recent Actions
                                 </button>

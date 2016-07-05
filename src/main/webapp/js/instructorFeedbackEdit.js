@@ -34,7 +34,7 @@ function readyFeedbackEditPage() {
     
     // Bind submit text links
     $('a[id|=questionsavechangestext]').click(function() {
-        $(this).parents('form.form_question').submit();
+        $(this).parents('form.form-question').submit();
     });
     
     // Bind submit actions
@@ -51,7 +51,7 @@ function readyFeedbackEditPage() {
         }
     });
 
-    $('form.form_question').submit(function() {
+    $('form.form-question').submit(function() {
         return checkFeedbackQuestion(this);
     });
 
@@ -90,7 +90,7 @@ function readyFeedbackEditPage() {
 }
 
 function bindFeedbackSessionEditFormSubmission() {
-    $('#form_feedbacksession').submit(function(event) {
+    $('#form-feedbacksession').submit(function(event) {
         // Prevent form submission
         event.preventDefault();
         
@@ -141,7 +141,7 @@ function disableEditFS() {
     getCustomDateTimeFields().each(function() {
         $(this).data('last', $(this).prop('disabled'));
     });
-    $('#form_feedbacksession').find('text,input,button,textarea,select')
+    $('#form-feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
 
     destroyEditor('instructions');
@@ -154,7 +154,7 @@ function disableEditFS() {
 
     $('#fsEditLink').show();
     $('#fsSaveLink').hide();
-    $('#button_submit').hide();
+    $('#button-submit').hide();
 }
 
 /**
@@ -181,7 +181,7 @@ function enableEditFS() {
     // as students without accounts need to receive the session opening email to respond
     var $sessionOpeningReminder = $('#sendreminderemail_open');
     
-    $('#form_feedbacksession').find('text,input,button,textarea,select')
+    $('#form-feedbacksession').find('text,input,button,textarea,select')
                               .not($customDateTimeFields)
                               .not($sessionOpeningReminder)
                               .not('.disabled')
@@ -198,7 +198,7 @@ function enableEditFS() {
     /* eslint-enable camelcase */
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
-    $('#button_submit').show();
+    $('#button-submit').show();
 }
 
 function getCustomDateTimeFields() {
@@ -275,11 +275,11 @@ function enableQuestion(questionNum) {
     
     if ($('#constSumToRecipients-' + questionNum).val() === 'true') {
         $('#constSumOptionTable-' + questionNum).hide();
-        $('#constSumOption_Option-' + questionNum).hide();
-        $('#constSumOption_Recipient-' + questionNum).show();
+        $('#constSumOption-Option-' + questionNum).hide();
+        $('#constSumOption-Recipient-' + questionNum).show();
     } else {
         $('#constSumOptionTable-' + questionNum).show();
-        $('#constSumOption_Recipient-' + questionNum).hide();
+        $('#constSumOption-Recipient-' + questionNum).hide();
     }
     
     $('#constSumOption_distributeUnevenly-' + questionNum).prop('disabled', false);
@@ -293,7 +293,7 @@ function enableQuestion(questionNum) {
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).show();
     $('#' + FEEDBACK_QUESTION_DISCARDCHANGES + '-' + questionNum).show();
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('edit');
-    $('#button_question_submit-' + questionNum).show();
+    $('#button-question-submit-' + questionNum).show();
 }
 
 function enableNewQuestion() {
@@ -332,7 +332,7 @@ function enableNewQuestion() {
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + NEW_QUESTION).hide();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + NEW_QUESTION).show();
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + NEW_QUESTION).val('edit');
-    $('#button_question_submit-' + NEW_QUESTION).show();
+    $('#button-question-submit-' + NEW_QUESTION).show();
 }
 
 /**
@@ -372,7 +372,7 @@ function disableQuestion(questionNum) {
 
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).show();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
-    $('#button_question_submit-' + questionNum).hide();
+    $('#button-question-submit-' + questionNum).hide();
 }
 
 /**
@@ -427,7 +427,7 @@ function restoreOriginal(questionNum) {
         $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
         $('#' + FEEDBACK_QUESTION_DISCARDCHANGES + '-' + questionNum).hide();
         $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('');
-        $('#button_question_submit-' + questionNum).hide();
+        $('#button-question-submit-' + questionNum).hide();
     }
 
     // re-attach onChange event to show/hide numEntitiesBox according to recipient type
@@ -522,7 +522,7 @@ function showNewQuestionFrame(type) {
     enableNewQuestion();
     
     $('#addNewQuestionTable').hide();
-    $('#empty_message').hide();
+    $('#empty-message').hide();
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
 
@@ -575,7 +575,7 @@ function prepareQuestionForm(type) {
     case 'CONSTSUM_OPTION':
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
         $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '-' + NEW_QUESTION).val('false');
-        $('#constSumOption_Recipient-' + NEW_QUESTION).hide();
+        $('#constSumOption-Recipient-' + NEW_QUESTION).hide();
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
         
         hideAllNewQuestionForms();
@@ -584,18 +584,18 @@ function prepareQuestionForm(type) {
         break;
     case 'CONSTSUM_RECIPIENT':
         $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '-' + NEW_QUESTION).val('true');
-        $('#constSumOption_Option-' + NEW_QUESTION).hide();
-        $('#constSumOption_Recipient-' + NEW_QUESTION).show();
+        $('#constSumOption-Option-' + NEW_QUESTION).hide();
+        $('#constSumOption-Recipient-' + NEW_QUESTION).show();
         hideConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
         
         hideAllNewQuestionForms();
         
         $('#constSumForm').show();
-        var optionText = $('#constSum_labelText-' + NEW_QUESTION).text();
-        $('#constSum_labelText-' + NEW_QUESTION).text(optionText.replace('option', 'recipient'));
-        var tooltipText = $('#constSum_tooltipText-' + NEW_QUESTION).attr('data-original-title');
-        $('#constSum_tooltipText-' + NEW_QUESTION).attr('data-original-title', tooltipText.replace('option', 'recipient'));
+        var optionText = $('#constSum-labelText-' + NEW_QUESTION).text();
+        $('#constSum-labelText-' + NEW_QUESTION).text(optionText.replace('option', 'recipient'));
+        var tooltipText = $('#constSum-tooltipText-' + NEW_QUESTION).attr('data-original-title');
+        $('#constSum-tooltipText-' + NEW_QUESTION).attr('data-original-title', tooltipText.replace('option', 'recipient'));
         break;
     case 'CONTRIB':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
@@ -718,7 +718,7 @@ function setupQuestionCopyModal() {
             url: actionlink + '&courseid=' + encodeURIComponent(courseid)
                             + '&fsname=' + encodeURIComponent(fsname),
             beforeSend: function() {
-                $('#button_copy_submit').prop('disabled', true);
+                $('#button-copy-submit').prop('disabled', true);
                 $('#copyTableModal').remove();
                 $questionCopyStatusMessage.removeClass('alert alert-danger');
                 $questionCopyStatusMessage.html(
@@ -746,7 +746,7 @@ function setupQuestionCopyModal() {
 
 function bindCopyButton() {
 
-    $('#button_copy_submit').click(function(e) {
+    $('#button-copy-submit').click(function(e) {
         e.preventDefault();
 
         var index = 0;
@@ -792,7 +792,7 @@ function bindCopyEvents() {
             numRowsSelected++;
         }
 
-        var $button = $('#button_copy_submit');
+        var $button = $('#button-copy-submit');
         
         $button.prop('disabled', numRowsSelected <= 0);
 

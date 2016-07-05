@@ -20,7 +20,7 @@ $(document).ready(function() {
         }
     });
 
-    $('.panel-heading.student_feedback').click(toggleSingleCollapse);
+    $('.panel-heading.student-feedback').click(toggleSingleCollapse);
 
     $('input[type=checkbox]').click(function(e) {
         var table = $(this).closest('table');
@@ -66,7 +66,7 @@ $(document).ready(function() {
  */
 function readyStudentRecordsPage() {
     // Bind form submission to check for blank comment field
-    $('form.form_comment').submit(function() {
+    $('form.form-comment').submit(function() {
         return checkComment(this);
     });
 
@@ -79,7 +79,7 @@ function readyStudentRecordsPage() {
 
     // Open the comment box if so desired by the request
     if (showCommentBox === 'yes') {
-        $('#button_add_comment').click();
+        $('#button-add-comment').click();
     }
 }
 
@@ -88,7 +88,7 @@ function readyStudentRecordsPage() {
  * Currently done this way because the link is placed on a different column
  */
 function submitCommentForm(commentIdx) {
-    $('#form_commentedit-' + commentIdx).submit();
+    $('#form-commentedit-' + commentIdx).submit();
     return false;
 }
 
@@ -109,12 +109,12 @@ function checkComment(form) {
  * Show the comment box, focus comment text area and hide "Add Comment link"
  */
 function showAddCommentBox() {
-    $('#comment_box').show();
+    $('#comment-box').show();
     $('#commentText').focus();
 }
 
 function hideAddCommentBox() {
-    $('#comment_box').hide();
+    $('#comment-box').hide();
 }
 
 /**

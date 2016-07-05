@@ -173,7 +173,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public WebElement getSubmitButton() {
-        return browser.driver.findElement(By.id("response_submit_button"));
+        return browser.driver.findElement(By.id("response-submit-button"));
     }
     
     public void verifyOtherOptionTextUnclickable(int qnNumber, int responseNumber) {

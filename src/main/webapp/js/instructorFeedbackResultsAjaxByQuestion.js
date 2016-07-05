@@ -44,7 +44,7 @@ $(document).ready(function() {
                 // bind the show picture onhover events
                 bindStudentPhotoHoverLink($panelBody.find('.profile-pic-icon-hover'));
 
-                $(panelHeading).removeClass('ajax_submit ajax_auto');
+                $(panelHeading).removeClass('ajax-submit ajax-auto');
 
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
 
@@ -69,7 +69,7 @@ $(document).ready(function() {
         $panelBody.parents('.panel.panel-info').removeClass('panel-info').addClass('panel-default');
     };
 
-    var $questionPanelHeadings = $('.ajax_submit,.ajax_auto');
+    var $questionPanelHeadings = $('.ajax-submit,.ajax-auto');
     $questionPanelHeadings.click(seeMoreRequest);
-    $('.ajax_auto').click();
+    $('.ajax-auto').click();
 });

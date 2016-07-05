@@ -14,7 +14,7 @@
                     <div class="col-md-12">
                         <div class="input-group">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit" name="search_submit">Filter</button>
+                                <button class="btn btn-default" type="submit" name="search-submit">Filter</button>
                             </span> 
                             <input type="text" class="form-control" id="filterQuery" name="filterQuery" value="${filterQuery}">
                         </div>

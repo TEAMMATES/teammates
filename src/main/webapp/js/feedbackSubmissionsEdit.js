@@ -29,7 +29,7 @@ $(document).ready(function() {
      */
     $('textarea[id^="responsetext-"]').keyup();
 
-    $('form[name="form_submit_response"]').submit(function() {
+    $('form[name="form-submit-response"]').submit(function() {
         formatRubricQuestions();
 
         var validationStatus = true;
@@ -471,7 +471,7 @@ function prepareConstSumQuestions() {
     for (var i = 0; i < constSumQuestionNums.length; i++) {
         var qnNum = constSumQuestionNums[i];
 
-        if (!$('#response_submit_button').is(':disabled')
+        if (!$('#response-submit-button').is(':disabled')
             || isPreview()) {
             if ($('#constSumToRecipients-' + qnNum).val() === 'true') {
                 var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
@@ -788,7 +788,7 @@ function prepareRankQuestions() {
 
         var isRankingRecipients = $('#rankToRecipients-' + qnNum).val() === 'true';
 
-        if (!$('#response_submit_button').is(':disabled')
+        if (!$('#response-submit-button').is(':disabled')
             || isPreview()) {
 
             if (isRankingRecipients) {

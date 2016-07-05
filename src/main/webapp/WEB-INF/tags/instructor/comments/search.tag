@@ -10,7 +10,7 @@
 <div class="well well-plain">
     <div class="row">
         <div class="col-md-12">
-			<form method="get" action="${instructorSearchLink}" name="search_form">
+			<form method="get" action="${instructorSearchLink}" name="search-form">
 			    <div class="input-group">
 			        <input type="text" name="<%= Const.ParamsNames.SEARCH_KEY %>"
 			            title="Search for comment"

@@ -12,10 +12,10 @@ import org.openqa.selenium.support.FindBy;
 
 public class InstructorStudentRecordsPage extends AppPage {
 
-    @FindBy(id = "button_add_comment")
+    @FindBy(id = "button-add-comment")
     private WebElement addCommentLink;
 
-    @FindBy(id = "button_save_comment")
+    @FindBy(id = "button-save-comment")
     private WebElement saveCommentLink;
 
     @FindBy(id = "commentText")

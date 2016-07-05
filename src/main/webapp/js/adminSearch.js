@@ -99,22 +99,22 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
 
 function adminSearchDiscloseAllStudents() {
     
-    $('.fslink_student').slideDown();
+    $('.fslink-student').slideDown();
     $('.studentRow').attr('class', 'studentRow active');
     
 }
 
 function adminSearchCollapseAllStudents() {
-    $('.fslink_student').hide();
+    $('.fslink-student').hide();
     $('.studentRow').attr('class', 'studentRow');
 }
 
 function adminSearchDiscloseAllInstructors() {
-    $('.fslink_instructor').slideDown();
+    $('.fslink-instructor').slideDown();
     $('.instructorRow').attr('class', 'instructorRow active');
 }
 
 function adminSearchCollapseAllInstructors() {
-    $('.fslink_instructor').hide();
+    $('.fslink-instructor').hide();
     $('.instructorRow').attr('class', 'instructorRow');
 }

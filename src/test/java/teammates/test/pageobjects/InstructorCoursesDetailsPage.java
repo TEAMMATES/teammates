@@ -15,7 +15,7 @@ public class InstructorCoursesDetailsPage extends AppPage {
     }
     
     public int getStudentCountForCourse(String courseId) {
-        WebElement cellWithStudentCount = browser.driver.findElement(By.id("total_students"));
+        WebElement cellWithStudentCount = browser.driver.findElement(By.id("total-students"));
         return Integer.parseInt(cellWithStudentCount.getText());
     }
 

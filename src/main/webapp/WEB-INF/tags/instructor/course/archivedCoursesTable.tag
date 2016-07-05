@@ -8,10 +8,10 @@
 <table class="table table-bordered table-striped" id="tableArchivedCourses">
     <thead>
         <tr class="fill-default">
-            <th onclick="toggleSort(this);" id="button_sortid" class="button-sort-none">
+            <th onclick="toggleSort(this);" id="button-sortid" class="button-sort-none">
                 Course ID<span class="icon-sort unsorted"></span>
             </th>
-            <th onclick="toggleSort(this);" id="button_sortid" class="button-sort-none">
+            <th onclick="toggleSort(this);" id="button-sortid" class="button-sort-none">
                 Course Name<span class="icon-sort unsorted"></span>
             </th>
             <th class="align-center no-print">Action(s)</th>

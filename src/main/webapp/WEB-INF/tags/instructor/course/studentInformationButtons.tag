@@ -11,7 +11,7 @@
                 ${courseRemindButton.attributesToString}>
                              
         <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD%>" style="display:inline;">
-            <input id="button_download" type="submit" class="btn btn-primary"
+            <input id="button-download" type="submit" class="btn btn-primary"
                     name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
                     value=" Download Student List ">
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">

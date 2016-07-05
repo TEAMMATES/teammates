@@ -16,13 +16,13 @@
         </div>
         <div class="col-md-3">
             <div class="checkbox">
-                <input id="displayArchivedCourses_check"
+                <input id="displayArchivedCourses-check"
                     type="checkbox"
                     ${displayArchive ? 'checked' : ''}>
-                <label for="displayArchivedCourses_check">
+                <label for="displayArchivedCourses-check">
                     Include Archived Courses
                 </label>
-                <div id="displayArchivedCourses_link" style="display:none;">
+                <div id="displayArchivedCourses-link" style="display:none;">
                     <a href="${instructorCommentsLink}">link back to the page</a>
                 </div>
             </div>
@@ -38,21 +38,21 @@
                         </div>
                         <br>
                         <div class="checkbox">
-                            <input id="panel_all"
+                            <input id="panel-all"
                                 type="checkbox"
                                 checked>
-                            <label for="panel_all"><strong>All</strong></label>
+                            <label for="panel-all"><strong>All</strong></label>
                         </div>
                         <br>
                         <c:set var="panelIdx" value="0" scope="page" />
                         <c:if test="${not empty commentsForStudentsTables}"> 
                             <c:set var="panelIdx" value="${panelIdx + 1}" scope="page" />
                             <div class="checkbox">
-                                <input id="panel_check-${panelIdx}"
+                                <input id="panel-check-${panelIdx}"
                                     type="checkbox"
                                     checked> 
                                 <label
-                                    for="panel_check-${panelIdx}">
+                                    for="panel-check-${panelIdx}">
                                     Students 
                                 </label>
                             </div>
@@ -60,10 +60,10 @@
                         <c:forEach items="${feedbackSessions}" var="fs"> 
                             <c:set var="panelIdx" value="${panelIdx + 1}" scope="page" />
                             <div class="checkbox">
-                                <input id="panel_check-${panelIdx}"
+                                <input id="panel-check-${panelIdx}"
                                     type="checkbox"
                                     checked> 
-                                <label for="panel_check-${panelIdx}">
+                                <label for="panel-check-${panelIdx}">
                                     Session: ${fs.sessionName}
                                 </label>
                             </div>
@@ -76,26 +76,26 @@
                         <br>
                         <div class="checkbox">
                             <input type="checkbox" value=""
-                                id="giver_all"
+                                id="giver-all"
                                 checked> 
-                            <label for="giver_all">
+                            <label for="giver-all">
                                 <strong>All</strong>
                             </label>
                         </div>
                         <br>
                         <div class="checkbox">
-                            <input id="giver_check-by-you"
+                            <input id="giver-check-by-you"
                                 type="checkbox"
                                 checked>
-                            <label for="giver_check-by-you">
+                            <label for="giver-check-by-you">
                                 You
                             </label>
                         </div>
                         <div class="checkbox">
-                            <input id="giver_check-by-others"
+                            <input id="giver-check-by-others"
                                 type="checkbox"
                                 checked>
-                            <label for="giver_check-by-others">
+                            <label for="giver-check-by-others">
                                 Others
                             </label>
                         </div>
@@ -107,26 +107,26 @@
                         <br>
                         <div class="checkbox">
                             <input type="checkbox" value=""
-                                id="status_all"
+                                id="status-all"
                                 checked> 
-                            <label for="status_all">
+                            <label for="status-all">
                                 <strong>All</strong>
                             </label>
                         </div>
                         <br>
                         <div class="checkbox">
-                            <input id="status_check-public"
+                            <input id="status-check-public"
                                 type="checkbox"
                                 checked>
-                            <label for="status_check-public">
+                            <label for="status-check-public">
                                 Public
                             </label>
                         </div>
                         <div class="checkbox">
-                            <input id="status_check-private"
+                            <input id="status-check-private"
                                 type="checkbox"
                                 checked>
-                            <label for="status_check-private">
+                            <label for="status-check-private">
                                 Private
                             </label>
                         </div>

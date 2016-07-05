@@ -37,7 +37,7 @@
             </div>
         </c:when>
         <c:otherwise>
-            <div class="panel-heading ajax_auto">
+            <div class="panel-heading ajax-auto">
                 <div class="row">
                     <div class="col-sm-9 panel-heading-text">
                         <strong>${sectionPanel.sectionNameForDisplay}</strong>

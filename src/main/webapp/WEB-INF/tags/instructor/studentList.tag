@@ -22,19 +22,19 @@
             <thead class="${tableHeaderClass}">
                 <tr id="resultsHeader-${courseIndex}">
                     <th>Photo</th>
-                    <th id="button_sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this)">
+                    <th id="button-sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this)">
                         Section <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortteam-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
+                    <th id="button-sortteam-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
                         Team <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
+                    <th id="button-sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
                         Student Name <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this)">
+                    <th id="button-sortstudentstatus" class="button-sort-none" onclick="toggleSort(this)">
                         Status <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
+                    <th id="button-sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
                         Email <span class="icon-sort unsorted"></span>
                     </th>
                     <th>Action(s)</th>
@@ -49,8 +49,8 @@
                         <%-- generated here but to be appended to #sectionChoices in instructorStudentList.jsp
                              will be transported via JavaScript in instructorStudentListAjax.js --%>
                         <div class="checkbox section-to-be-transported">
-                            <input id="section_check-${courseIndex}-${sectionIndex}" type="checkbox" checked class="section_check">
-                            <label for="section_check-${courseIndex}-${sectionIndex}">
+                            <input id="section-check-${courseIndex}-${sectionIndex}" type="checkbox" checked class="section-check">
+                            <label for="section-check-${courseIndex}-${sectionIndex}">
                                 [${courseId}] : <c:out value="${section.sectionName}"/>
                             </label>
                         </div>
@@ -61,8 +61,8 @@
                             <%-- generated here but to be appended to #teamChoices in instructorStudentList.jsp
                                  will be transported via JavaScript in instructorStudentListAjax.js --%>
                             <div class="checkbox team-to-be-transported">
-                                <input id="team_check-${courseIndex}-${sectionIndex}-${teamIndex}" type="checkbox" checked class="team_check">
-                                <label for="team_check-${courseIndex}-${sectionIndex}-${teamIndex}">
+                                <input id="team-check-${courseIndex}-${sectionIndex}-${teamIndex}" type="checkbox" checked class="team-check">
+                                <label for="team-check-${courseIndex}-${sectionIndex}-${teamIndex}">
                                     [${courseId}] : <c:out value="${team.teamName}"/>
                                 </label>
                             </div>
@@ -72,11 +72,11 @@
                             <c:if test="${fromStudentListPage}">
                                 <%-- generated here but to be appended to #teamChoices in instructorStudentList.jsp
                                      will be transported via JavaScript in instructorStudentListAjax.js --%>
-                                <div class="email-to-be-transported" id="student_email-c${courseIndex}.${studentIndex}">
+                                <div class="email-to-be-transported" id="student-email-c${courseIndex}.${studentIndex}">
                                     ${student.studentEmail}
                                 </div>
                             </c:if>
-                            <tr class="student_row" id="student-c${courseIndex}.${studentIndex}">
+                            <tr class="student-row" id="student-c${courseIndex}.${studentIndex}">
                                 <td id="studentphoto-c${courseIndex}.${studentIndex}">
                                     <div class="profile-pic-icon-click align-center" data-link="${student.photoUrl}">
                                         <a class="student-profile-pic-view-link btn-link">View Photo</a>
@@ -240,7 +240,7 @@
         <c:otherwise>
             <thead class="${tableHeaderClass}">
                 <tr>
-                    <th class="align-center color_white bold">There are no students in this course</th>
+                    <th class="align-center color-white bold">There are no students in this course</th>
                 </tr>
             </thead>
         </c:otherwise>

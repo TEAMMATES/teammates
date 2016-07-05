@@ -39,7 +39,7 @@ function checkFeedbackQuestion(form) {
 }
 
 function getQuestionNumFromEditForm(form) {
-    if ($(form).attr('name') === 'form_addquestions') {
+    if ($(form).attr('name') === 'form-addquestions') {
         return -1;
     }
     return extractQuestionNumFromEditFormId($(form).attr('id'));
@@ -123,7 +123,7 @@ function convertDateToHHMM(date) {
 }
 
 function bindCopyButton() {
-    $('#button_copy').on('click', function(e) {
+    $('#button-copy').on('click', function(e) {
         e.preventDefault();
         var selectedCourseId = $('#' + COURSE_ID + ' option:selected').text();
         var newFeedbackSessionName = $('#' + FEEDBACK_SESSION_NAME).val();
@@ -171,7 +171,7 @@ function bindCopyButton() {
         return false;
     });
 
-    $('#button_copy_submit').on('click', function(e) {
+    $('#button-copy-submit').on('click', function(e) {
         e.preventDefault();
         $('#copyModalForm').submit();
         return false;
@@ -202,7 +202,7 @@ function bindCopyEvents() {
         $currentlySelectedRadio.prop('checked', true);
         $currentlySelectedRow.addClass('row-selected');
 
-        $('#button_copy_submit').prop('disabled', false);
+        $('#button-copy-submit').prop('disabled', false);
     });
 }
 

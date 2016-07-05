@@ -6,7 +6,7 @@
 <%@ tag import="teammates.common.datatransfer.CommentParticipantType" %>
 <div class="well well-plain">
     <button type="button" class="btn btn-default btn-xs icon-button pull-right"
-            id="button_add_comment" data-toggle="tooltip"
+            id="button-add-comment" data-toggle="tooltip"
             data-placement="top" title="Add comment"
         <c:if test="${not studentInfoTable.ableToAddComment}">disabled</c:if>>
         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
@@ -47,10 +47,10 @@
     </div>
 </div>
 <div id="commentArea" class="well well-plain" style="display: none;">
-    <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD %>" name="form_commentadd">
+    <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD %>" name="form-commentadd">
         <div class="form-group form-inline">
             <label style="margin-right: 24px;">Recipient:</label>
-            <select id="comment_recipient_select" class="form-control">
+            <select id="comment-recipient-select" class="form-control">
                 <option value="<%= CommentParticipantType.PERSON %>" selected>
                     ${fn:escapeXml(studentInfoTable.name)}
                 </option>
@@ -192,8 +192,8 @@
         <textarea class="form-control" rows="6" placeholder="Enter your comment here ..." style="margin-bottom: 15px;"
                   name="<%= Const.ParamsNames.COMMENT_TEXT %>" id="commentText"></textarea>
         <div style="text-align: center;">
-            <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
-            <input type="button" class="btn btn-default" id="button_cancel_comment" value="Cancel">
+            <input type="submit" class="btn btn-primary" id="button-save-comment" value="Save">
+            <input type="button" class="btn btn-default" id="button-cancel-comment" value="Cancel">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${studentInfoTable.course}">
             <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" value="${studentInfoTable.email}">
             <input type="hidden" name="<%=Const.ParamsNames.RECIPIENT_TYPE%>" value="<%= CommentParticipantType.PERSON %>">

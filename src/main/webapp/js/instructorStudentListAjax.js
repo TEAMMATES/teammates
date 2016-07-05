@@ -57,10 +57,10 @@ var seeMoreRequest = function(e) {
     var panelBody = $(panelCollapse[0]).children('.panel-body');
     var displayIcon = $(this).children('.display-icon');
     var courseIndex = $(panelCollapse[0]).attr('id').split('-')[1];
-    var courseCheck = $('#course_check-' + courseIndex);
+    var courseCheck = $('#course-check-' + courseIndex);
     var courseNumStudents = parseInt($('#numStudents-' + courseIndex).val());
     
-    if ($(panelHeading).attr('class').indexOf('ajax_submit') === -1) {
+    if ($(panelHeading).attr('class').indexOf('ajax-submit') === -1) {
         clearStatusMessages();
         if ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) {
             $(panelCollapse).collapse('show');
@@ -68,7 +68,7 @@ var seeMoreRequest = function(e) {
             $(courseCheck).prop('checked', true);
         } else {
             $(panelCollapse[0]).collapse('hide');
-            $(panelHeading).addClass('ajax_submit');
+            $(panelHeading).addClass('ajax-submit');
             $(panelBody[0]).html('');
             $(panelCollapse[0]).removeClass('checked');
             $(courseCheck).prop('checked', false);
@@ -116,7 +116,7 @@ var seeMoreRequest = function(e) {
                     transportEmailChoices();
                     bindPhotos(courseIdx);
 
-                    $(panelHeading).removeClass('ajax_submit');
+                    $(panelHeading).removeClass('ajax-submit');
                     displayIcon.html('');
                     if ($(panelCollapse[0]).attr('class').indexOf('in') === -1) {
                         $(panelHeading).trigger('click');
@@ -131,5 +131,5 @@ var seeMoreRequest = function(e) {
 };
 
 $(document).ready(function() {
-    $('.ajax_submit').click(seeMoreRequest);
+    $('.ajax-submit').click(seeMoreRequest);
 });

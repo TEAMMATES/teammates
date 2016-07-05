@@ -31,7 +31,7 @@
         </div>
         <h4 class="label-control col-xs-12 col-md-1 text-md">Or: </h4>
         <div class="col-xs-12 col-md-3">
-            <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Loading...</a>
+            <a id="button-copy" class="btn btn-info" style="vertical-align:middle;">Loading...</a>
         </div>
     </div>
 </c:if>
@@ -62,7 +62,7 @@
                         data-courseid="${fsForm.courseId}"
                         data-fsname="${fsForm.fsName}"
                         data-target="#fsCopyModal"
-                        data-placement="top" id="button_fscopy"
+                        data-placement="top" id="button-fscopy"
                         data-toggle="modal">
                         Copy
                     </a>

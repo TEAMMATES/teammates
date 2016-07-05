@@ -89,7 +89,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
 
-        assertFalse(submitPage.isElementEnabled("response_submit_button"));
+        assertFalse(submitPage.isElementEnabled("response-submit-button"));
     }
 
     private void testSubmitAction() throws Exception {

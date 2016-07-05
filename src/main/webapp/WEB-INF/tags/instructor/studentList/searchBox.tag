@@ -5,7 +5,7 @@
 <div class="well well-plain">
     <div class="row">
         <div class="col-md-12">
-            <form method="get" action="${searchBox.instructorSearchLink}" name="search_form">
+            <form method="get" action="${searchBox.instructorSearchLink}" name="search-form">
                 <div class="row">
                     <div class="col-md-10">
                         <div class="form-group">

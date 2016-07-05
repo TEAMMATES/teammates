@@ -47,7 +47,7 @@
         <%-- View recent actions --%>
         <c:if test="${not empty student.viewRecentActionsId}">
             <form method="post" target="blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
-                <button type="submit" id="${student.viewRecentActionsId}_recentActions"
+                <button type="submit" id="${student.viewRecentActionsId}-recentActions"
                         class="btn btn-link btn-xs recentActionButton">
                         
                     <span class="glyphicon glyphicon-zoom-in"></span>View Recent Actions
@@ -60,7 +60,7 @@
         
         <%-- Reset Google ID --%>
         <c:if test="${not empty student.googleId}">
-            <button type="button" id="${student.googleId}_resetGoogleId"
+            <button type="button" id="${student.googleId}-resetGoogleId"
                     onclick="submitResetGoogleIdAjaxRequest('${student.courseId}' , '${student.email}', '${student.googleId}', this);"
                     class="btn btn-link btn-xs resetGoogleIdButton">
                     
@@ -70,7 +70,7 @@
     </td>                              
 </tr>
 
-<tr class="has-danger list-group fslink fslink_student fslink${student.id}" style="display: none;">
+<tr class="has-danger list-group fslink fslink-student fslink${student.id}" style="display: none;">
     <td colspan="5">
         <ul class="list-group">     
             <%-- Email --%>

@@ -23,7 +23,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     @FindBy (id = "comments")
     private WebElement commentsTextbox;
     
-    @FindBy (id = "button_submit")
+    @FindBy (id = "button-submit")
     private WebElement submitButton;
     
     public InstructorCourseStudentDetailsEditPage(Browser browser) {

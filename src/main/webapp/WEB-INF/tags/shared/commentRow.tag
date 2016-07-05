@@ -63,9 +63,9 @@
     <c:if test="${comment.editDeleteEnabled}">
         <form method="post"
               action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>"
-              name="form_commentedit"
-              class="form_comment"
-              id="form_commentedit-${commentIndex}">
+              name="form-commentedit"
+              class="form-comment"
+              id="form-commentedit-${commentIndex}">
             <div id="commentTextEdit${commentIndex}" style="display: none;">
                 <div class="form-group form-inline">
                     <div class="form-group text-muted">

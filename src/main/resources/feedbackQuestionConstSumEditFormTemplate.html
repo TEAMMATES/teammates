@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 margin-bottom-15px padding-left-35px"
-                    id="constSumOption_Option-${questionNumber}"${optionDisplay}>
+                    id="constSumOption-Option-${questionNumber}"${optionDisplay}>
                     <div class="col-xs-1">
                         <input type="radio" id="constSumPointsPerOption-${questionNumber}"
                             name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}"
@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 margin-bottom-15px padding-left-35px"
-                    id="constSumOption_Recipient-${questionNumber}"${recipientDisplay}>
+                    id="constSumOption-Recipient-${questionNumber}"${recipientDisplay}>
                     <div class="col-xs-1">
                         <input type="radio" id="constSumPointsPerRecipient-${questionNumber}"
                             name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}"
@@ -103,10 +103,10 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <div class="checkbox" id="constSum_tooltipText-${questionNumber}" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this prevents a giver from distributing the same number of points to multiple ${optionRecipientDisplayName}s">
+                <div class="checkbox" id="constSum-tooltipText-${questionNumber}" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this prevents a giver from distributing the same number of points to multiple ${optionRecipientDisplayName}s">
                     <label class="bold-label">
-                        <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}" disabled id="constSum_UnevenDistribution-${questionNumber}" ${distributeUnevenly}>
-                        <span id="constSum_labelText-${questionNumber}">Every ${optionRecipientDisplayName} to receive a different number of points</span>
+                        <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}" disabled id="constSum-UnevenDistribution-${questionNumber}" ${distributeUnevenly}>
+                        <span id="constSum-labelText-${questionNumber}">Every ${optionRecipientDisplayName} to receive a different number of points</span>
                     </label>
                 </div>
             </div>

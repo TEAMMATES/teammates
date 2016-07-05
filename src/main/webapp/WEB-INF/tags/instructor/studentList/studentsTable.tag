@@ -5,7 +5,7 @@
 <%@ attribute name="index" required="true" %>
 <c:set var="PANEL_TYPE" value="${course.courseArchived ? 'panel-default' : 'panel-info'}" />
 <div class="panel ${PANEL_TYPE}">
-    <div class="panel-heading ajax_submit">
+    <div class="panel-heading ajax-submit">
         <form style="display:none;"
               id="seeMore-${index}"
               class="seeMoreForm-${index}"

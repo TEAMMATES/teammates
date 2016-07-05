@@ -47,7 +47,7 @@
                     <div class="col-md-12">
                         <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
                             <div id="feedbackDataButtons">
-                                <input id="button_download" type="submit" class="btn btn-primary btn-block"
+                                <input id="button-download" type="submit" class="btn btn-primary btn-block"
                                        name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
                                        value="Download Results">
                             </div>

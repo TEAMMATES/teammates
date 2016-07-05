@@ -20,21 +20,21 @@
 
 <div class="form-group">
     <label class="col-sm-3 control-label">Sections:</label>
-    <div class="col-sm-6" id="total_sections">
+    <div class="col-sm-6" id="total-sections">
         <p class="form-control-static">${courseDetails.stats.sectionsTotal}</p>
     </div>
 </div>
 
 <div class="form-group">
     <label class="col-sm-3 control-label">Teams:</label>
-    <div class="col-sm-6" id="total_teams">
+    <div class="col-sm-6" id="total-teams">
         <p class="form-control-static">${courseDetails.stats.teamsTotal}</p>
     </div>
 </div>
 
 <div class="form-group">
     <label class="col-sm-3 control-label">Total students:</label>
-    <div class="col-sm-6" id="total_students">
+    <div class="col-sm-6" id="total-students">
         <p class="form-control-static">${courseDetails.stats.studentsTotal}</p>
     </div>
 </div>

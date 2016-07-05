@@ -9,7 +9,7 @@ var totalPages;
 
 $(document).ready(function() {
     
-    toggleSort($('#button_sort_createat').parent());
+    toggleSort($('#button-sort-createat').parent());
     reLabelOrderedAccountEntries();
     caculateTotalPages();
     updatePagination();
@@ -21,26 +21,26 @@ function updatePagination() {
     
     if (totalPages > 5) {
         if (currentPage >= 3 && currentPage + 1 < totalPages) {
-            $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
+            $('div#pagination-top ul.pagination li a.pageNumber').each(function(index) {
                 var newPageNumber = currentPage - 2 + index;
                 $(this).text(newPageNumber);
             });
         }
         
         if (currentPage >= 3 && currentPage + 1 === totalPages) {
-            $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
+            $('div#pagination-top ul.pagination li a.pageNumber').each(function(index) {
                 var newPageNumber = currentPage - 3 + index;
                 $(this).text(newPageNumber);
             });
         }
         
         if (currentPage < 3) {
-            $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
+            $('div#pagination-top ul.pagination li a.pageNumber').each(function(index) {
                 $(this).text(index + 1);
             });
         }
     } else {
-        $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
+        $('div#pagination-top ul.pagination li a.pageNumber').each(function(index) {
             $(this).text(index + 1);
             
             if (index + 1 > totalPages) {
@@ -49,7 +49,7 @@ function updatePagination() {
         });
     }
     
-    $('div#pagination_top ul.pagination li a.pageNumber').each(function() {
+    $('div#pagination-top ul.pagination li a.pageNumber').each(function() {
         var pageNum = parseInt($(this).text());
         if (pageNum === currentPage) {
             $(this).parent().attr('class', 'active');
@@ -58,7 +58,7 @@ function updatePagination() {
         }
     });
     
-    $('#pagination_bottom').html($('#pagination_top').html());
+    $('#pagination-bottom').html($('#pagination-top').html());
 }
 
 function caculateTotalPages() {

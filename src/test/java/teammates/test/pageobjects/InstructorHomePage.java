@@ -26,13 +26,13 @@ public class InstructorHomePage extends AppPage {
     @FindBy(id = "sortByDate")
     private WebElement sortByDateButton;
 
-    @FindBy(className = "button_sortname")
+    @FindBy(className = "button-sortname")
     private List<WebElement> tablesSortByName;
 
-    @FindBy(className = "button_sortstartdate")
+    @FindBy(className = "button-sortstartdate")
     private List<WebElement> tablesSortByStartDate;
 
-    @FindBy(className = "button_sortenddate")
+    @FindBy(className = "button-sortenddate")
     private List<WebElement> tablesSortByEndDate;
 
     private InstructorCopyFsToModal fsCopyModal;
@@ -260,7 +260,7 @@ public class InstructorHomePage extends AppPage {
     
     public void submitRemindParticularUsersForm() {
         WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
-        remindModal.findElement(By.name("form_remind_list")).submit();
+        remindModal.findElement(By.name("form-remind-list")).submit();
     }
     
     public WebElement getPublishLink(String courseId, String evalName) {
@@ -345,7 +345,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     public void changeFsCopyButtonActionLink(String courseId, String feedbackSessionName, String newActionLink) {
-        String id = "button_fscopy" + "-" + courseId + "-" + feedbackSessionName;
+        String id = "button-fscopy" + "-" + courseId + "-" + feedbackSessionName;
         By element = By.id(id);
         waitForElementPresence(element);
         
@@ -355,7 +355,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     public void clickFsCopyButton(String courseId, String feedbackSessionName) {
-        By fsCopyButtonElement = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
+        By fsCopyButtonElement = By.id("button-fscopy" + "-" + courseId + "-" + feedbackSessionName);
         
         // give it some time to load as it is loaded via AJAX
         waitForElementPresence(fsCopyButtonElement);

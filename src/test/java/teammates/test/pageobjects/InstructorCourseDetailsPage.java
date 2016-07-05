@@ -10,16 +10,16 @@ import teammates.common.util.Const;
 
 public class InstructorCourseDetailsPage extends AppPage {
     
-    @FindBy (id = "button_sortstudentstatus")
+    @FindBy (id = "button-sortstudentstatus")
     private WebElement sortByStatusIcon;
     
-    @FindBy (id = "button_sortstudentname-0")
+    @FindBy (id = "button-sortstudentname-0")
     private WebElement sortByNameIcon;
     
-    @FindBy (id = "button_sortteam-0")
+    @FindBy (id = "button-sortteam-0")
     private WebElement sortByTeamIcon;
     
-    @FindBy (id = "button_remind")
+    @FindBy (id = "button-remind")
     private WebElement remindAllButton;
 
     public InstructorCourseDetailsPage(Browser browser) {
@@ -88,12 +88,12 @@ public class InstructorCourseDetailsPage extends AppPage {
         commentTextForm.click();
         commentTextForm.clear();
         commentTextForm.sendKeys(comment);
-        browser.driver.findElement(By.id("button_save_comment")).click();
+        browser.driver.findElement(By.id("button-save-comment")).click();
         waitForPageToLoad();
     }
     
     public void clickAddCommentToCourseButton() {
-        browser.driver.findElement(By.id("button_add_comment")).click();
+        browser.driver.findElement(By.id("button-add-comment")).click();
     }
 
     public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentName) {
@@ -183,7 +183,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
     
     private int getStudentRowId(String studentName) {
-        int studentCount = browser.driver.findElements(By.className("student_row")).size();
+        int studentCount = browser.driver.findElements(By.className("student-row")).size();
         for (int i = 0; i < studentCount; i++) {
             String studentNameInRow = getStudentNameInRow(i);
             if (studentNameInRow.equals(studentName)) {

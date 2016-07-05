@@ -46,7 +46,7 @@
     
     <c:if test="${empty data.qnForms}">
         <br>
-        <div class="align-center bold" id="empty_message">${EMPTY_FEEDBACK_SESSION_MESSAGE}</div>
+        <div class="align-center bold" id="empty-message">${EMPTY_FEEDBACK_SESSION_MESSAGE}</div>
         <br>
     </c:if>
      <br>

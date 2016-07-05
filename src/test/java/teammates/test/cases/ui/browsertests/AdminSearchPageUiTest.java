@@ -145,7 +145,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         
         switch (searchPage.getDataTableId(tableNum)) {
         // Instructor table
-        case "search_table_instructor":
+        case "search-table-instructor":
             if (numColumns != ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS) {
                 return false;
             }
@@ -163,7 +163,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
             break;
             
         // Student table
-        case "search_table":
+        case "search-table":
             if (numColumns != ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS) {
                 return false;
             }
@@ -198,7 +198,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
      */
     private boolean isStudentRowDisplayed(StudentAttributes student, InstructorAttributes instructorToMasquaradeAs) {
 
-        By by = By.xpath("//table[@id = 'search_table']/tbody/tr[@class='studentRow']");
+        By by = By.xpath("//table[@id = 'search-table']/tbody/tr[@class='studentRow']");
         List<WebElement> studentRows = browser.driver.findElements(by);
         
         for (WebElement studentRow : studentRows) {

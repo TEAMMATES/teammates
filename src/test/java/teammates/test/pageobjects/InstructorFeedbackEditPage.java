@@ -82,13 +82,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "fsDeleteLink")
     private WebElement fsDeleteLink;
     
-    @FindBy(id = "button_openframe")
+    @FindBy(id = "button-openframe")
     private WebElement openNewQuestionButton;
 
-    @FindBy(id = "button_submit_add")
+    @FindBy(id = "button-submit-add")
     private WebElement addNewQuestionButton;
     
-    @FindBy(id = "button_done_editing")
+    @FindBy(id = "button-done-editing")
     private WebElement doneEditingButton;
     
     @FindBy(id = "questiontext")
@@ -127,19 +127,19 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='custom']")
     private WebElement customNumOfRecipients;
     
-    @FindBy(id = "button_fscopy")
+    @FindBy(id = "button-fscopy")
     private WebElement fscopyButton;
 
-    @FindBy(id = "button_copy")
+    @FindBy(id = "button-copy")
     private WebElement copyQuestionLoadButton;
     
-    @FindBy(id = "button_copy_submit")
+    @FindBy(id = "button-copy-submit")
     private WebElement copyQuestionSubmitButton;
     
-    @FindBy(id = "button_preview_student")
+    @FindBy(id = "button-preview-student")
     private WebElement previewAsStudentButton;
     
-    @FindBy(id = "button_preview_instructor")
+    @FindBy(id = "button-preview-instructor")
     private WebElement previewAsInstructorButton;
 
     private InstructorCopyFsToModal fsCopyToModal;
@@ -366,7 +366,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * @param actionLink value to change to
      */
     public void changeActionLinkOnCopyButton(String actionLink) {
-        String selector = "$('#button_copy')";
+        String selector = "$('#button-copy')";
         String action = ".data('actionlink', '" + actionLink + "')";
         ((JavascriptExecutor) browser.driver).executeScript(selector + action);
     }
@@ -472,7 +472,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void clickSaveExistingQuestionButton(int qnNumber) {
-        WebElement qnSaveLink = browser.driver.findElement(By.id("button_question_submit-" + qnNumber));
+        WebElement qnSaveLink = browser.driver.findElement(By.id("button-question-submit-" + qnNumber));
         qnSaveLink.click();
         waitForPageToLoad();
     }

@@ -78,13 +78,13 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_published")
     private WebElement sendPublishedEmailCheckbox;
     
-    @FindBy(id = "button_submit")
+    @FindBy(id = "button-submit")
     private WebElement submitButton;
     
-    @FindBy(id = "button_copy")
+    @FindBy(id = "button-copy")
     private WebElement copyButton;
     
-    @FindBy(id = "button_copy_submit")
+    @FindBy(id = "button-copy-submit")
     private WebElement copySubmitButton;
     
     @FindBy(id = "modalCopiedCourseId")
@@ -93,10 +93,10 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = "modalCopiedSessionName")
     private WebElement copiedFsNameTextBox;
     
-    @FindBy(id = "button_sortname")
+    @FindBy(id = "button-sortname")
     private WebElement sortByNameIcon;
     
-    @FindBy(id = "button_sortid")
+    @FindBy(id = "button-sortid")
     private WebElement sortByIdIcon;
     
     private InstructorCopyFsToModal fsCopyToModal;
@@ -239,7 +239,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
-        String copyButtonId = "button_copy";
+        String copyButtonId = "button-copy";
         this.waitForTextContainedInElementPresence(
                 By.id(copyButtonId), "Copy from previous feedback sessions");
         clickCopyButton();
@@ -554,7 +554,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public void clickFsCopyButton(String courseId, String feedbackSessionName) {
-        By fsCopyButtonElement = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
+        By fsCopyButtonElement = By.id("button-fscopy" + "-" + courseId + "-" + feedbackSessionName);
         
         // give it some time to load as it is loaded via AJAX
         waitForElementPresence(fsCopyButtonElement);

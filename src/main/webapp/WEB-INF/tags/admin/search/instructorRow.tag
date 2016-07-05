@@ -34,7 +34,7 @@
     <td>
         <c:if test="${not empty instructor.viewRecentActionsId}">
             <form method="post" target="blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
-                <button type="submit" id="${instructor.viewRecentActionsId}_recentActions"
+                <button type="submit" id="${instructor.viewRecentActionsId}-recentActions"
                         class="btn btn-link btn-xs optionButton">
                         
                     <span class="glyphicon glyphicon-zoom-in"></span>View Recent Actions
@@ -54,7 +54,7 @@
     </td>
 </tr>    
                                   
-<tr class="has-danger list-group fslink fslink_instructor fslink${instructor.id}" style="display: none;">
+<tr class="has-danger list-group fslink fslink-instructor fslink${instructor.id}" style="display: none;">
     <td colspan="5">
         <ul class="list-group">
             <%-- Email --%>

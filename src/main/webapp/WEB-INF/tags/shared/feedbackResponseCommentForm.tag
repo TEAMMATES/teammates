@@ -199,7 +199,7 @@
         <a href="${submitLink}"
            type="button"
            class="btn btn-primary"
-           id="button_save_comment_for_${fn:toLowerCase(formType)}-${divId}">
+           id="button-save-comment-for-${fn:toLowerCase(formType)}-${divId}">
             ${buttonText}
         </a>
         <input type="button"

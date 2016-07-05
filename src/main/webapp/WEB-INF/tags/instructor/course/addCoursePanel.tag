@@ -8,7 +8,7 @@
 
 <div class="panel panel-primary">
     <div class="panel-body fill-plain">
-        <form method="get" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_ADD%>" name="form_addcourse" class="form form-horizontal">
+        <form method="get" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_ADD%>" name="form-addcourse" class="form form-horizontal">
             <input type="hidden" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="${googleId}">
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${googleId}">
             <div class="form-group">

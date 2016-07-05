@@ -9,11 +9,11 @@
 <table class="table-responsive table table-striped table-bordered" id="table-sessions">
     <thead>
         <tr class="fill-primary">
-            <th id="button_sortid" onclick="toggleSort(this);"
+            <th id="button-sortid" onclick="toggleSort(this);"
                 class="button-sort-ascending course-id-table-width">Course ID <span
                 class="icon-sort unsorted"></span>
             </th>
-            <th id="button_sortname" onclick="toggleSort(this)"
+            <th id="button-sortname" onclick="toggleSort(this)"
                 class="button-sort-none session-name-table-width">
                     Session Name <span class="icon-sort unsorted"></span>
             </th>

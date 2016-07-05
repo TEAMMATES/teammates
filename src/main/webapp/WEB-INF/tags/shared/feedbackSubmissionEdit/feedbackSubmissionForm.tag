@@ -6,7 +6,7 @@
 
 <%@ attribute name="moderatedPersonEmail" required="true" %>
 
-<form method="post" name="form_submit_response" action="${data.submitAction}">
+<form method="post" name="form-submit-response" action="${data.submitAction}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${data.bundle.feedbackSession.feedbackSessionName}">
     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${data.bundle.feedbackSession.courseId}">
     
@@ -50,7 +50,7 @@
             </c:when>
             <c:otherwise>
                 <input type="submit" class="btn btn-primary center-block"
-                       id="response_submit_button" data-toggle="tooltip"
+                       id="response-submit-button" data-toggle="tooltip"
                        data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"
                        value="Submit Feedback"
                        <c:if test="${data.preview or (not data.submittable)}">

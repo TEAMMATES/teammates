@@ -23,14 +23,14 @@ public class AdminAccountManagementPage extends AppPage {
 
     public AdminAccountManagementPage clickDeleteInstructorStatus(
             String instructorId) {
-        browser.driver.findElement(By.id(instructorId + "_delete")).click();
+        browser.driver.findElement(By.id(instructorId + "-delete")).click();
         waitForPageToLoad();
         return this;
     }
 
     public AdminAccountDetailsPage clickViewInstructorDetails(
             String instructorId) {
-        browser.driver.findElement(By.id(instructorId + "_details")).click();
+        browser.driver.findElement(By.id(instructorId + "-details")).click();
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(AdminAccountDetailsPage.class);
@@ -38,7 +38,7 @@ public class AdminAccountManagementPage extends AppPage {
     
     public AdminActivityLogPage clickViewRecentActions(
             String instructorId) {
-        browser.driver.findElement(By.id(instructorId + "_recentActions")).click();
+        browser.driver.findElement(By.id(instructorId + "-recentActions")).click();
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(AdminActivityLogPage.class);
@@ -64,7 +64,7 @@ public class AdminAccountManagementPage extends AppPage {
     }
 
     private WebElement getDeleteAccountLink(String googleId) {
-        return browser.driver.findElement(By.id(googleId + "_deleteAccount"));
+        return browser.driver.findElement(By.id(googleId + "-deleteAccount"));
     }
     
     private WebElement getAccountTable() {

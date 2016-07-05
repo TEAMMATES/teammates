@@ -10,9 +10,9 @@
 <%@ attribute name="numQn" required="true"%>
 
 
-<form class="form-horizontal form_question" role="form" method="post"
+<form class="form-horizontal form-question" role="form" method="post"
     action="${fqForm.action}"
-    id="form_editquestion-${fqForm.questionIndex}" name="form_editquestions"
+    id="form_editquestion-${fqForm.questionIndex}" name="form-editquestions"
     onsubmit="tallyCheckboxes(${fqForm.questionIndex})"
     ${ fqForm.questionHasResponses ? 'editStatus="hasResponses"' : '' }>
     <div class="panel panel-primary questionTable" id="questionTable${fqForm.questionIndex}">
@@ -84,7 +84,7 @@
             
             <div>
                 <span class="pull-right">
-                    <input id="button_question_submit-${fqForm.questionIndex}"
+                    <input id="button-question-submit-${fqForm.questionIndex}"
                            type="submit" class="btn btn-primary"
                            value="Save Changes" tabindex="0"
                            style="display:none">

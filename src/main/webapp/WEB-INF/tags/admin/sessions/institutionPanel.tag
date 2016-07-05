@@ -7,16 +7,16 @@
 <%@ attribute name="showAll" required="true"%>
 <div class="panel panel-primary">
     <ul class="nav nav-pills nav-stacked">
-        <li id="pill_${tableIndex}" class="active">
+        <li id="pill-${tableIndex}" class="active">
             <a href="#" onclick="toggleContent(${tableIndex}); return false;">
-                <span class="badge pull-right" id="badge_${tableIndex}" style="display: none">
+                <span class="badge pull-right" id="badge-${tableIndex}" style="display: none">
                     ${fn:length(institutionPanel.feedbackSessionRows)}
                 </span>
                 <strong>${institutionPanel.institutionName}</strong>
             </a>
         </li>
     </ul>
-    <div class="table-responsive" id="table_${tableIndex}">
+    <div class="table-responsive" id="table-${tableIndex}">
         <table class="table table-striped dataTable">
             <thead>
                 <tr>

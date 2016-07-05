@@ -252,7 +252,7 @@
                                 </div>
                                 <h4 class="label-control col-md-1 text-md">Or: </h4>
                                 <div class="col-md-3">
-                                    <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
+                                    <a id="button-copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
                                 </div>
                             </div>
                         </div>
@@ -1326,7 +1326,7 @@
                     <div id="createSessionHtmlCustomizable">
 
                         <div class="well well-plain">
-                            <form class="form-group" name="form_feedbacksession">
+                            <form class="form-group" name="form-feedbacksession">
                                 <div class="row" data-toggle="tooltip" data-placement="top" title="Select a different type of session here.">
                                     <h4 class="label-control col-md-2 text-md">Create new </h4>
                                     <div class="col-md-5">
@@ -1341,7 +1341,7 @@
                                     </div>
                                     <h4 class="label-control col-md-1 text-md">Or: </h4>
                                     <div class="col-md-3">
-                                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
+                                        <a id="button-copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
                                     </div>
                                 </div>
                                 <br>
@@ -1780,10 +1780,10 @@
                                 </div>
                             </div>
                             <div class="col-sm-2">
-                                <a id="button_openframe" class="btn btn-primary" value="Add New Question">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
+                                <a id="button-openframe" class="btn btn-primary" value="Add New Question">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
                             </div>
                             <div class="col-sm-2">
-                                <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
+                                <a id="button-copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
                             </div>
                             <div class="col-sm-2">
                                 <a class="btn btn-primary">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
@@ -1884,7 +1884,7 @@
 
                 <div class="bs-example" id="settingQuestion">
 
-                    <form class="form-horizontal form_question" editstatus="hasResponses">
+                    <form class="form-horizontal form-question" editstatus="hasResponses">
                         <div class="panel panel-primary questionTable">
                             <div class="panel-heading">
                                 <div class="row">
@@ -2100,7 +2100,7 @@
                                 </div>
                                 <div>
                                     <span class="pull-right">
-                                        <input id="button_question_submit-1" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="">
+                                        <input id="button-question-submit-1" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="">
                                     </span>
                                 </div>
                             </div>
@@ -2185,7 +2185,7 @@
 
 
                 <div class="bs-example">
-                    <form class="form-horizontal form_question" role="form">
+                    <form class="form-horizontal form-question" role="form">
                         <div class="panel panel-primary questionTable" id="questionTable1">
                             <div class="panel-heading">
                                 <div class="row">
@@ -2481,7 +2481,7 @@
                                 </div>
                                 <div>
                                     <span class="pull-right">
-                                        <input id="button_question_submit-1" type="submit" onclick="return false;" class="btn btn-primary" value="Save Changes" tabindex="0" style="">
+                                        <input id="button-question-submit-1" type="submit" onclick="return false;" class="btn btn-primary" value="Save Changes" tabindex="0" style="">
                                     </span>
                                 </div>
                             </div>
@@ -2519,7 +2519,7 @@
                                 </label>
                             </form>
                             <div class="col-sm-5" data-toggle="tooltip" data-placement="top" title="View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled.">
-                                <form name="form_previewasstudent" class="form_preview">
+                                <form name="form_previewasstudent" class="form-preview">
                                     <div class="col-sm-6">
                                         <select class="form-control" name="previewas">
                                             <option value="alice.b.tmms@gmail.com">[Team 1] Alice Betsy</option>
@@ -2532,19 +2532,19 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input id="button_preview_student" class="btn btn-primary" value="Preview as Student">
+                                        <input id="button-preview-student" class="btn btn-primary" value="Preview as Student">
                                     </div>
                                 </form>
                             </div>
                             <div class="col-sm-5" data-toggle="tooltip" data-placement="top" title="View how this session would look like to an instructor who is submitting feedback.">
-                                <form class="form_preview">
+                                <form class="form-preview">
                                     <div class="col-sm-6">
                                         <select class="form-control" name="previewas">
                                             <option value="inst@gmail.com">Instructor A</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input id="button_preview_instructor" class="btn btn-primary" value="Preview as Instructor">
+                                        <input id="button-preview-instructor" class="btn btn-primary" value="Preview as Instructor">
                                     </div>
                                 </form>
                             </div>
@@ -3100,7 +3100,7 @@
                         <br> To setup a question of this type, simply provide the question text, feedback path(giver/recipient) and visibility options.
                         <br>
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form">
+                            <form class="form-horizontal form-question" role="form">
                                 <div class="panel panel-primary questionTable" id="questionTable1">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -3321,7 +3321,7 @@
                                         </div>
                                         <div>
                                             <span class="pull-right">
-                                                <input id="button_question_submit-1" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                                <input id="button-question-submit-1" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                             </span>
                                         </div>
                                     </div>
@@ -3341,7 +3341,7 @@
                         <b>generating options</b> based on the list of students, teams and instructors in the course.
                         <br> Example with specified options:
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post">
+                            <form class="form-horizontal form-question" role="form" method="post">
                                 <div class="panel panel-primary questionTable" id="questionTable7">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -3620,7 +3620,7 @@
                                         </div>
                                         <div>
                                             <span class="pull-right">
-                                                <input id="button_question_submit-7" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                                <input id="button-question-submit-7" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                             </span>
                                         </div>
                                     </div>
@@ -3630,7 +3630,7 @@
 
                         Example with generated options:
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" >
+                            <form class="form-horizontal form-question" role="form" method="post" >
                                 <div class="panel panel-primary questionTable" id="questionTable4">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -3879,7 +3879,7 @@
                                         </div>
                                         <div>
                                             <span class="pull-right">
-                                                <input id="button_question_submit-4" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                                <input id="button-question-submit-4" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                             </span>
                                         </div>
                                     </div>
@@ -3898,7 +3898,7 @@
                                     </div>
                                     <strong>Question 4: </strong>
                                     <span >Which team do you think has the best feature?&nbsp;
-                                        <span ><a href="javascript:;" id="questionAdditionalInfoButton-4-" class="color_gray" onclick="toggleAdditionalQuestionInfo('4-')" data-more="[more]" data-less="[less]">[more]</a>
+                                        <span ><a href="javascript:;" id="questionAdditionalInfoButton-4-" class="color-gray" onclick="toggleAdditionalQuestionInfo('4-')" data-more="[more]" data-less="[less]">[more]</a>
                                             <br>
                                             <span id="questionAdditionalInfo-4-" style="display:none;">Multiple-choice (single answer) question options:
                                                 <br>The options for this question is automatically generated from the list of all teams in this course.</span>
@@ -3966,11 +3966,11 @@
                                             <table class="table table-striped table-bordered dataTable margin-0">
                                                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                     <tr>
-                                                        <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                        <th id="button-sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
                                                             Giver
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
-                                                        <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                        <th id="button-sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                             Team
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
@@ -4045,7 +4045,7 @@
                         <br>
 
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" >
+                            <form class="form-horizontal form-question" role="form" method="post" >
                                 <div class="panel panel-primary questionTable" id="questionTable3">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -4289,7 +4289,7 @@
                                         </div>
                                         <div>
                                             <span class="pull-right">
-                                                <input id="button_question_submit-3" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                                <input id="button-question-submit-3" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                             </span>
                                         </div>
                                     </div>
@@ -4310,7 +4310,7 @@
                                     </div>
                                     <strong>Question 3: </strong>
                                     <span >Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;
-                                        <span ><a href="javascript:;" id="questionAdditionalInfoButton-3-" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-')" data-more="[more]" data-less="[less]">[more]</a>
+                                        <span ><a href="javascript:;" id="questionAdditionalInfoButton-3-" class="color-gray" onclick="toggleAdditionalQuestionInfo('3-')" data-more="[more]" data-less="[less]">[more]</a>
                                             <br>
                                             <span id="questionAdditionalInfo-3-" style="display:none;">Numerical-scale question:
                                                 <br>Minimum value: 1. Increment: 1.0. Maximum value: 5.</span>
@@ -4357,11 +4357,11 @@
                                             <table class="table table-striped table-bordered dataTable margin-0">
                                                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                     <tr>
-                                                        <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                        <th id="button-sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
                                                             Giver
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
-                                                        <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                        <th id="button-sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                             Team
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
@@ -4427,7 +4427,7 @@
 
 
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" >
+                            <form class="form-horizontal form-question" role="form" method="post" >
                                 <div class="panel panel-primary questionTable" id="questionTable9">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -4528,7 +4528,7 @@
                                                               </div>
 
                                                           </div>
-                                                          <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Option-9" >
+                                                          <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption-Option-9" >
                                                               <div class="col-xs-1">
                                                                   <input type="radio" id="constSumPointsPerOption-9"
                                                                           name="constSumPointsPerOption"
@@ -4548,7 +4548,7 @@
                                                                   <label class="margin-top-7px">number of options</label>
                                                               </div>
                                                           </div>
-                                                          <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Recipient-9" style="display:none">
+                                                          <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption-Recipient-9" style="display:none">
                                                               <div class="col-xs-1">
                                                                   <input type="radio" id="constSumPointsPerRecipient-9"
                                                                           name="constSumPointsPerOption"
@@ -4569,14 +4569,14 @@
                                                   </div>
                                                   <div class="row">
                                                       <div class="col-sm-12">
-                                                          <div class="checkbox" id="constSum_tooltipText-9"
+                                                          <div class="checkbox" id="constSum-tooltipText-9"
                                                                   data-toggle="tooltip" data-placement="top"
                                                                   data-container="body"
                                                                   title="Ticking this prevents a giver from distributing the same number of points to multiple options">
                                                               <label class="bold-label">
                                                                   <input type="checkbox" name="constSumUnevenDistribution" disabled
-                                                                          id="constSum_UnevenDistribution-9">
-                                                                      <span id="constSum_labelText-9">
+                                                                          id="constSum-UnevenDistribution-9">
+                                                                      <span id="constSum-labelText-9">
                                                                           Every option to receive a different number of points</span>
                                                               </label>
                                                           </div>
@@ -4767,7 +4767,7 @@
                                         </div>
                                         <div>
                                             <span class="pull-right">
-                                                <input id="button_question_submit-9" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                                <input id="button-question-submit-9" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                             </span>
                                         </div>
                                     </div>
@@ -4784,7 +4784,7 @@
                                     <strong>Question 9: </strong>
                                     <span >How important are the following factors to you? Give points accordingly.&nbsp;
                                         <span >
-                                            <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color_gray" onclick="toggleAdditionalQuestionInfo('9-')" data-more="[more]" data-less="[less]">[more]</a>
+                                            <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color-gray" onclick="toggleAdditionalQuestionInfo('9-')" data-more="[more]" data-less="[less]">[more]</a>
                                             <br>
                                             <span id="questionAdditionalInfo-9-" style="display:none;">Distribute points (among options) question options:
                                                 <ul style="list-style-type: disc;margin-left: 20px;">
@@ -4846,11 +4846,11 @@
                                             <table class="table table-striped table-bordered dataTable margin-0">
                                                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                     <tr>
-                                                        <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                        <th id="button-sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
                                                             Giver
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
-                                                        <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                        <th id="button-sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                             Team
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
@@ -4926,7 +4926,7 @@
                         <b>Points to distribute X number of recipients</b> is set to 100, students will have to split 500 points in total to the 5 members.
 
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" >
+                            <form class="form-horizontal form-question" role="form" method="post" >
                                 <div class="panel panel-primary questionTable" id="questionTable10">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -5005,7 +5005,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-xs-12 margin-bottom-15px padding-left-35px"
-                                                                id="constSumOption_Option-10" style="display: none">
+                                                                id="constSumOption-Option-10" style="display: none">
                                                                 <div class="col-xs-1">
                                                                     <input type="radio" id="constSumPointsPerOption-10"
                                                                             name="constSumPointsPerOption" value="true">
@@ -5025,7 +5025,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-xs-12 margin-bottom-15px padding-left-35px"
-                                                                id="constSumOption_Recipient-10">
+                                                                id="constSumOption-Recipient-10">
                                                                 <div class="col-xs-1">
                                                                     <input type="radio" id="constSumPointsPerRecipient-10"
                                                                             name="constSumPointsPerOption"
@@ -5049,15 +5049,15 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-sm-12">
-                                                            <div class="checkbox" id="constSum_tooltipText-10"
+                                                            <div class="checkbox" id="constSum-tooltipText-10"
                                                                     data-toggle="tooltip" data-placement="top"
                                                                     data-container="body"
                                                                     title="Ticking this prevents a giver from distributing the same number of points to multiple recipients">
                                                                 <label class="bold-label">
                                                                     <input type="checkbox"
                                                                             name="constSumUnevenDistribution" disabled
-                                                                            id="constSum_UnevenDistribution-10">
-                                                                    <span id="constSum_labelText-10">
+                                                                            id="constSum-UnevenDistribution-10">
+                                                                    <span id="constSum-labelText-10">
                                                                     Every Recipient to recieve a different number of points
                                                                     </span>
                                                                 </label>
@@ -5249,7 +5249,7 @@
                                         </div>
                                         <div>
                                             <span class="pull-right">
-                                                <input id="button_question_submit-10" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                                <input id="button-question-submit-10" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                             </span>
                                         </div>
                                     </div>
@@ -5276,7 +5276,7 @@
                         <br> To setup the question, simply give some question text. The giver and recipient is fixed for this special question type.
                         <br>
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" >
+                            <form class="form-horizontal form-question" role="form" method="post" >
                                 <div class="panel panel-primary questionTable" id="questionTable11">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -5501,7 +5501,7 @@
                                         </div>
                                         <div>
                                             <span class="pull-right">
-                                                <input id="button_question_submit-11" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                                <input id="button-question-submit-11" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                             </span>
                                         </div>
                                     </div>
@@ -5520,7 +5520,7 @@
                                     <strong>Question 1: </strong>
                                     <span >Please rate the estimated contribution of your team members and yourself.&nbsp;
                                         <span >
-                                            <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
+                                            <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color-gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
                                             <br>
                                             <span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
                                         </span>
@@ -5539,7 +5539,7 @@
                                                     </div>
                                                     <div class="col-sm-3 pull-right">
                                                         [
-                                                        <a href="#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
+                                                        <a href="#faq7a" target="_blank" id="interpret-help-link">How do I interpret/use these values?</a>]
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -5547,21 +5547,21 @@
                                                         <table class="table table-bordered table-responsive margin-0">
                                                             <thead>
                                                                 <tr>
-                                                                    <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);">Team
+                                                                    <td class="button-sort-ascending" id="button-sortteamname" onclick="toggleSort(this,1);">Team
                                                                         <span class="icon-sort unsorted"></span>
                                                                     </td>
-                                                                    <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
+                                                                    <td class="button-sort-none" id="button-sortname" onclick="toggleSort(this,2)">Student
                                                                         <span class="icon-sort unsorted"></span>
                                                                     </td>
-                                                                    <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the student's own estimation of his/her contributions">
+                                                                    <td class="button-sort-none" id="button-sortclaimed" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the student's own estimation of his/her contributions">
                                                                         <abbr title="Claimed Contribution">CC</abbr>
                                                                         <span class="icon-sort unsorted"></span>
                                                                     </td>
-                                                                    <td class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the average of what other team members think this student contributed">
+                                                                    <td class="button-sort-none" id="button-sortperceived" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the average of what other team members think this student contributed">
                                                                         <abbr title="Percived Contribution">PC</abbr>
                                                                         <span class="icon-sort unsorted"></span>
                                                                     </td>
-                                                                    <td class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="Perceived Contribution - Claimed Contribution">Diff
+                                                                    <td class="button-sort-none" id="button-sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="Perceived Contribution - Claimed Contribution">Diff
                                                                         <span class="icon-sort unsorted"></span>
                                                                     </td>
                                                                     <td class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="The list of points that this student received from others">Ratings Received</td>
@@ -5738,11 +5738,11 @@
                                             <table class="table table-striped table-bordered dataTable margin-0">
                                                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                     <tr>
-                                                        <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                        <th id="button-sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
                                                             Giver
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
-                                                        <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                        <th id="button-sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                             Team
                                                             <span class="icon-sort unsorted"></span>
                                                         </th>
@@ -6342,7 +6342,7 @@
                         <br>
                         <br>
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" >
+                            <form class="form-horizontal form-question" role="form" method="post" >
                                 <div class="panel panel-primary questionTable" id="questionTable12">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -6650,7 +6650,7 @@
                                         </div>
                                         <div>
                                             <span class="pull-right">
-                                                <input id="button_question_submit-12" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                                <input id="button-question-submit-12" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                             </span>
                                         </div>
                                     </div>
@@ -6761,7 +6761,7 @@
                         <br>
                         <br>
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions" onsubmit="tallyCheckboxes(3)">
+                            <form class="form-horizontal form-question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form-editquestions" onsubmit="tallyCheckboxes(3)">
                                 <div class="panel panel-primary questionTable" id="questionTable3">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -7110,7 +7110,7 @@
                                         
                                         <div>
                                             <span class="pull-right">
-                                                <input id="button_question_submit-3" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" disabled="">
+                                                <input id="button-question-submit-3" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" disabled="">
                                             </span>
                                         </div>
                                     </div>
@@ -7141,7 +7141,7 @@
                         <br>
                         <br>
                         <div class="bs-example">
-                            <form class="form-horizontal form_question" role="form" method="post">
+                            <form class="form-horizontal form-question" role="form" method="post">
                                 <div class="panel panel-primary questionTable" id="questionTable4">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -7432,7 +7432,7 @@
                                         
                                         <div>
                                             <span class="pull-right">
-                                                <input id="button_question_submit-4" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" disabled="">
+                                                <input id="button-question-submit-4" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" disabled="">
                                             </span>
                                         </div>
                                     </div>
@@ -7467,13 +7467,13 @@
                                         <table class="table table-bordered table-responsive margin-0">
                                             <thead>
                                             <tr>
-                                                <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);" style="width: 35%;">Recipient
+                                                <td class="button-sort-ascending" id="button-sortteamname" onclick="toggleSort(this,1);" style="width: 35%;">Recipient
                                                     <span class="icon-sort unsorted"></span></td>
                                                 <td class="button-sort-none" onclick="toggleSort(this,2);">Team
                                                     <span class="icon-sort unsorted"></span></td>
-                                                <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,3);" style="width:15%;">Ranks Received
+                                                <td class="button-sort-none" id="button-sortname" onclick="toggleSort(this,3);" style="width:15%;">Ranks Received
                                                     <span class="icon-sort unsorted"></span></td>
-                                                <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,4);" style="width:15%;">Average Rank
+                                                <td class="button-sort-none" id="button-sortclaimed" onclick="toggleSort(this,4);" style="width:15%;">Average Rank
                                                     <span class="icon-sort unsorted"></span></td>
                                             </tr>
                                             </thead>
@@ -7616,7 +7616,7 @@
                     <br>
                     <div class="bs-example">
                         <div class="well well-plain" id="courseInformationHeader">
-                            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" data-toggle="tooltip" data-placement="top" title="Give a comment about all students in the course">
+                            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button-add-comment" data-toggle="tooltip" data-placement="top" title="Give a comment about all students in the course">
                                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                             </button>
                             <div class="form form-horizontal">
@@ -7634,19 +7634,19 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Sections:</label>
-                                    <div class="col-sm-6" id="total_sections">
+                                    <div class="col-sm-6" id="total-sections">
                                         <p class="form-control-static">2</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Teams:</label>
-                                    <div class="col-sm-6" id="total_teams">
+                                    <div class="col-sm-6" id="total-teams">
                                         <p class="form-control-static">3</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Total students:</label>
-                                    <div class="col-sm-6" id="total_students">
+                                    <div class="col-sm-6" id="total-students">
                                         <p class="form-control-static">9</p>
                                     </div>
                                 </div>
@@ -7665,20 +7665,20 @@
 
                                 <div class="form-group">
                                     <div class="align-center">
-                                        <input type="button" class="btn btn-primary" id="button_remind" data-toggle="tooltip" data-placement="top" value="Remind Students to Join" tabindex="1" title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile">
+                                        <input type="button" class="btn btn-primary" id="button-remind" data-toggle="tooltip" data-placement="top" value="Remind Students to Join" tabindex="1" title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile">
                                         <form method="post" style="display:inline;">
-                                            <input id="button_download" type="submit" class="btn btn-primary" name="fruploaddownloadbtn" value=" Download Student List ">
+                                            <input id="button-download" type="submit" class="btn btn-primary" name="fruploaddownloadbtn" value=" Download Student List ">
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div id="commentArea" class="well well-plain" style="">
-                            <form method="post" name="form_commentadd">
+                            <form method="post" name="form-commentadd">
                                 <div class="form-group form-inline">
                                     <label style="margin-right: 24px;">Recipient:
                                     </label>
-                                    <select id="comment_recipient_select" class="form-control" disabled="">
+                                    <select id="comment-recipient-select" class="form-control" disabled="">
                                         <option value="COURSE" selected="">The whole class</option>
                                     </select>
                                     <a id="visibility-options-trigger" class="btn btn-sm btn-info pull-right">
@@ -7776,7 +7776,7 @@
                                     <div class="panel-heading">Question 3:
                                         <span >Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;
                                             <span >
-                                                <a href="javascript:;" id="questionAdditionalInfoButton-3-giver-0-recipient-8" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-giver-0-recipient-8')" data-more="[more]" data-less="[less]">[more]</a>
+                                                <a href="javascript:;" id="questionAdditionalInfoButton-3-giver-0-recipient-8" class="color-gray" onclick="toggleAdditionalQuestionInfo('3-giver-0-recipient-8')" data-more="[more]" data-less="[less]">[more]</a>
                                                 <br>
                                                 <span id="questionAdditionalInfo-3-giver-0-recipient-8" style="display:none;">Numerical-scale question:
                                                     <br>Minimum value: 1. Increment: 1.0. Maximum value: 5.</span>
@@ -7786,7 +7786,7 @@
                                     <div class="panel-body">
                                         <div style="clear:both; overflow: hidden">
                                             <div class="pull-left">4</div>
-                                            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(8,0,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button-add-comment" onclick="showResponseCommentAddForm(8,0,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
                                                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                             </button>
                                         </div>
@@ -7914,7 +7914,7 @@
                             <ul class="list-group comments">
 
                                 <li id="4538783999459328" class="list-group-item list-group-item-warning status_display-public">
-                                    <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
+                                    <form method="post" action="/page/instructorStudentCommentEdit" name="form-commentedit" class="form-comment" id="form-commentedit-1">
                                         <div id="commentBar-1" style="display: block;">
 
                                             <span class="text-muted">To
@@ -8142,7 +8142,7 @@
                                 </div>
                             </div>
 
-                            <div id="panel_display-1">
+                            <div id="panel-display-1">
                                 <br>
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
@@ -8159,7 +8159,7 @@
                                             <ul class="list-group comments">
 
                                                 <li id="4691616115720192" class="list-group-item list-group-item-warning status_display-public">
-                                                    <form name="form_commentedit" class="form_comment" id="form_commentedit-1">
+                                                    <form name="form-commentedit" class="form-comment" id="form-commentedit-1">
                                                         <div id="commentBar-1">
 
                                                             <span class="text-muted">To

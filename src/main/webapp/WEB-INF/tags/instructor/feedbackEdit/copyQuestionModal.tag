@@ -25,7 +25,7 @@
                 <div id="question-copy-modal-status"></div>
             </div>
             <div class="modal-footer margin-0">
-                <button type="button" class="btn btn-primary" id="button_copy_submit" disabled>Copy</button>
+                <button type="button" class="btn btn-primary" id="button-copy-submit" disabled>Copy</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>

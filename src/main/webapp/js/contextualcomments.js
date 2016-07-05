@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#button_add_comment').click(function() {
+    $('#button-add-comment').click(function() {
         if ($('#commentArea').is(':visible')) {
             $('#commentArea').hide();
         } else {
@@ -8,7 +8,7 @@ $(document).ready(function() {
         }
     });
     
-    $('form[name="form_commentadd"]').submit(function() {
+    $('form[name="form-commentadd"]').submit(function() {
         return checkComment(this);
     });
     
@@ -33,15 +33,15 @@ $(document).ready(function() {
         }
     });
 
-    $('#button_cancel_comment').click(function() {
+    $('#button-cancel-comment').click(function() {
         $('#commentArea').hide();
     });
     
-    $('#comment_recipient_select').change(commentRecipientSelectChangeHandler);
+    $('#comment-recipient-select').change(commentRecipientSelectChangeHandler);
     
     function commentRecipientSelectChangeHandler() {
         // TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
-        var selectedValue = $('#comment_recipient_select option:selected').val();
+        var selectedValue = $('#comment-recipient-select option:selected').val();
         if (selectedValue === 'PERSON') {
             $('input[name="recipienttype"]').val('PERSON');
             $('input[name="recipients"]').val($('#studentemail > p').text());
@@ -102,12 +102,12 @@ $(document).ready(function() {
     }
     
     if (isShowCommentBox) {
-        $('#button_add_comment').click();
+        $('#button-add-comment').click();
         if (commentRecipient === 'team') {
-            $('#comment_recipient_select').val('TEAM');
+            $('#comment-recipient-select').val('TEAM');
             commentRecipientSelectChangeHandler();
         } else if (commentRecipient === 'section') {
-            $('#comment_recipient_select').val('SECTION');
+            $('#comment-recipient-select').val('SECTION');
             commentRecipientSelectChangeHandler();
         }
     }

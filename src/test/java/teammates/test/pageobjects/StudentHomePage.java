@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class StudentHomePage extends AppPage {
 
-    @FindBy(id = "button_join_course")
+    @FindBy(id = "button-join-course")
     protected WebElement joinButton;
 
     public StudentHomePage(Browser browser) {

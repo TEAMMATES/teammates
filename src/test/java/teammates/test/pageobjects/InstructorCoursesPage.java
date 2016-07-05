@@ -21,10 +21,10 @@ public class InstructorCoursesPage extends AppPage {
      * (see https://code.google.com/p/selenium/wiki/PageFactory) how to find
      * the element.
      */
-    @FindBy (id = "button_sortcoursename")
+    @FindBy (id = "button-sortcoursename")
     private WebElement sortByCourseNameIcon;
     
-    @FindBy (id = "button_sortcourseid")
+    @FindBy (id = "button-sortcourseid")
     private WebElement sortByCourseIdIcon;
     
     @FindBy(id = "courseid")

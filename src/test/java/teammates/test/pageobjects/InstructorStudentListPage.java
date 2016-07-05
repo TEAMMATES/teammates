@@ -17,7 +17,7 @@ public class InstructorStudentListPage extends AppPage {
     @FindBy(id = "buttonSearch")
     private WebElement searchButton;
 
-    @FindBy(id = "displayArchivedCourses_check")
+    @FindBy(id = "displayArchivedCourses-check")
     private WebElement displayArchiveOptions;
 
     public InstructorStudentListPage(Browser browser) {
@@ -88,7 +88,7 @@ public class InstructorStudentListPage extends AppPage {
     }
 
     public void checkCourse(int courseIdx) {
-        browser.driver.findElement(By.id("course_check-" + courseIdx)).click();
+        browser.driver.findElement(By.id("course-check-" + courseIdx)).click();
         waitForAjaxLoaderGifToDisappear();
     }
 

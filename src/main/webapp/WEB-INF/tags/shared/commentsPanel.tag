@@ -39,7 +39,7 @@
                     <c:if test="${forRecordsPage && commentsForStudentsTable.representingSelf}">
                         <button type="button"
                                 class="btn btn-default btn-xs icon-button pull-right"
-                                id="button_add_comment"
+                                id="button-add-comment"
                                 onclick="showAddCommentBox();"
                                 data-toggle="tooltip"
                                 data-placement="top"
@@ -61,8 +61,8 @@
                             </li>
                         </c:if>
                         <c:set var="newCommentIndex" value="${fn:length(commentsForStudentsTable.rows) + 1}" />
-                        <li class="list-group-item list-group-item-warning" id="comment_box" style="display: none;">
-                            <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD %>" name="form_commentadd" class="form_comment">
+                        <li class="list-group-item list-group-item-warning" id="comment-box" style="display: none;">
+                            <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD %>" name="form-commentadd" class="form-comment">
                                 <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                         <p>
@@ -187,7 +187,7 @@
                                               id="commentText"></textarea>
                                 </div>
                                 <div class="col-sm-offset-5">
-                                    <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
+                                    <input type="submit" class="btn btn-primary" id="button-save-comment" value="Save">
                                     <input type="button" class="btn btn-default" value="Cancel" onclick="hideAddCommentBox();">
                                     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${data.courseId}">
                                     <input type="hidden" name="<%= Const.ParamsNames.STUDENT_EMAIL %>" value="${data.studentEmail}">

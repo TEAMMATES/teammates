@@ -343,7 +343,7 @@ public class PerformanceProfiler extends Thread {
         String enrollString = "Team 1 | teststudent | alice.b.tmms@gmail.com | This comment has been changed\n";
         browser.fillString(By.id("enrollstudents"), enrollString);
         long startTime = System.nanoTime();
-        browser.click(By.id("button_enroll"));
+        browser.click(By.id("button-enroll"));
         return System.nanoTime() - startTime;
     }
     

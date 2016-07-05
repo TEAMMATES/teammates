@@ -38,7 +38,7 @@
             <c:set var="panelIdx" value="0" />
             <c:if test="${not empty data.commentsForStudentsTables}"> <%--check student comments starts--%> 
                 <c:set var="panelIdx" value="${panelIdx + 1}" />
-                <div id="panel_display-${panelIdx}">
+                <div id="panel-display-${panelIdx}">
                     <br>
                     <shared:commentsPanel courseId="${data.courseId}" commentsForStudentsTables="${data.commentsForStudentsTables}" viewingDraft="${data.viewingDraft}" />
                 </div>
@@ -47,7 +47,7 @@
             <c:forEach items="${data.feedbackSessions}" var="fs" varStatus="fsIdx"> <%--FeedbackSession loop starts--%>
                 <c:set var="fsName" value="${fs.sessionName}" />
                 <c:set var="panelIdx" value="${panelIdx + 1}"/>
-                <div id="panel_display-${panelIdx}">
+                <div id="panel-display-${panelIdx}">
                     <br>
                     <comments:commentsFromFeedbackSessions courseId="${data.courseId}" fsName="${fsName}" fsIdx="${fsIdx.index + 1}" panelIdx="${panelIdx}" />
                 </div>

@@ -44,14 +44,14 @@ public class InstructorCourseDetailsPageData extends PageData {
         
         String content = "<span class=\"glyphicon glyphicon-comment glyphicon-primary\"></span>";
         giveCommentButton = createButton(content, "btn btn-default btn-xs icon-button pull-right",
-                                         "button_add_comment", null, "", "tooltip", null, isDisabled);
+                                         "button-add-comment", null, "", "tooltip", null, isDisabled);
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         String onClick = "if(toggleSendRegistrationKeysConfirmation('"
                           + sanitizeForJs(courseDetails.course.getId()) + "')) "
                           + "window.location.href='"
                           + sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId())) + "';";
-        courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null,
+        courseRemindButton = createButton(null, "btn btn-primary", "button-remind", null,
                                           Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
 
         this.sections = new ArrayList<StudentListSectionData>();
