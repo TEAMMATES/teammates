@@ -84,10 +84,10 @@
                         </div>
                         <br>
                         <div class="checkbox">
-                            <input id="giver_check-by-you"
+                            <input id="giver-check-by-you"
                                 type="checkbox"
                                 checked>
-                            <label for="giver_check-by-you">
+                            <label for="giver-check-by-you">
                                 You
                             </label>
                         </div>
