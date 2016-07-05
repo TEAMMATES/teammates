@@ -27,7 +27,7 @@
 
 <div class="form-group">
     <label class="col-sm-3 control-label">Teams:</label>
-    <div class="col-sm-6" id="total_teams">
+    <div class="col-sm-6" id="total-teams">
         <p class="form-control-static">${courseDetails.stats.teamsTotal}</p>
     </div>
 </div>
