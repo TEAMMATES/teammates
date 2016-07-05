@@ -14,7 +14,7 @@
             <th onclick="toggleSort(this);" id="button_sortfqtype" class="button-sort-none"> 
                 Question Type <span class="icon-sort unsorted"></span>
             </th>
-            <th onclick="toggleSort(this);" id="button_sortfqtext" class="button-sort-none"> 
+            <th onclick="toggleSort(this);" id="button-sortfqtext" class="button-sort-none"> 
                 Question Text <span class="icon-sort unsorted"></span>
             </th>
         </tr>
