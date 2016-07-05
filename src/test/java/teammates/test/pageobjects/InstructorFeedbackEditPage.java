@@ -82,7 +82,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "fsDeleteLink")
     private WebElement fsDeleteLink;
     
-    @FindBy(id = "button_openframe")
+    @FindBy(id = "button-openframe")
     private WebElement openNewQuestionButton;
 
     @FindBy(id = "button_submit_add")

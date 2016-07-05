@@ -18,7 +18,7 @@
                 <div class="col-sm-offset-3 col-sm-9">
 
                     <button
-                        id = "button_openframe"
+                        id = "button-openframe"
                         class="btn btn-primary margin-bottom-7px dropdown-toggle"
                         type="button" data-toggle="dropdown">
                         Add New Question <span class="caret"></span>

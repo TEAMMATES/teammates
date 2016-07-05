@@ -1780,7 +1780,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-2">
-                                <a id="button_openframe" class="btn btn-primary" value="Add New Question">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
+                                <a id="button-openframe" class="btn btn-primary" value="Add New Question">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
                             </div>
                             <div class="col-sm-2">
                                 <a id="button-copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
