@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <c:forEach items="${sessionRows}" var="sessionRow">
-                <tr class="home_evaluations_row" id="evaluation${sessionRow.index}">
+                <tr class="home-evaluations-row" id="evaluation${sessionRow.index}">
                     <td>${sessionRow.name}</td>
                     <td>${sessionRow.endTime}</td>
                     <td>
