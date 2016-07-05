@@ -90,7 +90,7 @@ function readyFeedbackEditPage() {
 }
 
 function bindFeedbackSessionEditFormSubmission() {
-    $('#form_feedbacksession').submit(function(event) {
+    $('#form-feedbacksession').submit(function(event) {
         // Prevent form submission
         event.preventDefault();
         
@@ -141,7 +141,7 @@ function disableEditFS() {
     getCustomDateTimeFields().each(function() {
         $(this).data('last', $(this).prop('disabled'));
     });
-    $('#form_feedbacksession').find('text,input,button,textarea,select')
+    $('#form-feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
 
     destroyEditor('instructions');
@@ -181,7 +181,7 @@ function enableEditFS() {
     // as students without accounts need to receive the session opening email to respond
     var $sessionOpeningReminder = $('#sendreminderemail_open');
     
-    $('#form_feedbacksession').find('text,input,button,textarea,select')
+    $('#form-feedbacksession').find('text,input,button,textarea,select')
                               .not($customDateTimeFields)
                               .not($sessionOpeningReminder)
                               .not('.disabled')

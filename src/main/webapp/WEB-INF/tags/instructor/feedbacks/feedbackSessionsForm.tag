@@ -10,7 +10,7 @@
 <div class="well well-plain">
     <form class="form-group" method="post"
         action="${fsForm.formSubmitAction}"
-        id="form_feedbacksession">
+        id="form-feedbacksession">
         
         <feedbacks:feedbackSessionsFormHeader fsForm="${fsForm}" />
         
