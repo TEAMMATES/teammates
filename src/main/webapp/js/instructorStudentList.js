@@ -85,7 +85,7 @@ $(document).ready(function() {
     });
 
     // Binding for 'Select All' course option
-    $('#course_all').on('change', function() {
+    $('#course-all').on('change', function() {
         if (this.checked) {
             $('#section_all').prop('checked', true);
             $('#section_all').parent().show();
@@ -188,9 +188,9 @@ function checkCourseBinding(e) {
     
     // If all the courses are selected, check the 'Select All' option
     if ($('input[id^="course_check"]:checked').length === $('input[id^="course_check"]').length) {
-        $('#course_all').prop('checked', true);
+        $('#course-all').prop('checked', true);
     } else {
-        $('#course_all').prop('checked', false);
+        $('#course-all').prop('checked', false);
     }
     
     // If none of of the courses are selected, hide the section"s 'Select All' option

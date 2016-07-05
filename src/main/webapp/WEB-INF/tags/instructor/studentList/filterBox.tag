@@ -18,8 +18,8 @@
                 </div>
                 <br>
                 <div class="checkbox">
-                    <input type="checkbox" value="" id="course_all"> 
-                    <label for="course_all"><strong>Select all</strong></label>
+                    <input type="checkbox" value="" id="course-all"> 
+                    <label for="course-all"><strong>Select all</strong></label>
                 </div>
                 <br>
                 <c:forEach items="${filterBox.courses}" var="course" varStatus="i">
