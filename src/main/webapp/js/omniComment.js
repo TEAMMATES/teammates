@@ -41,7 +41,7 @@ $(document).ready(function() {
     });
     
     // check submit text before submit
-    $('form.form_comment').submit(function() {
+    $('form.form-comment').submit(function() {
         return checkComment(this);
     });
     

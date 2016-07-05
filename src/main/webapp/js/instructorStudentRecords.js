@@ -66,7 +66,7 @@ $(document).ready(function() {
  */
 function readyStudentRecordsPage() {
     // Bind form submission to check for blank comment field
-    $('form.form_comment').submit(function() {
+    $('form.form-comment').submit(function() {
         return checkComment(this);
     });
 
