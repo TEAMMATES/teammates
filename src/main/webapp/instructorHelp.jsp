@@ -7674,7 +7674,7 @@
                             </div>
                         </div>
                         <div id="commentArea" class="well well-plain" style="">
-                            <form method="post" name="form_commentadd">
+                            <form method="post" name="form-commentadd">
                                 <div class="form-group form-inline">
                                     <label style="margin-right: 24px;">Recipient:
                                     </label>

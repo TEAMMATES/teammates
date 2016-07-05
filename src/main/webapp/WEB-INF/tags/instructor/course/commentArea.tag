@@ -5,7 +5,7 @@
 <%@ attribute name="courseId" required="true" %>
 
 <div id="commentArea" class="well well-plain" style="display: none;">
-    <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd">
+    <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form-commentadd">
         <div class="form-group form-inline">
             <label style="margin-right: 24px;">Recipient:</label> 
             

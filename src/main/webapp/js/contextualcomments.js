@@ -8,7 +8,7 @@ $(document).ready(function() {
         }
     });
     
-    $('form[name="form_commentadd"]').submit(function() {
+    $('form[name="form-commentadd"]').submit(function() {
         return checkComment(this);
     });
     

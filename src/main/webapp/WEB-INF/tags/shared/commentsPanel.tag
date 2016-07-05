@@ -62,7 +62,7 @@
                         </c:if>
                         <c:set var="newCommentIndex" value="${fn:length(commentsForStudentsTable.rows) + 1}" />
                         <li class="list-group-item list-group-item-warning" id="comment-box" style="display: none;">
-                            <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD %>" name="form_commentadd" class="form-comment">
+                            <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD %>" name="form-commentadd" class="form-comment">
                                 <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                         <p>
