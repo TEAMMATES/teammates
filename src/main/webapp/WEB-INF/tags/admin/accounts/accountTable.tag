@@ -37,7 +37,7 @@
                             <br>
                             <span class="bold">Email: </span>${row.account.email}
                         </td>
-                        <td id="courses_${row.account.googleId}">
+                        <td id="courses-${row.account.googleId}">
                             <c:choose>
                                 <c:when test="${not empty row.instructorList}">
                                     Total Courses: ${fn:length(row.instructorList)}<br>

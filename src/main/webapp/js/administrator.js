@@ -117,7 +117,7 @@ function showHideErrorMessage(s) {
 }
 
 function toggleDeleteAccountConfirmation(googleId) {
-    var rawList = document.getElementById('courses_' + googleId).innerHTML;
+    var rawList = document.getElementById('courses-' + googleId).innerHTML;
     var list = rawList.replace(/<br>/g, '\n').trim() + '\n\n';
 
     return confirm('Are you sure you want to delete the account ' + googleId
