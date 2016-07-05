@@ -60,7 +60,7 @@
         
         <%-- Reset Google ID --%>
         <c:if test="${not empty student.googleId}">
-            <button type="button" id="${student.googleId}_resetGoogleId"
+            <button type="button" id="${student.googleId}-resetGoogleId"
                     onclick="submitResetGoogleIdAjaxRequest('${student.courseId}' , '${student.email}', '${student.googleId}', this);"
                     class="btn btn-link btn-xs resetGoogleIdButton">
                     
