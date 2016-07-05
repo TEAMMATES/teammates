@@ -107,9 +107,9 @@
                         <br>
                         <div class="checkbox">
                             <input type="checkbox" value=""
-                                id="status_all"
+                                id="status-all"
                                 checked> 
-                            <label for="status_all">
+                            <label for="status-all">
                                 <strong>All</strong>
                             </label>
                         </div>

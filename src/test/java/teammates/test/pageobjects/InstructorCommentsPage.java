@@ -69,7 +69,7 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     public void showCommentsFromAllStatus() {
-        browser.driver.findElement(By.id("status_all")).click();
+        browser.driver.findElement(By.id("status-all")).click();
     }
     
     public void showCommentsForPanel(int panelIdx) {
