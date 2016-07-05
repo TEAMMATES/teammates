@@ -45,7 +45,7 @@
 	                    </c:otherwise>
 	                </c:choose>
 	            </a>
-	            <a href="${data.logoutUrl}" class="btn btn-danger" id="button_cancel">
+	            <a href="${data.logoutUrl}" class="btn btn-danger" id="button-cancel">
 	                <c:choose>
 	                    <c:when test="${data.redirectResult}">
 	                        Do not register as <strong>${data.account.googleId}</strong>

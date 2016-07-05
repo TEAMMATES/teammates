@@ -20,7 +20,7 @@
                     <br>If this is you, please confirm below to complete your registration. <br>
             <div class="align-center">
                 <a href="${data.confirmationLink}" id="button_confirm"
-                    class="btn btn-success">Yes, this is my account</a> <a href="${logoutUrl}" id="button_cancel"
+                    class="btn btn-success">Yes, this is my account</a> <a href="${logoutUrl}" id="button-cancel"
                     class="btn btn-danger">No, this is not my account</a>
             </div>
             </p>

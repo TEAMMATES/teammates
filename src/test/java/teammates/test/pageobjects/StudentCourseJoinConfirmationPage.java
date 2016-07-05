@@ -7,7 +7,7 @@ public class StudentCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_confirm")
     protected WebElement confirmButton;
     
-    @FindBy(id = "button_cancel")
+    @FindBy(id = "button-cancel")
     protected WebElement cancelButton;
     
     public StudentCourseJoinConfirmationPage(Browser browser) {
