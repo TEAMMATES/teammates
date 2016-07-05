@@ -2,8 +2,8 @@ QUnit.module('instructorStudentList.js');
 
 QUnit.test('filterSection()', function(assert) {
 
-    if (!$('#show_email').is(':checked')) {
-        $('#show_email').click();
+    if (!$('#show-email').is(':checked')) {
+        $('#show-email').click();
     }
 
     // Manually reset view first
@@ -79,8 +79,8 @@ QUnit.test('filterTeam()', function(assert) {
     if (!$('#option_check').is(':checked')) {
         $('#option_check').click();
     }
-    if (!$('#show_email').is(':checked')) {
-        $('#show_email').click();
+    if (!$('#show-email').is(':checked')) {
+        $('#show-email').click();
     }
 
     // Manually reset view first

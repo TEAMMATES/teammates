@@ -21,7 +21,7 @@ $(document).ready(function() {
     });
 
     // Binding for 'Show Emails' check box.
-    $('#show_email').on('change', function() {
+    $('#show-email').on('change', function() {
         if (this.checked) {
             $('#emails').show();
         } else {
@@ -55,10 +55,10 @@ $(document).ready(function() {
         // If none of of the sections are selected, hide the team's 'Select All' option
         if ($('input[id^="section-check"]:checked').length === 0) {
             $('#team_all').parent().hide();
-            $('#show_email').parent().hide();
+            $('#show-email').parent().hide();
         } else {
             $('#team_all').parent().show();
-            $('#show_email').parent().show();
+            $('#show-email').parent().show();
         }
 
         // If all the currently visible sections are selected, check the "Select All" option
@@ -74,9 +74,9 @@ $(document).ready(function() {
     // Binding for Teams checkboxes.
     $(document).on('change', '.team_check', function() {
         if ($('input[id^="team_check"]:checked').length === 0) {
-            $('#show_email').parent().hide();
+            $('#show-email').parent().hide();
         } else {
-            $('#show_email').parent().show();
+            $('#show-email').parent().show();
         }
 
         // If all the currently visible teams are selected, check the "Select All" option
@@ -91,7 +91,7 @@ $(document).ready(function() {
             $('#section-all').parent().show();
             $('#team_all').prop('checked', true);
             $('#team_all').parent().show();
-            $('#show_email').parent().show();
+            $('#show-email').parent().show();
             $('input[id^="course-check"]').prop('checked', true);
             $('input[id^="section-check-"]').prop('checked', true);
             $('input[id^="section-check-"]').parent().show();
@@ -106,7 +106,7 @@ $(document).ready(function() {
             $('#section-all').parent().hide();
             $('#team_all').prop('checked', false);
             $('#team_all').parent().hide();
-            $('#show_email').parent().hide();
+            $('#show-email').parent().hide();
             $('input[id^="section-check-"]').prop('checked', false);
             $('input[id^="section-check-"]').parent().remove();
             $('input[id^="course-check"]').prop('checked', false);
@@ -128,14 +128,14 @@ $(document).ready(function() {
         if (this.checked) {
             $('#team_all').prop('checked', true);
             $('#team_all').parent().show();
-            $('#show_email').parent().show();
+            $('#show-email').parent().show();
             $('input[id^="section-check-"]').prop('checked', true);
             $('input[id^="team_check-"]').prop('checked', true);
             $('input[id^="team_check-"]').parent().show();
         } else {
             $('#team_all').prop('checked', false);
             $('#team_all').parent().hide();
-            $('#show_email').parent().hide();
+            $('#show-email').parent().hide();
             $('input[id^="section-check-"]').prop('checked', false);
             $('input[id^="team_check-"]').prop('checked', false);
             $('input[id^="team_check-"]').parent().hide();
@@ -197,11 +197,11 @@ function checkCourseBinding(e) {
     if ($('input[id^="course-check"]:checked').length === 0) {
         $('#section-all').parent().hide();
         $('#team_all').parent().hide();
-        $('#show_email').parent().hide();
+        $('#show-email').parent().hide();
     } else {
         $('#section-all').parent().show();
         $('#team_all').parent().show();
-        $('#show_email').parent().show();
+        $('#show-email').parent().show();
     }
     
     // If all the currently visible sections are selected, check the 'Select All' option

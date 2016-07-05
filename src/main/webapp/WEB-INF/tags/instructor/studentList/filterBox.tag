@@ -63,8 +63,8 @@
                 </div>
                 <br>
                 <div class="checkbox" style="display:none;">
-                    <input id="show_email" type="checkbox" checked>
-                    <label for="show_email"><strong>Show Emails</strong></label>
+                    <input id="show-email" type="checkbox" checked>
+                    <label for="show-email"><strong>Show Emails</strong></label>
                 </div>
                 <br>
                 <div id="emails">
