@@ -308,7 +308,7 @@ function filterTeam() {
 
 /**
  * Hide student email view based on search key
- * Uses the hidden attributes of the student_row inside dataTable
+ * Uses the hidden attributes of the student-row inside dataTable
  */
 function filterEmails() {
     var uniqueEmails = {};

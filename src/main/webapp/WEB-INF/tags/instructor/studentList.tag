@@ -76,7 +76,7 @@
                                     ${student.studentEmail}
                                 </div>
                             </c:if>
-                            <tr class="student_row" id="student-c${courseIndex}.${studentIndex}">
+                            <tr class="student-row" id="student-c${courseIndex}.${studentIndex}">
                                 <td id="studentphoto-c${courseIndex}.${studentIndex}">
                                     <div class="profile-pic-icon-click align-center" data-link="${student.photoUrl}">
                                         <a class="student-profile-pic-view-link btn-link">View Photo</a>

@@ -183,7 +183,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
     
     private int getStudentRowId(String studentName) {
-        int studentCount = browser.driver.findElements(By.className("student_row")).size();
+        int studentCount = browser.driver.findElements(By.className("student-row")).size();
         for (int i = 0; i < studentCount; i++) {
             String studentNameInRow = getStudentNameInRow(i);
             if (studentNameInRow.equals(studentName)) {
