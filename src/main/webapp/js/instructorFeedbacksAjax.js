@@ -35,7 +35,7 @@ var ajaxRequest = function(e) {
             var appendedModalBody = $(data).find('#copySessionsBody').html();
             var appendedSessionTable = $(data).find('#sessionList').html();
 
-            $('#button_copy').text('Copy from previous feedback sessions');
+            $('#button-copy').text('Copy from previous feedback sessions');
             $('#copySessionsBody').html(appendedModalBody);
             $('#sessionList').removeClass('align-center')
                              .html(appendedSessionTable);

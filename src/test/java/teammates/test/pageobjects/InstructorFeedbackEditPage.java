@@ -130,7 +130,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_fscopy")
     private WebElement fscopyButton;
 
-    @FindBy(id = "button_copy")
+    @FindBy(id = "button-copy")
     private WebElement copyQuestionLoadButton;
     
     @FindBy(id = "button_copy_submit")
@@ -366,7 +366,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * @param actionLink value to change to
      */
     public void changeActionLinkOnCopyButton(String actionLink) {
-        String selector = "$('#button_copy')";
+        String selector = "$('#button-copy')";
         String action = ".data('actionlink', '" + actionLink + "')";
         ((JavascriptExecutor) browser.driver).executeScript(selector + action);
     }

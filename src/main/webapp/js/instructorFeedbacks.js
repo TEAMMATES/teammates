@@ -123,7 +123,7 @@ function convertDateToHHMM(date) {
 }
 
 function bindCopyButton() {
-    $('#button_copy').on('click', function(e) {
+    $('#button-copy').on('click', function(e) {
         e.preventDefault();
         var selectedCourseId = $('#' + COURSE_ID + ' option:selected').text();
         var newFeedbackSessionName = $('#' + FEEDBACK_SESSION_NAME).val();

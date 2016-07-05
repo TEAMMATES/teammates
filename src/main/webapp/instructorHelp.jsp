@@ -252,7 +252,7 @@
                                 </div>
                                 <h4 class="label-control col-md-1 text-md">Or: </h4>
                                 <div class="col-md-3">
-                                    <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
+                                    <a id="button-copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
                                 </div>
                             </div>
                         </div>
@@ -1341,7 +1341,7 @@
                                     </div>
                                     <h4 class="label-control col-md-1 text-md">Or: </h4>
                                     <div class="col-md-3">
-                                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
+                                        <a id="button-copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
                                     </div>
                                 </div>
                                 <br>
@@ -1783,7 +1783,7 @@
                                 <a id="button_openframe" class="btn btn-primary" value="Add New Question">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
                             </div>
                             <div class="col-sm-2">
-                                <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
+                                <a id="button-copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
                             </div>
                             <div class="col-sm-2">
                                 <a class="btn btn-primary">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>

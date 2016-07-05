@@ -31,7 +31,7 @@
         </div>
         <h4 class="label-control col-xs-12 col-md-1 text-md">Or: </h4>
         <div class="col-xs-12 col-md-3">
-            <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Loading...</a>
+            <a id="button-copy" class="btn btn-info" style="vertical-align:middle;">Loading...</a>
         </div>
     </div>
 </c:if>

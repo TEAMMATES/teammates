@@ -81,7 +81,7 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = "button_submit")
     private WebElement submitButton;
     
-    @FindBy(id = "button_copy")
+    @FindBy(id = "button-copy")
     private WebElement copyButton;
     
     @FindBy(id = "button_copy_submit")
@@ -239,7 +239,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
-        String copyButtonId = "button_copy";
+        String copyButtonId = "button-copy";
         this.waitForTextContainedInElementPresence(
                 By.id(copyButtonId), "Copy from previous feedback sessions");
         clickCopyButton();
