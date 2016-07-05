@@ -34,7 +34,7 @@
                     <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this)">
                         Status <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
+                    <th id="button-sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
                         Email <span class="icon-sort unsorted"></span>
                     </th>
                     <th>Action(s)</th>

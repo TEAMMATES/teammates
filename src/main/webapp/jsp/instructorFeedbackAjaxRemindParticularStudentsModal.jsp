@@ -17,7 +17,7 @@
             Student Name
             <span class="icon-sort unsorted"></span>
         </th>
-        <th onclick="toggleSort(this);" class="button_sortemail button-sort-none">
+        <th onclick="toggleSort(this);" class="button-sortemail button-sort-none">
             Email
             <span class="icon-sort unsorted"></span>
         </th>
