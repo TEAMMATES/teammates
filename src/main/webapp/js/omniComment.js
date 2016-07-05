@@ -84,15 +84,15 @@ $(document).ready(function() {
             $('#no-comment-panel').show();
             // if all is checked, show giver and status for better user experience
             if ($('#panel_all').prop('checked')) {
-                $('#giver_all').closest('.filter-options').show();
+                $('#giver-all').closest('.filter-options').show();
                 $('#status_all').closest('.filter-options').show();
             } else {
-                $('#giver_all').closest('.filter-options').hide();
+                $('#giver-all').closest('.filter-options').hide();
                 $('#status_all').closest('.filter-options').hide();
             }
         } else {
             $('#no-comment-panel').hide();
-            $('#giver_all').closest('.filter-options').show();
+            $('#giver-all').closest('.filter-options').show();
             $('#status_all').closest('.filter-options').show();
         }
         
@@ -108,9 +108,9 @@ $(document).ready(function() {
     }
     
     // Binding for "Display All" giver option
-    $('#giver_all').click(function() {
-        // use giver_all checkbox to control its children checkboxes.
-        if ($('#giver_all').is(':checked')) {
+    $('#giver-all').click(function() {
+        // use giver-all checkbox to control its children checkboxes.
+        if ($('#giver-all').is(':checked')) {
             $('input[id^=giver_check]').prop('checked', true);
             $('#status_all').prop('disabled', false);
             $('input[id^=status_check]').prop('disabled', false);
@@ -125,13 +125,13 @@ $(document).ready(function() {
     
     // Binding for changes in the giver checkboxes.
     $('input[id^=giver_check]').change(function() {
-        // based on the selected checkboxes, check/uncheck giver_all checkbox
+        // based on the selected checkboxes, check/uncheck giver-all checkbox
         if ($("input[id^='giver_check']:checked").length === $("input[id^='giver_check']").length) {
-            $('#giver_all').prop('checked', true);
+            $('#giver-all').prop('checked', true);
             $('#status_all').prop('disabled', false);
             $('input[id^=status_check]').prop('disabled', false);
         } else {
-            $('#giver_all').prop('checked', false);
+            $('#giver-all').prop('checked', false);
             $('#status_all').prop('disabled', true);
             $('input[id^=status_check]').prop('disabled', true);
         }
@@ -159,11 +159,11 @@ $(document).ready(function() {
         // use status_all checkbox to control its children checkboxes.
         if ($('#status_all').is(':checked')) {
             $('input[id^=status_check]').prop('checked', true);
-            $('#giver_all').prop('disabled', false);
+            $('#giver-all').prop('disabled', false);
             $('input[id^=giver_check]').prop('disabled', false);
         } else {
             $('input[id^=status_check]').prop('checked', false);
-            $('#giver_all').prop('disabled', true);
+            $('#giver-all').prop('disabled', true);
             $('input[id^=giver_check]').prop('disabled', true);
         }
         
@@ -175,11 +175,11 @@ $(document).ready(function() {
         // based on the selected checkboxes, check/uncheck status_all checkbox
         if ($("input[id^='status_check']:checked").length === $("input[id^='status_check']").length) {
             $('#status_all').prop('checked', true);
-            $('#giver_all').prop('disabled', false);
+            $('#giver-all').prop('disabled', false);
             $('input[id^=giver_check]').prop('disabled', false);
         } else {
             $('#status_all').prop('checked', false);
-            $('#giver_all').prop('disabled', true);
+            $('#giver-all').prop('disabled', true);
             $('input[id^=giver_check]').prop('disabled', true);
         }
         

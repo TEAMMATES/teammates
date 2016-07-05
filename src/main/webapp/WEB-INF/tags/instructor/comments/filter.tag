@@ -76,9 +76,9 @@
                         <br>
                         <div class="checkbox">
                             <input type="checkbox" value=""
-                                id="giver_all"
+                                id="giver-all"
                                 checked> 
-                            <label for="giver_all">
+                            <label for="giver-all">
                                 <strong>All</strong>
                             </label>
                         </div>
