@@ -19,7 +19,7 @@
                         Institute <span class="icon-sort unsorted" id="button_sort_institute"></span>
                     </th>
                     <th width="30%" onclick="toggleSort(this); reLabelOrderedAccountEntries();" class="button-sort-ascending">
-                        Create At <span class="icon-sort unsorted" id="button_sort_createat"></span>
+                        Create At <span class="icon-sort unsorted" id="button-sort-createat"></span>
                     </th>
                     <th width="5%">Options</th>
                 </tr>
