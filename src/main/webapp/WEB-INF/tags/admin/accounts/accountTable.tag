@@ -51,7 +51,7 @@
                             </c:choose>
                         </td>
                         <td id="${row.account.googleId}_institude">${row.account.institute}</td>
-                        <td id="${row.account.googleId}_createAt">${row.createdAt}</td>
+                        <td id="${row.account.googleId}-createAt">${row.createdAt}</td>
                         <td>
                             <a class="btn btn-link btn-xs" id="${row.account.googleId}_details"
                                 href="${row.adminViewAccountDetailsLink}" target="blank">
