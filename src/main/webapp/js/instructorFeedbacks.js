@@ -39,7 +39,7 @@ function checkFeedbackQuestion(form) {
 }
 
 function getQuestionNumFromEditForm(form) {
-    if ($(form).attr('name') === 'form_addquestions') {
+    if ($(form).attr('name') === 'form-addquestions') {
         return -1;
     }
     return extractQuestionNumFromEditFormId($(form).attr('id'));
