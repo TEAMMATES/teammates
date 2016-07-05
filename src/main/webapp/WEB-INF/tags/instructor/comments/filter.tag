@@ -92,10 +92,10 @@
                             </label>
                         </div>
                         <div class="checkbox">
-                            <input id="giver_check-by-others"
+                            <input id="giver-check-by-others"
                                 type="checkbox"
                                 checked>
-                            <label for="giver_check-by-others">
+                            <label for="giver-check-by-others">
                                 Others
                             </label>
                         </div>
