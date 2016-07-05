@@ -116,30 +116,30 @@ function showHideErrorMessage(s) {
     $('#' + s).toggle();
 }
 
-jQuery(document).ready(function() {
+$(document).ready(function() {
     var offset = 220;
     var duration = 500;
-    jQuery(window).scroll(function() {
-        if (jQuery(this).scrollTop() > offset) {
-            jQuery('.back-to-top-left').fadeIn(duration);
-            jQuery('.back-to-top-right').fadeIn(duration);
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > offset) {
+            $('.back-to-top-left').fadeIn(duration);
+            $('.back-to-top-right').fadeIn(duration);
         } else {
-            jQuery('.back-to-top-left').fadeOut(duration);
-            jQuery('.back-to-top-right').fadeOut(duration);
+            $('.back-to-top-left').fadeOut(duration);
+            $('.back-to-top-right').fadeOut(duration);
         }
     });
 
-    jQuery('.back-to-top-left').click(function(event) {
+    $('.back-to-top-left').click(function(event) {
         event.preventDefault();
-        jQuery('html, body').animate({
+        $('html, body').animate({
             scrollTop: 0
         }, duration);
         return false;
     });
 
-    jQuery('.back-to-top-right').click(function(event) {
+    $('.back-to-top-right').click(function(event) {
         event.preventDefault();
-        jQuery('html, body').animate({
+        $('html, body').animate({
             scrollTop: 0
         }, duration);
         return false;
