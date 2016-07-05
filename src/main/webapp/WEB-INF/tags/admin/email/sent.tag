@@ -31,7 +31,7 @@
                         <th onclick="toggleSort(this);"
                             class="button-sort-ascending">Date <span
                             class="icon-sort unsorted"
-                            id="button_sort_date"></span></th>
+                            id="button-sort-date"></span></th>
                     </tr>
                 </thead>
                 <tbody>

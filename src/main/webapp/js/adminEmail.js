@@ -44,7 +44,7 @@ $(document).ready(function() {
         }
     });
     
-    toggleSort($('#button_sort_date').parent());
+    toggleSort($('#button-sort-date').parent());
 });
 
 function createGroupReceiverListUploadUrl() {
