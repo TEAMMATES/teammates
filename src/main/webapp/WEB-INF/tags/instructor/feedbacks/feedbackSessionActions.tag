@@ -37,7 +37,7 @@
    data-toggle="modal"
    data-target="#fsCopyModal"
    data-placement="top"
-   id="button_fscopy-${actions.courseId}-${actions.fsName}">
+   id="button-fscopy-${actions.courseId}-${actions.fsName}">
     Copy
 </a>
 <div title="<%= Const.Tooltips.FEEDBACK_SESSION_SUBMIT %>"

@@ -62,7 +62,7 @@
                         data-courseid="${fsForm.courseId}"
                         data-fsname="${fsForm.fsName}"
                         data-target="#fsCopyModal"
-                        data-placement="top" id="button_fscopy"
+                        data-placement="top" id="button-fscopy"
                         data-toggle="modal">
                         Copy
                     </a>

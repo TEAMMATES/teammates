@@ -127,7 +127,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='custom']")
     private WebElement customNumOfRecipients;
     
-    @FindBy(id = "button_fscopy")
+    @FindBy(id = "button-fscopy")
     private WebElement fscopyButton;
 
     @FindBy(id = "button-copy")
