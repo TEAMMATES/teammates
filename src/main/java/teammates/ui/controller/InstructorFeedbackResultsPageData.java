@@ -1036,7 +1036,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 new ElementTag("Team", "id", "button-sortFromTeam", "class", "button-sort-ascending", "onclick",
                                "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
         ElementTag recipientElement =
-                new ElementTag("Recipient", "id", "button_sortTo", "class", "button-sort-none", "onclick",
+                new ElementTag("Recipient", "id", "button-sortTo", "class", "button-sort-none", "onclick",
                                "toggleSort(this)", "style", "width: 15%; min-width: 90px;");
         ElementTag responseElement =
                 new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick",

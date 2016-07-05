@@ -15,7 +15,7 @@
                             onclick="toggleSort(this)" style="width: 30%;">
                             Team<span class="icon-sort unsorted"></span>
                         </th>
-                        <th id="button_sortTo" class="button-sort-none"
+                        <th id="button-sortTo" class="button-sort-none"
                             onclick="toggleSort(this)" style="width: 30%;">
                             Name<span class="icon-sort unsorted"></span>
                         </th>
