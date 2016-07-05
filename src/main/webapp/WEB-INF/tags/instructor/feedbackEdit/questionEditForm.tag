@@ -12,7 +12,7 @@
 
 <form class="form-horizontal form_question" role="form" method="post"
     action="${fqForm.action}"
-    id="form_editquestion-${fqForm.questionIndex}" name="form_editquestions"
+    id="form_editquestion-${fqForm.questionIndex}" name="form-editquestions"
     onsubmit="tallyCheckboxes(${fqForm.questionIndex})"
     ${ fqForm.questionHasResponses ? 'editStatus="hasResponses"' : '' }>
     <div class="panel panel-primary questionTable" id="questionTable${fqForm.questionIndex}">
