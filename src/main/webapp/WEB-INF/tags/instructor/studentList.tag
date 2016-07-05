@@ -240,7 +240,7 @@
         <c:otherwise>
             <thead class="${tableHeaderClass}">
                 <tr>
-                    <th class="align-center color_white bold">There are no students in this course</th>
+                    <th class="align-center color-white bold">There are no students in this course</th>
                 </tr>
             </thead>
         </c:otherwise>

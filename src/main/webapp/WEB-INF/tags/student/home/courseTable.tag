@@ -32,7 +32,7 @@
         </c:when>
         <c:otherwise>
             <tr>
-                <th class="align-center bold color_white">
+                <th class="align-center bold color-white">
                     Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
                 </th>
             </tr>
