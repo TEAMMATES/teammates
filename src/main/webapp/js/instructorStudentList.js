@@ -45,11 +45,11 @@ $(document).ready(function() {
 
         // Check/hide all teams that is in this section
         if (this.checked) {
-            $('input[id^="team_check-' + courseIdx + '-' + sectionIdx + '-"]').prop('checked', true);
-            $('input[id^="team_check-' + courseIdx + '-' + sectionIdx + '-"]').parent().show();
+            $('input[id^="team-check-' + courseIdx + '-' + sectionIdx + '-"]').prop('checked', true);
+            $('input[id^="team-check-' + courseIdx + '-' + sectionIdx + '-"]').parent().show();
         } else {
-            $('input[id^="team_check-' + courseIdx + '-' + sectionIdx + '-"]').prop('checked', false);
-            $('input[id^="team_check-' + courseIdx + '-' + sectionIdx + '-"]').parent().hide();
+            $('input[id^="team-check-' + courseIdx + '-' + sectionIdx + '-"]').prop('checked', false);
+            $('input[id^="team-check-' + courseIdx + '-' + sectionIdx + '-"]').parent().hide();
         }
 
         // If none of of the sections are selected, hide the team's 'Select All' option
@@ -72,8 +72,8 @@ $(document).ready(function() {
     });
 
     // Binding for Teams checkboxes.
-    $(document).on('change', '.team_check', function() {
-        if ($('input[id^="team_check"]:checked').length === 0) {
+    $(document).on('change', '.team-check', function() {
+        if ($('input[id^="team-check"]:checked').length === 0) {
             $('#show-email').parent().hide();
         } else {
             $('#show-email').parent().show();
@@ -95,8 +95,8 @@ $(document).ready(function() {
             $('input[id^="course-check"]').prop('checked', true);
             $('input[id^="section-check-"]').prop('checked', true);
             $('input[id^="section-check-"]').parent().show();
-            $('input[id^="team_check-"]').prop('checked', true);
-            $('input[id^="team_check-"]').parent().show();
+            $('input[id^="team-check-"]').prop('checked', true);
+            $('input[id^="team-check-"]').parent().show();
             var headings = $('.ajax-submit');
             for (var idx = 0; idx < headings.length; idx++) {
                 setTimeout(triggerAjax, 400 * idx, headings[idx]);
@@ -110,8 +110,8 @@ $(document).ready(function() {
             $('input[id^="section-check-"]').prop('checked', false);
             $('input[id^="section-check-"]').parent().remove();
             $('input[id^="course-check"]').prop('checked', false);
-            $('input[id^="team_check-"]').prop('checked', false);
-            $('input[id^="team_check-"]').parent().remove();
+            $('input[id^="team-check-"]').prop('checked', false);
+            $('input[id^="team-check-"]').parent().remove();
             var heads = $('.panel-heading');
             for (var i = 0; i < heads.length; i++) {
                 var className = $(heads[i]).attr('class');
@@ -130,22 +130,22 @@ $(document).ready(function() {
             $('#team-all').parent().show();
             $('#show-email').parent().show();
             $('input[id^="section-check-"]').prop('checked', true);
-            $('input[id^="team_check-"]').prop('checked', true);
-            $('input[id^="team_check-"]').parent().show();
+            $('input[id^="team-check-"]').prop('checked', true);
+            $('input[id^="team-check-"]').parent().show();
         } else {
             $('#team-all').prop('checked', false);
             $('#team-all').parent().hide();
             $('#show-email').parent().hide();
             $('input[id^="section-check-"]').prop('checked', false);
-            $('input[id^="team_check-"]').prop('checked', false);
-            $('input[id^="team_check-"]').parent().hide();
+            $('input[id^="team-check-"]').prop('checked', false);
+            $('input[id^="team-check-"]').parent().hide();
         }
         applyFilters();
     });
 
     // Binding for 'Select All' team option
     $('#team-all').on('change', function() {
-        $('input[id^="team_check"]:visible').prop('checked', this.checked);
+        $('input[id^="team-check"]:visible').prop('checked', this.checked);
         applyFilters();
     });
 
@@ -176,13 +176,13 @@ function checkCourseBinding(e) {
     if ($(e).prop('checked')) {
         $('input[id^="section-check-' + courseIdx + '-"]').prop('checked', true);
         $('input[id^="section-check-' + courseIdx + '-"]').parent().show();
-        $('input[id^="team_check-' + courseIdx + '-"]').prop('checked', true);
-        $('input[id^="team_check-' + courseIdx + '-"]').parent().show();
+        $('input[id^="team-check-' + courseIdx + '-"]').prop('checked', true);
+        $('input[id^="team-check-' + courseIdx + '-"]').parent().show();
     } else {
         $('input[id^="section-check-' + courseIdx + '-"]').prop('checked', false);
         $('input[id^="section-check-' + courseIdx + '-"]').parent().remove();
-        $('input[id^="team_check-' + courseIdx + '-"]').prop('checked', false);
-        $('input[id^="team_check-' + courseIdx + '-"]').parent().remove();
+        $('input[id^="team-check-' + courseIdx + '-"]').prop('checked', false);
+        $('input[id^="team-check-' + courseIdx + '-"]').parent().remove();
         $('div[id^="student-email-c' + courseIdx + '"]').remove();
     }
     
@@ -227,7 +227,7 @@ function checkAllSectionsSelected() {
  * Check if all available teams are selected
  */
 function checkAllTeamsSelected() {
-    if ($('input[id^="team_check"]:visible:checked').length === $('input[id^="team_check"]:visible').length) {
+    if ($('input[id^="team-check"]:visible:checked').length === $('input[id^="team-check"]:visible').length) {
         $('#team-all').prop('checked', true);
     } else {
         $('#team-all').prop('checked', false);
@@ -294,7 +294,7 @@ function filterSection() {
  * Hide teams that are not selected
  */
 function filterTeam() {
-    $('input[id^="team_check"]').each(function() {
+    $('input[id^="team-check"]').each(function() {
         var courseIdx = $(this).attr('id').split('-')[1];
         var sectionIdx = $(this).attr('id').split('-')[2];
         var teamIdx = $(this).attr('id').split('-')[3];
