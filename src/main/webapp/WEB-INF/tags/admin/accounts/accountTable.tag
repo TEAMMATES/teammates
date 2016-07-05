@@ -69,7 +69,7 @@
                             </a>
 
                             <form method="post" target="blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
-                                <button type="submit"  id="${row.account.googleId}_recentActions" class="btn btn-link btn-xs">
+                                <button type="submit"  id="${row.account.googleId}-recentActions" class="btn btn-link btn-xs">
                                     <span class="glyphicon glyphicon-zoom-in"></span>
                                     View Recent Actions
                                 </button>

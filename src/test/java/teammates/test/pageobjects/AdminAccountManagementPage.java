@@ -38,7 +38,7 @@ public class AdminAccountManagementPage extends AppPage {
     
     public AdminActivityLogPage clickViewRecentActions(
             String instructorId) {
-        browser.driver.findElement(By.id(instructorId + "_recentActions")).click();
+        browser.driver.findElement(By.id(instructorId + "-recentActions")).click();
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(AdminActivityLogPage.class);

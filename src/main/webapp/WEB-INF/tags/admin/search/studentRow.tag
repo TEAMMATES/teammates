@@ -47,7 +47,7 @@
         <%-- View recent actions --%>
         <c:if test="${not empty student.viewRecentActionsId}">
             <form method="post" target="blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
-                <button type="submit" id="${student.viewRecentActionsId}_recentActions"
+                <button type="submit" id="${student.viewRecentActionsId}-recentActions"
                         class="btn btn-link btn-xs recentActionButton">
                         
                     <span class="glyphicon glyphicon-zoom-in"></span>View Recent Actions
