@@ -38,10 +38,10 @@
                         </div>
                         <br>
                         <div class="checkbox">
-                            <input id="panel_all"
+                            <input id="panel-all"
                                 type="checkbox"
                                 checked>
-                            <label for="panel_all"><strong>All</strong></label>
+                            <label for="panel-all"><strong>All</strong></label>
                         </div>
                         <br>
                         <c:set var="panelIdx" value="0" scope="page" />

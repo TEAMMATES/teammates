@@ -55,9 +55,9 @@ $(document).ready(function() {
     });
     
     // Binding for "Display All" panel option
-    $('#panel_all').click(function() {
-        // use panel_all checkbox to control its children checkboxes.
-        if ($('#panel_all').is(':checked')) {
+    $('#panel-all').click(function() {
+        // use panel-all checkbox to control its children checkboxes.
+        if ($('#panel-all').is(':checked')) {
             $('input[id^=panel_check]').prop('checked', true);
         } else {
             $('input[id^=panel_check]').prop('checked', false);
@@ -68,11 +68,11 @@ $(document).ready(function() {
     
     // Binding for changes in the panel check boxes
     $('input[id^=panel_check]').change(function() {
-        // based on the selected panel_check check boxes, check/uncheck panel_all check box
+        // based on the selected panel_check check boxes, check/uncheck panel-all check box
         if ($("input[id^='panel_check']:checked").length === $("input[id^='panel_check']").length) {
-            $('#panel_all').prop('checked', true);
+            $('#panel-all').prop('checked', true);
         } else {
-            $('#panel_all').prop('checked', false);
+            $('#panel-all').prop('checked', false);
         }
         
         filterPanel();
@@ -83,7 +83,7 @@ $(document).ready(function() {
         if ($("input[id^='panel_check']:checked").length === 0) {
             $('#no-comment-panel').show();
             // if all is checked, show giver and status for better user experience
-            if ($('#panel_all').prop('checked')) {
+            if ($('#panel-all').prop('checked')) {
                 $('#giver-all').closest('.filter-options').show();
                 $('#status_all').closest('.filter-options').show();
             } else {

@@ -61,7 +61,7 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     public void showCommentsForAll() {
-        browser.driver.findElement(By.id("panel_all")).click();
+        browser.driver.findElement(By.id("panel-all")).click();
     }
     
     public void showCommentsFromAll() {
