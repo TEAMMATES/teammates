@@ -158,12 +158,11 @@ function updateStatsCheckBox() {
     $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
 }
 
-function printView() {
-    $('.panel-success').printThis({
+function printView() {  
+    $('.panel').printThis({
         importCSS: true,
         importStyle: true,
-        loadCSS: "/stylesheets/printview.css",
-        header: "<h1>Group By View</h1>"
+        loadCSS: "/stylesheets/printview.css"
     });
 }
 
