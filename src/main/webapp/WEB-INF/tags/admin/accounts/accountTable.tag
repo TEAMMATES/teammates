@@ -58,7 +58,7 @@
                                 <span class="glyphicon glyphicon-info-sign"></span> View Details
                             </a>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <a class="btn btn-link btn-xs" id="${row.account.googleId}_delete"
+                            <a class="btn btn-link btn-xs" id="${row.account.googleId}-delete"
                                 href="${row.adminDeleteInstructorStatusLink}" role="button">
                                 <span class="glyphicon glyphicon-remove"></span> Delete Instructor Status
                             </a>

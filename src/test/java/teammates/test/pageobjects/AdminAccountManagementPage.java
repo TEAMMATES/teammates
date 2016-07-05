@@ -23,7 +23,7 @@ public class AdminAccountManagementPage extends AppPage {
 
     public AdminAccountManagementPage clickDeleteInstructorStatus(
             String instructorId) {
-        browser.driver.findElement(By.id(instructorId + "_delete")).click();
+        browser.driver.findElement(By.id(instructorId + "-delete")).click();
         waitForPageToLoad();
         return this;
     }
