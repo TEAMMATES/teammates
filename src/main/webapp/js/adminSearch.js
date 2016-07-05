@@ -99,13 +99,13 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
 
 function adminSearchDiscloseAllStudents() {
     
-    $('.fslink_student').slideDown();
+    $('.fslink-student').slideDown();
     $('.studentRow').attr('class', 'studentRow active');
     
 }
 
 function adminSearchCollapseAllStudents() {
-    $('.fslink_student').hide();
+    $('.fslink-student').hide();
     $('.studentRow').attr('class', 'studentRow');
 }
 
