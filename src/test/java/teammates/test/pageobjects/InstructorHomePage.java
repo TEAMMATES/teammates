@@ -32,7 +32,7 @@ public class InstructorHomePage extends AppPage {
     @FindBy(className = "button_sortstartdate")
     private List<WebElement> tablesSortByStartDate;
 
-    @FindBy(className = "button_sortenddate")
+    @FindBy(className = "button-sortenddate")
     private List<WebElement> tablesSortByEndDate;
 
     private InstructorCopyFsToModal fsCopyModal;
