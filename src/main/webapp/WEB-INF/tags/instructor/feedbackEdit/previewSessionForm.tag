@@ -52,7 +52,7 @@
                 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${previewForm.fsName}">
                 <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${previewForm.courseId}">
                 <div class="col-sm-6">
-                    <input id="button_preview_instructor" type="submit" class="btn btn-primary" value="Preview as Instructor">
+                    <input id="button-preview-instructor" type="submit" class="btn btn-primary" value="Preview as Instructor">
                 </div>
                 <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
             </form>

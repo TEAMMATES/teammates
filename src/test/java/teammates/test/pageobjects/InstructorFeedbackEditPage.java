@@ -139,7 +139,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_preview_student")
     private WebElement previewAsStudentButton;
     
-    @FindBy(id = "button_preview_instructor")
+    @FindBy(id = "button-preview-instructor")
     private WebElement previewAsInstructorButton;
 
     private InstructorCopyFsToModal fsCopyToModal;
