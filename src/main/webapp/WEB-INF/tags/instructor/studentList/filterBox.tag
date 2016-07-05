@@ -50,8 +50,8 @@
                 </div>
                 <br>
                 <div class="checkbox" style="display:none;">
-                    <input id="team_all" type="checkbox">
-                    <label for="team_all"><strong>Select All</strong></label>
+                    <input id="team-all" type="checkbox">
+                    <label for="team-all"><strong>Select All</strong></label>
                 </div>
                 <br>
                 <div id="teamChoices">

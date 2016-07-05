@@ -93,7 +93,7 @@ QUnit.test('filterTeam()', function(assert) {
     $('#team_check-1-0-0').click();
     assert.equal($('#studentteam-c0\\.0\\.0').is(':hidden'), true, 'Team not selected is hidden');
     assert.equal($('#studentteam-c1\\.0\\.0').is(':hidden'), true, 'Team not selected is hidden');
-    assert.equal($('#team_all').is(':checked'), false, 'Select all check should be removed');
+    assert.equal($('#team-all').is(':checked'), false, 'Select all check should be removed');
 
     assert.equal($('#student_email-c0\\.0').is(':hidden'), true, '[Team 1]Alice Betsy\'s email hidden');
     assert.equal($('#student_email-c0\\.1').is(':visible'), true, '[Team 2]Hugh Ivanov\'s email visible');
@@ -110,7 +110,7 @@ QUnit.test('filterTeam()', function(assert) {
     assert.equal($('#student_email-c1\\.8').is(':visible'), true, '[Team 3]Ian Jacobsson\'s email visible');
     assert.equal($('#student_email-c1\\.9').is(':visible'), true, '[Team 3]James K\'s email visible');
 
-    $('#team_all').click();
+    $('#team-all').click();
     assert.equal($('#studentteam-c0\\.0\\.0').is(':visible'), true, 'All teams should be visible');
     assert.equal($('#studentteam-c0\\.1\\.0').is(':visible'), true, 'All teams should be visible');
     assert.equal($('#studentteam-c0\\.1\\.1').is(':visible'), true, 'All teams should be visible');
@@ -129,7 +129,7 @@ QUnit.test('filterTeam()', function(assert) {
     // Deselect 1 team, and select back using the specific course check
     $('#team_check-1-0-2').click();
     assert.equal($('#studentteam-c1\\.0\\.2').is(':hidden'), true, 'Team not selected is hidden');
-    assert.equal($('#team_all').is(':checked'), false, 'Select all check should be removed');
+    assert.equal($('#team-all').is(':checked'), false, 'Select all check should be removed');
 
     assert.equal($('#student_email-c0\\.0').is(':visible'), true, '[Team 1]Alice Betsy\'s email visible');
     assert.equal($('#student_email-c0\\.1').is(':visible'), true, '[Team 2]Hugh Ivanov\'s email visible');
