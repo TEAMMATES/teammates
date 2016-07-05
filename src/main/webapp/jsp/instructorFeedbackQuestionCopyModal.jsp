@@ -11,7 +11,7 @@
             <th onclick="toggleSort(this);" id="button_sortfsname" class="button-sort-none" style="width:17%;">
                 Session Name <span class="icon-sort unsorted"></span>
             </th>
-            <th onclick="toggleSort(this);" id="button_sortfqtype" class="button-sort-none"> 
+            <th onclick="toggleSort(this);" id="button-sortfqtype" class="button-sort-none"> 
                 Question Type <span class="icon-sort unsorted"></span>
             </th>
             <th onclick="toggleSort(this);" id="button-sortfqtext" class="button-sort-none"> 
