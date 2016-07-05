@@ -32,7 +32,7 @@
                          onclick="loadFeedbackSession('${data.courseId}', '${data.studentEmail}', '${data.googleId}','${fsName}', this)">
                         <div class="panel-heading student_feedback" data-target="#collapse-target-feedback-${fbIndex.index}" style="cursor: pointer;">
                             <div class="display-icon pull-right"><span class="glyphicon pull-right glyphicon-chevron-up"></span></div>
-                            <span id="feedback_name-${fbIndex.index}">
+                            <span id="feedback-name-${fbIndex.index}">
                                 <strong>Feedback Session : ${fsName}</strong>
                             </span>
                         </div>
