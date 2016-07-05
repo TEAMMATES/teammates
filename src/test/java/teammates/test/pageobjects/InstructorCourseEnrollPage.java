@@ -11,7 +11,7 @@ public class InstructorCourseEnrollPage extends AppPage {
     @FindBy(id = "enrollstudents")
     protected WebElement enrollTextBox;
     
-    @FindBy(id = "button_enroll")
+    @FindBy(id = "button-enroll")
     protected WebElement enrollButton;
 
     public InstructorCourseEnrollPage(Browser browser) {
