@@ -31,7 +31,7 @@ $(document).ready(function() {
     });
 
     // Binding for changes in the Courses checkboxes.
-    $('input[id^="course_check"]').on('change', function() {
+    $('input[id^="course-check"]').on('change', function() {
         var courseIdx = $(this).attr('id').split('-')[1];
         var heading = $('#panelHeading-' + courseIdx);
         // Check/hide all section that is in this course
@@ -92,7 +92,7 @@ $(document).ready(function() {
             $('#team_all').prop('checked', true);
             $('#team_all').parent().show();
             $('#show_email').parent().show();
-            $('input[id^="course_check"]').prop('checked', true);
+            $('input[id^="course-check"]').prop('checked', true);
             $('input[id^="section_check-"]').prop('checked', true);
             $('input[id^="section_check-"]').parent().show();
             $('input[id^="team_check-"]').prop('checked', true);
@@ -109,7 +109,7 @@ $(document).ready(function() {
             $('#show_email').parent().hide();
             $('input[id^="section_check-"]').prop('checked', false);
             $('input[id^="section_check-"]').parent().remove();
-            $('input[id^="course_check"]').prop('checked', false);
+            $('input[id^="course-check"]').prop('checked', false);
             $('input[id^="team_check-"]').prop('checked', false);
             $('input[id^="team_check-"]').parent().remove();
             var heads = $('.panel-heading');
@@ -187,14 +187,14 @@ function checkCourseBinding(e) {
     }
     
     // If all the courses are selected, check the 'Select All' option
-    if ($('input[id^="course_check"]:checked').length === $('input[id^="course_check"]').length) {
+    if ($('input[id^="course-check"]:checked').length === $('input[id^="course-check"]').length) {
         $('#course-all').prop('checked', true);
     } else {
         $('#course-all').prop('checked', false);
     }
     
     // If none of of the courses are selected, hide the section"s 'Select All' option
-    if ($('input[id^="course_check"]:checked').length === 0) {
+    if ($('input[id^="course-check"]:checked').length === 0) {
         $('#section_all').parent().hide();
         $('#team_all').parent().hide();
         $('#show_email').parent().hide();

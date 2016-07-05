@@ -57,7 +57,7 @@ var seeMoreRequest = function(e) {
     var panelBody = $(panelCollapse[0]).children('.panel-body');
     var displayIcon = $(this).children('.display-icon');
     var courseIndex = $(panelCollapse[0]).attr('id').split('-')[1];
-    var courseCheck = $('#course_check-' + courseIndex);
+    var courseCheck = $('#course-check-' + courseIndex);
     var courseNumStudents = parseInt($('#numStudents-' + courseIndex).val());
     
     if ($(panelHeading).attr('class').indexOf('ajax-submit') === -1) {

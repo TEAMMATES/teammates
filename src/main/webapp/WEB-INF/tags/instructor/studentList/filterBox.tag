@@ -24,8 +24,8 @@
                 <br>
                 <c:forEach items="${filterBox.courses}" var="course" varStatus="i">
                     <div class="checkbox">
-                        <input id="course_check-${i.index}" type="checkbox">
-                        <label for="course_check-${i.index}">
+                        <input id="course-check-${i.index}" type="checkbox">
+                        <label for="course-check-${i.index}">
                             [${course.courseId}] : ${course.courseName}
                         </label>
                     </div>
