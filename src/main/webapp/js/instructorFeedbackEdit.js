@@ -522,7 +522,7 @@ function showNewQuestionFrame(type) {
     enableNewQuestion();
     
     $('#addNewQuestionTable').hide();
-    $('#empty_message').hide();
+    $('#empty-message').hide();
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
 
