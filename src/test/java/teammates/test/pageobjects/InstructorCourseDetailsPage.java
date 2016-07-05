@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 
 public class InstructorCourseDetailsPage extends AppPage {
     
-    @FindBy (id = "button_sortstudentstatus")
+    @FindBy (id = "button-sortstudentstatus")
     private WebElement sortByStatusIcon;
     
     @FindBy (id = "button-sortstudentname-0")
