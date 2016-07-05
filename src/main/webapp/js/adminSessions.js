@@ -8,10 +8,10 @@ function toggleContent(id) {
 
     if (pill === 'active') {
         $('#pill_' + id).attr('class', ' ');
-        jQuery('#badge_' + id).fadeIn(duration);
+        jQuery('#badge-' + id).fadeIn(duration);
     } else {
         $('#pill_' + id).attr('class', 'active');
-        jQuery('#badge_' + id).fadeOut(duration);
+        jQuery('#badge-' + id).fadeOut(duration);
     }
 
 }
