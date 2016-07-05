@@ -16,7 +16,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     @FindBy (id = "button-sortstudentname-0")
     private WebElement sortByNameIcon;
     
-    @FindBy (id = "button_sortteam-0")
+    @FindBy (id = "button-sortteam-0")
     private WebElement sortByTeamIcon;
     
     @FindBy (id = "button-remind")

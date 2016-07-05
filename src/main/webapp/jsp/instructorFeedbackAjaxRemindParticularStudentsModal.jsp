@@ -9,7 +9,7 @@
             Section
             <span class="icon-sort unsorted"></span>
         </th>
-        <th onclick="toggleSort(this);" class="button_sortteam button-sort-none">
+        <th onclick="toggleSort(this);" class="button-sortteam button-sort-none">
             Team
             <span class="icon-sort unsorted"></span>
         </th>

@@ -25,7 +25,7 @@
                     <th id="button-sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this)">
                         Section <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortteam-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
+                    <th id="button-sortteam-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
                         Team <span class="icon-sort unsorted"></span>
                     </th>
                     <th id="button-sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">

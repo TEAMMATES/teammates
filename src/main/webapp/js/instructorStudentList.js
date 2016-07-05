@@ -154,7 +154,7 @@ $(document).ready(function() {
         toggleSort($(this));
     });
 
-    $('th[id^="button_sortteam-"]').each(function() {
+    $('th[id^="button-sortteam-"]').each(function() {
         var col = $(this).parent().children().index($(this));
         if (col === 0) {
             toggleSort($(this));
