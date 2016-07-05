@@ -93,7 +93,7 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = "modalCopiedSessionName")
     private WebElement copiedFsNameTextBox;
     
-    @FindBy(id = "button_sortname")
+    @FindBy(id = "button-sortname")
     private WebElement sortByNameIcon;
     
     @FindBy(id = "button-sortid")

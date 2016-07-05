@@ -5550,7 +5550,7 @@
                                                                     <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);">Team
                                                                         <span class="icon-sort unsorted"></span>
                                                                     </td>
-                                                                    <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
+                                                                    <td class="button-sort-none" id="button-sortname" onclick="toggleSort(this,2)">Student
                                                                         <span class="icon-sort unsorted"></span>
                                                                     </td>
                                                                     <td class="button-sort-none" id="button-sortclaimed" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the student's own estimation of his/her contributions">
@@ -7471,7 +7471,7 @@
                                                     <span class="icon-sort unsorted"></span></td>
                                                 <td class="button-sort-none" onclick="toggleSort(this,2);">Team
                                                     <span class="icon-sort unsorted"></span></td>
-                                                <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,3);" style="width:15%;">Ranks Received
+                                                <td class="button-sort-none" id="button-sortname" onclick="toggleSort(this,3);" style="width:15%;">Ranks Received
                                                     <span class="icon-sort unsorted"></span></td>
                                                 <td class="button-sort-none" id="button-sortclaimed" onclick="toggleSort(this,4);" style="width:15%;">Average Rank
                                                     <span class="icon-sort unsorted"></span></td>

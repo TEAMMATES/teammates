@@ -13,7 +13,7 @@
             Team
             <span class="icon-sort unsorted"></span>
         </th>
-        <th onclick="toggleSort(this);" class="button_sortname button-sort-none">
+        <th onclick="toggleSort(this);" class="button-sortname button-sort-none">
             Student Name
             <span class="icon-sort unsorted"></span>
         </th>

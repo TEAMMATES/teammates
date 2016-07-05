@@ -47,7 +47,7 @@ public class TableSortTest extends BaseUiTestCase {
     @Test
     public void testTableSortingName() {
         
-        verifySortingOrder(By.id("button_sortname"),
+        verifySortingOrder(By.id("button-sortname"),
                 
                 "Ang Ji Kai",
                 "Chin Yong Wei",
@@ -137,7 +137,7 @@ public class TableSortTest extends BaseUiTestCase {
     public void testStableSort() {
         page.click(By.id("button-sortid"));
         page.click(By.id("button-sortid"));
-        page.click(By.id("button_sortname"));
+        page.click(By.id("button-sortname"));
 
         String[] idList = {
                 "15",
@@ -163,7 +163,7 @@ public class TableSortTest extends BaseUiTestCase {
         }
         page.verifyContains(searchString.toString());
 
-        page.click(By.id("button_sortname"));
+        page.click(By.id("button-sortname"));
         String[] reversedIdList = {
                 "10.3",
                 "-0.001",

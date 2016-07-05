@@ -26,7 +26,7 @@ public class InstructorHomePage extends AppPage {
     @FindBy(id = "sortByDate")
     private WebElement sortByDateButton;
 
-    @FindBy(className = "button_sortname")
+    @FindBy(className = "button-sortname")
     private List<WebElement> tablesSortByName;
 
     @FindBy(className = "button_sortstartdate")
