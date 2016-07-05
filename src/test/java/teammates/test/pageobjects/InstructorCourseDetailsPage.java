@@ -88,7 +88,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         commentTextForm.click();
         commentTextForm.clear();
         commentTextForm.sendKeys(comment);
-        browser.driver.findElement(By.id("button_save_comment")).click();
+        browser.driver.findElement(By.id("button-save-comment")).click();
         waitForPageToLoad();
     }
     

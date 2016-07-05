@@ -192,7 +192,7 @@
         <textarea class="form-control" rows="6" placeholder="Enter your comment here ..." style="margin-bottom: 15px;"
                   name="<%= Const.ParamsNames.COMMENT_TEXT %>" id="commentText"></textarea>
         <div style="text-align: center;">
-            <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
+            <input type="submit" class="btn btn-primary" id="button-save-comment" value="Save">
             <input type="button" class="btn btn-default" id="button-cancel-comment" value="Cancel">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${studentInfoTable.course}">
             <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" value="${studentInfoTable.email}">
