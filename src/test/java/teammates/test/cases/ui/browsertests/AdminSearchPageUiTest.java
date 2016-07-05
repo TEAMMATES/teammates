@@ -145,7 +145,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         
         switch (searchPage.getDataTableId(tableNum)) {
         // Instructor table
-        case "search_table_instructor":
+        case "search-table-instructor":
             if (numColumns != ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS) {
                 return false;
             }
