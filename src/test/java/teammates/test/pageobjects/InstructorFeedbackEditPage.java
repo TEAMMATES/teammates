@@ -88,7 +88,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_submit_add")
     private WebElement addNewQuestionButton;
     
-    @FindBy(id = "button_done_editing")
+    @FindBy(id = "button-done-editing")
     private WebElement doneEditingButton;
     
     @FindBy(id = "questiontext")

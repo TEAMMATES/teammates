@@ -36,7 +36,7 @@
                             data-target="#copyModal" data-toggle="modal">
                         Copy Question
                     </a>
-                    <a id="button_done_editing" class="btn btn-primary margin-bottom-7px"
+                    <a id="button-done-editing" class="btn btn-primary margin-bottom-7px"
                         href="${fqForm.doneEditingLink}">
                         Done Editing
                     </a>
