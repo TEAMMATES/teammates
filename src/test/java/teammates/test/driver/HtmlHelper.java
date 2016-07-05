@@ -413,6 +413,10 @@ public final class HtmlHelper {
                       // jQuery-ui js file
                       .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()),
                                "${lib.path}/jquery-ui.min.js")
+                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/skin.min.css",
+                               "${lib.path}/skins/lightgray/skin.min.css")
+                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/content.inline.min.css",
+                               "${lib.path}/skins/lightgray/content.inline.min.css")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
