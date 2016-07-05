@@ -4575,7 +4575,7 @@
                                                                   title="Ticking this prevents a giver from distributing the same number of points to multiple options">
                                                               <label class="bold-label">
                                                                   <input type="checkbox" name="constSumUnevenDistribution" disabled
-                                                                          id="constSum_UnevenDistribution-9">
+                                                                          id="constSum-UnevenDistribution-9">
                                                                       <span id="constSum-labelText-9">
                                                                           Every option to receive a different number of points</span>
                                                               </label>
@@ -5056,7 +5056,7 @@
                                                                 <label class="bold-label">
                                                                     <input type="checkbox"
                                                                             name="constSumUnevenDistribution" disabled
-                                                                            id="constSum_UnevenDistribution-10">
+                                                                            id="constSum-UnevenDistribution-10">
                                                                     <span id="constSum-labelText-10">
                                                                     Every Recipient to recieve a different number of points
                                                                     </span>
