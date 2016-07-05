@@ -193,7 +193,7 @@
                   name="<%= Const.ParamsNames.COMMENT_TEXT %>" id="commentText"></textarea>
         <div style="text-align: center;">
             <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
-            <input type="button" class="btn btn-default" id="button_cancel_comment" value="Cancel">
+            <input type="button" class="btn btn-default" id="button-cancel-comment" value="Cancel">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${studentInfoTable.course}">
             <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" value="${studentInfoTable.email}">
             <input type="hidden" name="<%=Const.ParamsNames.RECIPIENT_TYPE%>" value="<%= CommentParticipantType.PERSON %>">

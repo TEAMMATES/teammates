@@ -33,7 +33,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#button_cancel_comment').click(function() {
+    $('#button-cancel-comment').click(function() {
         $('#commentArea').hide();
     });
     
