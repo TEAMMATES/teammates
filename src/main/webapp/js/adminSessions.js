@@ -4,13 +4,13 @@ function toggleContent(id) {
 
     $('#table_' + id).slideToggle('slow');
 
-    var pill = $('#pill_' + id).attr('class');
+    var pill = $('#pill-' + id).attr('class');
 
     if (pill === 'active') {
-        $('#pill_' + id).attr('class', ' ');
+        $('#pill-' + id).attr('class', ' ');
         jQuery('#badge-' + id).fadeIn(duration);
     } else {
-        $('#pill_' + id).attr('class', 'active');
+        $('#pill-' + id).attr('class', 'active');
         jQuery('#badge-' + id).fadeOut(duration);
     }
 
@@ -20,7 +20,7 @@ function openAllSections(count) {
 
     for (var i = 1; i <= count; i++) {
 
-        var pill = $('#pill_' + i).attr('class');
+        var pill = $('#pill-' + i).attr('class');
         if (pill !== 'active') {
             toggleContent(i);
         }
@@ -32,7 +32,7 @@ function closeAllSections(count) {
 
     for (var i = 1; i <= count; i++) {
 
-        var pill = $('#pill_' + i).attr('class');
+        var pill = $('#pill-' + i).attr('class');
         if (pill === 'active') {
             toggleContent(i);
         }

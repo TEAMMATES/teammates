@@ -7,7 +7,7 @@
 <%@ attribute name="showAll" required="true"%>
 <div class="panel panel-primary">
     <ul class="nav nav-pills nav-stacked">
-        <li id="pill_${tableIndex}" class="active">
+        <li id="pill-${tableIndex}" class="active">
             <a href="#" onclick="toggleContent(${tableIndex}); return false;">
                 <span class="badge pull-right" id="badge-${tableIndex}" style="display: none">
                     ${fn:length(institutionPanel.feedbackSessionRows)}
