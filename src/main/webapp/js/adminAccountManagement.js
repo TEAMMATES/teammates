@@ -58,7 +58,7 @@ function updatePagination() {
         }
     });
     
-    $('#pagination_bottom').html($('#pagination_top').html());
+    $('#pagination-bottom').html($('#pagination_top').html());
 }
 
 function caculateTotalPages() {

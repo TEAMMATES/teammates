@@ -19,7 +19,7 @@
 
     <accounts:accountTable accounts="${data.accountTable}" />
 
-    <div id="pagination_bottom">
+    <div id="pagination-bottom">
         <accounts:adminAccountManagementPagination />
     </div>
 
