@@ -265,7 +265,7 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}",
-                        "The email below has been sent to students of course: " + course.getId() + ".<p/><br>",
+                        "The email below has been sent to students of course: " + course.getId() + ".<p/><br><br>=== Email message as seen by the students ===<br><br>",
                 "${submitMessage}", "click",
                 "${submitUrlMessage}", "here",
                 "${submitUrl}", submitUrl,
