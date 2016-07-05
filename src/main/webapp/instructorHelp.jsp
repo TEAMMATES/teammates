@@ -7667,7 +7667,7 @@
                                     <div class="align-center">
                                         <input type="button" class="btn btn-primary" id="button_remind" data-toggle="tooltip" data-placement="top" value="Remind Students to Join" tabindex="1" title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile">
                                         <form method="post" style="display:inline;">
-                                            <input id="button_download" type="submit" class="btn btn-primary" name="fruploaddownloadbtn" value=" Download Student List ">
+                                            <input id="button-download" type="submit" class="btn btn-primary" name="fruploaddownloadbtn" value=" Download Student List ">
                                         </form>
                                     </div>
                                 </div>
