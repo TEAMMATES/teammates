@@ -93,7 +93,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                           className + "archive-for-test",
                                           getInstructorCourseArchiveLink(courseId, true, true),
                                           Const.Tooltips.COURSE_ARCHIVE);
-        addAttributeIf(true, archive, "onclick", "return toggleArchiveCourseConfirmation('" + courseId + "')");
+        addAttributeIf(true, archive, "data-course-id", courseId);
         
         ElementTag delete = createButton("Delete",
                                          className + "delete-for-test",
