@@ -50,7 +50,7 @@
             </c:when>
             <c:otherwise>
                 <input type="submit" class="btn btn-primary center-block"
-                       id="response_submit_button" data-toggle="tooltip"
+                       id="response-submit-button" data-toggle="tooltip"
                        data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"
                        value="Submit Feedback"
                        <c:if test="${data.preview or (not data.submittable)}">
