@@ -115,10 +115,10 @@
                         </div>
                         <br>
                         <div class="checkbox">
-                            <input id="status_check-public"
+                            <input id="status-check-public"
                                 type="checkbox"
                                 checked>
-                            <label for="status_check-public">
+                            <label for="status-check-public">
                                 Public
                             </label>
                         </div>
