@@ -5557,7 +5557,7 @@
                                                                         <abbr title="Claimed Contribution">CC</abbr>
                                                                         <span class="icon-sort unsorted"></span>
                                                                     </td>
-                                                                    <td class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the average of what other team members think this student contributed">
+                                                                    <td class="button-sort-none" id="button-sortperceived" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the average of what other team members think this student contributed">
                                                                         <abbr title="Percived Contribution">PC</abbr>
                                                                         <span class="icon-sort unsorted"></span>
                                                                     </td>
