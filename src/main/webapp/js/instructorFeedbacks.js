@@ -171,7 +171,7 @@ function bindCopyButton() {
         return false;
     });
 
-    $('#button_copy_submit').on('click', function(e) {
+    $('#button-copy-submit').on('click', function(e) {
         e.preventDefault();
         $('#copyModalForm').submit();
         return false;
@@ -202,7 +202,7 @@ function bindCopyEvents() {
         $currentlySelectedRadio.prop('checked', true);
         $currentlySelectedRow.addClass('row-selected');
 
-        $('#button_copy_submit').prop('disabled', false);
+        $('#button-copy-submit').prop('disabled', false);
     });
 }
 

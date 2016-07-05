@@ -718,7 +718,7 @@ function setupQuestionCopyModal() {
             url: actionlink + '&courseid=' + encodeURIComponent(courseid)
                             + '&fsname=' + encodeURIComponent(fsname),
             beforeSend: function() {
-                $('#button_copy_submit').prop('disabled', true);
+                $('#button-copy-submit').prop('disabled', true);
                 $('#copyTableModal').remove();
                 $questionCopyStatusMessage.removeClass('alert alert-danger');
                 $questionCopyStatusMessage.html(
@@ -746,7 +746,7 @@ function setupQuestionCopyModal() {
 
 function bindCopyButton() {
 
-    $('#button_copy_submit').click(function(e) {
+    $('#button-copy-submit').click(function(e) {
         e.preventDefault();
 
         var index = 0;
@@ -792,7 +792,7 @@ function bindCopyEvents() {
             numRowsSelected++;
         }
 
-        var $button = $('#button_copy_submit');
+        var $button = $('#button-copy-submit');
         
         $button.prop('disabled', numRowsSelected <= 0);
 
