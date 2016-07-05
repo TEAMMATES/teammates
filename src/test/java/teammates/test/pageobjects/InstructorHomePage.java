@@ -29,7 +29,7 @@ public class InstructorHomePage extends AppPage {
     @FindBy(className = "button-sortname")
     private List<WebElement> tablesSortByName;
 
-    @FindBy(className = "button_sortstartdate")
+    @FindBy(className = "button-sortstartdate")
     private List<WebElement> tablesSortByStartDate;
 
     @FindBy(className = "button-sortenddate")

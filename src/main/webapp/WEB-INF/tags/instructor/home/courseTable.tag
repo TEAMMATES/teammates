@@ -8,7 +8,7 @@
         <tr>
             <th onclick="toggleSort(this);" class="button-sortname button-sort-none">
                 Session Name<span class="icon-sort unsorted"></span></th>
-            <th onclick="toggleSort(this,instructorHomeDateComparator);" class="button_sortstartdate button-sort-none">Start Date<span class="icon-sort unsorted"></span></th>
+            <th onclick="toggleSort(this,instructorHomeDateComparator);" class="button-sortstartdate button-sort-none">Start Date<span class="icon-sort unsorted"></span></th>
             <th onclick="toggleSort(this,instructorHomeDateComparator);" class="button-sortenddate button-sort-none">End Date<span class="icon-sort unsorted"></span></th>
             <th>Status</th>
             <th>
