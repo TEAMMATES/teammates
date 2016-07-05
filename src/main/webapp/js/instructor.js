@@ -136,7 +136,7 @@ function setupFsCopyModal() {
             url: actionlink + '&courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname)
                  + '&currentPage=' + encodeURIComponent(currentPage),
             beforeSend: function() {
-                $('#fscopy_submit').prop('disabled', true);
+                $('#fscopy-submit').prop('disabled', true);
                 $('#courseList').html('Loading possible destination courses. Please wait ...<br>'
                                       + "<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
@@ -148,15 +148,15 @@ function setupFsCopyModal() {
                 $('#courseList').html(data);
                 // If the user alt-clicks, the form does not send any parameters and results in an error.
                 // Prevent default form submission and submit using jquery.
-                $('#fscopy_submit').off('click')
+                $('#fscopy-submit').off('click')
                                    .on('click',
                                         function(event) {
-                                            $('#fscopy_submit').prop('disabled', true);
+                                            $('#fscopy-submit').prop('disabled', true);
                                             event.preventDefault();
-                                            $('#fscopy_submit').closest('form').submit();
+                                            $('#fscopy-submit').closest('form').submit();
                                         }
                                     );
-                $('#fscopy_submit').prop('disabled', false);
+                $('#fscopy-submit').prop('disabled', false);
             }
         });
     });
@@ -188,7 +188,7 @@ function setupFsCopyModal() {
                     } else {
                         $copyModalStatusMessage.addClass('alert alert-danger');
                         $copyModalStatusMessage.text(data.errorMessage);
-                        $('#fscopy_submit').prop('disabled', false);
+                        $('#fscopy-submit').prop('disabled', false);
                     }
                 }
             });
