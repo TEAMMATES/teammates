@@ -14,7 +14,7 @@
                             <span class="input-group-btn">
                                 <button class="btn btn-default"
                                         type="submit"
-                                        name="search_submit">Filter</button>
+                                        name="search-submit">Filter</button>
                             </span> 
                             
                             <input type="text"

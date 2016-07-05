@@ -58,7 +58,7 @@ public class AdminActivityLogPage extends AppPage {
     
     public void clickSearchSubmitButton() {
         
-        WebElement button = browser.driver.findElement(By.name("search_submit"));
+        WebElement button = browser.driver.findElement(By.name("search-submit"));
         button.click();
     }
     
