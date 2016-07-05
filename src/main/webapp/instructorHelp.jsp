@@ -4548,7 +4548,7 @@
                                                                   <label class="margin-top-7px">number of options</label>
                                                               </div>
                                                           </div>
-                                                          <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Recipient-9" style="display:none">
+                                                          <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption-Recipient-9" style="display:none">
                                                               <div class="col-xs-1">
                                                                   <input type="radio" id="constSumPointsPerRecipient-9"
                                                                           name="constSumPointsPerOption"
@@ -5025,7 +5025,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-xs-12 margin-bottom-15px padding-left-35px"
-                                                                id="constSumOption_Recipient-10">
+                                                                id="constSumOption-Recipient-10">
                                                                 <div class="col-xs-1">
                                                                     <input type="radio" id="constSumPointsPerRecipient-10"
                                                                             name="constSumPointsPerOption"

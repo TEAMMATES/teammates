@@ -276,10 +276,10 @@ function enableQuestion(questionNum) {
     if ($('#constSumToRecipients-' + questionNum).val() === 'true') {
         $('#constSumOptionTable-' + questionNum).hide();
         $('#constSumOption-Option-' + questionNum).hide();
-        $('#constSumOption_Recipient-' + questionNum).show();
+        $('#constSumOption-Recipient-' + questionNum).show();
     } else {
         $('#constSumOptionTable-' + questionNum).show();
-        $('#constSumOption_Recipient-' + questionNum).hide();
+        $('#constSumOption-Recipient-' + questionNum).hide();
     }
     
     $('#constSumOption_distributeUnevenly-' + questionNum).prop('disabled', false);
@@ -575,7 +575,7 @@ function prepareQuestionForm(type) {
     case 'CONSTSUM_OPTION':
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
         $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '-' + NEW_QUESTION).val('false');
-        $('#constSumOption_Recipient-' + NEW_QUESTION).hide();
+        $('#constSumOption-Recipient-' + NEW_QUESTION).hide();
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
         
         hideAllNewQuestionForms();
@@ -585,7 +585,7 @@ function prepareQuestionForm(type) {
     case 'CONSTSUM_RECIPIENT':
         $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '-' + NEW_QUESTION).val('true');
         $('#constSumOption-Option-' + NEW_QUESTION).hide();
-        $('#constSumOption_Recipient-' + NEW_QUESTION).show();
+        $('#constSumOption-Recipient-' + NEW_QUESTION).show();
         hideConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
         
