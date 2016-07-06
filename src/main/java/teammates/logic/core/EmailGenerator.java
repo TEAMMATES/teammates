@@ -119,11 +119,8 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}", "",
-                "${linkDirectionMessage}", "go to this Web address:",
-                "${submitUrlMessage}", submitUrl,
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
-                "${reportUrlMessage}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
@@ -233,11 +230,8 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}", "",
-                "${linkDirectionMessage}", "go to this Web address:",
-                "${submitUrlMessage}", submitUrl,
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
-                "${reportUrlMessage}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
@@ -269,11 +263,8 @@ public class EmailGenerator {
                 "${instructorFragment}",
                         "The email below has been sent to students of course: " + course.getId()
                         + ".<p/><br><br>=== Email message as seen by the students ===<br>",
-                "${linkDirectionMessage}", "click",
-                "${submitUrlMessage}", "here",
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
-                "${reportUrlMessage}", "here",
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
