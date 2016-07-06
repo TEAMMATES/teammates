@@ -196,15 +196,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>FeedbackSessionUnpublishedReminders</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackSessionUnpublishedRemindersServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackSessionUnpublishedReminders</servlet-name>
-        <url-pattern>/feedbackSessionUnpublishedReminders</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
         <servlet-name>CompileLogs</servlet-name>
         <servlet-class>teammates.logic.automated.CompileLogsServlet</servlet-class>
     </servlet>
@@ -262,7 +253,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <url-pattern>/feedbackSessionOpeningReminders</url-pattern>
             <url-pattern>/feedbackSessionClosingReminders</url-pattern>
             <url-pattern>/feedbackSessionPublishedReminders</url-pattern>
-            <url-pattern>/feedbackSessionUnpublishedReminders</url-pattern>
             <url-pattern>/emailWorker</url-pattern>
         </web-resource-collection>
          <web-resource-collection>

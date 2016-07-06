@@ -225,23 +225,6 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
     
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return An empty list if no sessions are found that have unsent unpublished emails.
-     */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWithUnsentUnpublishedEmail() {
-        List<FeedbackSession> fsList = getFeedbackSessionEntitiesWithUnsentUnpublishedEmail();
-        List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
-        
-        for (FeedbackSession fs : fsList) {
-            if (!JDOHelper.isDeleted(fs)) {
-                fsaList.add(new FeedbackSessionAttributes(fs));
-            }
-        }
-        return fsaList;
-    }
-    
-    /**
      * Updates the feedback session identified by {@code newAttributes.feedbackSesionName}
      * and {@code newAttributes.courseId}.
      * For the remaining parameters, the existing value is preserved
@@ -567,15 +550,6 @@ public class FeedbackSessionsDb extends EntitiesDb {
         q.setFilter("sentPublishedEmail == sentParam && feedbackSessionType != notTypeParam");
         
         return (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
-    }
-    
-    @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentUnpublishedEmail() {
-        Query q = getPm().newQuery(FeedbackSession.class);
-        q.declareParameters("boolean sentParam, Enum notTypeParam");
-        q.setFilter("sentPublishedEmail == sentParam && feedbackSessionType != notTypeParam");
-        
-        return (List<FeedbackSession>) q.execute(true, FeedbackSessionType.PRIVATE);
     }
     
     private FeedbackSession getFeedbackSessionEntity(String feedbackSessionName, String courseId) {
