@@ -469,9 +469,9 @@ public final class HtmlHelper {
                       .replace("<!-- filepath.jquery-ui -->",
                                Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()))
                       .replace("<!-- tinymce.skin.min -->",
-                               "${lib.path}/skins/lightgray/skin.min.css")
+                               TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/skin.min.css")
                       .replace("<!-- tinymce.skin.inline -->",
-                               "${lib.path}/skins/lightgray/content.inline.min.css");
+                               TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/content.inline.min.css");
     }
 
 }
