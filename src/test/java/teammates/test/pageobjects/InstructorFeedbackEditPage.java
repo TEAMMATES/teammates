@@ -93,7 +93,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "questiontext")
     private WebElement questionTextBox;
-    
+
     @FindBy(id = "mcqOtherOptionFlag--1")
     private WebElement addMcqOtherOptionCheckboxForNewQuestion;
     
@@ -188,6 +188,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(questionEditTextBox, qnText);
     }
     
+    public void fillNewQuestionDescription(String qnDescription) {
+        fillRichTextEditor(Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, qnDescription);
+    }
+
+    public void fillEditQuestionDescription(String qnDescription, int qnIndex) {
+        fillRichTextEditor(Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION + "-" + qnIndex, qnDescription);
+    }
+
     public void fillNumOfEntitiesToGiveFeedbackToBox(String num) {
         fillTextBox(numberOfRecipients, num);
     }

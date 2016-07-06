@@ -63,20 +63,47 @@
             </div>
         </div>
         <div class="panel-body">
-            <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-                <div>
-                    <%-- Do not add whitespace between the opening and closing tags --%>
-                    <textarea class="form-control textvalue nonDestructive" rows="5"
-                        name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>"
-                        id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-${fqForm.questionIndex}"
-                        data-toggle="tooltip" data-placement="top"
-                        title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS %>"
-                        tabindex="9"
-                        disabled>${fqForm.questionText}</textarea>
+            <div class="col-sm-12 margin-15px background-color-light-blue">
+                <div class="form-group" style="padding: 15px;">
+                    <h5 class="col-sm-2">
+                        <label class="control-label"
+                            for="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>">
+                            Question
+                        </label>
+                    </h5>
+                    <div class="col-sm-10">
+                        <textarea class="form-control textvalue nonDestructive" rows="2"
+                            name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>"
+                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-${fqForm.questionIndex}"
+                            data-toggle="tooltip" data-placement="top"
+                            title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS %>"
+                            tabindex="9"
+                            disabled>${fqForm.questionText}</textarea>
+                    </div>
                 </div>
-                ${fqForm.questionSpecificEditFormHtml}
+                <div class="form-group" style="padding: 0 15px;">
+                    <h5 class="col-sm-2">
+                        <label class="align-left"
+                            for="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>">
+                            [Optional]<br>Description
+                        </label>
+                    </h5>
+                    <div class="col-sm-10">
+                        <div id="rich-text-toolbar-q-descr-container-${fqForm.questionIndex}"></div>
+                        <div class="well panel panel-default panel-body" rows="5"
+                            name="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>"
+                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${fqForm.questionIndex}"
+                            data-toggle="tooltip" data-placement="top"
+                            title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_DESCRIPTION %>"
+                            tabindex="9">
+                            ${fqForm.questionDescription}
+                        </div>
+                    </div>
+                    ${fqForm.questionSpecificEditFormHtml}
+                </div>
             </div>
-            
+
+
             <br>
             <feedbackEdit:questionFeedbackPathSettings fqForm="${fqForm}"/>
             <feedbackEdit:questionVisibilityOptions fqForm="${fqForm}"/>
