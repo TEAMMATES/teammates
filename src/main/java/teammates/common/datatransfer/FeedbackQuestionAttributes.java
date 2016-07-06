@@ -11,10 +11,9 @@ import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackQuestion;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.labs.repackaged.org.json.JSONArray;
-import com.google.appengine.labs.repackaged.org.json.JSONException;
-import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
@@ -510,14 +509,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     
     public boolean isJsonValid(String jsonString) {
         try {
-            // Checks whether JSONArray is valid
-            new JSONObject(jsonString);
-        } catch (JSONException e) {
-            try {
-                new JSONArray(jsonString);
-            } catch (JSONException ex) {
-                return false;
-            }
+            JsonParser parser = new JsonParser();
+            parser.parse(jsonString);
+        } catch (JsonSyntaxException e) {
+            return false;
         }
         return true;
     }
