@@ -247,7 +247,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         
         ______TS("test visibility options of question 1");
-        feedbackEditPage.clickquestionSaveForQuestion1();
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         
         //TODO: use simple element checks instead of html checks after adding names to the checkboxes
@@ -266,7 +266,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
-        feedbackEditPage.clickquestionSaveForQuestion1();
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
         
         
         feedbackEditPage.clickNewQuestionButton();
@@ -671,7 +671,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
-        feedbackEditPage.clickquestionSaveForQuestion1();
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         
         ______TS("check response rate after editing question");

@@ -106,9 +106,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "recipienttype")
     private WebElement recipientDropdown;
     
-    @FindBy(id = "questionsavechangestext-1")
-    private WebElement questionSaveForQuestion1;
-    
     @FindBy(id = "numofrecipients")
     private WebElement numberOfRecipients;
     
@@ -407,11 +404,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickSaveSessionButton() {
         fsSaveLink.click();
-        waitForPageToLoad();
-    }
-    
-    public void clickquestionSaveForQuestion1() {
-        questionSaveForQuestion1.click();
         waitForPageToLoad();
     }
 
