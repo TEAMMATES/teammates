@@ -411,10 +411,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         browser.driver.findElement(By.id("visibilityMessageButton-" + qnNumber)).click();
     }
     
-    public void clickVisibilityOptionsForQuestion1() {
-        browser.driver.findElement(By.className("visibilityOptionsLabel")).click();
-    }
-    
     public void clickVisibilityOptionsForQuestion(int qnNumber) {
         browser.driver.findElement(By.id("visibilityOptionsLabel-" + qnNumber)).click();
     }
