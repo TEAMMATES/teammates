@@ -920,7 +920,7 @@ public class FeedbackSessionsLogic {
         StringBuilder exportBuilder = new StringBuilder();
         
         appendQuestionDetailsToExportBuilder(fsrBundle, question, questionDetails, allResponses,
-                exportBuilder);
+                exportBuilder, isStatsShown);
         appendResponsesToExportBuilder(fsrBundle, entry, isMissingResponsesShown, question, questionDetails,
                 allResponses, exportBuilder);
         
@@ -933,7 +933,8 @@ public class FeedbackSessionsLogic {
      */
     private void appendQuestionDetailsToExportBuilder(FeedbackSessionResultsBundle fsrBundle,
             FeedbackQuestionAttributes question, FeedbackQuestionDetails questionDetails,
-            List<FeedbackResponseAttributes> allResponses, StringBuilder exportBuilder) {
+            List<FeedbackResponseAttributes> allResponses, StringBuilder exportBuilder,
+            boolean isStatsShown) {
         exportBuilder.append("Question " + Integer.toString(question.questionNumber) + ","
                 + Sanitizer.sanitizeForCsv(questionDetails.getQuestionText())
                 + Const.EOL + Const.EOL);
