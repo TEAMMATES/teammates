@@ -89,7 +89,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     public void testAddQuestionAction() throws Exception {
         ______TS("CONTRIB: add question action success");
         
-        feedbackEditPage.fillNewQuestionBox("contrib qn");
+        feedbackEditPage.fillEditQuestionBox("contrib qn", -1);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
@@ -141,13 +141,13 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
-        feedbackEditPage.fillNewQuestionBox("q1, essay qn");
+        feedbackEditPage.fillEditQuestionBox("q1, essay qn", -1);
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONTRIB");
-        feedbackEditPage.fillNewQuestionBox("q2, contribution qn");
+        feedbackEditPage.fillEditQuestionBox("q2, contribution qn", -1);
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         

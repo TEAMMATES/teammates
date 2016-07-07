@@ -66,7 +66,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("empty options");
         
-        feedbackEditPage.fillNewQuestionBox("NumScale qn");
+        feedbackEditPage.fillEditQuestionBox("NumScale qn", -1);
         feedbackEditPage.fillMinNumScaleBox("", -1);
         feedbackEditPage.fillStepNumScaleBox("", -1);
         feedbackEditPage.fillMaxNumScaleBox("", -1);
@@ -81,7 +81,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("invalid options");
         
-        feedbackEditPage.fillNewQuestionBox("NumScale qn");
+        feedbackEditPage.fillEditQuestionBox("NumScale qn", -1);
         feedbackEditPage.fillMinNumScaleBox("1", -1);
         feedbackEditPage.fillStepNumScaleBox("0.3", -1);
         feedbackEditPage.fillMaxNumScaleBox("5", -1);
@@ -96,7 +96,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("possible floating point error");
         
-        feedbackEditPage.fillNewQuestionBox("NumScale qn");
+        feedbackEditPage.fillEditQuestionBox("NumScale qn", -1);
         feedbackEditPage.fillMinNumScaleBox("1", -1);
         feedbackEditPage.fillStepNumScaleBox("0.001", -1);
         feedbackEditPage.fillMaxNumScaleBox("5555", -1);
@@ -132,7 +132,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
 
     @Override
     public void testCustomizeOptions() {
-        feedbackEditPage.fillNewQuestionBox("NumScale qn");
+        feedbackEditPage.fillEditQuestionBox("NumScale qn", -1);
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
         feedbackEditPage.fillStepNumScaleBox(0.3, -1);

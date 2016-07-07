@@ -91,9 +91,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_done_editing")
     private WebElement doneEditingButton;
     
-    @FindBy(id = "questiontext")
-    private WebElement questionTextBox;
-    
     @FindBy(id = "mcqOtherOptionFlag--1")
     private WebElement addMcqOtherOptionCheckboxForNewQuestion;
     
@@ -165,10 +162,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         boolean isCorrectCourseId = this.getCourseId().equals(courseId);
         boolean isCorrectFeedbackSessionName = this.getFeedbackSessionName().equals(feedbackSessionName);
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
-    }
-    
-    public void fillNewQuestionBox(String qnText) {
-        fillTextBox(questionTextBox, qnText);
     }
     
     public void fillEditQuestionBox(String qnText, int qnIndex) {

@@ -65,7 +65,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         
         ______TS("empty options");
         
-        feedbackEditPage.fillNewQuestionBox("ConstSum-option qn");
+        feedbackEditPage.fillEditQuestionBox("ConstSum-option qn", -1);
         feedbackEditPage.fillConstSumPointsBox("", -1);
         
         assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
@@ -79,7 +79,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
-        feedbackEditPage.fillNewQuestionBox("Test const sum question");
+        feedbackEditPage.fillEditQuestionBox("Test const sum question", -1);
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
 
         feedbackEditPage.clickRemoveConstSumOptionLink(1, -1);
@@ -128,7 +128,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     public void testAddQuestionAction() throws Exception {
         ______TS("CONST SUM: add question action success");
         
-        feedbackEditPage.fillNewQuestionBox("const sum qn");
+        feedbackEditPage.fillEditQuestionBox("const sum qn", -1);
         feedbackEditPage.selectRecipientsToBeStudents();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();

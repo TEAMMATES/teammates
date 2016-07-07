@@ -205,7 +205,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("empty number of max respondants field");
 
-        feedbackEditPage.fillNewQuestionBox("filled qn");
+        feedbackEditPage.fillEditQuestionBox("filled qn", -1);
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.fillNumOfEntitiesToGiveFeedbackToBox("");
         feedbackEditPage.clickCustomNumberOfRecipientsButton();
@@ -290,7 +290,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("add question 2 and edit it to giver's team members and giver");
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.fillNewQuestionBox("test visibility when choosing giver's team members and giver");
+        feedbackEditPage.fillEditQuestionBox("test visibility when choosing giver's team members and giver", -1);
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.selectRecipientsToBeGiverTeamMembersAndGiver();
         feedbackEditPage.clickMaxNumberOfRecipientsButton();
@@ -362,7 +362,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // Add question 2 first
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
-        feedbackEditPage.fillNewQuestionBox(qnTextOriginal);
+        feedbackEditPage.fillEditQuestionBox(qnTextOriginal, -1);
         feedbackEditPage.fillMcqOption(0, "Choice 1");
         feedbackEditPage.fillMcqOption(1, "Choice 2");
         feedbackEditPage.clickAddQuestionButton();
@@ -617,7 +617,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // Create a new question and save
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
-        feedbackEditPage.fillNewQuestionBox("new question");
+        feedbackEditPage.fillEditQuestionBox("new question", -1);
         feedbackEditPage.clickAddQuestionButton();
 
         // Delete the new question through the backdoor so that it still appears in the browser
@@ -643,7 +643,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // Create a new question and save
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
-        feedbackEditPage.fillNewQuestionBox("new question");
+        feedbackEditPage.fillEditQuestionBox("new question", -1);
         feedbackEditPage.clickAddQuestionButton();
 
         // Create response for the new question
@@ -702,7 +702,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.fillNewQuestionBox("question for me");
+        feedbackEditPage.fillEditQuestionBox("question for me", -1);
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
         
@@ -710,21 +710,21 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.fillNewQuestionBox("question for students");
+        feedbackEditPage.fillEditQuestionBox("question for students", -1);
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.fillNewQuestionBox("question for instructors");
+        feedbackEditPage.fillEditQuestionBox("question for instructors", -1);
         feedbackEditPage.selectGiverToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.fillNewQuestionBox("question for students to instructors");
+        feedbackEditPage.fillEditQuestionBox("question for students to instructors", -1);
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.selectRecipientsToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();

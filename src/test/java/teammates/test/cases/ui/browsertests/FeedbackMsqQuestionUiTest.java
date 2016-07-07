@@ -72,7 +72,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         
         ______TS("empty options");
 
-        feedbackEditPage.fillNewQuestionBox("Test question text");
+        feedbackEditPage.fillEditQuestionBox("Test question text", -1);
         feedbackEditPage.clickAddQuestionButton();
         assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.",
                      feedbackEditPage.getStatus());
@@ -81,7 +81,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MSQ");
-        feedbackEditPage.fillNewQuestionBox("Test question text");
+        feedbackEditPage.fillEditQuestionBox("Test question text", -1);
 
         feedbackEditPage.clickRemoveMsqOptionLink(1, -1);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-1--1"));
@@ -98,7 +98,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MSQ");
-        feedbackEditPage.fillNewQuestionBox("Msq with other option");
+        feedbackEditPage.fillEditQuestionBox("Msq with other option", -1);
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
         
         assertTrue(feedbackEditPage.isElementPresent("msqOtherOptionFlag--1"));
@@ -143,7 +143,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MSQ: add question action success");
 
-        feedbackEditPage.fillNewQuestionBox("msq qn");
+        feedbackEditPage.fillEditQuestionBox("msq qn", -1);
         feedbackEditPage.selectRecipientsToBeStudents();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
