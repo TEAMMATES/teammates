@@ -172,11 +172,11 @@ function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipien
 
 function updateEditTabAccordingToGiver($containingForm) {
     var giverType = $containingForm.find('select[name="givertype"]').val();
-    if (giverType === 'INSTRUCTORS' || giverType === 'TEAMS') {
-        disableRow($containingForm, 2);
+    if (giverType === 'SELF' || giverType === 'INSTRUCTORS' || giverType === 'TEAMS') {
+        disableRow($containingForm, ROW_GIVER_TEAM);
         return;
     }
-    enableRow($containingForm, 2);
+    enableRow($containingForm, ROW_GIVER_TEAM);
 }
 
 // Meant to be declared outside to prevent unncessary AJAX calls
