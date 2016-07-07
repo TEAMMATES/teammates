@@ -164,13 +164,17 @@ function disableRowsAccordingToRecipient($containingForm) {
     case 'STUDENTS':
         // all options enabled when recipientType is STUDENTS (subject to options disabled by giverType)
         break;
+    case 'OWN_TEAM':
+        // ROW_RECIPIENT is disabled because it is the same as ROW_GIVER_TEAM
+        disableRow($containingForm, ROW_RECIPIENT);
+        // ROW_RECIPIENT_TEAM is disabled because it is same as ROW_RECIPIENT
+        disableRow($containingForm, ROW_RECIPIENT_TEAM);
+        break;
     case 'INSTRUCTORS':
     case 'TEAMS':
-    case 'OWN_TEAM':
     case 'OWN_TEAM_MEMBERS':
     case 'OWN_TEAM_MEMBERS_INCLUDING_SELF':
-        // ROW_RECIPIENT_TEAM is disabled because the recipientType is 'team-like',
-        // and ROW_RECIPIENT_TEAM is thus same as ROW_RECIPIENT
+        // ROW_RECIPIENT_TEAM is disabled because it is same as ROW_RECIPIENT
         disableRow($containingForm, ROW_RECIPIENT_TEAM);
         break;
     case 'NONE':
