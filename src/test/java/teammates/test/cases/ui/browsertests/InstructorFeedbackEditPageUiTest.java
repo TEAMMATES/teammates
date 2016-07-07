@@ -241,7 +241,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.TEAMS, 1);
-        feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
         
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionEditToTeamToTeam.html");
 
@@ -265,7 +265,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         //change back
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
-        feedbackEditPage.selectRecipientTypeForQuestion1("Other students in the course");
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.clickquestionSaveForQuestion1();
         
         
@@ -514,7 +514,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickEditLabel(1);
-        feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
 
         assertFalse(feedbackEditPage.verifyPreviewLabelIsActive(1));
         assertTrue(feedbackEditPage.verifyEditLabelIsActive(1));
@@ -670,7 +670,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // Change the feedback path of the question and save
         feedbackEditPage = getFeedbackEditPage();
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
         feedbackEditPage.clickquestionSaveForQuestion1();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         
