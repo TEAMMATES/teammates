@@ -15,9 +15,8 @@ var instructorEmails;
 var teamNameToStudentEmailsMap;
 var studentEmails;
 var teamNames;
-var teamNamesIncludingInstructors;
-var allPossibleFeedbackParticipants;
-
+var allPossibleFeedbackGivers;
+var allPossibleFeedbackRecipients;
 
 $(document).ready(function() {
     initialiseCustomFeedbackPathsData();
@@ -51,12 +50,16 @@ function initialiseCustomFeedbackPathsData() {
         }
     }
     
-    teamNamesIncludingInstructors = teamNames.slice();
-    teamNamesIncludingInstructors.push(TEAM_NAME_INSTRUCTORS);
-    allPossibleFeedbackParticipants =
-        studentEmails.slice().concat(instructorEmails.slice())
-                             .concat(teamNamesIncludingInstructors.slice());
-    allPossibleFeedbackParticipants.push('%GENERAL%');
+    allPossibleFeedbackGivers = studentEmails.slice();
+    for (var i = 0; i < instructorEmails.length; i++) {
+        if (!allPossibleFeedbackGivers.includes(instructorEmails[i])) {
+            allPossibleFeedbackGivers.push(instructorEmails[i]);
+        }
+    }
+    allPossibleFeedbackGivers = allPossibleFeedbackGivers.concat(teamNames);            
+    allPossibleFeedbackRecipients = allPossibleFeedbackGivers.slice();
+    allPossibleFeedbackRecipients.push(TEAM_NAME_INSTRUCTORS);
+    allPossibleFeedbackRecipients.push('%GENERAL%');
 }
 
 function initialiseFeedbackPathsSpreadsheets() {
@@ -166,11 +169,11 @@ function getColumnsForFeedbackPathsSpreadsheet(giverType, recipientType) {
             && recipientType === FEEDBACK_PARTICIPANT_TYPE_CUSTOM) {
         columns = [{
             type: 'dropdown',
-            source: allPossibleFeedbackParticipants,
+            source: allPossibleFeedbackGivers,
             readOnly: false
         }, {
             type: 'dropdown',
-            source: allPossibleFeedbackParticipants,
+            source: allPossibleFeedbackRecipients,
             readOnly: false
         }];
     } else {
