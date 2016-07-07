@@ -88,7 +88,7 @@
                     <p class="text-muted">Each row represents the feedback path of a single giver to a single recipient.</p>
                     <p class="text-muted">The first column contains the feedback giver and the second column contains the feedback recipient.</p>
                     <p class="text-muted">You can fully customize the paths by clicking on the button below.</p>
-                    <button type="button" class="btn btn-primary customize-button">Customize</button>
+                    <button type="button" class="btn btn-primary btn-block customize-button">Customize</button>
                 </div>
                 <div class="col-sm-9">
                     <div class="row margin-bottom-15px">
