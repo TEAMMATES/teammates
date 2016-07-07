@@ -272,7 +272,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.waitForElementVisibility(browser.driver.findElement(By.id("questionTableNew")));
-        feedbackEditPage.clickVisibilityOptionsForNewQuestion();
+        feedbackEditPage.clickVisibilityOptionsForQuestion(-1);
         feedbackEditPage.clickResponseVisiblityCheckBoxForNewQuestion("RECEIVER_TEAM_MEMBERS");
         feedbackEditPage.clickVisibilityPreviewForQuestion(-1);
         
@@ -513,7 +513,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertFalse(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));
 
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.clickEditLabel(1);
+        feedbackEditPage.clickVisibilityOptionsForQuestion(1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
 
         assertFalse(feedbackEditPage.verifyPreviewLabelIsActive(1));
@@ -528,7 +528,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
 
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.clickEditLabel(1);
+        feedbackEditPage.clickVisibilityOptionsForQuestion(1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.SELF, 1);
 

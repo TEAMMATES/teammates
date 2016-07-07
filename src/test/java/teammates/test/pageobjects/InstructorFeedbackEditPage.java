@@ -399,11 +399,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void clickVisibilityOptionsForQuestion(int qnNumber) {
-        browser.driver.findElement(By.id("visibilityOptionsLabel-" + qnNumber)).click();
-    }
-    
-    public void clickVisibilityOptionsForNewQuestion() {
-        browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityOptionsLabel")).click();
+        getEditLabel(qnNumber).click();
     }
     
     public void clickAddQuestionButton() {
@@ -933,10 +929,6 @@ public class InstructorFeedbackEditPage extends AppPage {
                 By.cssSelector("#question-copy-modal-status.alert-danger")).getText();
     }
     
-    public void clickEditLabel(int questionNumber) {
-        getEditLabel(questionNumber).click();
-    }
-    
     public boolean verifyPreviewLabelIsActive(int questionNumber) {
         return getPreviewLabel(questionNumber).getAttribute("class").contains("active");
     }
@@ -964,7 +956,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public WebElement getEditLabel(int questionNumber) {
-        return browser.driver.findElement(By.id("visibilityOptionsLabel-" + questionNumber));
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + questionNumber));
+        return questionForm.findElement(By.className("visibilityOptionsLabel"));
     }
     
     public WebElement getVisibilityMessage(int questionNumber) {
