@@ -1933,9 +1933,8 @@ public class FeedbackSessionsLogic {
         }
 
         // check if user is student; add his/her teammates if true
-        StudentAttributes student = null;
         Set<String> studentsEmailInTeam = new HashSet<String>();
-        getStudentAndTeammates(courseId, userEmail, role, student, studentsEmailInTeam);
+        StudentAttributes student = getStudentAndTeammates(courseId, userEmail, role, studentsEmailInTeam);
         
         // maps responses to comments
         List<FeedbackResponseCommentAttributes> allResponseComments =
@@ -2016,9 +2015,9 @@ public class FeedbackSessionsLogic {
             String questionId = params.get(PARAM_QUESTION_ID);
             boolean isQueryingResponseRateStatus = questionId.equals(QUESTION_ID_FOR_RESPONSE_RATE);
             return getResponsesForQuestion(feedbackSessionName, courseId, userEmail, role, roster,
-                    params, session, allQuestions, responses, relevantQuestions, emailNameTable,
+                    session, allQuestions, responses, relevantQuestions, emailNameTable,
                     emailLastNameTable, emailTeamNameTable, sectionTeamNameTable, visibilityTable,
-                    responseComments, responseStatus, isIncludeResponseStatus, section, questionId,
+                    responseComments, isIncludeResponseStatus, section, questionId,
                     isQueryingResponseRateStatus);
         }
         
@@ -2035,11 +2034,11 @@ public class FeedbackSessionsLogic {
         List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
         if (params.get(PARAM_RANGE) == null) {
             allResponses = getFeedbackResponsesForSession(feedbackSessionName, courseId, section,
-                    isInSection, isToSection, isFromSection, allResponses);
+                    isInSection, isToSection, isFromSection);
         } else {
             long range = Long.parseLong(params.get(PARAM_RANGE));
             allResponses = getFeedbackResponsesForSessionInRange(feedbackSessionName, courseId, section,
-                    isInSection, isToSection, isFromSection, allResponses, range);
+                    isInSection, isToSection, isFromSection, range);
             if (allResponses.size() <= range) {
                 isComplete = true;
             } else {
@@ -2054,9 +2053,8 @@ public class FeedbackSessionsLogic {
                        ? getFeedbackSessionResponseStatus(session, roster, allQuestions)
                        : null;
 
-        StudentAttributes student = null;
         Set<String> studentsEmailInTeam = new HashSet<String>();
-        getStudentAndTeammates(courseId, userEmail, role, student, studentsEmailInTeam);
+        StudentAttributes student = getStudentAndTeammates(courseId, userEmail, role, studentsEmailInTeam);
         
         InstructorAttributes instructor = null;
         if (role == Role.INSTRUCTOR) {
@@ -2105,18 +2103,17 @@ public class FeedbackSessionsLogic {
         return results;
     }
 
-
-
     private FeedbackSessionResultsBundle getResponsesForQuestion(String feedbackSessionName,
             String courseId, String userEmail, UserType.Role role, CourseRoster roster,
-            Map<String, String> params, FeedbackSessionAttributes session,
+            FeedbackSessionAttributes session,
             List<FeedbackQuestionAttributes> allQuestions, List<FeedbackResponseAttributes> responses,
             Map<String, FeedbackQuestionAttributes> relevantQuestions, Map<String, String> emailNameTable,
             Map<String, String> emailLastNameTable, Map<String, String> emailTeamNameTable,
             Map<String, Set<String>> sectionTeamNameTable, Map<String, boolean[]> visibilityTable,
             Map<String, List<FeedbackResponseCommentAttributes>> responseComments,
-            FeedbackSessionResponseStatus responseStatus, boolean isIncludeResponseStatus, String section,
+            boolean isIncludeResponseStatus, String section,
             String questionId, boolean isQueryingResponseRateStatus) {
+        FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
         
         if (isQueryingResponseRateStatus) {
             responseStatus = section == null && isIncludeResponseStatus
@@ -2141,6 +2138,7 @@ public class FeedbackSessionsLogic {
                         if (response.giver.equals(userEmail)
                                 || isResponseVisibleForUser(userEmail, role, null, new HashSet<String>(),
                                         response, question, instructor)) {
+                            isVisibleResponse = true;
                         }
                         if (isVisibleResponse && instructor != null) {
                             isVisibleResponse = doesInstructorHavePermissionToViewResponse(question,
@@ -2170,8 +2168,8 @@ public class FeedbackSessionsLogic {
     }
     
     private List<FeedbackResponseAttributes> getFeedbackResponsesForSession(String feedbackSessionName,
-            String courseId, String section, boolean isInSection, boolean isToSection, boolean isFromSection,
-            List<FeedbackResponseAttributes> allResponses) {
+            String courseId, String section, boolean isInSection, boolean isToSection, boolean isFromSection) {
+        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
         if (isInSection) {
             allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
                                                                            courseId, section);
@@ -2189,8 +2187,8 @@ public class FeedbackSessionsLogic {
 
     private List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInRange(
             String feedbackSessionName, String courseId, String section, boolean isInSection,
-            boolean isToSection, boolean isFromSection, List<FeedbackResponseAttributes> allResponses,
-            long range) {
+            boolean isToSection, boolean isFromSection, long range) {
+        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
         if (isInSection) {
             allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
                                                                                       courseId, section, range);
@@ -2206,8 +2204,9 @@ public class FeedbackSessionsLogic {
         return allResponses;
     }
 
-    private void getStudentAndTeammates(String courseId, String userEmail, UserType.Role role,
-            StudentAttributes student, Set<String> studentsEmailInTeam) {
+    private StudentAttributes getStudentAndTeammates(String courseId, String userEmail, UserType.Role role,
+            Set<String> studentsEmailInTeam) {
+        StudentAttributes student = null;
         if (role == Role.STUDENT) {
             student = studentsLogic.getStudentForEmail(courseId, userEmail);
             List<StudentAttributes> studentsInTeam = studentsLogic
@@ -2216,6 +2215,7 @@ public class FeedbackSessionsLogic {
                 studentsEmailInTeam.add(teammates.email);
             }
         }
+        return student;
     }
 
     private boolean doesInstructorHavePermissionToViewResponse(FeedbackQuestionAttributes question,
