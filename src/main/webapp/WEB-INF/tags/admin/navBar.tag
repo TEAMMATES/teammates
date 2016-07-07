@@ -61,9 +61,10 @@
                         <span class="glyphicon glyphicon-user"></span> Logout
                         
                         (<span class="text-info" 
-                                <c:if test="${data.account.googleId != data.account.truncatedGoogleId}">data-toggle="tooltip"</c:if>
-                                data-placement="bottom"
-                                title="${data.account.googleId}">
+                                <c:if test="${data.account.googleId != data.account.truncatedGoogleId}">
+                                data-toggle="tooltip" title="${data.account.googleId}"
+                                </c:if>
+                                data-placement="bottom">
                                 ${data.account.truncatedGoogleId}
                         </span>)
                     </a>  
