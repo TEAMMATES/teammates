@@ -64,9 +64,10 @@ function initialiseCustomFeedbackPathsData() {
 
 function initialiseFeedbackPathsSpreadsheets() {
     $('.form_question').each(function() {
-        var giverType = $('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();
-        var recipientType = $('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]').val();
-        generateFeedbackPathsSpreadsheet($(this).find('.custom-feedback-paths-spreadsheet'), giverType, recipientType);
+        var $questionForm = $(this);
+        var giverType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();
+        var recipientType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]').val();
+        generateFeedbackPathsSpreadsheet($questionForm.find('.custom-feedback-paths-spreadsheet'), giverType, recipientType);
     });
 }
 
