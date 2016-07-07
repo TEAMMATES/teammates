@@ -112,9 +112,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "recipienttype-1")
     private WebElement recipientDropdownForQuestion1;
     
-    @FindBy(id = "questionedittext-1")
-    private WebElement questionEditForQuestion1;
-    
     @FindBy(id = "questionsavechangestext-1")
     private WebElement questionSaveForQuestion1;
     
@@ -326,10 +323,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         
         WebElement subQnBox = browser.driver.findElement(By.id(elemId));
         fillTextBox(subQnBox, description);
-    }
-    
-    public void clickQuestionEditForQuestion1() {
-        questionEditForQuestion1.click();
     }
     
     public void clickMaxNumberOfRecipientsButton() {

@@ -512,7 +512,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));
         assertFalse(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));
 
-        feedbackEditPage.clickQuestionEditForQuestion1();
+        feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickEditLabel(1);
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
 
@@ -527,7 +527,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage = getFeedbackEditPage();
 
-        feedbackEditPage.clickQuestionEditForQuestion1();
+        feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickEditLabel(1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.SELF, 1);
