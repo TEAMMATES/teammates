@@ -125,7 +125,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MCQ: add mcq option");
         
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-2--1"));
-        feedbackEditPage.clickAddMoreMcqOptionLink();
+        feedbackEditPage.clickAddMoreMcqOptionLinkForNewQuestion();
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-2--1"));
 
         ______TS("MCQ: remove mcq option");
@@ -137,9 +137,9 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: add mcq option after remove");
 
-        feedbackEditPage.clickAddMoreMcqOptionLink();
+        feedbackEditPage.clickAddMoreMcqOptionLinkForNewQuestion();
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-3--1"));
-        feedbackEditPage.clickAddMoreMcqOptionLink();
+        feedbackEditPage.clickAddMoreMcqOptionLinkForNewQuestion();
         feedbackEditPage.fillMcqOption(4, "Choice 5");
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-4--1"));
     }
