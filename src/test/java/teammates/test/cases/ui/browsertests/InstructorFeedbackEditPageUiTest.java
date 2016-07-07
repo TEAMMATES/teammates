@@ -256,7 +256,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         
         ______TS("test visibility preview of question 1");
-        feedbackEditPage.clickVisibilityPreviewForQuestion1();
+        feedbackEditPage.clickVisibilityPreviewForQuestion(1);
         WebElement visibilityMessage = browser.driver.findElement(By.id("visibilityMessage-1"));
         feedbackEditPage.waitForElementVisibility(visibilityMessage);
 
@@ -587,7 +587,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.changeQuestionTypeInForm(1, "InvalidQuestionType");
-        feedbackEditPage.clickVisibilityPreviewForQuestion1();
+        feedbackEditPage.clickVisibilityPreviewForQuestion(1);
         feedbackEditPage.waitForAjaxErrorOnVisibilityMessageButton(1);
         assertFalse(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));
     }

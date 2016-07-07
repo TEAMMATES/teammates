@@ -407,10 +407,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickVisibilityPreviewForQuestion1() {
-        browser.driver.findElement(By.className("visibilityMessageButton")).click();
-    }
-    
     public void clickVisibilityPreviewForQuestion(int qnNumber) {
         browser.driver.findElement(By.id("visibilityMessageButton-" + qnNumber)).click();
     }
