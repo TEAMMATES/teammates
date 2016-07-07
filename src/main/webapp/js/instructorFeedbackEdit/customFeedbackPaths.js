@@ -56,7 +56,7 @@ function initialiseCustomFeedbackPathsData() {
             allPossibleFeedbackGivers.push(instructorEmails[i]);
         }
     }
-    allPossibleFeedbackGivers = allPossibleFeedbackGivers.concat(teamNames);            
+    allPossibleFeedbackGivers = allPossibleFeedbackGivers.concat(teamNames);
     allPossibleFeedbackRecipients = allPossibleFeedbackGivers.slice();
     allPossibleFeedbackRecipients.push(TEAM_NAME_INSTRUCTORS);
     allPossibleFeedbackRecipients.push('%GENERAL%');
@@ -305,16 +305,12 @@ function bindEventHandlers() {
         
         if (giverType === FEEDBACK_PARTICIPANT_TYPE_CUSTOM
                 || recipientType === FEEDBACK_PARTICIPANT_TYPE_CUSTOM) {
-            if (this.id.includes(FEEDBACK_QUESTION_GIVERTYPE)) {
-                $recipientSelect.val(FEEDBACK_PARTICIPANT_TYPE_SELF);
-                recipientType = FEEDBACK_PARTICIPANT_TYPE_SELF;
-            } else if (this.id.includes(FEEDBACK_QUESTION_RECIPIENTTYPE)) {
-                $giverSelect.val(FEEDBACK_PARTICIPANT_TYPE_SELF);
-                giverType = FEEDBACK_PARTICIPANT_TYPE_SELF;
-            }
             $giverSelect.find('option[value="' + FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
             $recipientSelect.find('option[value="' + FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
         }
+        
+        giverType = $giverSelect.val();
+        recipientType = $recipientSelect.val();
         updateFeedbackPathsSpreadsheet($container, giverType, recipientType);
     });
     
