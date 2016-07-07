@@ -1,11 +1,13 @@
 package teammates.test.cases;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.testng.AssertJUnit;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.TestProperties;
@@ -114,6 +116,25 @@ public class BaseTestCase {
         assertTrue(true);
     }
     
+    protected static String getPopulatedErrorMessage(String messageTemplate, String userInput,
+                                                     String fieldName, String errorReason) {
+        return getPopulatedErrorMessage(messageTemplate, userInput, fieldName, errorReason, 0);
+    }
+
+    protected static String getPopulatedErrorMessage(String messageTemplate, String userInput,
+                                                     String fieldName, String errorReason, int maxLength) {
+        try {
+            Method getPopulatedErrorMessage =
+                    FieldValidator.class.getDeclaredMethod("getPopulatedErrorMessage", String.class,
+                            String.class, String.class, String.class, int.class);
+            getPopulatedErrorMessage.setAccessible(true);
+            return (String) getPopulatedErrorMessage.invoke(null, messageTemplate, userInput, fieldName,
+                                                            errorReason, maxLength);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /*
      * Here are some of the most common assertion methods provided by JUnit.
      * They are copied here to prevent repetitive importing in test classes.

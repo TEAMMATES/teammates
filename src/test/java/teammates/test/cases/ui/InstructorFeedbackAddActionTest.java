@@ -100,8 +100,8 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                 + "instr1@course1.tmt|||Servlet Action Failure : \"123456789012345678901234567890123456789\" "
-                + "is not acceptable to TEAMMATES as feedback session name because it is too long. "
-                + "The value of feedback session name should be no longer than 38 characters. "
+                + "is not acceptable to TEAMMATES as a/an feedback session name because it is too long. "
+                + "The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         

@@ -1078,7 +1078,7 @@ public final class Const {
                 + "If you don't remember which Google account you used previously, "
                 + "email us from the same email account to which you receive TEAMMATES emails."
                 + "<br>2. You changed the primary email from a non-Gmail address to a Gmail address recently. "
-                + "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> "
+                + "In that case, <a href=\"/contact.jsp\">email us</a> "
                 + "so that we can reconfigure your account to use the new Gmail address."
                 + "<br>3. You joined this course just a few seconds ago and your data "
                 + "may be still in the process of propagating through our servers. "
@@ -1173,6 +1173,8 @@ public final class Const {
                 + "Please try again with a smaller picture.";
         public static final String STUDENT_PROFILE_PIC_SERVICE_DOWN = "We were unable to upload your picture at this time. "
                 + "Please try again after some time";
+        public static final String STUDENT_EMAIL_TAKEN_MESSAGE =
+                "Trying to update to an email that is already used by: %s/%s";
         
         public static final String FEEDBACK_SESSION_ADDED =
                 "The feedback session has been added. "
@@ -1289,8 +1291,8 @@ public final class Const {
         public static final String COMMENT_CLEARED_UNSUCCESSFULLY = "Notification for some pending comments fails to send";
         
         public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
-                + "<a href='/instructorHelp.html#gs' target='_blank'>Getting Started Guide</a>.<br>A video tour"
-                + " is also available in our <a href='/index.html' target='_blank'>home page</a>.";
+                + "<a href=\"/instructorHelp.jsp#gs\" target=\"_blank\">Getting Started Guide</a>.<br>A video tour"
+                + " is also available in our <a href=\"/index.jsp\" target=\"_blank\">home page</a>.";
         
         public static final String HINT_FOR_NO_SESSIONS_STUDENT =
                 "Currently, there are no open feedback sessions in the course %s. "
