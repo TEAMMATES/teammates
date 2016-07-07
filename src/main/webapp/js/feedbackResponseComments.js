@@ -121,7 +121,7 @@ var deleteCommentHandler = function(e) {
     var submitButton = $(this);
     e.preventDefault();
 
-    BootboxWrapper.showModalConfirmation('Warning', 'Are you sure you want to remove this comment?', function() {
+    BootboxWrapper.showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', function() {
         var formObject = submitButton.parent();
         var formData = formObject.serialize();
         var panelHeading = submitButton.parents("[id^='panel_display-']").find('.panel-heading').first();
