@@ -316,6 +316,22 @@ function bindDeleteButtons() {
     });
 }
 
+function attachEventToDeleteStudentLink() {
+    $(document).on('click', '.course-student-delete-link', function(event) {
+        event.preventDefault();
+
+        var $clickedLink = $(event.target);
+        var messageText = 'Are you sure you want to remove ' + $clickedLink.data('studentName')
+                          + ' from the course ' + $clickedLink.data('courseId') + '?';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deletion', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+    });
+}
+
 function bindRemindButtons() {
     $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', function(e) {
         if (!toggleRemindStudents($(this).data('fsname'))) {
