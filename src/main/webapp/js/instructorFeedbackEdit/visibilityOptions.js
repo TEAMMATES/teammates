@@ -64,9 +64,9 @@ function getVisibilityMessageIfPreviewIsActive(clickedButton) {
 function updateEditTab($containingForm) {
     enableAllRows($containingForm);
 
-    updateEditTabAccordingToGiver($containingForm);
-    updateEditTabAccordingToRecipient($containingForm);
-    updateEditTabForSpecificGiverRecipientCombinations($containingForm);
+    disableRowsAccordingToGiver($containingForm);
+    disableRowsAccordingToRecipient($containingForm);
+    disableRowsForSpecificGiverRecipientCombinations($containingForm);
 }
 
 /**
@@ -152,7 +152,7 @@ function disableRow($containingForm, row) {
     $tdElements.parent().hide();
 }
 
-function updateEditTabAccordingToRecipient($containingForm) {
+function disableRowsAccordingToRecipient($containingForm) {
     var recipientType = $containingForm.find('select[name="recipienttype"]').val();
     switch (recipientType) {
     case 'SELF':
@@ -180,7 +180,7 @@ function updateEditTabAccordingToRecipient($containingForm) {
     }
 }
 
-function updateEditTabAccordingToGiver($containingForm) {
+function disableRowsAccordingToGiver($containingForm) {
     var giverType = $containingForm.find('select[name="givertype"]').val();
     switch (giverType) {
     case 'STUDENTS':
@@ -197,7 +197,7 @@ function updateEditTabAccordingToGiver($containingForm) {
     }
 }
 
-function updateEditTabForSpecificGiverRecipientCombinations($containingForm) {
+function disableRowsForSpecificGiverRecipientCombinations($containingForm) {
     var giverType = $containingForm.find('select[name="givertype"]').val();
     var recipientType = $containingForm.find('select[name="recipienttype"]').val();
 
