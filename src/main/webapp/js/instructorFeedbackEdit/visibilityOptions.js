@@ -66,6 +66,7 @@ function updateEditTab($containingForm) {
 
     updateEditTabAccordingToGiver($containingForm);
     updateEditTabAccordingToRecipient($containingForm);
+    updateEditTabForSpecificGiverRecipientCombinations($containingForm);
 }
 
 /**
@@ -193,6 +194,16 @@ function updateEditTabAccordingToGiver($containingForm) {
         break;
     default:
         throw 'Unexpected giverType';
+    }
+}
+
+function updateEditTabForSpecificGiverRecipientCombinations($containingForm) {
+    var giverType = $containingForm.find('select[name="givertype"]').val();
+    var recipientType = $containingForm.find('select[name="recipienttype"]').val();
+
+    if ((giverType === 'SELF' || giverType === 'INSTRUCTORS') && recipientType === 'SELF') {
+        // ROW_RECIPIENT_TEAM is disbled because it is the same as ROW_INSTRUCTORS
+        disableRow($containingForm, ROW_RECIPIENT_TEAM);
     }
 }
 
