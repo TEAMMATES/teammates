@@ -102,7 +102,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
         
         assertTrue(feedbackEditPage.isElementPresent("msqOtherOptionFlag--1"));
-        feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
+        feedbackEditPage.clickAddMsqOtherOptionCheckbox(-1);
         assertTrue(feedbackEditPage.isElementSelected("msqOtherOptionFlag--1"));
         feedbackEditPage.clickAddQuestionButton();
     }

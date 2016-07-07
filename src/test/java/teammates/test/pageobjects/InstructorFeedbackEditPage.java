@@ -91,9 +91,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_done_editing")
     private WebElement doneEditingButton;
     
-    @FindBy(id = "msqOtherOptionFlag--1")
-    private WebElement addMsqOtherOptionCheckboxForNewQuestion;
-    
     @FindBy(id = "givertype")
     private WebElement giverDropdown;
     
@@ -364,8 +361,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         browser.driver.findElement(By.id("mcqOtherOptionFlag-" + qnIndex)).click();
     }
     
-    public void clickAddMsqOtherOptionCheckboxForNewQuestion() {
-        addMsqOtherOptionCheckboxForNewQuestion.click();
+    public void clickAddMsqOtherOptionCheckbox(int qnIndex) {
+        browser.driver.findElement(By.id("msqOtherOptionFlag-" + qnIndex)).click();
     }
     
     public WebElement getDeleteSessionLink() {
