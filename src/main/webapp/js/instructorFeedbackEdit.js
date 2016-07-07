@@ -526,6 +526,7 @@ function showNewQuestionFrame(type) {
     copyOptions();
     prepareQuestionForm(type);
     $('#questionTableNew').show();
+    updateFeedbackPathsSpreadsheetForQuestionTable($('#questionTableNew'));
     enableNewQuestion();
     
     $('#addNewQuestionTable').hide();

@@ -88,6 +88,13 @@ function generateFeedbackPathsSpreadsheet($container, giverType, recipientType) 
     });
 }
 
+function updateFeedbackPathsSpreadsheetForQuestionTable($questionTable) {
+    var $container = $questionTable.find('.custom-feedback-paths-spreadsheet');
+    var giverType = $questionTable.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();
+    var recipientType = $questionTable.find('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]').val();
+    updateFeedbackPathsSpreadsheet($container, giverType, recipientType);
+}
+
 function updateFeedbackPathsSpreadsheet($container, giverType, recipientType) {
     var data = getDataForFeedbackPathsSpreadsheet(giverType, recipientType);
     var columns = getColumnsForFeedbackPathsSpreadsheet(giverType, recipientType);
