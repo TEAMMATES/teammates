@@ -62,6 +62,8 @@ function getVisibilityMessageIfPreviewIsActive(clickedButton) {
  * according to the feedback path
  */
 function updateEditTab($containingForm) {
+    enableAllRows($containingForm);
+
     updateEditTabAccordingToGiver($containingForm);
     updateEditTabAccordingToRecipient($containingForm);
 }
@@ -119,6 +121,13 @@ function formatCheckBoxes() {
     });
 }
 
+function enableAllRows($containingForm) {
+    var allRows = [ROW_RECIPIENT, ROW_GIVER_TEAM, ROW_RECIPIENT_TEAM, ROW_OTHER_STUDENTS, ROW_INSTRUCTORS];
+    allRows.forEach(function(row) {
+        enableRow($containingForm, row);
+    });
+}
+
 function enableRow($containingForm, row) {
     var $editTab = $containingForm.find('.visibilityOptions');
     var $table = $editTab.find('table');
@@ -144,42 +153,47 @@ function disableRow($containingForm, row) {
 
 function updateEditTabAccordingToRecipient($containingForm) {
     var recipientType = $containingForm.find('select[name="recipienttype"]').val();
-    if (recipientType === 'SELF') {
+    switch (recipientType) {
+    case 'SELF':
+        // ROW_RECIPIENT is disabled because self-feedback is always visible to giver
         disableRow($containingForm, ROW_RECIPIENT);
-        return;
-    } else if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType)) {
-        // show the row Recipient(s) and hide the row Recipient's Team Members
-        enableRow($containingForm, ROW_RECIPIENT);
+        break;
+    case 'STUDENTS':
+        // all options enabled when recipientType is STUDENTS (subject to options disabled by giverType)
+        break;
+    case 'INSTRUCTORS':
+    case 'TEAMS':
+    case 'OWN_TEAM':
+    case 'OWN_TEAM_MEMBERS':
+    case 'OWN_TEAM_MEMBERS_INCLUDING_SELF':
+        // ROW_RECIPIENT_TEAM is disabled because the recipientType is 'team-like',
+        // and ROW_RECIPIENT_TEAM is thus same as ROW_RECIPIENT
         disableRow($containingForm, ROW_RECIPIENT_TEAM);
-        return;
-    } else if (recipientType === 'NONE') {
-        // hide both the row Recipient(s) and the row Recipient's Team Members
-        disableRow($containingForm, ROW_RECIPIENT_TEAM);
+        break;
+    case 'NONE':
         disableRow($containingForm, ROW_RECIPIENT);
-        return;
+        disableRow($containingForm, ROW_RECIPIENT_TEAM);
+        break;
+    default:
+        throw 'Unexpected receiverType';
     }
-    
-    enableRow($containingForm, ROW_RECIPIENT);
-    enableRow($containingForm, ROW_RECIPIENT_TEAM);
-}
-
-/**
- * Returns true if "recipient's team members" visibility option
- * is not applicable for the recipient type
- */
-function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType) {
-    return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS'
-           || recipientType === 'INSTRUCTORS' || recipientType === 'OWN_TEAM_MEMBERS'
-           || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
 }
 
 function updateEditTabAccordingToGiver($containingForm) {
     var giverType = $containingForm.find('select[name="givertype"]').val();
-    if (giverType === 'SELF' || giverType === 'INSTRUCTORS' || giverType === 'TEAMS') {
+    switch (giverType) {
+    case 'STUDENTS':
+        // all options enabled when giverType is STUDENTS (subject to options disabled by recipientType)
+        break;
+    case 'SELF':
+    case 'INSTRUCTORS':
+    case 'TEAMS':
+        // ROW_GIVER_TEAM is disbled because it is the same as ROW_INSTRUCTORS
         disableRow($containingForm, ROW_GIVER_TEAM);
-        return;
+        break;
+    default:
+        throw 'Unexpected giverType';
     }
-    enableRow($containingForm, ROW_GIVER_TEAM);
 }
 
 // Meant to be declared outside to prevent unncessary AJAX calls
