@@ -324,7 +324,7 @@ function bindEventHandlers() {
         }
     });
     
-    $('.form_question').on('click', '.customize-further-button', function() {
+    $('.form_question').on('click', '.customize-button', function() {
         var $questionForm = $(this).closest('.form_question');
         $questionForm.find('div[class*="numberOfEntitiesElements"]').hide();
         $questionForm.find('.participantSelect').each(function() {

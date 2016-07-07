@@ -83,11 +83,12 @@
             </div>
             <div class="row custom-feedback-paths-display margin-top-15px">
                 <div class="col-sm-3">
-                    <button type="button" class="btn btn-primary customize-further-button">Customize Further</button>
                     <p class="text-muted margin-top-15px"><strong>How to use:</strong></p>
-                    <p class="text-muted">The editable spreadsheet to the right shows the feedback paths.</p>
-                    <p class="text-muted">Each row represents the feedback paths of a single giver to a single recipient.</p>
+                    <p class="text-muted">The spreadsheet to the right shows the current feedback paths according to the chosen options</p>
+                    <p class="text-muted">Each row represents the feedback path of a single giver to a single recipient.</p>
                     <p class="text-muted">The first column contains the feedback giver and the second column contains the feedback recipient.</p>
+                    <p class="text-muted">You can fully customize the paths by clicking on the button below.</p>
+                    <button type="button" class="btn btn-primary customize-button">Customize</button>
                 </div>
                 <div class="col-sm-9">
                     <div class="row margin-bottom-15px">
