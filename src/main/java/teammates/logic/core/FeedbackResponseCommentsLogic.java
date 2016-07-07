@@ -77,19 +77,19 @@ public class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseComment(responseId, giverEmail, creationDate);
     }
 
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForResponse(String feedbackResponseId) {
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {
         return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
     }
     
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String courseId,
-                                                                                        String feedbackSessionName) {
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSession(String courseId,
+                                                                                         String feedbackSessionName) {
         return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
     }
 
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSessionInSection(String courseId,
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSessionInSection(String courseId,
                                                            String feedbackSessionName, String section) {
         if (section == null) {
-            return getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
+            return getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
         }
         return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
     }
@@ -101,13 +101,16 @@ public class FeedbackResponseCommentsLogic {
             String oldResponseId, String newResponseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         List<FeedbackResponseCommentAttributes> responseComments =
-                getFeedbackResponseCommentForResponse(oldResponseId);
+                getFeedbackResponseCommentsForResponse(oldResponseId);
         for (FeedbackResponseCommentAttributes responseComment : responseComments) {
             responseComment.feedbackResponseId = newResponseId;
             frcDb.updateFeedbackResponseComment(responseComment);
         }
     }
     
+    /**
+     * Updates comments from {@code oldEmail} to be given by {@code updatedEmail} instead
+     */
     public void updateFeedbackResponseCommentsGiverEmail(String courseId, String oldEmail, String updatedEmail) {
         frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
     }
@@ -117,7 +120,7 @@ public class FeedbackResponseCommentsLogic {
      */
     public void updateSectionsForFeedbackResponseCommentsForResponse(String feedbackResponseId)
             throws InvalidParametersException, EntityDoesNotExistException {
-        List<FeedbackResponseCommentAttributes> comments = getFeedbackResponseCommentForResponse(feedbackResponseId);
+        List<FeedbackResponseCommentAttributes> comments = getFeedbackResponseCommentsForResponse(feedbackResponseId);
         FeedbackResponseAttributes response = frLogic.getFeedbackResponse(feedbackResponseId);
         for (FeedbackResponseCommentAttributes comment : comments) {
             comment.giverSection = response.giverSection;
@@ -237,6 +240,31 @@ public class FeedbackResponseCommentsLogic {
         return doesVisibilityRecipientTypeMatchUserDetails(response, userEmail, roster, showNameTo, responseGiverTeam,
                 responseRecipientTeam, currentUserTeam);
     }
+
+    /**
+     * Checks if the user matches any of the feedback participant types for the given response.
+     */
+    private boolean doesVisibilityRecipientTypeMatchUserDetails(FeedbackResponseAttributes response, String userEmail,
+            CourseRoster roster, List<FeedbackParticipantType> showNameTo, String responseGiverTeam,
+            String responseRecipientTeam, String currentUserTeam) {
+        for (FeedbackParticipantType type : showNameTo) {
+            if (type == FeedbackParticipantType.GIVER && userEmail.equals(response.giver)) {
+                return true;
+            } else if (type == FeedbackParticipantType.INSTRUCTORS && roster.getInstructorForEmail(userEmail) != null) {
+                return true;
+            } else if (type == FeedbackParticipantType.RECEIVER && userEmail.equals(response.recipient)) {
+                return true;
+            } else if (type == FeedbackParticipantType.OWN_TEAM_MEMBERS && responseGiverTeam.equals(currentUserTeam)) {
+                return true;
+            } else if (type == FeedbackParticipantType.RECEIVER_TEAM_MEMBERS
+                    && responseRecipientTeam.equals(currentUserTeam)) {
+                return true;
+            } else if (type == FeedbackParticipantType.STUDENTS && roster.getStudentForEmail(userEmail) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     /**
      * Verify whether the comment is visible to certain user
@@ -270,6 +298,9 @@ public class FeedbackResponseCommentsLogic {
         return isVisibleToUserAsIndividual || isVisibleToUserAsTeamMember;
     }
 
+    /**
+     * Checks if the response comment is visible to the user as an individual.
+     */
     private boolean isResponseCommentVisibleToUserAsIndividual(String userEmail,
             FeedbackResponseAttributes relatedResponse, FeedbackQuestionAttributes relatedQuestion,
             FeedbackResponseCommentAttributes comment, boolean isVisibleToGiver,
@@ -298,6 +329,9 @@ public class FeedbackResponseCommentsLogic {
                 || userIsStudentAndResponseCommentIsVisibleToStudents;
     }
 
+    /**
+     * Checks if the response comment is visible to the user as part of a team.
+     */
     private boolean isResponseCommentVisibleToUserAsTeamMember(StudentAttributes student,
             Set<String> studentsEmailInTeam, FeedbackResponseAttributes relatedResponse,
             FeedbackQuestionAttributes relatedQuestion, FeedbackResponseCommentAttributes comment,
@@ -346,28 +380,6 @@ public class FeedbackResponseCommentsLogic {
                               ? relatedQuestion.isResponseVisibleTo(viewerType)
                               : comment.isVisibleTo(viewerType);
         return isVisibleTo;
-    }
-
-    private boolean doesVisibilityRecipientTypeMatchUserDetails(FeedbackResponseAttributes response, String userEmail,
-            CourseRoster roster, List<FeedbackParticipantType> showNameTo, String responseGiverTeam,
-            String responseRecipientTeam, String currentUserTeam) {
-        for (FeedbackParticipantType type : showNameTo) {
-            if (type == FeedbackParticipantType.GIVER && userEmail.equals(response.giver)) {
-                return true;
-            } else if (type == FeedbackParticipantType.INSTRUCTORS && roster.getInstructorForEmail(userEmail) != null) {
-                return true;
-            } else if (type == FeedbackParticipantType.RECEIVER && userEmail.equals(response.recipient)) {
-                return true;
-            } else if (type == FeedbackParticipantType.OWN_TEAM_MEMBERS && responseGiverTeam.equals(currentUserTeam)) {
-                return true;
-            } else if (type == FeedbackParticipantType.RECEIVER_TEAM_MEMBERS
-                    && responseRecipientTeam.equals(currentUserTeam)) {
-                return true;
-            } else if (type == FeedbackParticipantType.STUDENTS && roster.getStudentForEmail(userEmail) != null) {
-                return true;
-            }
-        }
-        return false;
     }
     
     private void verifyIsCoursePresent(String courseId) throws EntityDoesNotExistException {

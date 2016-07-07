@@ -599,7 +599,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         List<FeedbackResponseCommentAttributes> remainingComments = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseAttributes response : responsesForStudent1) {
-            remainingComments.addAll(frcLogic.getFeedbackResponseCommentForResponse(response.getId()));
+            remainingComments.addAll(frcLogic.getFeedbackResponseCommentsForResponse(response.getId()));
         }
         assertEquals(remainingComments.size(), 0);
         
@@ -695,7 +695,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseAttributes response : responses) {
             List<FeedbackResponseCommentAttributes> responseCommentsForResponse =
-                    frcLogic.getFeedbackResponseCommentForResponse(response.getId());
+                    frcLogic.getFeedbackResponseCommentsForResponse(response.getId());
             responseComments.addAll(responseCommentsForResponse);
         }
         return responseComments;

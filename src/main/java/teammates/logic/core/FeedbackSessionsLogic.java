@@ -1938,7 +1938,7 @@ public class FeedbackSessionsLogic {
         
         // maps responses to comments
         List<FeedbackResponseCommentAttributes> allResponseComments =
-                frcLogic.getFeedbackResponseCommentForSession(courseId,
+                frcLogic.getFeedbackResponseCommentsForSession(courseId,
                         feedbackSessionName);
         mapResponsesToComments(courseId, userEmail, role, roster, relevantQuestions, responseComments,
                 relevantResponses, student, studentsEmailInTeam, allResponseComments);
@@ -2084,7 +2084,7 @@ public class FeedbackSessionsLogic {
                 || Const.FeedbackSessionResults.GRQ_SORT_TYPE.equals(params.get(PARAM_VIEW_TYPE))
                 || Const.FeedbackSessionResults.RGQ_SORT_TYPE.equals(params.get(PARAM_VIEW_TYPE))) {
             List<FeedbackResponseCommentAttributes> allResponseComments =
-                    frcLogic.getFeedbackResponseCommentForSessionInSection(courseId,
+                    frcLogic.getFeedbackResponseCommentsForSessionInSection(courseId,
                             feedbackSessionName, section);
             mapResponsesToComments(courseId, userEmail, role, roster, relevantQuestions,
                     responseComments, relevantResponses, student, studentsEmailInTeam, allResponseComments);
