@@ -793,8 +793,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
     
-    public void clickAddMoreMcqOptionLink() {
-        WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink"));
+    public void clickAddMoreMcqOptionLinkForNewQuestion() {
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink--1"));
         addMoreOptionLink.click();
     }
     
