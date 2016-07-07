@@ -2015,9 +2015,7 @@ public class FeedbackSessionsLogic {
             String questionId = params.get(PARAM_QUESTION_ID);
             boolean isQueryingResponseRateStatus = questionId.equals(QUESTION_ID_FOR_RESPONSE_RATE);
             return getResponsesForQuestion(feedbackSessionName, courseId, userEmail, role, roster,
-                    session, allQuestions, responses, relevantQuestions, emailNameTable,
-                    emailLastNameTable, emailTeamNameTable, sectionTeamNameTable, visibilityTable,
-                    responseComments, isIncludeResponseStatus, section, questionId,
+                    session, allQuestions, relevantQuestions, isIncludeResponseStatus, section, questionId,
                     isQueryingResponseRateStatus);
         }
         
@@ -2031,7 +2029,7 @@ public class FeedbackSessionsLogic {
         boolean isFromSection = Boolean.parseBoolean(params.get(PARAM_FROM_SECTION));
         boolean isComplete = params.get(PARAM_RANGE) == null;
         
-        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> allResponses;
         if (params.get(PARAM_RANGE) == null) {
             allResponses = getFeedbackResponsesForSession(feedbackSessionName, courseId, section,
                     isInSection, isToSection, isFromSection);
@@ -2105,15 +2103,26 @@ public class FeedbackSessionsLogic {
 
     private FeedbackSessionResultsBundle getResponsesForQuestion(String feedbackSessionName,
             String courseId, String userEmail, UserType.Role role, CourseRoster roster,
-            FeedbackSessionAttributes session,
-            List<FeedbackQuestionAttributes> allQuestions, List<FeedbackResponseAttributes> responses,
-            Map<String, FeedbackQuestionAttributes> relevantQuestions, Map<String, String> emailNameTable,
-            Map<String, String> emailLastNameTable, Map<String, String> emailTeamNameTable,
-            Map<String, Set<String>> sectionTeamNameTable, Map<String, boolean[]> visibilityTable,
-            Map<String, List<FeedbackResponseCommentAttributes>> responseComments,
-            boolean isIncludeResponseStatus, String section,
-            String questionId, boolean isQueryingResponseRateStatus) {
+            FeedbackSessionAttributes session, List<FeedbackQuestionAttributes> allQuestions,
+            Map<String, FeedbackQuestionAttributes> relevantQuestions, boolean isIncludeResponseStatus,
+            String section, String questionId, boolean isQueryingResponseRateStatus) {
+        
+        // initialisation of empty collections
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
+        List<FeedbackResponseAttributes> responses =
+                new ArrayList<FeedbackResponseAttributes>();
+        Map<String, String> emailNameTable =
+                new HashMap<String, String>();
+        Map<String, String> emailLastNameTable =
+                new HashMap<String, String>();
+        Map<String, String> emailTeamNameTable =
+                new HashMap<String, String>();
+        Map<String, Set<String>> sectionTeamNameTable =
+                new HashMap<String, Set<String>>();
+        Map<String, boolean[]> visibilityTable =
+                new HashMap<String, boolean[]>();
+        Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
+                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
         
         if (isQueryingResponseRateStatus) {
             responseStatus = section == null && isIncludeResponseStatus
@@ -2312,7 +2321,7 @@ public class FeedbackSessionsLogic {
      * @param question
      * @param response
      */
-    private void addResponseAdditionalDetailsToTable(String userEmail, UserType.Role role,
+    protected void addResponseAdditionalDetailsToTable(String userEmail, UserType.Role role,
             CourseRoster roster, Map<String, String> emailNameTable, Map<String, String> emailLastNameTable,
             Map<String, String> emailTeamNameTable, Map<String, boolean[]> visibilityTable,
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response) {
