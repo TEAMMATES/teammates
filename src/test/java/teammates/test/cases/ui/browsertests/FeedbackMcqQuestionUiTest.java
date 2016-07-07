@@ -107,7 +107,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
         
-        feedbackEditPage.clickAddMcqOtherOptionCheckboxForNewQuestion();
+        feedbackEditPage.clickAddMcqOtherOptionCheckbox(-1);
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (single answer) question. "
                                       + "Minimum number of options is: 2.");
