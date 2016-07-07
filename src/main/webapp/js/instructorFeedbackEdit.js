@@ -94,6 +94,10 @@ function bindFeedbackSessionEditFormSubmission() {
         // Prevent form submission
         event.preventDefault();
         
+        // populate hidden input
+        if (typeof tinyMCE !== 'undefined') {
+            tinyMCE.get('instructions').save();
+        }
         var $form = $(event.target);
         // Use Ajax to submit form data
         $.ajax({
@@ -119,6 +123,16 @@ function bindFeedbackSessionEditFormSubmission() {
     });
 }
 
+function destroyEditor(id) {
+    if (typeof tinyMCE === 'undefined') {
+        return;
+    }
+    var currentEditor = tinyMCE.get(id);
+    if (currentEditor) {
+        currentEditor.destroy();
+    }
+}
+
 /**
  * Disables the editing of feedback session details.
  */
@@ -129,6 +143,15 @@ function disableEditFS() {
     });
     $('#form_feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
+
+    destroyEditor('instructions');
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            readonly: true
+        });
+    }
+
     $('#fsEditLink').show();
     $('#fsSaveLink').hide();
     $('#button_submit').hide();
@@ -163,6 +186,16 @@ function enableEditFS() {
                               .not($sessionOpeningReminder)
                               .not('.disabled')
                               .prop('disabled', false);
+
+    destroyEditor('instructions');
+    /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            fixed_toolbar_container: '#richtext-toolbar-container'
+        });
+    }
+    /* eslint-enable camelcase */
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit').show();
@@ -492,7 +525,9 @@ function showNewQuestionFrame(type) {
     $('#empty_message').hide();
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
-    getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
+
+    var selectedFeedbackPathOption = $('#givertype');
+    matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption);
 }
 
 function hideAllNewQuestionForms() {
@@ -648,68 +683,8 @@ function copyOptions() {
     $currTable.each(function(index) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
-    feedbackGiverUpdateVisibilityOptions($currGiver);
-    feedbackRecipientUpdateVisibilityOptions($currRecipient);
-}
 
-function enableRow(elem, row) {
-    var $visibilityOptions = $(elem).closest('form').find('.visibilityOptions');
-    var $table = $visibilityOptions.find('table');
-    var $tdElements = $($table.children().children()[row]).children();
-    
-    if ($tdElements.parent().prop('tagName') === 'tr') {
-        return;
-    }
-    $tdElements.unwrap().wrapAll('<tr>');
-}
-
-function disableRow(elem, row) {
-    var $visibilityOptions = $(elem).closest('form').find('.visibilityOptions');
-    var $table = $visibilityOptions.find('table');
-    var $tdElements = $($table.children().children()[row]).children();
-    
-    if ($tdElements.parent().prop('tagName') === 'hide') {
-        return;
-    }
-    $tdElements.unwrap().wrapAll('<hide>');
-    $tdElements.parent().hide();
-}
-
-function feedbackRecipientUpdateVisibilityOptions(elem) {
-    var $elem = $(elem);
-    if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType($elem.val())) {
-        // show the row Recipient(s) and hide the row Recipient's Team Members
-        enableRow($elem, 1);
-        disableRow($elem, 3);
-        return;
-    } else if ($elem.val() === 'NONE') {
-        // hide both the row Recipient(s) and the row Recipient's Team Members
-        disableRow($elem, 3);
-        disableRow($elem, 1);
-        return;
-    }
-    
-    enableRow($elem, 1);
-    enableRow($elem, 3);
-}
-
-/**
- * Returns true if "recipient's team members" visibility option
- * is not applicable for the recipient type
- */
-function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType) {
-    return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS'
-           || recipientType === 'INSTRUCTORS' || recipientType === 'OWN_TEAM_MEMBERS'
-           || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
-}
-
-function feedbackGiverUpdateVisibilityOptions(elem) {
-    var $elem = $(elem);
-    if ($elem.val() === 'INSTRUCTORS' || $elem.val() === 'TEAMS') {
-        disableRow($elem, 2);
-        return;
-    }
-    enableRow($elem, 2);
+    matchVisibilityOptionToFeedbackPath($currGiver);
 }
 
 /**
