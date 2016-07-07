@@ -395,15 +395,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void clickVisibilityPreviewForQuestion(int qnNumber) {
-        browser.driver.findElement(By.id("visibilityMessageButton-" + qnNumber)).click();
+        getPreviewLabel(qnNumber).click();
     }
     
     public void clickVisibilityOptionsForQuestion(int qnNumber) {
         browser.driver.findElement(By.id("visibilityOptionsLabel-" + qnNumber)).click();
-    }
-    
-    public void clickVisibilityPreviewForNewQuestion() {
-        browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessageButton")).click();
     }
     
     public void clickVisibilityOptionsForNewQuestion() {
@@ -963,7 +959,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public WebElement getPreviewLabel(int questionNumber) {
-        return browser.driver.findElement(By.id("visibilityMessageButton-" + questionNumber));
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + questionNumber));
+        return questionForm.findElement(By.className("visibilityMessageButton"));
     }
     
     public WebElement getEditLabel(int questionNumber) {
@@ -996,7 +993,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void waitForAjaxErrorOnVisibilityMessageButton(int questionNumber) {
         String errorMessage = "Visibility preview failed to load.";
-        By buttonSelector = By.cssSelector("#visibilityMessageButton-" + questionNumber);
+        By buttonSelector = By.id("visibilityMessageButton-" + questionNumber);
         waitForTextContainedInElementPresence(buttonSelector, errorMessage);
     }
 
