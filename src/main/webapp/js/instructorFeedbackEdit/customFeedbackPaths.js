@@ -75,7 +75,7 @@ function generateFeedbackPathsSpreadsheet($container, giverType, recipientType) 
     var columns = getColumnsForFeedbackPathsSpreadsheet(giverType, recipientType);
     $container.handsontable({
         data: data,
-        minRows: 10,
+        minRows: 15,
         minCols: 2,
         minSpareRows: 1,
         rowHeaders: true,

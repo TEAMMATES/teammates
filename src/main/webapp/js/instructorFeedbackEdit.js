@@ -894,7 +894,7 @@ function regenerateCustomFeedbackPathsSpreadsheet(questionNum) {
     var $container = $('#questionTable' + questionNum + ' .custom-feedback-paths-spreadsheet');
     $container.handsontable({
         data: data,
-        minRows: 10,
+        minRows: 15,
         minCols: 2,
         minSpareRows: 1,
         rowHeaders: true,
