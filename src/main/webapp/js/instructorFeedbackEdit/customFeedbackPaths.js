@@ -50,7 +50,8 @@ function initialiseCustomFeedbackPathsData() {
         }
     }
     
-    allPossibleFeedbackGivers = studentEmails.slice();
+    allPossibleFeedbackGivers = [''];
+    allPossibleFeedbackGivers = allPossibleFeedbackGivers.concat(studentEmails);
     for (var i = 0; i < instructorEmails.length; i++) {
         if (!allPossibleFeedbackGivers.includes(instructorEmails[i])) {
             allPossibleFeedbackGivers.push(instructorEmails[i]);
