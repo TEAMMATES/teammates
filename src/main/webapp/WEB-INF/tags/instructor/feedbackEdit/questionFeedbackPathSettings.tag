@@ -98,14 +98,10 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="form-inline pull-right">
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Rows </label>
-                                    <div class="col-sm-4">
-                                        <input type="number" class="form-control add-rows-input" placeholder="Rows">
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary add-rows-button" type="button">Add Rows</button>
+                            <div class="pull-right">                                    
+                                <button class="btn btn-primary add-rows-button" type="button">Add</button>
+                                <input type="number" class="form-control add-rows-input" value="10">
+                                more rows at bottom                                
                             </div>
                         </div>
                     </div>

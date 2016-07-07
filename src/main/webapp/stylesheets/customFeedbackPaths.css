@@ -4,3 +4,7 @@
     overflow: hidden;
 }
 
+.add-rows-input {
+    width: 80px;
+    display: inline;
+}
