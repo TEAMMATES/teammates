@@ -529,8 +529,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickQuestionEditForQuestion1();
         feedbackEditPage.clickEditLabel(1);
-        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
-        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.SELF, 1);
+
+        ______TS("Default case: all options enabled");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
 
         assertEnabledVisibilityOptionsIncludesOnly(
                 Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -538,7 +540,18 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                               FeedbackParticipantType.INSTRUCTORS),
                 1);
 
-        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        // testing recipientTypes
+        ______TS("Selecting SELF as recipient disables option for RECEVIER");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.SELF, 1);
+
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                              FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
+                1);
+
+        ______TS("Selecting INSTRUCTORS as recipient disables option for RECEIVER_TEAM_MEMBERS");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.INSTRUCTORS, 1);
 
         assertEnabledVisibilityOptionsIncludesOnly(
@@ -546,7 +559,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                               FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
                 1);
 
-        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        ______TS("Selecting NONE as recipient disables options for RECEIVER and RECEIVER_TEAM_MEMBERS");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.NONE, 1);
 
         assertEnabledVisibilityOptionsIncludesOnly(
@@ -554,11 +568,25 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                               FeedbackParticipantType.INSTRUCTORS),
                 1);
 
-        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.INSTRUCTORS, 1);
-        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.NONE, 1);
+        // testing giverTypes
+        ______TS("Selecting SELF as giver disables option for OWN_TEAM_MEMBERS");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
 
         assertEnabledVisibilityOptionsIncludesOnly(
-                Arrays.asList(FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS), 1);
+                Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                              FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
+                1);
+
+        // testing specific giverType-recipientType combinations
+        ______TS("Selecting SELF as giver and recipient further disables option for RECIPIENT_TEAM_MEMBERS");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.SELF, 1);
+
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
+                1);
+
     }
 
     private void assertEnabledVisibilityOptionsIncludesOnly(List<FeedbackParticipantType> expectedTypes,
