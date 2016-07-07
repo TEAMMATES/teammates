@@ -345,7 +345,7 @@ function disableQuestion(questionNum) {
 
     $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
     
-    $currentQuestionTable.find('#mcqAddOptionLink').hide();
+    $currentQuestionTable.find('[id^="mcqAddOptionLink-"]').hide();
     $currentQuestionTable.find('#msqAddOptionLink').hide();
     $currentQuestionTable.find('.removeOptionLink').hide();
     
