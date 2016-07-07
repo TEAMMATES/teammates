@@ -541,13 +541,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 1);
 
         // testing recipientTypes
-        ______TS("Selecting SELF as recipient disables option for RECEVIER");
+        ______TS("Selecting SELF as recipient disables options for RECEVIER and RECEIVER_TEAM_MEMBERS");
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.SELF, 1);
 
         assertEnabledVisibilityOptionsIncludesOnly(
-                Arrays.asList(FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
-                              FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS,
+                              FeedbackParticipantType.INSTRUCTORS),
                 1);
 
         ______TS("Selecting INSTRUCTORS as recipient disables option for RECEIVER_TEAM_MEMBERS");

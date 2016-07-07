@@ -158,6 +158,8 @@ function disableRowsAccordingToRecipient($containingForm) {
     case 'SELF':
         // ROW_RECIPIENT is disabled because self-feedback is always visible to giver
         disableRow($containingForm, ROW_RECIPIENT);
+        // ROW_RECIPIENT_TEAM is disabled because it is the same as ROW_GIVER_TEAM
+        disableRow($containingForm, ROW_RECIPIENT_TEAM);
         break;
     case 'STUDENTS':
         // all options enabled when recipientType is STUDENTS (subject to options disabled by giverType)
