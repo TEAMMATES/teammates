@@ -607,7 +607,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
             actualEnableOptions.add(checkbox.getAttribute("value"));
         }
 
-        assertTrue(expectedEnabledOptions.equals(actualEnableOptions));
+        assertEquals(expectedEnabledOptions, actualEnableOptions);
     }
 
     private void testAjaxOnVisibilityMessageButton() {
