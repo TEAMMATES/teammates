@@ -240,7 +240,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("edit question 1 to Team-to-Team");
 
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
-        feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.TEAMS, 1);
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
         
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionEditToTeamToTeam.html");
@@ -264,7 +264,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         //change back
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
-        feedbackEditPage.selectGiverTypeForQuestion1("Me (Session creator)");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
         feedbackEditPage.selectRecipientTypeForQuestion1("Other students in the course");
         feedbackEditPage.clickquestionSaveForQuestion1();
         

@@ -106,9 +106,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "recipienttype")
     private WebElement recipientDropdown;
     
-    @FindBy(id = "givertype-1")
-    private WebElement giverDropdownForQuestion1;
-    
     @FindBy(id = "recipienttype-1")
     private WebElement recipientDropdownForQuestion1;
     
@@ -672,10 +669,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void selectConstSumPointsOptions(String pointsOption, int questionNumber) {
         markRadioButtonAsChecked(
                 browser.driver.findElement(By.id("constSumPoints" + pointsOption + "-" + questionNumber)));
-    }
-    
-    public void selectGiverTypeForQuestion1(String giverType) {
-        selectDropdownByVisibleValue(giverDropdownForQuestion1, giverType);
     }
     
     public void selectRecipientTypeForQuestion1(String recipientType) {
