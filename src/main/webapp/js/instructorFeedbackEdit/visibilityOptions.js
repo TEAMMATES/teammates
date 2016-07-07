@@ -144,7 +144,10 @@ function disableRow($containingForm, row) {
 
 function updateEditTabAccordingToRecipient($containingForm) {
     var recipientType = $containingForm.find('select[name="recipienttype"]').val();
-    if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType)) {
+    if (recipientType === 'SELF') {
+        disableRow($containingForm, ROW_RECIPIENT);
+        return;
+    } else if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType)) {
         // show the row Recipient(s) and hide the row Recipient's Team Members
         enableRow($containingForm, ROW_RECIPIENT);
         disableRow($containingForm, ROW_RECIPIENT_TEAM);
