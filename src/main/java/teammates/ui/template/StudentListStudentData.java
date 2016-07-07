@@ -9,7 +9,8 @@ public class StudentListStudentData {
     private String studentName;
     private String studentEmail;
     private String studentStatus;
-    private String toggleDeleteConfirmationParams;
+    private String studentNameForJs;
+    private String courseIdForJs;
     private String photoUrl;
     private String courseStudentDetailsLink;
     private String courseStudentEditLink;
@@ -22,8 +23,8 @@ public class StudentListStudentData {
         this.studentName = studentName;
         this.studentEmail = studentEmail;
         this.studentStatus = studentStatus;
-        this.toggleDeleteConfirmationParams = "'" + Sanitizer.sanitizeForJs(course) + "','"
-                                            + Sanitizer.sanitizeForJs(studentName) + "'";
+        this.studentNameForJs = Sanitizer.sanitizeForJs(studentName);
+        this.courseIdForJs = Sanitizer.sanitizeForJs(course);
         this.photoUrl = photoUrl;
         this.courseStudentDetailsLink =
                 furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
@@ -60,8 +61,12 @@ public class StudentListStudentData {
         return studentStatus;
     }
 
-    public String getToggleDeleteConfirmationParams() {
-        return toggleDeleteConfirmationParams;
+    public String getStudentNameForJs() {
+        return studentNameForJs;
+    }
+
+    public String getCourseIdForJs() {
+        return courseIdForJs;
     }
 
     public String getPhotoUrl() {

@@ -16,6 +16,7 @@ public class CourseEditInstructorPanel {
     private List<ElementTag> permissionInputGroup3;
     private ElementTag resendInviteButton;
     private ElementTag editButton;
+    private ElementTag cancelButton;
     private ElementTag deleteButton;
     private ElementTag addSectionLevelForInstructorButton;
     private boolean isAccessControlDisplayed;
@@ -164,6 +165,14 @@ public class CourseEditInstructorPanel {
     
     public ElementTag getEditButton() {
         return editButton;
+    }
+    
+    public void setCancelButton(ElementTag cancelButton) {
+        this.cancelButton = cancelButton;
+    }
+    
+    public ElementTag getCancelButton() {
+        return cancelButton;
     }
     
     public void setDeleteButton(ElementTag deleteButton) {
