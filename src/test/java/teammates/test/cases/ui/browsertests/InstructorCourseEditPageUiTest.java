@@ -664,17 +664,21 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         courseEditPage.clickEditInstructorLink(editInstructorIndex);
         courseEditPage.selectRoleForInstructor(editInstructorIndex, "Custom");
-        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 1);
+        courseEditPage.clickCourseLevelPrivilegesLink(
+                editInstructorIndex, InstructorCourseEditPage.COURSE_MODIFY_INSTRUCTORS);
         courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
         courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 0, 0);
-        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 0);
+        courseEditPage.clickSectionLevelPrivilegeLink(
+                editInstructorIndex, 0, InstructorCourseEditPage.SECTION_VIEW_STUDENTS);
         courseEditPage.clickSessionLevelInSectionLevel(editInstructorIndex, 0);
         courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
         courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 1);
-        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 1, 0);
+        courseEditPage.clickSectionLevelPrivilegeLink(
+                editInstructorIndex, 1, InstructorCourseEditPage.SECTION_VIEW_STUDENTS);
         courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
         courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 2, 2);
-        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 2, 0);
+        courseEditPage.clickSectionLevelPrivilegeLink(
+                editInstructorIndex, 2, InstructorCourseEditPage.SECTION_VIEW_STUDENTS);
         courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
 
         courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex + ">"),
@@ -697,11 +701,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("success: cancel editing a Custom instructor's permissions");
 
         courseEditPage.clickEditInstructorLink(editInstructorIndex);
-        courseEditPage.clickCourseLevelPrivilegesLink(editInstructorIndex, 1);
+        courseEditPage.clickCourseLevelPrivilegesLink(
+                editInstructorIndex, InstructorCourseEditPage.COURSE_MODIFY_INSTRUCTORS);
         courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 0, 0);
-        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 0, 0);
+        courseEditPage.clickSectionLevelPrivilegeLink(
+                editInstructorIndex, 0, InstructorCourseEditPage.SECTION_VIEW_STUDENTS);
         courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 1);
-        courseEditPage.clickSectionLevelPrivilegeLink(editInstructorIndex, 1, 0);
+        courseEditPage.clickSectionLevelPrivilegeLink(
+                editInstructorIndex, 1, InstructorCourseEditPage.SECTION_VIEW_STUDENTS);
         courseEditPage.clickHideSectionLevelPrivileges(editInstructorIndex, 2);
         courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
 
