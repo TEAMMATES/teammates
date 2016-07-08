@@ -219,7 +219,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("add question action success");
 
-        feedbackEditPage.clickMaxNumberOfRecipientsButton();
+        feedbackEditPage.clickMaxNumberOfRecipientsButton(-1);
         feedbackEditPage.clickAddQuestionButton();
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
@@ -293,7 +293,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillEditQuestionBox("test visibility when choosing giver's team members and giver", -1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, -1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, -1);
-        feedbackEditPage.clickMaxNumberOfRecipientsButton();
+        feedbackEditPage.clickMaxNumberOfRecipientsButton(-1);
         feedbackEditPage.clickAddQuestionButton();
         
         ______TS("test Recipient's Team Members row is hidden");

@@ -91,9 +91,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_done_editing")
     private WebElement doneEditingButton;
     
-    @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='max']")
-    private WebElement maxNumOfRecipients;
-    
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='custom']")
     private WebElement customNumOfRecipients;
     
@@ -296,8 +293,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(subQnBox, description);
     }
     
-    public void clickMaxNumberOfRecipientsButton() {
-        maxNumOfRecipients.click();
+    public void clickMaxNumberOfRecipientsButton(int qnIndex) {
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnIndex));
+        questionForm.findElement(By.xpath("//input[@name='numofrecipientstype' and @value='max']")).click();
     }
     
     public void clickCustomNumberOfRecipientsButton() {
