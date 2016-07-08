@@ -477,12 +477,12 @@ var updateVisibilityOfNumEntitiesBox = function() {
  */
 function formatNumberBox(value, questionNum) {
     if (value === 'STUDENTS' || value === 'TEAMS') {
-        $('div.numberOfEntitiesElements' + questionNum).show();
+        $('div.numberOfEntitiesElements-' + questionNum).show();
         
-        var $span = $('span#' + FEEDBACK_QUESTION_NUMBEROFENTITIES + '_text_inner-' + questionNum);
+        var $span = $('span#' + FEEDBACK_QUESTION_NUMBEROFENTITIES + '_text_inner--' + questionNum);
         $span.html(value === 'STUDENTS' ? 'students' : 'teams');
     } else {
-        $('div.numberOfEntitiesElements' + questionNum).hide();
+        $('div.numberOfEntitiesElements-' + questionNum).hide();
     }
     
     tallyCheckboxes(questionNum);
@@ -663,7 +663,7 @@ function copyOptions() {
     $currRecipient.val($prevRecipient.val());
     
     // Number of recipient setup
-    formatNumberBox($currRecipient.val(), '');
+    formatNumberBox($currRecipient.val(), NEW_QUESTION);
     var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
     var $currRadioButtons = $('table[class~="questionTable"]').last().find('input[name="numofrecipientstype"]');
     
