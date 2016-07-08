@@ -383,11 +383,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickVisibilityPreviewForQuestion(int qnNumber) {
+    public void clickVisibilityPreview(int qnNumber) {
         getPreviewLabel(qnNumber).click();
     }
     
-    public void clickVisibilityOptionsForQuestion(int qnNumber) {
+    public void clickVisibilityOptions(int qnNumber) {
         getEditLabel(qnNumber).click();
     }
     
@@ -789,17 +789,17 @@ public class InstructorFeedbackEditPage extends AppPage {
         assertFalse(optionBox.isDisplayed());
     }
     
-    public void fillRankOptionForQuestion(int qnIndx, int optionIndex, String optionText) {
+    public void fillRankOption(int qnIndx, int optionIndex, String optionText) {
         WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "-" + qnIndx));
         fillTextBox(optionBox, optionText);
     }
     
-    public void tickDuplicatesAllowedCheckboxForQuestion(int qnIndex) {
+    public void tickDuplicatesAllowedCheckbox(int qnIndex) {
         WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
         assertTrue(checkBox.isSelected());
     }
     
-    public void untickDuplicatesAllowedCheckboxForQuestion(int qnIndex) {
+    public void untickDuplicatesAllowedCheckbox(int qnIndex) {
         WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
         assertFalse(checkBox.isSelected());
     }
