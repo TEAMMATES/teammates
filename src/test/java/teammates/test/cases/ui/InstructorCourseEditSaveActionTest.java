@@ -85,7 +85,9 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, courseName, FieldValidator.REASON_EMPTY);
+        statusMessage = getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                            courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
+                            FieldValidator.REASON_EMPTY, FieldValidator.COURSE_NAME_MAX_LENGTH);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                      + "?error=true&user=" + instructorId + "&courseid=" + courseId,
@@ -103,10 +105,9 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, courseName,
-                                      FieldValidator.COURSE_NAME_FIELD_NAME,
-                                      FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                                      FieldValidator.COURSE_NAME_FIELD_NAME);
+        statusMessage = getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                            courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
+                            FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                      + "?error=true&user=" + instructorId + "&courseid=" + courseId,
@@ -124,10 +125,9 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, courseName,
-                                      FieldValidator.COURSE_NAME_FIELD_NAME,
-                                      FieldValidator.REASON_CONTAINS_INVALID_CHAR,
-                                      FieldValidator.COURSE_NAME_FIELD_NAME);
+        statusMessage = getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                            courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
+                            FieldValidator.REASON_CONTAINS_INVALID_CHAR);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
                      + "?error=true&user=" + instructorId + "&courseid=" + courseId,

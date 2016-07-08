@@ -4,6 +4,7 @@
 <%@ attribute name="index" required="true" %>
 <%@ attribute name="resendInviteButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="editButton" type="teammates.ui.template.ElementTag" required="true" %>
+<%@ attribute name="cancelButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="deleteButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="instructor" type="teammates.common.datatransfer.InstructorAttributes" required="true" %>
 
@@ -27,6 +28,10 @@
     
         <a ${editButton.attributesToString}>
             ${editButton.content}
+        </a>
+        
+        <a ${cancelButton.attributesToString}>
+            ${cancelButton.content}
         </a>
     
         <a ${deleteButton.attributesToString}>

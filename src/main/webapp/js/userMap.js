@@ -5,7 +5,7 @@ function handleError() {
     contentHolder.append('p')
         .text('An error has occured in getting data, please try reloading.');
     contentHolder.append('p')
-        .html('If the problem persists after a few retries, please <a href="/contact.html">contact us</a>.');
+        .html('If the problem persists after a few retries, please <a href="/contact.jsp">contact us</a>.');
 }
 
 function handleData(err, countryCoordinates, userData) {

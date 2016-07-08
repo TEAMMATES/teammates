@@ -75,7 +75,7 @@
       </div>
       <div class="form-group">
         <div class="align-center">
-          <input class="btn btn-primary" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" id="button_remind" onclick="if(toggleSendRegistrationKeysConfirmation('AHPUiT.instr1.gma-demo')) window.location.href='/page/instructorCourseRemind?courseid=AHPUiT.instr1.gma-demo&user=${test.instructor}';" tabindex="1" title="" type="button" value="Remind Students to Join">
+          <input class="btn btn-primary" data-course-id="AHPUiT.instr1.gma-demo" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=AHPUiT.instr1.gma-demo&user=${test.instructor}" id="button_remind" tabindex="1" title="" type="button" value="Remind Students to Join">
           <form action="/page/instructorCourseStudentListDownload" method="post" style="display:inline;">
             <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value=" Download Student List ">
             <input name="user" type="hidden" value="${test.instructor}">
@@ -297,7 +297,7 @@
           <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
             Edit
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=${test.instructor}" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Alice Betsy')" title="">
+          <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="AHPUiT.instr1.gma-demo" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Alice Betsy" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=${test.instructor}" title="">
             Delete
           </a>
           <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
@@ -365,7 +365,7 @@
           <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&studentemail=benny.c.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
             Edit
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=benny.c.tmms%40gmail.tmt&user=${test.instructor}" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Benny Charles')" title="">
+          <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="AHPUiT.instr1.gma-demo" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Benny Charles" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=benny.c.tmms%40gmail.tmt&user=${test.instructor}" title="">
             Delete
           </a>
           <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&studentemail=benny.c.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
@@ -433,7 +433,7 @@
           <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&studentemail=danny.e.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
             Edit
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=danny.e.tmms%40gmail.tmt&user=${test.instructor}" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Danny Engrid')" title="">
+          <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="AHPUiT.instr1.gma-demo" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Danny Engrid" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=danny.e.tmms%40gmail.tmt&user=${test.instructor}" title="">
             Delete
           </a>
           <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&studentemail=danny.e.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
@@ -501,7 +501,7 @@
           <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&studentemail=emma.f.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
             Edit
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=emma.f.tmms%40gmail.tmt&user=${test.instructor}" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Emma Farrell')" title="">
+          <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="AHPUiT.instr1.gma-demo" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Emma Farrell" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=emma.f.tmms%40gmail.tmt&user=${test.instructor}" title="">
             Delete
           </a>
           <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&studentemail=emma.f.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
@@ -569,7 +569,7 @@
           <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&studentemail=AHPUiT.instr1%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
             Edit
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=AHPUiT.instr1%40gmail.tmt&user=${test.instructor}" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','AHPUiT Instrúctör')" title="">
+          <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="AHPUiT.instr1.gma-demo" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="AHPUiT Instrúctör" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=AHPUiT.instr1%40gmail.tmt&user=${test.instructor}" title="">
             Delete
           </a>
           <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&studentemail=AHPUiT.instr1%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
@@ -637,7 +637,7 @@
           <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&studentemail=charlie.d.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
             Edit
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=charlie.d.tmms%40gmail.tmt&user=${test.instructor}" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Charlie Davis')" title="">
+          <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="AHPUiT.instr1.gma-demo" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Charlie Davis" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=charlie.d.tmms%40gmail.tmt&user=${test.instructor}" title="">
             Delete
           </a>
           <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&studentemail=charlie.d.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
@@ -705,7 +705,7 @@
           <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&studentemail=francis.g.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
             Edit
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=francis.g.tmms%40gmail.tmt&user=${test.instructor}" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Francis Gabriel')" title="">
+          <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="AHPUiT.instr1.gma-demo" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Francis Gabriel" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=francis.g.tmms%40gmail.tmt&user=${test.instructor}" title="">
             Delete
           </a>
           <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&studentemail=francis.g.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
@@ -773,7 +773,7 @@
           <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&studentemail=gene.h.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
             Edit
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=gene.h.tmms%40gmail.tmt&user=${test.instructor}" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Gene Hudson')" title="">
+          <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="AHPUiT.instr1.gma-demo" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Gene Hudson" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=gene.h.tmms%40gmail.tmt&user=${test.instructor}" title="">
             Delete
           </a>
           <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&studentemail=gene.h.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
@@ -841,10 +841,10 @@
           <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&studentemail=hugh.i.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">
             Edit
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="Email an invitation to the student requesting him/her to join the course using his/her Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=AHPUiT.instr1.gma-demo&studentemail=hugh.i.tmms%40gmail.tmt&user=${test.instructor}" onclick="return toggleSendRegistrationKey()" title="">
+          <a class="course-student-remind-link btn btn-default btn-xs" data-original-title="Email an invitation to the student requesting him/her to join the course using his/her Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=AHPUiT.instr1.gma-demo&studentemail=hugh.i.tmms%40gmail.tmt&user=${test.instructor}" title="">
             Send Invite
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=hugh.i.tmms%40gmail.tmt&user=${test.instructor}" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Hugh Ivanov')" title="">
+          <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="AHPUiT.instr1.gma-demo" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Hugh Ivanov" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&studentemail=hugh.i.tmms%40gmail.tmt&user=${test.instructor}" title="">
             Delete
           </a>
           <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&studentemail=hugh.i.tmms%40gmail.tmt&user=${test.instructor}" target="_blank" title="">

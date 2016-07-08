@@ -19,6 +19,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.storage.api.CommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -50,8 +51,11 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try {
             commentsDb.createEntity(c);
         } catch (InvalidParametersException e) {
-            assertEquals(String.format(COURSE_ID_ERROR_MESSAGE, c.courseId, REASON_INCORRECT_FORMAT),
-                    e.getLocalizedMessage());
+            assertEquals(getPopulatedErrorMessage(
+                             COURSE_ID_ERROR_MESSAGE, c.courseId,
+                             FieldValidator.COURSE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT,
+                             FieldValidator.COURSE_ID_MAX_LENGTH),
+                         e.getLocalizedMessage());
         }
 
         verifyAbsentInDatastore(c);
@@ -186,8 +190,11 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try {
             commentsDb.updateComment(c);
         } catch (InvalidParametersException e) {
-            assertEquals(String.format(EMAIL_ERROR_MESSAGE, "invalid receiver email", REASON_INCORRECT_FORMAT),
-                    e.getLocalizedMessage());
+            assertEquals(getPopulatedErrorMessage(
+                             EMAIL_ERROR_MESSAGE, "invalid receiver email",
+                             FieldValidator.EMAIL_FIELD_NAME, REASON_INCORRECT_FORMAT,
+                             FieldValidator.EMAIL_MAX_LENGTH),
+                         e.getLocalizedMessage());
         }
         
         ______TS("comment not exist");
