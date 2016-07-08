@@ -657,7 +657,7 @@ public class FeedbackQuestionsLogic {
     /**
      * Deletes all questions in the given session.
      */
-    public void deleteFeedbackQuestionsForSession(String feedbackSessionName, String courseId)
+    public void deleteFeedbackQuestionsForSessionAndCascade(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
         List<FeedbackQuestionAttributes> questions =
                 getFeedbackQuestionsForSession(feedbackSessionName, courseId);
