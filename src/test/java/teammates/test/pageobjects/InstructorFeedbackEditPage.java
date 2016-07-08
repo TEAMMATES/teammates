@@ -720,8 +720,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         generateOptionsCheckbox.click();
     }
     
-    public void fillMsqOption(int optionIndex, String optionText) {
-        WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex + "--1"));
+    public void fillMsqOption(int optionIndex, String optionText, int qnIndex) {
+        WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex + "-" + qnIndex));
         fillTextBox(optionBox, optionText);
     }
     
