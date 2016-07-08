@@ -18,7 +18,7 @@
         </label>
         <div class="col-sm-8 col-lg-7">
             <select class="form-control participantSelect"
-                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>${fqForm.questionNumberSuffix}"
+                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>-${fqForm.questionIndex}"
                 name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
                 <c:if test="${!fqForm.editable}">disabled</c:if>
                 onchange="matchVisibilityOptionToFeedbackPath(this)">
@@ -37,7 +37,7 @@
         </label>
         <div class="col-sm-8 col-lg-7">
             <select class="form-control participantSelect"
-                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>${fqForm.questionNumberSuffix}"
+                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>-${fqForm.questionIndex}"
                 name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
                 <c:if test="${!fqForm.editable}">disabled</c:if> onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
                 <c:forEach items="${fqForm.feedbackPathSettings.recipientParticipantOptions}" var="option">

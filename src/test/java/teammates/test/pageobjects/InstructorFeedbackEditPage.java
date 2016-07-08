@@ -100,10 +100,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "msqOtherOptionFlag--1")
     private WebElement addMsqOtherOptionCheckboxForNewQuestion;
     
-    @FindBy(id = "givertype")
+    @FindBy(id = "givertype--1")
     private WebElement giverDropdown;
     
-    @FindBy(id = "recipienttype")
+    @FindBy(id = "recipienttype--1")
     private WebElement recipientDropdown;
     
     @FindBy(id = "givertype-1")
@@ -690,7 +690,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void selectRecipientTypeForNewQuestion(String recipientType) {
-        selectDropdownByVisibleValue(browser.driver.findElement(By.id("recipienttype")), recipientType);
+        selectDropdownByVisibleValue(browser.driver.findElement(By.id("recipienttype--1")), recipientType);
     }
     
     /**
@@ -702,9 +702,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         openNewQuestionButton.click();
     }
 
-    public boolean isAllFeedbackPathOptionsEnabled() {
-        List<WebElement> options = browser.driver.findElements(By.cssSelector("#givertype option"));
-        options.addAll(browser.driver.findElements(By.cssSelector("#recipienttype option")));
+    public boolean isAllFeedbackPathOptionsEnabledForNewQuestion() {
+        List<WebElement> options = browser.driver.findElements(By.cssSelector("#givertype--1 option"));
+        options.addAll(browser.driver.findElements(By.cssSelector("#recipienttype--1 option")));
         for (WebElement option : options) {
             if (!option.isEnabled()) {
                 return false;

@@ -439,8 +439,8 @@ function hideNewQuestionAndShowNewQuestionForm() {
     $('#addNewQuestionTable').show();
 
     // re-enables all feedback path options, which may have been hidden by team contribution question
-    $('#givertype').find('option').show().prop('disabled', false);
-    $('#recipienttype').find('option').show().prop('disabled', false);
+    $('#givertype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
+    $('#recipienttype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
 }
 
 /**
@@ -462,12 +462,9 @@ function formatNumberBoxes() {
 }
 
 var updateVisibilityOfNumEntitiesBox = function() {
-    var questionNum = $(this).prop('id').split('-')[1];
-    questionNum = questionNum || '';
-
+    var questionId = getQuestionId($(this));
     var value = $(this).val();
-
-    formatNumberBox(value, questionNum);
+    formatNumberBox(value, questionId);
 };
 
 /**
@@ -526,7 +523,7 @@ function showNewQuestionFrame(type) {
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
 
-    var selectedFeedbackPathOption = $('#givertype');
+    var selectedFeedbackPathOption = $('#givertype-' + NEW_QUESTION);
     matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption);
 }
 
@@ -798,6 +795,16 @@ function bindCopyEvents() {
 
         return false;
     });
+}
+
+function getQuestionId($elementInQuestionForm) {
+    var $questionForm = $elementInQuestionForm.closest('form');
+    var id = $questionForm.attr('id');
+    if (id.endsWith('-' + NEW_QUESTION)) {
+        return NEW_QUESTION;
+    } else {
+        return id.split('-').slice(-1)[0];
+    }
 }
 
 function getQuestionIdSuffix(questionNum) {

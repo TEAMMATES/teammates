@@ -347,7 +347,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("NUMSCALE");
-        assertTrue(feedbackEditPage.isAllFeedbackPathOptionsEnabled());
+        assertTrue(feedbackEditPage.isAllFeedbackPathOptionsEnabledForNewQuestion());
 
         feedbackEditPage.getDiscardChangesLink(-1).click();
         feedbackEditPage.waitForConfirmationModalAndClickOk();

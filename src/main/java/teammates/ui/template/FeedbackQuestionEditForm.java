@@ -54,6 +54,7 @@ public class FeedbackQuestionEditForm {
         newQnForm.courseId = feedbackSession.getCourseId();
         newQnForm.feedbackSessionName = feedbackSession.getFeedbackSessionName();
         newQnForm.questionNumberSuffix = "";
+        newQnForm.questionIndex = -1;
         
         newQnForm.questionTypeOptions = questionTypeChoiceOptions;
         
