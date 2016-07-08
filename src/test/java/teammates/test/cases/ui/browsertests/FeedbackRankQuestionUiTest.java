@@ -287,10 +287,10 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillEditQuestionBox("Rank qn", -1);
         
         // blank option at the start and end, to check they are removed
-        feedbackEditPage.clickAddMoreRankOptionLinkForNewQn();
+        feedbackEditPage.clickAddMoreRankOptionLink(-1);
         feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 1 <>");
         feedbackEditPage.fillRankOptionForNewQuestion(2, "  Option 2  ");
-        feedbackEditPage.clickAddMoreRankOptionLinkForNewQn();
+        feedbackEditPage.clickAddMoreRankOptionLink(-1);
         assertEquals(4, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
         
         feedbackEditPage.tickDuplicatesAllowedCheckboxForNewQuestion();

@@ -834,11 +834,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         return checkBox.isSelected();
     }
     
-    public void clickAddMoreRankOptionLinkForNewQn() {
-        WebElement addMoreOptionLink = browser.driver.findElement(By.id("rankAddOptionLink--1"));
-        addMoreOptionLink.click();
-    }
-    
     public void clickAddMoreRankOptionLink(int qnIndex) {
         WebElement addMoreOptionLink = browser.driver.findElement(By.id("rankAddOptionLink-" + qnIndex));
         addMoreOptionLink.click();
