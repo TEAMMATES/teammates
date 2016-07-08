@@ -794,8 +794,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(removeRubricColLink);
     }
 
-    public void verifyRankOptionIsHiddenForNewQuestion(int optionIndex) {
-        WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "--1"));
+    public void verifyRankOptionIsHidden(int qnIndex, int optionIndex) {
+        WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "-" + qnIndex));
         assertFalse(optionBox.isDisplayed());
     }
     

@@ -307,8 +307,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 2));
         
-        feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(0);
-        feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(1);
+        feedbackEditPage.verifyRankOptionIsHidden(-1, 0);
+        feedbackEditPage.verifyRankOptionIsHidden(-1, 1);
         feedbackEditPage.fillEditQuestionBox("Rank recipients qn", -1);
         
         feedbackEditPage.clickAddQuestionButton();
