@@ -655,11 +655,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByActualValue(giverDropdown, recipientType.toString());
     }
 
-    public void selectRecipientsToBeStudents(int qnNumber) {
-        WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
-        selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
-    }
-
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
         // Select start date
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
