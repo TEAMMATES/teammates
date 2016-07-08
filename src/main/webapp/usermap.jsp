@@ -11,7 +11,7 @@
     <h1 id="caption">Who is using TEAMMATES?</h1>
     <div id="contentHolder">
         <div id="container" style="position: relative; width: 800px; height: 500px; border: 1px solid #DEDEDE;"></div>
-        <p id="lastUpdate" class="lastUpdate">Last updated: 30 March 2016</p>
+        <p id="lastUpdate" class="lastUpdate">Last updated: 30 April 2016</p>
         <h2 class="subcaption align-center">
             <span id="totalUserCount" class="totalCount"></span> 
             institutions from 
