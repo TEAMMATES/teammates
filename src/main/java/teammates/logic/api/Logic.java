@@ -1511,14 +1511,16 @@ public class Logic {
     public String getFeedbackSessionResultSummaryAsCsv(String courseId,
                                                        String feedbackSessionName,
                                                        String instructorEmail,
-                                                       String filterText)
+                                                       String filterText,
+                                                       boolean isMissingResponsesShown,
+                                                       boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                feedbackSessionName, courseId, instructorEmail, filterText);
+                feedbackSessionName, courseId, instructorEmail, filterText, isMissingResponsesShown, isStatsShown);
     }
 
     /**
@@ -1526,22 +1528,18 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      */
-    public String getFeedbackSessionResultSummaryInSectionAsCsv(String courseId,
-                                                                String feedbackSessionName,
-                                                                String instructorEmail,
-                                                                String section,
-                                                                String filterText)
+    public String getFeedbackSessionResultSummaryInSectionAsCsv(
+            String courseId, String feedbackSessionName, String instructorEmail,
+            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
 
-        return feedbackSessionsLogic.getFeedbackSessionResultsSummaryInSectionAsCsv(feedbackSessionName,
-                                                                                    courseId,
-                                                                                    instructorEmail,
-                                                                                    section,
-                                                                                    filterText);
+        return feedbackSessionsLogic.getFeedbackSessionResultsSummaryInSectionAsCsv(
+                feedbackSessionName, courseId, instructorEmail, section,
+                filterText, isMissingResponsesShown, isStatsShown);
     }
     
     /**

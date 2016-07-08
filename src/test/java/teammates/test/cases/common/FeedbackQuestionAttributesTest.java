@@ -84,12 +84,20 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         assertFalse(fq.isValid());
 
-        String errorMessage = String.format(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE, fq.creatorEmail,
-                                            FieldValidator.REASON_EMPTY) + EOL
-                              + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, fq.courseId,
-                                              FieldValidator.REASON_EMPTY) + EOL
-                              + String.format("Invalid creator's email: " + FieldValidator.EMAIL_ERROR_MESSAGE,
-                                              fq.creatorEmail, FieldValidator.REASON_EMPTY) + EOL
+        String errorMessage = getPopulatedErrorMessage(
+                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fq.creatorEmail,
+                                  FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                  FieldValidator.REASON_EMPTY,
+                                  FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH) + EOL
+                              + getPopulatedErrorMessage(
+                                    FieldValidator.COURSE_ID_ERROR_MESSAGE, fq.courseId,
+                                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                                    FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
+                              + "Invalid creator's email: "
+                                    + getPopulatedErrorMessage(
+                                          FieldValidator.EMAIL_ERROR_MESSAGE, fq.creatorEmail,
+                                          FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                                          FieldValidator.EMAIL_MAX_LENGTH) + EOL
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.giverType.toString(),
                                               FieldValidator.GIVER_TYPE_NAME) + EOL
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.recipientType.toString(),

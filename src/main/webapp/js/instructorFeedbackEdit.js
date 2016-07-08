@@ -94,6 +94,10 @@ function bindFeedbackSessionEditFormSubmission() {
         // Prevent form submission
         event.preventDefault();
         
+        // populate hidden input
+        if (typeof tinyMCE !== 'undefined') {
+            tinyMCE.get('instructions').save();
+        }
         var $form = $(event.target);
         // Use Ajax to submit form data
         $.ajax({
@@ -119,6 +123,16 @@ function bindFeedbackSessionEditFormSubmission() {
     });
 }
 
+function destroyEditor(id) {
+    if (typeof tinyMCE === 'undefined') {
+        return;
+    }
+    var currentEditor = tinyMCE.get(id);
+    if (currentEditor) {
+        currentEditor.destroy();
+    }
+}
+
 /**
  * Disables the editing of feedback session details.
  */
@@ -129,6 +143,15 @@ function disableEditFS() {
     });
     $('#form_feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
+
+    destroyEditor('instructions');
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            readonly: true
+        });
+    }
+
     $('#fsEditLink').show();
     $('#fsSaveLink').hide();
     $('#button_submit').hide();
@@ -163,6 +186,16 @@ function enableEditFS() {
                               .not($sessionOpeningReminder)
                               .not('.disabled')
                               .prop('disabled', false);
+
+    destroyEditor('instructions');
+    /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            fixed_toolbar_container: '#richtext-toolbar-container'
+        });
+    }
+    /* eslint-enable camelcase */
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit').show();
@@ -492,7 +525,9 @@ function showNewQuestionFrame(type) {
     $('#empty_message').hide();
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
-    getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
+
+    var selectedFeedbackPathOption = $('#givertype');
+    matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption);
 }
 
 function hideAllNewQuestionForms() {
@@ -648,8 +683,8 @@ function copyOptions() {
     $currTable.each(function(index) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
-    feedbackGiverUpdateVisibilityOptions($currGiver);
-    feedbackRecipientUpdateVisibilityOptions($currRecipient);
+
+    matchVisibilityOptionToFeedbackPath($currGiver);
 }
 
 /**

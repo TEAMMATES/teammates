@@ -53,13 +53,16 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                                     result.getDestinationWithParams());
         List<String> expectedErrorMessages = new ArrayList<String>();
         
-        expectedErrorMessages.add(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                                                submissionParams[1], "a person name",
-                                                FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                                                "a person name"));
-        expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
-                                                submissionParams[3],
-                                                FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, submissionParams[1],
+                                         FieldValidator.PERSON_NAME_FIELD_NAME,
+                                         FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                                         FieldValidator.PERSON_NAME_MAX_LENGTH));
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, submissionParams[3],
+                                         FieldValidator.EMAIL_FIELD_NAME,
+                                         FieldValidator.REASON_INCORRECT_FORMAT,
+                                         FieldValidator.EMAIL_MAX_LENGTH));
         
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
         

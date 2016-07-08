@@ -8,6 +8,11 @@ var ROW_INSTRUCTORS = 5;
 // EVENT HANDLERS //
 // ////////////// //
 
+function matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption) {
+    var $containingForm = $(selectedFeedbackPathOption).closest('form');
+    updateEditTab($containingForm);
+}
+
 function toggleVisibilityEditTab(clickedButton) {
     var $containingForm = $(clickedButton).closest('form');
     var $editTab = $containingForm.find('.visibilityOptions');

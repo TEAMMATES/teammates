@@ -72,6 +72,8 @@
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
                   <input id="filterTextForDownload" name="filtertext" type="hidden">
+                  <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
+                  <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
@@ -196,7 +198,7 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" onchange="updateStatsCheckBox();" type="checkbox">
                   Show Statistics
                 </label>
               </div>
@@ -3121,7 +3123,7 @@
               </div>
               <div class="col-sm-3 pull-right">
                 [
-                <a href="/instructorHelp.html#faq7a" id="interpret_help_link" target="_blank">
+                <a href="/instructorHelp.jsp#faq7a" id="interpret_help_link" target="_blank">
                   How do I interpret/use these values?
                 </a>
                 ]
@@ -4750,7 +4752,7 @@
               </div>
               <div class="col-sm-3 pull-right">
                 [
-                <a href="/instructorHelp.html#faq7a" id="interpret_help_link" target="_blank">
+                <a href="/instructorHelp.jsp#faq7a" id="interpret_help_link" target="_blank">
                   How do I interpret/use these values?
                 </a>
                 ]
