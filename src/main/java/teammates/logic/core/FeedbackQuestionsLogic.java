@@ -245,8 +245,8 @@ public class FeedbackQuestionsLogic {
      * instructor who is the creator of the course can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
-                                    String feedbackSessionName, String courseId)
-                    throws EntityDoesNotExistException {
+            String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException {
 
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
         if (fsa == null) {
@@ -257,8 +257,12 @@ public class FeedbackQuestionsLogic {
         return getFeedbackQuestionsForCreatorInstructor(fsa);
     }
     
+    /**
+     * Gets a {@code List} of all questions for the list of questions that an
+     * instructor who is the creator of the course can view/submit
+     */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
-                                    FeedbackSessionAttributes fsa) {
+            FeedbackSessionAttributes fsa) {
 
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
@@ -389,6 +393,16 @@ public class FeedbackQuestionsLogic {
         return giverTeam;
     }
 
+    /**
+     * Adds mappings of recipients' emails to their names to {@code recipients}.
+     * @param question
+     * @param giver         Email of the giver.
+     * @param studentGiver  StudentAttributes pertaining to the giver (if applicable).
+     * @param recipients
+     * @param recipientType FeedbackParticipantType of the receiver of the question.
+     * @param giverTeam
+     * @throws EntityDoesNotExistException
+     */
     private void addRecipientsBasedOnRecipientType(FeedbackQuestionAttributes question, String giver,
             StudentAttributes studentGiver, Map<String, String> recipients,
             FeedbackParticipantType recipientType, String giverTeam) throws EntityDoesNotExistException {
@@ -459,6 +473,15 @@ public class FeedbackQuestionsLogic {
                        .isEmpty();
     }
   
+    /**
+     * Checks if a question has been fully answered by a user.
+     * 
+     * @param question
+     * @param email
+     * @return {@code True} if there are no more recipients to give feedback to for the given
+     * {@code teamName}. {@code False} if not.
+     * @throws EntityDoesNotExistException
+     */
     public boolean isQuestionFullyAnsweredByUser(FeedbackQuestionAttributes question, String email)
             throws EntityDoesNotExistException {
         
@@ -631,6 +654,9 @@ public class FeedbackQuestionsLogic {
         fqDb.updateFeedbackQuestion(newAttributes);
     }
 
+    /**
+     * Deletes all questions in the given session.
+     */
     public void deleteFeedbackQuestionsForSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
         List<FeedbackQuestionAttributes> questions =
@@ -751,7 +777,7 @@ public class FeedbackQuestionsLogic {
     }
     
     /**
-     * Removes questions with no recipients.
+     * Gets a list of questions which the giver has recipients to give responses to.
      */
     public List<FeedbackQuestionAttributes> getQuestionsWithRecipients(
             List<FeedbackQuestionAttributes> questions, String giver)
