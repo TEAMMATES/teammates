@@ -293,7 +293,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddMoreRankOptionLink(-1);
         assertEquals(4, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
         
-        feedbackEditPage.tickDuplicatesAllowedCheckboxForNewQuestion();
+        feedbackEditPage.tickDuplicatesAllowedCheckboxForQuestion(-1);
         
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());

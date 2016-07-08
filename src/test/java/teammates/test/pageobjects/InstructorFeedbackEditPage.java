@@ -809,10 +809,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
     
-    public void tickDuplicatesAllowedCheckboxForNewQuestion() {
-        tickDuplicatesAllowedCheckboxForQuestion(-1);
-    }
-    
     public void tickDuplicatesAllowedCheckboxForQuestion(int qnIndex) {
         WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
         assertTrue(checkBox.isSelected());
