@@ -148,12 +148,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(questionEditTextBox, qnText);
     }
     
-    public void fillNumOfEntitiesToGiveFeedbackToBox(String num, int qnNumber) {
-        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnNumber));
-        WebElement numOfEntitiesBox = questionForm.findElement(By.className("numberOfEntitiesBox"));
-        fillTextBox(numOfEntitiesBox, num);
-    }
-
     public String getQuestionBoxText(int qnNumber) {
         WebElement questionEditTextBox = browser.driver.findElement(By.id("questiontext-" + qnNumber));
         return getTextBoxValue(questionEditTextBox);
@@ -290,16 +284,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(subQnBox, description);
     }
     
-    public void clickMaxNumberOfRecipientsButton(int qnNumber) {
-        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnNumber));
-        questionForm.findElement(By.xpath("//input[@name='numofrecipientstype' and @value='max']")).click();
-    }
-    
-    public void clickCustomNumberOfRecipientsButton(int qnNumber) {
-        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnNumber));
-        questionForm.findElement(By.xpath("//input[@name='numofrecipientstype' and @value='custom']")).click();
-    }
-    
     public void clickEditUncommonSettingsButton() {
         uncommonSettingsButton.click();
     }
@@ -383,14 +367,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickVisibilityPreview(int qnNumber) {
-        getPreviewLabel(qnNumber).click();
-    }
-    
-    public void clickVisibilityOptions(int qnNumber) {
-        getEditLabel(qnNumber).click();
-    }
-    
     public void clickAddQuestionButton() {
         addNewQuestionButton.click();
         waitForPageToLoad();
@@ -404,10 +380,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean isQuestionEnabled(int qnNumber) {
         WebElement questionTextArea = browser.driver.findElement(By.id("questiontext-" + qnNumber));
         return questionTextArea.isEnabled();
-    }
-
-    public boolean isOptionForSelectingNumberOfEntitiesVisible(int qnNumber) {
-        return isElementVisible(By.className("numberOfEntitiesElements" + qnNumber));
     }
 
     public void clickSaveExistingQuestionButton(int qnNumber) {
@@ -627,27 +599,6 @@ public class InstructorFeedbackEditPage extends AppPage {
      */
     public void clickNewQuestionButton() {
         openNewQuestionButton.click();
-    }
-
-    public boolean isAllFeedbackPathOptionsEnabled() {
-        List<WebElement> options = browser.driver.findElements(By.cssSelector("#givertype option"));
-        options.addAll(browser.driver.findElements(By.cssSelector("#recipienttype option")));
-        for (WebElement option : options) {
-            if (!option.isEnabled()) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    public void selectGiverToBe(FeedbackParticipantType giverType, int qnNumber) {
-        WebElement giverDropdown = browser.driver.findElement(By.id("givertype-" + qnNumber));
-        selectDropdownByActualValue(giverDropdown, giverType.toString());
-    }
-
-    public void selectRecipientToBe(FeedbackParticipantType recipientType, int qnNumber) {
-        WebElement giverDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
-        selectDropdownByActualValue(giverDropdown, recipientType.toString());
     }
 
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
@@ -875,45 +826,6 @@ public class InstructorFeedbackEditPage extends AppPage {
                 By.cssSelector("#question-copy-modal-status.alert-danger")).getText();
     }
     
-    public boolean verifyPreviewLabelIsActive(int qnNumber) {
-        return getPreviewLabel(qnNumber).getAttribute("class").contains("active");
-    }
-    
-    public boolean verifyEditLabelIsActive(int qnNumber) {
-        return getEditLabel(qnNumber).getAttribute("class").contains("active");
-    }
-    
-    public boolean verifyVisibilityMessageIsDisplayed(int qnNumber) {
-        return getVisibilityMessage(qnNumber).isDisplayed();
-    }
-    
-    public boolean verifyVisibilityOptionsIsDisplayed(int qnNumber) {
-        return getVisibilityOptions(qnNumber).isDisplayed();
-    }
-
-    public WebElement getVisibilityOptionTableRow(int qnNumber, int optionRowNumber) {
-        return getVisibilityOptions(qnNumber).findElement(
-                By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
-    }
-
-    public WebElement getPreviewLabel(int qnNumber) {
-        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnNumber));
-        return questionForm.findElement(By.className("visibilityMessageButton"));
-    }
-    
-    public WebElement getEditLabel(int qnNumber) {
-        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnNumber));
-        return questionForm.findElement(By.className("visibilityOptionsLabel"));
-    }
-    
-    public WebElement getVisibilityMessage(int qnNumber) {
-        return browser.driver.findElement(By.id("visibilityMessage-" + qnNumber));
-    }
-    
-    public WebElement getVisibilityOptions(int qnNumber) {
-        return browser.driver.findElement(By.id("visibilityOptions-" + qnNumber));
-    }
-    
     public void toggleNotSureCheck(int qnNumber) {
         browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED
                                          + "-" + qnNumber))
@@ -926,18 +838,107 @@ public class InstructorFeedbackEditPage extends AppPage {
         ((JavascriptExecutor) browser.driver).executeScript(selector + action);
     }
     
+    // feedback path and visibility related
+    public void clickVisibilityPreview(int qnNumber) {
+        getPreviewLabel(qnNumber).click();
+    }
+
+    public void clickVisibilityOptions(int qnNumber) {
+        getEditLabel(qnNumber).click();
+    }
+
+    public void clickResponseVisiblityCheckBox(String checkBoxValue, int qnNumber) {
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnNumber));
+        By responseVisibilitycheckBox = By.cssSelector("input[value='" + checkBoxValue
+                                                       + "'].answerCheckbox");
+        WebElement checkbox = questionForm.findElement(responseVisibilitycheckBox);
+        waitForElementVisibility(checkbox);
+        checkbox.click();
+    }
+
+    public void selectGiverToBe(FeedbackParticipantType giverType, int qnNumber) {
+        WebElement giverDropdown = browser.driver.findElement(By.id("givertype-" + qnNumber));
+        selectDropdownByActualValue(giverDropdown, giverType.toString());
+    }
+
+    public void selectRecipientToBe(FeedbackParticipantType recipientType, int qnNumber) {
+        WebElement giverDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
+        selectDropdownByActualValue(giverDropdown, recipientType.toString());
+    }
+
+    public void clickMaxNumberOfRecipientsButton(int qnNumber) {
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnNumber));
+        questionForm.findElement(By.xpath("//input[@name='numofrecipientstype' and @value='max']")).click();
+    }
+
+    public void clickCustomNumberOfRecipientsButton(int qnNumber) {
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnNumber));
+        questionForm.findElement(By.xpath("//input[@name='numofrecipientstype' and @value='custom']")).click();
+    }
+
+    public void fillNumOfEntitiesToGiveFeedbackToBox(String num, int qnNumber) {
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnNumber));
+        WebElement numOfEntitiesBox = questionForm.findElement(By.className("numberOfEntitiesBox"));
+        fillTextBox(numOfEntitiesBox, num);
+    }
+
+    public boolean isOptionForSelectingNumberOfEntitiesVisible(int qnNumber) {
+        return isElementVisible(By.className("numberOfEntitiesElements" + qnNumber));
+    }
+
+    public boolean isAllFeedbackPathOptionsEnabled() {
+        List<WebElement> options = browser.driver.findElements(By.cssSelector("#givertype option"));
+        options.addAll(browser.driver.findElements(By.cssSelector("#recipienttype option")));
+        for (WebElement option : options) {
+            if (!option.isEnabled()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean verifyPreviewLabelIsActive(int qnNumber) {
+        return getPreviewLabel(qnNumber).getAttribute("class").contains("active");
+    }
+
+    public boolean verifyEditLabelIsActive(int qnNumber) {
+        return getEditLabel(qnNumber).getAttribute("class").contains("active");
+    }
+
+    public boolean verifyVisibilityMessageIsDisplayed(int qnNumber) {
+        return getVisibilityMessage(qnNumber).isDisplayed();
+    }
+
+    public boolean verifyVisibilityOptionsIsDisplayed(int qnNumber) {
+        return getVisibilityOptions(qnNumber).isDisplayed();
+    }
+
+    public WebElement getVisibilityOptionTableRow(int qnNumber, int optionRowNumber) {
+        return getVisibilityOptions(qnNumber).findElement(
+                By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
+    }
+
     public void waitForAjaxErrorOnVisibilityMessageButton(int qnNumber) {
         String errorMessage = "Visibility preview failed to load.";
         By buttonSelector = By.id("visibilityMessageButton-" + qnNumber);
         waitForTextContainedInElementPresence(buttonSelector, errorMessage);
     }
 
-    public void clickResponseVisiblityCheckBox(String checkBoxValue, int qnNumber) {
+    private WebElement getPreviewLabel(int qnNumber) {
         WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnNumber));
-        By responseVisibilitycheckBox = By.cssSelector("nput[value='" + checkBoxValue
-                                                       + "'].answerCheckbox");
-        WebElement checkbox = questionForm.findElement(responseVisibilitycheckBox);
-        waitForElementVisibility(checkbox);
-        checkbox.click();
+        return questionForm.findElement(By.className("visibilityMessageButton"));
+    }
+
+    private WebElement getEditLabel(int qnNumber) {
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnNumber));
+        return questionForm.findElement(By.className("visibilityOptionsLabel"));
+    }
+
+    private WebElement getVisibilityMessage(int qnNumber) {
+        return browser.driver.findElement(By.id("visibilityMessage-" + qnNumber));
+    }
+
+    private WebElement getVisibilityOptions(int qnNumber) {
+        return browser.driver.findElement(By.id("visibilityOptions-" + qnNumber));
     }
 }
