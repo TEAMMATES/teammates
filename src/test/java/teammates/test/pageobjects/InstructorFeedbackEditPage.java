@@ -91,9 +91,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_done_editing")
     private WebElement doneEditingButton;
     
-    @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='custom']")
-    private WebElement customNumOfRecipients;
-    
     @FindBy(id = "button_fscopy")
     private WebElement fscopyButton;
 
@@ -298,8 +295,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         questionForm.findElement(By.xpath("//input[@name='numofrecipientstype' and @value='max']")).click();
     }
     
-    public void clickCustomNumberOfRecipientsButton() {
-        customNumOfRecipients.click();
+    public void clickCustomNumberOfRecipientsButton(int qnIndex) {
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnIndex));
+        questionForm.findElement(By.xpath("//input[@name='numofrecipientstype' and @value='custom']")).click();
     }
     
     public void clickEditUncommonSettingsButton() {
