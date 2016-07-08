@@ -937,10 +937,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForTextContainedInElementPresence(buttonSelector, errorMessage);
     }
 
-    public void clickResponseVisiblityCheckBoxForNewQuestion(String checkBoxValue) {
-        By responseVisibilitycheckBox = By.cssSelector("#questionTableNew input[value='" + checkBoxValue
+    public void clickResponseVisiblityCheckBox(String checkBoxValue, int qnIndex) {
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnIndex));
+        By responseVisibilitycheckBox = By.cssSelector("nput[value='" + checkBoxValue
                                                        + "'].answerCheckbox");
-        WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
+        WebElement checkbox = questionForm.findElement(responseVisibilitycheckBox);
         waitForElementVisibility(checkbox);
         checkbox.click();
     }
