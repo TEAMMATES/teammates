@@ -526,7 +526,7 @@ function showNewQuestionFrame(type) {
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
 
-    var selectedFeedbackPathOption = $('#givertype');
+    var selectedFeedbackPathOption = $('#givertype-' + NEW_QUESTION);
     matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption);
 }
 
