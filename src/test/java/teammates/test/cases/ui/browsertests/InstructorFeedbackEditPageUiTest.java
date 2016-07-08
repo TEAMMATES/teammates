@@ -292,7 +292,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.fillEditQuestionBox("test visibility when choosing giver's team members and giver", -1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, -1);
-        feedbackEditPage.selectRecipientsToBeGiverTeamMembersAndGiver();
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, -1);
         feedbackEditPage.clickMaxNumberOfRecipientsButton();
         feedbackEditPage.clickAddQuestionButton();
         
