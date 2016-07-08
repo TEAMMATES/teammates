@@ -129,33 +129,6 @@ function disableRow($containingForm, row) {
     $($table.children().children()[row]).hide();
 }
 
-function feedbackRecipientUpdateVisibilityOptions(elem) {
-    var $elem = $(elem);
-    if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType($elem.val())) {
-        // show the row Recipient(s) and hide the row Recipient's Team Members
-        enableRow($elem, 1);
-        disableRow($elem, 3);
-        return;
-    } else if ($elem.val() === 'NONE') {
-        // hide both the row Recipient(s) and the row Recipient's Team Members
-        disableRow($elem, 3);
-        disableRow($elem, 1);
-        return;
-    }
-    
-    enableRow($elem, 1);
-    enableRow($elem, 3);
-}
-
-function feedbackGiverUpdateVisibilityOptions(elem) {
-    var $elem = $(elem);
-    if ($elem.val() === 'INSTRUCTORS' || $elem.val() === 'TEAMS') {
-        disableRow($elem, 2);
-        return;
-    }
-    enableRow($elem, 2);
-}
-
 function updateEditTabAccordingToRecipient($containingForm) {
     var recipientType = $containingForm.find('select[name="recipienttype"]').val();
     if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType)) {
