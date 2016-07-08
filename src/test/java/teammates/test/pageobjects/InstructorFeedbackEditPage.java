@@ -143,16 +143,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
     
-    public void fillEditQuestionBox(String qnText, int qnNumber) {
-        WebElement questionEditTextBox = browser.driver.findElement(By.id("questiontext-" + qnNumber));
-        fillTextBox(questionEditTextBox, qnText);
-    }
-    
-    public String getQuestionBoxText(int qnNumber) {
-        WebElement questionEditTextBox = browser.driver.findElement(By.id("questiontext-" + qnNumber));
-        return getTextBoxValue(questionEditTextBox);
-    }
-    
     private String getIdSuffix(int qnNumber) {
         int newQnNumber = -1;
         boolean isValid = qnNumber > 0 || qnNumber == newQnNumber;
@@ -342,21 +332,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         return fsDeleteLink;
     }
     
-    public WebElement getDeleteQuestionLink(int qnNumber) {
-        return browser.driver.findElement(By.xpath("//a[@onclick='deleteQuestion(" + qnNumber + ")']"));
-    }
-    
-    public WebElement getDiscardChangesLink(int qnNumber) {
-        return browser.driver.findElement(By.xpath("//a[@onclick='discardChanges(" + qnNumber + ")']"));
-    }
-    
-    public boolean isDiscardChangesButtonVisible(int qnNumber) {
-        WebElement discardChangesButton =
-                browser.driver.findElement(By.xpath("//a[@onclick='discardChanges(" + qnNumber + ")']"));
-        
-        return discardChangesButton.isDisplayed();
-    }
-    
     public void clickEditSessionButton() {
         waitForElementVisibility(fsEditLink);
         fsEditLink.click();
@@ -370,27 +345,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickAddQuestionButton() {
         addNewQuestionButton.click();
         waitForPageToLoad();
-    }
-    
-    public void clickEditQuestionButton(int qnNumber) {
-        WebElement qnEditLink = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
-        qnEditLink.click();
-    }
-    
-    public boolean isQuestionEnabled(int qnNumber) {
-        WebElement questionTextArea = browser.driver.findElement(By.id("questiontext-" + qnNumber));
-        return questionTextArea.isEnabled();
-    }
-
-    public void clickSaveExistingQuestionButton(int qnNumber) {
-        WebElement qnSaveLink = browser.driver.findElement(By.id("button_question_submit-" + qnNumber));
-        qnSaveLink.click();
-        waitForPageToLoad();
-    }
-    
-    public void selectQuestionNumber(int qnNumber, int newQnIndex) {
-        WebElement qnNumSelect = browser.driver.findElement(By.id("questionnum-" + qnNumber));
-        selectDropdownByVisibleValue(qnNumSelect, String.valueOf(newQnIndex));
     }
     
     /**
@@ -838,6 +792,53 @@ public class InstructorFeedbackEditPage extends AppPage {
         ((JavascriptExecutor) browser.driver).executeScript(selector + action);
     }
     
+    // general question related (e.g., enabling disabling, filling question text, etc.)
+    public void clickEditQuestionButton(int qnNumber) {
+        WebElement qnEditLink = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
+        qnEditLink.click();
+    }
+
+    public void fillEditQuestionBox(String qnText, int qnNumber) {
+        WebElement questionEditTextBox = browser.driver.findElement(By.id("questiontext-" + qnNumber));
+        fillTextBox(questionEditTextBox, qnText);
+    }
+
+    public void clickSaveExistingQuestionButton(int qnNumber) {
+        WebElement qnSaveLink = browser.driver.findElement(By.id("button_question_submit-" + qnNumber));
+        qnSaveLink.click();
+        waitForPageToLoad();
+    }
+
+    public void selectQuestionNumber(int qnNumber, int newQnIndex) {
+        WebElement qnNumSelect = browser.driver.findElement(By.id("questionnum-" + qnNumber));
+        selectDropdownByVisibleValue(qnNumSelect, String.valueOf(newQnIndex));
+    }
+
+    public String getQuestionBoxText(int qnNumber) {
+        WebElement questionEditTextBox = browser.driver.findElement(By.id("questiontext-" + qnNumber));
+        return getTextBoxValue(questionEditTextBox);
+    }
+
+    public WebElement getDeleteQuestionLink(int qnNumber) {
+        return browser.driver.findElement(By.xpath("//a[@onclick='deleteQuestion(" + qnNumber + ")']"));
+    }
+
+    public WebElement getDiscardChangesLink(int qnNumber) {
+        return browser.driver.findElement(By.xpath("//a[@onclick='discardChanges(" + qnNumber + ")']"));
+    }
+
+    public boolean isQuestionEnabled(int qnNumber) {
+        WebElement questionTextArea = browser.driver.findElement(By.id("questiontext-" + qnNumber));
+        return questionTextArea.isEnabled();
+    }
+
+    public boolean isDiscardChangesButtonVisible(int qnNumber) {
+        WebElement discardChangesButton =
+                browser.driver.findElement(By.xpath("//a[@onclick='discardChanges(" + qnNumber + ")']"));
+
+        return discardChangesButton.isDisplayed();
+    }
+
     // feedback path and visibility related
     public void clickVisibilityPreview(int qnNumber) {
         getPreviewLabel(qnNumber).click();
