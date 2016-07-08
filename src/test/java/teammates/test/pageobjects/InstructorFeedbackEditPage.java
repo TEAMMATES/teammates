@@ -743,8 +743,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
     
-    public void clickAddMoreConstSumOptionLink() {
-        WebElement addMoreOptionLink = browser.driver.findElement(By.id("constSumAddOptionLink"));
+    public void clickAddMoreConstSumOptionLink(int qnIndex) {
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("constSumAddOptionLink-" + qnIndex));
         addMoreOptionLink.click();
     }
     

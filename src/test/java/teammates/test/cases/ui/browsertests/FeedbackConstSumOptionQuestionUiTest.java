@@ -106,7 +106,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("CONST SUM: add option");
 
         assertFalse(feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
-        feedbackEditPage.clickAddMoreConstSumOptionLink();
+        feedbackEditPage.clickAddMoreConstSumOptionLink(-1);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
 
         ______TS("CONST SUM: remove option");
@@ -118,9 +118,9 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         ______TS("CONST SUM: add option after remove");
 
-        feedbackEditPage.clickAddMoreConstSumOptionLink();
+        feedbackEditPage.clickAddMoreConstSumOptionLink(-1);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-3--1"));
-        feedbackEditPage.clickAddMoreConstSumOptionLink();
+        feedbackEditPage.clickAddMoreConstSumOptionLink(-1);
         feedbackEditPage.fillConstSumOption(4, "Option 5", -1);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-4--1"));
     }
