@@ -738,8 +738,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         removeOptionLink.click();
     }
     
-    public void fillConstSumOption(int optionIndex, String optionText) {
-        WebElement optionBox = browser.driver.findElement(By.id("constSumOption-" + optionIndex + "--1"));
+    public void fillConstSumOption(int optionIndex, String optionText, int qnIndex) {
+        WebElement optionBox = browser.driver.findElement(By.id("constSumOption-" + optionIndex + "-" + qnIndex));
         fillTextBox(optionBox, optionText);
     }
     
