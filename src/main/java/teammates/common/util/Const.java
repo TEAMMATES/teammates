@@ -233,6 +233,7 @@ public final class Const {
     
         public static final String COURSE_INFO_EDIT = "Edit course name";
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
+        public static final String COURSE_INSTRUCTOR_CANCEL_EDIT = "Cancel editing instructor details";
         public static final String COURSE_INSTRUCTOR_DELETE = "Delete the instructor from the course";
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
         
@@ -1175,6 +1176,8 @@ public final class Const {
                 + "Please try again with a smaller picture.";
         public static final String STUDENT_PROFILE_PIC_SERVICE_DOWN = "We were unable to upload your picture at this time. "
                 + "Please try again after some time";
+        public static final String STUDENT_EMAIL_TAKEN_MESSAGE =
+                "Trying to update to an email that is already used by: %s/%s";
         
         public static final String FEEDBACK_SESSION_ADDED =
                 "The feedback session has been added. "
