@@ -243,41 +243,9 @@ public abstract class AppPage {
      */
     public void waitForElementsToDisappear(List<WebElement> elements) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(invisibilityOfAllElements(elements));
+        wait.until(ExpectedConditions.invisibilityOfAllElements(elements));
     }
     
-    /**
-     * Code adapted from SeleniumHQ's GitHub page.
-     * TODO to be removed when Selenium is upgraded to the version supporting this method.
-     *
-     * An expectation for checking all elements from given list to be invisible
-     *
-     * @param elements used to check their invisibility
-     * @return Boolean true when all elements are not visible anymore
-     */
-    private ExpectedCondition<Boolean> invisibilityOfAllElements(final List<WebElement> elements) {
-        return new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver webDriver) {
-                for (WebElement element : elements) {
-                    try {
-                        if (element.isDisplayed()) {
-                            return false;
-                        }
-                    } catch (Exception e) {
-                        // empty exception block as specified by Selenium's code
-                    }
-                }
-                return true;
-            }
-
-            @Override
-            public String toString() {
-                return "invisibility of all elements " + elements;
-            }
-        };
-    }
-
     /**
      * Waits for an alert to appear on the page, up to the timeout specified.
      */
