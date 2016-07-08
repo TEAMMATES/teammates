@@ -661,10 +661,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByActualValue(giverDropdown, recipientType.toString());
     }
 
-    public void selectGiverToBeStudents() {
-        selectDropdownByVisibleValue(giverDropdown, "Students in this course");
-    }
-    
     public void selectGiverToBeInstructors() {
         selectDropdownByVisibleValue(giverDropdown, "Instructors in this course");
     }

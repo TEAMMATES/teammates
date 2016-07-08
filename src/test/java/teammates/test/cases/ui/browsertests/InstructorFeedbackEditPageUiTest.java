@@ -291,7 +291,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("add question 2 and edit it to giver's team members and giver");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.fillEditQuestionBox("test visibility when choosing giver's team members and giver", -1);
-        feedbackEditPage.selectGiverToBeStudents();
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, -1);
         feedbackEditPage.selectRecipientsToBeGiverTeamMembersAndGiver();
         feedbackEditPage.clickMaxNumberOfRecipientsButton();
         feedbackEditPage.clickAddQuestionButton();
@@ -711,7 +711,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillEditQuestionBox("question for students", -1);
-        feedbackEditPage.selectGiverToBeStudents();
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, -1);
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.clickNewQuestionButton();
@@ -725,7 +725,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillEditQuestionBox("question for students to instructors", -1);
-        feedbackEditPage.selectGiverToBeStudents();
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, -1);
         feedbackEditPage.selectRecipientsToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
 
