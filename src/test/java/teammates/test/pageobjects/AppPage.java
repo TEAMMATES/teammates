@@ -498,6 +498,13 @@ public abstract class AppPage {
         textBoxElement.sendKeys(value + Keys.TAB + Keys.TAB + Keys.TAB);
     }
     
+    protected void fillRichTextEditor(String id, String content) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("  if (typeof tinyMCE !== 'undefined') {"
+                                 + "    tinyMCE.get('" + id + "').setContent('" + content + "\t\t');"
+                                 + "}");
+    }
+
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) {
         if (fileName.isEmpty()) {
             fileBoxElement.clear();

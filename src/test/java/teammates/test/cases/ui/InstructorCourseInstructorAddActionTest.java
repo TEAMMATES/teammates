@@ -110,14 +110,18 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
-        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
-                                   FieldValidator.REASON_INCORRECT_FORMAT), redirectResult.getStatusMessage());
+        assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
+                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                         FieldValidator.EMAIL_MAX_LENGTH),
+                     redirectResult.getStatusMessage());
             
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
                + "|||Servlet Action Failure : "
-               + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
-                               FieldValidator.REASON_INCORRECT_FORMAT)
+               + getPopulatedErrorMessage(
+                     FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
+                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                     FieldValidator.EMAIL_MAX_LENGTH)
                + "|||/page/instructorCourseInstructorAdd";
         AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
         

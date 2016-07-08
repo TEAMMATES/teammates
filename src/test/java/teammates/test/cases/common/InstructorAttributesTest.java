@@ -126,20 +126,40 @@ public class InstructorAttributesTest extends BaseTestCase {
         
         assertFalse("invalid value", i.isValid());
         String errorMessage =
-                String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
-                              FieldValidator.REASON_INCORRECT_FORMAT) + EOL
-                + String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, i.courseId, FieldValidator.REASON_EMPTY) + EOL
-                + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, i.name, FieldValidator.REASON_EMPTY) + EOL
-                + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, i.email, FieldValidator.REASON_INCORRECT_FORMAT);
+                getPopulatedErrorMessage(
+                    FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
+                    FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                    FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.COURSE_ID_ERROR_MESSAGE, i.courseId,
+                      FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                      FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, i.name,
+                      FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                      FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
+                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.EMAIL_MAX_LENGTH);
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
         
         i.googleId = null;
         
         assertFalse("invalid value", i.isValid());
         errorMessage =
-                String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, i.courseId, FieldValidator.REASON_EMPTY) + EOL
-                + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, i.name, FieldValidator.REASON_EMPTY) + EOL
-                + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, i.email, FieldValidator.REASON_INCORRECT_FORMAT);
+                getPopulatedErrorMessage(
+                    FieldValidator.COURSE_ID_ERROR_MESSAGE, i.courseId,
+                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                    FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, i.name,
+                      FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                      FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
+                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.EMAIL_MAX_LENGTH);
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
     }
     

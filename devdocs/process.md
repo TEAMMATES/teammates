@@ -38,7 +38,7 @@ Role: Dev
 {If you need any help regarding the workflow, please [post a new issue in our issue tracker] 
 (https://github.com/TEAMMATES/teammates/issues/new) (Yes, our issue tracker doubles as a discussion board).}
 
-This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/index.html).
+This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/index.jsp).
 
 1. Select an issue to handle. If you are a contributor, there is no need to get the issue assigned to you. <br>
    (If you are a committer, assign the issue to yourself and assign it a milestone).
@@ -269,8 +269,8 @@ RL:
     * Add/revise `e.` labels for the issues/PRs in the release.
     * Ensure all branches merged in the milestone have been deleted.
     * Announce the release on slack and issue tracker.
-    * Update `about.html` with names of new contributors, if any. Alternatively,
-      create an issue to update `about.html`.
+    * Update `about.jsp` with names of new contributors, if any. Alternatively,
+      create an issue to update `about.jsp`.
     * Close the current milestone and create a new milestone for the next+1 release.
     * Create an issue for the next release. Post a comment in that issue to 
       remind active devs who don't have issues scheduled for next release. 

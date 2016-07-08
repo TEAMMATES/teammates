@@ -1,5 +1,10 @@
 package teammates.test.cases.ui.browsertests;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
@@ -7,6 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -97,6 +103,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testCopyQuestion();
 
         testChangeFeedbackRecipient();
+        testVisibilityOptionsCorrespondToFeedbackPath();
 
         testEditQuestionNumberAction();
         
@@ -141,6 +148,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(
                 editedSession.getCourseId(), editedSession.getFeedbackSessionName());
+        editedSession.setInstructions(new Text("<p>" + editedSession.getInstructionsString() + "</p>"));
         assertEquals(editedSession.toString(), savedSession.toString());
         assertEquals("overflow-auto alert alert-success statusMessage",
                 feedbackEditPage.getStatusMessage().findElement(By.className("statusMessage")).getAttribute("class"));
@@ -175,7 +183,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                         editedSession.getInstructions(), editedSession.getGracePeriod());
         
         String expectedString = "The end time for this feedback session cannot be earlier than the start time.";
-        feedbackEditPage.verifyFieldValue("instructions", "Made some changes");
         feedbackEditPage.verifyStatus(expectedString);
     }
 
@@ -515,6 +522,66 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));
     }
     
+    private void testVisibilityOptionsCorrespondToFeedbackPath() {
+        ______TS("Changing feedback path will enable/disable the corresponding visibility options");
+
+        feedbackEditPage = getFeedbackEditPage();
+
+        feedbackEditPage.clickQuestionEditForQuestion1();
+        feedbackEditPage.clickEditLabel(1);
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.SELF, 1);
+
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                              FeedbackParticipantType.RECEIVER_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS,
+                              FeedbackParticipantType.INSTRUCTORS),
+                1);
+
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.INSTRUCTORS, 1);
+
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                              FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
+                1);
+
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.NONE, 1);
+
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS,
+                              FeedbackParticipantType.INSTRUCTORS),
+                1);
+
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.INSTRUCTORS, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.NONE, 1);
+
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS), 1);
+    }
+
+    private void assertEnabledVisibilityOptionsIncludesOnly(List<FeedbackParticipantType> expectedTypes,
+                                                            int questionNumber) {
+        Set<String> expectedEnabledOptions = new HashSet<String>();
+        for (FeedbackParticipantType expectedType : expectedTypes) {
+            expectedEnabledOptions.add(expectedType.toString());
+        }
+
+        Set<String> actualEnableOptions = new HashSet<String>();
+        WebElement optionsTable = browser.driver.findElement(By.id("visibilityOptions-" + questionNumber));
+        List<WebElement> enabledRows =
+                optionsTable.findElements(By.cssSelector("tr:not([style='display: none;'])"));
+        // remove the header row
+        enabledRows.remove(0);
+        for (WebElement enabledRow : enabledRows) {
+            WebElement checkbox = enabledRow.findElement(By.cssSelector("input"));
+            actualEnableOptions.add(checkbox.getAttribute("value"));
+        }
+
+        assertTrue(expectedEnabledOptions.equals(actualEnableOptions));
+    }
+
     private void testAjaxOnVisibilityMessageButton() {
         ______TS("Failure case: ajax on clicking visibility message button");
         
