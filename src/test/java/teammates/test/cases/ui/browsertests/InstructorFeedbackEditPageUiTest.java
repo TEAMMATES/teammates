@@ -206,7 +206,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("empty number of max respondants field");
 
         feedbackEditPage.fillEditQuestionBox("filled qn", -1);
-        feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, -1);
         feedbackEditPage.fillNumOfEntitiesToGiveFeedbackToBox("");
         feedbackEditPage.clickCustomNumberOfRecipientsButton();
         feedbackEditPage.clickAddQuestionButton();
@@ -703,7 +703,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillEditQuestionBox("question for me", -1);
-        feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, -1);
         feedbackEditPage.clickAddQuestionButton();
         
 

@@ -658,10 +658,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByActualValue(giverDropdown, recipientType.toString());
     }
 
-    public void selectRecipientsToBeStudents() {
-        selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
-    }
-    
     public void selectRecipientsToBeGiverTeamMembersAndGiver() {
         selectDropdownByVisibleValue(recipientDropdown, "Giver's team members and Giver");
     }

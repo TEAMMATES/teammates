@@ -150,7 +150,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MCQ: add question action success");
 
         feedbackEditPage.fillEditQuestionBox("mcq qn", -1);
-        feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, -1);
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));

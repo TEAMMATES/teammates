@@ -5,6 +5,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -155,7 +156,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("NUMSCALE: add question action success");
 
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
-        feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, -1);
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
