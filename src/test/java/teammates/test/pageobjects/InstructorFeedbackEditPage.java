@@ -631,10 +631,6 @@ public class InstructorFeedbackEditPage extends AppPage {
                 browser.driver.findElement(By.id("constSumPoints" + pointsOption + "-" + questionNumber)));
     }
     
-    public void selectRecipientTypeForNewQuestion(String recipientType) {
-        selectDropdownByVisibleValue(browser.driver.findElement(By.id("recipienttype")), recipientType);
-    }
-    
     /**
      * 
      * @return {@code True} if the button was clicked successfully and an element in the new question

@@ -279,7 +279,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForTextContainedInElementPresence(
                 By.id("visibilityMessage"),
                 "The recipient's team members can see your response, but not the name of the recipient, or your name.");
-        feedbackEditPage.selectRecipientTypeForNewQuestion("Instructors in the course");
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.INSTRUCTORS, -1);
         
         feedbackEditPage.waitForTextContainedInElementAbsence(
                 By.id("visibilityMessage"),
