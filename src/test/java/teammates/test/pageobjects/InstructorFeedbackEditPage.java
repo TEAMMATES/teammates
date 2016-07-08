@@ -91,9 +91,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_done_editing")
     private WebElement doneEditingButton;
     
-    @FindBy(id = "recipienttype")
-    private WebElement recipientDropdown;
-    
     @FindBy(id = "numofrecipients")
     private WebElement numberOfRecipients;
     
@@ -656,10 +653,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void selectRecipientToBe(FeedbackParticipantType recipientType, int questionNumber) {
         WebElement giverDropdown = browser.driver.findElement(By.id("recipienttype-" + questionNumber));
         selectDropdownByActualValue(giverDropdown, recipientType.toString());
-    }
-
-    public void selectRecipientsToBeInstructors() {
-        selectDropdownByVisibleValue(recipientDropdown, "Instructors in the course");
     }
 
     public void selectRecipientsToBeStudents(int qnNumber) {
