@@ -272,7 +272,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
         
         feedbackEditPage.fillEditQuestionBox("Rank qn", -1);
-        feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1 <>");
+        feedbackEditPage.fillRankOptionForQuestion(-1, 0, "Option 1 <>");
         
         assertEquals(2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
         // try to submit with insufficient non-blank option
@@ -288,8 +288,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         // blank option at the start and end, to check they are removed
         feedbackEditPage.clickAddMoreRankOptionLink(-1);
-        feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 1 <>");
-        feedbackEditPage.fillRankOptionForNewQuestion(2, "  Option 2  ");
+        feedbackEditPage.fillRankOptionForQuestion(-1, 1, "Option 1 <>");
+        feedbackEditPage.fillRankOptionForQuestion(-1, 2, "  Option 2  ");
         feedbackEditPage.clickAddMoreRankOptionLink(-1);
         assertEquals(4, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
         

@@ -799,11 +799,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         assertFalse(optionBox.isDisplayed());
     }
     
-    public void fillRankOptionForNewQuestion(int optionIndex, String optionText) {
-        WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "--1"));
-        fillTextBox(optionBox, optionText);
-    }
-    
     public void fillRankOptionForQuestion(int qnIndx, int optionIndex, String optionText) {
         WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "-" + qnIndx));
         fillTextBox(optionBox, optionText);
