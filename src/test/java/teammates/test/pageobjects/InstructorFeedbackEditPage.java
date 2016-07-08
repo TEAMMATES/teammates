@@ -695,8 +695,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         return changePageType(InstructorFeedbacksPage.class);
     }
     
-    public void fillMcqOption(int optionIndex, String optionText) {
-        WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex + "--1"));
+    public void fillMcqOption(int optionIndex, String optionText, int qnIndex) {
+        WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex + "-" + qnIndex));
         fillTextBox(optionBox, optionText);
     }
     

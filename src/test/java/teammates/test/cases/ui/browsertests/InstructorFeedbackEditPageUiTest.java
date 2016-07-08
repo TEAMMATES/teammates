@@ -363,8 +363,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
         feedbackEditPage.fillEditQuestionBox(qnTextOriginal, -1);
-        feedbackEditPage.fillMcqOption(0, "Choice 1");
-        feedbackEditPage.fillMcqOption(1, "Choice 2");
+        feedbackEditPage.fillMcqOption(0, "Choice 1", -1);
+        feedbackEditPage.fillMcqOption(1, "Choice 2", -1);
         feedbackEditPage.clickAddQuestionButton();
         
         // Enable edit mode before testing canceling
