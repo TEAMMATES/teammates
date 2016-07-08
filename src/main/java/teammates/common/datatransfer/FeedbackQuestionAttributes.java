@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -12,8 +15,6 @@ import teammates.storage.entity.FeedbackQuestion;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
@@ -507,16 +508,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.creatorEmail = Sanitizer.sanitizeEmail(creatorEmail);
     }
     
-    public boolean isJsonValid(String jsonString) {
+    public boolean isValidJsonObject(String jsonString) {
         try {
-            JsonParser parser = new JsonParser();
-            parser.parse(jsonString);
-        } catch (JsonSyntaxException e) {
+            new JSONObject(jsonString);
+        } catch (JSONException e) {
             return false;
         }
         return true;
     }
-
+    
     /** 
      * This method converts the given Feedback*QuestionDetails object to JSON for storing
      * 
@@ -536,7 +536,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         final String questionMetaDataValue = questionMetaData.getValue();
         // For old Text questions, the questionText simply contains the question, not a JSON
         // This is due to legacy data in the data store before there are multiple question types
-        if (questionType == FeedbackQuestionType.TEXT && !isJsonValid(questionMetaDataValue)) {
+        if (questionType == FeedbackQuestionType.TEXT && !isValidJsonObject(questionMetaDataValue)) {
             return new FeedbackTextQuestionDetails(questionMetaDataValue);
         }
         Gson gson = Utils.getTeammatesGson();
