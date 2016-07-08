@@ -206,6 +206,7 @@ public class InstructorCommentsPage extends AppPage {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("document.getElementById('"
                 + "commentdelete-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx + "').click();");
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
     }
     
