@@ -11,7 +11,7 @@
 <%-- sentinel value of -1 for newly added question --%>
 <form id="form_editquestion--1" class="form-horizontal form_question" role="form" method="post"
     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
-    name="form_addquestions" onsubmit="tallyCheckboxes('')" >
+    name="form_addquestions" onsubmit="tallyCheckboxes('-1')" >
     <div class="well well-plain inputTable" id="addNewQuestionTable">
        
         <div class="row">
