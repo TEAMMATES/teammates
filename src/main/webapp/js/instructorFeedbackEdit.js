@@ -501,9 +501,9 @@ function tallyCheckboxes(questionNum) {
         '.recipientCheckbox': FEEDBACK_QUESTION_SHOWRECIPIENTTO
     };
     
-    $.each(checkboxTypes, function(i, checkboxType) {
+    $.each(checkboxTypes, function(classSelector, checkboxType) {
         var checked = [];
-        $(i + questionNum + ':checked').each(function() {
+        $('#form_questionedit-' + questionNum).find(classSelector + ':checked').each(function() {
             checked.push($(this).val());
         });
         $('[name=' + checkboxType + ']').val(checked.toString());
@@ -603,9 +603,9 @@ function prepareQuestionForm(type) {
         hideAllNewQuestionForms();
         
         $('#contribForm').show();
-        fixContribQnGiverRecipient();
-        setDefaultContribQnVisibility();
-        setContribQnVisibilityFormat();
+        fixContribQnGiverRecipient(NEW_QUESTION);
+        setDefaultContribQnVisibility(NEW_QUESTION);
+        setContribQnVisibilityFormat(NEW_QUESTION);
         break;
     case 'RUBRIC':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
@@ -663,7 +663,7 @@ function copyOptions() {
     $currRecipient.val($prevRecipient.val());
     
     // Number of recipient setup
-    formatNumberBox($currRecipient.val(), '');
+    formatNumberBox($currRecipient.val(), NEW_QUESTION);
     var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
     var $currRadioButtons = $('table[class~="questionTable"]').last().find('input[name="numofrecipientstype"]');
     
