@@ -678,9 +678,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("action: test that edit link leads to correct edit page");
         
         InstructorFeedbackEditPage editPage = resultsPage.clickEditLink();
-        editPage.verifyContains("Edit Feedback Session");
-        assertEquals("CFResultsUiT.CS2104", editPage.getCourseId());
-        assertEquals("First Session", editPage.getFeedbackSessionName());
+        assertTrue(editPage.isCorrectPage("CFResultsUiT.CS2104", "First Session"));
     }
 
     @AfterClass

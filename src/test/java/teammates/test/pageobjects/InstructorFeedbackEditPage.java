@@ -122,11 +122,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         return fsCopyToModal;
     }
     
-    public String getCourseId() {
+    private String getCourseId() {
         return browser.driver.findElement(By.name("courseid")).getAttribute("value");
     }
     
-    public String getFeedbackSessionName() {
+    private String getFeedbackSessionName() {
         return browser.driver.findElement(By.name("fsname")).getAttribute("value");
     }
     
