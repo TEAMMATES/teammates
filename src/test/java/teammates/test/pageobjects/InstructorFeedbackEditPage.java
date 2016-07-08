@@ -91,9 +91,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_done_editing")
     private WebElement doneEditingButton;
     
-    @FindBy(id = "numofrecipients")
-    private WebElement numberOfRecipients;
-    
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='max']")
     private WebElement maxNumOfRecipients;
     
@@ -157,8 +154,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(questionEditTextBox, qnText);
     }
     
-    public void fillNumOfEntitiesToGiveFeedbackToBox(String num) {
-        fillTextBox(numberOfRecipients, num);
+    public void fillNumOfEntitiesToGiveFeedbackToBox(String num, int qnIndex) {
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion-" + qnIndex));
+        WebElement numOfEntitiesBox = questionForm.findElement(By.className("numberOfEntitiesBox"));
+        fillTextBox(numOfEntitiesBox, num);
     }
 
     public String getQuestionBoxText(int qnIndex) {

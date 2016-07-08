@@ -207,7 +207,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.fillEditQuestionBox("filled qn", -1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, -1);
-        feedbackEditPage.fillNumOfEntitiesToGiveFeedbackToBox("");
+        feedbackEditPage.fillNumOfEntitiesToGiveFeedbackToBox("", -1);
         feedbackEditPage.clickCustomNumberOfRecipientsButton();
         feedbackEditPage.clickAddQuestionButton();
         
