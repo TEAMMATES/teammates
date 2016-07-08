@@ -24,9 +24,6 @@ public class EmailSender {
     
     private final EmailSenderService service;
     
-    // for sending severe logs compilation and error report
-    private final JavamailService javamailService = new JavamailService();
-    
     public EmailSender() {
         if (Config.isUsingSendgrid()) {
             service = new SendgridService();
@@ -105,6 +102,10 @@ public class EmailSender {
      * Sends the given {@code message} with Javamail service regardless of configuration.
      */
     private void sendEmailWithJavamail(EmailWrapper message) throws EmailSendingException {
+        // GAE Javamail is used when we need a service that is not prone to configuration failures
+        // and/or third-party API failures. The trade-off is the very little quota of 100 emails per day.
+        JavamailService javamailService = new JavamailService();
+        
         // GAE Javamail requires the sender email address to be of this format
         message.setSenderEmail("admin@" + Config.getAppId() + ".appspotmail.com");
         
