@@ -91,9 +91,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_done_editing")
     private WebElement doneEditingButton;
     
-    @FindBy(id = "givertype")
-    private WebElement giverDropdown;
-    
     @FindBy(id = "recipienttype")
     private WebElement recipientDropdown;
     
@@ -661,10 +658,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByActualValue(giverDropdown, recipientType.toString());
     }
 
-    public void selectGiverToBeInstructors() {
-        selectDropdownByVisibleValue(giverDropdown, "Instructors in this course");
-    }
-    
     public void selectRecipientsToBeStudents() {
         selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
     }

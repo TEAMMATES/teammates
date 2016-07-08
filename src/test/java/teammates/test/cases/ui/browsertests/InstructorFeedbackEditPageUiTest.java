@@ -718,7 +718,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillEditQuestionBox("question for instructors", -1);
-        feedbackEditPage.selectGiverToBeInstructors();
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.INSTRUCTORS, -1);
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.clickNewQuestionButton();
