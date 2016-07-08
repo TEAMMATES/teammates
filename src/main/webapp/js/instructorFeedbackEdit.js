@@ -346,7 +346,7 @@ function disableQuestion(questionNum) {
     $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
     
     $currentQuestionTable.find('[id^="mcqAddOptionLink-"]').hide();
-    $currentQuestionTable.find('#msqAddOptionLink').hide();
+    $currentQuestionTable.find('[id^="msqAddOptionLink-"]').hide();
     $currentQuestionTable.find('.removeOptionLink').hide();
     
     /* Check whether generate options for students/instructors/teams is selected
