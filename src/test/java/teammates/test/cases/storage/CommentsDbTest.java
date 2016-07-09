@@ -42,7 +42,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testCreateComment() throws Exception {
+    public void testCreateComment() throws EntityAlreadyExistsException, InvalidParametersException {
         
         CommentAttributes c = createNewComment();
 
@@ -171,7 +171,8 @@ public class CommentsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testUpdateComment() throws Exception {
+    public void testUpdateComment()
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         CommentAttributes c = createNewComment();
         commentsDb.createEntity(c);

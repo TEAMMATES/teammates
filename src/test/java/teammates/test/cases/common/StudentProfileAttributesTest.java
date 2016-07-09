@@ -72,7 +72,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfo() throws Exception {
+    public void testGetInvalidityInfo() {
         testGetInvalidityInfoForValidProfileWithValues();
         testGetInvalidtyInfoForValidProfileWithEmptyValues();
         testInvalidityInfoForInvalidProfile();
@@ -99,7 +99,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
     }
 
-    protected void testInvalidityInfoForInvalidProfile() throws Exception {
+    protected void testInvalidityInfoForInvalidProfile() {
         StudentProfileAttributes invalidProfile = getInvalidStudentProfileAttributes();
 
         ______TS("Failure case: invalid profile attributes");
@@ -181,7 +181,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
                                             profile.moreInfo, profile.pictureKey);
     }
 
-    private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) throws Exception {
+    private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) {
         List<String> expectedErrorMessages = new ArrayList<String>();
 
         // tests both the constructor and the invalidity info

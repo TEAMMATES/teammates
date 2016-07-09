@@ -390,7 +390,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.loadInstructorHomeTab();
     }
     
-    public void testCopyToFsAction() throws Exception {
+    public void testCopyToFsAction() {
         String feedbackSessionName = "First Feedback Session";
         String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
         

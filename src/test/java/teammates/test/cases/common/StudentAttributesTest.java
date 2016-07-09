@@ -67,7 +67,7 @@ public class StudentAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testStudentConstructor() throws Exception {
+    public void testStudentConstructor() {
         String courseId = "anyCoursId";
         StudentAttributes invalidStudent;
 
@@ -186,7 +186,7 @@ public class StudentAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidate() throws Exception {
+    public void testValidate() {
         StudentAttributes s = generateValidStudentAttributesObject();
 
         assertTrue("valid value", s.isValid());

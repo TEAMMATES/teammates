@@ -64,7 +64,7 @@ public class CommentAttributesTest extends BaseTestCase {
     }
     
     @Test
-    public void testValidate() throws Exception {
+    public void testValidate() {
         CommentAttributes comment = new CommentAttributes(
                 null,
                 null,

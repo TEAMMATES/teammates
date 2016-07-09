@@ -28,7 +28,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
         
         testActionWithInvalidParameters(student);
@@ -36,7 +36,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         testActionInMasqueradeMode(student);
     }
 
-    private void testActionWithInvalidParameters(AccountAttributes student) throws Exception {
+    private void testActionWithInvalidParameters(AccountAttributes student) {
         gaeSimulation.loginAsStudent(student.googleId);
         ______TS("Failure case: invalid parameters");
         

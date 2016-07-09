@@ -126,22 +126,23 @@ public class BaseTestCase {
      * @param args              the arguments to be passed to the method invocation
      */
     protected static Object invokeMethod(Class<?> definingClass, String methodName, Class<?>[] parameterTypes,
-                                         Object invokingObject, Object[] args)
-            throws ReflectiveOperationException {
-        Method method = definingClass.getDeclaredMethod(methodName, parameterTypes);
-        method.setAccessible(true);
-        return method.invoke(invokingObject, args);
+                                         Object invokingObject, Object[] args) {
+        try {
+            Method method = definingClass.getDeclaredMethod(methodName, parameterTypes);
+            method.setAccessible(true);
+            return method.invoke(invokingObject, args);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     protected static String getPopulatedErrorMessage(String messageTemplate, String userInput,
-                                                     String fieldName, String errorReason)
-            throws ReflectiveOperationException {
+                                                     String fieldName, String errorReason) {
         return getPopulatedErrorMessage(messageTemplate, userInput, fieldName, errorReason, 0);
     }
 
     protected static String getPopulatedErrorMessage(String messageTemplate, String userInput,
-                                                     String fieldName, String errorReason, int maxLength)
-            throws ReflectiveOperationException {
+                                                     String fieldName, String errorReason, int maxLength) {
         return (String) invokeMethod(FieldValidator.class, "getPopulatedErrorMessage",
                                      new Class<?>[] { String.class, String.class, String.class, String.class, int.class },
                                      null, new Object[] { messageTemplate, userInput, fieldName, errorReason, maxLength });

@@ -93,7 +93,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void testMiscellaneous() throws Exception {
+    public void testMiscellaneous() {
         testAjaxErrorForLoadingSessionList();
         testValidationReload();
         testJScripts();
@@ -945,7 +945,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.isCopySubmitButtonEnabled());
     }
     
-    public void testValidationReload() throws Exception {
+    public void testValidationReload() {
         
         ______TS("form fields do not reset on form validation failure when session type is STANDARD");
         

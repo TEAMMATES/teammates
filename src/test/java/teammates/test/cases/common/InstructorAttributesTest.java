@@ -111,7 +111,7 @@ public class InstructorAttributesTest extends BaseTestCase {
     }
     
     @Test
-    public void testGetInvalidityInfo() throws Exception {
+    public void testGetInvalidityInfo() {
 
         @SuppressWarnings("deprecation")
         InstructorAttributes i =

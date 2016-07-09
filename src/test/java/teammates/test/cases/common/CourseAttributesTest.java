@@ -21,7 +21,7 @@ public class CourseAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidate() throws Exception {
+    public void testValidate() {
         
         CourseAttributes validCourse = generateValidCourseAttributesObject();
         
