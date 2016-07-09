@@ -27,7 +27,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testGenerateNextDemoCourseId() {
+    public void testGenerateNextDemoCourseId() throws Exception {
         testGenerateNextDemoCourseIdForLengthLimit(40);
         testGenerateNextDemoCourseIdForLengthLimit(20);
     }
@@ -116,7 +116,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         new Logic().deleteCourse(getDemoCourseIdRoot(email));
     }
 
-    private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) {
+    private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) throws Exception {
         final String normalIdSuffix = ".gma-demo";
         final String atEmail = "@gmail.tmt";
         final int normalIdSuffixLength = normalIdSuffix.length(); // 9
@@ -151,7 +151,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                                               maximumIdLength));
     }
     
-    private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
+    private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength)
+            throws Exception {
         AdminInstructorAccountAddAction a = new AdminInstructorAccountAddAction();
         return (String) invokeMethod(a.getClass(), "generateNextDemoCourseId",
                                      new Class<?>[] { String.class, int.class },

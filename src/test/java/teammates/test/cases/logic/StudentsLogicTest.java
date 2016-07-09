@@ -1187,14 +1187,14 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    private static StudentEnrollDetails enrollStudent(StudentAttributes student) {
+    private static StudentEnrollDetails enrollStudent(StudentAttributes student) throws Exception {
         return (StudentEnrollDetails) invokeMethod(StudentsLogic.class, "enrollStudent",
                                                    new Class<?>[] { StudentAttributes.class, Boolean.class },
                                                    StudentsLogic.inst(), new Object[] { student, false });
     }
     
     @SuppressWarnings("unchecked")
-    private static List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) {
+    private static List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws Exception {
         return (List<String>) invokeMethod(StudentsLogic.class, "getInvalidityInfoInEnrollLines",
                                            new Class<?>[] { String.class, String.class },
                                            StudentsLogic.inst(), new Object[] { lines, courseId });
