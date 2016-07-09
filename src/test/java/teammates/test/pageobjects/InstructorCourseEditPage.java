@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -151,6 +152,22 @@ public class InstructorCourseEditPage extends AppPage {
         return isEditable;
     }
     
+    public void clickCancelEditInstructorLink(int instrNum) {
+        getCancelEditInstructorLink(instrNum).click();
+    }
+    
+    public void verifyInstructorEditFormDisabled(int instrNum) {
+        waitForElementToDisappear(By.id("btnSaveInstructor" + instrNum));
+        
+        WebElement editInstructorNameTextBox = getNameField(instrNum);
+        WebElement editInstructorEmailTextBox = getEmailField(instrNum);
+        
+        boolean isNotEditable = !editInstructorNameTextBox.isEnabled()
+                                && !editInstructorEmailTextBox.isEnabled();
+        
+        assertTrue(isNotEditable);
+    }
+    
     public void saveEditInstructor(int instrNum) {
         getSaveInstructorButton(instrNum).click();
     }
@@ -163,6 +180,11 @@ public class InstructorCourseEditPage extends AppPage {
         WebElement roleRadioButton = browser.driver.findElement(By.cssSelector(
                 "input[id='instructorroleforinstructor" + instrNum + "'][value='" + role + "']"));
         roleRadioButton.click();
+    }
+    
+    public boolean isRoleSelectedForInstructor(int instrNum, String role) {
+        return browser.driver.findElement(By.cssSelector(
+                "input[id='instructorroleforinstructor" + instrNum + "'][value='" + role + "']")).isSelected();
     }
     
     public void clickViewDetailsLinkForInstructor(int instrNum, int viewLinkNum) {
@@ -244,9 +266,19 @@ public class InstructorCourseEditPage extends AppPage {
         browser.driver.findElement(By.id(linkId)).click();
     }
     
+    public void clickHideSectionLevelPrivileges(int instrNum, int sectionLevelIndex) {
+        getSectionLevelPanel(instrNum, sectionLevelIndex)
+                .findElement(By.cssSelector(".glyphicon-trash")).click();
+    }
+    
     public boolean isTuneSessionPermissionsDivVisible(int instrNum, int sectionLevelIndex) {
         String sessionPermissionsDivId = "tuneSessionPermissionsDiv" + sectionLevelIndex
                                          + "ForInstructor" + instrNum;
+        return isElementVisible(By.id(sessionPermissionsDivId));
+    }
+    
+    public boolean isTunePermissionsDivVisible(int instrNum) {
+        String sessionPermissionsDivId = "tunePermissionsDivForInstructor" + instrNum;
         return isElementVisible(By.id(sessionPermissionsDivId));
     }
     
@@ -364,6 +396,10 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElement(By.id("instrEditLink" + instrNum));
     }
     
+    public WebElement getCancelEditInstructorLink(int instrNum) {
+        return browser.driver.findElement(By.id("instrCancelLink" + instrNum));
+    }
+    
     private WebElement getInviteInstructorLink(int instrNum) {
         return browser.driver.findElement(By.id("instrRemindLink" + instrNum));
     }
@@ -388,6 +424,14 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " input[name='"
                                                          + Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT
                                                          + "']"));
+    }
+    
+    public String getInstructorName(int instrNum) {
+        return browser.driver.findElement(By.id("instructorname" + instrNum)).getAttribute("value");
+    }
+    
+    public String getInstructorEmail(int instrNum) {
+        return browser.driver.findElement(By.id("instructoremail" + instrNum)).getAttribute("value");
     }
     
     public WebElement getCourseLevelPanel(int instrNum) {

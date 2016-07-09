@@ -49,9 +49,15 @@ function enableEditInstructor(event) {
 function enableFormEditInstructor(number) {
     $('#instructorTable' + number).find(':input').not('.immutable').prop('disabled', false);
     $('#instrEditLink' + number).hide();
+    $('#instrCancelLink' + number).show();
     $('#accessControlInfoForInstr' + number).hide();
     $('#accessControlEditDivForInstr' + number).show();
     $('#btnSaveInstructor' + number).show();
+    var instrRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[number - 1];
+    if (instrRole === 'Custom') {
+        showTunePermissionsDiv(number);
+        showAllSpecialSectionAndSessionPermissionsDivs(number);
+    }
 }
 
 /**
@@ -62,9 +68,14 @@ function enableFormEditInstructor(number) {
 function disableFormEditInstructor(number) {
     $('#instructorTable' + number).find(':input').not('.immutable').prop('disabled', true);
     $('#instrEditLink' + number).show();
+    $('#instrCancelLink' + number).hide();
     $('#accessControlInfoForInstr' + number).show();
     $('#accessControlEditDivForInstr' + number).hide();
     $('#btnSaveInstructor' + number).hide();
+    document.getElementById('formEditInstructor' + number + '>').reset();
+    var instrRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[number - 1];
+    $("input[id='instructorroleforinstructor" + number + "'][value='" + instrRole + "']").prop('checked', true);
+    hideAllTunePermissionsDivs(number);
 }
 
 function showNewInstructorForm() {
@@ -84,6 +95,28 @@ function hideNewInstructorForm() {
  */
 function toggleSendRegistrationKey() {
     return confirm('Do you wish to re-send the invitation email to this instructor now?');
+}
+
+function hideAllTunePermissionsDivs(instrNum) {
+    var $tunePermissionsDiv = $('#tunePermissionsDivForInstructor' + instrNum);
+    $tunePermissionsDiv.find('div[id^="tuneSectionPermissionsDiv"]').each(function(i) {
+        hideTuneSessionnPermissionsDiv(instrNum, i);
+        hideTuneSectionPermissionsDiv(instrNum, i);
+    });
+    $tunePermissionsDiv.hide();
+}
+
+function showAllSpecialSectionAndSessionPermissionsDivs(instrNum) {
+    var $tunePermissionsDiv = $('#tunePermissionsDivForInstructor' + instrNum);
+    $tunePermissionsDiv.find('div[id^="tuneSectionPermissionsDiv"]').each(function(i) {
+        var $currTunePermissionsDiv = $(this);
+        if ($currTunePermissionsDiv.data('is-originally-displayed')) {
+            showTuneSectionPermissionsDiv(instrNum, i);
+        }
+        if ($currTunePermissionsDiv.find('div[id^="tuneSessionPermissionsDiv"]').data('is-originally-displayed')) {
+            showTuneSessionnPermissionsDiv(instrNum, i);
+        }
+    });
 }
 
 function showTunePermissionsDiv(instrNum) {
@@ -421,6 +454,11 @@ function editCourse() {
 
 $(document).ready(function() {
     $('#courseEditLink').click(editCourse);
+    $('a[id^="instrCancelLink"]').hide();
+    $('a[id^="instrCancelLink"]').click(function() {
+        var instrNum = $(this).attr('id').substring('instrCancelLink'.length);
+        disableFormEditInstructor(instrNum);
+    });
     bindCheckboxToggle();
     var index = $('#new-instructor-index').val();
     bindChangingRole(index);

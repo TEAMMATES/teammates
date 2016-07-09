@@ -1,5 +1,7 @@
 $(document).ready(function() {
     
+    attachEventToDeleteStudentLink();
+
     $('a[id^="enroll-"]').on('click', function(e) {
         e.stopImmediatePropagation(); // not executing click event for parent elements
         window.location = $(this).attr('href');

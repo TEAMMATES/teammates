@@ -136,7 +136,7 @@
                                     </a>
                                     <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
                                         <c:set var="remindButtonEnabled" value="${section.allowedToModifyStudent}" />
-                                        <a class="btn btn-default btn-xs<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                        <a class="course-student-remind-link btn btn-default btn-xs<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                            <c:choose>
                                                <c:when test="${not remindButtonEnabled}">
                                                   title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -145,7 +145,6 @@
                                                <c:otherwise>
                                                   title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
                                                   href="${student.courseStudentRemindLink}"
-                                                  onclick="return toggleSendRegistrationKey()"
                                                </c:otherwise>
                                            </c:choose>
                                            data-toggle="tooltip"
@@ -154,7 +153,8 @@
                                         </a>
                                     </c:if>
                                     <c:set var="deleteButtonEnabled" value="${section.allowedToModifyStudent}" />
-                                    <a class="btn btn-default btn-xs<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                    <a class="course-student-delete-link btn btn-default btn-xs<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                        data-student-name="${student.studentNameForJs}" data-course-id="${student.courseIdForJs}"
                                        <c:choose>
                                            <c:when test="${not deleteButtonEnabled}">
                                               title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -162,7 +162,6 @@
                                            </c:when>
                                            <c:otherwise>
                                               title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"
-                                              onclick="return toggleDeleteStudentConfirmation(${student.toggleDeleteConfirmationParams})"
                                               href="${student.courseStudentDeleteLink}"
                                            </c:otherwise>
                                        </c:choose>
