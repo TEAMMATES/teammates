@@ -127,7 +127,7 @@ public class BaseTestCase {
      */
     protected static Object invokeMethod(Class<?> definingClass, String methodName, Class<?>[] parameterTypes,
                                          Object invokingObject, Object[] args)
-            throws Exception {
+            throws ReflectiveOperationException {
         Method method = definingClass.getDeclaredMethod(methodName, parameterTypes);
         method.setAccessible(true);
         return method.invoke(invokingObject, args);
@@ -135,13 +135,13 @@ public class BaseTestCase {
     
     protected static String getPopulatedErrorMessage(String messageTemplate, String userInput,
                                                      String fieldName, String errorReason)
-            throws Exception {
+            throws ReflectiveOperationException {
         return getPopulatedErrorMessage(messageTemplate, userInput, fieldName, errorReason, 0);
     }
 
     protected static String getPopulatedErrorMessage(String messageTemplate, String userInput,
                                                      String fieldName, String errorReason, int maxLength)
-            throws Exception {
+            throws ReflectiveOperationException {
         return (String) invokeMethod(FieldValidator.class, "getPopulatedErrorMessage",
                                      new Class<?>[] { String.class, String.class, String.class, String.class, int.class },
                                      null, new Object[] { messageTemplate, userInput, fieldName, errorReason, maxLength });
