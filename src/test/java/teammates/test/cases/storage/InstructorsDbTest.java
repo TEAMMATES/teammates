@@ -84,9 +84,12 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             instructorsDb.createEntity(i);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
-                                                      FieldValidator.REASON_INCORRECT_FORMAT),
-                                        e.getMessage());
+            AssertHelper.assertContains(
+                    getPopulatedErrorMessage(
+                        FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
+                        FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.GOOGLE_ID_MAX_LENGTH),
+                    e.getMessage());
         }
         
         i.googleId = "valid.fresh.id";
@@ -96,7 +99,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(FieldValidator.EMAIL_ERROR_MESSAGE, i.email, FieldValidator.REASON_INCORRECT_FORMAT),
+                    getPopulatedErrorMessage(
+                        FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
+                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.EMAIL_MAX_LENGTH),
                     e.getMessage());
         }
 
@@ -320,10 +326,14 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name,
-                                  FieldValidator.REASON_EMPTY) + Const.EOL
-                        + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
-                                        FieldValidator.REASON_INCORRECT_FORMAT),
+                    getPopulatedErrorMessage(
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, instructorToEdit.name,
+                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                        FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
+                    + getPopulatedErrorMessage(
+                          FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
+                          FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                          FieldValidator.EMAIL_MAX_LENGTH),
                     e.getMessage());
         }
 
@@ -377,10 +387,14 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId,
-                                  FieldValidator.REASON_INCORRECT_FORMAT) + Const.EOL
-                        + String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name,
-                                        FieldValidator.REASON_EMPTY),
+                    getPopulatedErrorMessage(
+                        FieldValidator.GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId,
+                        FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.GOOGLE_ID_MAX_LENGTH) + Const.EOL
+                    + getPopulatedErrorMessage(
+                          FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, instructorToEdit.name,
+                          FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                          FieldValidator.PERSON_NAME_MAX_LENGTH),
                     e.getMessage());
         }
 

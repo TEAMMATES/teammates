@@ -62,13 +62,15 @@ public class InstructorStudentListPage extends AppPage {
 
     public InstructorStudentListPage clickDeleteAndCancel(String courseId, String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
-        clickAndCancel(getDeleteLink(rowId));
+        getDeleteLink(rowId).click();
+        waitForConfirmationModalAndClickCancel();
         return this;
     }
 
     public InstructorStudentListPage clickDeleteAndConfirm(String courseId, String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
-        clickAndConfirm(getDeleteLink(rowId));
+        getDeleteLink(rowId).click();
+        waitForConfirmationModalAndClickOk();
         return this;
     }
 

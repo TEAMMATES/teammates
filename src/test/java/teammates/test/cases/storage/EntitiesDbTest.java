@@ -9,6 +9,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -51,7 +52,10 @@ public class EntitiesDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(), REASON_INCORRECT_FORMAT),
+                    getPopulatedErrorMessage(
+                        COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(),
+                        FieldValidator.COURSE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
                     e.getMessage());
         }
         
