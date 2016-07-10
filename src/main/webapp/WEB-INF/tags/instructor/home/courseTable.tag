@@ -37,12 +37,8 @@
             <td>
                 ${sessionRow.name}
             </td>
-            <td class="text-nowrap">
-                <span title="${sessionRow.startTimeToolTip}" data-toggle="tooltip">${sessionRow.startTime}</span>
-            </td>
-            <td class="text-nowrap">
-                 <span title="${sessionRow.endTimeToolTip}" data-toggle="tooltip">${sessionRow.endTime}</span>
-            </td>
+            <td class="text-nowrap">${sessionRow.startTime}</td>
+            <td class="text-nowrap">${sessionRow.endTime}</td>
             <td>
                 <span title="${sessionRow.tooltip}" data-toggle="tooltip" data-placement="top">
                     ${sessionRow.status}
