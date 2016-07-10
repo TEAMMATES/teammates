@@ -159,7 +159,7 @@ function updateStatsCheckBox() {
 }
 
 function printView() {
-    $('.panel').printThis({
+    $('.container').printThis({
         importCSS: true,
         importStyle: true,
         loadCSS: '/stylesheets/printview.css'
