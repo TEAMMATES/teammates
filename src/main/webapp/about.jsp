@@ -693,6 +693,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amesternefeld"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Maria Sam 
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amariasam1"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
                 <li>Nilesh Suthar 
                     [bug reporting/fixing, enhancements]
                 </li>
