@@ -807,3 +807,40 @@ function getQuestionIdSuffix(questionNum) {
     return idSuffix;
 }
 
+function hideInvalidRecipientTypeOptions($giverSelect) {
+    var giverType = $giverSelect.val();
+    var $recipientSelect = $giverSelect.closest('.form_question').find('select[name="recipienttype"]');
+    $recipientSelect.find('option').show();
+    var recipientType = $recipientSelect.val();
+    switch (giverType) {
+    case 'STUDENTS':
+        // all recipientType options enabled
+        break;
+    case 'SELF':
+    case 'INSTRUCTORS':
+        hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
+        hideOption($recipientSelect, 'OWN_TEAM_MEMBERS_INCLUDING_SELF');
+        if (recipientType === 'OWN_TEAM_MEMBERS' || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF') {
+            setRecipientSelectToFirstVisibleOption($recipientSelect);
+        }
+        break;
+    case 'TEAMS':
+        hideOption($recipientSelect, 'OWN_TEAM');
+        hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
+        if (recipientType === 'OWN_TEAM' || recipientType === 'OWN_TEAM_MEMBERS') {
+            setRecipientSelectToFirstVisibleOption($recipientSelect);
+        }
+        break;
+    default:
+        throw 'Unexpected giverType';
+    }
+}
+
+function hideOption($containingSelect, value) {
+    $containingSelect.find('option[value="' + value + '"]').hide();
+}
+
+function setRecipientSelectToFirstVisibleOption($recipientSelect) {
+    var firstVisibleOptionValue = $recipientSelect.find('option').not('[style="display: none;"]').val();
+    $recipientSelect.val(firstVisibleOptionValue);
+}
