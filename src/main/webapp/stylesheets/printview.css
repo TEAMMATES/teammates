@@ -1,4 +1,8 @@
 .btn, .glyphicon, .help-block, .action-button-item, .action-header,
-	.profile-pic-icon-click, .btn-link{
+	.btn-link {
 	display: none;
+}
+
+input:placeholder-shown {
+    display: none;
 }
