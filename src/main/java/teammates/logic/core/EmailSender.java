@@ -101,13 +101,15 @@ public class EmailSender {
     /**
      * Sends the given {@code message} with Javamail service regardless of configuration.
      */
-    private void sendEmailWithJavamail(EmailWrapper message) throws EmailSendingException {
+    private void sendEmailCopyWithJavamail(EmailWrapper message) throws EmailSendingException {
         // GAE Javamail is used when we need a service that is not prone to configuration failures
         // and/or third-party API failures. The trade-off is the very little quota of 100 emails per day.
         JavamailService javamailService = new JavamailService();
         
         // GAE Javamail requires the sender email address to be of this format
         message.setSenderEmail("admin@" + Config.getAppId() + ".appspotmail.com");
+        
+        message.setSubject("[Javamail Copy] " + message.getSubject());
         
         javamailService.sendEmail(message);
     }
@@ -116,7 +118,8 @@ public class EmailSender {
      * Sends the given {@code errorReport}.
      */
     public void sendErrorReport(EmailWrapper errorReport) throws EmailSendingException {
-        sendEmailWithJavamail(errorReport);
+        sendEmail(errorReport);
+        sendEmailCopyWithJavamail(errorReport);
         log.info("Sent crash report: " + errorReport.getInfoForLogging());
     }
     
@@ -140,7 +143,8 @@ public class EmailSender {
      */
     public void sendLogReport(EmailWrapper logReport) {
         try {
-            sendEmailWithJavamail(logReport);
+            sendEmail(logReport);
+            sendEmailCopyWithJavamail(logReport);
         } catch (Exception e) {
             logSevereForErrorInSendingItem("log report", logReport, e);
         }
