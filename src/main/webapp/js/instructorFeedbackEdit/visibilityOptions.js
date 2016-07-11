@@ -171,13 +171,21 @@ function disableRowsAccordingToRecipient($containingForm) {
         disableRow($containingForm, ROW_RECIPIENT_TEAM);
         break;
     case 'INSTRUCTORS':
+        // ROW_RECIPIENT_TEAM is disabled because it is same as ROW_INSTRUCTORS
+        disableRow($containingForm, ROW_RECIPIENT_TEAM);
+        break;
     case 'TEAMS':
-    case 'OWN_TEAM_MEMBERS':
-    case 'OWN_TEAM_MEMBERS_INCLUDING_SELF':
         // ROW_RECIPIENT_TEAM is disabled because it is same as ROW_RECIPIENT
         disableRow($containingForm, ROW_RECIPIENT_TEAM);
         break;
+    case 'OWN_TEAM_MEMBERS':
+    case 'OWN_TEAM_MEMBERS_INCLUDING_SELF':
+        // ROW_RECIPIENT_TEAM is disabled for OWN_TEAM_MEMBERS and OWN_TEAM_MEMBERS_INCLUDING_SELF
+        // because it is same as ROW_GIVER_TEAM
+        disableRow($containingForm, ROW_RECIPIENT_TEAM);
+        break;
     case 'NONE':
+        // ROW_RECIPIENT and ROW_RECIPIENT_TEAM are disabled because there are no recipients
         disableRow($containingForm, ROW_RECIPIENT);
         disableRow($containingForm, ROW_RECIPIENT_TEAM);
         break;
@@ -194,8 +202,11 @@ function disableRowsAccordingToGiver($containingForm) {
         break;
     case 'SELF':
     case 'INSTRUCTORS':
+        // ROW_GIVER_TEAM is disabled for SELF and INSTRUCTORS because it is the same as ROW_INSTRUCTORS
+        disableRow($containingForm, ROW_GIVER_TEAM);
+        break;
     case 'TEAMS':
-        // ROW_GIVER_TEAM is disbled because it is the same as ROW_INSTRUCTORS
+        // ROW_GIVER_TEAM is disabled for TEAMS because giver can always see the response
         disableRow($containingForm, ROW_GIVER_TEAM);
         break;
     default:
