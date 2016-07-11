@@ -785,7 +785,7 @@
   </div>
   <br>
   <br>
-  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('')" role="form">
+  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" id="form_editquestion--1" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('-1')" role="form">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
       <div class="row">
         <div class="col-sm-12 row">
@@ -894,7 +894,7 @@
       <div class="panel-body">
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
           <div>
-            <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext" name="questiontext" rows="5" tabindex="9" title="">
+            <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext--1" name="questiontext" rows="5" tabindex="9" title="">
             </textarea>
           </div>
           <div id="mcqForm">
@@ -932,7 +932,7 @@
                   </div>
                   <div id="mcqAddOptionRow--1">
                     <div colspan="2">
-                      <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" onclick="addMcqOption(-1)" style="display:none">
+                      <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink--1" onclick="addMcqOption(-1)" style="display:none">
                         <span class="glyphicon glyphicon-plus">
                         </span>
                         add more options
@@ -1010,7 +1010,7 @@
                   </div>
                   <div id="msqAddOptionRow--1">
                     <div colspan="2">
-                      <a class="btn btn-primary btn-xs addOptionLink" id="msqAddOptionLink" onclick="addMsqOption(-1)" style="display:none">
+                      <a class="btn btn-primary btn-xs addOptionLink" id="msqAddOptionLink--1" onclick="addMsqOption(-1)" style="display:none">
                         <span class="glyphicon glyphicon-plus">
                         </span>
                         add more options
@@ -1112,7 +1112,7 @@
                 </div>
                 <div id="constSumAddOptionRow--1">
                   <div colspan="2">
-                    <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(-1)" style="display:none">
+                    <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink--1" onclick="addConstSumOption(-1)" style="display:none">
                       <span class="glyphicon glyphicon-plus">
                       </span>
                       add more options
@@ -1456,7 +1456,7 @@
               Who will give the feedback:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" id="givertype" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
+              <select class="form-control participantSelect" id="givertype--1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
                 <option value="SELF">
                   Me (Session creator)
                 </option>
@@ -1477,7 +1477,7 @@
               Who the feedback is about:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" id="recipienttype" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
+              <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
                 <option value="SELF">
                   Giver (Self feedback)
                 </option>
@@ -1505,10 +1505,10 @@
               </select>
             </div>
           </div>
-          <div class="col-sm-12 row numberOfEntitiesElements" style="display: none;">
-            <label class="control-label col-sm-4 small" id="numofrecipients_text-">
+          <div class="col-sm-12 row numberOfEntitiesElements-1">
+            <label class="control-label col-sm-4 small" id="numofrecipients_text--1">
               The maximum number of
-              <span id="numofrecipients_text_inner-">
+              <span id="numofrecipients_text_inner--1">
               </span>
               each respondant should give feedback to:
             </label>
@@ -1669,9 +1669,9 @@
     <input id="questiontype" name="questiontype" type="hidden">
     <input name="fsname" type="hidden" value="First Session">
     <input name="courseid" type="hidden" value="CFeedbackEditUiT.CS2104">
-    <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS">
-    <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS">
-    <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
+    <input name="showresponsesto" type="hidden" value="">
+    <input name="showgiverto" type="hidden" value="">
+    <input name="showrecipientto" type="hidden" value="">
     <input name="user" type="hidden" value="CFeedbackEditUiT.instructor">
     <input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE">
   </form>

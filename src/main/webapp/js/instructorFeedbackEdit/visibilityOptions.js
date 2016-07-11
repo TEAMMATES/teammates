@@ -81,7 +81,7 @@ function tallyCheckboxes(questionNum) {
     
     $.each(checkboxTypes, function(i, checkboxType) {
         var checked = [];
-        $(i + questionNum + ':checked').each(function() {
+        $('#form_editquestion-' + questionNum + ' ' + i + ':checked').each(function() {
             checked.push($(this).val());
         });
         $('[name=' + checkboxType + ']').val(checked.toString());
@@ -192,7 +192,7 @@ function updatePreviewTab($containingForm) {
     var newQuestionNum = $('input[name=questionnum]').last().val();
     
     if (questionNum === newQuestionNum) {
-        tallyCheckboxes('');
+        tallyCheckboxes(NEW_QUESTION);
     } else {
         tallyCheckboxes(questionNum);
     }

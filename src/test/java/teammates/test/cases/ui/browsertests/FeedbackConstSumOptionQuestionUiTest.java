@@ -5,6 +5,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -65,7 +66,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         
         ______TS("empty options");
         
-        feedbackEditPage.fillNewQuestionBox("ConstSum-option qn");
+        feedbackEditPage.fillEditQuestionBox("ConstSum-option qn", -1);
         feedbackEditPage.fillConstSumPointsBox("", -1);
         
         assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
@@ -79,7 +80,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
-        feedbackEditPage.fillNewQuestionBox("Test const sum question");
+        feedbackEditPage.fillEditQuestionBox("Test const sum question", -1);
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
 
         feedbackEditPage.clickRemoveConstSumOptionLink(1, -1);
@@ -99,28 +100,28 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
         
-        feedbackEditPage.fillConstSumOption(0, "Option 1");
-        feedbackEditPage.fillConstSumOption(1, "Option 2");
+        feedbackEditPage.fillConstSumOption(0, "Option 1", -1);
+        feedbackEditPage.fillConstSumOption(1, "Option 2", -1);
         
         ______TS("CONST SUM: add option");
 
         assertFalse(feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
-        feedbackEditPage.clickAddMoreConstSumOptionLink();
+        feedbackEditPage.clickAddMoreConstSumOptionLink(-1);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
 
         ______TS("CONST SUM: remove option");
 
-        feedbackEditPage.fillConstSumOption(2, "Option 3");
+        feedbackEditPage.fillConstSumOption(2, "Option 3", -1);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
         feedbackEditPage.clickRemoveConstSumOptionLink(1, -1);
         assertFalse(feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
 
         ______TS("CONST SUM: add option after remove");
 
-        feedbackEditPage.clickAddMoreConstSumOptionLink();
+        feedbackEditPage.clickAddMoreConstSumOptionLink(-1);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-3--1"));
-        feedbackEditPage.clickAddMoreConstSumOptionLink();
-        feedbackEditPage.fillConstSumOption(4, "Option 5");
+        feedbackEditPage.clickAddMoreConstSumOptionLink(-1);
+        feedbackEditPage.fillConstSumOption(4, "Option 5", -1);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-4--1"));
     }
 
@@ -128,8 +129,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     public void testAddQuestionAction() throws Exception {
         ______TS("CONST SUM: add question action success");
         
-        feedbackEditPage.fillNewQuestionBox("const sum qn");
-        feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.fillEditQuestionBox("const sum qn", -1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, -1);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());

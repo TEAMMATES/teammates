@@ -5,6 +5,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -65,7 +66,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         
         ______TS("CONST SUM:input validation");
         
-        feedbackEditPage.fillNewQuestionBox("ConstSum-recipient qn");
+        feedbackEditPage.fillEditQuestionBox("ConstSum-recipient qn", -1);
         feedbackEditPage.fillConstSumPointsBox("", -1);
         
         assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
@@ -93,8 +94,8 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     public void testAddQuestionAction() throws Exception {
         ______TS("CONST SUM: add question action success");
         
-        feedbackEditPage.fillNewQuestionBox("const sum qn");
-        feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.fillEditQuestionBox("const sum qn", -1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, -1);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());

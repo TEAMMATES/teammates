@@ -18,7 +18,7 @@
         </label>
         <div class="col-sm-8 col-lg-7">
             <select class="form-control participantSelect"
-                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>${fqForm.questionNumberSuffix}"
+                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>-${fqForm.questionIndex}"
                 name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
                 <c:if test="${!fqForm.editable}">disabled</c:if>
                 onchange="matchVisibilityOptionToFeedbackPath(this)">
@@ -37,7 +37,7 @@
         </label>
         <div class="col-sm-8 col-lg-7">
             <select class="form-control participantSelect"
-                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>${fqForm.questionNumberSuffix}"
+                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>-${fqForm.questionIndex}"
                 name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
                 <c:if test="${!fqForm.editable}">disabled</c:if> onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
                 <c:forEach items="${fqForm.feedbackPathSettings.recipientParticipantOptions}" var="option">
@@ -48,9 +48,9 @@
             </select>
         </div>
     </div>
-    <div class="col-sm-12 row numberOfEntitiesElements${fqForm.questionIndexIfNonZero}">
-        <label id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text-${fqForm.questionIndexIfNonZero}" class="control-label col-sm-4 small">
-            The maximum number of <span id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text_inner-${fqForm.questionIndexIfNonZero}"></span> each respondant should give feedback to:
+    <div class="col-sm-12 row numberOfEntitiesElements-${fqForm.questionIndex}">
+        <label id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text-${fqForm.questionIndex}" class="control-label col-sm-4 small">
+            The maximum number of <span id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text_inner-${fqForm.questionIndex}"></span> each respondant should give feedback to:
         </label>
         <div class="col-sm-8 form-control-static">
             <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">

@@ -8,9 +8,10 @@
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 <%@ attribute name="nextQnNum" required="true"%>
 
-<form class="form-horizontal form_question" role="form" method="post"
+<%-- sentinel value of -1 for newly added question --%>
+<form id="form_editquestion--1" class="form-horizontal form_question" role="form" method="post"
     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
-    name="form_addquestions" onsubmit="tallyCheckboxes('')" >
+    name="form_addquestions" onsubmit="tallyCheckboxes('-1')" >
     <div class="well well-plain inputTable" id="addNewQuestionTable">
        
         <div class="row">
@@ -84,7 +85,7 @@
             <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
                 <div>
                     <textarea class="form-control textvalue nonDestructive" rows="5"
-                        name="questiontext" id="questiontext"
+                        name="questiontext" id="questiontext--1"
                         data-toggle="tooltip" data-placement="top"
                         title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
                         tabindex="9" disabled></textarea>
