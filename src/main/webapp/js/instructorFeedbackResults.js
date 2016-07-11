@@ -330,4 +330,9 @@ $(document).ready(function() {
     
     bindPublishButtons();
     bindUnpublishButtons();
+    
+    $('#download-result-dropdown > li').click(function() {
+        $('input[id=downloadType]').val($(this).data('downloadtype'));
+        $('#download-form').submit();
+    });
 });

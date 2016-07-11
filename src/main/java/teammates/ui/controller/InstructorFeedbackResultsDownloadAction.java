@@ -17,6 +17,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
+        String downloadType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_DOWNLOAD_TYPE);
         boolean isMissingResponsesShown = getRequestParamAsBoolean(
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
         String filterText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT);
@@ -60,7 +61,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
             return result;
         }
 
-        return createFileDownloadResult(fileName, fileContent);
+        return createFileDownloadResult(fileName, fileContent, downloadType);
     }
 
 }

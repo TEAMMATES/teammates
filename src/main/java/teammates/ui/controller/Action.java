@@ -490,12 +490,12 @@ public abstract class Action {
     /**
      * Generates a {@link FileDownloadResult} with the information in this object.
      */
-    public FileDownloadResult createFileDownloadResult(String fileName, String fileContent) {
-        return new FileDownloadResult("filedownload",
-                                      account,
-                                      statusToUser,
-                                      fileName,
-                                      fileContent);
+    public FileDownloadResult createFileDownloadResult(String fileName, String fileContent, String downloadType) {
+        if (Const.FeedbackSessionResultsDownloadTypes.XLS.equals(downloadType)) {
+            return new XLSFileDownloadResult("filedownload", account, statusToUser, fileName, fileContent, downloadType);
+        } else {
+            return new CSVFileDownloadResult("filedownload", account, statusToUser, fileName, fileContent, downloadType);
+        }
     }
 
     protected ActionResult createPleaseJoinCourseResponse(String courseId) {
