@@ -210,6 +210,9 @@ function disableRowsForSpecificGiverRecipientCombinations($containingForm) {
     if ((giverType === 'SELF' || giverType === 'INSTRUCTORS') && recipientType === 'SELF') {
         // ROW_RECIPIENT_TEAM is disbled because it is the same as ROW_INSTRUCTORS
         disableRow($containingForm, ROW_RECIPIENT_TEAM);
+    } else if (giverType === 'TEAMS' && recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF') {
+        // ROW_RECIPIENT is disbled because this is almost like a self-feedback where giver can always see the response
+        disableRow($containingForm, ROW_RECIPIENT);
     }
 }
 
