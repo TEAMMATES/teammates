@@ -118,9 +118,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "questionsavechangestext-1")
     private WebElement questionSaveForQuestion1;
     
-    @FindBy(id = "numofrecipients")
-    private WebElement numberOfRecipients;
-    
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='max']")
     private WebElement maxNumOfRecipients;
     
@@ -1031,7 +1028,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public WebElement getNewQnVisibilityOptions() {
-        return browser.driver.findElement(By.id("visibilityOptions"));
+        return browser.driver.findElement(By.id("visibilityOptions--1"));
     }
 
     public void toggleNotSureCheck(int questionNumber) {

@@ -207,7 +207,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.fillNewQuestionBox("filled qn");
         feedbackEditPage.selectRecipientsToBeStudents();
-        feedbackEditPage.fillNumOfEntitiesToGiveFeedbackToBox("");
+        feedbackEditPage.fillNumOfEntitiesToGiveFeedbackToBoxForNewQuestion("");
         feedbackEditPage.clickCustomNumberOfRecipientsButton();
         feedbackEditPage.clickAddQuestionButton();
         
@@ -277,12 +277,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickVisibilityPreviewForNewQuestion();
         
         feedbackEditPage.waitForTextContainedInElementPresence(
-                By.id("visibilityMessage"),
+                By.id("visibilityMessage--1"),
                 "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         feedbackEditPage.selectRecipientTypeForNewQuestion("Instructors in the course");
         
         feedbackEditPage.waitForTextContainedInElementAbsence(
-                By.id("visibilityMessage"),
+                By.id("visibilityMessage--1"),
                 "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         
         feedbackEditPage.getDiscardChangesLink(-1).click();

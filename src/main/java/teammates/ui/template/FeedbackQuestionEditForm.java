@@ -20,7 +20,6 @@ public class FeedbackQuestionEditForm {
     private String courseId;
     private String feedbackSessionName;
     
-    private String questionNumberSuffix;
     private String questionText;
     private String questionTypeDisplayName;
     private FeedbackQuestionType questionType;
@@ -53,7 +52,6 @@ public class FeedbackQuestionEditForm {
         newQnForm.actionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
         newQnForm.courseId = feedbackSession.getCourseId();
         newQnForm.feedbackSessionName = feedbackSession.getFeedbackSessionName();
-        newQnForm.questionNumberSuffix = "";
         newQnForm.questionIndex = -1;
         
         newQnForm.questionTypeOptions = questionTypeChoiceOptions;
@@ -175,14 +173,6 @@ public class FeedbackQuestionEditForm {
 
     public void setFeedbackPathSettings(FeedbackQuestionFeedbackPathSettings generalSettings) {
         this.feedbackPathSettings = generalSettings;
-    }
-
-    public String getQuestionNumberSuffix() {
-        return questionNumberSuffix;
-    }
-
-    public void setQuestionNumberSuffix(String questionNumberSuffix) {
-        this.questionNumberSuffix = questionNumberSuffix;
     }
 
     public void setDoneEditingLink(String doneEditingLink) {

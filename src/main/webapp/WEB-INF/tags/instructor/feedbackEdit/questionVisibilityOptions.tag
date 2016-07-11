@@ -18,12 +18,12 @@
     </div>
     <div class="col-sm-6 btn-group" data-toggle="buttons">
         <label class="btn btn-xs btn-info visibilityOptionsLabel"
-            id="visibilityOptionsLabel${fqForm.questionNumberSuffix}"
+            id="visibilityOptionsLabel-${fqForm.questionIndex}"
             onchange="toggleVisibilityEditTab(this)">
             <input type="radio">
             <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
         </label>
-        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton${fqForm.questionNumberSuffix}" onchange="toggleVisibilityPreviewTab(this)">
+        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-${fqForm.questionIndex}" onchange="toggleVisibilityPreviewTab(this)">
             <input type="radio">
             <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
         </label>
@@ -31,7 +31,7 @@
 </div>
 <div class="col-sm-12 background-color-light-green">
     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-    <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage${fqForm.questionNumberSuffix}">
+    <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage-${fqForm.questionIndex}">
         This is the visibility as seen by the feedback giver.
         <ul class="background-color-warning">
         <c:forEach items="${fqForm.visibilitySettings.visibilityMessages}" var="msg">
@@ -42,7 +42,7 @@
 </div>
 <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
 <div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
-    <div class="visibilityOptions" id="visibilityOptions${fqForm.questionNumberSuffix}">
+    <div class="visibilityOptions" id="visibilityOptions-${fqForm.questionIndex}">
         <table class="dataTable participantTable table table-striped text-center background-color-white">
             <tr>
                 <th class="text-center">User/Group</th>

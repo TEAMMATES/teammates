@@ -60,7 +60,6 @@
                     value="custom" <c:if test="${!fqForm.editable}">disabled</c:if>>
                 <input class="nonDestructive numberOfEntitiesBox width-75-pc" type="number"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>"
-                    id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>${fqForm.questionNumberSuffix}" 
                     value="${fqForm.feedbackPathSettings.numOfEntitiesToGiveFeedbackToValue}" 
                     min="1" max="250" <c:if test="${!fqForm.editable}">disabled</c:if>>
             </div>
