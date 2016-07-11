@@ -190,14 +190,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        this.courseId = this.courseId.trim();
-        this.feedbackSessionName = this.feedbackSessionName.trim();
         this.commentText = Sanitizer.sanitizeTextField(this.commentText);
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
-        this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
-        this.feedbackQuestionId = Sanitizer.sanitizeForHtml(feedbackQuestionId);
-        this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
-        this.feedbackResponseId = Sanitizer.sanitizeForHtml(feedbackResponseId);
         if (commentText != null) {
             //replacing "\n" with "\n<br>" here is to make comment text support displaying breakline
             String sanitizedText = Sanitizer.sanitizeForHtml(commentText.getValue()).replace("\n", "\n<br>");

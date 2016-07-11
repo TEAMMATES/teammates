@@ -6,7 +6,6 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackQuestion;
 
@@ -499,10 +498,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public void sanitizeForSaving() {
-        this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
-        this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.creatorEmail = Sanitizer.sanitizeEmail(creatorEmail);
+        // nothing to sanitize
     }
 
     /** 
