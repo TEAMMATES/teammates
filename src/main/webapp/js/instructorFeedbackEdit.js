@@ -463,21 +463,21 @@ function formatNumberBoxes() {
 
 var updateVisibilityOfNumEntitiesBox = function() {
     var questionId = getQuestionId($(this));
-    var value = $(this).val();
-    formatNumberBox(value, questionId);
+    var participantType = $(this).val();
+    formatNumberBox(participantType, questionId);
 };
 
 /**
  * Hides/shows the "Number of Recipients Box" of the question
  * depending on the participant type and formats the label text for it.
- * @param value, questionNum
+ * @param participantType, questionNum
  */
-function formatNumberBox(value, questionNum) {
-    if (value === 'STUDENTS' || value === 'TEAMS') {
+function formatNumberBox(participantType, questionNum) {
+    if (participantType === 'STUDENTS' || participantType === 'TEAMS') {
         $('div.numberOfEntitiesElements' + questionNum).show();
         
         var $span = $('span#' + FEEDBACK_QUESTION_NUMBEROFENTITIES + '_text_inner-' + questionNum);
-        $span.html(value === 'STUDENTS' ? 'students' : 'teams');
+        $span.html(participantType === 'STUDENTS' ? 'students' : 'teams');
     } else {
         $('div.numberOfEntitiesElements' + questionNum).hide();
     }
