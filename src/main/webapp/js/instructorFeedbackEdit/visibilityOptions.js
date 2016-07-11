@@ -120,26 +120,13 @@ function formatCheckBoxes() {
 }
 
 function enableRow($containingForm, row) {
-    var $editTab = $containingForm.find('.visibilityOptions');
-    var $table = $editTab.find('table');
-    var $tdElements = $($table.children().children()[row]).children();
-    
-    if ($tdElements.parent().prop('tagName') === 'tr') {
-        return;
-    }
-    $tdElements.unwrap().wrapAll('<tr>');
+    var $table = $containingForm.find('.visibilityOptions').find('table');
+    $($table.children().children()[row]).show();
 }
 
 function disableRow($containingForm, row) {
-    var $editTab = $containingForm.find('.visibilityOptions');
-    var $table = $editTab.find('table');
-    var $tdElements = $($table.children().children()[row]).children();
-    
-    if ($tdElements.parent().prop('tagName') === 'hide') {
-        return;
-    }
-    $tdElements.unwrap().wrapAll('<hide>');
-    $tdElements.parent().hide();
+    var $table = $containingForm.find('.visibilityOptions').find('table');
+    $($table.children().children()[row]).hide();
 }
 
 function updateEditTabAccordingToRecipient($containingForm) {
