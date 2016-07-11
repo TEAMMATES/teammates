@@ -76,11 +76,9 @@ public class FeedbackSessionClosedReminderTest extends BaseComponentUsingTaskQue
             assertEquals(FeedbackSessionClosedCallback.taskCount, 0);
         }
         
-        ______TS("typical case, two sessions closed, "
-                + "1 session closed with disabled closing reminder.");
+        ______TS("typical case, two sessions closed, " + "1 session closed with disabled closing reminder.");
         // Modify session to closed.
-        FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
-                .get("session1InCourse1");
+        FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
 
         session1.setTimeZone(0);
         session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
@@ -88,10 +86,8 @@ public class FeedbackSessionClosedReminderTest extends BaseComponentUsingTaskQue
         fsLogic.updateFeedbackSession(session1);
         verifyPresentInDatastore(session1);
        
-        // Reuse an existing session to create a new one that is
-        // closed.
-        FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
-                .get("session2InCourse2");
+        // Reuse an existing session to create a new one that is closed.
+        FeedbackSessionAttributes session2 = dataBundle.feedbackSessions.get("session2InCourse2");
         
         session2.setTimeZone(0);
         session2.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
@@ -99,10 +95,8 @@ public class FeedbackSessionClosedReminderTest extends BaseComponentUsingTaskQue
         fsLogic.updateFeedbackSession(session2);
         verifyPresentInDatastore(session2);
         
-        // Reuse an existing session to create a new one that is
-        // closed and closing reminder disabled.
-        FeedbackSessionAttributes session3 = dataBundle.feedbackSessions
-                .get("session2InCourse1");
+        // Reuse an existing session to create a new one that is closed and closing reminder disabled.
+        FeedbackSessionAttributes session3 = dataBundle.feedbackSessions.get("session2InCourse1");
         
         session3.setTimeZone(0);
         session3.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
@@ -131,8 +125,7 @@ public class FeedbackSessionClosedReminderTest extends BaseComponentUsingTaskQue
         
         ______TS("typical case, testing mime messages");
         // Modify session to closed.
-        FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
-                .get("session1InCourse1");
+        FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
         session1.setTimeZone(0);
         session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
         session1.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
@@ -148,23 +141,19 @@ public class FeedbackSessionClosedReminderTest extends BaseComponentUsingTaskQue
         
         for (EmailWrapper email : preparedEmails) {
             assertEquals(String.format(EmailType.FEEDBACK_CLOSED.getSubject(), course1Name,
-                                       session1.getFeedbackSessionName()),
-                         email.getSubject());
+                                       session1.getFeedbackSessionName()), email.getSubject());
         }
         
         // Reuse an existing session to create a new one that is closed
-        FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
-                .get("session2InCourse2");
+        FeedbackSessionAttributes session2 = dataBundle.feedbackSessions.get("session2InCourse2");
         session2.setTimeZone(0);
         session2.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
         session2.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
         fsLogic.updateFeedbackSession(session2);
         verifyPresentInDatastore(session2);
         
-        // Reuse an existing session to create a new one that is
-        // closed and closing reminder disabled.
-        FeedbackSessionAttributes session3 = dataBundle.feedbackSessions
-                .get("session2InCourse1");
+        // Reuse an existing session to create a new one that is closed and closing reminder disabled.
+        FeedbackSessionAttributes session3 = dataBundle.feedbackSessions.get("session2InCourse1");
         
         session3.setTimeZone(0);
         session3.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));

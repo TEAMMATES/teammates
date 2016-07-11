@@ -305,8 +305,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     public boolean isClosedWithinPastHour() {
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         // Fix the time zone accordingly
-        now.add(Calendar.MILLISECOND,
-                (int) (60 * 60 * 1000 * timeZone));
+        now.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
 
         Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         start.setTime(startTime);
@@ -317,12 +316,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         long nowMillis = now.getTimeInMillis();
         long deadlineMillis = deadline.getTimeInMillis();
         long differenceBetweenNowAndDeadline = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
-
-        // If now and start are almost similar, it means the feedback session
-        // is open for only 24 hours.
-        // Hence we do not send a reminder e-mail for feedback session.
-        return now.after(start)
-               && differenceBetweenNowAndDeadline >= 0
+        
+        return differenceBetweenNowAndDeadline >= 0
                && differenceBetweenNowAndDeadline < 1;
     }
 

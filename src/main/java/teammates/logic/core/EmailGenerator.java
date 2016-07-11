@@ -292,7 +292,6 @@ public class EmailGenerator {
                     "${userName}", instructor.name,
                     "${courseName}", course.getName(),
                     "${courseId}", course.getId(),
-                    "${status}", "is closed",
                     "${feedbackSessionName}", session.getFeedbackSessionName(),
                     "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                     "${supportEmail}", Config.SUPPORT_EMAIL);

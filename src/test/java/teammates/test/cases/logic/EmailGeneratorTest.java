@@ -143,7 +143,14 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
         
-        verifyEmail(emails.get(1), instructor1.email, subject, "/sessionClosedEmailForInstructor.html");
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject, "/sessionClosedEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasInstructor1ReceivedEmail);
         
         ______TS("feedback session published alerts");
         

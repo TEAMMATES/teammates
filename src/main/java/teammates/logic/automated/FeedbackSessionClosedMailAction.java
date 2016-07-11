@@ -52,20 +52,20 @@ public class FeedbackSessionClosedMailAction extends EmailAction {
     @Override
     protected List<EmailWrapper> prepareMailToBeSent() {
         
-        FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
+        FeedbackSessionAttributes feedbackSession = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
         
         /*
          * Check if feedback session was deleted between scheduling
          * and the actual sending of emails
          */
-        if (feedbackObject == null) {
+        if (feedbackSession == null) {
             log.severe("Feedback session object for feedback session name : " + feedbackSessionName
                        + " for course : " + courseId + " could not be fetched");
             return null;
         }
         
-        return new EmailGenerator().generateFeedbackSessionClosedEmails(feedbackObject);
+        return new EmailGenerator().generateFeedbackSessionClosedEmails(feedbackSession);
 
     }
     

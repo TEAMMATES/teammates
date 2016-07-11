@@ -1636,8 +1636,7 @@ public class FeedbackSessionsLogic {
      * @return returns a list of sessions that were closed within past hour
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
-        List<FeedbackSessionAttributes> requiredSessions = new
-                ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> requiredSessions = new ArrayList<FeedbackSessionAttributes>();
         List<FeedbackSessionAttributes> nonPrivateSessions = fsDb.getNonPrivateFeedbackSessions();
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
