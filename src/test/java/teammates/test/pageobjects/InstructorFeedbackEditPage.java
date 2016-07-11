@@ -444,11 +444,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void clickVisibilityPreviewForNewQuestion() {
-        browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessageButton")).click();
+        browser.driver.findElement(By.cssSelector("#questionTable--1 .visibilityMessageButton")).click();
     }
     
     public void clickVisibilityOptionsForNewQuestion() {
-        browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityOptionsLabel")).click();
+        browser.driver.findElement(By.cssSelector("#questionTable--1 .visibilityOptionsLabel")).click();
     }
     
     public void clickAddQuestionButton() {
@@ -1050,7 +1050,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void clickResponseVisiblityCheckBoxForNewQuestion(String checkBoxValue) {
-        By responseVisibilitycheckBox = By.cssSelector("#questionTableNew input[value='" + checkBoxValue
+        By responseVisibilitycheckBox = By.cssSelector("#questionTable--1 input[value='" + checkBoxValue
                                                        + "'].answerCheckbox");
         WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
         waitForElementVisibility(checkbox);

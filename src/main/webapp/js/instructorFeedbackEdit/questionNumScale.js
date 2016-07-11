@@ -3,15 +3,13 @@ function roundToThreeDp(num) {
 }
 
 function updateNumScalePossibleValues(questionNum) {
-    var idSuffix = getQuestionIdSuffix(questionNum);
-    
-    var min = parseInt($('#minScaleBox' + idSuffix).val());
-    var max = parseInt($('#maxScaleBox' + idSuffix).val());
-    var step = parseFloat($('#stepBox' + idSuffix).val());
+    var min = parseInt($('#minScaleBox-' + questionNum).val());
+    var max = parseInt($('#maxScaleBox-' + questionNum).val());
+    var step = parseFloat($('#stepBox-' + questionNum).val());
     
     if (max <= min) {
         max = min + 1;
-        $('#maxScaleBox' + idSuffix).val(max);
+        $('#maxScaleBox-' + questionNum).val(max);
     }
     
     step = roundToThreeDp(step);
@@ -19,12 +17,12 @@ function updateNumScalePossibleValues(questionNum) {
         step = 0.001;
     }
     
-    var $stepBox = $('#stepBox' + idSuffix);
+    var $stepBox = $('#stepBox-' + questionNum);
     $stepBox.val(isNaN(step) ? '' : step);
 
     var possibleValuesCount = Math.floor(roundToThreeDp((max - min) / step)) + 1;
     var largestValueInRange = min + (possibleValuesCount - 1) * step;
-    var $numScalePossibleValues = $('#numScalePossibleValues' + idSuffix);
+    var $numScalePossibleValues = $('#numScalePossibleValues-' + questionNum);
     var possibleValuesString;
     if (roundToThreeDp(largestValueInRange) !== max) {
         $numScalePossibleValues.css('color', 'red');

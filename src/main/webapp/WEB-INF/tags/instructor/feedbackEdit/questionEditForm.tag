@@ -15,7 +15,7 @@
     id="form_editquestion-${fqForm.questionIndex}" name="form_editquestions"
     onsubmit="tallyCheckboxes(${fqForm.questionIndex})"
     ${ fqForm.questionHasResponses ? 'editStatus="hasResponses"' : '' }>
-    <div class="panel panel-primary questionTable" id="questionTable${fqForm.questionIndex}">
+    <div class="panel panel-primary questionTable" id="questionTable-${fqForm.questionIndex}">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-sm-7">

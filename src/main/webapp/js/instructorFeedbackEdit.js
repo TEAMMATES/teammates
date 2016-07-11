@@ -233,7 +233,7 @@ function enableEdit(questionNum, maxQuestions) {
  */
 function backupQuestion(questionNum) {
     questionsBeforeEdit[questionNum] = questionsBeforeEdit[questionNum]
-                                || $('#questionTable' + questionNum + ' > .panel-body').html();
+                                || $('#questionTable-' + questionNum + ' > .panel-body').html();
 }
 
 /**
@@ -242,7 +242,7 @@ function backupQuestion(questionNum) {
  * @param questionNum
  */
 function enableQuestion(questionNum) {
-    var $currentQuestionTable = $('#questionTable' + questionNum);
+    var $currentQuestionTable = $('#questionTable-' + questionNum);
     
     $currentQuestionTable.find('text,button,textarea,select,input')
                          .not('[name="receiverFollowerCheckbox"]')
@@ -284,7 +284,7 @@ function enableQuestion(questionNum) {
     
     $('#constSumOption_distributeUnevenly-' + questionNum).prop('disabled', false);
     
-    if ($('#questionTable' + questionNum).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
+    if ($('#questionTable-' + questionNum).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
         fixContribQnGiverRecipient(questionNum);
         setContribQnVisibilityFormat(questionNum);
     }
@@ -297,25 +297,22 @@ function enableQuestion(questionNum) {
 }
 
 function enableNewQuestion() {
-    var newQnSuffix = 'New';
+    var $newQuestionTable = $('#questionTable-' + NEW_QUESTION);
     
-    var $currentQuestionTableSuffix = $('#questionTable' + newQnSuffix);
-    var $currentQuestionTableNumber = $('#questionTable' + NEW_QUESTION);
-    
-    $currentQuestionTableSuffix.find('text,button,textarea,select,input')
+    $newQuestionTable.find('text,button,textarea,select,input')
                                .not('[name="receiverFollowerCheckbox"]')
                                .not('.disabled_radio')
                                .prop('disabled', false);
-    $currentQuestionTableSuffix.find('.removeOptionLink').show();
-    $currentQuestionTableSuffix.find('.addOptionLink').show();
+    $newQuestionTable.find('.removeOptionLink').show();
+    $newQuestionTable.find('.addOptionLink').show();
 
-    $currentQuestionTableNumber.find('#rubricAddChoiceLink-' + NEW_QUESTION).show();
-    $currentQuestionTableNumber.find('#rubricAddSubQuestionLink-' + NEW_QUESTION).show();
-    $currentQuestionTableSuffix.find('#rubricWeights-' + NEW_QUESTION).hide();
-    $currentQuestionTableNumber.find('.rubricRemoveChoiceLink-' + NEW_QUESTION).show();
-    $currentQuestionTableNumber.find('.rubricRemoveSubQuestionLink-' + NEW_QUESTION).show();
+    $newQuestionTable.find('#rubricAddChoiceLink-' + NEW_QUESTION).show();
+    $newQuestionTable.find('#rubricAddSubQuestionLink-' + NEW_QUESTION).show();
+    $newQuestionTable.find('#rubricWeights-' + NEW_QUESTION).hide();
+    $newQuestionTable.find('.rubricRemoveChoiceLink-' + NEW_QUESTION).show();
+    $newQuestionTable.find('.rubricRemoveSubQuestionLink-' + NEW_QUESTION).show();
 
-    moveAssignWeightsCheckbox($currentQuestionTableSuffix.find('#rubricAssignWeights-' + NEW_QUESTION));
+    moveAssignWeightsCheckbox($newQuestionTable.find('#rubricAssignWeights-' + NEW_QUESTION));
 
     if ($('#generateOptionsCheckbox-' + NEW_QUESTION).prop('checked')) {
         $('#mcqChoiceTable-' + NEW_QUESTION).hide();
@@ -341,7 +338,7 @@ function enableNewQuestion() {
  * @param questionNum
  */
 function disableQuestion(questionNum) {
-    var $currentQuestionTable = $('#questionTable' + questionNum);
+    var $currentQuestionTable = $('#questionTable-' + questionNum);
 
     $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
     
@@ -421,7 +418,7 @@ function restoreOriginal(questionNum) {
     if (questionNum === NEW_QUESTION) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
-        $('#questionTable' + questionNum + ' > .panel-body').html(questionsBeforeEdit[questionNum]);
+        $('#questionTable-' + questionNum + ' > .panel-body').html(questionsBeforeEdit[questionNum]);
 
         $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).show();
         $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
@@ -435,7 +432,7 @@ function restoreOriginal(questionNum) {
 }
 
 function hideNewQuestionAndShowNewQuestionForm() {
-    $('#questionTableNew').hide();
+    $('#questionTable-' + NEW_QUESTION).hide();
     $('#addNewQuestionTable').show();
 
     // re-enables all feedback path options, which may have been hidden by team contribution question
@@ -518,13 +515,13 @@ function showNewQuestionFrame(type) {
 	
     copyOptions();
     prepareQuestionForm(type);
-    $('#questionTableNew').show();
+    $('#questionTable-' + NEW_QUESTION).show();
     enableNewQuestion();
     
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
-    scrollToElement($('#questionTableNew')[0], { duration: 1000 });
-    $('#questionTableNew').find('.visibilityOptions').hide();
+    scrollToElement($('#questionTable-' + NEW_QUESTION)[0], { duration: 1000 });
+    $('#questionTable-' + NEW_QUESTION).find('.visibilityOptions').hide();
 
     var selectedFeedbackPathOption = $('#givertype-' + NEW_QUESTION);
     matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption);
@@ -805,15 +802,7 @@ function getQuestionId($elementInQuestionForm) {
     var id = $questionForm.attr('id');
     if (id.endsWith('-' + NEW_QUESTION)) {
         return NEW_QUESTION;
-    } else {
-        return id.split('-').slice(-1)[0];
     }
-}
-
-function getQuestionIdSuffix(questionNum) {
-    var isValidQuestionNumber = questionNum > 0 || questionNum === NEW_QUESTION;
-    
-    var idSuffix = isValidQuestionNumber ? '-' + questionNum : '';
-    return idSuffix;
+    return id.split('-').slice(-1)[0];
 }
 

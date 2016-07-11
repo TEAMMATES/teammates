@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="panel panel-primary questionTable" id="questionTableNew" style="display:none;">
+    <div class="panel panel-primary questionTable" id="questionTable--1" style="display:none;">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-sm-7">

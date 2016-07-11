@@ -1,21 +1,18 @@
 function updateRankPointsValue(questionNum) {
-    var idSuffix = getQuestionIdSuffix(questionNum);
-    
-    if ($('#' + FEEDBACK_QUESTION_RANKPOINTS + idSuffix).val() < 1) {
-        $('#' + FEEDBACK_QUESTION_RANKPOINTS + idSuffix).val(1);
+    if ($('#' + FEEDBACK_QUESTION_RANKPOINTS + '-' + questionNum).val() < 1) {
+        $('#' + FEEDBACK_QUESTION_RANKPOINTS + '-' + questionNum).val(1);
     }
 }
 
 function addRankOption(questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    var idSuffix = getQuestionIdSuffix(questionNum);
     
-    var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
+    var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + questionNum).val());
         
-    $('<div id="rankOptionRow-' + curNumberOfChoiceCreated + idSuffix + '">'
+    $('<div id="rankOptionRow-' + curNumberOfChoiceCreated + '-' + questionNum + '">'
           + '<div class="input-group">'
               + '<input type="text" name="' + FEEDBACK_QUESTION_RANKOPTION + '-' + curNumberOfChoiceCreated + '" '
-                      + 'id="' + FEEDBACK_QUESTION_RANKOPTION + '-' + curNumberOfChoiceCreated + idSuffix + '" '
+                      + 'id="' + FEEDBACK_QUESTION_RANKOPTION + '-' + curNumberOfChoiceCreated + '-' + questionNum + '" '
                       + 'class="form-control rankOptionTextBox">'
               + '<span class="input-group-btn">'
                   + '<button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" '
@@ -25,9 +22,9 @@ function addRankOption(questionNum) {
               + '</span>'
           + '</div>'
         + '</div>'
-    ).insertBefore($('#rankAddOptionRow' + idSuffix));
+    ).insertBefore($('#rankAddOptionRow-' + questionNum));
 
-    $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val(curNumberOfChoiceCreated + 1);
+    $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + questionNum).val(curNumberOfChoiceCreated + 1);
     
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
@@ -35,14 +32,12 @@ function addRankOption(questionNum) {
 }
 
 function hideRankOptionTable(questionNum) {
-    var idSuffix = getQuestionIdSuffix(questionNum);
-    $('#' + FEEDBACK_QUESTION_RANKOPTIONTABLE + idSuffix).hide();
+    $('#' + FEEDBACK_QUESTION_RANKOPTIONTABLE + '-' + questionNum).hide();
 }
 
 function removeRankOption(index, questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    var idSuffix = getQuestionIdSuffix(questionNum);
-    var $thisRow = $('#rankOptionRow-' + index + idSuffix);
+    var $thisRow = $('#rankOptionRow-' + index + '-' + questionNum);
     
     // count number of child rows the table have and - 1 because of 'add option' button
     var numberOfOptions = $thisRow.parent().children('div').length - 1;

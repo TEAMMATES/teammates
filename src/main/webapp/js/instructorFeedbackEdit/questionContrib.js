@@ -1,7 +1,5 @@
 function setDefaultContribQnVisibility(questionNum) {
-    var idSuffix = questionNum || 'New';
-    
-    $currentQuestionTable = $('#questionTable' + idSuffix);
+    $currentQuestionTable = $('#questionTable-' + questionNum);
 
     $currentQuestionTable.find('input.visibilityCheckbox').prop('checked', false);
     // All except STUDENTS can see answer
@@ -20,9 +18,7 @@ function setDefaultContribQnVisibility(questionNum) {
 }
 
 function setContribQnVisibilityFormat(questionNum) {
-    var idSuffix = questionNum || 'New';
-
-    $currentQuestionTable = $('#questionTable' + idSuffix);
+    $currentQuestionTable = $('#questionTable-' + questionNum);
 
     // Format checkboxes 'Can See Answer' for recipient/giver's team members/recipient's team members must be the same.
 
@@ -92,9 +88,8 @@ function setContribQnVisibilityFormat(questionNum) {
 }
 
 function fixContribQnGiverRecipient(questionNum) {
-    var idSuffix = questionNum ? '-' + questionNum : '';
-    var $giverType = $('#givertype-' + idSuffix);
-    var $recipientType = $('#recipienttype-' + idSuffix);
+    var $giverType = $('#givertype-' + questionNum);
+    var $recipientType = $('#recipienttype-' + questionNum);
 
     // Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
     $giverType.find('option').not('[value="STUDENTS"]').hide();

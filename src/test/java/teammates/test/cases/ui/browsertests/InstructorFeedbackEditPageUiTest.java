@@ -271,7 +271,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
-        feedbackEditPage.waitForElementVisibility(browser.driver.findElement(By.id("questionTableNew")));
+        feedbackEditPage.waitForElementVisibility(browser.driver.findElement(By.id("questionTable--1")));
         feedbackEditPage.clickVisibilityOptionsForNewQuestion();
         feedbackEditPage.clickResponseVisiblityCheckBoxForNewQuestion("RECEIVER_TEAM_MEMBERS");
         feedbackEditPage.clickVisibilityPreviewForNewQuestion();
