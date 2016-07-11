@@ -17,6 +17,7 @@ var questionsBeforeEdit = [];
 $(document).ready(function() {
     readyFeedbackEditPage();
     bindUncommonSettingsEvents();
+    bindParticipantSelectChangeEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
 });
@@ -807,6 +808,11 @@ function getQuestionIdSuffix(questionNum) {
     return idSuffix;
 }
 
+function bindParticipantSelectChangeEvents() {
+    $('body').on('change', 'select[name="givertype"]', function() {
+        hideInvalidRecipientTypeOptions($(this));
+    });
+}
 function hideInvalidRecipientTypeOptions($giverSelect) {
     var giverType = $giverSelect.val();
     var $recipientSelect = $giverSelect.closest('.form_question').find('select[name="recipienttype"]');
