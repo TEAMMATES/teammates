@@ -188,7 +188,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(questionEditTextBox, qnText);
     }
     
-    public void fillNumOfEntitiesToGiveFeedbackToBox(String num) {
+    public void fillNumOfEntitiesToGiveFeedbackToBoxForNewQuestion(String num) {
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion--1"));
+        WebElement numberOfRecipients = questionForm.findElement(By.className("numberOfEntitiesBox"));
         fillTextBox(numberOfRecipients, num);
     }
 
@@ -468,7 +470,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public boolean isOptionForSelectingNumberOfEntitiesVisible(int qnNumber) {
-        return isElementVisible(By.className("numberOfEntitiesElements" + qnNumber));
+        return isElementVisible(By.cssSelector("#form_editquestion-" + qnNumber + " .numberOfEntitiesElements"));
     }
 
     public void clickSaveExistingQuestionButton(int qnNumber) {

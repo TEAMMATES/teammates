@@ -473,13 +473,16 @@ var updateVisibilityOfNumEntitiesBox = function() {
  * @param participantType, questionNum
  */
 function formatNumberBox(participantType, questionNum) {
+    var $questionForm = $('#form_editquestion-' + questionNum);
+    var $numberOfEntitiesBox = $questionForm.find('.numberOfEntitiesElements');
+
     if (participantType === 'STUDENTS' || participantType === 'TEAMS') {
-        $('div.numberOfEntitiesElements' + questionNum).show();
+        $numberOfEntitiesBox.show();
         
-        var $span = $('span#' + FEEDBACK_QUESTION_NUMBEROFENTITIES + '_text_inner-' + questionNum);
-        $span.html(participantType === 'STUDENTS' ? 'students' : 'teams');
+        var $numberOfEntitiesLabel = $numberOfEntitiesBox.find('.number-of-entities-inner-text');
+        $numberOfEntitiesLabel.html(participantType === 'STUDENTS' ? 'students' : 'teams');
     } else {
-        $('div.numberOfEntitiesElements' + questionNum).hide();
+        $numberOfEntitiesBox.hide();
     }
     
     tallyCheckboxes(questionNum);
