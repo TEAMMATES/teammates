@@ -137,16 +137,12 @@ function bindFeedbackSessionEditFormSubmission() {
                 clearStatusMessages();
             },
             success: function(result) {
-                
                 if (result.hasError) {
                     setStatusMessage(result.statusForAjax, StatusType.DANGER);
                 } else {
                     setStatusMessage(result.statusForAjax, StatusType.SUCCESS);
                     disableEditFS();
                 }
-                
-                // focus on status message
-                scrollToElement($('#statusMessagesToUser'), { offset: ($('.navbar').height() + 30) * -1 });
             }
         });
     });
