@@ -20,6 +20,7 @@ $(document).ready(function() {
     bindParticipantSelectChangeEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
+    hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
 });
 
 
@@ -810,6 +811,12 @@ function getQuestionIdSuffix(questionNum) {
 
 function bindParticipantSelectChangeEvents() {
     $('body').on('change', 'select[name="givertype"]', function() {
+        hideInvalidRecipientTypeOptions($(this));
+    });
+}
+
+function hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions() {
+    $('.form_question').not('[name="form_addquestions"]').find('select[name="givertype"]').each(function() {
         hideInvalidRecipientTypeOptions($(this));
     });
 }
