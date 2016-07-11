@@ -23,12 +23,10 @@ public class FeedbackSessionClosedMailAction extends EmailAction {
         super(request);
         initializeNameAndDescription();
         
-        feedbackSessionName = HttpRequestHelper
-                .getValueFromRequestParameterMap(request, ParamsNames.EMAIL_FEEDBACK);
+        feedbackSessionName = HttpRequestHelper.getValueFromRequestParameterMap(request, ParamsNames.EMAIL_FEEDBACK);
         Assumption.assertNotNull(feedbackSessionName);
         
-        courseId = HttpRequestHelper
-                .getValueFromRequestParameterMap(request, ParamsNames.EMAIL_COURSE);
+        courseId = HttpRequestHelper.getValueFromRequestParameterMap(request, ParamsNames.EMAIL_COURSE);
         Assumption.assertNotNull(courseId);
     }
     
@@ -56,19 +54,17 @@ public class FeedbackSessionClosedMailAction extends EmailAction {
         
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
-        log.info("Fetching feedback session object for feedback session name : "
-                 + feedbackSessionName + " and course : " + courseId);
         
+        /*
+         * Check if feedback session was deleted between scheduling
+         * and the actual sending of emails
+         */
         if (feedbackObject == null) {
             log.severe("Feedback session object for feedback session name : " + feedbackSessionName
                        + " for course : " + courseId + " could not be fetched");
             return null;
         }
         
-        /*
-         * Check if feedback session was deleted between scheduling
-         * and the actual sending of emails
-         */
         return new EmailGenerator().generateFeedbackSessionClosedEmails(feedbackObject);
 
     }

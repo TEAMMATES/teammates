@@ -172,13 +172,14 @@ public class EmailGenerator {
      * Generates the feedback session closed emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSessionAttributes session) {
-        
-        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
+
+        boolean isEmailNeeded = fsLogic.isFeedbackSessionForStudentsToAnswer(session);
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
-        
-        List<EmailWrapper> emails = generateFeedbackSessionClosedEmail(course, session, instructors, template,
-                                                                      EmailType.FEEDBACK_CLOSED.getSubject());
+        List<InstructorAttributes> instructors = isEmailNeeded
+                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                                                 : new ArrayList<InstructorAttributes>();
+                                                 
+        List<EmailWrapper> emails = generateFeedbackSessionClosedEmail(course, session, instructors);
 
         return emails;
     }
@@ -277,8 +278,10 @@ public class EmailGenerator {
     
     private List<EmailWrapper> generateFeedbackSessionClosedEmail(
             CourseAttributes course, FeedbackSessionAttributes session,
-            List<InstructorAttributes> instructors, String template, String subject) {
+            List<InstructorAttributes> instructors) {
 
+        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
+        String subject = EmailType.FEEDBACK_CLOSED.getSubject();
         List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
 
         for (InstructorAttributes instructor : instructors) {

@@ -1623,20 +1623,20 @@ public class FeedbackSessionsLogic {
         return requiredSessions;
     }
     
-    public List<FeedbackSessionAttributes> getFeedbackSessionsClosed() {
-        ArrayList<FeedbackSessionAttributes> requiredSessions = new
+    /**
+     * @return returns a list of sessions that were closed within past hour 
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
+        List<FeedbackSessionAttributes> requiredSessions = new
                 ArrayList<FeedbackSessionAttributes>();
-
-        List<FeedbackSessionAttributes> nonPrivateSessions = fsDb
-                .getNonPrivateFeedbackSessions();
+        List<FeedbackSessionAttributes> nonPrivateSessions = fsDb.getNonPrivateFeedbackSessions();
 
         for (FeedbackSessionAttributes session : nonPrivateSessions) {
-            if (session.isClosingWithinTimeLimit(-1) // is session closed in the past 1 hour
+            if (session.isClosedWithinPastHour() // is session closed in the past 1 hour
                     && session.isClosingEmailEnabled()) {
                 requiredSessions.add(session);
             }
         }
-
         return requiredSessions;
     }
 
@@ -1650,8 +1650,7 @@ public class FeedbackSessionsLogic {
     }
     
     public void scheduleFeedbackSessionClosedEmails() {
-
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsClosed();
+        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsClosedWithinThePastHour();
 
         for (FeedbackSessionAttributes session : sessions) {
             addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_CLOSED);

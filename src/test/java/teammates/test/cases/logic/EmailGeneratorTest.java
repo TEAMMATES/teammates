@@ -89,6 +89,16 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         
         verifyEmail(emails.get(0), student1.email, subject, "/sessionClosingEmailForStudent.html");
         
+        ______TS("feedback session closed alerts");
+        
+        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
+        assertEquals(5, emails.size());
+        
+        subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
+                                course.getName(), session.getFeedbackSessionName());
+        
+        verifyEmail(emails.get(1), instructor1.email, subject, "/sessionClosedEmailForInstructor.html");
+        
         ______TS("feedback session published alerts");
         
         emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(session);
@@ -108,6 +118,9 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         assertTrue(emails.isEmpty());
         
         emails = new EmailGenerator().generateFeedbackSessionClosingEmails(privateSession);
+        assertTrue(emails.isEmpty());
+        
+        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(privateSession);
         assertTrue(emails.isEmpty());
         
         emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(privateSession);
