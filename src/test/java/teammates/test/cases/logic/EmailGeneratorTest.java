@@ -157,6 +157,28 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         assertTrue(hasStudent1ReceivedEmail);
         assertTrue(hasInstructor1ReceivedEmail);
         
+        ______TS("feedback session unpublished alerts");
+        
+        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(session);
+        assertEquals(10, emails.size());
+        
+        subject = String.format(EmailType.FEEDBACK_UNPUBLISHED.getSubject(),
+                                course.getName(), session.getFeedbackSessionName());
+        
+        hasStudent1ReceivedEmail = false;
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject, "/sessionUnpublishedEmailForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject, "/sessionUnpublishedEmailForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasInstructor1ReceivedEmail);
+        
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
         
         FeedbackSessionAttributes privateSession =
@@ -169,6 +191,9 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         assertTrue(emails.isEmpty());
         
         emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(privateSession);
+        assertTrue(emails.isEmpty());
+        
+        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(privateSession);
         assertTrue(emails.isEmpty());
         
     }

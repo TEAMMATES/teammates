@@ -2638,7 +2638,7 @@ public class FeedbackSessionsLogic {
         addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_PUBLISHED);
     }
     
-    private void sendFeedbackSessionUnpublishedEmail(FeedbackSessionAttributes session) {
+    public void sendFeedbackSessionUnpublishedEmail(FeedbackSessionAttributes session) {
         addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_UNPUBLISHED);
     }
 

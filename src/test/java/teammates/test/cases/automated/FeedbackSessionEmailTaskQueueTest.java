@@ -254,4 +254,27 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
             assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
         }
     }
+    
+    @Test
+    public void testSendFeedbackSessionUnpublishedEmail() throws Exception {
+        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+
+        ______TS("1 unpublished email to be sent");
+        
+        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session2InCourse1");
+        int counter = 0;
+
+        while (counter != 10) {
+            FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+            fsLogic.sendFeedbackSessionUnpublishedEmail(fsa);
+            if (FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)) {
+                break;
+            }
+            counter++;
+        }
+
+        assertEquals(1, FeedbackSessionsEmailTaskQueueCallback.taskCount);
+
+    }
 }

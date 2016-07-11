@@ -47,30 +47,30 @@ public class FeedbackSessionUnpublishedMailAction extends EmailAction {
     
     @Override
     protected void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
+        FeedbackSessionAttributes feedbackSession = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
-        feedbackObject.setSentPublishedEmail(false);
-        FeedbackSessionsLogic.inst().updateFeedbackSession(feedbackObject);
+        feedbackSession.setSentPublishedEmail(false);
+        FeedbackSessionsLogic.inst().updateFeedbackSession(feedbackSession);
     }
 
     @Override
     protected List<EmailWrapper> prepareMailToBeSent() {
         
-        FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
+        FeedbackSessionAttributes feedbackSession = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
         log.info("Fetching feedback session object for feedback session name : "
                 + feedbackSessionName + " and course : " + courseId);
-        
-        if (feedbackObject == null) {
+
+        /*
+         * Check if feedback session was deleted between scheduling
+         * and the actual sending of emails
+         */
+        if (feedbackSession == null) {
             log.severe("Feedback session object for feedback session name : " + feedbackSessionName
                        + " for course : " + courseId + " could not be fetched");
             return null;
         }
-         /*
-          * Check if feedback session was deleted between scheduling
-          * and the actual sending of emails
-          */
-        return new EmailGenerator().generateFeedbackSessionUnpublishedEmails(feedbackObject);
+        return new EmailGenerator().generateFeedbackSessionUnpublishedEmails(feedbackSession);
     }
     
     private void initializeNameAndDescription() {
