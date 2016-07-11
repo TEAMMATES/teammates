@@ -81,7 +81,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackEditPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
         feedbackEditPage.getFsCopyToModal().verifyStatusMessage(
-                "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
+                "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as a/an "
                 + "feedback session name because it contains invalid characters. "
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");

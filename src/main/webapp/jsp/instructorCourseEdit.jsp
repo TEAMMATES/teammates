@@ -18,7 +18,7 @@
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <div class="pull-right">
-        <a href="../instructorHelp.html#editCourse" class="small" target="_blank">
+        <a href="/instructorHelp.jsp#editCourse" class="small" target="_blank">
             <span class="glyphicon glyphicon-info-sign"></span>
             More about configuring access permissions
         </a>

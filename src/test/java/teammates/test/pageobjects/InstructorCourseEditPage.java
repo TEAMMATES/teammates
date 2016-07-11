@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -10,6 +11,36 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.util.Const;
 
 public class InstructorCourseEditPage extends AppPage {
+    
+    public static final int INSTRUCTOR_TYPE_COOWNER = 0;
+    public static final int INSTRUCTOR_TYPE_MANAGER = 1;
+    public static final int INSTRUCTOR_TYPE_OBSERVER = 2;
+    public static final int INSTRUCTOR_TYPE_TUTOR = 3;
+    public static final int INSTRUCTOR_TYPE_CUSTOM = 4;
+    
+    public static final int COURSE_MODIFY_COURSE = 0;
+    public static final int COURSE_MODIFY_INSTRUCTORS = 1;
+    public static final int COURSE_MODIFY_SESSIONS = 2;
+    public static final int COURSE_MODIFY_STUDENTS = 3;
+    public static final int COURSE_VIEW_STUDENTS = 4;
+    public static final int COURSE_GIVE_STUDENT_COMMENTS = 5;
+    public static final int COURSE_VIEW_OTHERS_COMMENTS = 6;
+    public static final int COURSE_MODIFY_OTHERS_COMMENTS = 7;
+    public static final int COURSE_GIVE_RESPONSES_IN_SESSION = 8;
+    public static final int COURSE_VIEW_RESPONSES_IN_SESSION = 9;
+    public static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 10;
+    
+    public static final int SECTION_VIEW_STUDENTS = 0;
+    public static final int SECTION_GIVE_STUDENT_COMMENTS = 1;
+    public static final int SECTION_VIEW_OTHERS_COMMENTS = 2;
+    public static final int SECTION_MODIFY_OTHERS_COMMENTS = 3;
+    public static final int SECTION_GIVE_RESPONSES_IN_SESSION = 4;
+    public static final int SECTION_VIEW_RESPONSES_IN_SESSION = 5;
+    public static final int SECTION_MODIFY_RESPONSES_IN_SESSION = 6;
+    
+    public static final int SESSION_GIVE_RESPONSES = 0;
+    public static final int SESSION_VIEW_RESPONSES = 1;
+    public static final int SESSION_MODIFY_RESPONSES = 2;
     
     @FindBy(id = "courseid")
     private WebElement courseIdTextBox;
@@ -121,6 +152,22 @@ public class InstructorCourseEditPage extends AppPage {
         return isEditable;
     }
     
+    public void clickCancelEditInstructorLink(int instrNum) {
+        getCancelEditInstructorLink(instrNum).click();
+    }
+    
+    public void verifyInstructorEditFormDisabled(int instrNum) {
+        waitForElementToDisappear(By.id("btnSaveInstructor" + instrNum));
+        
+        WebElement editInstructorNameTextBox = getNameField(instrNum);
+        WebElement editInstructorEmailTextBox = getEmailField(instrNum);
+        
+        boolean isNotEditable = !editInstructorNameTextBox.isEnabled()
+                                && !editInstructorEmailTextBox.isEnabled();
+        
+        assertTrue(isNotEditable);
+    }
+    
     public void saveEditInstructor(int instrNum) {
         getSaveInstructorButton(instrNum).click();
     }
@@ -135,15 +182,20 @@ public class InstructorCourseEditPage extends AppPage {
         roleRadioButton.click();
     }
     
+    public boolean isRoleSelectedForInstructor(int instrNum, String role) {
+        return browser.driver.findElement(By.cssSelector(
+                "input[id='instructorroleforinstructor" + instrNum + "'][value='" + role + "']")).isSelected();
+    }
+    
     public void clickViewDetailsLinkForInstructor(int instrNum, int viewLinkNum) {
         /*
          *  There are groups of 3 elements:
          *  <input>: radio button
          *  <a>: the details link
          *  <br>: break line
-         *  Therefore the formula for the position of the details link of the group i-th (count from 1) is i * 3 - 1
+         *  Therefore the formula for the position of the details link of the group i-th (count from 0) is i * 3 + 2
          */
-        int cssLinkNum = viewLinkNum * 3 - 1;
+        int cssLinkNum = viewLinkNum * 3 + 2;
         WebElement viewLink =
                 browser.driver.findElement(
                         By.cssSelector("#accessControlEditDivForInstr" + instrNum
@@ -214,9 +266,19 @@ public class InstructorCourseEditPage extends AppPage {
         browser.driver.findElement(By.id(linkId)).click();
     }
     
+    public void clickHideSectionLevelPrivileges(int instrNum, int sectionLevelIndex) {
+        getSectionLevelPanel(instrNum, sectionLevelIndex)
+                .findElement(By.cssSelector(".glyphicon-trash")).click();
+    }
+    
     public boolean isTuneSessionPermissionsDivVisible(int instrNum, int sectionLevelIndex) {
         String sessionPermissionsDivId = "tuneSessionPermissionsDiv" + sectionLevelIndex
                                          + "ForInstructor" + instrNum;
+        return isElementVisible(By.id(sessionPermissionsDivId));
+    }
+    
+    public boolean isTunePermissionsDivVisible(int instrNum) {
+        String sessionPermissionsDivId = "tunePermissionsDivForInstructor" + instrNum;
         return isElementVisible(By.id(sessionPermissionsDivId));
     }
     
@@ -334,6 +396,10 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElement(By.id("instrEditLink" + instrNum));
     }
     
+    public WebElement getCancelEditInstructorLink(int instrNum) {
+        return browser.driver.findElement(By.id("instrCancelLink" + instrNum));
+    }
+    
     private WebElement getInviteInstructorLink(int instrNum) {
         return browser.driver.findElement(By.id("instrRemindLink" + instrNum));
     }
@@ -358,6 +424,14 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " input[name='"
                                                          + Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT
                                                          + "']"));
+    }
+    
+    public String getInstructorName(int instrNum) {
+        return browser.driver.findElement(By.id("instructorname" + instrNum)).getAttribute("value");
+    }
+    
+    public String getInstructorEmail(int instrNum) {
+        return browser.driver.findElement(By.id("instructoremail" + instrNum)).getAttribute("value");
     }
     
     public WebElement getCourseLevelPanel(int instrNum) {

@@ -49,7 +49,7 @@
         <span class="icon-bar">
         </span>
       </button>
-      <a class="navbar-brand" href="/index.html">
+      <a class="navbar-brand" href="/index.jsp">
         TEAMMATES
       </a>
     </div>
@@ -86,7 +86,7 @@
           </a>
         </li>
         <li>
-          <a class="nav help" href="/instructorHelp.html" target="_blank">
+          <a class="nav help" href="/instructorHelp.jsp" target="_blank">
             Help
           </a>
         </li>
@@ -179,6 +179,8 @@
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
                   <input id="filterTextForDownload" name="filtertext" type="hidden">
+                  <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
+                  <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
@@ -303,7 +305,7 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" onchange="updateStatsCheckBox();" type="checkbox">
                   Show Statistics
                 </label>
               </div>
@@ -3127,7 +3129,7 @@
       <div class="col-md-2">
         <span>
           [
-          <a href="/index.html">
+          <a href="/index.jsp">
             TEAMMATES
           </a>
           V${version}]
@@ -3143,7 +3145,7 @@
       <div class="col-md-2">
         <span>
           [Send
-          <a class="link" href="../contact.html" target="_blank">
+          <a class="link" href="/contact.jsp" target="_blank">
             Feedback
           </a>
           ]

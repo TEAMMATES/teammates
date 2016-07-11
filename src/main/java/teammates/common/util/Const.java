@@ -46,6 +46,9 @@ public final class Const {
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
     public static final String USER_NOT_IN_A_SECTION = "Not in a section";
     
+    public static final String DISPLAYED_NAME_FOR_SELF_IN_COMMENTS = "You";
+    public static final String DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT = "Anonymous";
+    
     public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
     public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
     
@@ -230,6 +233,7 @@ public final class Const {
     
         public static final String COURSE_INFO_EDIT = "Edit course name";
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
+        public static final String COURSE_INSTRUCTOR_CANCEL_EDIT = "Cancel editing instructor details";
         public static final String COURSE_INSTRUCTOR_DELETE = "Delete the instructor from the course";
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
         
@@ -1048,9 +1052,6 @@ public final class Const {
         
         public static final String MASHUP = "/mashup.jsp";
     
-        //View fragments
-        public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
-        
     }
 
     /* These are status messages that may be shown to the user */
@@ -1080,7 +1081,7 @@ public final class Const {
                 + "If you don't remember which Google account you used previously, "
                 + "email us from the same email account to which you receive TEAMMATES emails."
                 + "<br>2. You changed the primary email from a non-Gmail address to a Gmail address recently. "
-                + "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> "
+                + "In that case, <a href=\"/contact.jsp\">email us</a> "
                 + "so that we can reconfigure your account to use the new Gmail address."
                 + "<br>3. You joined this course just a few seconds ago and your data "
                 + "may be still in the process of propagating through our servers. "
@@ -1175,6 +1176,8 @@ public final class Const {
                 + "Please try again with a smaller picture.";
         public static final String STUDENT_PROFILE_PIC_SERVICE_DOWN = "We were unable to upload your picture at this time. "
                 + "Please try again after some time";
+        public static final String STUDENT_EMAIL_TAKEN_MESSAGE =
+                "Trying to update to an email that is already used by: %s/%s";
         
         public static final String FEEDBACK_SESSION_ADDED =
                 "The feedback session has been added. "
@@ -1291,8 +1294,8 @@ public final class Const {
         public static final String COMMENT_CLEARED_UNSUCCESSFULLY = "Notification for some pending comments fails to send";
         
         public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
-                + "<a href='/instructorHelp.html#gs' target='_blank'>Getting Started Guide</a>.<br>A video tour"
-                + " is also available in our <a href='/index.html' target='_blank'>home page</a>.";
+                + "<a href=\"/instructorHelp.jsp#gs\" target=\"_blank\">Getting Started Guide</a>.<br>A video tour"
+                + " is also available in our <a href=\"/index.jsp\" target=\"_blank\">home page</a>.";
         
         public static final String HINT_FOR_NO_SESSIONS_STUDENT =
                 "Currently, there are no open feedback sessions in the course %s. "
