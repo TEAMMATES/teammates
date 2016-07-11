@@ -549,12 +549,14 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_TEXT);
         
         hideAllNewQuestionForms();
+        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         break;
     case 'MCQ':
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MCQ);
         
         hideAllNewQuestionForms();
+        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#mcqForm').show();
         break;
@@ -563,6 +565,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MSQ);
         
         hideAllNewQuestionForms();
+        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#msqForm').show();
         break;
@@ -570,6 +573,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
         
         hideAllNewQuestionForms();
+        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#numScaleForm').show();
         $('#' + FEEDBACK_QUESTION_TEXT).attr('placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
@@ -581,6 +585,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
         
         hideAllNewQuestionForms();
+        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#constSumForm').show();
         break;
@@ -592,6 +597,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
         
         hideAllNewQuestionForms();
+        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#constSumForm').show();
         var optionText = $('#constSum_labelText-' + NEW_QUESTION).text();
@@ -613,6 +619,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
         
         hideAllNewQuestionForms();
+        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#rubricForm').show();
         break;
@@ -623,6 +630,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
         
         hideAllNewQuestionForms();
+        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#rankOptionsForm').show();
         break;
@@ -633,6 +641,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
         
         hideAllNewQuestionForms();
+        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#rankRecipientsForm').show();
         break;
@@ -820,6 +829,11 @@ function hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions() {
         hideInvalidRecipientTypeOptions($(this));
     });
 }
+
+function hideInvalidRecipientTypeOptionsForNewlyAddedQuestion() {
+    hideInvalidRecipientTypeOptions($('form[name="form_addquestions"]').find('select[name="givertype"]'));
+}
+
 function hideInvalidRecipientTypeOptions($giverSelect) {
     var giverType = $giverSelect.val();
     var $recipientSelect = $giverSelect.closest('.form_question').find('select[name="recipienttype"]');
