@@ -1,3 +1,4 @@
-.btn, .glyphicon, .help-block {
-	display:none;
+.btn, .glyphicon, .help-block, .action-button-item, .action-header,
+	.profile-pic-icon-click, .btn-link{
+	display: none;
 }
