@@ -182,7 +182,7 @@ function disableRowsAccordingToRecipient($containingForm) {
         disableRow($containingForm, ROW_RECIPIENT_TEAM);
         break;
     default:
-        throw 'Unexpected receiverType';
+        throw 'Unexpected recipientType';
     }
 }
 
