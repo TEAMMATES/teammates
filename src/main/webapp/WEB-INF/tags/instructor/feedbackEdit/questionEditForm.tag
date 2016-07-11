@@ -72,6 +72,7 @@
                         </label>
                     </h5>
                     <div class="col-sm-10">
+                        <%-- Do not add whitespace between the opening and closing tags --%>
                         <textarea class="form-control textvalue nonDestructive" rows="2"
                             name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-${fqForm.questionIndex}"
@@ -84,14 +85,13 @@
                 <div class="form-group" style="padding: 0 15px;">
                     <h5 class="col-sm-2">
                         <label class="align-left"
-                            for="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>">
+                            for="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${fqForm.questionIndex}">
                             [Optional]<br>Description
                         </label>
                     </h5>
                     <div class="col-sm-10">
                         <div id="rich-text-toolbar-q-descr-container-${fqForm.questionIndex}"></div>
                         <div class="well panel panel-default panel-body" rows="5"
-                            name="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_DESCRIPTION %>"

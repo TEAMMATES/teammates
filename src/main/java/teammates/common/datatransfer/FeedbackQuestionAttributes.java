@@ -46,8 +46,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.courseId = fq.getCourseId();
         this.creatorEmail = fq.getCreatorEmail();
         this.questionMetaData = fq.getQuestionMetaData();
-        this.questionDescription = fq.getQuestionDescription() == null ? null
-                : new Text(Sanitizer.sanitizeForRichText(fq.getQuestionDescription().getValue()));
+        this.questionDescription = fq.getQuestionDescription() == null
+                                   ? null
+                                   : new Text(Sanitizer.sanitizeForRichText(fq.getQuestionDescription().getValue()));
         this.questionNumber = fq.getQuestionNumber();
         this.questionType = fq.getQuestionType();
         this.giverType = fq.getGiverType();
@@ -389,11 +390,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             return false;
         }
 
-        if (questionDescription == null) {
-            if (other.questionDescription != null) {
-                return false;
-            }
-        } else if (!questionDescription.equals(other.questionDescription)) {
+        if (questionDescription == null ^ other.questionDescription == null) {
+            return false;
+        }
+
+        if (questionDescription != null && !questionDescription.equals(other.questionDescription)) {
             return false;
         }
 
@@ -517,8 +518,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public void sanitizeForSaving() {
-        this.questionDescription = this.questionDescription == null ? null
-                : new Text(Sanitizer.sanitizeForRichText(this.questionDescription.getValue()));
+        this.questionDescription = this.questionDescription == null
+                                   ? null
+                                   : new Text(Sanitizer.sanitizeForRichText(this.questionDescription.getValue()));
     }
 
     /** 
@@ -582,8 +584,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     public Text getQuestionDescription() {
-        return questionDescription == null ? null
-                : new Text(Sanitizer.sanitizeForRichText(questionDescription.getValue()));
+        return questionDescription;
     }
 
     public void setQuestionDescription(Text questionDescription) {
