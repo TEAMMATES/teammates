@@ -116,7 +116,7 @@ Refer to [this document](staticAnalysis.md) for details on the tools used, how t
 
 
 1. TEAMMATES automated testing requires Firefox (works on Windows and OS-X).
-   Only Firefox between versions 38.0.5 and 42.0 are supported, although the primary support is for 38.0.5.
+   Only Firefox between versions 38.0.5 and 46.0 are supported, although the primary support is for 46.0.
    To downgrade your Firefox version, obtain the executable from [here](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/).
    If you want to use a different path for this version, choose `custom setup` during install.
    After installation, specify the Firefox path in `test.properties` by modifying the `test.firefox.path` property.
@@ -273,12 +273,13 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
   Comes with App Engine SDK.
 * **Java Persistence API (JPA)** [version 1.0]: JPA is a standard interface for accessing databases in Java, providing an automatic mapping between Java classes and database tables.
 * **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
+* **Jsoup** [version 1.9.2]: This library is required to parse HTML files. It is needed by some email services to obtain the plain text component from the HTML component. In addition, this is also used during UI testing, for doing a logical comparison of the pages generated against expected pages.
 * **SendGrid, Mailgun, Mailjet** Alternative framework to JavaMail for sending emails. The details of these tools can be found in [this document](emails.md).
 * **Google Cloud SDK**: This is a set of tools that helps us manage resources and applications hosted on Google Cloud Platform. We use it to run client scripts on GAE remotely.
 
 ####Tools used in testing
 
-* **Selenium** [version 2.46.0]
+* **Selenium** [version 2.53.0]
     Selenium automates browsers. We use it for automating our UI tests.
     We require Selenium standalone server and Java language bindings.
 * **JavaMail** [version 1.4.5]
@@ -292,10 +293,6 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
     QUnit is a JavaScript unit test suite.
 * **Blanket.js** [version 1.2.1]
     Blanket.js is a JavaScript code coverage library.
-* **NekoHtml** [version 1.9.22]
-    NekoHTML is a simple HTML scanner and tag balancer that enables application programmers to parse HTML documents and access the information using standard XML interfaces.
-    NekoHTML is included in the Selenium libraries.
-    Usage: During UI testing, for doing a logical comparison of the pages generated against expected pages.
 * **HttpUnit** [version 1.7]
     We use the ServletUnit component of HttpUnit to create HttpServletUnit objects used for testing.
 
