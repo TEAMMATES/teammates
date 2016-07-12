@@ -3,6 +3,8 @@
 	display: none;
 }
 
-input:placeholder-shown {
-    display: none;
+overflow:hidden !important;
+
+#results-search-box:invalid {
+	display:none;
 }
