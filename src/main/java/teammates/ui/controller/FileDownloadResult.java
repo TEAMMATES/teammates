@@ -52,7 +52,7 @@ public abstract class FileDownloadResult extends ActionResult {
         return this.fileContent;
     }
     
-    public String getFileType(){
+    public String getFileType() {
         return this.fileType;
     }
 
