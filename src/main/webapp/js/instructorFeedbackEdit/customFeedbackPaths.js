@@ -106,6 +106,17 @@ function updateFeedbackPathsSpreadsheet($questionForm) {
     });
 }
 
+function updateColumnsForFeedbackPathsSpreadsheet($questionForm) {
+    var columns = getColumnsForFeedbackPathsSpreadsheet(FEEDBACK_PARTICIPANT_TYPE_CUSTOM,
+                                                        FEEDBACK_PARTICIPANT_TYPE_CUSTOM);
+    var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
+    var hotInstance = $container.handsontable('getInstance');
+    hotInstance.updateSettings({
+        columns: columns
+    });
+    hotInstance.validateCells();
+}
+
 function getDataForFeedbackPathsSpreadsheet(giverType, recipientType) {
     var giverToRecipientsMap = {};
     switch (giverType) {
@@ -298,53 +309,60 @@ function populateGiverToRecipientsMapForRecipientAsNobodySpecific(giverToRecipie
 function bindEventHandlers() {
     $('.form_question').on('change', '.participantSelect', function() {
         var $questionForm = $(this).closest('.form_question');
-        var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
-        var $giverSelect = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]');
-        var $recipientSelect = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]');
-        var giverType = $giverSelect.val();
-        var recipientType = $recipientSelect.val();
-        
-        var isChangingParticipantTypeFromCustomToPredefined =
-                giverType === FEEDBACK_PARTICIPANT_TYPE_CUSTOM
-                || recipientType === FEEDBACK_PARTICIPANT_TYPE_CUSTOM;
-        if (isChangingParticipantTypeFromCustomToPredefined) {
-            $giverSelect.find('option[value="' + FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
-            $recipientSelect.find('option[value="' + FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
-        }
-        
+        removeCustomOptionsIfNecessary($questionForm);
         updateFeedbackPathsSpreadsheet($questionForm);
     });
     
     $('.form_question').on('click', '.add-rows-button', function() {
         var $questionForm = $(this).closest('.form_question');
-        var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
-        var numRowsToAdd = parseInt($questionForm.find('.add-rows-input').val());
-        var hotInstance = $container.handsontable('getInstance');
-        if (numRowsToAdd > 0) {
-            hotInstance.alter('insert_row', hotInstance.countRows(), numRowsToAdd);
-        }
+        addRowsToFeedbackPathsSpreadsheet($questionForm);
     });
     
     $('.form_question').on('click', '.customize-button', function() {
         var $questionForm = $(this).closest('.form_question');
         $questionForm.find('div[class*="numberOfEntitiesElements"]').hide();
-        $questionForm.find('.participantSelect').each(function() {
-            if ($(this).val() !== FEEDBACK_PARTICIPANT_TYPE_CUSTOM) {
-                var $customFeedbackParticipantTypeOption =
-                        $('<option></option>').attr('value', FEEDBACK_PARTICIPANT_TYPE_CUSTOM)
-                                              .text('Custom');
-                $(this).append($customFeedbackParticipantTypeOption)
-                       .val(FEEDBACK_PARTICIPANT_TYPE_CUSTOM);
-            }
-        });
+        appendCustomOptionsIfNecessary($questionForm);
         enableAllRows($questionForm);
-        var columns = getColumnsForFeedbackPathsSpreadsheet(FEEDBACK_PARTICIPANT_TYPE_CUSTOM,
-                                                            FEEDBACK_PARTICIPANT_TYPE_CUSTOM);
-        var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
-        var hotInstance = $container.handsontable('getInstance');
-        hotInstance.updateSettings({
-            columns: columns
-        });
-        hotInstance.validateCells();
+        updateColumnsForFeedbackPathsSpreadsheet($questionForm);
     });
+}
+
+function removeCustomOptionsIfNecessary($questionForm) {
+    var $giverSelect = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]');
+    var $recipientSelect = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]');
+    var giverType = $giverSelect.val();
+    var recipientType = $recipientSelect.val();
+    
+    var isChangingParticipantTypeFromCustomToPredefined =
+            giverType === FEEDBACK_PARTICIPANT_TYPE_CUSTOM
+            || recipientType === FEEDBACK_PARTICIPANT_TYPE_CUSTOM;
+    if (isChangingParticipantTypeFromCustomToPredefined) {
+        $giverSelect.find('option[value="' + FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
+        $recipientSelect.find('option[value="' + FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
+    }
+}
+
+function appendCustomOptionsIfNecessary($questionForm) {
+    $questionForm.find('.participantSelect').each(function() {
+        if ($(this).val() !== FEEDBACK_PARTICIPANT_TYPE_CUSTOM) {
+            appendCustomOptionToParticipantSelect($(this));
+        }
+    });
+}
+
+function appendCustomOptionToParticipantSelect($participantSelect) {
+    var $customFeedbackParticipantTypeOption =
+            $('<option></option>').attr('value', FEEDBACK_PARTICIPANT_TYPE_CUSTOM)
+                                  .text('Custom');
+    $participantSelect.append($customFeedbackParticipantTypeOption)
+                      .val(FEEDBACK_PARTICIPANT_TYPE_CUSTOM);
+}
+
+function addRowsToFeedbackPathsSpreadsheet($questionForm) {
+    var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
+    var numRowsToAdd = parseInt($questionForm.find('.add-rows-input').val());
+    var hotInstance = $container.handsontable('getInstance');
+    if (numRowsToAdd > 0) {
+        hotInstance.alter('insert_row', hotInstance.countRows(), numRowsToAdd);
+    }
 }
