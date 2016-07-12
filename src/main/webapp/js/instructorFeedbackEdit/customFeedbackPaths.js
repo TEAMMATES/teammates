@@ -69,14 +69,14 @@ function initializeCustomFeedbackPathsData() {
 
 function initializeFeedbackPathsSpreadsheets() {
     $('.form_question').each(function() {
-        var $questionForm = $(this);
-        var giverType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();
-        var recipientType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]').val();
-        generateFeedbackPathsSpreadsheet($questionForm.find('.custom-feedback-paths-spreadsheet'), giverType, recipientType);
+        generateFeedbackPathsSpreadsheet($(this));
     });
 }
 
-function generateFeedbackPathsSpreadsheet($container, giverType, recipientType) {
+function generateFeedbackPathsSpreadsheet($questionForm) {
+    var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
+    var giverType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();
+    var recipientType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]').val();
     var data = getDataForFeedbackPathsSpreadsheet(giverType, recipientType);
     var columns = getColumnsForFeedbackPathsSpreadsheet(giverType, recipientType);
     $container.handsontable({
@@ -93,14 +93,10 @@ function generateFeedbackPathsSpreadsheet($container, giverType, recipientType) 
     });
 }
 
-function updateFeedbackPathsSpreadsheetForQuestionTable($questionTable) {
-    var $container = $questionTable.find('.custom-feedback-paths-spreadsheet');
-    var giverType = $questionTable.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();
-    var recipientType = $questionTable.find('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]').val();
-    updateFeedbackPathsSpreadsheet($container, giverType, recipientType);
-}
-
-function updateFeedbackPathsSpreadsheet($container, giverType, recipientType) {
+function updateFeedbackPathsSpreadsheet($questionForm) {
+    var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
+    var giverType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();
+    var recipientType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]').val();
     var data = getDataForFeedbackPathsSpreadsheet(giverType, recipientType);
     var columns = getColumnsForFeedbackPathsSpreadsheet(giverType, recipientType);
     var hotInstance = $container.handsontable('getInstance');
@@ -316,9 +312,7 @@ function bindEventHandlers() {
             $recipientSelect.find('option[value="' + FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
         }
         
-        giverType = $giverSelect.val();
-        recipientType = $recipientSelect.val();
-        updateFeedbackPathsSpreadsheet($container, giverType, recipientType);
+        updateFeedbackPathsSpreadsheet($questionForm);
     });
     
     $('.form_question').on('click', '.add-rows-button', function() {
