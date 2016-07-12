@@ -21,12 +21,12 @@ var allPossibleFeedbackGivers;
 var allPossibleFeedbackRecipients;
 
 $(document).ready(function() {
-    initialiseCustomFeedbackPathsData();
-    initialiseFeedbackPathsSpreadsheets();
+    initializeCustomFeedbackPathsData();
+    initializeFeedbackPathsSpreadsheets();
     bindEventHandlers();
 });
 
-function initialiseCustomFeedbackPathsData() {
+function initializeCustomFeedbackPathsData() {
     sessionCreator = $('#session-creator-data').data('session-creator');
     studentEmailToTeamNameMap = $('#students-data').data('students');
     instructorEmails = $('#instructors-data').data('instructors');
@@ -67,7 +67,7 @@ function initialiseCustomFeedbackPathsData() {
     allPossibleFeedbackRecipients.push('%GENERAL%');
 }
 
-function initialiseFeedbackPathsSpreadsheets() {
+function initializeFeedbackPathsSpreadsheets() {
     $('.form_question').each(function() {
         var $questionForm = $(this);
         var giverType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();
