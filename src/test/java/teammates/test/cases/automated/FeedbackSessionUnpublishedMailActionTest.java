@@ -2,6 +2,7 @@ package teammates.test.cases.automated;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -21,12 +22,16 @@ import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionUnpublishedMailAction;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.StudentsLogic;
 import teammates.test.util.Priority;
 
 @Priority(-1)
 public class FeedbackSessionUnpublishedMailActionTest extends BaseComponentUsingTaskQueueTestCase {
     
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @SuppressWarnings("serial")
@@ -38,7 +43,7 @@ public class FeedbackSessionUnpublishedMailActionTest extends BaseComponentUsing
             HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
             
             assertTrue(paramMap.containsKey(ParamsNames.EMAIL_TYPE));
-            EmailType typeOfMail = EmailType.valueOf((String) paramMap.get(ParamsNames.EMAIL_TYPE));
+            EmailType typeOfMail = EmailType.valueOf(paramMap.get(ParamsNames.EMAIL_TYPE));
             assertEquals(EmailType.FEEDBACK_UNPUBLISHED, typeOfMail);
             
             assertTrue(paramMap.containsKey(ParamsNames.EMAIL_FEEDBACK));
@@ -77,17 +82,17 @@ public class FeedbackSessionUnpublishedMailActionTest extends BaseComponentUsing
             assertFalse(fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId()).isSentPublishedEmail());
         }
         ______TS("Emails Test : set session 1 to unsent unpublished emails and unpublish");
-        // Modify session to set as unpublished but emails unsent
+        // unpublished session with emails unsent for unpublished session.
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
         String courseName = CoursesLogic.inst().getCourse(session1.getCourseId()).getName();
         session1.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(+1));
         session1.setSentPublishedEmail(true);
         fsLogic.updateFeedbackSession(session1);
         
-        HashMap<String, String> paramMap = createParamMapForAction(session1);
+        Map<String, String> paramMap = createParamMapForAction(session1);
         EmailAction fsUnpublishedAction = new FeedbackSessionUnpublishedMailAction(paramMap);
-        int course1StudentCount = 5;
-        int course1InstructorCount = 5;
+        int course1StudentCount = studentsLogic.getStudentsForCourse(session1.getCourseId()).size();
+        int course1InstructorCount = instructorsLogic.getInstructorsForCourse(session1.getCourseId()).size();
         
         List<EmailWrapper> preparedEmails = fsUnpublishedAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
@@ -100,8 +105,7 @@ public class FeedbackSessionUnpublishedMailActionTest extends BaseComponentUsing
         
     }
     
-    private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {
-        //Prepare parameter map to be used with FeedbackSessionPublishedMailAction
+    private Map<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {
         HashMap<String, String> paramMap = new HashMap<String, String>();
         
         paramMap.put(ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_UNPUBLISHED.toString());

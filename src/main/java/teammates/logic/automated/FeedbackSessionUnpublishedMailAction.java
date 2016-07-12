@@ -1,7 +1,7 @@
 package teammates.logic.automated;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,7 +34,7 @@ public class FeedbackSessionUnpublishedMailAction extends EmailAction {
         Assumption.assertNotNull(courseId);
     }
     
-    public FeedbackSessionUnpublishedMailAction(HashMap<String, String> paramMap) {
+    public FeedbackSessionUnpublishedMailAction(Map<String, String> paramMap) {
         super();
         initializeNameAndDescription();
         
@@ -58,8 +58,6 @@ public class FeedbackSessionUnpublishedMailAction extends EmailAction {
         
         FeedbackSessionAttributes feedbackSession = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);
-        log.info("Fetching feedback session object for feedback session name : "
-                + feedbackSessionName + " and course : " + courseId);
 
         /*
          * Check if feedback session was deleted between scheduling
@@ -67,7 +65,7 @@ public class FeedbackSessionUnpublishedMailAction extends EmailAction {
          */
         if (feedbackSession == null) {
             log.severe("Feedback session object for feedback session name : " + feedbackSessionName
-                       + " for course : " + courseId + " could not be fetched");
+                       + " for course : " + courseId + " could not be fetched while sending unpublished emails");
             return null;
         }
         return new EmailGenerator().generateFeedbackSessionUnpublishedEmails(feedbackSession);
