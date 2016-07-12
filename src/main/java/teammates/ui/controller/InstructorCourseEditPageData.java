@@ -106,11 +106,11 @@ public class InstructorCourseEditPageData extends PageData {
             String onClick;
             if (instructor.googleId == null) {
                 href = getInstructorCourseRemindInstructorLink(instructor.courseId, instructor.email);
-                onClick = "return toggleSendRegistrationKey('" + instructor.courseId + "','" + instructor.email + ");";
                 instructorPanel.setResendInviteButton(createButton(buttonContent, "btn btn-primary btn-xs",
                                                                    "instrRemindLink" + instructorPanel.getIndex(),
                                                                    href, Const.Tooltips.COURSE_INSTRUCTOR_REMIND,
-                                                                   onClick, null, null, isDisabled));
+                                                                   null, instructor.getCourseId(), instructor.getName(),
+                                                                   isDisabled));
             }
             
             buttonContent = "<span class=\"glyphicon glyphicon-pencil\"></span> Edit";
@@ -167,7 +167,7 @@ public class InstructorCourseEditPageData extends PageData {
     }
     
     private ElementTag createButton(String content, String buttonClass, String id, String href,
-                                    String title, String onClick, String dataCourseId, String dataEmail,
+                                    String title, String onClick, String dataCourseId, String dataInstructorName,
                                     boolean isDisabled) {
         ElementTag button = new ElementTag(content);
         
@@ -199,8 +199,8 @@ public class InstructorCourseEditPageData extends PageData {
             button.setAttribute("data-course-id", dataCourseId);
         }
         
-        if (dataEmail != null) {
-            button.setAttribute("data-email", dataEmail);
+        if (dataInstructorName != null) {
+            button.setAttribute("data-instructor-name", dataInstructorName);
         }
         
         if (isDisabled) {

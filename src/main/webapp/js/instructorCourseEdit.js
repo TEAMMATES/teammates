@@ -89,14 +89,6 @@ function hideNewInstructorForm() {
     $('#btnShowNewInstructorForm').show();
 }
 
-/**
- * Functions to trigger registration key sending to a specific instructor in the
- * course.
- */
-function toggleSendRegistrationKey() {
-    return confirm('Do you wish to re-send the invitation email to this instructor now?');
-}
-
 function hideAllTunePermissionsDivs(instrNum) {
     var $tunePermissionsDiv = $('#tunePermissionsDivForInstructor' + instrNum);
     $tunePermissionsDiv.find('div[id^="tuneSectionPermissionsDiv"]').each(function(i) {
@@ -372,6 +364,23 @@ function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOw
                    + 'He/she will not be able to access the course anymore.');
 }
 
+function bindRemindInstructorLink() {
+    $('[id^="instrRemindLink"]').on('click', function(event) {
+        event.preventDefault();
+        var $clickedLink = $(event.target);
+
+        var messageText = 'Do you wish to re-send the invitation email to instructor <strong>'
+                          + $clickedLink.data('instructorName') + '</strong> from course <strong>'
+                          + $clickedLink.data('courseId') + '</strong>';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm re-sending invitation email', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
+    });
+}
+
 function bindChangingRole(index) {
     $("input[id^='instructorroleforinstructor" + index + "']").change(function() {
         var idAttr = $(this).attr('id');
@@ -462,4 +471,6 @@ $(document).ready(function() {
     bindCheckboxToggle();
     var index = $('#new-instructor-index').val();
     bindChangingRole(index);
+
+    bindRemindInstructorLink();
 });
