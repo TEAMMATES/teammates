@@ -13,7 +13,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -239,7 +238,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                                        feedbackSessionOpen.getFeedbackSessionName()));
         homePage.clickAndConfirm(homePage.getRemindLink(feedbackSessionOpen.getCourseId(),
                                                         feedbackSessionOpen.getFeedbackSessionName()));
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         
         //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
@@ -253,7 +252,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickAndConfirm(homePage.getRemindInnerLink(feedbackSessionOpen.getCourseId(),
                                                              feedbackSessionOpen.getFeedbackSessionName()));
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         
         //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
@@ -269,17 +268,19 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
                                                 feedbackSessionOpen.getFeedbackSessionName());
+        homePage.waitForAjaxLoaderGifToDisappear();
         homePage.submitRemindParticularUsersForm();
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
                                                 feedbackSessionOpen.getFeedbackSessionName());
+        homePage.waitForAjaxLoaderGifToDisappear();
         homePage.fillRemindParticularUsersForm();
         homePage.submitRemindParticularUsersForm();
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
         
@@ -389,7 +390,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.loadInstructorHomeTab();
     }
     
-    public void testCopyToFsAction() {
+    public void testCopyToFsAction() throws Exception {
         String feedbackSessionName = "First Feedback Session";
         String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
         
