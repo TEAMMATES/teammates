@@ -75,18 +75,18 @@ public class InstructorCourseEditPageData extends PageData {
         
         String editCourseButtonContent = "<span class=\"glyphicon glyphicon-pencil\"></span> Edit";
         editCourseButton = createButton(editCourseButtonContent, "btn btn-primary btn-xs", "courseEditLink",
-                                        "javascript:;", Const.Tooltips.COURSE_INFO_EDIT, null, null, null, isDisabled);
+                                        "javascript:;", Const.Tooltips.COURSE_INFO_EDIT, null, null, null, null, isDisabled);
         
         String content = "<span class=\"glyphicon glyphicon-trash\"></span>Delete";
         String onClick = "return toggleDeleteCourseConfirmation('" + course.getId() + "');";
         deleteCourseButton = createButton(content, "btn btn-primary btn-xs", "courseDeleteLink",
                                           getInstructorCourseDeleteLink(course.getId(), false),
-                                          Const.Tooltips.COURSE_DELETE, onClick, null, null, isDisabled);
+                                          Const.Tooltips.COURSE_DELETE, onClick, null, null, null, isDisabled);
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
         addInstructorButton = createButton(null, "btn btn-primary", "btnShowNewInstructorForm", null, null,
-                                           "showNewInstructorForm()", null, null, isDisabled);
+                                           "showNewInstructorForm()", null, null, null, isDisabled);
     }
     
     private CourseEditInstructorPanel createInstructorPanel(InstructorAttributes currentInstructor,
@@ -110,29 +110,29 @@ public class InstructorCourseEditPageData extends PageData {
                                                                    "instrRemindLink" + instructorPanel.getIndex(),
                                                                    href, Const.Tooltips.COURSE_INSTRUCTOR_REMIND,
                                                                    null, instructor.getCourseId(), instructor.getName(),
-                                                                   isDisabled));
+                                                                   null, isDisabled));
             }
             
             buttonContent = "<span class=\"glyphicon glyphicon-pencil\"></span> Edit";
             instructorPanel.setEditButton(createButton(buttonContent, "btn btn-primary btn-xs",
                                                        "instrEditLink" + instructorPanel.getIndex(),
                                                        "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_EDIT,
-                                                       null, null, null, isDisabled));
+                                                       null, null, null, null, isDisabled));
             
             buttonContent = "<span class=\"glyphicon glyphicon-remove\"></span> Cancel";
             instructorPanel.setCancelButton(createButton(buttonContent, "btn btn-primary btn-xs",
                                                          "instrCancelLink" + instructorPanel.getIndex(),
                                                          "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_CANCEL_EDIT,
-                                                         null, null, null, isDisabled));
+                                                         null, null, null, null, isDisabled));
             
             buttonContent = "<span class=\"glyphicon glyphicon-trash\"></span> Delete";
             href = getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.email);
-            onClick = "return toggleDeleteInstructorConfirmation('" + instructor.courseId + "','"
-                      + instructor.email + "', " + instructor.email.equals(this.account.email) + ");";
+            boolean isDeleteSelf = instructor.email.equals(this.account.email);
             instructorPanel.setDeleteButton(createButton(buttonContent, "btn btn-primary btn-xs",
                                                          "instrDeleteLink" + instructorPanel.getIndex(),
                                                          href, Const.Tooltips.COURSE_INSTRUCTOR_DELETE,
-                                                         onClick, null, null, isDisabled));
+                                                         null, instructor.getCourseId(), instructor.getName(),
+                                                         String.valueOf(isDeleteSelf), isDisabled));
         }
         
         return instructorPanel;
@@ -168,7 +168,7 @@ public class InstructorCourseEditPageData extends PageData {
     
     private ElementTag createButton(String content, String buttonClass, String id, String href,
                                     String title, String onClick, String dataCourseId, String dataInstructorName,
-                                    boolean isDisabled) {
+                                    String dataIsDeleteSelf, boolean isDisabled) {
         ElementTag button = new ElementTag(content);
         
         button.setAttribute("type", "button");
@@ -201,6 +201,10 @@ public class InstructorCourseEditPageData extends PageData {
         
         if (dataInstructorName != null) {
             button.setAttribute("data-instructor-name", dataInstructorName);
+        }
+        
+        if (dataIsDeleteSelf != null) {
+            button.setAttribute("data-is-delete-self", dataIsDeleteSelf);
         }
         
         if (isDisabled) {

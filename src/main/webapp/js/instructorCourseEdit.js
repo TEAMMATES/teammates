@@ -348,20 +348,25 @@ function checkPrivilegesOfTutorForModal() {
     $('#tunePermissionsDivForInstructorAll #instructorRoleModalLabel').html('Permissions for Tutor');
 }
 
-/**
- * Function that shows confirmation dialog for deleting a instructor
- * @param courseID
- * @param instructorName
- * @param isDeleteOwnself
- * @returns
- */
-function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOwnself) {
-    if (isDeleteOwnself) {
-        return confirm('Are you sure you want to delete your instructor role from the course ' + courseID + '? '
-                       + 'You will not be able to access the course anymore.');
-    }
-    return confirm('Are you sure you want to delete the instructor ' + instructorName + ' from ' + courseID + '? '
-                   + 'He/she will not be able to access the course anymore.');
+function bindDeleteInstructorLink() {
+    $('[id^="instrDeleteLink"]').on('click', function(event) {
+        event.preventDefault();
+        var $clickedLink = $(event.target);
+
+        var messageText = $clickedLink.data('isDeleteSelf')
+                          ? 'Are you sure you want to delete your instructor role from the course <strong>'
+                              + $clickedLink.data('courseId') + '</strong>? '
+                              + 'You will not be able to access the course anymore.'
+                          : 'Are you sure you want to delete the instructor <strong>' + $clickedLink.data('instructorName')
+                              + '</strong> from the course <strong>' + $clickedLink.data('courseId') + '</strong>? '
+                              + 'He/she will not be able to access the course anymore.';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deleting instructor', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+    });
 }
 
 function bindRemindInstructorLink() {
@@ -473,4 +478,5 @@ $(document).ready(function() {
     bindChangingRole(index);
 
     bindRemindInstructorLink();
+    bindDeleteInstructorLink();
 });
