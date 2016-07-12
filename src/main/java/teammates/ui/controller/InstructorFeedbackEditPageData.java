@@ -150,8 +150,8 @@ public class InstructorFeedbackEditPageData extends PageData {
                 question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
         settings.setNumberOfEntitiesToGiveFeedbackToChecked(isNumberOfEntitiesToGiveFeedbackToChecked);
         settings.setNumOfEntitiesToGiveFeedbackToValue(isNumberOfEntitiesToGiveFeedbackToChecked
-                                                           ? question.numberOfEntitiesToGiveFeedbackTo
-                                                           : 1);
+                                                       ? question.numberOfEntitiesToGiveFeedbackTo
+                                                       : 1);
 
         boolean isCommonGiver = Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS.containsKey(question.giverType);
         boolean isCommonPath =
