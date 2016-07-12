@@ -551,7 +551,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<li data-questiontype = \"MSQ\"><a>" + Const.FeedbackQuestionTypeNames.MSQ + "</a></li>";
+        return "<li data-questiontype = \"MSQ\"><a href=\"javascript:;\">"
+               + Const.FeedbackQuestionTypeNames.MSQ + "</a></li>";
     }
 
     @Override

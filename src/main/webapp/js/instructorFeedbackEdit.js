@@ -63,10 +63,6 @@ function readyFeedbackEditPage() {
         }
     });
     
-    $('#add-new-question-dropdown > li').mouseover(function() {
-        $(this).css('cursor', 'pointer');
-    });
-    
     $('#add-new-question-dropdown > li').click(function() {
         showNewQuestionFrame($(this).data('questiontype'));
     });
