@@ -513,60 +513,39 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("change giver to \"Instructors in this course\" from \"Students in this course\"");
         feedbackEditPage.selectGiverTypeForQuestion1("Instructors in this course");
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                            FeedbackParticipantType.SELF, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                            FeedbackParticipantType.STUDENTS, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                            FeedbackParticipantType.INSTRUCTORS, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                            FeedbackParticipantType.TEAMS, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                            FeedbackParticipantType.OWN_TEAM, 1));
-        assertFalse(feedbackEditPage.isRecipientOptionDisplayed(
-                            FeedbackParticipantType.OWN_TEAM_MEMBERS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.SELF, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.STUDENTS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.INSTRUCTORS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.TEAMS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.OWN_TEAM, 1));
+        assertFalse(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.OWN_TEAM_MEMBERS, 1));
         assertFalse(feedbackEditPage.isRecipientOptionDisplayed(
                             FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                            FeedbackParticipantType.NONE, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.NONE, 1));
         
         ______TS("change giver to \"Teams in this course\" from \"Instructors in this course\"");
         feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                FeedbackParticipantType.SELF, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.STUDENTS, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.INSTRUCTORS, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.TEAMS, 1));
-        assertFalse(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.OWN_TEAM, 1));
-        assertFalse(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.OWN_TEAM_MEMBERS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.SELF, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.STUDENTS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.INSTRUCTORS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.TEAMS, 1));
+        assertFalse(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.OWN_TEAM, 1));
+        assertFalse(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.OWN_TEAM_MEMBERS, 1));
         assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
                         FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.NONE, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.NONE, 1));
         
         ______TS("change giver to \"Me (Session creator)\" from \"Teams in this course\"");
         feedbackEditPage.selectGiverTypeForQuestion1("Me (Session creator)");
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                FeedbackParticipantType.SELF, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.STUDENTS, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.INSTRUCTORS, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.TEAMS, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.OWN_TEAM, 1));
-        assertFalse(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.OWN_TEAM_MEMBERS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.SELF, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.STUDENTS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.INSTRUCTORS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.TEAMS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.OWN_TEAM, 1));
+        assertFalse(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.OWN_TEAM_MEMBERS, 1));
         assertFalse(feedbackEditPage.isRecipientOptionDisplayed(
                         FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.NONE, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.NONE, 1));
         
         ______TS("change giver such that first visible recipient is selected");
         feedbackEditPage.selectGiverTypeForQuestion1("Students in this course");
@@ -606,22 +585,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals("TEAMS", feedbackEditPage.getGiverTypeForQuestion1());
         assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion1());
         
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                FeedbackParticipantType.SELF, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.STUDENTS, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.INSTRUCTORS, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.TEAMS, 1));
-        assertFalse(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.OWN_TEAM, 1));
-        assertFalse(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.OWN_TEAM_MEMBERS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.SELF, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.STUDENTS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.INSTRUCTORS, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.TEAMS, 1));
+        assertFalse(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.OWN_TEAM, 1));
+        assertFalse(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.OWN_TEAM_MEMBERS, 1));
         assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
                         FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, 1));
-        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(
-                        FeedbackParticipantType.NONE, 1));
+        assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.NONE, 1));
     }
     
     private void testChangeFeedbackRecipient() {
