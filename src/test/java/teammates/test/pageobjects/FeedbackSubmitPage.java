@@ -42,7 +42,7 @@ public class FeedbackSubmitPage extends AppPage {
     public void fillResponseTextBox(int qnNumber, int responseNumber, String text) {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
-        element.click();
+        click(element);
         fillTextBox(element, text);
         // Fire the change event using javascript since firefox with selenium
         // might be buggy and fail to trigger.
@@ -54,7 +54,7 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement element = browser.driver.findElement(
                 By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                       + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
-        element.click();
+        click(element);
         fillTextBox(element, text);
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("$(arguments[0]).change();", element);
@@ -93,7 +93,7 @@ public class FeedbackSubmitPage extends AppPage {
         String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
         WebElement element = browser.driver.findElement(
                 By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
-        element.click();
+        click(element);
     }
     
     public void fillMcqOtherOptionTextBox(int qnNumber, int responseNumber, String otherOptionText) {
@@ -108,7 +108,7 @@ public class FeedbackSubmitPage extends AppPage {
         String sanitizedChoiceName = Sanitizer.convertStringForXPath(choiceName);
         WebElement element = browser.driver.findElement(
                 By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
-        element.click();
+        click(element);
     }
     
     public void fillMsqOtherOptionTextBox(int qnNumber, int responseNumber, String otherOptionText) {
@@ -127,23 +127,14 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement radio = browser.driver.findElement(
                 By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE
                       + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
-        radio.click();
-    }
-    
-    public void clickRubricCell(int qnIndex, int respIndex, int row, int col) {
-        WebElement radio = browser.driver.findElement(
-                By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE
-                      + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
-        // Gets the parent element.
-        WebElement cell = radio.findElement(By.xpath(".."));
-        cell.click();
+        click(radio);
     }
     
     public void clickRubricRadioMobile(int qnIndex, int respIndex, int row, int col) {
         WebElement radio = browser.driver.findElement(
                 By.id("mobile-" + Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE
                       + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
-        radio.click();
+        click(radio);
     }
 
     public boolean isRubricRadioMobileChecked(int qnIndex, int respIndex, int row, int col) {
@@ -169,13 +160,11 @@ public class FeedbackSubmitPage extends AppPage {
     }
     
     public void clickSubmitButton() {
-        getSubmitButton().click();
+        WebElement submitButton = browser.driver.findElement(By.id("response_submit_button"));
+        click(submitButton);
+        waitForPageToLoad();
     }
 
-    public WebElement getSubmitButton() {
-        return browser.driver.findElement(By.id("response_submit_button"));
-    }
-    
     public void verifyOtherOptionTextUnclickable(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.cssSelector("input[id$='OptionText-" + qnNumber + "-" + responseNumber + "']"));

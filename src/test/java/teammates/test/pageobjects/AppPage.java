@@ -268,7 +268,7 @@ public abstract class AppPage {
         waitForModalPresence();
         WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
         waitForElementToBeClickable(okayButton);
-        okayButton.click();
+        click(okayButton);
         waitForModalToDisappear();
     }
 
@@ -279,7 +279,7 @@ public abstract class AppPage {
         waitForModalPresence();
         WebElement cancelButton = browser.driver.findElement(By.className("modal-btn-cancel"));
         waitForElementToBeClickable(cancelButton);
-        cancelButton.click();
+        click(cancelButton);
         waitForModalToDisappear();
     }
 
@@ -348,7 +348,7 @@ public abstract class AppPage {
      * @return the loaded page.
      */
     public InstructorCoursesPage loadCoursesTab() {
-        instructorCoursesTab.click();
+        click(instructorCoursesTab);
         waitForPageToLoad();
         return changePageType(InstructorCoursesPage.class);
     }
@@ -358,7 +358,7 @@ public abstract class AppPage {
      * @return the loaded page.
      */
     public InstructorStudentListPage loadStudentsTab() {
-        instructorStudentsTab.click();
+        click(instructorStudentsTab);
         waitForPageToLoad();
         return changePageType(InstructorStudentListPage.class);
     }
@@ -369,7 +369,7 @@ public abstract class AppPage {
      * @return the loaded page.
      */
     public InstructorHomePage loadInstructorHomeTab() {
-        instructorHomeTab.click();
+        click(instructorHomeTab);
         waitForPageToLoad();
         return changePageType(InstructorHomePage.class);
     }
@@ -379,7 +379,7 @@ public abstract class AppPage {
      * @return the loaded page.
      */
     public InstructorHelpPage loadInstructorHelpTab() {
-        instructorHelpTab.click();
+        click(instructorHelpTab);
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorHelpPage.class);
@@ -390,7 +390,7 @@ public abstract class AppPage {
      * @return the loaded page.
      */
     public InstructorCommentsPage loadInstructorCommentsTab() {
-        instructorCommentsTab.click();
+        click(instructorCommentsTab);
         waitForPageToLoad();
         return changePageType(InstructorCommentsPage.class);
     }
@@ -400,7 +400,7 @@ public abstract class AppPage {
      * @return the loaded page
      */
     public StudentProfilePage loadProfileTab() {
-        studentProfileTab.click();
+        click(studentProfileTab);
         waitForPageToLoad();
         return changePageType(StudentProfilePage.class);
     }
@@ -410,7 +410,7 @@ public abstract class AppPage {
      * @return the loaded page
      */
     public StudentHomePage loadStudentHomeTab() {
-        studentHomeTab.click();
+        click(studentHomeTab);
         waitForPageToLoad();
         return changePageType(StudentHomePage.class);
     }
@@ -420,7 +420,7 @@ public abstract class AppPage {
      * @return the loaded page
      */
     public StudentCommentsPage loadStudentCommentsTab() {
-        studentCommentsTab.click();
+        click(studentCommentsTab);
         waitForPageToLoad();
         return changePageType(StudentCommentsPage.class);
     }
@@ -430,7 +430,7 @@ public abstract class AppPage {
      * @return the loaded page
      */
     public StudentHelpPage loadStudentHelpTab() {
-        studentHelpTab.click();
+        click(studentHelpTab);
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(StudentHelpPage.class);
@@ -440,7 +440,7 @@ public abstract class AppPage {
      * Click the 'logout' link in the top menu of the page.
      */
     public AppPage logout() {
-        logoutButton.click();
+        click(logoutButton);
         return this;
     }
     
@@ -453,7 +453,12 @@ public abstract class AppPage {
 
     public void click(By by) {
         WebElement element = browser.driver.findElement(by);
-        element.click();
+        click(element);
+    }
+    
+    protected void click(WebElement element) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("arguments[0].click();", element);
     }
     
     public String getElementAttribute(By locator, String attrName) {
@@ -461,7 +466,7 @@ public abstract class AppPage {
     }
     
     protected void fillTextBox(WebElement textBoxElement, String value) {
-        textBoxElement.click();
+        click(textBoxElement);
         textBoxElement.clear();
         textBoxElement.sendKeys(value + Keys.TAB + Keys.TAB + Keys.TAB);
     }
@@ -494,7 +499,7 @@ public abstract class AppPage {
     protected void markCheckBoxAsChecked(WebElement checkBox) {
         waitForElementVisibility(checkBox);
         if (!checkBox.isSelected()) {
-            checkBox.click();
+            click(checkBox);
         }
     }
 
@@ -504,7 +509,7 @@ public abstract class AppPage {
      */
     protected void markCheckBoxAsUnchecked(WebElement checkBox) {
         if (checkBox.isSelected()) {
-            checkBox.click();
+            click(checkBox);
         }
     }
 
@@ -515,7 +520,7 @@ public abstract class AppPage {
     protected void markRadioButtonAsChecked(WebElement radioButton) {
         waitForElementVisibility(radioButton);
         if (!radioButton.isSelected()) {
-            radioButton.click();
+            click(radioButton);
         }
     }
     
@@ -631,17 +636,6 @@ public abstract class AppPage {
     }
     
     /**
-     * Clicks the hidden element and clicks 'Yes' in the follow up dialog box.
-     * Fails if there is no dialog box.
-     * @return the resulting page.
-     */
-    public AppPage clickHiddenElementAndConfirm(String elementId) {
-        respondToAlertWithRetryForHiddenElement(elementId, true);
-        waitForPageToLoad();
-        return this;
-    }
-    
-    /**
      * Clicks the element and clicks 'No' in the follow up dialog box.
      * Fails if there is no dialog box.
      * @return the resulting page.
@@ -651,16 +645,6 @@ public abstract class AppPage {
         waitForPageToLoad();
     }
     
-    /**
-     * Clicks the hidden element and clicks 'No' in the follow up dialog box.
-     * Fails if there is no dialog box.
-     * @return the resulting page.
-     */
-    public void clickHiddenElementAndCancel(String elementId) {
-        respondToAlertWithRetryForHiddenElement(elementId, false);
-        waitForPageToLoad();
-    }
-
     /** @return True if the page contains some basic elements expected in a page of the
      * specific type. e.g., the top heading.
      */
@@ -991,7 +975,7 @@ public abstract class AppPage {
     }
     
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
-        elementToClick.click();
+        click(elementToClick);
         waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
         if (isConfirm) {
@@ -1001,18 +985,6 @@ public abstract class AppPage {
         }
     }
     
-    private void respondToAlertWithRetryForHiddenElement(String hiddenElementIdToClick, boolean isConfirm) {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementById('" + hiddenElementIdToClick + "').click();");
-        waitForAlertPresence();
-        Alert alert = browser.driver.switchTo().alert();
-        if (isConfirm) {
-            alert.accept();
-        } else {
-            alert.dismiss();
-        }
-    }
-
     public void waitForAjaxLoaderGifToDisappear() {
         try {
             waitForElementToDisappear(By.xpath("//img[@src='/images/ajax-loader.gif' or @src='/images/ajax-preload.gif']"));

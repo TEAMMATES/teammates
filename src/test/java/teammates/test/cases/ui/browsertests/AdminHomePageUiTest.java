@@ -276,12 +276,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         courseDetailsPage.verifyHtmlMainContent("/newlyJoinedInstructorStudentCourseDetailsPage.html");
         
         studentHomePage = courseDetailsPage.goToPreviousPage(StudentHomePage.class);
-        studentHomePage.getViewFeedbackButton("First team feedback session").click();
+        studentHomePage.clickViewFeedbackButton("First team feedback session");
         StudentFeedbackResultsPage sfrp = AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
         sfrp.verifyHtmlMainContent("/newlyJoinedInstructorStudentFeedbackResultsPage.html");
         
         studentHomePage = sfrp.goToPreviousPage(StudentHomePage.class);
-        studentHomePage.getEditFeedbackButton("First team feedback session").click();
+        studentHomePage.clickEditFeedbackButton("First team feedback session");
         FeedbackSubmitPage fsp = AppPage.getNewPageInstance(browser, FeedbackSubmitPage.class);
         fsp.verifyHtmlMainContent("/newlyJoinedInstructorStudentFeedbackSubmissionEdit.html");
         
