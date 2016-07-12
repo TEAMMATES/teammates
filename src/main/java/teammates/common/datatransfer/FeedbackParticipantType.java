@@ -129,14 +129,14 @@ public enum FeedbackParticipantType {
     }
 
     /**
-     * Getter method for JSTL to access the {@code displayNameGiver} property directly
+     * Gets {@code displayNameGiver} property
      */
     public String getDisplayNameGiver() {
         return displayNameGiver;
     }
 
     /**
-     * Getter method for JSTL to access the {@code displayNameRecipient} property directly
+     * Gets {@code displayNameRecipient} property
      */
     public String getDisplayNameRecipient() {
         return displayNameRecipient;
