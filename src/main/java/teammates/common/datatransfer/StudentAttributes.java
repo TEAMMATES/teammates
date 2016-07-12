@@ -88,13 +88,13 @@ public class StudentAttributes extends EntityAttributes {
     public StudentAttributes(String section, String team, String name, String email, String comment,
                              String courseId) {
         this();
-        this.section = Sanitizer.sanitizeTitle(section);
-        this.team = Sanitizer.sanitizeTitle(team);
+        this.section = section;
+        this.team = team;
         this.lastName = Sanitizer.sanitizeName(StringHelper.splitName(name)[1]);
         this.name = Sanitizer.sanitizeName(name);
-        this.email = Sanitizer.sanitizeEmail(email);
+        this.email = email;
         this.comments = Sanitizer.sanitizeTextField(comment);
-        this.course = Sanitizer.sanitizeTitle(courseId);
+        this.course = courseId;
     }
 
     public StudentAttributes(Student student) {
@@ -104,9 +104,9 @@ public class StudentAttributes extends EntityAttributes {
         this.name = student.getName();
         this.lastName = student.getLastName();
         this.comments = Sanitizer.sanitizeTextField(student.getComments());
-        this.team = Sanitizer.sanitizeTitle(student.getTeamName());
+        this.team = student.getTeamName();
         this.section = (student.getSectionName() == null) ? Const.DEFAULT_SECTION
-                                                          : Sanitizer.sanitizeTitle(student.getSectionName());
+                                                          : student.getSectionName();
         this.googleId = (student.getGoogleId() == null) ? ""
                                                         : student.getGoogleId();
         Long keyAsLong = student.getRegistrationKey();
@@ -361,11 +361,7 @@ public class StudentAttributes extends EntityAttributes {
     @Override
     public void sanitizeForSaving() {
         googleId = Sanitizer.sanitizeGoogleId(googleId);
-        email = Sanitizer.sanitizeEmail(email);
-        course = Sanitizer.sanitizeTitle(course);
         name = Sanitizer.sanitizeName(name);
-        team = Sanitizer.sanitizeTitle(team);
-        section = Sanitizer.sanitizeTitle(section);
         comments = Sanitizer.sanitizeTextField(comments);
     }
     
