@@ -51,5 +51,9 @@ public abstract class FileDownloadResult extends ActionResult {
     public String getFileContent() {
         return this.fileContent;
     }
+    
+    public String getFileType(){
+        return this.fileType;
+    }
 
 }
