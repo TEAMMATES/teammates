@@ -9,6 +9,8 @@ var FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM_MEMBERS_INCLUDING_SELF = 'OWN_TEAM_MEMBER
 var FEEDBACK_PARTICIPANT_TYPE_NONE = 'NONE';
 var TEAM_NAME_INSTRUCTORS = 'Instructors';
 
+// These variables are read-only and are not changed after they have been initialized
+// They are used to derive the data that is used to fill the spreadsheets
 var sessionCreator;
 var studentEmailToTeamNameMap;
 var instructorEmails;
@@ -50,6 +52,8 @@ function initialiseCustomFeedbackPathsData() {
         }
     }
     
+    // Empty string added to provide an empty option in spreadsheet dropdown
+    // It prevents a feedback participant from being selected upon clicking away from dropdown  
     allPossibleFeedbackGivers = [''];
     allPossibleFeedbackGivers = allPossibleFeedbackGivers.concat(studentEmails);
     for (var i = 0; i < instructorEmails.length; i++) {
