@@ -19,6 +19,7 @@ $(document).ready(function() {
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
+    FeedbackPath.attachEvents();
 });
 
 

@@ -1,7 +1,3 @@
-$(document).ready(function() {
-    FeedbackPath.attachEvents();
-});
-
 var FeedbackPath = {
     attachEvents: function() {
         var allDropdownOptions = $('.feedback-path-dropdown-option');
