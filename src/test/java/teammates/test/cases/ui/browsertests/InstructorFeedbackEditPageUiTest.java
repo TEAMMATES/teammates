@@ -94,7 +94,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testEditQuestionLink();
         testEditQuestionAction();
         
-        testToggleFeedbackPathDisplayLink();
+        testToggleCustomFeedbackPathDisplayLink();
 
         testCopyQuestion();
 
@@ -317,7 +317,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
     
-    private void testToggleFeedbackPathDisplayLink() {
+    private void testToggleCustomFeedbackPathDisplayLink() {
 
         ______TS("Show feedback path details");
         feedbackEditPage.clickEditQuestionButton(1);
