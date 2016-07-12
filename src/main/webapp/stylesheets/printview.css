@@ -1,10 +1,6 @@
 .btn, .glyphicon, .help-block, .action-button-item, .action-header,
-	.btn-link {
+	.btn-link, .hide-for-print {
 	display: none;
 }
 
 overflow:hidden !important;
-
-#results-search-box:invalid {
-	display:none;
-}

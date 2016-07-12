@@ -159,6 +159,13 @@ function updateStatsCheckBox() {
 }
 
 function printView() {
+    //Fix to hide the filter placeholder when it is empty.
+    if (!$('#results-search-box').val()) {
+        $('#results-search-box').parent().parent().addClass('hide-for-print');
+    } else {
+        $('#results-search-box').parent().parent().removeClass('hide-for-print');
+    }
+    
     $('.container').printThis({
         importCSS: true,
         importStyle: true,
