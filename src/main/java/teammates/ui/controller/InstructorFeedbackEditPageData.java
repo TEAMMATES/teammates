@@ -326,11 +326,12 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
     
     public String getStudentsDataAsString() {
+        // studentsData is converted to a JSONObject to obtain its JSON string representation
         JSONObject json = new JSONObject(studentsData);
         return Sanitizer.sanitizeForHtml(json.toString());
     }
     
     public String getInstructorsDataAsString() {
-        return Sanitizer.sanitizeForHtml(Sanitizer.sanitizeListForCsv(instructorsData).toString());
+        return Sanitizer.sanitizeForHtml(Sanitizer.sanitizeListForCsv(instructorsData)).toString();
     }
 }
