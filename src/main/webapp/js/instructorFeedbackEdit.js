@@ -20,7 +20,6 @@ $(document).ready(function() {
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
-    removeUnselectedCustomOptions();
 });
 
 
@@ -904,14 +903,5 @@ function regenerateCustomFeedbackPathsSpreadsheet(questionNum) {
         manualColumnResize: true,
         manualRowResize: true,
         stretchH: 'all'
-    });
-}
-
-function removeUnselectedCustomOptions() {
-    $('option[value="CUSTOM"]').each(function() {
-        var $customOption = $(this);
-        if (!$customOption.is(':selected')) {
-            $customOption.remove();
-        }
     });
 }

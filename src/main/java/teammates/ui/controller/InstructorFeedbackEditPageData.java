@@ -195,8 +195,10 @@ public class InstructorFeedbackEditPageData extends PageData {
                     isSelected = isGiverType || isRecipientType;
                 }
                 
-                ElementTag optionTag = createOption(participantName, option.toString(), isSelected);
-                result.add(optionTag);
+                if (option != FeedbackParticipantType.CUSTOM || isSelected) {
+                    ElementTag optionTag = createOption(participantName, option.toString(), isSelected);
+                    result.add(optionTag);
+                }
             }
         }
         return result;
