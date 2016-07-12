@@ -396,8 +396,8 @@ Apply to thead to make headers not bold.
 }
 
 .tool-tip-decorate {
-	border-bottom: 1px dashed #808080;
-	text-decoration: none;
+    border-bottom: 1px dashed #808080;
+    text-decoration: none;
 }
 
 /* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */

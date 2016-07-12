@@ -163,7 +163,7 @@ $(document).on('ajaxComplete ready', function() {
     }
     
     /**
-     * Underlining all span elements with tool-tips except for
+     * Underlines all span elements with tool-tips except for
      * the ones without a text value. This is to exclude elements
      * such as 'icons' from underlining.
     */
