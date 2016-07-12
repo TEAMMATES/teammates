@@ -2,9 +2,12 @@ package teammates.common.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 
 
@@ -420,11 +423,11 @@ public final class Const {
     
     public static class FeedbackQuestion {
 
-        public static final LinkedHashMap<FeedbackParticipantType, List<FeedbackParticipantType>>
+        public static final Map<FeedbackParticipantType, List<FeedbackParticipantType>>
                 COMMON_FEEDBACK_PATHS;
 
         static {
-            LinkedHashMap<FeedbackParticipantType, List<FeedbackParticipantType>> initializer =
+            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer =
                     new LinkedHashMap<FeedbackParticipantType, List<FeedbackParticipantType>>();
 
             initializer.put(FeedbackParticipantType.SELF,
@@ -447,7 +450,7 @@ public final class Const {
                                                   FeedbackParticipantType.SELF,
                                                   FeedbackParticipantType.INSTRUCTORS)));
 
-            COMMON_FEEDBACK_PATHS = initializer;
+            COMMON_FEEDBACK_PATHS = Collections.unmodifiableMap(initializer);
         }
     
         // Mcq
