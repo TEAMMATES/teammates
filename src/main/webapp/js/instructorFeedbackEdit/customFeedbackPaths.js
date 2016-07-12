@@ -308,8 +308,10 @@ function bindEventHandlers() {
         var giverType = $giverSelect.val();
         var recipientType = $recipientSelect.val();
         
-        if (giverType === FEEDBACK_PARTICIPANT_TYPE_CUSTOM
-                || recipientType === FEEDBACK_PARTICIPANT_TYPE_CUSTOM) {
+        var isChangingParticipantTypeFromCustomToPredefined =
+                giverType === FEEDBACK_PARTICIPANT_TYPE_CUSTOM
+                || recipientType === FEEDBACK_PARTICIPANT_TYPE_CUSTOM;
+        if (isChangingParticipantTypeFromCustomToPredefined) {
             $giverSelect.find('option[value="' + FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
             $recipientSelect.find('option[value="' + FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
         }
