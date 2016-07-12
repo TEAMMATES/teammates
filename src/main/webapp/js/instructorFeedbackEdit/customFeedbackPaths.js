@@ -341,7 +341,7 @@ function bindEventHandlers() {
                        .val(FEEDBACK_PARTICIPANT_TYPE_CUSTOM);
             }
         });
-        enableAllVisibilityOptionsRowsForQuestion($questionForm);
+        enableAllRows($questionForm);
         var columns = getColumnsForFeedbackPathsSpreadsheet(FEEDBACK_PARTICIPANT_TYPE_CUSTOM,
                                                             FEEDBACK_PARTICIPANT_TYPE_CUSTOM);
         var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
@@ -351,12 +351,4 @@ function bindEventHandlers() {
         });
         hotInstance.validateCells();
     });
-}
-
-function enableAllVisibilityOptionsRowsForQuestion($questionForm) {
-    enableRow($questionForm.children(':first'), 1);
-    enableRow($questionForm.children(':first'), 2);
-    enableRow($questionForm.children(':first'), 3);
-    enableRow($questionForm.children(':first'), 4);
-    enableRow($questionForm.children(':first'), 5);
 }
