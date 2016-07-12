@@ -17,7 +17,7 @@
                 <c:when test="${isNewQuestion}">
                     Please select a feedback path <span class="caret"></span>
                 </c:when>
-                <c:when test="${fqForm.feedbackPathSettings.isCommonPathSelected}">
+                <c:when test="${fqForm.feedbackPathSettings.commonPathSelected}">
                     ${fqForm.feedbackPathSettings.selectedGiver.displayNameGiver} will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> ${fqForm.feedbackPathSettings.selectedRecipient.displayNameRecipient}</span>
                 </c:when>
                 <c:otherwise>
@@ -48,7 +48,7 @@
             <li><a class="feedback-path-dropdown-option feedback-path-dropdown-option-other" href="javascript:;" data-path-description="Predefined combinations:">Other predefined combinations...</a></li>
         </ul>
     </div>
-    <div class="feedback-path-others margin-top-7px"<c:if test="${fqForm.feedbackPathSettings.isCommonPathSelected || isNewQuestion}"> style="display:none;"</c:if>">
+    <div class="feedback-path-others margin-top-7px"<c:if test="${fqForm.feedbackPathSettings.commonPathSelected || isNewQuestion}"> style="display:none;"</c:if>">
         <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px"
             data-toggle="tooltip" data-placement="top"
             title="<%= Const.Tooltips.FEEDBACK_SESSION_GIVER %>">  

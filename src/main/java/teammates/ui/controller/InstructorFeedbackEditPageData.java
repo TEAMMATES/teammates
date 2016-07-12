@@ -157,7 +157,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         boolean isCommonPath =
                     isCommonGiver && Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS.get(question.giverType)
                                                            .contains(question.recipientType);
-        settings.setIsCommonPathSelected(isCommonPath);
+        settings.setCommonPathSelected(isCommonPath);
 
         return settings;
     }

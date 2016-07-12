@@ -35,11 +35,11 @@ public class FeedbackQuestionFeedbackPathSettings {
         this.numOfEntitiesToGiveFeedbackToValue = numOfEntitiesToGiveFeedbackToValue;
     }
     
-    public boolean getIsCommonPathSelected() {
+    public boolean isCommonPathSelected() {
         return isCommonPathSelected;
     }
 
-    public void setIsCommonPathSelected(boolean isCommonPathSelected) {
+    public void setCommonPathSelected(boolean isCommonPathSelected) {
         this.isCommonPathSelected = isCommonPathSelected;
     }
 
