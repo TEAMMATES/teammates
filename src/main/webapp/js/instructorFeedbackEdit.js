@@ -648,7 +648,8 @@ function prepareQuestionForm(type) {
 
 /**
  * Copy options (Feedback giver, recipient, and all check boxes)
- * from the previous question
+ * from the previous question.
+ * Will not copy if previous question's options were custom.
  */
 function copyOptions() {
     // If there is one or less questions, there's no need to copy.
@@ -656,16 +657,19 @@ function copyOptions() {
         return;
     }
     
-    // Feedback giver setup
+    // Previous feedback path setup
     var $prevGiver = $('select[name="givertype"]').eq(-2);
-    var $currGiver = $('select[name="givertype"]').last();
-
-    $currGiver.val($prevGiver.val());
-    
-    // Feedback recipient setup
     var $prevRecipient = $('select[name="recipienttype"]').eq(-2);
+    
+    // If previous feedback path was custom, there's no need to copy
+    if ($prevGiver.val() === 'CUSTOM' || $prevRecipient.val() === 'CUSTOM') {
+        return;
+    }
+    
+    // New question feedback path setup
+    var $currGiver = $('select[name="givertype"]').last();
     var $currRecipient = $('select[name="recipienttype"]').last();
-
+    $currGiver.val($prevGiver.val());
     $currRecipient.val($prevRecipient.val());
     
     // Number of recipient setup
