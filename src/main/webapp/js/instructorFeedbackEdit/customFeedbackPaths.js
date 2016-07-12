@@ -64,7 +64,7 @@ function initializeCustomFeedbackPathsData() {
     allPossibleFeedbackGivers = allPossibleFeedbackGivers.concat(teamNames);
     allPossibleFeedbackRecipients = allPossibleFeedbackGivers.slice();
     allPossibleFeedbackRecipients.push(TEAM_NAME_INSTRUCTORS);
-    allPossibleFeedbackRecipients.push('%GENERAL%');
+    allPossibleFeedbackRecipients.push('Class');
 }
 
 function initializeFeedbackPathsSpreadsheets() {
@@ -294,7 +294,7 @@ function populateGiverToRecipientsMapForRecipientAsOwnTeamMembersIncludingSelf(g
 function populateGiverToRecipientsMapForRecipientAsNobodySpecific(giverToRecipientsMap) {
     for (var giver in giverToRecipientsMap) {
         if (giverToRecipientsMap.hasOwnProperty(giver)) {
-            giverToRecipientsMap[giver].push('%GENERAL%');
+            giverToRecipientsMap[giver].push('Class');
         }
     }
 }
