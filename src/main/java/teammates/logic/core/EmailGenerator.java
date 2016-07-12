@@ -120,9 +120,7 @@ public class EmailGenerator {
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}", "",
                 "${submitUrl}", submitUrl,
-                "${submitUrlMessage}", submitUrl,
                 "${reportUrl}", reportUrl,
-                "${reportUrlMessage}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
@@ -233,9 +231,7 @@ public class EmailGenerator {
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}", "",
                 "${submitUrl}", submitUrl,
-                "${submitUrlMessage}", submitUrl,
                 "${reportUrl}", reportUrl,
-                "${reportUrlMessage}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
@@ -248,16 +244,6 @@ public class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, String subject) {
         
-        String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                                 .withCourseId(course.getId())
-                                 .withSessionName(session.getFeedbackSessionName())
-                                 .toAbsoluteString();
-        
-        String reportUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
-                                 .withCourseId(course.getId())
-                                 .withSessionName(session.getFeedbackSessionName())
-                                 .toAbsoluteString();
-        
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", instructor.name,
                 "${courseName}", course.getName(),
@@ -267,10 +253,8 @@ public class EmailGenerator {
                 "${instructorFragment}",
                         "The email below has been sent to students of course: " + course.getId()
                         + ".<p/><br><br>=== Email message as seen by the students ===<br>",
-                "${submitUrl}", submitUrl,
-                "${submitUrlMessage}", "{in the actual email sent to the students, this will be the unique link}",
-                "${reportUrl}", reportUrl,
-                "${reportUrlMessage}", "{in the actual email sent to the students, this will be the unique link}",
+                "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
+                "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
