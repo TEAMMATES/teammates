@@ -67,7 +67,7 @@ public class InstructorAttributes extends EntityAttributes {
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.isArchived = false;
         this.name = Sanitizer.sanitizeName(name);
-        this.email = Sanitizer.sanitizeEmail(email);
+        this.email = email;
         this.role = Sanitizer.sanitizeName(role);
         this.isDisplayedToStudents = true;
         this.displayedName = Sanitizer.sanitizeName(displayedName);
@@ -88,10 +88,10 @@ public class InstructorAttributes extends EntityAttributes {
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
                                 String displayedName, InstructorPrivileges privileges) {
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.courseId = courseId;
         this.isArchived = false;
         this.name = Sanitizer.sanitizeName(name);
-        this.email = Sanitizer.sanitizeEmail(email);
+        this.email = email;
         this.role = Sanitizer.sanitizeName(role);
         this.isDisplayedToStudents = true;
         this.displayedName = Sanitizer.sanitizeName(displayedName);

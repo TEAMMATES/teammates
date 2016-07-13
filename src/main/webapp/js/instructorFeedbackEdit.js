@@ -21,7 +21,6 @@ $(document).ready(function() {
     hideUncommonPanels();
 });
 
-
 /**
  * This function is called on edit page load.
  */

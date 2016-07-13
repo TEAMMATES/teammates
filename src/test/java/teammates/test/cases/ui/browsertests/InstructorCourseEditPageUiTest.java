@@ -788,7 +788,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     /**
      * Tests the UI of edit course.
      */
-    private void testEditCourseAction() {
+    private void testEditCourseAction() throws Exception {
         courseEditPage = getCourseEditPage();
         
         ______TS("edit course valid name");

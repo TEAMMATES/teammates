@@ -17,7 +17,7 @@ import teammates.test.driver.AssertHelper;
 public class EntitiesDbTest extends BaseComponentTestCase {
 
     @Test
-    public void testCreateEntity() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateEntity() throws Exception {
         //We are using CoursesDb to test EntititesDb here.
         CoursesDb coursesDb = new CoursesDb();
         
