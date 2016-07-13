@@ -161,19 +161,6 @@ $(document).on('ajaxComplete ready', function() {
     if (isTouchDevice()) {
         $tooltips.tooltip('disable');
     }
-    
-    $('form').submit(function() {
-        buttonElem = $(this).find(':submit');
-        if (buttonElem.is('button')) {
-            currentText = buttonElem.text();
-            buttonElem.attr('data-loading-text',
-                    "<span class='glyphicon glyphicon-refresh glyphicon-spin'></span> " + currentText);
-            buttonElem.button('loading');
-        } else {
-            // do nothing for now for input type button
-        }
-    });
-
 });
 
 /**
