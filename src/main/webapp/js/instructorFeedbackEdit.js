@@ -520,6 +520,7 @@ function showNewQuestionFrame(type) {
 	
     copyOptions();
     prepareQuestionForm(type);
+    hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
     $('#questionTableNew').show();
     enableNewQuestion();
     
@@ -544,19 +545,15 @@ function hideAllNewQuestionForms() {
 }
 
 function prepareQuestionForm(type) {
+    hideAllNewQuestionForms();
+    
     switch (type) {
     case 'TEXT':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_TEXT);
-        
-        hideAllNewQuestionForms();
-        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         break;
     case 'MCQ':
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MCQ);
-        
-        hideAllNewQuestionForms();
-        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#mcqForm').show();
         break;
@@ -564,16 +561,10 @@ function prepareQuestionForm(type) {
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MSQ);
         
-        hideAllNewQuestionForms();
-        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
-        
         $('#msqForm').show();
         break;
     case 'NUMSCALE':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
-        
-        hideAllNewQuestionForms();
-        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#numScaleForm').show();
         $('#' + FEEDBACK_QUESTION_TEXT).attr('placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
@@ -584,9 +575,6 @@ function prepareQuestionForm(type) {
         $('#constSumOption_Recipient-' + NEW_QUESTION).hide();
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
         
-        hideAllNewQuestionForms();
-        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
-        
         $('#constSumForm').show();
         break;
     case 'CONSTSUM_RECIPIENT':
@@ -595,9 +583,6 @@ function prepareQuestionForm(type) {
         $('#constSumOption_Recipient-' + NEW_QUESTION).show();
         hideConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
-        
-        hideAllNewQuestionForms();
-        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#constSumForm').show();
         var optionText = $('#constSum_labelText-' + NEW_QUESTION).text();
@@ -608,8 +593,6 @@ function prepareQuestionForm(type) {
     case 'CONTRIB':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
         
-        hideAllNewQuestionForms();
-        
         $('#contribForm').show();
         fixContribQnGiverRecipient();
         setDefaultContribQnVisibility();
@@ -617,9 +600,6 @@ function prepareQuestionForm(type) {
         break;
     case 'RUBRIC':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
-        
-        hideAllNewQuestionForms();
-        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#rubricForm').show();
         break;
@@ -629,9 +609,6 @@ function prepareQuestionForm(type) {
         $('#rankOption_Recipient-' + NEW_QUESTION).hide();
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
         
-        hideAllNewQuestionForms();
-        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
-        
         $('#rankOptionsForm').show();
         break;
     case 'RANK_RECIPIENTS':
@@ -639,9 +616,6 @@ function prepareQuestionForm(type) {
         $('#rankOption_Option-' + NEW_QUESTION).hide();
         hideRankOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
-        
-        hideAllNewQuestionForms();
-        hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
         
         $('#rankRecipientsForm').show();
         break;
@@ -820,6 +794,8 @@ function getQuestionIdSuffix(questionNum) {
 
 function bindParticipantSelectChangeEvents() {
     $('body').on('change', 'select[name="givertype"]', function() {
+        var $recipientSelect = $(this).closest('.form_question').find('select[name="recipienttype"]');
+        $recipientSelect.find('option').show();
         hideInvalidRecipientTypeOptions($(this));
     });
 }
@@ -837,7 +813,6 @@ function hideInvalidRecipientTypeOptionsForNewlyAddedQuestion() {
 function hideInvalidRecipientTypeOptions($giverSelect) {
     var giverType = $giverSelect.val();
     var $recipientSelect = $giverSelect.closest('.form_question').find('select[name="recipienttype"]');
-    $recipientSelect.find('option').show();
     var recipientType = $recipientSelect.val();
     switch (giverType) {
     case 'STUDENTS':
