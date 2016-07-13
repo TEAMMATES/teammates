@@ -1,6 +1,5 @@
 package teammates.test.cases.logic;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -148,7 +147,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         assertEquals(0, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
         // add a new student and verify it is added and treated as a new student
-        StudentEnrollDetails enrollmentResult = invokeEnrollStudent(student1);
+        StudentEnrollDetails enrollmentResult = enrollStudent(student1);
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
         verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
                 StudentAttributes.UpdateStatus.NEW);
@@ -157,21 +156,21 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         ______TS("add existing student");
 
         // Verify it was not added
-        enrollmentResult = invokeEnrollStudent(student1);
+        enrollmentResult = enrollStudent(student1);
         verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
                 StudentAttributes.UpdateStatus.UNMODIFIED);
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
         ______TS("add student into non-empty course");
         StudentAttributes student2 = new StudentAttributes("sect 1", "t1", "n2", "e2@g", "c", instructorCourse);
-        enrollmentResult = invokeEnrollStudent(student2);
+        enrollmentResult = enrollStudent(student2);
         verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
                 StudentAttributes.UpdateStatus.NEW);
         
         //add some more students to the same course (we add more than one
         //  because we can use them for testing cascade logic later in this test case)
-        invokeEnrollStudent(new StudentAttributes("sect 2", "t2", "n3", "e3@g", "c", instructorCourse));
-        invokeEnrollStudent(new StudentAttributes("sect 2", "t2", "n4", "e4@g", "", instructorCourse));
+        enrollStudent(new StudentAttributes("sect 2", "t2", "n3", "e3@g", "c", instructorCourse));
+        enrollStudent(new StudentAttributes("sect 2", "t2", "n4", "e4@g", "", instructorCourse));
         assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
         
         ______TS("modify info of existing student");
@@ -492,7 +491,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                     + Const.EOL + lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL
                     + lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
         
-        invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
 
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
         expectedInvalidInfo.clear();
@@ -534,7 +533,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         enrollLines = headerLine + Const.EOL + lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
         
-        invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
 
         expectedInvalidInfo.clear();
         expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithNoEmailInput,
@@ -555,7 +554,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                       + lineWithStudentNameEmpty + Const.EOL
                       + lineWithEmailEmpty;
 
-        invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
         expectedInvalidInfo.clear();
         info = StringHelper.toString(
                 Sanitizer.sanitizeForHtml(saf.makeStudent(lineWithTeamNameEmpty, courseId).getInvalidityInfo()),
@@ -581,7 +580,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
         
-        invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
 
         assertEquals(0, invalidInfo.size());
         
@@ -593,7 +592,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         
         enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInput;
         
-        invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
 
         assertEquals(1, invalidInfo.size());
         
@@ -604,7 +603,7 @@ public class StudentsLogicTest extends BaseComponentTestCase {
                 + Const.EOL + lineWithExtraParameters + Const.EOL
                 + lineWithTeamNameEmpty + Const.EOL + lineWithCorrectInput + Const.EOL + "\t";
 
-        invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
         
         expectedInvalidInfo.clear();
         info = StringHelper.toString(
@@ -1128,9 +1127,9 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         StudentAttributes newsStudent0Info = new StudentAttributes("sect", "team", "n0", "e0@google.tmt", "", courseId);
         StudentAttributes newsStudent1Info = new StudentAttributes("sect", "team", "n1", "e1@google.tmt", "", courseId);
         StudentAttributes newsStudent2Info = new StudentAttributes("sect", "team", "n2", "e2@google.tmt", "", courseId);
-        invokeEnrollStudent(newsStudent0Info);
-        invokeEnrollStudent(newsStudent1Info);
-        invokeEnrollStudent(newsStudent2Info);
+        enrollStudent(newsStudent0Info);
+        enrollStudent(newsStudent1Info);
+        enrollStudent(newsStudent2Info);
 
         List<EmailWrapper> msgsForCourse = studentsLogic.sendRegistrationInviteForCourse(courseId);
         assertEquals(3, msgsForCourse.size());
@@ -1188,23 +1187,17 @@ public class StudentsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    private static StudentEnrollDetails invokeEnrollStudent(StudentAttributes student)
-            throws Exception {
-        Method privateMethod = StudentsLogic.class.getDeclaredMethod("enrollStudent",
-                new Class[] { StudentAttributes.class, Boolean.class });
-        privateMethod.setAccessible(true);
-        Object[] params = new Object[] { student, false };
-        return (StudentEnrollDetails) privateMethod.invoke(StudentsLogic.inst(), params);
+    private static StudentEnrollDetails enrollStudent(StudentAttributes student) throws Exception {
+        return (StudentEnrollDetails) invokeMethod(StudentsLogic.class, "enrollStudent",
+                                                   new Class<?>[] { StudentAttributes.class, Boolean.class },
+                                                   StudentsLogic.inst(), new Object[] { student, false });
     }
     
     @SuppressWarnings("unchecked")
-    private static List<String> invokeGetInvalidityInfoInEnrollLines(String lines, String courseId)
-            throws Exception {
-        Method privateMethod = StudentsLogic.class.getDeclaredMethod("getInvalidityInfoInEnrollLines",
-                                    new Class[] { String.class, String.class });
-        privateMethod.setAccessible(true);
-        Object[] params = new Object[] { lines, courseId };
-        return (List<String>) privateMethod.invoke(StudentsLogic.inst(), params);
+    private static List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws Exception {
+        return (List<String>) invokeMethod(StudentsLogic.class, "getInvalidityInfoInEnrollLines",
+                                           new Class<?>[] { String.class, String.class },
+                                           StudentsLogic.inst(), new Object[] { lines, courseId });
     }
         
     @AfterClass()

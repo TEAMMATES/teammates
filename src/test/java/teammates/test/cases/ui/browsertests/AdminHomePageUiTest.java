@@ -247,8 +247,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         instructor.email = "AHPUiT.email.tmt";
         homePage.createInstructor(shortName, instructor, institute);
-        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email,
-                                   FieldValidator.REASON_INCORRECT_FORMAT),
+        assertEquals(getPopulatedErrorMessage(
+                         FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email,
+                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                         FieldValidator.EMAIL_MAX_LENGTH),
                      homePage.getMessageFromResultTable(1));
 
         ______TS("action success: course is accessible for newly joined instructor as student");

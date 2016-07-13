@@ -154,6 +154,10 @@ function updateResultsFilter() {
     filterResults($('#results-search-box').val());
 }
 
+function updateStatsCheckBox() {
+    $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
+}
+
 function toggleCollapse(e, pans) {
     var expand = 'Expand';
     var collapse = 'Collapse';

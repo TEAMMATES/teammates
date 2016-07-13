@@ -25,7 +25,7 @@ before_script:
   - tar -xjf /tmp/firefox-38.0.5.tar.bz2 --directory $TRAVIS_BUILD_DIR/
   - export PATH="$TRAVIS_BUILD_DIR/firefox:$PATH"
   - ./gradlew createConfigs testClasses
-  - npm install eslint
+  - npm install eslint@3.0.0
   - ./gradlew downloadStaticAnalysisTools --continue
   - ./gradlew staticAnalysis --continue
 
