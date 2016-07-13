@@ -551,7 +551,7 @@ Apply to thead to make headers not bold.
 .question-recommended-length > input {
     width: 80px;
     display: inline;
-    }
+}
 
 .session-name-table-width {
     min-width: 130px;

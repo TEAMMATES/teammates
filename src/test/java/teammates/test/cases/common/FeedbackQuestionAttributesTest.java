@@ -177,36 +177,15 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
     
     @Test
     public void testGetQuestionDetails() {
-        FeedbackQuestionAttributes fq = new FeedbackQuestionAttributes();
 
         ______TS("Text question: new Json format");
         
-        fq.feedbackSessionName = "First Feedback Session";
-        fq.courseId = "CS1101";
-        fq.creatorEmail = "instructor1@course1.com";
-        fq.questionType = FeedbackQuestionType.TEXT;
-        fq.giverType = FeedbackParticipantType.NONE;
-        fq.recipientType = FeedbackParticipantType.RECEIVER;
-        fq.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
-        fq.showGiverNameTo.add(FeedbackParticipantType.SELF);
-        fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
-        fq.showRecipientNameTo.add(FeedbackParticipantType.SELF);
-        fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
-        fq.showResponsesTo.add(FeedbackParticipantType.SELF);
-        fq.giverType = FeedbackParticipantType.TEAMS;
-        fq.recipientType = FeedbackParticipantType.TEAMS;
-        fq.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
-        fq.showGiverNameTo.add(FeedbackParticipantType.RECEIVER);
-        fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
-        fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
-        fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
-        fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER);
-        
+        FeedbackQuestionAttributes fq = typicalBundle.feedbackQuestions.get("qn5InSession1InCourse1");
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("New format text question");
         fq.setQuestionDetails(questionDetails);
         
         assertTrue(fq.isValid());
-        assertEquals(fq.getQuestionDetails().getQuestionText(), "New format text question");
+        assertEquals(fq.getQuestionDetails().getQuestionText(), "New format Text question");
         
         ______TS("Text question: old string format");
         

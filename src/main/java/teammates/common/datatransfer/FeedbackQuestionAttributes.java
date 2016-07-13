@@ -508,7 +508,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.creatorEmail = Sanitizer.sanitizeEmail(creatorEmail);
     }
     
-    public boolean isValidJsonObject(String jsonString) {
+    private boolean isValidJsonString(String jsonString) {
         try {
             new JSONObject(jsonString);
         } catch (JSONException e) {
@@ -535,8 +535,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public FeedbackQuestionDetails getQuestionDetails() {
         final String questionMetaDataValue = questionMetaData.getValue();
         // For old Text questions, the questionText simply contains the question, not a JSON
-        // This is due to legacy data in the data store before there are multiple question types
-        if (questionType == FeedbackQuestionType.TEXT && !isValidJsonObject(questionMetaDataValue)) {
+        if (questionType == FeedbackQuestionType.TEXT && !isValidJsonString(questionMetaDataValue)) {
             return new FeedbackTextQuestionDetails(questionMetaDataValue);
         }
         Gson gson = Utils.getTeammatesGson();
