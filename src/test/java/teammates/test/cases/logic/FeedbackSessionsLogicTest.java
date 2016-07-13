@@ -1897,6 +1897,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         paramMap = createParamMapForAction(sessionUnderTest, EmailType.FEEDBACK_UNPUBLISHED);
         EmailAction fsUnpublishedAction = new FeedbackSessionUnpublishedMailAction(paramMap);
         fsUnpublishedAction.getPreparedEmailsAndPerformSuccessOperations();
+        assertFalse(fsLogic.getFeedbackSession(sessionUnderTest.getFeedbackSessionName(),
+                sessionUnderTest.getCourseId()).isSentPublishedEmail());
         
         sessionUnderTest.setSentPublishedEmail(false);
         sessionUnderTest.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);

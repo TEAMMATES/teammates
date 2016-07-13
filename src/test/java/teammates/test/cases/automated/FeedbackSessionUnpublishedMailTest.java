@@ -27,7 +27,7 @@ import teammates.logic.core.StudentsLogic;
 import teammates.test.util.Priority;
 
 @Priority(-1)
-public class FeedbackSessionUnpublishedMailActionTest extends BaseComponentUsingTaskQueueTestCase {
+public class FeedbackSessionUnpublishedMailTest extends BaseComponentUsingTaskQueueTestCase {
     
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -73,7 +73,7 @@ public class FeedbackSessionUnpublishedMailActionTest extends BaseComponentUsing
     }
     
     @Test
-    public void testFeedbackSessionPublishedMailAction() throws Exception {
+    public void testFeedbackSessionUnpublishedMailAction() throws Exception {
 
         ______TS("Emails Test : activate all sessions with unpublished mails sent");
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
@@ -81,6 +81,7 @@ public class FeedbackSessionUnpublishedMailActionTest extends BaseComponentUsing
             fsLogic.updateFeedbackSession(fs);
             assertFalse(fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId()).isSentPublishedEmail());
         }
+        
         ______TS("Emails Test : set session 1 to unsent unpublished emails and unpublish");
         // unpublished session with emails unsent for unpublished session.
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -106,7 +107,7 @@ public class FeedbackSessionUnpublishedMailActionTest extends BaseComponentUsing
     }
     
     private Map<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {
-        HashMap<String, String> paramMap = new HashMap<String, String>();
+        Map<String, String> paramMap = new HashMap<String, String>();
         
         paramMap.put(ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_UNPUBLISHED.toString());
         paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.getFeedbackSessionName());
