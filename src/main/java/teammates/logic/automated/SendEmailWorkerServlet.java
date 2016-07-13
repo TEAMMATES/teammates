@@ -43,7 +43,7 @@ public class SendEmailWorkerServlet extends WorkerServlet {
         message.setReplyTo(emailReply);
         
         try {
-            new EmailSender().sendEmailWithLogging(message);
+            new EmailSender().sendEmail(message);
         } catch (Exception e) {
             log.severe("Error while sending email via servlet: " + TeammatesException.toStringWithStackTrace(e));
             
