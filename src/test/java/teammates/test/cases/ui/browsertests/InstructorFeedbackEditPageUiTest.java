@@ -292,7 +292,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("add question 2 and edit it to giver's team members and giver");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.fillNewQuestionBox("test visibility when choosing giver's team members and giver");
-        feedbackEditPage.fillNewQuestionDescription("more details");
+        feedbackEditPage.fillNewQuestionDescription(
+                "<h3 style=\"text-align: center;\"><strong>Description</strong></h3><hr /><p>&nbsp;</p>");
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.selectRecipientsToBeGiverTeamMembersAndGiver();
         feedbackEditPage.clickMaxNumberOfRecipientsButton();

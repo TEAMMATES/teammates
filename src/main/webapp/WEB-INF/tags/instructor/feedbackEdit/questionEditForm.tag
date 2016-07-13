@@ -66,8 +66,7 @@
             <div class="col-sm-12 margin-15px background-color-light-blue">
                 <div class="form-group" style="padding: 15px;">
                     <h5 class="col-sm-2">
-                        <label class="control-label"
-                            for="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>">
+                        <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-${fqForm.questionIndex}">
                             Question
                         </label>
                     </h5>
