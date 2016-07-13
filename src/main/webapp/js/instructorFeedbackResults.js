@@ -158,21 +158,6 @@ function updateStatsCheckBox() {
     $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
 }
 
-function printView() {
-    // Fix to hide the filter placeholder when it is empty.
-    if ($('#results-search-box').val()) {
-        $('#results-search-box').parent().parent().removeClass('hide-for-print');
-    } else {
-        $('#results-search-box').parent().parent().addClass('hide-for-print');
-    }
-    
-    $('.container').printThis({
-        importCSS: true,
-        importStyle: true,
-        loadCSS: '/stylesheets/printview.css'
-    });
-}
-
 function toggleCollapse(e, pans) {
     var expand = 'Expand';
     var collapse = 'Collapse';
@@ -345,4 +330,19 @@ $(document).ready(function() {
     
     bindPublishButtons();
     bindUnpublishButtons();
+    
+    $('#button_print').on('click', function() {
+        // Fix to hide the filter placeholder when it is empty.
+        if ($('#results-search-box').val()) {
+            $('#filter-box-parent-div').removeClass('hide-for-print');
+        } else {
+            $('#filter-box-parent-div').addClass('hide-for-print');
+        }
+        
+        $('#mainContent').printThis({
+            importCSS: true,
+            importStyle: true,
+            loadCSS: '/stylesheets/printview.css'
+        });
+    });
 });

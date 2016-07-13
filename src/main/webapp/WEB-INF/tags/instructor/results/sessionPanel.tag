@@ -67,7 +67,7 @@
                         <br>
                         <div>
                             <button id="button_print" onclick="printView();" type="input" class="btn btn-primary btn-block">
-                            Print View
+                                Print View
                             </button>
                         </div>
                     </div>
