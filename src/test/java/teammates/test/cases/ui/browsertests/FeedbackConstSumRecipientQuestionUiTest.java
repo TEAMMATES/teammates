@@ -71,7 +71,8 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
         assertFalse(feedbackEditPage.isElementVisible("constSumOptionTable--1"));
         
-        feedbackEditPage.getDeleteQuestionLink(-1).click();
+        feedbackEditPage.getDiscardChangesLink(-1).click();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertEquals("", feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         
