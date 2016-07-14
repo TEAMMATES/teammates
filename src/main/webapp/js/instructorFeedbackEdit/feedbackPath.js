@@ -3,8 +3,7 @@ var FeedbackPath = {
         var allDropdownOptions = $('.feedback-path-dropdown-option');
         FeedbackPath.attachEventsForAllOptions(allDropdownOptions);
 
-        var commonOptions = allDropdownOptions.not(
-                '.feedback-path-dropdown-option-other');
+        var commonOptions = allDropdownOptions.not('.feedback-path-dropdown-option-other');
         FeedbackPath.attachEventsForCommonOptions(commonOptions);
 
         var otherOption = $('.feedback-path-dropdown-option-other');
