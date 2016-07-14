@@ -59,6 +59,31 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         removeIrrelevantVisibilityOptions();
     }
 
+    private FeedbackQuestionAttributes(FeedbackQuestionAttributes other) {
+        this.feedbackQuestionId = other.getId();
+        this.feedbackSessionName = other.getFeedbackSessionName();
+        this.courseId = other.getCourseId();
+        this.creatorEmail = other.getCreatorEmail();
+        this.questionMetaData = other.getQuestionMetaData();
+        this.questionNumber = other.getQuestionNumber();
+        this.questionType = other.getQuestionType();
+        this.giverType = other.getGiverType();
+        this.recipientType = other.getRecipientType();
+        this.numberOfEntitiesToGiveFeedbackTo = other.getNumberOfEntitiesToGiveFeedbackTo();
+        this.showResponsesTo = new ArrayList<FeedbackParticipantType>(other.getShowResponsesTo());
+        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>(other.getShowGiverNameTo());
+        this.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(other.getShowRecipientNameTo());
+        
+        this.createdAt = other.getCreatedAt();
+        this.updatedAt = other.getUpdatedAt();
+        
+        removeIrrelevantVisibilityOptions();
+    }
+    
+    public FeedbackQuestionAttributes getCopy() {
+        return new FeedbackQuestionAttributes(this);
+    }
+
     public Date getCreatedAt() {
         return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }

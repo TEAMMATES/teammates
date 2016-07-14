@@ -71,11 +71,6 @@
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_CANCEL_NEW %>">
                             Cancel
                         </a>
-                        <a class="btn btn-primary btn-xs"
-                            onclick="deleteQuestion(-1)" data-toggle="tooltip" data-placement="top"
-                            title="<%= Const.Tooltips.FEEDBACK_QUESTION_DELETE %>">
-                            Delete
-                        </a>
                     </span>
                 </div>
             </div>
