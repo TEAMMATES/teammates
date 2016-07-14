@@ -32,7 +32,7 @@ function toggleDeleteEvaluationConfirmation(courseID, name) {
 }
 
 /**
- * Pops up confirmation dialog whether to delete specified evaluation
+ * Pops up confirmation dialog whether to delete specified feedback session
  * @param courseID
  * @param name
  * @returns
