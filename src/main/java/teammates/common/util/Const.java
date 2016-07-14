@@ -382,10 +382,12 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS =
                 "Please enter the question for users to give feedback about. "
                 + "e.g. What is the biggest weakness of the presented product?";
-        public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
-        public static final String FEEDBACK_QUESTION_DISCARDCHANGES = "Discard your changes";
-        public static final String FEEDBACK_QUESTION_CANCEL_NEW = "Discard new question";
-        public static final String FEEDBACK_QUESTION_DELETE = "Delete this question";
+        public static final String FEEDBACK_QUESTION_EDIT =
+                "Edit the existing question. Do remember to save the changes before moving on to editing another question.";
+        public static final String FEEDBACK_QUESTION_DISCARDCHANGES =
+                "Discard any unsaved edits and revert back to original question.";
+        public static final String FEEDBACK_QUESTION_CANCEL_NEW =
+                "Cancel adding new question. No new question will be added to the feedback session.";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
