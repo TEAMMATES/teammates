@@ -8,10 +8,11 @@
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 <%@ attribute name="nextQnNum" required="true"%>
 
-<%-- sentinel value of -1 for newly added question --%>
-<form id="form_editquestion--1" class="form-horizontal form_question" role="form" method="post"
+<c:set var="NEW_QUESTION" value="-1" />
+
+<form id="form_editquestion-${NEW_QUESTION}" class="form-horizontal form_question" role="form" method="post"
     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
-    name="form_addquestions" onsubmit="tallyCheckboxes('-1')" >
+    name="form_addquestions" onsubmit="tallyCheckboxes('${NEW_QUESTION}')" >
     <div class="well well-plain inputTable" id="addNewQuestionTable">
        
         <div class="row">
@@ -46,7 +47,7 @@
         </div>
     </div>
 
-    <div class="panel panel-primary questionTable" id="questionTable--1" style="display:none;">
+    <div class="panel panel-primary questionTable" id="questionTable-${NEW_QUESTION}" style="display:none;">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-sm-7">
@@ -68,12 +69,12 @@
                 <div class="col-sm-5 mobile-margin-top-10px">
                     <span class="mobile-no-pull pull-right">
                         <a class="btn btn-primary btn-xs"
-                            onclick="discardChanges(-1)" data-toggle="tooltip" data-placement="top"
+                            onclick="discardChanges(${NEW_QUESTION})" data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_CANCEL_NEW %>">
                             Cancel
                         </a>
                         <a class="btn btn-primary btn-xs"
-                            onclick="deleteQuestion(-1)" data-toggle="tooltip" data-placement="top"
+                            onclick="deleteQuestion(${NEW_QUESTION})" data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_DELETE %>">
                             Delete
                         </a>
@@ -85,7 +86,7 @@
             <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
                 <div>
                     <textarea class="form-control textvalue nonDestructive" rows="5"
-                        name="questiontext" id="questiontext--1"
+                        name="questiontext" id="questiontext-${NEW_QUESTION}"
                         data-toggle="tooltip" data-placement="top"
                         title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
                         tabindex="9" disabled></textarea>
