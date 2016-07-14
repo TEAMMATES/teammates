@@ -49,7 +49,9 @@ dependencies {
                     "com.sun.jersey:jersey-core:1.19",
                     "com.sun.jersey.contribs:jersey-multipart:1.19",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
-                    "org.jsoup:jsoup:1.9.2"
+                    "org.jsoup:jsoup:1.9.2",
+                    "org.apache.poi:poi:3.9",
+                    "org.apache.poi:poi-ooxml:3.9"
 
     exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
