@@ -390,11 +390,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             return false;
         }
 
-        if (questionDescription == null ^ other.questionDescription == null) {
-            return false;
-        }
-
-        if (questionDescription != null && !questionDescription.equals(other.questionDescription)) {
+        if (questionDescription == null) {
+            if (other.questionDescription != null) {
+                return false;
+            }
+        } else if (!questionDescription.equals(other.questionDescription)) {
             return false;
         }
 
