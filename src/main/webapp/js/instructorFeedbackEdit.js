@@ -26,7 +26,7 @@ function addLoadingIndicator(element) {
     element.attr('data-loading-text',
             "<span class='glyphicon glyphicon-refresh glyphicon-spin'></span> " + currentText);
     element.button('loading');
- }
+}
 
 function removeLoadingIndicator(element) {
     element.button('reset');
@@ -63,7 +63,7 @@ function readyFeedbackEditPage() {
 
     $('form.form_question').submit(function() {
         addLoadingIndicator($('#button_submit_add'));
-        formStatus =  checkFeedbackQuestion(this);
+        formStatus = checkFeedbackQuestion(this);
         if (!formStatus) {
             removeLoadingIndicator($('#button_submit_add'));
         }
