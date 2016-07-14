@@ -160,6 +160,8 @@ public class InstructorAttributes extends EntityAttributes {
     private InstructorAttributes(InstructorAttributes other) {
         this(other.googleId, other.courseId, other.name, other.email,
              other.role, other.isDisplayedToStudents, other.displayedName, other.privileges);
+        this.key = other.key;
+        this.isArchived = other.isArchived;
     }
     
     public InstructorAttributes getCopy() {
