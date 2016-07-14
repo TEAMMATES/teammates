@@ -40,9 +40,9 @@ var CustomFeedbackPaths = {
                 }
                 
                 var studentEmailsList = CustomFeedbackPaths.teamNameToStudentEmailsMap[teamName];
-                if (studentEmailsList === undefined) {
-                    studentEmailsList = [];
-                }
+
+                studentEmailsList = studentEmailsList || [];
+
                 studentEmailsList.push(studentEmail);
                 CustomFeedbackPaths.teamNameToStudentEmailsMap[teamName] = studentEmailsList;
             }
