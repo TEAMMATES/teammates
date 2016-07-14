@@ -74,13 +74,6 @@ public class FeedbackSessionUnpublishedMailTest extends BaseComponentUsingTaskQu
     
     @Test
     public void testFeedbackSessionUnpublishedMailAction() throws Exception {
-
-        ______TS("Emails Test : activate all sessions with unpublished mails sent");
-        for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
-            fs.setSentPublishedEmail(false);
-            fsLogic.updateFeedbackSession(fs);
-            assertFalse(fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId()).isSentPublishedEmail());
-        }
         
         ______TS("Emails Test : set session 1 to unsent unpublished emails and unpublish");
         // unpublished session with emails unsent for unpublished session.
