@@ -12,8 +12,8 @@ public class AdminSearchPageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() {
-        // Test is done as a browser test,
-	// because otherwise there are problems when rebuilding the document
+        //Test is done as a browser test,
+		//because otherwise there are problems when rebuilding the document
     }
     
 }
