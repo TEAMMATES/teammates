@@ -163,11 +163,12 @@ public class InstructorCourseEditPageData extends PageData {
         String buttonContent = "<span class=\"glyphicon glyphicon-trash\"></span>Delete";
         String buttonId = "courseDeleteLink";
         String href = getInstructorCourseDeleteLink(course.getId(), false);
-        String onClick = "return toggleDeleteCourseConfirmation('" + course.getId() + "');";
 
         ElementTag button = createBasicButton(buttonContent, buttonId, href, Const.Tooltips.COURSE_DELETE,
                                               isDisabled);
-        button.setAttribute("onclick", onClick);
+        button.setAttribute("data-course-id", course.getId());
+        String existingClasses = button.removeAttribute("class");
+        button.setAttribute("class", existingClasses + " course-delete-link");
 
         return button;
     }

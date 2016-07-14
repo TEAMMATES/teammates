@@ -14,20 +14,12 @@ $(document).ready(function() {
     
     // bind the show picture onhover events
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
+
+    // bind the event handler to show confirmation modal
+    bindCourseDeleteLinks();
 });
 
 // -----------------------------------------------------------------------------
-
-/**
- * Function that shows confirmation dialog for deleting a course
- * @param courseID
- * @returns
- */
-function toggleDeleteCourseConfirmation(courseID) {
-    return confirm('Are you sure you want to delete the course: ' + courseID + '? '
-                   + 'This operation will delete all students and sessions in this course. '
-                   + 'All instructors of this course will not be able to access it hereafter as well.');
-}
 
 /**
  * Pops up confirmation dialog whether to delete specified evaluation
@@ -313,6 +305,23 @@ function bindDeleteButtons() {
         var feedbackSessionName = $button.data('fsname');
 
         return toggleDeleteFeedbackSessionConfirmation(courseId, feedbackSessionName);
+    });
+}
+
+function bindCourseDeleteLinks() {
+    $('body').on('click', '.course-delete-link', function(event) {
+        event.preventDefault();
+
+        $clickedLink = $(event.target);
+        var messageText = 'Are you sure you want to delete the course: ' + $clickedLink.data('courseId') + '? '
+                          + 'This operation will delete all students and sessions in this course. '
+                          + 'All instructors of this course will not be able to access it hereafter as well.';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deleting course', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
     });
 }
 
