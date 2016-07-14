@@ -225,6 +225,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
 
         assertEquals(frComment.courseId, actualFrComment.courseId);
         assertEquals(updatedEmail, actualFrComment.giverEmail);
+        assertEquals(updatedEmail, actualFrComment.lastEditorEmail);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
         
         // reset email
