@@ -23,13 +23,6 @@ $(document).ready(function() {
 // -----------------------------------------------------------------------------
 
 /**
- * Function that shows confirmation dialog for removing a student from a course
- */
-function toggleDeleteStudentConfirmation(courseId, studentName) {
-    return confirm('Are you sure you want to remove ' + studentName + ' from the course ' + courseId + '?');
-}
-
-/**
  * Pops up confirmation dialog whether to publish the specified
  * evaluation
  * @param name

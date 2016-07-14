@@ -158,7 +158,3 @@ QUnit.test('filterEmails()', function(assert) {
     assert.expect(0);
 });
 
-QUnit.test('toggleDeleteStudentConfirmation(courseId, studentName)', function(assert) {
-    // gives a popup, can't be tested
-    assert.expect(0);
-});
