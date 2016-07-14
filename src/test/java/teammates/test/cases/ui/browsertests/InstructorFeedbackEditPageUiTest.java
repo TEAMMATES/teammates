@@ -192,6 +192,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
+        assertTrue("Visibility preview for new question should be displayed",
+                   feedbackEditPage.isVisibilityPreviewDisplayedForNewQuestion());
     }
 
     private void testInputValidationForQuestion() {

@@ -1000,7 +1000,15 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
-        return getVisibilityMessage(questionNumber).isDisplayed();
+        WebElement visibilityMessageDiv = getVisibilityMessage(questionNumber);
+        List<WebElement> visibilityMessages = visibilityMessageDiv.findElements(By.cssSelector("ul > li"));
+        return visibilityMessageDiv.isDisplayed() && !visibilityMessages.isEmpty();
+    }
+
+    public boolean isVisibilityPreviewDisplayedForNewQuestion() {
+        WebElement visibilityMessageDiv = browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessage"));
+        List<WebElement> visibilityMessages = visibilityMessageDiv.findElements(By.cssSelector("ul > li"));
+        return visibilityMessageDiv.isDisplayed() && !visibilityMessages.isEmpty();
     }
     
     public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {
