@@ -55,8 +55,7 @@
                         </a>
                         <a class="btn btn-primary btn-xs"
                             onclick="deleteQuestion(${fqForm.questionIndex})"
-                            data-toggle="tooltip" data-placement="top"
-                            title="<%= Const.Tooltips.FEEDBACK_QUESTION_DELETE %>">
+                            data-toggle="tooltip" data-placement="top">
                             Delete
                         </a>
                     </span>
