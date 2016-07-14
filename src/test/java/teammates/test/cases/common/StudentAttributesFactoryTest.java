@@ -1,7 +1,6 @@
 package teammates.test.cases.common;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -188,12 +187,12 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
 
         ______TS("Typical case: not a header row");
         headerRow = "team 1|SAFT.name|SAFT@email.com";
-        columnCount = invokeLocateColumnIndexes(headerRow);
+        columnCount = locateColumnIndexes(headerRow);
         assertEquals(0, columnCount);
 
         ______TS("Typical case: header row contains empty columns");
         headerRow = " | team | name | | email | | comment";
-        columnCount = invokeLocateColumnIndexes(headerRow);
+        columnCount = locateColumnIndexes(headerRow);
         assertEquals(4, columnCount);
     }
 
@@ -204,7 +203,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
 
         ______TS("Failure case: null parameter");
         try {
-            invokeSplitLineIntoColumns(line);
+            splitLineIntoColumns(line);
             signalFailureToDetectException();
         } catch (InvocationTargetException e) {
             ignoreExpectedException();
@@ -212,7 +211,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
 
         ______TS("Typical case: line with pipe symbol as separators");
         line = "name | email |  | team";
-        columns = invokeSplitLineIntoColumns(line);
+        columns = splitLineIntoColumns(line);
 
         assertEquals(4, columns.length);
         assertEquals("name ", columns[0]);
@@ -222,7 +221,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
 
         ______TS("Typical case: line with tab as separators");
         line = "team\temail\tname\t";
-        columns = invokeSplitLineIntoColumns(line);
+        columns = splitLineIntoColumns(line);
 
         assertEquals(4, columns.length);
         assertEquals("team", columns[0]);
@@ -231,20 +230,16 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         assertEquals("", columns[3]);
     }
 
-    private int invokeLocateColumnIndexes(String line) throws Exception {
-        Method privateMethod = StudentAttributesFactory.class.getDeclaredMethod("locateColumnIndexes",
-                                                                                String.class);
-        privateMethod.setAccessible(true);
-
-        return (Integer) privateMethod.invoke(new StudentAttributesFactory(), line);
+    private int locateColumnIndexes(String line) throws Exception {
+        return (int) invokeMethod(StudentAttributesFactory.class, "locateColumnIndexes",
+                                  new Class<?>[] { String.class },
+                                  new StudentAttributesFactory(), new Object[] { line });
     }
 
-    private String[] invokeSplitLineIntoColumns(String line) throws Exception {
-        Method privateMethod = StudentAttributesFactory.class.getDeclaredMethod("splitLineIntoColumns",
-                                                                                String.class);
-        privateMethod.setAccessible(true);
-
-        return (String[]) privateMethod.invoke(new StudentAttributesFactory(), line);
+    private String[] splitLineIntoColumns(String line) throws Exception {
+        return (String[]) invokeMethod(StudentAttributesFactory.class, "splitLineIntoColumns",
+                                       new Class<?>[] { String.class },
+                                       new StudentAttributesFactory(), new Object[] { line });
     }
 
     @AfterClass
