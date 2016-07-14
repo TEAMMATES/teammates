@@ -44,7 +44,7 @@ public class XLSFileDownloadResult extends FileDownloadResult {
         int rowNumber = 0;
         String[] lines = fileContent.split(Const.EOL);
         for (String line : lines) {
-            String str[] = line.split(",");
+            String[] str = line.split(",");
             rowNumber++;
             XSSFRow currentRow = sheet.createRow(rowNumber);
 
