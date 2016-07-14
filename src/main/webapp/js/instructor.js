@@ -17,19 +17,10 @@ $(document).ready(function() {
 
     // bind the event handler to show confirmation modal
     bindCourseDeleteLinks();
+    bindSessionDeleteLinks();
 });
 
 // -----------------------------------------------------------------------------
-
-/**
- * Pops up confirmation dialog whether to delete specified feedback session
- * @param courseID
- * @param name
- * @returns
- */
-function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
-    return confirm('Are you sure you want to delete the feedback session ' + name + ' in ' + courseID + '?');
-}
 
 /**
  * Function that shows confirmation dialog for removing a student from a course
@@ -311,6 +302,22 @@ function bindCourseDeleteLinks() {
         };
 
         BootboxWrapper.showModalConfirmation('Confirm deleting course', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+    });
+}
+
+function bindSessionDeleteLinks() {
+    $('body').on('click', '#fsDeleteLink', function(event) {
+        event.preventDefault();
+
+        var $clickedLink = $(event.target);
+        var messageText = 'Are you sure you want to delete the feedback session ' + $clickedLink.data('feedbackSessionName')
+                          + ' in ' + $clickedLink.data('courseId') + '?';
+        var okCallback = function() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
                 BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
     });
 }
