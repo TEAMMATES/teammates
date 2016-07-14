@@ -1,7 +1,5 @@
 package teammates.test.cases.ui;
 
-import java.lang.reflect.Method;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -119,10 +117,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
 
     private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) throws Exception {
-        AdminInstructorAccountAddAction a = new AdminInstructorAccountAddAction();
-        final Method generateNextDemoCourseId;
-        generateNextDemoCourseId = a.getClass().getDeclaredMethod("generateNextDemoCourseId", String.class, int.class);
-        generateNextDemoCourseId.setAccessible(true);
         final String normalIdSuffix = ".gma-demo";
         final String atEmail = "@gmail.tmt";
         final int normalIdSuffixLength = normalIdSuffix.length(); // 9
@@ -135,31 +129,34 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         final String strOneCharLongerThanMaximum =
                 StringHelper.generateStringOfLength(maximumIdLength - normalIdSuffixLength + 1);
         assertEquals(strShortWithWordDemo + normalIdSuffix,
-                     (String) generateNextDemoCourseId.invoke(a, strShortWithWordDemo + atEmail, maximumIdLength));
+                     generateNextDemoCourseId(strShortWithWordDemo + atEmail, maximumIdLength));
         assertEquals(strShortWithWordDemo + normalIdSuffix + "0",
-                     (String) generateNextDemoCourseId.invoke(a, strShortWithWordDemo + normalIdSuffix, maximumIdLength));
+                     generateNextDemoCourseId(strShortWithWordDemo + normalIdSuffix, maximumIdLength));
         assertEquals(strShortWithWordDemo + normalIdSuffix + "1",
-                     (String) generateNextDemoCourseId.invoke(a, strShortWithWordDemo + normalIdSuffix + "0",
-                                                              maximumIdLength));
+                     generateNextDemoCourseId(strShortWithWordDemo + normalIdSuffix + "0", maximumIdLength));
         assertEquals(strWayShorterThanMaximum + normalIdSuffix,
-                     (String) generateNextDemoCourseId.invoke(a, strWayShorterThanMaximum + atEmail, maximumIdLength));
+                     generateNextDemoCourseId(strWayShorterThanMaximum + atEmail, maximumIdLength));
         assertEquals(strOneCharShorterThanMaximum + normalIdSuffix,
-                     (String) generateNextDemoCourseId.invoke(a, strOneCharShorterThanMaximum + atEmail, maximumIdLength));
+                     generateNextDemoCourseId(strOneCharShorterThanMaximum + atEmail, maximumIdLength));
         assertEquals(strOneCharLongerThanMaximum.substring(1) + normalIdSuffix,
-                     (String) generateNextDemoCourseId.invoke(a, strOneCharLongerThanMaximum + atEmail, maximumIdLength));
+                     generateNextDemoCourseId(strOneCharLongerThanMaximum + atEmail, maximumIdLength));
         assertEquals(strWayShorterThanMaximum + normalIdSuffix + "0",
-                     (String) generateNextDemoCourseId.invoke(a, strWayShorterThanMaximum + normalIdSuffix,
-                                                              maximumIdLength));
+                     generateNextDemoCourseId(strWayShorterThanMaximum + normalIdSuffix, maximumIdLength));
         assertEquals(strWayShorterThanMaximum + normalIdSuffix + "1",
-                     (String) generateNextDemoCourseId.invoke(a, strWayShorterThanMaximum + normalIdSuffix + "0",
-                                                              maximumIdLength));
+                     generateNextDemoCourseId(strWayShorterThanMaximum + normalIdSuffix + "0", maximumIdLength));
         assertEquals(strWayShorterThanMaximum + normalIdSuffix + "10",
-                     (String) generateNextDemoCourseId.invoke(a, strWayShorterThanMaximum + normalIdSuffix + "9",
-                                                              maximumIdLength));
+                     generateNextDemoCourseId(strWayShorterThanMaximum + normalIdSuffix + "9", maximumIdLength));
         assertEquals(strOneCharShorterThanMaximum.substring(2) + normalIdSuffix + "10",
-                     (String) generateNextDemoCourseId.invoke(a, strOneCharShorterThanMaximum.substring(1)
-                                                                     + normalIdSuffix + "9",
-                                                              maximumIdLength));
+                     generateNextDemoCourseId(strOneCharShorterThanMaximum.substring(1) + normalIdSuffix + "9",
+                                              maximumIdLength));
+    }
+    
+    private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength)
+            throws Exception {
+        AdminInstructorAccountAddAction a = new AdminInstructorAccountAddAction();
+        return (String) invokeMethod(a.getClass(), "generateNextDemoCourseId",
+                                     new Class<?>[] { String.class, int.class },
+                                     a, new Object[] { instructorEmailOrProposedCourseId, maximumIdLength });
     }
 
     private Action getAction(String... parameters) {
