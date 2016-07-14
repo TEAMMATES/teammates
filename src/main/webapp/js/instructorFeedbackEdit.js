@@ -459,9 +459,9 @@ function formatNumberBoxes() {
 }
 
 var updateVisibilityOfNumEntitiesBox = function() {
-    var questionId = getQuestionId($(this));
+    var questionNum = getQuestionNum($(this));
     var participantType = $(this).val();
-    formatNumberBox(participantType, questionId);
+    formatNumberBox(participantType, questionNum);
 };
 
 /**
@@ -797,7 +797,7 @@ function bindCopyEvents() {
     });
 }
 
-function getQuestionId($elementInQuestionForm) {
+function getQuestionNum($elementInQuestionForm) {
     var $questionForm = $elementInQuestionForm.closest('form');
     var id = $questionForm.attr('id');
     if (id.endsWith('-' + NEW_QUESTION)) {
