@@ -22,16 +22,6 @@ $(document).ready(function() {
 // -----------------------------------------------------------------------------
 
 /**
- * Pops up confirmation dialog whether to delete specified evaluation
- * @param courseID
- * @param name
- * @returns
- */
-function toggleDeleteEvaluationConfirmation(courseID, name) {
-    return confirm('Are you sure you want to delete the evaluation ' + name + ' in ' + courseID + '?');
-}
-
-/**
  * Pops up confirmation dialog whether to delete specified feedback session
  * @param courseID
  * @param name
