@@ -49,7 +49,7 @@ public class XLSFileDownloadResult extends FileDownloadResult {
             XSSFRow currentRow = sheet.createRow(rowNumber);
 
             // Questions are marked bold and with bigger font.
-            if (line.contains("Question")) {
+            if (line.matches("Question [0-9]{1,}.{0,}")) {
                 currentRow.setRowStyle(getQuestionStyle());
             } else {
                 currentRow.setRowStyle(getDefaultStyle());
