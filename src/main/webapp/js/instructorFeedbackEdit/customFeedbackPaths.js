@@ -371,9 +371,3 @@ var customFeedbackPaths = {
         }
     }
 };
-
-$(document).ready(function() {
-    customFeedbackPaths.initializeCustomFeedbackPathsData();
-    customFeedbackPaths.initializeFeedbackPathsSpreadsheets();
-    customFeedbackPaths.bindEventHandlers();
-});

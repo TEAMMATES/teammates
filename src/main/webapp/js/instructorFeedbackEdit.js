@@ -20,6 +20,9 @@ $(document).ready(function() {
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
+    customFeedbackPaths.initializeCustomFeedbackPathsData();
+    customFeedbackPaths.initializeFeedbackPathsSpreadsheets();
+    customFeedbackPaths.bindEventHandlers();
 });
 
 
