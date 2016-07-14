@@ -53,7 +53,7 @@
                                 </button>
                                 <ul id="download-result-dropdown" class="dropdown-menu">
                                     <li data-downloadtype="<%=Const.FeedbackSessionResultsDownloadTypes.CSV%>"><a>As spreadsheet without formatting (.csv file)</a></li>
-                                    <li data-downloadtype="<%=Const.FeedbackSessionResultsDownloadTypes.XLS%>"><a>As normal spreadsheet (.xls file)</a></li>
+                                    <li data-downloadtype="<%=Const.FeedbackSessionResultsDownloadTypes.XLS%>"><a>As normal spreadsheet (.xlsx file)</a></li>
                                 </ul>
                             </div>
                             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
