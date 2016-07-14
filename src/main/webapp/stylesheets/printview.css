@@ -4,12 +4,9 @@
 .action-button-item,
 .action-header,
 .btn-link,
-.hide-for-print {
-    display: none;
-}
-
+.hide-for-print,
 a {
-    display:none;
+    display: none;
 }
 
 table { 

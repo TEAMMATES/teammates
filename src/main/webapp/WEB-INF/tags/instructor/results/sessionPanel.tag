@@ -66,7 +66,7 @@
                         </div>
                         <br>
                         <div>
-                            <button id="button_print" type="input" class="btn btn-primary btn-block">
+                            <button id="button-print" type="input" class="btn btn-primary btn-block">
                                 Print View
                             </button>
                         </div>
