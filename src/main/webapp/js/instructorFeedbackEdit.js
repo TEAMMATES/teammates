@@ -799,10 +799,11 @@ function bindCopyEvents() {
 
 function getQuestionNum($elementInQuestionForm) {
     var $questionForm = $elementInQuestionForm.closest('form');
-    var id = $questionForm.attr('id');
-    if (id.endsWith('-' + NEW_QUESTION)) {
+    var cssId = $questionForm.attr('id');
+    if (cssId.endsWith('-' + NEW_QUESTION)) {
         return NEW_QUESTION;
     }
-    return id.split('-').slice(-1)[0];
+    var splitCssId = cssId.split('-');
+    return splitCssId[splitCssId.length - 1];
 }
 
