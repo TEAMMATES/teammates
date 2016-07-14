@@ -999,16 +999,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getEditLabel(questionNumber).getAttribute("class").contains("active");
     }
     
-    public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
-        WebElement visibilityMessageDiv = getVisibilityMessage(questionNumber);
-        List<WebElement> visibilityMessages = visibilityMessageDiv.findElements(By.cssSelector("ul > li"));
-        return visibilityMessageDiv.isDisplayed() && !visibilityMessages.isEmpty();
+    public boolean verifyVisibilityPreviewIsDisplayed(int questionNumber) {
+        WebElement visibilityPreviewDiv = getVisibilityMessage(questionNumber);
+        List<WebElement> visibilityMessages = visibilityPreviewDiv.findElements(By.cssSelector("ul > li"));
+        return visibilityPreviewDiv.isDisplayed() && !visibilityMessages.isEmpty();
     }
 
     public boolean isVisibilityPreviewDisplayedForNewQuestion() {
-        WebElement visibilityMessageDiv = browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessage"));
-        List<WebElement> visibilityMessages = visibilityMessageDiv.findElements(By.cssSelector("ul > li"));
-        return visibilityMessageDiv.isDisplayed() && !visibilityMessages.isEmpty();
+        WebElement visibilityPreviewDiv = browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessage"));
+        List<WebElement> visibilityMessages = visibilityPreviewDiv.findElements(By.cssSelector("ul > li"));
+        return visibilityPreviewDiv.isDisplayed() && !visibilityMessages.isEmpty();
     }
     
     public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {

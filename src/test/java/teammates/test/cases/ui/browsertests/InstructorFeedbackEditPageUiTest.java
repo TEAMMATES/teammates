@@ -511,7 +511,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         assertTrue(feedbackEditPage.verifyPreviewLabelIsActive(1));
         assertFalse(feedbackEditPage.verifyEditLabelIsActive(1));
-        assertTrue(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));
+        assertTrue(feedbackEditPage.verifyVisibilityPreviewIsDisplayed(1));
         assertFalse(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));
 
         feedbackEditPage.clickQuestionEditForQuestion1();
@@ -520,7 +520,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         assertFalse(feedbackEditPage.verifyPreviewLabelIsActive(1));
         assertTrue(feedbackEditPage.verifyEditLabelIsActive(1));
-        assertFalse(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));
+        assertFalse(feedbackEditPage.verifyVisibilityPreviewIsDisplayed(1));
         assertTrue(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));
     }
     
@@ -637,7 +637,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.changeQuestionTypeInForm(1, "InvalidQuestionType");
         feedbackEditPage.clickVisibilityPreviewForQuestion1();
         feedbackEditPage.waitForAjaxErrorOnVisibilityMessageButton(1);
-        assertFalse(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));
+        assertFalse(feedbackEditPage.verifyVisibilityPreviewIsDisplayed(1));
     }
 
     private void testDeleteQuestionAction(int qnNumber) {
