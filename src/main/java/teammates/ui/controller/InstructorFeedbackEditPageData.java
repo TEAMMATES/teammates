@@ -195,6 +195,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                     isSelected = isGiverType || isRecipientType;
                 }
                 
+                // Don't add option for custom feedback participant type unless it is selected
                 if (option != FeedbackParticipantType.CUSTOM || isSelected) {
                     ElementTag optionTag = createOption(participantName, option.toString(), isSelected);
                     result.add(optionTag);
