@@ -1,4 +1,4 @@
-var customFeedbackPaths = {
+var CustomFeedbackPaths = {
 
     FEEDBACK_PARTICIPANT_TYPE_CUSTOM: 'CUSTOM',
     FEEDBACK_PARTICIPANT_TYPE_SELF: 'SELF',
@@ -23,51 +23,51 @@ var customFeedbackPaths = {
     allPossibleFeedbackRecipients: null,
 
     initializeCustomFeedbackPathsData: function() {
-        customFeedbackPaths.sessionCreator = $('#session-creator-data').data('session-creator');
-        customFeedbackPaths.studentEmailToTeamNameMap = $('#students-data').data('students');
-        customFeedbackPaths.instructorEmails = $('#instructors-data').data('instructors');
-        customFeedbackPaths.teamNameToStudentEmailsMap = [[]];
-        customFeedbackPaths.studentEmails = [];
-        customFeedbackPaths.teamNames = [];
+        CustomFeedbackPaths.sessionCreator = $('#session-creator-data').data('session-creator');
+        CustomFeedbackPaths.studentEmailToTeamNameMap = $('#students-data').data('students');
+        CustomFeedbackPaths.instructorEmails = $('#instructors-data').data('instructors');
+        CustomFeedbackPaths.teamNameToStudentEmailsMap = [[]];
+        CustomFeedbackPaths.studentEmails = [];
+        CustomFeedbackPaths.teamNames = [];
         
-        for (var studentEmail in customFeedbackPaths.studentEmailToTeamNameMap) {
-            if (customFeedbackPaths.studentEmailToTeamNameMap.hasOwnProperty(studentEmail)) {
-                customFeedbackPaths.studentEmails.push(studentEmail);
+        for (var studentEmail in CustomFeedbackPaths.studentEmailToTeamNameMap) {
+            if (CustomFeedbackPaths.studentEmailToTeamNameMap.hasOwnProperty(studentEmail)) {
+                CustomFeedbackPaths.studentEmails.push(studentEmail);
                 
-                var teamName = customFeedbackPaths.studentEmailToTeamNameMap[studentEmail];
-                if (!customFeedbackPaths.teamNames.includes(teamName)) {
-                    customFeedbackPaths.teamNames.push(teamName);
+                var teamName = CustomFeedbackPaths.studentEmailToTeamNameMap[studentEmail];
+                if (!CustomFeedbackPaths.teamNames.includes(teamName)) {
+                    CustomFeedbackPaths.teamNames.push(teamName);
                 }
                 
-                var studentEmailsList = customFeedbackPaths.teamNameToStudentEmailsMap[teamName];
+                var studentEmailsList = CustomFeedbackPaths.teamNameToStudentEmailsMap[teamName];
                 if (studentEmailsList === undefined) {
                     studentEmailsList = [];
                 }
                 studentEmailsList.push(studentEmail);
-                customFeedbackPaths.teamNameToStudentEmailsMap[teamName] = studentEmailsList;
+                CustomFeedbackPaths.teamNameToStudentEmailsMap[teamName] = studentEmailsList;
             }
         }
         
         // Empty string added to provide an empty option in spreadsheet dropdown
         // It prevents a feedback participant from being selected upon clicking away from dropdown
-        customFeedbackPaths.allPossibleFeedbackGivers = [''];
-        customFeedbackPaths.allPossibleFeedbackGivers =
-                customFeedbackPaths.allPossibleFeedbackGivers.concat(customFeedbackPaths.studentEmails);
-        for (var i = 0; i < customFeedbackPaths.instructorEmails.length; i++) {
-            if (!customFeedbackPaths.allPossibleFeedbackGivers.includes(customFeedbackPaths.instructorEmails[i])) {
-                customFeedbackPaths.allPossibleFeedbackGivers.push(customFeedbackPaths.instructorEmails[i]);
+        CustomFeedbackPaths.allPossibleFeedbackGivers = [''];
+        CustomFeedbackPaths.allPossibleFeedbackGivers =
+                CustomFeedbackPaths.allPossibleFeedbackGivers.concat(CustomFeedbackPaths.studentEmails);
+        for (var i = 0; i < CustomFeedbackPaths.instructorEmails.length; i++) {
+            if (!CustomFeedbackPaths.allPossibleFeedbackGivers.includes(CustomFeedbackPaths.instructorEmails[i])) {
+                CustomFeedbackPaths.allPossibleFeedbackGivers.push(CustomFeedbackPaths.instructorEmails[i]);
             }
         }
-        customFeedbackPaths.allPossibleFeedbackGivers =
-                customFeedbackPaths.allPossibleFeedbackGivers.concat(customFeedbackPaths.teamNames);
-        customFeedbackPaths.allPossibleFeedbackRecipients = customFeedbackPaths.allPossibleFeedbackGivers.slice();
-        customFeedbackPaths.allPossibleFeedbackRecipients.push(customFeedbackPaths.TEAM_NAME_INSTRUCTORS);
-        customFeedbackPaths.allPossibleFeedbackRecipients.push('Class');
+        CustomFeedbackPaths.allPossibleFeedbackGivers =
+                CustomFeedbackPaths.allPossibleFeedbackGivers.concat(CustomFeedbackPaths.teamNames);
+        CustomFeedbackPaths.allPossibleFeedbackRecipients = CustomFeedbackPaths.allPossibleFeedbackGivers.slice();
+        CustomFeedbackPaths.allPossibleFeedbackRecipients.push(CustomFeedbackPaths.TEAM_NAME_INSTRUCTORS);
+        CustomFeedbackPaths.allPossibleFeedbackRecipients.push('Class');
     },
     
     initializeFeedbackPathsSpreadsheets: function() {
         $('.form_question').each(function() {
-            customFeedbackPaths.generateFeedbackPathsSpreadsheet($(this));
+            CustomFeedbackPaths.generateFeedbackPathsSpreadsheet($(this));
         });
     },
     
@@ -75,8 +75,8 @@ var customFeedbackPaths = {
         var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
         var giverType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();
         var recipientType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]').val();
-        var data = customFeedbackPaths.getDataForFeedbackPathsSpreadsheet(giverType, recipientType);
-        var columns = customFeedbackPaths.getColumnsForFeedbackPathsSpreadsheet(giverType, recipientType);
+        var data = CustomFeedbackPaths.getDataForFeedbackPathsSpreadsheet(giverType, recipientType);
+        var columns = CustomFeedbackPaths.getColumnsForFeedbackPathsSpreadsheet(giverType, recipientType);
         $container.handsontable({
             data: data,
             minRows: 15,
@@ -95,8 +95,8 @@ var customFeedbackPaths = {
         var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
         var giverType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();
         var recipientType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]').val();
-        var data = customFeedbackPaths.getDataForFeedbackPathsSpreadsheet(giverType, recipientType);
-        var columns = customFeedbackPaths.getColumnsForFeedbackPathsSpreadsheet(giverType, recipientType);
+        var data = CustomFeedbackPaths.getDataForFeedbackPathsSpreadsheet(giverType, recipientType);
+        var columns = CustomFeedbackPaths.getColumnsForFeedbackPathsSpreadsheet(giverType, recipientType);
         var hotInstance = $container.handsontable('getInstance');
         hotInstance.updateSettings({
             data: data,
@@ -105,9 +105,9 @@ var customFeedbackPaths = {
     },
     
     updateColumnsForFeedbackPathsSpreadsheet: function($questionForm) {
-        var columns = customFeedbackPaths.getColumnsForFeedbackPathsSpreadsheet(
-                              customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM,
-                              customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM);
+        var columns = CustomFeedbackPaths.getColumnsForFeedbackPathsSpreadsheet(
+                              CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM,
+                              CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM);
         var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
         var hotInstance = $container.handsontable('getInstance');
         hotInstance.updateSettings({
@@ -119,56 +119,56 @@ var customFeedbackPaths = {
     getDataForFeedbackPathsSpreadsheet: function(giverType, recipientType) {
         var giverToRecipientsMap = {};
         switch (giverType) {
-        case customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF:
-            customFeedbackPaths.populateGiverToRecipientsMapForGiver(
-                    giverToRecipientsMap, [customFeedbackPaths.sessionCreator]);
+        case CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF:
+            CustomFeedbackPaths.populateGiverToRecipientsMapForGiver(
+                    giverToRecipientsMap, [CustomFeedbackPaths.sessionCreator]);
             break;
-        case customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS:
-            customFeedbackPaths.populateGiverToRecipientsMapForGiver(
-                    giverToRecipientsMap, customFeedbackPaths.studentEmails);
+        case CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS:
+            CustomFeedbackPaths.populateGiverToRecipientsMapForGiver(
+                    giverToRecipientsMap, CustomFeedbackPaths.studentEmails);
             break;
-        case customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS:
-            customFeedbackPaths.populateGiverToRecipientsMapForGiver(
-                    giverToRecipientsMap, customFeedbackPaths.instructorEmails);
+        case CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS:
+            CustomFeedbackPaths.populateGiverToRecipientsMapForGiver(
+                    giverToRecipientsMap, CustomFeedbackPaths.instructorEmails);
             break;
-        case customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS:
-            customFeedbackPaths.populateGiverToRecipientsMapForGiver(
-                    giverToRecipientsMap, customFeedbackPaths.teamNames);
+        case CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS:
+            CustomFeedbackPaths.populateGiverToRecipientsMapForGiver(
+                    giverToRecipientsMap, CustomFeedbackPaths.teamNames);
             break;
         default:
             // no change
         }
         
         switch (recipientType) {
-        case customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF:
-            customFeedbackPaths.populateGiverToRecipientsMapForRecipientAsSelf(giverToRecipientsMap);
+        case CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF:
+            CustomFeedbackPaths.populateGiverToRecipientsMapForRecipientAsSelf(giverToRecipientsMap);
             break;
-        case customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS:
-            customFeedbackPaths.populateGiverToRecipientsMapForRecipientAsStudents(giverToRecipientsMap);
+        case CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS:
+            CustomFeedbackPaths.populateGiverToRecipientsMapForRecipientAsStudents(giverToRecipientsMap);
             break;
-        case customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS:
-            customFeedbackPaths.populateGiverToRecipientsMapForRecipientAsInstructors(giverToRecipientsMap);
+        case CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS:
+            CustomFeedbackPaths.populateGiverToRecipientsMapForRecipientAsInstructors(giverToRecipientsMap);
             break;
-        case customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS:
-            customFeedbackPaths.populateGiverToRecipientsMapForRecipientAsTeams(giverToRecipientsMap, giverType);
+        case CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS:
+            CustomFeedbackPaths.populateGiverToRecipientsMapForRecipientAsTeams(giverToRecipientsMap, giverType);
             break;
-        case customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM:
-            customFeedbackPaths.populateGiverToRecipientsMapForRecipientAsOwnTeam(giverToRecipientsMap, giverType);
+        case CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM:
+            CustomFeedbackPaths.populateGiverToRecipientsMapForRecipientAsOwnTeam(giverToRecipientsMap, giverType);
             break;
-        case customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM_MEMBERS:
-            customFeedbackPaths.populateGiverToRecipientsMapForRecipientAsOwnTeamMembers(giverToRecipientsMap, giverType);
+        case CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM_MEMBERS:
+            CustomFeedbackPaths.populateGiverToRecipientsMapForRecipientAsOwnTeamMembers(giverToRecipientsMap, giverType);
             break;
-        case customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            customFeedbackPaths.populateGiverToRecipientsMapForRecipientAsOwnTeamMembersIncludingSelf(
+        case CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            CustomFeedbackPaths.populateGiverToRecipientsMapForRecipientAsOwnTeamMembersIncludingSelf(
                     giverToRecipientsMap, giverType);
             break;
-        case customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_NONE:
-            customFeedbackPaths.populateGiverToRecipientsMapForRecipientAsNobodySpecific(giverToRecipientsMap);
+        case CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_NONE:
+            CustomFeedbackPaths.populateGiverToRecipientsMapForRecipientAsNobodySpecific(giverToRecipientsMap);
             break;
         default:
             // no change
         }
-        return customFeedbackPaths.getFeedbackPathsDataUsingGiverToRecipientsMap(giverToRecipientsMap);
+        return CustomFeedbackPaths.getFeedbackPathsDataUsingGiverToRecipientsMap(giverToRecipientsMap);
     },
     
     getFeedbackPathsDataUsingGiverToRecipientsMap: function(giverToRecipientsMap) {
@@ -188,15 +188,15 @@ var customFeedbackPaths = {
     
     getColumnsForFeedbackPathsSpreadsheet: function(giverType, recipientType) {
         var columns = [{}, {}];
-        if (giverType === customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM
-                && recipientType === customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM) {
+        if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM
+                && recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM) {
             columns = [{
                 type: 'dropdown',
-                source: customFeedbackPaths.allPossibleFeedbackGivers,
+                source: CustomFeedbackPaths.allPossibleFeedbackGivers,
                 readOnly: false
             }, {
                 type: 'dropdown',
-                source: customFeedbackPaths.allPossibleFeedbackRecipients,
+                source: CustomFeedbackPaths.allPossibleFeedbackRecipients,
                 readOnly: false
             }];
         } else {
@@ -223,9 +223,9 @@ var customFeedbackPaths = {
     populateGiverToRecipientsMapForRecipientAsStudents: function(giverToRecipientsMap) {
         for (var giver in giverToRecipientsMap) {
             if (giverToRecipientsMap.hasOwnProperty(giver)) {
-                for (var i = 0; i < customFeedbackPaths.studentEmails.length; i++) {
-                    if (customFeedbackPaths.studentEmails[i] !== giver) {
-                        giverToRecipientsMap[giver].push(customFeedbackPaths.studentEmails[i]);
+                for (var i = 0; i < CustomFeedbackPaths.studentEmails.length; i++) {
+                    if (CustomFeedbackPaths.studentEmails[i] !== giver) {
+                        giverToRecipientsMap[giver].push(CustomFeedbackPaths.studentEmails[i]);
                     }
                 }
             }
@@ -235,9 +235,9 @@ var customFeedbackPaths = {
     populateGiverToRecipientsMapForRecipientAsInstructors: function(giverToRecipientsMap) {
         for (var giver in giverToRecipientsMap) {
             if (giverToRecipientsMap.hasOwnProperty(giver)) {
-                for (var i = 0; i < customFeedbackPaths.instructorEmails.length; i++) {
-                    if (customFeedbackPaths.instructorEmails[i] !== giver) {
-                        giverToRecipientsMap[giver].push(customFeedbackPaths.instructorEmails[i]);
+                for (var i = 0; i < CustomFeedbackPaths.instructorEmails.length; i++) {
+                    if (CustomFeedbackPaths.instructorEmails[i] !== giver) {
+                        giverToRecipientsMap[giver].push(CustomFeedbackPaths.instructorEmails[i]);
                     }
                 }
             }
@@ -247,13 +247,13 @@ var customFeedbackPaths = {
     populateGiverToRecipientsMapForRecipientAsTeams: function(giverToRecipientsMap, giverType) {
         for (var giver in giverToRecipientsMap) {
             if (giverToRecipientsMap.hasOwnProperty(giver)) {
-                for (var i = 0; i < customFeedbackPaths.teamNames.length; i++) {
-                    if (giverType === customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS) {
-                        if (customFeedbackPaths.teamNames[i] !== customFeedbackPaths.studentEmailToTeamNameMap[giver]) {
-                            giverToRecipientsMap[giver].push(customFeedbackPaths.teamNames[i]);
+                for (var i = 0; i < CustomFeedbackPaths.teamNames.length; i++) {
+                    if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS) {
+                        if (CustomFeedbackPaths.teamNames[i] !== CustomFeedbackPaths.studentEmailToTeamNameMap[giver]) {
+                            giverToRecipientsMap[giver].push(CustomFeedbackPaths.teamNames[i]);
                         }
-                    } else if (customFeedbackPaths.teamNames[i] !== giver) {
-                        giverToRecipientsMap[giver].push(customFeedbackPaths.teamNames[i]);
+                    } else if (CustomFeedbackPaths.teamNames[i] !== giver) {
+                        giverToRecipientsMap[giver].push(CustomFeedbackPaths.teamNames[i]);
                     }
                 }
             }
@@ -263,22 +263,22 @@ var customFeedbackPaths = {
     populateGiverToRecipientsMapForRecipientAsOwnTeam: function(giverToRecipientsMap, giverType) {
         for (var giver in giverToRecipientsMap) {
             if (giverToRecipientsMap.hasOwnProperty(giver)) {
-                if (giverType === customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
-                        || giverType === customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS) {
-                    giverToRecipientsMap[giver].push(customFeedbackPaths.TEAM_NAME_INSTRUCTORS);
-                } else if (giverType === customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS) {
-                    giverToRecipientsMap[giver].push(customFeedbackPaths.studentEmailToTeamNameMap[giver]);
+                if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
+                        || giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS) {
+                    giverToRecipientsMap[giver].push(CustomFeedbackPaths.TEAM_NAME_INSTRUCTORS);
+                } else if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS) {
+                    giverToRecipientsMap[giver].push(CustomFeedbackPaths.studentEmailToTeamNameMap[giver]);
                 }
             }
         }
     },
     
     populateGiverToRecipientsMapForRecipientAsOwnTeamMembers: function(giverToRecipientsMap, giverType) {
-        if (giverType === customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS) {
+        if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS) {
             for (var giver in giverToRecipientsMap) {
                 if (giverToRecipientsMap.hasOwnProperty(giver)) {
-                    var giverTeamName = customFeedbackPaths.studentEmailToTeamNameMap[giver];
-                    var giverTeamMembers = customFeedbackPaths.teamNameToStudentEmailsMap[giverTeamName];
+                    var giverTeamName = CustomFeedbackPaths.studentEmailToTeamNameMap[giver];
+                    var giverTeamMembers = CustomFeedbackPaths.teamNameToStudentEmailsMap[giverTeamName];
                     for (var i = 0; i < giverTeamMembers.length; i++) {
                         if (giverTeamMembers[i] !== giver) {
                             giverToRecipientsMap[giver].push(giverTeamMembers[i]);
@@ -292,11 +292,11 @@ var customFeedbackPaths = {
     populateGiverToRecipientsMapForRecipientAsOwnTeamMembersIncludingSelf: function(giverToRecipientsMap, giverType) {
         for (var giver in giverToRecipientsMap) {
             if (giverToRecipientsMap.hasOwnProperty(giver)) {
-                if (giverType === customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS) {
-                    var giverTeamName = customFeedbackPaths.studentEmailToTeamNameMap[giver];
-                    giverToRecipientsMap[giver] = customFeedbackPaths.teamNameToStudentEmailsMap[giverTeamName];
-                } else if (giverType === customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS) {
-                    giverToRecipientsMap[giver] = customFeedbackPaths.teamNameToStudentEmailsMap[giver];
+                if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS) {
+                    var giverTeamName = CustomFeedbackPaths.studentEmailToTeamNameMap[giver];
+                    giverToRecipientsMap[giver] = CustomFeedbackPaths.teamNameToStudentEmailsMap[giverTeamName];
+                } else if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS) {
+                    giverToRecipientsMap[giver] = CustomFeedbackPaths.teamNameToStudentEmailsMap[giver];
                 }
             }
         }
@@ -313,21 +313,21 @@ var customFeedbackPaths = {
     bindEventHandlers: function() {
         $('.form_question').on('change', '.participantSelect', function() {
             var $questionForm = $(this).closest('.form_question');
-            customFeedbackPaths.removeCustomOptionsIfNecessary($questionForm);
-            customFeedbackPaths.updateFeedbackPathsSpreadsheet($questionForm);
+            CustomFeedbackPaths.removeCustomOptionsIfNecessary($questionForm);
+            CustomFeedbackPaths.updateFeedbackPathsSpreadsheet($questionForm);
         });
         
         $('.form_question').on('click', '.add-rows-button', function() {
             var $questionForm = $(this).closest('.form_question');
-            customFeedbackPaths.addRowsToFeedbackPathsSpreadsheet($questionForm);
+            CustomFeedbackPaths.addRowsToFeedbackPathsSpreadsheet($questionForm);
         });
         
         $('.form_question').on('click', '.customize-button', function() {
             var $questionForm = $(this).closest('.form_question');
             $questionForm.find('div[class*="numberOfEntitiesElements"]').hide();
-            customFeedbackPaths.appendCustomOptionsIfNecessary($questionForm);
+            CustomFeedbackPaths.appendCustomOptionsIfNecessary($questionForm);
             enableAllRows($questionForm);
-            customFeedbackPaths.updateColumnsForFeedbackPathsSpreadsheet($questionForm);
+            CustomFeedbackPaths.updateColumnsForFeedbackPathsSpreadsheet($questionForm);
         });
     },
     
@@ -338,28 +338,28 @@ var customFeedbackPaths = {
         var recipientType = $recipientSelect.val();
         
         var isChangingParticipantTypeFromCustomToPredefined =
-                giverType === customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM
-                || recipientType === customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM;
+                giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM
+                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM;
         if (isChangingParticipantTypeFromCustomToPredefined) {
-            $giverSelect.find('option[value="' + customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
-            $recipientSelect.find('option[value="' + customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
+            $giverSelect.find('option[value="' + CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
+            $recipientSelect.find('option[value="' + CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
         }
     },
     
     appendCustomOptionsIfNecessary: function($questionForm) {
         $questionForm.find('.participantSelect').each(function() {
-            if ($(this).val() !== customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM) {
-                customFeedbackPaths.appendCustomOptionToParticipantSelect($(this));
+            if ($(this).val() !== CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM) {
+                CustomFeedbackPaths.appendCustomOptionToParticipantSelect($(this));
             }
         });
     },
     
     appendCustomOptionToParticipantSelect: function($participantSelect) {
         var $customFeedbackParticipantTypeOption =
-                $('<option></option>').attr('value', customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM)
+                $('<option></option>').attr('value', CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM)
                                       .text('Custom');
         $participantSelect.append($customFeedbackParticipantTypeOption)
-                          .val(customFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM);
+                          .val(CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM);
     },
     
     addRowsToFeedbackPathsSpreadsheet: function($questionForm) {

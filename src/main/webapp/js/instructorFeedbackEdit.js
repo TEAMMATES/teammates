@@ -20,9 +20,9 @@ $(document).ready(function() {
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
-    customFeedbackPaths.initializeCustomFeedbackPathsData();
-    customFeedbackPaths.initializeFeedbackPathsSpreadsheets();
-    customFeedbackPaths.bindEventHandlers();
+    CustomFeedbackPaths.initializeCustomFeedbackPathsData();
+    CustomFeedbackPaths.initializeFeedbackPathsSpreadsheets();
+    CustomFeedbackPaths.bindEventHandlers();
 });
 
 
@@ -528,7 +528,7 @@ function showNewQuestionFrame(type) {
     copyOptions();
     prepareQuestionForm(type);
     $('#questionTableNew').show();
-    customFeedbackPaths.updateFeedbackPathsSpreadsheet($('form[name="form_addquestions"]'));
+    CustomFeedbackPaths.updateFeedbackPathsSpreadsheet($('form[name="form_addquestions"]'));
     enableNewQuestion();
     
     $('#addNewQuestionTable').hide();
