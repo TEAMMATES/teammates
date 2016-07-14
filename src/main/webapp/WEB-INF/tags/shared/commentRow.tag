@@ -87,7 +87,7 @@
                         <tbody>
                             <tr>
                                 <th class="text-center">User/Group</th>
-                                <th class="text-center">Can see your comment</th>
+                                <th class="text-center">Can see this comment</th>
                                 <th class="text-center">Can see giver's name</th>
                                 <th class="text-center">Can see recipient's name</th>
                             </tr>
