@@ -15,11 +15,14 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.entity.FeedbackSession;
 
 import com.google.appengine.api.datastore.Text;
 
 public class FeedbackSessionAttributes extends EntityAttributes implements SessionAttributes {
+    private transient String feedbackSessionId;
+    
     private String feedbackSessionName;
     private String courseId;
     private String creatorEmail;
@@ -39,6 +42,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     private boolean isPublishedEmailEnabled;
     private Set<String> respondingInstructorList;
     private Set<String> respondingStudentList;
+    
+    private List<FeedbackQuestionAttributes> questions;
 
     public FeedbackSessionAttributes() {
         this.isOpeningEmailEnabled = true;
@@ -46,9 +51,11 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.isPublishedEmailEnabled = true;
         this.respondingInstructorList = new HashSet<String>();
         this.respondingStudentList = new HashSet<String>();
+        this.questions = new ArrayList<>();
     }
 
     public FeedbackSessionAttributes(FeedbackSession fs) {
+        this.feedbackSessionId = fs.getId();
         this.feedbackSessionName = fs.getFeedbackSessionName();
         this.courseId = fs.getCourseId();
         this.creatorEmail = fs.getCreatorEmail();
@@ -70,6 +77,10 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                                                                  : fs.getRespondingInstructorList();
         this.respondingStudentList = fs.getRespondingStudentList() == null ? new HashSet<String>()
                                                                            : fs.getRespondingStudentList();
+        this.questions = fs.getFeedbackQuestions() == null 
+                         ? new ArrayList<FeedbackQuestionAttributes>()
+                         : FeedbackQuestionsDb.getFeedbackQuestionAttributesFromFeedbackQuestions(
+                                 fs.getFeedbackQuestions());
     }
 
     public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId,
@@ -93,10 +104,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                      boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
                                      boolean isPublishedEmailEnabled, Set<String> instructorList,
                                      Set<String> studentList) {
-
-        this.feedbackSessionName = feedbackSessionName;
-        this.courseId = courseId;
-        this.creatorEmail = creatorId;
+        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
+        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.creatorEmail = Sanitizer.sanitizeEmail(creatorId);
         this.instructions = instructions == null ? null : new Text(Sanitizer.sanitizeForRichText(instructions.getValue()));
         this.createdTime = createdTime;
         this.startTime = startTime;
@@ -113,6 +123,14 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
         this.respondingInstructorList = instructorList;
         this.respondingStudentList = studentList;
+    }
+    
+    public FeedbackSessionAttributes(FeedbackSessionAttributes expected) {
+        this(expected.toEntity());
+    }
+
+    public static String makeId(String feedbackSessionName, String courseId) {
+        return feedbackSessionName + "%" + courseId;
     }
     
     public String getCourseId() {
@@ -137,11 +155,14 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public FeedbackSession toEntity() {
-        return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions, createdTime,
-                                   startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-                                   timeZone, gracePeriod, feedbackSessionType, sentOpenEmail, sentPublishedEmail,
-                                   isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
-                                   respondingInstructorList, respondingStudentList);
+        return new FeedbackSession(
+               feedbackSessionName, courseId, creatorEmail, instructions, createdTime,
+               startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
+               timeZone, gracePeriod, feedbackSessionType, sentOpenEmail, sentPublishedEmail,
+               isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
+               respondingInstructorList, respondingStudentList, 
+               FeedbackQuestionsDb.getFeedbackQuestionEntitiesFromFeedbackQuestionAttributes(
+                       questions));
     }
 
     @Override
@@ -277,6 +298,10 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     public boolean isValid() {
         return getInvalidityInfo().isEmpty();
     }
+    
+    public String getId() {
+        return feedbackSessionId == null ? makeId(this.feedbackSessionName, this.courseId) : feedbackSessionId;
+    }
 
     public boolean isClosingWithinTimeLimit(int hours) {
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -408,6 +433,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public void sanitizeForSaving() {
+        this.courseId = Sanitizer.sanitizeForHtml(courseId);
+        this.creatorEmail = Sanitizer.sanitizeForHtml(creatorEmail);
 
         if (instructions != null) {
             this.instructions = new Text(Sanitizer.sanitizeForRichText(instructions.getValue()));
@@ -665,5 +692,13 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     public void setRespondingStudentList(Set<String> respondingStudentList) {
         this.respondingStudentList = respondingStudentList;
+    }
+    
+    public List<FeedbackQuestionAttributes> getQuestions() {
+        return questions;
+    }
+    
+    public void setQuestions(List<FeedbackQuestionAttributes> questions) {
+        this.questions = questions;
     }
 }

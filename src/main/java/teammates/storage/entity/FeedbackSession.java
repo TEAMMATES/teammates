@@ -3,9 +3,11 @@ package teammates.storage.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.Order;
 import javax.jdo.annotations.PersistenceCapable;
@@ -29,7 +31,7 @@ public class FeedbackSession {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     @PrimaryKey
     @Persistent
-    private transient String feedbackSessionId;
+    private String feedbackSessionId;
     
     @Persistent
     private String feedbackSessionName;
@@ -108,9 +110,23 @@ public class FeedbackSession {
     @Persistent
     private Boolean isPublishedEmailEnabled;
     
-    @Order(extensions = @Extension(vendorName="datanucleus",key="list-ordering", value="questionNumber asc"))
+    @Persistent
+    @Order(extensions = @Extension(vendorName="datanucleus", key="list-ordering", value="questionNumber asc"))
     private List<Question> feedbackQuestions;
     
+    public List<Question> getFeedbackQuestions() {
+        if (feedbackQuestions == null) {
+            feedbackQuestions = new ArrayList<>();
+        }
+        for (Iterator<Question> iter = feedbackQuestions.iterator(); iter.hasNext();) {
+            Question question = iter.next();
+            if (JDOHelper.isDeleted(question)) {
+                iter.remove();
+            }
+        }
+        return feedbackQuestions;
+    }
+
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
             Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
@@ -152,6 +168,10 @@ public class FeedbackSession {
         this.respondingInstructorList = instructorList;
         this.respondingStudentList = studentList;
         this.feedbackQuestions = questions;
+    }
+    
+    public String getId() {
+        return feedbackSessionId;
     }
 
     public String getFeedbackSessionName() {
@@ -332,10 +352,6 @@ public class FeedbackSession {
         this.respondingStudentList = studentList;
     }
     
-    public List<Question> getFeedbackQuestions() {
-        return feedbackQuestions;
-    }
-
     @Override
     public String toString() {
         return "FeedbackSession [feedbackSessionName=" + feedbackSessionName

@@ -41,7 +41,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public FeedbackQuestionAttributes() {
         // attributes to be set after construction
     }
-
+    
     public FeedbackQuestionAttributes(FeedbackQuestion fq) {
         this.feedbackQuestionId = fq.getId();
         this.feedbackSessionName = fq.getFeedbackSessionName();
@@ -107,7 +107,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return feedbackQuestionId;
     }
 
-    /** NOTE: Only use this to match and search for the ID of a known existing question entity. */
     public void setId(String id) {
         if (id == null) {
             Assumption.fail("id should not be null since we stopped relying on the database to generate id");
@@ -116,9 +115,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
     
     public String makeId() {
-        return Sanitizer.sanitizeForUri(courseId)
-               + "/" + Sanitizer.sanitizeForUri(feedbackSessionName)
-               + "/" + questionNumber
+        return courseId + "/" + feedbackSessionName + "/" + questionNumber
                + "/" + formatTimeForId(new Date());
     }
     
