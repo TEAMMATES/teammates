@@ -8,14 +8,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.ParamsNames;
 import teammates.logic.automated.EmailAction;
@@ -24,45 +20,22 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.util.Priority;
 
 @Priority(-1)
-public class FeedbackSessionUnpublishedMailTest extends BaseComponentUsingTaskQueueTestCase {
+public class FeedbackSessionUnpublishedMailTest extends BaseComponentTestCase {
     
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final DataBundle dataBundle = getTypicalDataBundle();
     
-    @SuppressWarnings("serial")
-    public static class FeedbackSessionUnpublishedCallback extends BaseTaskQueueCallback {
-        
-        @Override
-        public int execute(URLFetchRequest request) {
-            
-            HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
-            
-            assertTrue(paramMap.containsKey(ParamsNames.EMAIL_TYPE));
-            EmailType typeOfMail = EmailType.valueOf(paramMap.get(ParamsNames.EMAIL_TYPE));
-            assertEquals(EmailType.FEEDBACK_UNPUBLISHED, typeOfMail);
-            
-            assertTrue(paramMap.containsKey(ParamsNames.EMAIL_FEEDBACK));
-            assertNotNull(paramMap.get(ParamsNames.EMAIL_FEEDBACK));
-            
-            assertTrue(paramMap.containsKey(ParamsNames.EMAIL_COURSE));
-            assertNotNull(paramMap.get(ParamsNames.EMAIL_COURSE));
-            
-            FeedbackSessionUnpublishedCallback.taskCount++;
-            return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
-        }
-
-    }
-    
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         gaeSimulation.tearDown();
-        gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionUnpublishedCallback.class);
+        gaeSimulation.setup();
         gaeSimulation.resetDatastore();
         removeAndRestoreTypicalDataInDatastore();
     }
@@ -93,10 +66,8 @@ public class FeedbackSessionUnpublishedMailTest extends BaseComponentUsingTaskQu
 
         for (EmailWrapper email : preparedEmails) {
             assertEquals(String.format(EmailType.FEEDBACK_UNPUBLISHED.getSubject(), courseName,
-                                       session1.getFeedbackSessionName()),
-                         email.getSubject());
+                                       session1.getFeedbackSessionName()), email.getSubject());
         }
-        
     }
     
     private Map<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {
