@@ -271,8 +271,7 @@ public class QuestionsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, questionNumber);
 
-        Question fq = getFeedbackQuestionEntity(feedbackSessionName,
-                courseId, questionNumber);
+        Question fq = getFeedbackQuestionEntity(feedbackSessionName, courseId, questionNumber);
         
         if (fq == null) {
             log.info("Trying to get non-existent Question: "

@@ -26,8 +26,8 @@ public class QuestionAttributes extends FeedbackQuestionAttributes {
     @Override
     public Question toEntity() {
         // during the period when the code supports both old (FeedbackQuestion) and new Question types
-        // allow setting of id by the code. 
-        // TODO this should be remove once the old question type (FeedbackQuestion) is removed. 
+        // allow setting of id by our code. 
+        // TODO this should be removed once the old question type (FeedbackQuestion) is removed. 
         String questionId = getId() == null ? makeId() : getId(); 
         return new Question(questionId,
                             feedbackSessionName, courseId, creatorEmail,
