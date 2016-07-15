@@ -2,8 +2,11 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.json.JSONObject;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -16,6 +19,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackQuestionEditForm;
 import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
@@ -32,6 +36,9 @@ public class InstructorFeedbackEditPageData extends PageData {
     private FeedbackSessionPreviewForm previewForm;
     private String statusForAjax;
     private boolean hasError;
+    private Map<String, String> studentsData;
+    private List<String> instructorsData;
+    private String creatorEmail;
     
     public InstructorFeedbackEditPageData(AccountAttributes account) {
         super(account);
@@ -42,6 +49,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                      List<StudentAttributes> studentList, List<InstructorAttributes> instructorList,
                      InstructorAttributes instructor) {
         Assumption.assertNotNull(feedbackSession);
+        populateCustomFeedbackPathsData(feedbackSession.getCreatorEmail(), studentList, instructorList);
         
         buildFsForm(feedbackSession);
         
@@ -187,8 +195,11 @@ public class InstructorFeedbackEditPageData extends PageData {
                     isSelected = isGiverType || isRecipientType;
                 }
                 
-                ElementTag optionTag = createOption(participantName, option.toString(), isSelected);
-                result.add(optionTag);
+                // Don't add option for custom feedback participant type unless it is selected
+                if (option != FeedbackParticipantType.CUSTOM || isSelected) {
+                    ElementTag optionTag = createOption(participantName, option.toString(), isSelected);
+                    result.add(optionTag);
+                }
             }
         }
         return result;
@@ -203,6 +214,19 @@ public class InstructorFeedbackEditPageData extends PageData {
         }
         
         return options;
+    }
+    
+    private void populateCustomFeedbackPathsData(
+            String creatorEmail, List<StudentAttributes> students, List<InstructorAttributes> instructors) {
+        setCreatorEmail(creatorEmail);
+        studentsData = new HashMap<String, String>();
+        for (StudentAttributes student : students) {
+            studentsData.put(student.getEmail(), student.getTeam());
+        }
+        instructorsData = new LinkedList<String>();
+        for (InstructorAttributes instructor : instructors) {
+            instructorsData.add(instructor.getEmail());
+        }
     }
     
     /**
@@ -292,5 +316,23 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public void setHasError(boolean value) {
         this.hasError = value;
+    }
+    
+    public String getCreatorEmail() {
+        return creatorEmail;
+    }
+    
+    public void setCreatorEmail(String creatorEmail) {
+        this.creatorEmail = creatorEmail;
+    }
+    
+    public String getStudentsDataAsString() {
+        // studentsData is converted to a JSONObject to obtain its JSON string representation
+        JSONObject json = new JSONObject(studentsData);
+        return Sanitizer.sanitizeForHtml(json.toString());
+    }
+    
+    public String getInstructorsDataAsString() {
+        return Sanitizer.sanitizeForHtml(Sanitizer.sanitizeListForCsv(instructorsData)).toString();
     }
 }

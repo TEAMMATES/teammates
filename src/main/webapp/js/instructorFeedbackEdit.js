@@ -13,12 +13,16 @@ var CONFIRM_EDIT_DELETE_RESPONSES =
         + '<p>Are you sure you want to continue?</p>';
 
 var questionsBeforeEdit = [];
+var customFeedbackPathsDataForEachQuestionBeforeEdit = [];
 
 $(document).ready(function() {
     readyFeedbackEditPage();
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
+    CustomFeedbackPaths.initializeCustomFeedbackPathsData();
+    CustomFeedbackPaths.initializeFeedbackPathsSpreadsheets();
+    CustomFeedbackPaths.bindEventHandlers();
 });
 
 
@@ -232,6 +236,8 @@ function enableEdit(questionNum, maxQuestions) {
 function backupQuestion(questionNum) {
     questionsBeforeEdit[questionNum] = questionsBeforeEdit[questionNum]
                                 || $('#questionTable' + questionNum + ' > .panel-body').html();
+    customFeedbackPathsDataForEachQuestionBeforeEdit[questionNum] =
+            $('#questionTable' + questionNum + ' .custom-feedback-paths-spreadsheet').handsontable('getData');
 }
 
 /**
@@ -254,6 +260,7 @@ function enableQuestion(questionNum) {
     $currentQuestionTable.find('#rubricAddSubQuestionLink-' + questionNum).show();
     $currentQuestionTable.find('.rubricRemoveChoiceLink-' + questionNum).show();
     $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + questionNum).show();
+    $currentQuestionTable.find('.custom-feedback-paths-row').show();
 
     if ($('#generateOptionsCheckbox-' + questionNum).prop('checked')) {
         $('#mcqChoiceTable-' + questionNum).hide();
@@ -361,6 +368,10 @@ function disableQuestion(questionNum) {
     $currentQuestionTable.find('#rubricAddSubQuestionLink-' + questionNum).hide();
     $currentQuestionTable.find('.rubricRemoveChoiceLink-' + questionNum).hide();
     $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + questionNum).hide();
+    $currentQuestionTable.find('.custom-feedback-paths-row').hide();
+    $currentQuestionTable.find('.custom-feedback-paths-display').hide();
+    $currentQuestionTable.find('.toggle-custom-feedback-paths-display-link')
+                         .text('Show details and further customizations');
     
     moveAssignWeightsCheckbox($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
 
@@ -420,7 +431,7 @@ function restoreOriginal(questionNum) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
         $('#questionTable' + questionNum + ' > .panel-body').html(questionsBeforeEdit[questionNum]);
-
+        regenerateCustomFeedbackPathsSpreadsheet(questionNum);
         $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).show();
         $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
         $('#' + FEEDBACK_QUESTION_DISCARDCHANGES + '-' + questionNum).hide();
@@ -517,10 +528,12 @@ function showNewQuestionFrame(type) {
     copyOptions();
     prepareQuestionForm(type);
     $('#questionTableNew').show();
+    CustomFeedbackPaths.updateFeedbackPathsSpreadsheet($('form[name="form_addquestions"]'));
     enableNewQuestion();
     
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
+    $('#questionTableNew .custom-feedback-paths-display').hide();
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
     getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
@@ -638,7 +651,8 @@ function prepareQuestionForm(type) {
 
 /**
  * Copy options (Feedback giver, recipient, and all check boxes)
- * from the previous question
+ * from the previous question.
+ * Will not copy if previous question's options were custom.
  */
 function copyOptions() {
     // If there is one or less questions, there's no need to copy.
@@ -646,16 +660,19 @@ function copyOptions() {
         return;
     }
     
-    // Feedback giver setup
+    // Previous feedback path setup
     var $prevGiver = $('select[name="givertype"]').eq(-2);
-    var $currGiver = $('select[name="givertype"]').last();
-    
-    $currGiver.val($prevGiver.val());
-    
-    // Feedback recipient setup
     var $prevRecipient = $('select[name="recipienttype"]').eq(-2);
-    var $currRecipient = $('select[name="recipienttype"]').last();
     
+    // If previous feedback path was custom, there's no need to copy
+    if ($prevGiver.val() === 'CUSTOM' || $prevRecipient.val() === 'CUSTOM') {
+        return;
+    }
+    
+    // New question feedback path setup
+    var $currGiver = $('select[name="givertype"]').last();
+    var $currRecipient = $('select[name="recipienttype"]').last();
+    $currGiver.val($prevGiver.val());
     $currRecipient.val($prevRecipient.val());
     
     // Number of recipient setup
@@ -863,3 +880,32 @@ function getQuestionIdSuffix(questionNum) {
     return idSuffix;
 }
 
+function toggleCustomFeedbackPathsDisplay(toggleLink) {
+    var $toggleLink = $(toggleLink);
+    var $customFeedbackPathsDisplay = $toggleLink.closest('.custom-feedback-paths-row')
+                                                 .find('.custom-feedback-paths-display');
+    if ($customFeedbackPathsDisplay.is(':visible')) {
+        $customFeedbackPathsDisplay.hide();
+        $toggleLink.text('Show details and further customizations');
+    } else {
+        $customFeedbackPathsDisplay.show();
+        $toggleLink.text('Hide details and further customizations');
+    }
+}
+
+function regenerateCustomFeedbackPathsSpreadsheet(questionNum) {
+    var data = customFeedbackPathsDataForEachQuestionBeforeEdit[questionNum];
+    var $container = $('#questionTable' + questionNum + ' .custom-feedback-paths-spreadsheet');
+    $container.handsontable({
+        data: data,
+        minRows: 15,
+        minCols: 2,
+        minSpareRows: 1,
+        rowHeaders: true,
+        colHeaders: ['Feedback giver', 'Feedback recipient'],
+        columns: [{ readOnly: true }, { readOnly: true }],
+        manualColumnResize: true,
+        manualRowResize: true,
+        stretchH: 'all'
+    });
+}

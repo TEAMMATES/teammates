@@ -73,6 +73,42 @@
             </div>
         </div>
     </div>
+    <div class="row custom-feedback-paths-row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <a class="toggle-custom-feedback-paths-display-link"
+                       onclick="toggleCustomFeedbackPathsDisplay(this)">Show details and further customizations</a>
+                </div>   
+            </div>
+            <div class="row custom-feedback-paths-display margin-top-15px">
+                <div class="col-sm-3">
+                    <p class="text-muted"><strong>How to use:</strong></p>
+                    <p class="text-muted">The spreadsheet to the right shows the current feedback paths according to the chosen options</p>
+                    <p class="text-muted">Each row represents the feedback path of a single giver to a single recipient.</p>
+                    <p class="text-muted">The first column contains the feedback giver and the second column contains the feedback recipient.</p>
+                    <p class="text-muted">You can fully customize the paths by clicking on the button below.</p>
+                    <button type="button" class="btn btn-primary btn-block customize-button">Customize</button>
+                </div>
+                <div class="col-sm-9">
+                    <div class="row margin-bottom-15px">
+                        <div class="col-sm-12">
+                            <div class="custom-feedback-paths-spreadsheet"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="pull-right">                                    
+                                <button class="btn btn-primary add-rows-button" type="button">Add</button>
+                                <input type="number" class="form-control add-rows-input" value="10">
+                                more rows at bottom                                
+                            </div>
+                        </div>
+                    </div>
+                </div>               
+            </div>
+        </div>
+    </div>
 </div>
 
 <br>

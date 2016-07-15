@@ -114,6 +114,13 @@ function formatCheckBoxes() {
     });
 }
 
+function enableAllRows($containingForm) {
+    var allRows = [ROW_RECIPIENT, ROW_GIVER_TEAM, ROW_RECIPIENT_TEAM, ROW_OTHER_STUDENTS, ROW_INSTRUCTORS];
+    allRows.forEach(function(row) {
+        enableRow($containingForm, row);
+    });
+}
+
 function enableRow($containingForm, row) {
     var $editTab = $containingForm.find('.visibilityOptions');
     var $table = $editTab.find('table');

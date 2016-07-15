@@ -93,6 +93,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         testEditQuestionLink();
         testEditQuestionAction();
+        
+        testToggleCustomFeedbackPathDisplayLink();
 
         testCopyQuestion();
 
@@ -313,6 +315,22 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         feedbackEditPage.getDeleteQuestionLink(2).click();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
+    }
+    
+    private void testToggleCustomFeedbackPathDisplayLink() {
+
+        ______TS("Show feedback path details");
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertTrue(feedbackEditPage.isToggleCustomFeedbackPathsDisplayLinkVisible(1));
+        feedbackEditPage.clickToggleCustomFeedbackPathsDisplayLink(1);
+        assertTrue(feedbackEditPage.isCustomFeedbackPathsDisplayVisible(1));
+        
+        ______TS("Hide feedback path details");
+        feedbackEditPage.clickToggleCustomFeedbackPathsDisplayLink(1);
+        assertFalse(feedbackEditPage.isCustomFeedbackPathsDisplayVisible(1));
+        feedbackEditPage.getDiscardChangesLink(1).click();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        assertFalse(feedbackEditPage.isToggleCustomFeedbackPathsDisplayLinkVisible(1));
     }
 
     private void testCancelAddingNewQuestion() {
