@@ -684,7 +684,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                 editInstructorIndex, 2, InstructorCourseEditPage.SECTION_VIEW_STUDENTS);
         courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
 
-        courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex + ">"),
+        courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex),
                                       "/instructorCourseEditCancelEditCoownerForm.html");
         
         courseEditPage.clickEditInstructorLink(editInstructorIndex);
@@ -698,7 +698,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.selectRoleForInstructor(editInstructorIndex, "Co-owner");
         courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
 
-        courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex + ">"),
+        courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex),
                                       "/instructorCourseEditCancelEditCustomInstructorForm.html");
         
         ______TS("success: cancel editing a Custom instructor's permissions");
@@ -715,7 +715,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickHideSectionLevelPrivileges(editInstructorIndex, 2);
         courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
 
-        courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex + ">"),
+        courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex),
                                       "/instructorCourseEditCancelEditCustomInstructorPermissionsForm.html");
         
         courseEditPage.clickEditInstructorLink(editInstructorIndex);
