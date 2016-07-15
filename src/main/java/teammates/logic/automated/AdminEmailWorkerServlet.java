@@ -48,7 +48,10 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         Assumption.assertNotNull(emailSubject);
         
         try {
-            sendAdminEmail(emailContent, emailSubject, receiverEmail);
+            EmailWrapper email =
+                    new EmailGenerator().generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),
+                                                            emailSubject, receiverEmail);
+            new EmailSender().sendEmail(email);
             log.info("Email sent to " + receiverEmail);
         } catch (Exception e) {
             log.severe("Unexpected error while sending admin emails: " + TeammatesException.toStringWithStackTrace(e));
@@ -56,13 +59,4 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
 
     }
     
-    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws Exception {
-        
-        EmailWrapper email =
-                new EmailGenerator().generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent),
-                                                        subject, receiverEmail);
-        new EmailSender().sendEmailWithoutLogging(email);
-       
-    }
-
 }

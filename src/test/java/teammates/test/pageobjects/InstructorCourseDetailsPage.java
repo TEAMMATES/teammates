@@ -56,12 +56,14 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
 
     public InstructorCourseDetailsPage clickRemindAllAndCancel() {
-        clickAndCancel(remindAllButton);
+        remindAllButton.click();
+        waitForConfirmationModalAndClickCancel();
         return this;
     }
     
     public InstructorCourseDetailsPage clickRemindAllAndConfirm() {
-        clickAndConfirm(remindAllButton);
+        remindAllButton.click();
+        waitForConfirmationModalAndClickOk();
         return this;
     }
     
@@ -114,25 +116,29 @@ public class InstructorCourseDetailsPage extends AppPage {
     
     public InstructorCourseDetailsPage clickRemindStudentAndCancel(String studentName) {
         int rowId = getStudentRowId(studentName);
-        clickAndCancel(getRemindLink(rowId));
+        getRemindLink(rowId).click();
+        waitForConfirmationModalAndClickCancel();
         return this;
     }
     
     public InstructorCourseDetailsPage clickRemindStudentAndConfirm(String studentName) {
         int rowId = getStudentRowId(studentName);
-        clickAndConfirm(getRemindLink(rowId));
+        getRemindLink(rowId).click();
+        waitForConfirmationModalAndClickOk();
         return this;
     }
     
     public InstructorCourseDetailsPage clickDeleteAndCancel(String studentName) {
         int rowId = getStudentRowId(studentName);
-        clickAndCancel(getDeleteLink(rowId));
+        getDeleteLink(rowId).click();
+        waitForConfirmationModalAndClickCancel();
         return this;
     }
     
     public InstructorCourseDetailsPage clickDeleteAndConfirm(String studentName) {
         int rowId = getStudentRowId(studentName);
-        clickAndConfirm(getDeleteLink(rowId));
+        getDeleteLink(rowId).click();
+        waitForConfirmationModalAndClickOk();
         return this;
     }
     
@@ -163,10 +169,10 @@ public class InstructorCourseDetailsPage extends AppPage {
     
     private WebElement getAllRecordsLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
+        WebElement fourthLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
         
-        if ("All Records".equals(thirdLink.getText())) {
-            return thirdLink;
+        if ("All Records".equals(fourthLink.getText())) {
+            return fourthLink;
         }
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(5)"));
     }

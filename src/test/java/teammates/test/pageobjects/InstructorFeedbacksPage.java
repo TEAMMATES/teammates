@@ -44,10 +44,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     @FindBy(id = "graceperiod")
     private WebElement gracePeriodDropdown;
-    
-    @FindBy(id = "instructions")
-    private WebElement instructionsTextBox;
-    
+
     @FindBy(id = "editUncommonSettingsButton")
     private WebElement uncommonSettingsButton;
     
@@ -230,9 +227,9 @@ public class InstructorFeedbacksPage extends AppPage {
         
         // Fill in instructions
         if (instructions != null) {
-            fillTextBox(instructionsTextBox, instructions.getValue());
+            fillRichTextEditor("instructions", instructions.getValue());
         }
-    
+
         // Select grace period
         if (gracePeriod != -1) {
             selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");

@@ -267,49 +267,49 @@
                 
                 <div class="pageinfo">Home Page</div>
                 <div id="index">
-                    <iframe class="full-width" src="../index.html"></iframe>
+                    <iframe class="full-width" src="/index.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Features Page</div>
                 <div id="features">
-                    <iframe class="full-width" src="../features.html"></iframe>
+                    <iframe class="full-width" src="/features.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">About Us Page</div>
                 <div id="about">
-                    <iframe class="full-width" src="../about.html"></iframe>
+                    <iframe class="full-width" src="/about.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Contact Page</div>
                 <div id="contact">
-                    <iframe class="full-width" src="../contact.html"></iframe>
+                    <iframe class="full-width" src="/contact.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Terms Of Use Page</div>
                 <div id="terms">
-                    <iframe class="full-width" src="../terms.html"></iframe>
+                    <iframe class="full-width" src="/terms.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Request Account Page</div>
                 <div id="request">
-                    <iframe class="full-width" src="../request.html"></iframe>
+                    <iframe class="full-width" src="/request.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Help Page</div>
                 <div id="studentHelp">
-                    <iframe class="full-width" src="../studentHelp.html"></iframe>
+                    <iframe class="full-width" src="/studentHelp.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Help Page</div>
                 <div id="instructorHelp">
-                    <iframe class="full-width" src="../instructorHelp.html"></iframe>
+                    <iframe class="full-width" src="/instructorHelp.jsp"></iframe>
                 </div>
                 <br><hr class="hr-bold"><br>
                 

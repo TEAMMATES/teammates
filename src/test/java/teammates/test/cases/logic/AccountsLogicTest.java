@@ -16,7 +16,6 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
@@ -103,7 +102,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("delete profile picture");
         
         accountsLogic.deleteStudentProfilePicture(expectedSpa.googleId);
-        assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(new BlobKey(expectedSpa.pictureKey)));
+        assertFalse(doesFileExistInGcs(new BlobKey(expectedSpa.pictureKey)));
         
         actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
@@ -119,7 +118,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         String keyString = writeFileToGcs("accountsLogicTestid", "src/test/resources/images/profile_pic.png");
         BlobKey key = new BlobKey(keyString);
         accountsLogic.deletePicture(key);
-        assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(key));
+        assertFalse(doesFileExistInGcs(key));
     }
 
     @Test

@@ -43,7 +43,7 @@
         <span class="icon-bar">
         </span>
       </button>
-      <a class="navbar-brand" href="/index.html">
+      <a class="navbar-brand" href="/index.jsp">
         TEAMMATES
       </a>
     </div>
@@ -65,7 +65,7 @@
           </a>
         </li>
         <li>
-          <a class="nav" href="/studentHelp.html" id="studentHelpLink" target="_blank">
+          <a class="nav" href="/studentHelp.jsp" id="studentHelpLink" target="_blank">
             Help
           </a>
         </li>
@@ -99,7 +99,7 @@
     </a>
     (recommended).
   </div>
-  <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_student_submit_response">
+  <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_submit_response">
     <input name="fsname" type="hidden" value="First Session">
     <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104">
     <input name="key" type="hidden" value="${regkey.enc}">
@@ -517,7 +517,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -558,7 +558,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -877,7 +877,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-7-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -924,7 +924,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-7-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1113,7 +1113,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-9-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1182,7 +1182,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-9-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1804,7 +1804,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1836,7 +1836,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -2177,7 +2177,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -2222,7 +2222,7 @@
           <div class="form-group margin-0">
             <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                To Team:
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -3305,7 +3305,7 @@
     <br>
     <br>
     <div class="bold align-center">
-      <input class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback">
+      <input class="btn btn-primary center-block" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback">
     </div>
     <br>
     <br>
@@ -3317,7 +3317,7 @@
       <div class="col-md-2">
         <span>
           [
-          <a href="/index.html">
+          <a href="/index.jsp">
             TEAMMATES
           </a>
           V${version}]
@@ -3328,7 +3328,7 @@
       <div class="col-md-2">
         <span>
           [Send
-          <a class="link" href="../contact.html" target="_blank">
+          <a class="link" href="/contact.jsp" target="_blank">
             Feedback
           </a>
           ]

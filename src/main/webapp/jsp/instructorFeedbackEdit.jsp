@@ -12,6 +12,9 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
 <c:set var="jsIncludes">
+    <script type="text/javascript" src="/js/lib/tinymce.min.js"></script>
+    <script type="text/javascript" src="/js/richTextEditor.js"></script>
+
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
     
     <script type="text/javascript" src="/js/datepicker.js"></script>

@@ -24,7 +24,7 @@
           </div>
           <div class="col-xs-1">
             <h5>
-              <a href="/instructorHelp.html#fbSetupSession" target="_blank">
+              <a href="/instructorHelp.jsp#fbSetupSession" target="_blank">
                 <span class="glyphicon glyphicon-info-sign">
                 </span>
               </a>
@@ -216,9 +216,14 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <textarea class="form-control" cols="100%" id="instructions" name="instructions" placeholder="e.g. Please answer all the given questions." rows="4">
-                    Please answer all the given questions.
-                  </textarea>
+                  <div id="richtext-toolbar-container">
+                  </div>
+                  <div class="panel panel-default panel-body mce-content-body" contenteditable="true" id="instructions" spellcheck="false" style="position: relative;">
+                    <p>
+                      Please answer all the given questions.
+                    </p>
+                  </div>
+                  <input name="instructions" type="hidden">
                 </div>
               </div>
             </div>

@@ -8,7 +8,6 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackResponse;
 
@@ -52,11 +51,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             String courseId, String feedbackQuestionId,
             FeedbackQuestionType feedbackQuestionType, String giverEmail, String giverSection,
             String recipientEmail, String recipientSection, Text responseMetaData) {
-        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.feedbackSessionName = feedbackSessionName;
+        this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
         this.feedbackQuestionType = feedbackQuestionType;
-        this.giver = Sanitizer.sanitizeEmail(giverEmail);
+        this.giver = giverEmail;
         this.giverSection = giverSection;
         this.recipient = recipientEmail;
         this.recipientSection = recipientSection;
@@ -135,7 +134,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     }
     
     @Override
-    public Object toEntity() {
+    public FeedbackResponse toEntity() {
         return new FeedbackResponse(feedbackSessionName, courseId,
                 feedbackQuestionId, feedbackQuestionType,
                 giver, giverSection, recipient, recipientSection, responseMetaData);
@@ -173,13 +172,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
-        this.giver = Sanitizer.sanitizeEmail(giver);
-        this.giverSection = Sanitizer.sanitizeTitle(giverSection);
-        this.recipient = Sanitizer.sanitizeEmail(recipient);
-        this.recipientSection = Sanitizer.sanitizeTitle(recipientSection);
+        // nothing to sanitize before saving
     }
     
     /** This method converts the given Feedback*ResponseDetails object to JSON for storing
