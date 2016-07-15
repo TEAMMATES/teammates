@@ -56,6 +56,7 @@ var FEEDBACK_QUESTION_NUMSCALE_MAX = 'numscalemax';
 var FEEDBACK_QUESTION_NUMSCALE_STEP = 'numscalestep';
 var FEEDBACK_QUESTION_NUMBER = 'questionnum';
 var FEEDBACK_QUESTION_TEXT = 'questiontext';
+var FEEDBACK_QUESTION_DESCRIPTION = 'questiondescription';
 var FEEDBACK_QUESTION_EDITTEXT = 'questionedittext';
 var FEEDBACK_QUESTION_DISCARDCHANGES = 'questiondiscardchanges';
 var FEEDBACK_QUESTION_EDITTYPE = 'questionedittype';
