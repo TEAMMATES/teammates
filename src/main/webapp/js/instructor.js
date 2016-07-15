@@ -23,19 +23,6 @@ $(document).ready(function() {
 // -----------------------------------------------------------------------------
 
 /**
- * Pops up confirmation dialog whether to publish the specified
- * evaluation
- * @param name
- */
-function togglePublishEvaluation(name, isSendingPublishEmail) {
-    if (isSendingPublishEmail) {
-        return confirm('Are you sure you want to publish the responses for the session "' + name + '"?'
-                       + ' An email will be sent to students to inform them that the responses are ready for viewing.');
-    }
-    return confirm('Are you sure you want to publish the responses for the session "' + name + '"?');
-}
-
-/**
  * Pops up confirmation dialog whether to unpublish the specified
  * evaluation
  * @param name
@@ -340,13 +327,25 @@ function bindRemindButtons() {
 }
 
 function bindPublishButtons() {
-    $('body').on('click', '.session-publish-for-test', function() {
+    $('body').on('click', '.session-publish-for-test', function(event) {
+        event.preventDefault();
  
         var $button = $(this);
         var feedbackSessionName = $button.data('fsname');
-        var isSendingPublishedEmail = $button.data('sending-published-email');
+        var messageText = 'Are you sure you want to publish the responses for the session "' + feedbackSessionName + '"?';
 
-        return togglePublishEvaluation(feedbackSessionName, isSendingPublishedEmail);
+        var isSendingPublishedEmail = $button.data('sending-published-email');
+        if (isSendingPublishedEmail) {
+            messageText += ' An email will be sent to students to inform them that the responses are ready for viewing.';
+        }
+
+        var okCallback = function() {
+            window.location = $button.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm publishing responses', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
+
     });
 }
 

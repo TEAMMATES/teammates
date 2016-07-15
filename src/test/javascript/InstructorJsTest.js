@@ -5,11 +5,6 @@ QUnit.test('toggleDeleteCourseConfirmation(courseID)', function() {
     expect(0);
 });
 
-QUnit.test('togglePublishEvaluation(name)', function() {
-    // N/A, uses elements in the page
-    expect(0);
-});
-
 QUnit.test('toggleUnpublishEvaluation(name)', function() {
     // N/A, uses elements in the page
     expect(0);
