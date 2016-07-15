@@ -794,14 +794,19 @@ function bindCopyButton() {
         var index = 0;
         var hasRowSelected = false;
 
-        $('#copyTableModal >tbody>tr').each(function() {
-            var input = $(this).children('input:first');
+        $('#copyTableModal > tbody > tr').each(function() {
+            var $this = $(this);
+            var questionIdInput = $(this).children('input:first');
             
-            if (!input.length) {
+            if (!questionIdInput.length) {
                 return true;
             }
-            if ($(this).hasClass('row-selected')) {
-                $(input).attr('name', 'questionid-' + index++);
+            if ($this.hasClass('row-selected')) {
+                $(questionIdInput).attr('name', 'questionid-' + index);
+                $this.find('input.courseid').attr('name', 'courseid-' + index);
+                $this.find('input.fsname').attr('name', 'fsname-' + index);
+                
+                index += 1;
                 hasRowSelected = true;
             }
         });
