@@ -23,16 +23,6 @@ $(document).ready(function() {
 // -----------------------------------------------------------------------------
 
 /**
- * Pops up confirmation dialog whether to remind students to fill in a specified
- * evaluation.
- * @param courseID
- * @param evaluationName
- */
-function toggleRemindStudents(evaluationName) {
-    return confirm('Send e-mails to remind students who have not submitted their feedback for ' + evaluationName + '?');
-}
-
-/**
  * Checks whether a team's name is valid
  * Used in instructorCourseEnroll page (through instructorCourseEnroll.js)
  * @param teamName
@@ -310,10 +300,18 @@ function attachEventToDeleteStudentLink() {
 }
 
 function bindRemindButtons() {
-    $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', function(e) {
-        if (!toggleRemindStudents($(this).data('fsname'))) {
-            e.preventDefault();
-        }
+    $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', function(event) {
+        event.preventDefault();
+
+        $button = $(event.target);
+        var messageText = 'Send e-mails to remind students who have not submitted their feedback for '
+                          + $button.data('fsname') + '?';
+        var okCallback = function() {
+            window.location = $button.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm sending reminders', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
     });
 }
 

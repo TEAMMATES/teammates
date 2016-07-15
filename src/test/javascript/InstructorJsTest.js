@@ -5,11 +5,6 @@ QUnit.test('toggleDeleteCourseConfirmation(courseID)', function() {
     expect(0);
 });
 
-QUnit.test('toggleRemindStudents(evaluationName)', function() {
-    // N/A, uses elements in the page
-    expect(0);
-});
-
 QUnit.test('isStudentTeamNameValid(teamname)', function(assert) {
     assert.equal(isStudentTeamNameValid('Team1_-)(&*^%$#@!.'), true, 'Team1_-)(&*^%$#@!. - valid');
     assert.equal(isStudentTeamNameValid(generateRandomString(TEAMNAME_MAX_LENGTH)), true, 'Maximum characters - valid');
