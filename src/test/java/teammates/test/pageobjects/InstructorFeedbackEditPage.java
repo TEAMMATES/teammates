@@ -724,7 +724,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean isAllRecipientOptionsDisplayed(int questionNumber) {
         List<WebElement> recipientOptions =
                 browser.driver.findElements(By.cssSelector("#recipienttype-" + questionNumber + " option"));
-        for (WebElement recipientOption : recipientOptions) {            
+        for (WebElement recipientOption : recipientOptions) {
             if ("none".equals(recipientOption.getCssValue("display"))) {
                 return false;
             }
