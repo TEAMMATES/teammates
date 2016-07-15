@@ -724,9 +724,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean isAllRecipientOptionsDisplayed(int questionNumber) {
         List<WebElement> recipientOptions =
                 browser.driver.findElements(By.cssSelector("#recipienttype-" + questionNumber + " option"));
-        for (WebElement recipientOption : recipientOptions) {
-            String recipientOptionStyle = recipientOption.getAttribute("style");
-            if ("display: none;".equals(recipientOptionStyle)) {
+        for (WebElement recipientOption : recipientOptions) {            
+            if ("none".equals(recipientOption.getCssValue("display"))) {
                 return false;
             }
         }
@@ -738,8 +737,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                 browser.driver.findElement(
                         By.cssSelector("#recipienttype-" + questionNumber
                                        + " option[value='" + recipientType + "']"));
-        String recipientOptionStyle = recipientOption.getAttribute("style");
-        return !"display: none;".equals(recipientOptionStyle);
+        return "block".equals(recipientOption.getCssValue("display"));
     }
     
     public void selectGiverToBe(FeedbackParticipantType giverType, int questionNumber) {
