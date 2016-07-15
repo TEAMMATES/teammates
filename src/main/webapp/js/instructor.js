@@ -240,13 +240,20 @@ function bindStudentPhotoHoverLink(elements) {
 }
 
 function bindDeleteButtons() {
-    $('body').on('click', '.session-delete-for-test', function() {
+    $('body').on('click', '.session-delete-for-test', function(event) {
+        event.preventDefault();
 
-        var $button = $(this);
+        var $button = $(event.target);
         var courseId = $button.data('courseid');
         var feedbackSessionName = $button.data('fsname');
 
-        return toggleDeleteFeedbackSessionConfirmation(courseId, feedbackSessionName);
+        var messageText = 'Are you want to delete the feedback session ' + feedbackSessionName + ' in ' + courseId + '?';
+        var okCallback = function() {
+            window.location = $button.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
     });
 }
 

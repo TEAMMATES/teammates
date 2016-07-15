@@ -1,10 +1,5 @@
 QUnit.module('instructor.js');
 
-QUnit.test('toggleDeleteCourseConfirmation(courseID)', function() {
-    // gives a popup, can't be tested
-    expect(0);
-});
-
 QUnit.test('isStudentTeamNameValid(teamname)', function(assert) {
     assert.equal(isStudentTeamNameValid('Team1_-)(&*^%$#@!.'), true, 'Team1_-)(&*^%$#@!. - valid');
     assert.equal(isStudentTeamNameValid(generateRandomString(TEAMNAME_MAX_LENGTH)), true, 'Maximum characters - valid');
