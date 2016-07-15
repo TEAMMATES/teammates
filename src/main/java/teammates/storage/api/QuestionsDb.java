@@ -30,18 +30,41 @@ public class QuestionsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
     
     @Override
-    public List<EntityAttributes> createEntities(Collection<? extends EntityAttributes> entitiesToAdd) {
-        Assumption.fail(
-                "Use createFeedbackQuestions(FeedbackSessionAttributes, Collection<FeedbackQuestionAttributes>)");
-        return null;
+    public List<EntityAttributes> createEntities(Collection<? extends EntityAttributes> entitiesToAdd)
+                throws InvalidParametersException {
+        
+        List<EntityAttributes> entitiesToUpdate = new ArrayList<>();
+        
+        for (EntityAttributes entity : entitiesToAdd) {
+            FeedbackQuestionAttributes questionAttributes = (FeedbackQuestionAttributes) entity;
+            try {
+                createEntity(questionAttributes);
+            } catch (EntityAlreadyExistsException e) {
+                entitiesToUpdate.add(questionAttributes);
+            }
+        }
+        return entitiesToUpdate;
     }
+
     
     @Override
     public Object createEntity(EntityAttributes entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.fail(
-                "Use createFeedbackQuestions(FeedbackSessionAttributes, FeedbackQuestionAttributes)");
-        return null;
+        
+        QuestionAttributes questionToAdd = (QuestionAttributes) entityToAdd;
+        
+        String courseId = questionToAdd.courseId;
+        String feedbackSessionName = questionToAdd.feedbackSessionName;
+        FeedbackSessionAttributes session = new FeedbackSessionsDb().getFeedbackSession(
+                                                                        courseId, feedbackSessionName);
+        try {
+            return createFeedbackQuestion(session, questionToAdd);
+        } catch (EntityDoesNotExistException e) {
+            throw new InvalidParametersException(
+                    "feedbackSessionName and courseId provided does not refer to an existing feedback session: "
+                    + courseId + "/" + feedbackSessionName);
+            
+        }
     }
     
     public void createFeedbackQuestions(FeedbackSessionAttributes session,
@@ -66,13 +89,12 @@ public class QuestionsDb extends EntitiesDb {
                 }
                 
                 QuestionAttributes questionAttributes = new QuestionAttributes(questionToAdd);
-                
                 fs.getFeedbackQuestions().add(questionAttributes.toEntity());
                 
                 log.info(questionToAdd.getBackupIdentifier());
             }
             
-            getPm().currentTransaction().commit();
+            txn.commit();
         } finally {
             if (txn.isActive()) {
                 txn.rollback();
@@ -81,15 +103,15 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
 
-    public void createFeedbackQuestion(FeedbackSessionAttributes fsa, FeedbackQuestionAttributes question)
+    public Question createFeedbackQuestion(FeedbackSessionAttributes fsa, FeedbackQuestionAttributes question)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, fsa);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, question);
         
-        addQuestionToSession(fsa, question);
+        return addQuestionToSession(fsa, question);
     }
     
-    private void addQuestionToSession(
+    private Question addQuestionToSession(
             FeedbackSessionAttributes existingSession, FeedbackQuestionAttributes question)
         throws EntityDoesNotExistException, EntityAlreadyExistsException, InvalidParametersException {
         
@@ -101,9 +123,11 @@ public class QuestionsDb extends EntitiesDb {
         try {
             txn.begin();
         
-            addQuestionToSessionWithoutCommitting(existingSession, question);
+            Question entity = addQuestionToSessionWithoutCommitting(existingSession, question);
             
             txn.commit();
+            
+            return entity;
         } finally {
             if (txn.isActive()) {
                 txn.rollback();
@@ -112,7 +136,7 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
     
-    private void addQuestionToSessionWithoutCommitting(FeedbackSessionAttributes existingSession,
+    private Question addQuestionToSessionWithoutCommitting(FeedbackSessionAttributes existingSession,
             FeedbackQuestionAttributes question) throws EntityDoesNotExistException,
             EntityAlreadyExistsException {
         FeedbackSession fs = (FeedbackSession) getEntity(existingSession);
@@ -130,7 +154,10 @@ public class QuestionsDb extends EntitiesDb {
         }
         
         QuestionAttributes questionAttributes = new QuestionAttributes(question);
-        fs.getFeedbackQuestions().add(questionAttributes.toEntity());
+        Question questionEntity = questionAttributes.toEntity();
+        fs.getFeedbackQuestions().add(questionEntity);
+        
+        return questionEntity;
     }
 
     private void createFeedbackQuestionWithoutCommitting(FeedbackSessionAttributes fsa, FeedbackQuestionAttributes question)
