@@ -413,6 +413,12 @@ public final class HtmlHelper {
                       // jQuery-ui js file
                       .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()),
                                "${lib.path}/jquery-ui.min.js")
+                      // TinyMCE CSS skin
+                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/skin.min.css",
+                               "${lib.path}/skins/lightgray/skin.min.css")
+                      // TinyMCE CSS skin
+                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/content.inline.min.css",
+                               "${lib.path}/skins/lightgray/content.inline.min.css")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -461,7 +467,11 @@ public final class HtmlHelper {
                       .replace("<!-- filepath.jquery -->",
                                Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()))
                       .replace("<!-- filepath.jquery-ui -->",
-                               Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()));
+                               Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()))
+                      .replace("<!-- tinymce.skin.min -->",
+                               TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/skin.min.css")
+                      .replace("<!-- tinymce.skin.inline -->",
+                               TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/content.inline.min.css");
     }
 
 }
