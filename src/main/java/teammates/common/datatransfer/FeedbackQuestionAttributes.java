@@ -78,10 +78,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.giverType = fq.getGiverType();
         this.recipientType = fq.getRecipientType();
         this.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
-        this.showResponsesTo = fq.getShowResponsesTo() == null 
-                             ? new ArrayList<FeedbackParticipantType>() 
+        this.showResponsesTo = fq.getShowResponsesTo() == null
+                             ? new ArrayList<FeedbackParticipantType>()
                              : new ArrayList<FeedbackParticipantType>(fq.getShowResponsesTo());
-        this.showGiverNameTo = fq.getShowGiverNameTo() == null 
+        this.showGiverNameTo = fq.getShowGiverNameTo() == null
                              ? new ArrayList<FeedbackParticipantType>()
                              : new ArrayList<FeedbackParticipantType>(fq.getShowGiverNameTo());
         this.showRecipientNameTo = fq.getShowRecipientNameTo() == null

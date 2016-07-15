@@ -78,7 +78,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                                                                  : fs.getRespondingInstructorList();
         this.respondingStudentList = fs.getRespondingStudentList() == null ? new HashSet<String>()
                                                                            : fs.getRespondingStudentList();
-        this.questions = fs.getFeedbackQuestions() == null 
+        this.questions = fs.getFeedbackQuestions() == null
                          ? new ArrayList<FeedbackQuestionAttributes>()
                          : QuestionsDb.getListOfQuestionAttributes(
                                  fs.getFeedbackQuestions());
@@ -126,21 +126,21 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.respondingStudentList = studentList;
     }
     
+    private FeedbackSessionAttributes(FeedbackSessionAttributes other) {
+        this(other.feedbackSessionName, other.courseId, other.creatorEmail,
+                other.instructions, other.createdTime, other.startTime, other.endTime,
+                other.sessionVisibleFromTime, other.resultsVisibleFromTime, other.timeZone,
+                other.gracePeriod, other.feedbackSessionType,
+                other.sentOpenEmail, other.sentPublishedEmail,
+                other.isOpeningEmailEnabled, other.isClosingEmailEnabled,
+                other.isPublishedEmailEnabled, other.respondingInstructorList,
+                other.respondingStudentList);
+    }
+    
     public static String makeId(String feedbackSessionName, String courseId) {
         return feedbackSessionName + "%" + courseId;
     }
-    
-    private FeedbackSessionAttributes(FeedbackSessionAttributes other) {
-        this(other.feedbackSessionName, other.courseId, other.creatorEmail,
-            other.instructions, other.createdTime, other.startTime, other.endTime,
-            other.sessionVisibleFromTime, other.resultsVisibleFromTime, other.timeZone,
-            other.gracePeriod, other.feedbackSessionType,
-            other.sentOpenEmail, other.sentPublishedEmail,
-            other.isOpeningEmailEnabled, other.isClosingEmailEnabled,
-            other.isPublishedEmailEnabled, other.respondingInstructorList,
-            other.respondingStudentList);
-    }
-    
+        
     public FeedbackSessionAttributes getCopy() {
         return new FeedbackSessionAttributes(this);
     }
@@ -172,7 +172,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                timeZone, gracePeriod, feedbackSessionType, sentOpenEmail, sentPublishedEmail,
                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
-               respondingInstructorList, respondingStudentList, 
+               respondingInstructorList, respondingStudentList,
                FeedbackQuestionsDb.getFeedbackQuestionEntitiesFromFeedbackQuestionAttributes(
                        questions));
     }

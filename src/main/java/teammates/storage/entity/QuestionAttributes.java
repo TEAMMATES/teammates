@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 
-
 public class QuestionAttributes extends FeedbackQuestionAttributes {
     
     public QuestionAttributes(FeedbackQuestionAttributes old) {
@@ -31,5 +30,5 @@ public class QuestionAttributes extends FeedbackQuestionAttributes {
                             questionMetaData, questionNumber, questionType, giverType,
                             recipientType, numberOfEntitiesToGiveFeedbackTo,
                             showResponsesTo, showGiverNameTo, showRecipientNameTo);
-    }   
+    }
 }

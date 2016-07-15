@@ -31,7 +31,7 @@ public class Question implements StoreCallback {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
     private String encodedKey;
     
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

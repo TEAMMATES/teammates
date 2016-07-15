@@ -81,7 +81,7 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
 
-    public void createFeedbackQuestion(FeedbackSessionAttributes fsa, FeedbackQuestionAttributes question) 
+    public void createFeedbackQuestion(FeedbackSessionAttributes fsa, FeedbackQuestionAttributes question)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, fsa);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, question);
@@ -90,7 +90,7 @@ public class QuestionsDb extends EntitiesDb {
     }
     
     private void addQuestionToSession(
-            FeedbackSessionAttributes existingSession, FeedbackQuestionAttributes question) 
+            FeedbackSessionAttributes existingSession, FeedbackQuestionAttributes question)
         throws EntityDoesNotExistException, EntityAlreadyExistsException, InvalidParametersException {
         
         if (!question.isValid()) {
@@ -133,7 +133,7 @@ public class QuestionsDb extends EntitiesDb {
         fs.getFeedbackQuestions().add(questionAttributes.toEntity());
     }
 
-    private void createFeedbackQuestionWithoutCommitting(FeedbackSessionAttributes fsa, FeedbackQuestionAttributes question) 
+    private void createFeedbackQuestionWithoutCommitting(FeedbackSessionAttributes fsa, FeedbackQuestionAttributes question)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, fsa);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, question);
@@ -161,13 +161,14 @@ public class QuestionsDb extends EntitiesDb {
             }
             
             List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(fs);
-            if (oldQuestionNumber <= 0) {
-                oldQuestionNumber = questions.size() + 1;
-            }
+            
+            int numberAdjustmentRangeStart = oldQuestionNumber <= 0 ? questions.size() + 1 : oldQuestionNumber;
+
             if (questionToAddOrUpdate.questionNumber <= 0) {
                 questionToAddOrUpdate.questionNumber = questions.size() + 1;
             }
-            adjustQuestionNumbersWithoutCommitting(oldQuestionNumber, questionToAddOrUpdate.questionNumber , questions);
+            adjustQuestionNumbersWithoutCommitting(numberAdjustmentRangeStart,
+                                                   questionToAddOrUpdate.questionNumber, questions);
             if (isUpdating) {
                 updateFeedbackQuestionWithoutFlushing(questionToAddOrUpdate);
             } else {
@@ -371,7 +372,8 @@ public class QuestionsDb extends EntitiesDb {
         getPm().close();
     }
     
-    public void updateFeedbackQuestionWithoutFlushing(FeedbackQuestionAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateFeedbackQuestionWithoutFlushing(FeedbackQuestionAttributes newAttributes)
+            throws InvalidParametersException, EntityDoesNotExistException {
         updateFeedbackQuestionWithoutFlushing(newAttributes, false);
     }
 
@@ -398,7 +400,7 @@ public class QuestionsDb extends EntitiesDb {
         fq.keepUpdateTimestamp = keepUpdateTimestamp;
     }
     
-    public void deleteQuestion(FeedbackSessionAttributes fsa, FeedbackQuestionAttributes questionToDelete) 
+    public void deleteQuestion(FeedbackSessionAttributes fsa, FeedbackQuestionAttributes questionToDelete)
             throws EntityDoesNotExistException {
         Transaction txn = getPm().currentTransaction();
         try {
@@ -430,7 +432,6 @@ public class QuestionsDb extends EntitiesDb {
         deleteFeedbackQuestionsForCourses(courseIds);
     }
     
-
     public void deleteFeedbackQuestionsForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
         
@@ -453,7 +454,7 @@ public class QuestionsDb extends EntitiesDb {
     private Question getFeedbackQuestionEntity(String feedbackSessionName, String courseId, String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
-        Key k = KeyFactory.createKey(FeedbackSession.class.getSimpleName(), 
+        Key k = KeyFactory.createKey(FeedbackSession.class.getSimpleName(),
                                      FeedbackSessionAttributes.makeId(feedbackSessionName, courseId))
                           .getChild(Question.class.getSimpleName(), feedbackQuestionId);
         try {
@@ -478,7 +479,7 @@ public class QuestionsDb extends EntitiesDb {
                 (List<Question>) q.execute(feedbackSessionName, courseId, questionNumber);
         
         if (feedbackQuestionList.size() > 1) {
-            log.severe("More than one question with same question number in " 
+            log.severe("More than one question with same question number in "
                       + courseId + "/" + feedbackSessionName + " question " + questionNumber);
         }
         
