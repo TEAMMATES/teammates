@@ -725,8 +725,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         List<WebElement> recipientOptions =
                 browser.driver.findElements(By.cssSelector("#recipienttype-" + questionNumber + " option"));
         for (WebElement recipientOption : recipientOptions) {
-            String recipientOptionClass = recipientOption.getAttribute("class");
-            if ("hidden".equals(recipientOptionClass)) {
+            String recipientOptionStyle = recipientOption.getAttribute("style");
+            if ("display: none;".equals(recipientOptionStyle)) {
                 return false;
             }
         }
@@ -738,8 +738,8 @@ public class InstructorFeedbackEditPage extends AppPage {
                 browser.driver.findElement(
                         By.cssSelector("#recipienttype-" + questionNumber
                                        + " option[value='" + recipientType + "']"));
-        String recipientOptionClass = recipientOption.getAttribute("class");
-        return !"hidden".equals(recipientOptionClass);
+        String recipientOptionStyle = recipientOption.getAttribute("style");
+        return !"display: none;".equals(recipientOptionStyle);
     }
     
     public void selectGiverToBe(FeedbackParticipantType giverType, int questionNumber) {

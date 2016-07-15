@@ -795,7 +795,7 @@ function getQuestionIdSuffix(questionNum) {
 function bindParticipantSelectChangeEvents() {
     $('body').on('change', 'select[name="givertype"]', function() {
         var $recipientSelect = $(this).closest('.form_question').find('select[name="recipienttype"]');
-        $recipientSelect.find('option').removeClass('hidden');
+        $recipientSelect.find('option').show();
         hideInvalidRecipientTypeOptions($(this));
     });
 }
@@ -839,10 +839,10 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
 }
 
 function hideOption($containingSelect, value) {
-    $containingSelect.find('option[value="' + value + '"]').addClass('hidden');
+    $containingSelect.find('option[value="' + value + '"]').hide();
 }
 
 function setRecipientSelectToFirstVisibleOption($recipientSelect) {
-    var firstVisibleOptionValue = $recipientSelect.find('option').not('.hidden').val();
+    var firstVisibleOptionValue = $recipientSelect.find('option').not('[style="display: none;"]').val();
     $recipientSelect.val(firstVisibleOptionValue);
 }
