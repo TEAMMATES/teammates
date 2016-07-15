@@ -1007,8 +1007,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getEditLabel(questionNumber).getAttribute("class").contains("active");
     }
     
-    public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
-        return getVisibilityMessage(questionNumber).isDisplayed();
+    public boolean verifyVisibilityPreviewIsDisplayed(int questionNumber) {
+        WebElement visibilityPreviewDiv = getVisibilityMessage(questionNumber);
+        List<WebElement> visibilityMessages = visibilityPreviewDiv.findElements(By.cssSelector("ul > li"));
+        return visibilityPreviewDiv.isDisplayed() && !visibilityMessages.isEmpty();
+    }
+
+    public boolean isVisibilityPreviewDisplayedForNewQuestion() {
+        WebElement visibilityPreviewDiv = browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessage"));
+        List<WebElement> visibilityMessages = visibilityPreviewDiv.findElements(By.cssSelector("ul > li"));
+        return visibilityPreviewDiv.isDisplayed() && !visibilityMessages.isEmpty();
     }
     
     public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {
