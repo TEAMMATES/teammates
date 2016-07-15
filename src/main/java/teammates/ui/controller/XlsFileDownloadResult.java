@@ -19,10 +19,10 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 
-public class XLSFileDownloadResult extends FileDownloadResult {
+public class XlsFileDownloadResult extends FileDownloadResult {
     private XSSFWorkbook workBook;
 
-    public XLSFileDownloadResult(String destination, AccountAttributes account, List<StatusMessage> status,
+    public XlsFileDownloadResult(String destination, AccountAttributes account, List<StatusMessage> status,
             String fileName, String fileContent, String fileType) {
         super(destination, account, status, fileName, fileContent, fileType);
         workBook = getWorkBook();
@@ -44,7 +44,8 @@ public class XLSFileDownloadResult extends FileDownloadResult {
         int rowNumber = 0;
         String[] lines = fileContent.split(Const.EOL);
         for (String line : lines) {
-            String[] str = line.split(",");
+            // Split by comma only if comma has a zero or even number of quotes in front of it.
+            String[] str = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
             rowNumber++;
             XSSFRow currentRow = sheet.createRow(rowNumber);
 

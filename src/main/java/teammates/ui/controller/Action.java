@@ -492,9 +492,9 @@ public abstract class Action {
      */
     public FileDownloadResult createFileDownloadResult(String fileName, String fileContent, String downloadType) {
         if (Const.FeedbackSessionResultsDownloadTypes.XLS.equals(downloadType)) {
-            return new XLSFileDownloadResult("filedownload", account, statusToUser, fileName, fileContent, downloadType);
+            return new XlsFileDownloadResult("filedownload", account, statusToUser, fileName, fileContent, downloadType);
         } else {
-            return new CSVFileDownloadResult("filedownload", account, statusToUser, fileName, fileContent, downloadType);
+            return new CsvFileDownloadResult("filedownload", account, statusToUser, fileName, fileContent, downloadType);
         }
     }
 

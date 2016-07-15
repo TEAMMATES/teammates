@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.StatusMessage;
 
-public class CSVFileDownloadResult extends FileDownloadResult {
+public class CsvFileDownloadResult extends FileDownloadResult {
 
-    public CSVFileDownloadResult(String destination, AccountAttributes account, List<StatusMessage> status,
+    public CsvFileDownloadResult(String destination, AccountAttributes account, List<StatusMessage> status,
             String fileName, String fileContent, String fileType) {
         super(destination, account, status, fileName, fileContent, fileType);
     }

@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.ActionResult;
-import teammates.ui.controller.CSVFileDownloadResult;
+import teammates.ui.controller.CsvFileDownloadResult;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.ShowPageResult;
 
@@ -21,7 +21,7 @@ public class ActionResultTest extends BaseTestCase {
     
     @Test
     public void testFileDownloadResult() {
-        FileDownloadResult download = new CSVFileDownloadResult("/page/instructorFeedbackResultsDownload",
+        FileDownloadResult download = new CsvFileDownloadResult("/page/instructorFeedbackResultsDownload",
                                                             null, null, "Normal name",
                                                             "abcabc", Const.FeedbackSessionResultsDownloadTypes.CSV);
         assertEquals("attachment; filename=\"Normal name.csv\";filename*= UTF-8''Normal+name.csv",
@@ -30,7 +30,7 @@ public class ActionResultTest extends BaseTestCase {
     
     @Test
     public void testFileDownloadResult_fileNameWithUnicodeCharacters_hasCorrectContentDesposition() {
-        FileDownloadResult download = new CSVFileDownloadResult("/page/instructorFeedbackResultsDownload",
+        FileDownloadResult download = new CsvFileDownloadResult("/page/instructorFeedbackResultsDownload",
                                                             null, null, "£ rates",
                                                             "abcabc", Const.FeedbackSessionResultsDownloadTypes.CSV);
         assertEquals("attachment; filename=\" rates.csv\";filename*= UTF-8''%C2%A3+rates.csv",
