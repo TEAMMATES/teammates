@@ -192,6 +192,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         fq.setQuestionNumber(newAttributes.questionNumber);
         fq.setQuestionText(newAttributes.questionMetaData);
+        fq.setQuestionDescription(newAttributes.questionDescription);
         fq.setQuestionType(newAttributes.questionType);
         fq.setGiverType(newAttributes.giverType);
         fq.setRecipientType(newAttributes.recipientType);

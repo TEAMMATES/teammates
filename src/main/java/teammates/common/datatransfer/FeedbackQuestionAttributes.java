@@ -26,6 +26,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * To get the question text use {@code getQuestionDetails().questionText}
      */
     public Text questionMetaData;
+    public Text questionDescription;
     public int questionNumber;
     public FeedbackQuestionType questionType;
     public FeedbackParticipantType giverType;
@@ -48,6 +49,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.courseId = fq.getCourseId();
         this.creatorEmail = fq.getCreatorEmail();
         this.questionMetaData = fq.getQuestionMetaData();
+        this.questionDescription = fq.getQuestionDescription() == null
+                                   ? null
+                                   : new Text(Sanitizer.sanitizeForRichText(fq.getQuestionDescription().getValue()));
         this.questionNumber = fq.getQuestionNumber();
         this.questionType = fq.getQuestionType();
         this.giverType = fq.getGiverType();
@@ -90,6 +94,31 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         removeIrrelevantVisibilityOptions();
     }
 
+    private FeedbackQuestionAttributes(FeedbackQuestionAttributes other) {
+        this.feedbackQuestionId = other.getId();
+        this.feedbackSessionName = other.getFeedbackSessionName();
+        this.courseId = other.getCourseId();
+        this.creatorEmail = other.getCreatorEmail();
+        this.questionMetaData = other.getQuestionMetaData();
+        this.questionNumber = other.getQuestionNumber();
+        this.questionType = other.getQuestionType();
+        this.giverType = other.getGiverType();
+        this.recipientType = other.getRecipientType();
+        this.numberOfEntitiesToGiveFeedbackTo = other.getNumberOfEntitiesToGiveFeedbackTo();
+        this.showResponsesTo = new ArrayList<FeedbackParticipantType>(other.getShowResponsesTo());
+        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>(other.getShowGiverNameTo());
+        this.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(other.getShowRecipientNameTo());
+        
+        this.createdAt = other.getCreatedAt();
+        this.updatedAt = other.getUpdatedAt();
+        
+        removeIrrelevantVisibilityOptions();
+    }
+    
+    public FeedbackQuestionAttributes getCopy() {
+        return new FeedbackQuestionAttributes(this);
+    }
+
     public Date getCreatedAt() {
         return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
@@ -120,12 +149,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     @Override
-    public Object toEntity() {
-        return new FeedbackQuestion(
-                            feedbackSessionName, courseId, creatorEmail,
-                            questionMetaData, questionNumber, questionType, giverType,
-                            recipientType, numberOfEntitiesToGiveFeedbackTo,
-                            showResponsesTo, showGiverNameTo, showRecipientNameTo);
+    public FeedbackQuestion toEntity() {
+        return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
+                                    questionMetaData, questionDescription, questionNumber, questionType, giverType,
+                                    recipientType, numberOfEntitiesToGiveFeedbackTo,
+                                    showResponsesTo, showGiverNameTo, showRecipientNameTo);
     }
 
     @Override
@@ -133,7 +161,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return "FeedbackQuestionAttributes [feedbackSessionName="
                + feedbackSessionName + ", courseId=" + courseId
                + ", creatorEmail=" + creatorEmail + ", questionText="
-               + questionMetaData + ", questionNumber=" + questionNumber
+               + questionMetaData + ", questionDescription=" + questionDescription
+               + ", questionNumber=" + questionNumber
                + ", questionType=" + questionType + ", giverType=" + giverType
                + ", recipientType=" + recipientType
                + ", numberOfEntitiesToGiveFeedbackTo="
@@ -353,6 +382,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
         result = prime * result + ((questionMetaData == null) ? 0 : questionMetaData.hashCode());
 
+        result = prime * result + ((questionDescription == null) ? 0 : questionDescription.hashCode());
+
         result = prime * result + ((questionType == null) ? 0 : questionType.hashCode());
 
         result = prime * result + ((recipientType == null) ? 0 : recipientType.hashCode());
@@ -426,6 +457,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             return false;
         }
 
+        if (questionDescription == null) {
+            if (other.questionDescription != null) {
+                return false;
+            }
+        } else if (!questionDescription.equals(other.questionDescription)) {
+            return false;
+        }
+
         if (questionType != other.questionType) {
             return false;
         }
@@ -469,6 +508,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
         if (newAttributes.questionMetaData == null) {
             newAttributes.questionMetaData = this.questionMetaData;
+        }
+
+        if (newAttributes.questionDescription == null) {
+            newAttributes.questionDescription = this.questionDescription;
         }
 
         if (newAttributes.questionType == null) {
@@ -542,10 +585,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public void sanitizeForSaving() {
-        this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
-        this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.creatorEmail = Sanitizer.sanitizeEmail(creatorEmail);
+        this.questionDescription = this.questionDescription == null
+                                   ? null
+                                   : new Text(Sanitizer.sanitizeForRichText(this.questionDescription.getValue()));
     }
 
     /** 
@@ -606,6 +648,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     public Text getQuestionMetaData() {
         return questionMetaData;
+    }
+
+    public Text getQuestionDescription() {
+        return questionDescription;
+    }
+
+    public void setQuestionDescription(Text questionDescription) {
+        this.questionDescription = questionDescription;
     }
 
     public int getQuestionNumber() {

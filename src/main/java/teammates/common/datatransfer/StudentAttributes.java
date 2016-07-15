@@ -121,6 +121,17 @@ public class StudentAttributes extends EntityAttributes {
         this.updatedAt = student.getUpdatedAt();
         
     }
+    
+    private StudentAttributes(StudentAttributes other) {
+        this(other.googleId, other.email, other.name, other.comments,
+             other.course, other.team, other.section);
+        this.key = other.key;
+        this.updateStatus = other.updateStatus;
+    }
+    
+    public StudentAttributes getCopy() {
+        return new StudentAttributes(this);
+    }
 
     public String toEnrollmentString() {
         String enrollmentStringSeparator = "|";
