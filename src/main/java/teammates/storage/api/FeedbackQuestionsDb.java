@@ -317,7 +317,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         return feedbackQuestionList;
     }
     
-    public static List<Question> getFeedbackQuestionEntitiesFromFeedbackQuestionAttributes(
+    public static List<Question> getListOfQuestionEntities(
             Collection<FeedbackQuestionAttributes> questions) {
         
         if (questions == null) {

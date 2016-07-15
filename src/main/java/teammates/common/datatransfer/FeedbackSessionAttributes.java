@@ -128,13 +128,13 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     
     private FeedbackSessionAttributes(FeedbackSessionAttributes other) {
         this(other.feedbackSessionName, other.courseId, other.creatorEmail,
-                other.instructions, other.createdTime, other.startTime, other.endTime,
-                other.sessionVisibleFromTime, other.resultsVisibleFromTime, other.timeZone,
-                other.gracePeriod, other.feedbackSessionType,
-                other.sentOpenEmail, other.sentPublishedEmail,
-                other.isOpeningEmailEnabled, other.isClosingEmailEnabled,
-                other.isPublishedEmailEnabled, other.respondingInstructorList,
-                other.respondingStudentList);
+             other.instructions, other.createdTime, other.startTime, other.endTime,
+             other.sessionVisibleFromTime, other.resultsVisibleFromTime, other.timeZone,
+             other.gracePeriod, other.feedbackSessionType,
+             other.sentOpenEmail, other.sentPublishedEmail,
+             other.isOpeningEmailEnabled, other.isClosingEmailEnabled,
+             other.isPublishedEmailEnabled, other.respondingInstructorList,
+             other.respondingStudentList);
     }
     
     public static String makeId(String feedbackSessionName, String courseId) {
@@ -167,14 +167,13 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public FeedbackSession toEntity() {
-        return new FeedbackSession(
-               feedbackSessionName, courseId, creatorEmail, instructions, createdTime,
-               startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-               timeZone, gracePeriod, feedbackSessionType, sentOpenEmail, sentPublishedEmail,
-               isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
-               respondingInstructorList, respondingStudentList,
-               FeedbackQuestionsDb.getFeedbackQuestionEntitiesFromFeedbackQuestionAttributes(
-                       questions));
+        return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions, createdTime,
+                                   startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
+                                   timeZone, gracePeriod, feedbackSessionType, sentOpenEmail, sentPublishedEmail,
+                                   isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
+                                   respondingInstructorList, respondingStudentList,
+                                   FeedbackQuestionsDb.getListOfQuestionEntities(
+                                           questions));
     }
 
     @Override
@@ -445,8 +444,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     @Override
     public void sanitizeForSaving() {
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
-        this.creatorEmail = Sanitizer.sanitizeForHtml(creatorEmail);
 
         if (instructions != null) {
             this.instructions = new Text(Sanitizer.sanitizeForRichText(instructions.getValue()));

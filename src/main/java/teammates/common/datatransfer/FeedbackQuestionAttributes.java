@@ -37,7 +37,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showRecipientNameTo;
     protected transient Date createdAt;
     protected transient Date updatedAt;
-    private String feedbackQuestionId;
+    protected String feedbackQuestionId;
 
     public FeedbackQuestionAttributes() {
         // attributes to be set after construction
