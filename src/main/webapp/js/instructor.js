@@ -23,15 +23,6 @@ $(document).ready(function() {
 // -----------------------------------------------------------------------------
 
 /**
- * Pops up confirmation dialog whether to unpublish the specified
- * evaluation
- * @param name
- */
-function toggleUnpublishEvaluation(name) {
-    return confirm('Are you sure you want to unpublish the session ' + name + '?');
-}
-
-/**
  * Pops up confirmation dialog whether to remind students to fill in a specified
  * evaluation.
  * @param courseID
@@ -350,8 +341,17 @@ function bindPublishButtons() {
 }
 
 function bindUnpublishButtons() {
-    $('body').on('click', '.session-unpublish-for-test', function() {
-        return toggleUnpublishEvaluation($(this).data('fsname'));
+    $('body').on('click', '.session-unpublish-for-test', function(event) {
+        event.preventDefault();
+
+        $button = $(event.target);
+        var messageText = 'Are you sure you want to unpublish the session ' + $button.data('fsname') + '?';
+        var okCallback = function() {
+            window.location = $button.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm unpublishing responses', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
     });
 }
 
