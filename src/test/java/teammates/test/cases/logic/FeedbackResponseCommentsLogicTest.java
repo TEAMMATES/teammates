@@ -218,7 +218,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         
         String oldEmail = frComment.giverEmail;
         String updatedEmail = "newEmail@gmail.tmt";
-        frcLogic.updateFeedbackResponseCommentsGiverAndLastEditorEmail(frComment.courseId, oldEmail, updatedEmail);
+        frcLogic.updateFeedbackResponseCommentsEmails(frComment.courseId, oldEmail, updatedEmail);
         
         actualFrComment = frcLogic.getFeedbackResponseComment(
                                            frComment.feedbackResponseId, updatedEmail, frComment.createdAt);
@@ -229,7 +229,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
         
         // reset email
-        frcLogic.updateFeedbackResponseCommentsGiverAndLastEditorEmail(frComment.courseId, updatedEmail, oldEmail);
+        frcLogic.updateFeedbackResponseCommentsEmails(frComment.courseId, updatedEmail, oldEmail);
         
         ______TS("typical success case update feedback response comment feedbackResponseId");
         

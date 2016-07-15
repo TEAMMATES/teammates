@@ -217,7 +217,7 @@ public class InstructorsLogic {
         // cascade comments
         if (!instructorInDb.email.equals(instructor.email)) {
             commentsLogic.updateInstructorEmail(instructor.courseId, instructorInDb.email, instructor.email);
-            FeedbackResponseCommentsLogic.inst().updateFeedbackResponseCommentsGiverAndLastEditorEmail(
+            FeedbackResponseCommentsLogic.inst().updateFeedbackResponseCommentsEmails(
                     instructor.courseId, instructorInDb.email, instructor.email);
         }
     }

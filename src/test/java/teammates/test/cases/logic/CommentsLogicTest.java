@@ -388,9 +388,6 @@ public class CommentsLogicTest extends BaseComponentTestCase {
                 assertEquals(updatedInstrEmail, updatedComment.lastEditorEmail);
             }
         }
-        
-        // edit back
-        commentsLogic.updateInstructorEmail(courseId, updatedInstrEmail, oldInstrEmail);
     }
 
     @Test

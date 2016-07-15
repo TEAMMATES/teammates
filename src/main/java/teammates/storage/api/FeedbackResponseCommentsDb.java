@@ -366,7 +366,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
     
     /*
-     * Update last editor (normally an instructor email) with the new one
+     * Update last editor (an instructor email) with the new one
      */
     public void updateLastEditorEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -384,7 +384,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             responseComment.setLastEditorEmail(updatedEmail);
         }
         
-        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
+        log.info("updating last editor email from: " + oldEmail + " to: " + updatedEmail
+                 + " in the course: " + courseId);
         getPm().close();
     }
     
