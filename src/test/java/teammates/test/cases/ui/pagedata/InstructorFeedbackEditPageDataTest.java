@@ -32,8 +32,8 @@ import teammates.ui.template.FeedbackSessionsForm;
 public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
 
     private static final int DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO = 1;
-    private static final int NUM_GIVER_OPTIONS = 5;
-    private static final int NUM_RECIPIENT_OPTIONS = 9;
+    private static final int NUM_GIVER_OPTIONS = 4;
+    private static final int NUM_RECIPIENT_OPTIONS = 8;
     
     private static DataBundle dataBundle = getTypicalDataBundle();
 
