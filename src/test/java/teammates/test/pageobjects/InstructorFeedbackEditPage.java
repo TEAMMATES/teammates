@@ -737,7 +737,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                 browser.driver.findElement(
                         By.cssSelector("#recipienttype-" + questionNumber
                                        + " option[value='" + recipientType + "']"));
-        return "block".equals(recipientOption.getCssValue("display"));
+        return !"none".equals(recipientOption.getCssValue("display"));
     }
     
     public void selectGiverToBe(FeedbackParticipantType giverType, int questionNumber) {
