@@ -89,11 +89,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      
         removeIrrelevantVisibilityOptions();
     }
-    
-    // copy constructor
-    public FeedbackQuestionAttributes(FeedbackQuestionAttributes fqa) {
-        this(fqa.toEntity());
-    }
 
     public Date getCreatedAt() {
         return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
@@ -125,9 +120,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     @Override
-    public Question toEntity() {
-        String questionId = getId() == null || getId().isEmpty() ? makeId() : getId();
-        return new Question(questionId,
+    public Object toEntity() {
+        return new FeedbackQuestion(
                             feedbackSessionName, courseId, creatorEmail,
                             questionMetaData, questionNumber, questionType, giverType,
                             recipientType, numberOfEntitiesToGiveFeedbackTo,

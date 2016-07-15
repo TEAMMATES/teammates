@@ -16,6 +16,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.QuestionsDb;
 import teammates.storage.entity.FeedbackSession;
 
 import com.google.appengine.api.datastore.Text;
@@ -79,7 +80,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                                                            : fs.getRespondingStudentList();
         this.questions = fs.getFeedbackQuestions() == null 
                          ? new ArrayList<FeedbackQuestionAttributes>()
-                         : FeedbackQuestionsDb.getListOfQuestionAttributes(
+                         : QuestionsDb.getListOfQuestionAttributes(
                                  fs.getFeedbackQuestions());
     }
 

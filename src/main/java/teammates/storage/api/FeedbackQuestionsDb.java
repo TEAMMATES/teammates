@@ -16,6 +16,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.Question;
+import teammates.storage.entity.QuestionAttributes;
 
 public class FeedbackQuestionsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
@@ -324,7 +325,8 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         List<Question> fqList = new ArrayList<Question>();
         for (FeedbackQuestionAttributes question : questions) {
-            fqList.add(question.toEntity());
+            QuestionAttributes newQuestionAttributes = new QuestionAttributes(question);
+            fqList.add(newQuestionAttributes.toEntity());
         }
         return fqList;
     }

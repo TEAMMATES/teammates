@@ -24,6 +24,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.entity.Question;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.QuestionAttributes;
 
 public class QuestionsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
@@ -64,7 +65,9 @@ public class QuestionsDb extends EntitiesDb {
                     throw new InvalidParametersException(questionToAdd.getInvalidityInfo());
                 }
                 
-                fs.getFeedbackQuestions().add(questionToAdd.toEntity());
+                QuestionAttributes questionAttributes = new QuestionAttributes(questionToAdd);
+                
+                fs.getFeedbackQuestions().add(questionAttributes.toEntity());
                 
                 log.info(questionToAdd.getBackupIdentifier());
             }
@@ -126,7 +129,8 @@ public class QuestionsDb extends EntitiesDb {
             throw new EntityAlreadyExistsException(error, question);
         }
         
-        fs.getFeedbackQuestions().add(question.toEntity());
+        QuestionAttributes questionAttributes = new QuestionAttributes(question);
+        fs.getFeedbackQuestions().add(questionAttributes.toEntity());
     }
 
     private void createFeedbackQuestionWithoutCommitting(FeedbackSessionAttributes fsa, FeedbackQuestionAttributes question) 
@@ -292,7 +296,8 @@ public class QuestionsDb extends EntitiesDb {
         
         List<Question> fqList = new ArrayList<Question>();
         for (FeedbackQuestionAttributes question : questions) {
-            fqList.add(question.toEntity());
+            QuestionAttributes questionAttributes = new QuestionAttributes(question);
+            fqList.add(questionAttributes.toEntity());
         }
         return fqList;
     }
@@ -524,6 +529,18 @@ public class QuestionsDb extends EntitiesDb {
                 (List<Question>) q.execute(feedbackSessionName, courseId, giverType);
         
         return feedbackQuestionList;
+    }
+    
+    public static List<FeedbackQuestionAttributes> getListOfQuestionAttributes(List<Question> questions) {
+        List<FeedbackQuestionAttributes> questionAttributes = new ArrayList<FeedbackQuestionAttributes>();
+
+        for (Question question : questions) {
+            if (!JDOHelper.isDeleted(question)) {
+                questionAttributes.add(new FeedbackQuestionAttributes(question));
+            }
+        }
+        
+        return questionAttributes;
     }
     
     @Override
