@@ -55,7 +55,7 @@ function toggleMsqGeneratedOptions(checkbox, questionNum) {
         $('#msqGenerateForSelect-' + questionNum).prop('disabled', false);
         $('#msqOtherOptionFlag-' + questionNum).closest('.checkbox').hide();
         $('#generatedOptions-' + questionNum).attr('value',
-                                               $('#msqGenerateForSelect-' + questionNum).prop('value'));
+                                                   $('#msqGenerateForSelect-' + questionNum).prop('value'));
     } else {
         $('#msqChoiceTable-' + questionNum).find('input[type=text]').prop('disabled', false);
         $('#msqChoiceTable-' + questionNum).show();
@@ -67,6 +67,6 @@ function toggleMsqGeneratedOptions(checkbox, questionNum) {
 
 function changeMsqGenerateFor(questionNum) {
     $('#generatedOptions-' + questionNum).attr('value',
-                                           $('#msqGenerateForSelect-' + questionNum).prop('value'));
+                                               $('#msqGenerateForSelect-' + questionNum).prop('value'));
 }
 

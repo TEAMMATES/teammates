@@ -233,7 +233,7 @@ function enableEdit(questionNum, maxQuestions) {
  */
 function backupQuestion(questionNum) {
     questionsBeforeEdit[questionNum] = questionsBeforeEdit[questionNum]
-                                || $('#questionTable-' + questionNum + ' > .panel-body').html();
+                                       || $('#questionTable-' + questionNum + ' > .panel-body').html();
 }
 
 /**
@@ -300,9 +300,9 @@ function enableNewQuestion() {
     var $newQuestionTable = $('#questionTable-' + NEW_QUESTION);
     
     $newQuestionTable.find('text,button,textarea,select,input')
-                               .not('[name="receiverFollowerCheckbox"]')
-                               .not('.disabled_radio')
-                               .prop('disabled', false);
+                     .not('[name="receiverFollowerCheckbox"]')
+                     .not('.disabled_radio')
+                     .prop('disabled', false);
     $newQuestionTable.find('.removeOptionLink').show();
     $newQuestionTable.find('.addOptionLink').show();
 

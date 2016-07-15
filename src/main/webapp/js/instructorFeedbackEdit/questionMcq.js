@@ -55,7 +55,7 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
         $('#mcqGenerateForSelect-' + questionNum).prop('disabled', false);
         $('#mcqOtherOptionFlag-' + questionNum).closest('.checkbox').hide();
         $('#generatedOptions-' + questionNum).attr('value',
-                                               $('#mcqGenerateForSelect-' + questionNum).prop('value'));
+                                                   $('#mcqGenerateForSelect-' + questionNum).prop('value'));
     } else {
         $('#mcqChoiceTable-' + questionNum).find('input[type=text]').prop('disabled', false);
         $('#mcqChoiceTable-' + questionNum).show();
@@ -75,6 +75,6 @@ function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
 
 function changeMcqGenerateFor(questionNum) {
     $('#generatedOptions-' + questionNum).attr('value',
-                                           $('#mcqGenerateForSelect-' + questionNum).prop('value'));
+                                               $('#mcqGenerateForSelect-' + questionNum).prop('value'));
 }
 
