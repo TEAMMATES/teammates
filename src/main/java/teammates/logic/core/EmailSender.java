@@ -22,7 +22,7 @@ public class EmailSender {
     
     private static final Logger log = Utils.getLogger();
     
-    private EmailSenderService service;
+    private final EmailSenderService service;
     
     public EmailSender() {
         if (Config.isUsingSendgrid()) {
@@ -90,39 +90,36 @@ public class EmailSender {
     /**
      * Sends the given {@code message} and generates a log report.
      */
-    public void sendEmailWithLogging(EmailWrapper message) throws EmailSendingException {
-        sendEmail(message, true);
+    public void sendEmail(EmailWrapper message) throws EmailSendingException {
+        service.sendEmail(message);
+        
+        EmailLogEntry newEntry = new EmailLogEntry(message);
+        String emailLogInfo = newEntry.generateLogMessage();
+        log.info(emailLogInfo);
     }
     
     /**
-     * Sends the given {@code message} without generating a log report.
+     * Sends the given {@code message} with Javamail service regardless of configuration.
      */
-    public void sendEmailWithoutLogging(EmailWrapper message) throws EmailSendingException {
-        sendEmail(message, false);
-    }
-    
-    private void sendEmail(EmailWrapper message, boolean isWithLogging) throws EmailSendingException {
-        service.sendEmail(message);
-        if (isWithLogging) {
-            generateLogReport(message);
-        }
-    }
-    
-    private void generateLogReport(EmailWrapper message) {
-        try {
-            EmailLogEntry newEntry = new EmailLogEntry(message);
-            String emailLogInfo = newEntry.generateLogMessage();
-            log.info(emailLogInfo);
-        } catch (Exception e) {
-            log.severe("Failed to generate log for email: " + message.getInfoForLogging());
-        }
+    private void sendEmailCopyWithJavamail(EmailWrapper message) throws EmailSendingException {
+        // GAE Javamail is used when we need a service that is not prone to configuration failures
+        // and/or third-party API failures. The trade-off is the very little quota of 100 emails per day.
+        JavamailService javamailService = new JavamailService();
+        
+        // GAE Javamail requires the sender email address to be of this format
+        message.setSenderEmail("admin@" + Config.getAppId() + ".appspotmail.com");
+        
+        message.setSubject("[Javamail Copy] " + message.getSubject());
+        
+        javamailService.sendEmail(message);
     }
     
     /**
      * Sends the given {@code errorReport}.
      */
     public void sendErrorReport(EmailWrapper errorReport) throws EmailSendingException {
-        sendEmailWithoutLogging(errorReport);
+        sendEmail(errorReport);
+        sendEmailCopyWithJavamail(errorReport);
         log.info("Sent crash report: " + errorReport.getInfoForLogging());
     }
     
@@ -146,7 +143,8 @@ public class EmailSender {
      */
     public void sendLogReport(EmailWrapper logReport) {
         try {
-            sendEmailWithoutLogging(logReport);
+            sendEmail(logReport);
+            sendEmailCopyWithJavamail(logReport);
         } catch (Exception e) {
             logSevereForErrorInSendingItem("log report", logReport, e);
         }

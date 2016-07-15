@@ -192,6 +192,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
+        assertTrue("Visibility preview for new question should be displayed",
+                   feedbackEditPage.isVisibilityPreviewDisplayedForNewQuestion());
     }
 
     private void testInputValidationForQuestion() {
@@ -206,6 +208,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("empty number of max respondants field");
 
         feedbackEditPage.fillNewQuestionBox("filled qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.fillNumOfEntitiesToGiveFeedbackToBoxForNewQuestion("");
         feedbackEditPage.clickCustomNumberOfRecipientsButton();
@@ -291,6 +294,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("add question 2 and edit it to giver's team members and giver");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.fillNewQuestionBox("test visibility when choosing giver's team members and giver");
+        feedbackEditPage.fillNewQuestionDescription(
+                "<h3 style=\"text-align: center;\"><strong>Description</strong></h3><hr /><p>&nbsp;</p>");
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.selectRecipientsToBeGiverTeamMembersAndGiver();
         feedbackEditPage.clickMaxNumberOfRecipientsButton();
@@ -363,6 +368,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
         feedbackEditPage.fillNewQuestionBox(qnTextOriginal);
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.fillMcqOption(0, "Choice 1");
         feedbackEditPage.fillMcqOption(1, "Choice 2");
         feedbackEditPage.clickAddQuestionButton();
@@ -379,6 +385,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("Click cancel and click yes to confirmation prompt");
         feedbackEditPage.fillEditQuestionBox("new edits to question text", qnIndex);
+        feedbackEditPage.fillEditQuestionDescription("more details", qnIndex);
         String qnTextAfterEdit = feedbackEditPage.getQuestionBoxText(qnIndex);
         assertFalse(qnTextOriginal.equals(qnTextAfterEdit));
 
@@ -509,7 +516,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         assertTrue(feedbackEditPage.verifyPreviewLabelIsActive(1));
         assertFalse(feedbackEditPage.verifyEditLabelIsActive(1));
-        assertTrue(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));
+        assertTrue(feedbackEditPage.verifyVisibilityPreviewIsDisplayed(1));
         assertFalse(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));
 
         feedbackEditPage.clickQuestionEditForQuestion1();
@@ -518,7 +525,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         assertFalse(feedbackEditPage.verifyPreviewLabelIsActive(1));
         assertTrue(feedbackEditPage.verifyEditLabelIsActive(1));
-        assertFalse(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));
+        assertFalse(feedbackEditPage.verifyVisibilityPreviewIsDisplayed(1));
         assertTrue(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));
     }
     
@@ -529,8 +536,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickQuestionEditForQuestion1();
         feedbackEditPage.clickEditLabel(1);
-        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
-        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.SELF, 1);
+
+        ______TS("Default case: all options enabled");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
 
         assertEnabledVisibilityOptionsIncludesOnly(
                 Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -538,7 +547,18 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                               FeedbackParticipantType.INSTRUCTORS),
                 1);
 
-        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        // testing recipientTypes
+        ______TS("Selecting SELF as recipient disables options for RECEVIER and RECEIVER_TEAM_MEMBERS");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.SELF, 1);
+
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS,
+                              FeedbackParticipantType.INSTRUCTORS),
+                1);
+
+        ______TS("Selecting INSTRUCTORS as recipient disables option for RECEIVER_TEAM_MEMBERS");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.INSTRUCTORS, 1);
 
         assertEnabledVisibilityOptionsIncludesOnly(
@@ -546,7 +566,17 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                               FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
                 1);
 
-        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        ______TS("Selecting OWN_TEAM as recipient disables options for RECEIVER and RECEIVER_TEAM_MEMBERS");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.OWN_TEAM, 1);
+
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS,
+                              FeedbackParticipantType.INSTRUCTORS),
+                1);
+
+        ______TS("Selecting NONE as recipient disables options for RECEIVER and RECEIVER_TEAM_MEMBERS");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.NONE, 1);
 
         assertEnabledVisibilityOptionsIncludesOnly(
@@ -554,11 +584,34 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                               FeedbackParticipantType.INSTRUCTORS),
                 1);
 
-        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.INSTRUCTORS, 1);
-        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.NONE, 1);
+        // testing giverTypes
+        ______TS("Selecting SELF as giver disables option for OWN_TEAM_MEMBERS");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
 
         assertEnabledVisibilityOptionsIncludesOnly(
-                Arrays.asList(FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS), 1);
+                Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                              FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
+                1);
+
+        // testing specific giverType-recipientType combinations
+        ______TS("Selecting SELF as giver and recipient further disables option for RECIPIENT_TEAM_MEMBERS");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.SELF, 1);
+
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
+                1);
+
+        ______TS("Selecting TEAMS as giver and OWN_TEAM_MEMBERS_INCLUDING_SELF as recipient further disables "
+                 + "option for RECIPIENT");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.TEAMS, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, 1);
+
+        assertEnabledVisibilityOptionsIncludesOnly(
+                Arrays.asList(FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
+                1);
+
     }
 
     private void assertEnabledVisibilityOptionsIncludesOnly(List<FeedbackParticipantType> expectedTypes,
@@ -579,7 +632,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
             actualEnableOptions.add(checkbox.getAttribute("value"));
         }
 
-        assertTrue(expectedEnabledOptions.equals(actualEnableOptions));
+        assertEquals(expectedEnabledOptions, actualEnableOptions);
     }
 
     private void testAjaxOnVisibilityMessageButton() {
@@ -589,7 +642,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.changeQuestionTypeInForm(1, "InvalidQuestionType");
         feedbackEditPage.clickVisibilityPreviewForQuestion1();
         feedbackEditPage.waitForAjaxErrorOnVisibilityMessageButton(1);
-        assertFalse(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));
+        assertFalse(feedbackEditPage.verifyVisibilityPreviewIsDisplayed(1));
     }
 
     private void testDeleteQuestionAction(int qnNumber) {
@@ -618,6 +671,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.fillNewQuestionBox("new question");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.clickAddQuestionButton();
 
         // Delete the new question through the backdoor so that it still appears in the browser
@@ -628,6 +682,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // Edit the deleted question and save
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("non-existent question", 1);
+        feedbackEditPage.fillEditQuestionDescription("more details", 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
 
         AppUrl expectedRedirectUrl = createUrl("/entityNotFoundPage.jsp");
@@ -644,6 +699,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.fillNewQuestionBox("new question");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.clickAddQuestionButton();
 
         // Create response for the new question
@@ -703,6 +759,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillNewQuestionBox("question for me");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
         
@@ -711,6 +768,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillNewQuestionBox("question for students");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
 
@@ -718,6 +776,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillNewQuestionBox("question for instructors");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.selectGiverToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
 
@@ -725,6 +784,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillNewQuestionBox("question for students to instructors");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.selectRecipientsToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();

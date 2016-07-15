@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
@@ -141,6 +143,10 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         FeedbackQuestionDetails questionDetails = FeedbackQuestionDetails.createQuestionDetails(
                 requestParameters, newQuestion.questionType);
         newQuestion.setQuestionDetails(questionDetails);
+
+        String questionDescription = HttpRequestHelper.getValueFromParamMap(requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION);
+        newQuestion.setQuestionDescription(new Text(questionDescription));
 
         return newQuestion;
     }

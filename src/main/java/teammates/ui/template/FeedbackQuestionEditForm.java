@@ -21,6 +21,7 @@ public class FeedbackQuestionEditForm {
     private String feedbackSessionName;
     
     private String questionText;
+    private String questionDescription;
     private String questionTypeDisplayName;
     private FeedbackQuestionType questionType;
     private int questionIndex;
@@ -135,9 +136,13 @@ public class FeedbackQuestionEditForm {
     public void setQuestionSpecificEditFormHtml(String questionSpecificEditFormHtml) {
         this.questionSpecificEditFormHtml = questionSpecificEditFormHtml;
     }
-   
+
     public String getQuestionText() {
         return questionText;
+    }
+
+    public String getQuestionDescription() {
+        return questionDescription;
     }
 
     public String getAction() {
@@ -218,7 +223,11 @@ public class FeedbackQuestionEditForm {
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }
-    
+
+    public void setQuestionDescription(String questionDescription) {
+        this.questionDescription = questionDescription;
+    }
+
     public void setQuestionType(FeedbackQuestionType questionType) {
         this.questionType = questionType;
     }

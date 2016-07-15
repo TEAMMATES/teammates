@@ -272,6 +272,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
         
         feedbackEditPage.fillNewQuestionBox("Rank qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1 <>");
         
         assertEquals(2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
@@ -285,6 +286,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
         
         feedbackEditPage.fillNewQuestionBox("Rank qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         
         // blank option at the start and end, to check they are removed
         feedbackEditPage.clickAddMoreRankOptionLinkForNewQn();
@@ -310,6 +312,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(0);
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(1);
         feedbackEditPage.fillNewQuestionBox("Rank recipients qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
@@ -328,6 +331,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                                         "/instructorFeedbackRankQuestionEdit.html");
         
         feedbackEditPage.fillEditQuestionBox("edited Rank qn text", 1);
+        feedbackEditPage.fillEditQuestionDescription("more details", 1);
 
         feedbackEditPage.clickRemoveRankOptionLink(1, 0);
         assertEquals("Should still remain with 2 options,"
