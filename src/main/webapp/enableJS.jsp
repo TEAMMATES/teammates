@@ -30,7 +30,7 @@
                     <li>Then select the Custom Level button.</li>
                     <li>Locate Scripting near the bottom of the list.</li>
                     <li>Under Active Scripting, select Enable, then hit OK.</li>
-                    <li>Answer yes to the following conformation box.</li>
+                    <li>Answer yes to the following confirmation box.</li>
                     <li>Hit OK to close the Internet Options window.</li>
                     <li>Finally, hit refresh on your browser window to enjoy the
                         javascript.</li>
