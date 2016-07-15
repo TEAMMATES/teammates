@@ -38,7 +38,7 @@
                 </c:forEach>
             </ul>
             
-            <c:if test="${questionWithResponses.question.teamQuestion}">
+            <c:if test="${questionWithResponses.question.giverTeam}">
                     <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p> 
             </c:if>
               

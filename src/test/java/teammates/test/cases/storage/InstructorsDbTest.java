@@ -47,8 +47,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testCreateInstructor()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateInstructor() throws Exception {
         
         ______TS("Success: create an instructor");
         
