@@ -90,6 +90,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("CONTRIB: add question action success");
         
         feedbackEditPage.fillNewQuestionBox("contrib qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
@@ -108,6 +109,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEdit.html");
         
         feedbackEditPage.fillEditQuestionBox("edited contrib qn text", 1);
+        feedbackEditPage.fillEditQuestionDescription("more details", 1);
         feedbackEditPage.toggleNotSureCheck(1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
@@ -142,12 +144,14 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.fillNewQuestionBox("q1, essay qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONTRIB");
         feedbackEditPage.fillNewQuestionBox("q2, contribution qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         
