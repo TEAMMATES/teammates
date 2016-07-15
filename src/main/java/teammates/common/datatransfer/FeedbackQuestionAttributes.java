@@ -149,7 +149,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     @Override
-    public FeedbackQuestion toEntity() {
+    public Object toEntity() {
         return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
                                     questionMetaData, questionDescription, questionNumber, questionType, giverType,
                                     recipientType, numberOfEntitiesToGiveFeedbackTo,
