@@ -842,7 +842,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<li data-questiontype = \"RUBRIC\"><a>" + Const.FeedbackQuestionTypeNames.RUBRIC + "</a></li>";
+        return "<li data-questiontype = \"RUBRIC\"><a href=\"javascript:;\">"
+               + Const.FeedbackQuestionTypeNames.RUBRIC + "</a></li>";
     }
 
     /**

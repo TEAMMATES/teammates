@@ -191,7 +191,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
     }
 
-    public void testInputValidation() {
+    public void testInputValidation() throws Exception {
         
         /* Explanation: If the validation is done through one JS function
          * (e.g., the entire form is validated in one go), we need to check only

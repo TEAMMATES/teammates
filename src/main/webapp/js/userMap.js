@@ -1,4 +1,3 @@
-
 function handleError() {
     var contentHolder = d3.select('#contentHolder');
     contentHolder.html('');

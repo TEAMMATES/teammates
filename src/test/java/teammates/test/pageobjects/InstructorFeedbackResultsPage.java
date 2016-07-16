@@ -281,6 +281,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
         commentRow.findElement(By.tagName("form")).findElement(By.tagName("a")).click();
+        waitForConfirmationModalAndClickOk();
         ThreadHelper.waitFor(1500);
     }
 

@@ -19,7 +19,7 @@
             <a class="btn btn-primary btn-sm" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=New+Session+%23%23+%28Copied%29&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.instructor" id="fsDeleteLink" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','New Session ## (Copied)');" title="">
               Delete
             </a>
-            <span data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
+            <span class="tool-tip-decorate" data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
               <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="New Session ## (Copied)" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
                 Copy
               </a>
@@ -800,52 +800,52 @@
             </button>
             <ul class="dropdown-menu" id="add-new-question-dropdown">
               <li data-questiontype="TEXT">
-                <a>
+                <a href="javascript:;">
                   Essay question
                 </a>
               </li>
               <li data-questiontype="MCQ">
-                <a>
+                <a href="javascript:;">
                   Multiple-choice (single answer) question
                 </a>
               </li>
               <li data-questiontype="MSQ">
-                <a>
+                <a href="javascript:;">
                   Multiple-choice (multiple answers) question
                 </a>
               </li>
               <li data-questiontype="NUMSCALE">
-                <a>
+                <a href="javascript:;">
                   Numerical-scale question
                 </a>
               </li>
               <li data-questiontype="CONSTSUM_OPTION">
-                <a>
+                <a href="javascript:;">
                   Distribute points (among options) question
                 </a>
               </li>
               <li data-questiontype="CONSTSUM_RECIPIENT">
-                <a>
+                <a href="javascript:;">
                   Distribute points (among recipients) question
                 </a>
               </li>
               <li data-questiontype="CONTRIB">
-                <a>
+                <a href="javascript:;">
                   Team contribution question
                 </a>
               </li>
               <li data-questiontype="RUBRIC">
-                <a>
+                <a href="javascript:;">
                   Rubric question
                 </a>
               </li>
               <li data-questiontype="RANK_OPTIONS">
-                <a>
+                <a href="javascript:;">
                   Rank (options) question
                 </a>
               </li>
               <li data-questiontype="RANK_RECIPIENTS">
-                <a>
+                <a href="javascript:;">
                   Rank (recipients) question
                 </a>
               </li>
@@ -884,565 +884,584 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Discard new question" data-placement="top" data-toggle="tooltip" onclick="discardChanges(-1)" title="">
+              <a class="btn btn-primary btn-xs" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-toggle="tooltip" onclick="discardChanges(-1)" title="">
                 Cancel
-              </a>
-              <a class="btn btn-primary btn-xs" data-original-title="Delete this question" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(-1)" title="">
-                Delete
               </a>
             </span>
           </div>
         </div>
       </div>
       <div class="panel-body">
-        <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-          <div>
-            <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext" name="questiontext" rows="5" tabindex="9" title="">
-            </textarea>
+        <div class="col-sm-12 margin-15px background-color-light-blue">
+          <div class="form-group" style="padding: 15px;">
+            <h5 class="col-sm-2">
+              <label class="control-label" for="questiontext">
+                Question
+              </label>
+            </h5>
+            <div class="col-sm-10">
+              <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext" name="questiontext" rows="2" tabindex="9" title="">
+              </textarea>
+            </div>
           </div>
-          <div id="mcqForm">
-            <div class="row">
-              <br>
-              <div class="col-sm-6">
-                <div id="mcqChoiceTable--1">
-                  <div class="margin-bottom-7px" id="mcqOptionRow-0--1">
-                    <div class="input-group width-100-pc">
-                      <span class="input-group-addon">
-                        <input class="disabled_radio" disabled="" type="radio">
-                      </span>
-                      <input class="form-control" disabled="" id="mcqOption-0--1" name="mcqOption-0" type="text" value="">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" onclick="removeMcqOption(0,-1)" style="display:none" tabindex="-1" type="button">
-                          <span class="glyphicon glyphicon-remove">
-                          </span>
-                        </button>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="margin-bottom-7px" id="mcqOptionRow-1--1">
-                    <div class="input-group width-100-pc">
-                      <span class="input-group-addon">
-                        <input class="disabled_radio" disabled="" type="radio">
-                      </span>
-                      <input class="form-control" disabled="" id="mcqOption-1--1" name="mcqOption-1" type="text" value="">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" onclick="removeMcqOption(1,-1)" style="display:none" tabindex="-1" type="button">
-                          <span class="glyphicon glyphicon-remove">
-                          </span>
-                        </button>
-                      </span>
-                    </div>
-                  </div>
-                  <div id="mcqAddOptionRow--1">
-                    <div colspan="2">
-                      <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" onclick="addMcqOption(-1)" style="display:none">
-                        <span class="glyphicon glyphicon-plus">
+          <div class="form-group" style="padding: 0 15px;">
+            <h5 class="col-sm-2">
+              <label class="align-left" for="questiondescription">
+                [Optional]
+                <br>
+                Description
+              </label>
+            </h5>
+            <div class="col-sm-10">
+              <div id="rich-text-toolbar-q-descr-container">
+              </div>
+              <div class="panel panel-default panel-body" data-original-title="Please enter the description of the question." data-placement="top" data-toggle="tooltip" id="questiondescription" rows="5" tabindex="9" title="">
+              </div>
+            </div>
+            <div id="mcqForm">
+              <div class="row">
+                <br>
+                <div class="col-sm-6">
+                  <div id="mcqChoiceTable--1">
+                    <div class="margin-bottom-7px" id="mcqOptionRow-0--1">
+                      <div class="input-group width-100-pc">
+                        <span class="input-group-addon">
+                          <input class="disabled_radio" disabled="" type="radio">
                         </span>
-                        add more options
-                      </a>
-                      <div class="checkbox">
-                        <label class="bold-label">
-                          <input id="mcqOtherOptionFlag--1" name="mcqOtherOptionFlag" onchange="toggleMcqOtherOptionEnabled(this, -1)" type="checkbox">
-                          Add 'Other' option (Allows respondents to type in their own answer)
-                        </label>
+                        <input class="form-control" disabled="" id="mcqOption-0--1" name="mcqOption-0" type="text" value="">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" onclick="removeMcqOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="margin-bottom-7px" id="mcqOptionRow-1--1">
+                      <div class="input-group width-100-pc">
+                        <span class="input-group-addon">
+                          <input class="disabled_radio" disabled="" type="radio">
+                        </span>
+                        <input class="form-control" disabled="" id="mcqOption-1--1" name="mcqOption-1" type="text" value="">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" onclick="removeMcqOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                    <div id="mcqAddOptionRow--1">
+                      <div colspan="2">
+                        <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" onclick="addMcqOption(-1)" style="display:none">
+                          <span class="glyphicon glyphicon-plus">
+                          </span>
+                          add more options
+                        </a>
+                        <div class="checkbox">
+                          <label class="bold-label">
+                            <input id="mcqOtherOptionFlag--1" name="mcqOtherOptionFlag" onchange="toggleMcqOtherOptionEnabled(this, -1)" type="checkbox">
+                            Add 'Other' option (Allows respondents to type in their own answer)
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2">
                 </div>
-                <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2">
-              </div>
-              <div class="col-sm-6 row">
-                <div class="col-md-8 margin-bottom-7px">
-                  <div class="checkbox">
-                    <label class="bold-label">
-                      <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
-                      Or, generate options from the list of all
-                    </label>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <select class="form-control" disabled="" id="mcqGenerateForSelect--1" onchange="changeMcqGenerateFor(-1)">
-                    <option value="STUDENTS">
-                      students
-                    </option>
-                    <option value="TEAMS">
-                      teams
-                    </option>
-                    <option value="INSTRUCTORS">
-                      instructors
-                    </option>
-                  </select>
-                </div>
-                <input id="generatedOptions--1" name="generatedOptions" type="hidden" value="NONE">
-              </div>
-              <br>
-            </div>
-          </div>
-          <div id="msqForm">
-            <div class="row">
-              <br>
-              <div class="col-sm-6">
-                <div id="msqChoiceTable--1">
-                  <div class="margin-bottom-7px" id="msqOptionRow-0--1">
-                    <div class="input-group width-100-pc">
-                      <span class="input-group-addon">
-                        <input class="disabled_radio" disabled="" type="checkbox">
-                      </span>
-                      <input class="form-control" disabled="" id="msqOption-0--1" name="msqOption-0" type="text" value="">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" onclick="removeMsqOption(0,-1)" style="display:none" tabindex="-1" type="button">
-                          <span class="glyphicon glyphicon-remove">
-                          </span>
-                        </button>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="margin-bottom-7px" id="msqOptionRow-1--1">
-                    <div class="input-group width-100-pc">
-                      <span class="input-group-addon">
-                        <input class="disabled_radio" disabled="" type="checkbox">
-                      </span>
-                      <input class="form-control" disabled="" id="msqOption-1--1" name="msqOption-1" type="text" value="">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" onclick="removeMsqOption(1,-1)" style="display:none" tabindex="-1" type="button">
-                          <span class="glyphicon glyphicon-remove">
-                          </span>
-                        </button>
-                      </span>
-                    </div>
-                  </div>
-                  <div id="msqAddOptionRow--1">
-                    <div colspan="2">
-                      <a class="btn btn-primary btn-xs addOptionLink" id="msqAddOptionLink" onclick="addMsqOption(-1)" style="display:none">
-                        <span class="glyphicon glyphicon-plus">
-                        </span>
-                        add more options
-                      </a>
-                      <div class="checkbox">
-                        <label class="bold-label">
-                          <input id="msqOtherOptionFlag--1" name="msqOtherOptionFlag" onchange="toggleMsqOtherOptionEnabled(this, -1)" type="checkbox">
-                          Add 'Other' option (Allows respondents to type in their own answer)
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2">
-              </div>
-              <div class="col-sm-6 row">
-                <div class="col-md-8 margin-bottom-7px">
-                  <div class="checkbox">
-                    <label class="bold-label">
-                      <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
-                      Or, generate options from the list of all
-                    </label>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <select class="form-control" disabled="" id="msqGenerateForSelect--1" onchange="changeMsqGenerateFor(-1)">
-                    <option value="STUDENTS">
-                      students
-                    </option>
-                    <option value="TEAMS">
-                      teams
-                    </option>
-                    <option value="INSTRUCTORS">
-                      instructors
-                    </option>
-                  </select>
-                </div>
-                <input id="generatedOptions--1" name="generatedOptions" type="hidden" value="NONE">
-              </div>
-              <br>
-            </div>
-          </div>
-          <div id="numScaleForm">
-            <div>
-              <br>
-              <div>
-                <div>
-                  <div class="row">
-                    <div class="col-sm-4" data-original-title="Minimum acceptable response value" data-placement="top" data-toggle="tooltip" title="">
-                      Minimum value:
-                      <input class="form-control minScaleBox" disabled="" id="minScaleBox--1" name="numscalemin" onchange="updateNumScalePossibleValues(-1)" type="number" value="1">
-                    </div>
-                    <div class="col-sm-4" data-original-title="Value to be increased/decreased each step" data-placement="top" data-toggle="tooltip" title="">
-                      Increment:
-                      <input class="form-control stepBox" disabled="" id="stepBox--1" min="0.001" name="numscalestep" onchange="updateNumScalePossibleValues(-1)" step="0.001" type="number" value="1">
-                    </div>
-                    <div class="col-sm-4" data-original-title="Maximum acceptable response value" data-placement="top" data-toggle="tooltip" title="">
-                      Maximum value:
-                      <input class="form-control maxScaleBox" disabled="" id="maxScaleBox--1" name="numscalemax" onchange="updateNumScalePossibleValues(-1)" type="number" value="5">
-                    </div>
-                  </div>
-                  <br>
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <span id="numScalePossibleValues--1">
-                        [Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="constSumForm">
-            <div class="row">
-              <br>
-              <div class="col-sm-6" id="constSumOptionTable--1">
-                <div class="margin-bottom-7px" id="constSumOptionRow-0--1">
-                  <div class="input-group width-100-pc">
-                    <input class="form-control" disabled="" id="constSumOption-0--1" name="constSumOption-0" type="text" value="">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(0,-1)" style="display:none" tabindex="-1" type="button">
-                        <span class="glyphicon glyphicon-remove">
-                        </span>
-                      </button>
-                    </span>
-                  </div>
-                </div>
-                <div class="margin-bottom-7px" id="constSumOptionRow-1--1">
-                  <div class="input-group width-100-pc">
-                    <input class="form-control" disabled="" id="constSumOption-1--1" name="constSumOption-1" type="text" value="">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(1,-1)" style="display:none" tabindex="-1" type="button">
-                        <span class="glyphicon glyphicon-remove">
-                        </span>
-                      </button>
-                    </span>
-                  </div>
-                </div>
-                <div id="constSumAddOptionRow--1">
-                  <div colspan="2">
-                    <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(-1)" style="display:none">
-                      <span class="glyphicon glyphicon-plus">
-                      </span>
-                      add more options
-                    </a>
-                  </div>
-                </div>
-                <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2">
-                <input id="constSumToRecipients--1" name="constSumToRecipients" type="hidden" value="false">
-              </div>
-              <div class="col-sm-6">
-                <div class="form-inline">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
-                        <b>
-                          Total Points to distribute:
-                        </b>
+                <div class="col-sm-6 row">
+                  <div class="col-md-8 margin-bottom-7px">
+                    <div class="checkbox">
+                      <label class="bold-label">
+                        <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
+                        Or, generate options from the list of all
                       </label>
                     </div>
-                    <div class="col-xs-12 margin-bottom-7px padding-left-35px">
-                      <div class="col-xs-1">
-                        <input checked="" id="constSumPointsTotal--1" name="constSumPointsPerOption" type="radio" value="false">
+                  </div>
+                  <div class="col-md-4">
+                    <select class="form-control" disabled="" id="mcqGenerateForSelect--1" onchange="changeMcqGenerateFor(-1)">
+                      <option value="STUDENTS">
+                        students
+                      </option>
+                      <option value="TEAMS">
+                        teams
+                      </option>
+                      <option value="INSTRUCTORS">
+                        instructors
+                      </option>
+                    </select>
+                  </div>
+                  <input id="generatedOptions--1" name="generatedOptions" type="hidden" value="NONE">
+                </div>
+                <br>
+              </div>
+            </div>
+            <div id="msqForm">
+              <div class="row">
+                <br>
+                <div class="col-sm-6">
+                  <div id="msqChoiceTable--1">
+                    <div class="margin-bottom-7px" id="msqOptionRow-0--1">
+                      <div class="input-group width-100-pc">
+                        <span class="input-group-addon">
+                          <input class="disabled_radio" disabled="" type="checkbox">
+                        </span>
+                        <input class="form-control" disabled="" id="msqOption-0--1" name="msqOption-0" type="text" value="">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" onclick="removeMsqOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
                       </div>
-                      <div data-original-title="Respondents will have to distribute the total points specified here among the 
+                    </div>
+                    <div class="margin-bottom-7px" id="msqOptionRow-1--1">
+                      <div class="input-group width-100-pc">
+                        <span class="input-group-addon">
+                          <input class="disabled_radio" disabled="" type="checkbox">
+                        </span>
+                        <input class="form-control" disabled="" id="msqOption-1--1" name="msqOption-1" type="text" value="">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" onclick="removeMsqOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                    <div id="msqAddOptionRow--1">
+                      <div colspan="2">
+                        <a class="btn btn-primary btn-xs addOptionLink" id="msqAddOptionLink" onclick="addMsqOption(-1)" style="display:none">
+                          <span class="glyphicon glyphicon-plus">
+                          </span>
+                          add more options
+                        </a>
+                        <div class="checkbox">
+                          <label class="bold-label">
+                            <input id="msqOtherOptionFlag--1" name="msqOtherOptionFlag" onchange="toggleMsqOtherOptionEnabled(this, -1)" type="checkbox">
+                            Add 'Other' option (Allows respondents to type in their own answer)
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2">
+                </div>
+                <div class="col-sm-6 row">
+                  <div class="col-md-8 margin-bottom-7px">
+                    <div class="checkbox">
+                      <label class="bold-label">
+                        <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
+                        Or, generate options from the list of all
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <select class="form-control" disabled="" id="msqGenerateForSelect--1" onchange="changeMsqGenerateFor(-1)">
+                      <option value="STUDENTS">
+                        students
+                      </option>
+                      <option value="TEAMS">
+                        teams
+                      </option>
+                      <option value="INSTRUCTORS">
+                        instructors
+                      </option>
+                    </select>
+                  </div>
+                  <input id="generatedOptions--1" name="generatedOptions" type="hidden" value="NONE">
+                </div>
+                <br>
+              </div>
+            </div>
+            <div id="numScaleForm">
+              <div>
+                <br>
+                <div>
+                  <div>
+                    <div class="row">
+                      <div class="col-sm-4" data-original-title="Minimum acceptable response value" data-placement="top" data-toggle="tooltip" title="">
+                        Minimum value:
+                        <input class="form-control minScaleBox" disabled="" id="minScaleBox--1" name="numscalemin" onchange="updateNumScalePossibleValues(-1)" type="number" value="1">
+                      </div>
+                      <div class="col-sm-4" data-original-title="Value to be increased/decreased each step" data-placement="top" data-toggle="tooltip" title="">
+                        Increment:
+                        <input class="form-control stepBox" disabled="" id="stepBox--1" min="0.001" name="numscalestep" onchange="updateNumScalePossibleValues(-1)" step="0.001" type="number" value="1">
+                      </div>
+                      <div class="col-sm-4" data-original-title="Maximum acceptable response value" data-placement="top" data-toggle="tooltip" title="">
+                        Maximum value:
+                        <input class="form-control maxScaleBox" disabled="" id="maxScaleBox--1" name="numscalemax" onchange="updateNumScalePossibleValues(-1)" type="number" value="5">
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <span id="numScalePossibleValues--1">
+                          [Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="constSumForm">
+              <div class="row">
+                <br>
+                <div class="col-sm-6" id="constSumOptionTable--1">
+                  <div class="margin-bottom-7px" id="constSumOptionRow-0--1">
+                    <div class="input-group width-100-pc">
+                      <input class="form-control" disabled="" id="constSumOption-0--1" name="constSumOption-0" type="text" value="">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                          <span class="glyphicon glyphicon-remove">
+                          </span>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="margin-bottom-7px" id="constSumOptionRow-1--1">
+                    <div class="input-group width-100-pc">
+                      <input class="form-control" disabled="" id="constSumOption-1--1" name="constSumOption-1" type="text" value="">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                          <span class="glyphicon glyphicon-remove">
+                          </span>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                  <div id="constSumAddOptionRow--1">
+                    <div colspan="2">
+                      <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(-1)" style="display:none">
+                        <span class="glyphicon glyphicon-plus">
+                        </span>
+                        add more options
+                      </a>
+                    </div>
+                  </div>
+                  <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2">
+                  <input id="constSumToRecipients--1" name="constSumToRecipients" type="hidden" value="false">
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-inline">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
+                          <b>
+                            Total Points to distribute:
+                          </b>
+                        </label>
+                      </div>
+                      <div class="col-xs-12 margin-bottom-7px padding-left-35px">
+                        <div class="col-xs-1">
+                          <input checked="" id="constSumPointsTotal--1" name="constSumPointsPerOption" type="radio" value="false">
+                        </div>
+                        <div data-original-title="Respondents will have to distribute the total points specified here among the 
                                 option. e.g. If you specify 100 points here and if there are 3 
                                 option, respondents will have to distribute 100 points among 3 
                                 option." data-placement="top" data-toggle="tooltip" title="">
-                        <div class="col-xs-4 padding-0 col-sm-4">
-                          <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
-                        </div>
-                        <div class="col-xs-6 padding-0">
-                          <label class="margin-top-7px padding-left-7px">
-                            in total
-                          </label>
+                          <div class="col-xs-4 padding-0 col-sm-4">
+                            <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                          </div>
+                          <div class="col-xs-6 padding-0">
+                            <label class="margin-top-7px padding-left-7px">
+                              in total
+                            </label>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Option--1">
-                      <div class="col-xs-1">
-                        <input id="constSumPointsPerOption--1" name="constSumPointsPerOption" type="radio" value="true">
-                      </div>
-                      <div data-original-title="The number of points to distribute will vary based on the number of options. e.g. 
+                      <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Option--1">
+                        <div class="col-xs-1">
+                          <input id="constSumPointsPerOption--1" name="constSumPointsPerOption" type="radio" value="true">
+                        </div>
+                        <div data-original-title="The number of points to distribute will vary based on the number of options. e.g. 
                                 If you specify 100 points here and if there are 3 options, the total number of points to 
                                 distribute among 3 options will be 300 (i.e. 100 x 3)" data-placement="top" data-toggle="tooltip" title="">
-                        <div class="col-xs-4 padding-0">
-                          <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
-                        </div>
-                        <div class="col-xs-6 padding-0">
-                          <label class="margin-top-7px padding-left-7px">
-                            X
-                          </label>
-                          <label class="margin-top-7px">
-                            (number of options)
-                          </label>
+                          <div class="col-xs-4 padding-0">
+                            <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                          </div>
+                          <div class="col-xs-6 padding-0">
+                            <label class="margin-top-7px padding-left-7px">
+                              X
+                            </label>
+                            <label class="margin-top-7px">
+                              (number of options)
+                            </label>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Recipient--1" style="display:none">
-                      <div class="col-xs-1">
-                        <input id="constSumPointsPerRecipient--1" name="constSumPointsPerOption" type="radio" value="true">
-                      </div>
-                      <div data-original-title="The number of points to distribute will vary based on the number of recipients. e.g. 
+                      <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Recipient--1" style="display:none">
+                        <div class="col-xs-1">
+                          <input id="constSumPointsPerRecipient--1" name="constSumPointsPerOption" type="radio" value="true">
+                        </div>
+                        <div data-original-title="The number of points to distribute will vary based on the number of recipients. e.g. 
                                 If you specify 100 points here and if there are 3 recipients, the total number of points to 
                                 distribute among 3 recipients will be 300 (i.e. 100 x 3)" data-placement="top" data-toggle="tooltip" title="">
-                        <div class="col-xs-4 padding-0">
-                          <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
-                        </div>
-                        <div class="col-xs-6 padding-0">
-                          <label class="margin-top-7px padding-left-7px">
-                            X
-                          </label>
-                          <label class="margin-top-7px">
-                            (number of recipients)
-                          </label>
+                          <div class="col-xs-4 padding-0">
+                            <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                          </div>
+                          <div class="col-xs-6 padding-0">
+                            <label class="margin-top-7px padding-left-7px">
+                              X
+                            </label>
+                            <label class="margin-top-7px">
+                              (number of recipients)
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="checkbox" data-container="body" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple options" data-placement="top" data-toggle="tooltip" id="constSum_tooltipText--1" title="">
-                      <label class="bold-label">
-                        <input disabled="" id="constSum_UnevenDistribution--1" name="constSumUnevenDistribution" type="checkbox">
-                        <span id="constSum_labelText--1">
-                          Every option to receive a different number of points
-                        </span>
-                      </label>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="checkbox" data-container="body" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple options" data-placement="top" data-toggle="tooltip" id="constSum_tooltipText--1" title="">
+                        <label class="bold-label">
+                          <input disabled="" id="constSum_UnevenDistribution--1" name="constSumUnevenDistribution" type="checkbox">
+                          <span id="constSum_labelText--1">
+                            Every option to receive a different number of points
+                          </span>
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <br>
-            </div>
-          </div>
-          <div id="contribForm">
-            <div class="row">
-              <br>
-              <div class="col-sm-6 row">
-                <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer" data-placement="top" data-toggle="tooltip" id="contrib_tooltipText--1" title="">
-                  <input checked="" id="isNotSureAllowedCheck--1" name="isNotSureAllowedCheck" type="checkbox">
-                  <span style="margin-left: 5px; font-weight: bold;">
-                    Allow response giver to select 'Not Sure' as the answer
-                  </span>
-                </div>
+                <br>
               </div>
             </div>
-          </div>
-          <div id="rubricForm">
-            <div class="row">
-              <br>
-              <div class="col-sm-12 table-responsive">
-                <table class="table table-bordered margin-0" id="rubricEditTable--1">
-                  <thead>
-                    <tr>
-                      <th style="text-align:center; vertical-align:middle;">
-                        <input class="nonDestructive" id="rubricAssignWeights--1" name="rubricAssignWeights" type="checkbox">
-                        <span data-original-title="Assign weights to the columns for calculating statistics." data-placement="top" data-toggle="tooltip">
-                          Weights
-                        </span>
-                        <span class="glyphicon glyphicon-arrow-right">
-                        </span>
-                      </th>
-                      <th class="rubricCol--1-0">
-                        <div class="col-sm-12 input-group">
-                          <input class="form-control" id="rubricChoice--1-0" name="rubricChoice-0" type="text" value="Strongly Disagree">
-                          <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-0" onclick="removeRubricCol(0, -1)" onmouseout="highlightRubricCol(0, -1, false)" onmouseover="highlightRubricCol(0, -1, true)">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </span>
-                        </div>
-                      </th>
-                      <th class="rubricCol--1-1">
-                        <div class="col-sm-12 input-group">
-                          <input class="form-control" id="rubricChoice--1-1" name="rubricChoice-1" type="text" value="Disagree">
-                          <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-1" onclick="removeRubricCol(1, -1)" onmouseout="highlightRubricCol(1, -1, false)" onmouseover="highlightRubricCol(1, -1, true)">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </span>
-                        </div>
-                      </th>
-                      <th class="rubricCol--1-2">
-                        <div class="col-sm-12 input-group">
-                          <input class="form-control" id="rubricChoice--1-2" name="rubricChoice-2" type="text" value="Agree">
-                          <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-2" onclick="removeRubricCol(2, -1)" onmouseout="highlightRubricCol(2, -1, false)" onmouseover="highlightRubricCol(2, -1, true)">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </span>
-                        </div>
-                      </th>
-                      <th class="rubricCol--1-3">
-                        <div class="col-sm-12 input-group">
-                          <input class="form-control" id="rubricChoice--1-3" name="rubricChoice-3" type="text" value="Strongly Agree">
-                          <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-3" onclick="removeRubricCol(3, -1)" onmouseout="highlightRubricCol(3, -1, false)" onmouseover="highlightRubricCol(3, -1, true)">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </span>
-                        </div>
-                      </th>
-                    </tr>
-                    <tr id="rubricWeights--1">
-                      <th style="text-align:center; vertical-align:middle;">
-                      </th>
-                      <th class="rubricCol--1-0">
-                        <input class="form-control nonDestructive" id="rubricWeight--1-0" name="rubricWeight-0" step="0.01" type="number" value="0">
-                      </th>
-                      <th class="rubricCol--1-1">
-                        <input class="form-control nonDestructive" id="rubricWeight--1-1" name="rubricWeight-1" step="0.01" type="number" value="0">
-                      </th>
-                      <th class="rubricCol--1-2">
-                        <input class="form-control nonDestructive" id="rubricWeight--1-2" name="rubricWeight-2" step="0.01" type="number" value="0">
-                      </th>
-                      <th class="rubricCol--1-3">
-                        <input class="form-control nonDestructive" id="rubricWeight--1-3" name="rubricWeight-3" step="0.01" type="number" value="0">
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr id="rubricRow--1-0">
-                      <td>
-                        <div class="col-sm-12 input-group">
-                          <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1" id="rubricRemoveSubQuestionLink--1-0" onclick="removeRubricRow(0,-1)" onmouseout="highlightRubricRow(0, -1, false)" onmouseover="highlightRubricRow(0, -1, true)">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </span>
-                          <textarea class="form-control" id="rubricSubQn--1-0" name="rubricSubQn-0" rows="3">
-                            This student participates well in online discussions.
-                          </textarea>
-                        </div>
-                      </td>
-                      <td class="align-center rubricCol--1-0">
-                        <textarea class="form-control nonDestructive" id="rubricDesc--1-0-0" name="rubricDesc-0-0" rows="3">
-                          Rarely or never responds.
-                        </textarea>
-                      </td>
-                      <td class="align-center rubricCol--1-1">
-                        <textarea class="form-control nonDestructive" id="rubricDesc--1-0-1" name="rubricDesc-0-1" rows="3">
-                          Occasionally responds, but never initiates discussions.
-                        </textarea>
-                      </td>
-                      <td class="align-center rubricCol--1-2">
-                        <textarea class="form-control nonDestructive" id="rubricDesc--1-0-2" name="rubricDesc-0-2" rows="3">
-                          Takes part in discussions and sometimes initiates discussions.
-                        </textarea>
-                      </td>
-                      <td class="align-center rubricCol--1-3">
-                        <textarea class="form-control nonDestructive" id="rubricDesc--1-0-3" name="rubricDesc-0-3" rows="3">
-                          Initiates discussions frequently, and engages the team.
-                        </textarea>
-                      </td>
-                    </tr>
-                    <tr id="rubricRow--1-1">
-                      <td>
-                        <div class="col-sm-12 input-group">
-                          <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1" id="rubricRemoveSubQuestionLink--1-1" onclick="removeRubricRow(1,-1)" onmouseout="highlightRubricRow(1, -1, false)" onmouseover="highlightRubricRow(1, -1, true)">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </span>
-                          <textarea class="form-control" id="rubricSubQn--1-1" name="rubricSubQn-1" rows="3">
-                            This student completes assigned tasks on time.
-                          </textarea>
-                        </div>
-                      </td>
-                      <td class="align-center rubricCol--1-0">
-                        <textarea class="form-control nonDestructive" id="rubricDesc--1-1-0" name="rubricDesc-1-0" rows="3">
-                          Rarely or never completes tasks.
-                        </textarea>
-                      </td>
-                      <td class="align-center rubricCol--1-1">
-                        <textarea class="form-control nonDestructive" id="rubricDesc--1-1-1" name="rubricDesc-1-1" rows="3">
-                          Often misses deadlines.
-                        </textarea>
-                      </td>
-                      <td class="align-center rubricCol--1-2">
-                        <textarea class="form-control nonDestructive" id="rubricDesc--1-1-2" name="rubricDesc-1-2" rows="3">
-                          Occasionally misses deadlines.
-                        </textarea>
-                      </td>
-                      <td class="align-center rubricCol--1-3">
-                        <textarea class="form-control nonDestructive" id="rubricDesc--1-1-3" name="rubricDesc-1-3" rows="3">
-                          Tasks are always completed before the deadline.
-                        </textarea>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <input id="rubricNumRows--1" name="rubricNumRows" type="hidden" value="2">
-              <input id="rubricNumCols--1" name="rubricNumCols" type="hidden" value="4">
-            </div>
-            <div class="row">
-              <div class="col-sm-6 align-left">
-                <a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink--1" onclick="addRubricRow(-1)">
-                  <span class="glyphicon glyphicon-arrow-down">
-                  </span>
-                  add row
-                </a>
-              </div>
-              <div class="col-sm-6 align-right">
-                <a class="btn btn-xs btn-primary" id="rubricAddChoiceLink--1" onclick="addRubricCol(-1)">
-                  add column
-                  <span class="glyphicon glyphicon-arrow-right">
-                  </span>
-                </a>
-              </div>
-              <br>
-            </div>
-          </div>
-          <div id="rankOptionsForm">
-            <div class="row">
-              <br>
-              <div class="col-sm-6" id="rankOptionTable--1">
-                <div class="margin-bottom-7px" id="rankOptionRow-0--1">
-                  <div class="input-group width-100-pc">
-                    <input class="form-control" disabled="" id="rankOption-0--1" name="rankOption-0" type="text" value="">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,-1)" style="display:none" tabindex="-1" type="button">
-                        <span class="glyphicon glyphicon-remove">
-                        </span>
-                      </button>
+            <div id="contribForm">
+              <div class="row">
+                <br>
+                <div class="col-sm-6 row">
+                  <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer" data-placement="top" data-toggle="tooltip" id="contrib_tooltipText--1" title="">
+                    <input checked="" id="isNotSureAllowedCheck--1" name="isNotSureAllowedCheck" type="checkbox">
+                    <span style="margin-left: 5px; font-weight: bold;">
+                      Allow response giver to select 'Not Sure' as the answer
                     </span>
                   </div>
                 </div>
-                <div class="margin-bottom-7px" id="rankOptionRow-1--1">
-                  <div class="input-group width-100-pc">
-                    <input class="form-control" disabled="" id="rankOption-1--1" name="rankOption-1" type="text" value="">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,-1)" style="display:none" tabindex="-1" type="button">
-                        <span class="glyphicon glyphicon-remove">
-                        </span>
-                      </button>
-                    </span>
-                  </div>
+              </div>
+            </div>
+            <div id="rubricForm">
+              <div class="row">
+                <br>
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered margin-0" id="rubricEditTable--1">
+                    <thead>
+                      <tr>
+                        <th style="text-align:center; vertical-align:middle;">
+                          <input class="nonDestructive" id="rubricAssignWeights--1" name="rubricAssignWeights" type="checkbox">
+                          <span class="tool-tip-decorate" data-original-title="Assign weights to the columns for calculating statistics." data-placement="top" data-toggle="tooltip">
+                            Weights
+                          </span>
+                          <span class="glyphicon glyphicon-arrow-right">
+                          </span>
+                        </th>
+                        <th class="rubricCol--1-0">
+                          <div class="col-sm-12 input-group">
+                            <input class="form-control" id="rubricChoice--1-0" name="rubricChoice-0" type="text" value="Strongly Disagree">
+                            <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-0" onclick="removeRubricCol(0, -1)" onmouseout="highlightRubricCol(0, -1, false)" onmouseover="highlightRubricCol(0, -1, true)">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </span>
+                          </div>
+                        </th>
+                        <th class="rubricCol--1-1">
+                          <div class="col-sm-12 input-group">
+                            <input class="form-control" id="rubricChoice--1-1" name="rubricChoice-1" type="text" value="Disagree">
+                            <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-1" onclick="removeRubricCol(1, -1)" onmouseout="highlightRubricCol(1, -1, false)" onmouseover="highlightRubricCol(1, -1, true)">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </span>
+                          </div>
+                        </th>
+                        <th class="rubricCol--1-2">
+                          <div class="col-sm-12 input-group">
+                            <input class="form-control" id="rubricChoice--1-2" name="rubricChoice-2" type="text" value="Agree">
+                            <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-2" onclick="removeRubricCol(2, -1)" onmouseout="highlightRubricCol(2, -1, false)" onmouseover="highlightRubricCol(2, -1, true)">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </span>
+                          </div>
+                        </th>
+                        <th class="rubricCol--1-3">
+                          <div class="col-sm-12 input-group">
+                            <input class="form-control" id="rubricChoice--1-3" name="rubricChoice-3" type="text" value="Strongly Agree">
+                            <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-3" onclick="removeRubricCol(3, -1)" onmouseout="highlightRubricCol(3, -1, false)" onmouseover="highlightRubricCol(3, -1, true)">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </span>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr id="rubricWeights--1">
+                        <th style="text-align:center; vertical-align:middle;">
+                        </th>
+                        <th class="rubricCol--1-0">
+                          <input class="form-control nonDestructive" id="rubricWeight--1-0" name="rubricWeight-0" step="0.01" type="number" value="0">
+                        </th>
+                        <th class="rubricCol--1-1">
+                          <input class="form-control nonDestructive" id="rubricWeight--1-1" name="rubricWeight-1" step="0.01" type="number" value="0">
+                        </th>
+                        <th class="rubricCol--1-2">
+                          <input class="form-control nonDestructive" id="rubricWeight--1-2" name="rubricWeight-2" step="0.01" type="number" value="0">
+                        </th>
+                        <th class="rubricCol--1-3">
+                          <input class="form-control nonDestructive" id="rubricWeight--1-3" name="rubricWeight-3" step="0.01" type="number" value="0">
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr id="rubricRow--1-0">
+                        <td>
+                          <div class="col-sm-12 input-group">
+                            <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1" id="rubricRemoveSubQuestionLink--1-0" onclick="removeRubricRow(0,-1)" onmouseout="highlightRubricRow(0, -1, false)" onmouseover="highlightRubricRow(0, -1, true)">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </span>
+                            <textarea class="form-control" id="rubricSubQn--1-0" name="rubricSubQn-0" rows="3">
+                              This student participates well in online discussions.
+                            </textarea>
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-0">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-0-0" name="rubricDesc-0-0" rows="3">
+                            Rarely or never responds.
+                          </textarea>
+                        </td>
+                        <td class="align-center rubricCol--1-1">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-0-1" name="rubricDesc-0-1" rows="3">
+                            Occasionally responds, but never initiates discussions.
+                          </textarea>
+                        </td>
+                        <td class="align-center rubricCol--1-2">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-0-2" name="rubricDesc-0-2" rows="3">
+                            Takes part in discussions and sometimes initiates discussions.
+                          </textarea>
+                        </td>
+                        <td class="align-center rubricCol--1-3">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-0-3" name="rubricDesc-0-3" rows="3">
+                            Initiates discussions frequently, and engages the team.
+                          </textarea>
+                        </td>
+                      </tr>
+                      <tr id="rubricRow--1-1">
+                        <td>
+                          <div class="col-sm-12 input-group">
+                            <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1" id="rubricRemoveSubQuestionLink--1-1" onclick="removeRubricRow(1,-1)" onmouseout="highlightRubricRow(1, -1, false)" onmouseover="highlightRubricRow(1, -1, true)">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </span>
+                            <textarea class="form-control" id="rubricSubQn--1-1" name="rubricSubQn-1" rows="3">
+                              This student completes assigned tasks on time.
+                            </textarea>
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-0">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-1-0" name="rubricDesc-1-0" rows="3">
+                            Rarely or never completes tasks.
+                          </textarea>
+                        </td>
+                        <td class="align-center rubricCol--1-1">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-1-1" name="rubricDesc-1-1" rows="3">
+                            Often misses deadlines.
+                          </textarea>
+                        </td>
+                        <td class="align-center rubricCol--1-2">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-1-2" name="rubricDesc-1-2" rows="3">
+                            Occasionally misses deadlines.
+                          </textarea>
+                        </td>
+                        <td class="align-center rubricCol--1-3">
+                          <textarea class="form-control nonDestructive" id="rubricDesc--1-1-3" name="rubricDesc-1-3" rows="3">
+                            Tasks are always completed before the deadline.
+                          </textarea>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div id="rankAddOptionRow--1">
-                  <div colspan="2">
-                    <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink--1" onclick="addRankOption(-1)" style="display:none">
-                      <span class="glyphicon glyphicon-plus">
+                <input id="rubricNumRows--1" name="rubricNumRows" type="hidden" value="2">
+                <input id="rubricNumCols--1" name="rubricNumCols" type="hidden" value="4">
+              </div>
+              <div class="row">
+                <div class="col-sm-6 align-left">
+                  <a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink--1" onclick="addRubricRow(-1)">
+                    <span class="glyphicon glyphicon-arrow-down">
+                    </span>
+                    add row
+                  </a>
+                </div>
+                <div class="col-sm-6 align-right">
+                  <a class="btn btn-xs btn-primary" id="rubricAddChoiceLink--1" onclick="addRubricCol(-1)">
+                    add column
+                    <span class="glyphicon glyphicon-arrow-right">
+                    </span>
+                  </a>
+                </div>
+                <br>
+              </div>
+            </div>
+            <div id="rankOptionsForm">
+              <div class="row">
+                <br>
+                <div class="col-sm-6" id="rankOptionTable--1">
+                  <div class="margin-bottom-7px" id="rankOptionRow-0--1">
+                    <div class="input-group width-100-pc">
+                      <input class="form-control" disabled="" id="rankOption-0--1" name="rankOption-0" type="text" value="">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                          <span class="glyphicon glyphicon-remove">
+                          </span>
+                        </button>
                       </span>
-                      add more options
-                    </a>
+                    </div>
+                  </div>
+                  <div class="margin-bottom-7px" id="rankOptionRow-1--1">
+                    <div class="input-group width-100-pc">
+                      <input class="form-control" disabled="" id="rankOption-1--1" name="rankOption-1" type="text" value="">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                          <span class="glyphicon glyphicon-remove">
+                          </span>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                  <div id="rankAddOptionRow--1">
+                    <div colspan="2">
+                      <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink--1" onclick="addRankOption(-1)" style="display:none">
+                        <span class="glyphicon glyphicon-plus">
+                        </span>
+                        add more options
+                      </a>
+                    </div>
+                  </div>
+                  <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2">
+                </div>
+                <div class="col-sm-6">
+                  <div class="checkbox" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple options" data-placement="top" data-toggle="tooltip" title="">
+                    <label class="bold-label">
+                      <input id="rankAreDuplicatesAllowed--1" name="rankAreDuplicatesAllowed" type="checkbox">
+                      Allow response giver to give the same rank to multiple options
+                    </label>
                   </div>
                 </div>
-                <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2">
+                <br>
               </div>
-              <div class="col-sm-6">
-                <div class="checkbox" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple options" data-placement="top" data-toggle="tooltip" title="">
-                  <label class="bold-label">
-                    <input id="rankAreDuplicatesAllowed--1" name="rankAreDuplicatesAllowed" type="checkbox">
-                    Allow response giver to give the same rank to multiple options
-                  </label>
-                </div>
-              </div>
-              <br>
             </div>
-          </div>
-          <div id="rankRecipientsForm">
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="checkbox" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple recipients" data-placement="top" data-toggle="tooltip" title="">
-                  <label class="bold-label">
-                    <input id="rankAreDuplicatesAllowed--1" name="rankAreDuplicatesAllowed" type="checkbox">
-                    Allow response giver to give the same rank to multiple options
-                  </label>
+            <div id="rankRecipientsForm">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="checkbox" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple recipients" data-placement="top" data-toggle="tooltip" title="">
+                    <label class="bold-label">
+                      <input id="rankAreDuplicatesAllowed--1" name="rankAreDuplicatesAllowed" type="checkbox">
+                      Allow response giver to give the same rank to multiple options
+                    </label>
+                  </div>
                 </div>
+                <br>
               </div>
-              <br>
             </div>
           </div>
         </div>

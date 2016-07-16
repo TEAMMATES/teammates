@@ -56,12 +56,14 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
 
     public InstructorCourseDetailsPage clickRemindAllAndCancel() {
-        clickAndCancel(remindAllButton);
+        remindAllButton.click();
+        waitForConfirmationModalAndClickCancel();
         return this;
     }
     
     public InstructorCourseDetailsPage clickRemindAllAndConfirm() {
-        clickAndConfirm(remindAllButton);
+        remindAllButton.click();
+        waitForConfirmationModalAndClickOk();
         return this;
     }
     
@@ -114,25 +116,29 @@ public class InstructorCourseDetailsPage extends AppPage {
     
     public InstructorCourseDetailsPage clickRemindStudentAndCancel(String studentName) {
         int rowId = getStudentRowId(studentName);
-        clickAndCancel(getRemindLink(rowId));
+        getRemindLink(rowId).click();
+        waitForConfirmationModalAndClickCancel();
         return this;
     }
     
     public InstructorCourseDetailsPage clickRemindStudentAndConfirm(String studentName) {
         int rowId = getStudentRowId(studentName);
-        clickAndConfirm(getRemindLink(rowId));
+        getRemindLink(rowId).click();
+        waitForConfirmationModalAndClickOk();
         return this;
     }
     
     public InstructorCourseDetailsPage clickDeleteAndCancel(String studentName) {
         int rowId = getStudentRowId(studentName);
-        clickAndCancel(getDeleteLink(rowId));
+        getDeleteLink(rowId).click();
+        waitForConfirmationModalAndClickCancel();
         return this;
     }
     
     public InstructorCourseDetailsPage clickDeleteAndConfirm(String studentName) {
         int rowId = getStudentRowId(studentName);
-        clickAndConfirm(getDeleteLink(rowId));
+        getDeleteLink(rowId).click();
+        waitForConfirmationModalAndClickOk();
         return this;
     }
     
