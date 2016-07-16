@@ -796,7 +796,7 @@ function bindCopyButton() {
 
         $('#copyTableModal > tbody > tr').each(function() {
             var $this = $(this);
-            var questionIdInput = $(this).children('input:first');
+            var questionIdInput = $this.children('input:first');
             
             if (!questionIdInput.length) {
                 return true;

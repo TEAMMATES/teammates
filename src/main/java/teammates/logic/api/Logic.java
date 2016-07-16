@@ -1706,10 +1706,9 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackQuestionAttributes copyFeedbackQuestion(
-                String oldCourseId, String oldFeedbackSessionName,
-                String feedbackQuestionId, String feedbackSessionName,
-                String courseId, String instructorEmail)
+    public FeedbackQuestionAttributes copyFeedbackQuestion(String oldCourseId, String oldFeedbackSessionName,
+                                                           String feedbackQuestionId, String feedbackSessionName,
+                                                           String courseId, String instructorEmail)
             throws InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldFeedbackSessionName);
