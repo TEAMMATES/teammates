@@ -35,7 +35,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         String[] paramsNormalXlsDownload = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESULTS_DOWNLOAD_TYPE, Const.FeedbackSessionResultsDownloadTypes.XLS
+                Const.ParamsNames.FEEDBACK_RESULTS_DOWNLOAD_TYPE, Const.FeedbackSessionResultsDownloadTypes.XLSX
         };
         
         String[] paramsNormalWithinSection = {
@@ -96,7 +96,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
         assertEquals(expectedFileName, result.getFileName());
-        assertEquals(Const.FeedbackSessionResultsDownloadTypes.XLS, result.getFileType());
+        assertEquals(Const.FeedbackSessionResultsDownloadTypes.XLSX, result.getFileType());
         verifyFileContentForSession1InCourse1(result.getFileContent(), session);
 
         ______TS("Typical successful case: student last name displayed properly after being specified with braces");

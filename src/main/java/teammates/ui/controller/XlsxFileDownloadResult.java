@@ -15,17 +15,25 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.google.common.base.Strings;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 
-public class XlsFileDownloadResult extends FileDownloadResult {
+public class XlsxFileDownloadResult extends FileDownloadResult {
+    public static final String CSV_LINE_DELIMITTER_REGEX = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
+    public static final String QUESTION_LINE_REGEX = "Question [0-9]{1,}.{0,}";
     private XSSFWorkbook workBook;
 
-    public XlsFileDownloadResult(String destination, AccountAttributes account, List<StatusMessage> status,
+    public XlsxFileDownloadResult(String destination, AccountAttributes account, List<StatusMessage> status,
             String fileName, String fileContent, String fileType) {
         super(destination, account, status, fileName, fileContent, fileType);
-        workBook = getWorkBook();
+        createWorkBook();
+    }
+
+    public XSSFWorkbook getWorkBook() {
+        return workBook;
     }
 
     @Override
@@ -38,29 +46,33 @@ public class XlsFileDownloadResult extends FileDownloadResult {
         outStream.close();
     }
 
-    private XSSFWorkbook getWorkBook() {
+    public XSSFWorkbook createWorkBook() {
         workBook = new XSSFWorkbook();
         XSSFSheet sheet = workBook.createSheet("sheet1");
         int rowNumber = 0;
-        String[] lines = fileContent.split(Const.EOL);
-        for (String line : lines) {
-            // Split by comma only if comma has a zero or even number of quotes in front of it.
-            String[] str = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-            rowNumber++;
-            XSSFRow currentRow = sheet.createRow(rowNumber);
+        if (!Strings.isNullOrEmpty(fileContent)) {
+            String[] lines = fileContent.split(Const.EOL);
+            for (String line : lines) {
+                // Split by comma only if comma has a zero or even number of
+                // quotes
+                // in front of it.
+                String[] str = line.split(CSV_LINE_DELIMITTER_REGEX, -1);
+                rowNumber++;
+                XSSFRow currentRow = sheet.createRow(rowNumber);
 
-            // Questions are marked bold and with bigger font.
-            if (line.matches("Question [0-9]{1,}.{0,}")) {
-                currentRow.setRowStyle(getQuestionStyle());
-            } else {
-                currentRow.setRowStyle(getDefaultStyle());
-            }
+                // Questions are marked bold and with bigger font.
+                if (line.matches(QUESTION_LINE_REGEX)) {
+                    currentRow.setRowStyle(getQuestionStyle());
+                } else {
+                    currentRow.setRowStyle(getDefaultStyle());
+                }
 
-            XSSFCell currentCell;
-            for (int i = 0; i < str.length; i++) {
-                currentCell = currentRow.createCell(i);
-                currentCell.setCellStyle(currentRow.getRowStyle());
-                currentCell.setCellValue(str[i]);
+                XSSFCell currentCell;
+                for (int i = 0; i < str.length; i++) {
+                    currentCell = currentRow.createCell(i);
+                    currentCell.setCellStyle(currentRow.getRowStyle());
+                    currentCell.setCellValue(str[i]);
+                }
             }
         }
         return workBook;

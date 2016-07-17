@@ -511,7 +511,7 @@ public final class Const {
     }
 
     public class FeedbackSessionResultsDownloadTypes {
-        public static final String XLS = "xlsx";
+        public static final String XLSX = "xlsx";
         public static final String CSV = "csv";
     }
     

@@ -491,8 +491,8 @@ public abstract class Action {
      * Generates a {@link FileDownloadResult} with the information in this object.
      */
     public FileDownloadResult createFileDownloadResult(String fileName, String fileContent, String downloadType) {
-        if (Const.FeedbackSessionResultsDownloadTypes.XLS.equals(downloadType)) {
-            return new XlsFileDownloadResult("filedownload", account, statusToUser, fileName, fileContent, downloadType);
+        if (Const.FeedbackSessionResultsDownloadTypes.XLSX.equals(downloadType)) {
+            return new XlsxFileDownloadResult("filedownload", account, statusToUser, fileName, fileContent, downloadType);
         } else {
             return new CsvFileDownloadResult("filedownload", account, statusToUser, fileName, fileContent, downloadType);
         }
