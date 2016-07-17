@@ -98,6 +98,12 @@
                     Publish Results
                   </a>
                 </div>
+                <br>
+                <div>
+                  <button class="btn btn-primary btn-block" id="button-print" type="input">
+                    Print View
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -192,7 +198,7 @@
               <label class="col-sm-2 control-label" for="viewSelect">
                 Filter:
               </label>
-              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
+              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" id="filter-box-parent-div" title="">
                 <div class="input-group">
                   <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
                   <a class="input-group-addon btn btn-default">
@@ -418,7 +424,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -828,7 +834,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -1182,24 +1188,24 @@
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Average of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Average of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Average of the visible responses" data-toggle="tooltip" title="">
                           Average
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Maximum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Maximum of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Maximum of the visible responses" data-toggle="tooltip" title="">
                           Max
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Minimum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Minimum of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Minimum of the visible responses" data-toggle="tooltip" title="">
                           Min
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
@@ -1258,7 +1264,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -1677,7 +1683,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -2135,7 +2141,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -3162,16 +3168,16 @@
                         </span>
                       </td>
                       <td class="button-sort-none" data-container="body" data-original-title="This is the student's own estimation of his/her contributions" data-placement="top" data-toggle="tooltip" id="button_sortclaimed" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Claimed Contribution">
+                        <span class="tool-tip-decorate" data-original-title="Claimed Contribution" data-toggle="tooltip" title="">
                           CC
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
                       <td class="button-sort-none" data-container="body" data-original-title="This is the average of what other team members think this student contributed" data-placement="top" data-toggle="tooltip" id="button_sortperceived" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Percived Contribution">
+                        <span class="tool-tip-decorate" data-original-title="Percived Contribution" data-toggle="tooltip" title="">
                           PC
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
@@ -3199,21 +3205,21 @@
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -3226,7 +3232,7 @@
                         Benny Charles
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -3236,7 +3242,7 @@
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -3245,7 +3251,7 @@
                           E
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -3258,26 +3264,26 @@
                         Fred Gabriel
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -3290,30 +3296,30 @@
                         Charlie Dávis
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -3326,30 +3332,30 @@
                         Danny Engrid
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -3362,30 +3368,30 @@
                         Drop out
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -3398,30 +3404,30 @@
                         Extra guy
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -3434,22 +3440,22 @@
                         Emily
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -3489,7 +3495,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -4478,7 +4484,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -4613,24 +4619,24 @@
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Average of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Average of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Average of the visible responses" data-toggle="tooltip" title="">
                           Average
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Maximum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Maximum of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Maximum of the visible responses" data-toggle="tooltip" title="">
                           Max
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Minimum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Minimum of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Minimum of the visible responses" data-toggle="tooltip" title="">
                           Min
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
@@ -4689,7 +4695,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -4791,16 +4797,16 @@
                         </span>
                       </td>
                       <td class="button-sort-none" data-container="body" data-original-title="This is the student's own estimation of his/her contributions" data-placement="top" data-toggle="tooltip" id="button_sortclaimed" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Claimed Contribution">
+                        <span class="tool-tip-decorate" data-original-title="Claimed Contribution" data-toggle="tooltip" title="">
                           CC
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
                       <td class="button-sort-none" data-container="body" data-original-title="This is the average of what other team members think this student contributed" data-placement="top" data-toggle="tooltip" id="button_sortperceived" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Percived Contribution">
+                        <span class="tool-tip-decorate" data-original-title="Percived Contribution" data-toggle="tooltip" title="">
                           PC
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
@@ -4828,21 +4834,21 @@
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -4855,7 +4861,7 @@
                         Anonymous student ${participant.hash}
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -4865,7 +4871,7 @@
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -4874,7 +4880,7 @@
                           E
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -4887,26 +4893,26 @@
                         Anonymous student ${participant.hash}
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -4919,30 +4925,30 @@
                         Anonymous student ${participant.hash}
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -4955,30 +4961,30 @@
                         Anonymous student ${participant.hash}
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -4991,30 +4997,30 @@
                         Anonymous student ${participant.hash}
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -5027,30 +5033,30 @@
                         Anonymous student ${participant.hash}
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                         ,
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -5063,22 +5069,22 @@
                         Anonymous student ${participant.hash}
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
                       <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                        <span class="color_neutral tool-tip-decorate" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
                           N/A
                         </span>
                       </td>
@@ -5118,7 +5124,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -5253,7 +5259,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -5406,24 +5412,24 @@
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Average of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Average of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Average of the visible responses" data-toggle="tooltip" title="">
                           Average
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Maximum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Maximum of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Maximum of the visible responses" data-toggle="tooltip" title="">
                           Max
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
-                      <td class="button-sort-none" data-container="body" data-original-title="Minimum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,sortByPoint)" title="">
-                        <abbr title="Minimum of the visible responses">
+                      <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,sortByPoint)" title="">
+                        <span class="tool-tip-decorate" data-original-title="Minimum of the visible responses" data-toggle="tooltip" title="">
                           Min
-                        </abbr>
+                        </span>
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
@@ -5482,7 +5488,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -5604,7 +5610,7 @@
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th>
+              <th class="action-header">
                 Actions
               </th>
             </tr>
@@ -5617,7 +5623,7 @@
               <td>
                 Fred Gabriel
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
@@ -5633,7 +5639,7 @@
               <td>
                 Charlie Dávis
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
@@ -5649,7 +5655,7 @@
               <td>
                 Danny Engrid
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
@@ -5665,7 +5671,7 @@
               <td>
                 Drop out
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
@@ -5681,7 +5687,7 @@
               <td>
                 Extra guy
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
@@ -5697,7 +5703,7 @@
               <td>
                 Emily
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">

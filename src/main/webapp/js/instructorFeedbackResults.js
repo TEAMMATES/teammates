@@ -335,4 +335,19 @@ $(document).ready(function() {
         $('input[id=downloadType]').val($(this).data('downloadtype'));
         $('#download-form').submit();
     });
+    
+    $('#button-print').on('click', function() {
+        // Fix to hide the filter placeholder when it is empty.
+        if ($('#results-search-box').val()) {
+            $('#filter-box-parent-div').removeClass('hide-for-print');
+        } else {
+            $('#filter-box-parent-div').addClass('hide-for-print');
+        }
+        
+        $('#mainContent').printThis({
+            importCSS: true,
+            importStyle: true,
+            loadCSS: '/stylesheets/printview.css'
+        });
+    });
 });

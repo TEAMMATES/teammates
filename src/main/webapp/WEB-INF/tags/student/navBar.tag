@@ -42,9 +42,11 @@
                 <ul class="nav navbar-nav pull-right">
                     <li>
                         <a id="btnLogout" class="nav logout" href="<%= Const.ActionURIs.LOGOUT %>">Logout
-                            (<span class="text-info" data-toggle="tooltip" data-placement="bottom" 
-                                    title="${data.account.googleId}">
-                                    ${data.account.truncatedGoogleId}
+                            (<span class="text-info" 
+                              <c:if test="${data.account.googleId != data.account.truncatedGoogleId}">
+                                data-toggle="tooltip" title="${data.account.googleId}" data-placement="bottom"
+                                </c:if>>
+                                ${data.account.truncatedGoogleId}
                             </span>)
                         </a>
                     </li>
