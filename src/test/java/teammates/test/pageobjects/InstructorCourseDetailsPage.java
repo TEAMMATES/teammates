@@ -41,35 +41,35 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
 
     public InstructorCourseDetailsPage sortByStatus() {
-        sortByStatusIcon.click();
+        click(sortByStatusIcon);
         return this;
     }
 
     public InstructorCourseDetailsPage sortByName() {
-        sortByNameIcon.click();
+        click(sortByNameIcon);
         return this;
     }
     
     public InstructorCourseDetailsPage sortByTeam() {
-        sortByTeamIcon.click();
+        click(sortByTeamIcon);
         return this;
     }
 
     public InstructorCourseDetailsPage clickRemindAllAndCancel() {
-        remindAllButton.click();
+        click(remindAllButton);
         waitForConfirmationModalAndClickCancel();
         return this;
     }
     
     public InstructorCourseDetailsPage clickRemindAllAndConfirm() {
-        remindAllButton.click();
+        click(remindAllButton);
         waitForConfirmationModalAndClickOk();
         return this;
     }
     
     public InstructorCourseStudentDetailsViewPage clickViewStudent(String studentName) {
         int rowId = getStudentRowId(studentName);
-        getViewLink(rowId).click();
+        click(getViewLink(rowId));
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
@@ -77,8 +77,8 @@ public class InstructorCourseDetailsPage extends AppPage {
     
     public InstructorCourseStudentDetailsViewPage clickAddCommentStudent(String studentName) {
         int rowId = getStudentRowId(studentName);
-        getAddCommentDropDownLink(rowId).click();
-        getAddCommentToStudentLink(rowId).click();
+        click(getAddCommentDropDownLink(rowId));
+        click(getAddCommentToStudentLink(rowId));
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
@@ -87,20 +87,20 @@ public class InstructorCourseDetailsPage extends AppPage {
     public void submitCommentToCourse(String comment) {
         clickAddCommentToCourseButton();
         WebElement commentTextForm = browser.driver.findElement(By.id("commentText"));
-        commentTextForm.click();
+        click(commentTextForm);
         commentTextForm.clear();
         commentTextForm.sendKeys(comment);
-        browser.driver.findElement(By.id("button_save_comment")).click();
+        click(browser.driver.findElement(By.id("button_save_comment")));
         waitForPageToLoad();
     }
     
     public void clickAddCommentToCourseButton() {
-        browser.driver.findElement(By.id("button_add_comment")).click();
+        click(browser.driver.findElement(By.id("button_add_comment")));
     }
 
     public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentName) {
         int rowId = getStudentRowId(studentName);
-        getEditLink(rowId).click();
+        click(getEditLink(rowId));
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorCourseStudentDetailsEditPage.class);
@@ -108,7 +108,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     
     public InstructorStudentRecordsPage clickAllRecordsLink(String studentName) {
         int rowId = getStudentRowId(studentName);
-        getAllRecordsLink(rowId).click();
+        click(getAllRecordsLink(rowId));
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorStudentRecordsPage.class);
@@ -116,28 +116,28 @@ public class InstructorCourseDetailsPage extends AppPage {
     
     public InstructorCourseDetailsPage clickRemindStudentAndCancel(String studentName) {
         int rowId = getStudentRowId(studentName);
-        getRemindLink(rowId).click();
+        click(getRemindLink(rowId));
         waitForConfirmationModalAndClickCancel();
         return this;
     }
     
     public InstructorCourseDetailsPage clickRemindStudentAndConfirm(String studentName) {
         int rowId = getStudentRowId(studentName);
-        getRemindLink(rowId).click();
+        click(getRemindLink(rowId));
         waitForConfirmationModalAndClickOk();
         return this;
     }
     
     public InstructorCourseDetailsPage clickDeleteAndCancel(String studentName) {
         int rowId = getStudentRowId(studentName);
-        getDeleteLink(rowId).click();
+        click(getDeleteLink(rowId));
         waitForConfirmationModalAndClickCancel();
         return this;
     }
     
     public InstructorCourseDetailsPage clickDeleteAndConfirm(String studentName) {
         int rowId = getStudentRowId(studentName);
-        getDeleteLink(rowId).click();
+        click(getDeleteLink(rowId));
         waitForConfirmationModalAndClickOk();
         return this;
     }

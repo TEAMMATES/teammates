@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -28,7 +27,7 @@ public class InstructorCommentsPage extends AppPage {
     
     public void loadResponseComments() {
         String pathToSecondDisplayPanelHeading = "//*[@id=\"panel_display-2\"]/div/div[1]";
-        browser.driver.findElement(By.xpath(pathToSecondDisplayPanelHeading)).click();
+        click(browser.driver.findElement(By.xpath(pathToSecondDisplayPanelHeading)));
         waitForPageToLoad();
         String pathToSecondDisplayPanelBodyInnerDiv = "//*[@id=\"panel_display-2\"]/div/div[2]";
         waitForElementVisibility(browser.driver.findElement(By.xpath(pathToSecondDisplayPanelBodyInnerDiv)));
@@ -36,52 +35,52 @@ public class InstructorCommentsPage extends AppPage {
 
     public void clickSendEmailNotificationButton() {
         String pathToSendEmailNotificationButton = "//*[@id=\"mainContent\"]/div[4]/div[1]/div/a";
-        browser.driver.findElement(By.xpath(pathToSendEmailNotificationButton)).click();
+        click(browser.driver.findElement(By.xpath(pathToSendEmailNotificationButton)));
         waitForPageToLoad();
     }
     
     public void clickShowMoreOptions() {
-        showMoreOptionsCheckbox.click();
+        click(showMoreOptionsCheckbox);
         waitForPageToLoad();
     }
     
     public void clickIsIncludeArchivedCoursesCheckbox() {
-        isIncludeArchivedCoursesCheckbox.click();
+        click(isIncludeArchivedCoursesCheckbox);
         waitForPageToLoad();
     }
     
     public void clickPreviousCourseLink() {
-        getPreviousCourseLink().click();
+        click(getPreviousCourseLink());
         waitForPageToLoad();
     }
     
     public void clickNextCourseLink() {
-        getNextCourseLink().click();
+        click(getNextCourseLink());
         waitForPageToLoad();
     }
     
     public void showCommentsForAll() {
-        browser.driver.findElement(By.id("panel_all")).click();
+        click(browser.driver.findElement(By.id("panel_all")));
     }
     
     public void showCommentsFromAll() {
-        browser.driver.findElement(By.id("giver_all")).click();
+        click(browser.driver.findElement(By.id("giver_all")));
     }
     
     public void showCommentsFromAllStatus() {
-        browser.driver.findElement(By.id("status_all")).click();
+        click(browser.driver.findElement(By.id("status_all")));
     }
     
     public void showCommentsForPanel(int panelIdx) {
-        browser.driver.findElement(By.id("panel_check-" + panelIdx)).click();
+        click(browser.driver.findElement(By.id("panel_check-" + panelIdx)));
     }
     
     public void showCommentsFromGiver(String giverIdx) {
-        browser.driver.findElement(By.id("giver_check-by-" + giverIdx)).click();
+        click(browser.driver.findElement(By.id("giver_check-by-" + giverIdx)));
     }
     
     public void showCommentsForStatus(String status) {
-        browser.driver.findElement(By.id("status_check-" + status)).click();
+        click(browser.driver.findElement(By.id("status_check-" + status)));
     }
 
     public WebElement getNextCourseLink() {
@@ -99,21 +98,21 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public void clickStudentCommentEditForRow(int i) {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementById('" + "commentedit-" + i + "').click();");
+        WebElement editCommentButton = browser.driver.findElement(By.id("commentedit-" + i));
+        click(editCommentButton);
     }
     
     public void clickStudentCommentVisibilityEdit(int row) {
         WebElement visibilityEditButton = browser.driver.findElement(By.id("visibility-options-trigger" + row));
         waitForElementVisibility(visibilityEditButton);
-        visibilityEditButton.click();
+        click(visibilityEditButton);
     }
     
     public void clickResponseCommentVisibilityEdit(String suffix) {
         WebElement visibilityEditButton =
                 browser.driver.findElement(By.id("frComment-visibility-options-trigger-" + suffix));
         waitForElementVisibility(visibilityEditButton);
-        visibilityEditButton.click();
+        click(visibilityEditButton);
     }
     
     public void clickAllCheckboxes(int row) {
@@ -122,7 +121,7 @@ public class InstructorCommentsPage extends AppPage {
                 .findElements(By.className("answerCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
         for (WebElement checkbox : checkboxes) {
-            checkbox.click();
+            click(checkbox);
         }
     }
     
@@ -132,7 +131,7 @@ public class InstructorCommentsPage extends AppPage {
                 .findElements(By.className("answerCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
         for (WebElement checkbox : checkboxes) {
-            checkbox.click();
+            click(checkbox);
         }
     }
     
@@ -141,33 +140,34 @@ public class InstructorCommentsPage extends AppPage {
                                            .findElement(By.id("visibility-options" + row))
                                            .findElements(By.className("giverCheckbox"));
         for (WebElement checkbox : giverCheckboxes) {
-            checkbox.click();
+            click(checkbox);
         }
     }
 
     public void fillTextareaToEditStudentCommentForRow(int i, String text) {
         WebElement textarea = browser.driver.findElement(By.id("commentText" + i));
-        textarea.click();
+        click(textarea);
         textarea.clear();
         textarea.sendKeys(text);
     }
     
     public void saveEditStudentCommentForRow(int i) {
-        browser.driver.findElement(By.id("commentsave-" + i)).click();
+        click(browser.driver.findElement(By.id("commentsave-" + i)));
         waitForPageToLoad();
     }
 
     public void clickResponseCommentAdd(int sessionIdx, int questionIdx, int responseIdx) {
         waitForPageToLoad();
-        browser.driver.findElement(
-                By.id("button_add_comment-" + sessionIdx + "-" + questionIdx + "-" + responseIdx)).click();
+        WebElement addCommentButton = browser.driver.findElement(
+                By.id("button_add_comment-" + sessionIdx + "-" + questionIdx + "-" + responseIdx));
+        click(addCommentButton);
         waitForPageToLoad();
     }
 
     public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx, String text) {
         WebElement textarea = browser.driver.findElement(
                 By.id("responseCommentAddForm-" + sessionIdx + "-" + questionIdx + "-" + responseIdx));
-        textarea.click();
+        click(textarea);
         textarea.clear();
         textarea.sendKeys(text);
     }
@@ -176,36 +176,38 @@ public class InstructorCommentsPage extends AppPage {
                                                   int commentIdx, String text) {
         WebElement textarea = browser.driver.findElement(
                 By.id("responsecommenttext-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx));
-        textarea.click();
+        click(textarea);
         textarea.clear();
         textarea.sendKeys(text);
     }
 
     public void addResponseComment(int sessionIdx, int questionIdx, int responseIdx) {
-        browser.driver.findElement(
-                By.id("button_save_comment_for_add-" + sessionIdx + "-" + questionIdx + "-" + responseIdx)).click();
+        WebElement saveCommentButton = browser.driver.findElement(
+                By.id("button_save_comment_for_add-" + sessionIdx + "-" + questionIdx + "-" + responseIdx));
+        click(saveCommentButton);
         waitForPageToLoad();
     }
 
     public void clickResponseCommentEdit(int sessionIdx, int questionIdx, int responseIdx, int commentIdx) {
         waitForPageToLoad();
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementById('"
-                + "commentedit-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx + "').click();");
+        WebElement editCommentButton = browser.driver.findElement(
+                By.id("commentedit-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx));
+        click(editCommentButton);
         waitForPageToLoad();
     }
 
     public void saveResponseComment(int sessionIdx, int questionIdx, int responseIdx, int commentIdx) {
-        browser.driver.findElement(
+        WebElement saveCommentButton = browser.driver.findElement(
                 By.id("button_save_comment_for_edit-" + sessionIdx + "-"
-                      + questionIdx + "-" + responseIdx + "-" + commentIdx)).click();
+                      + questionIdx + "-" + responseIdx + "-" + commentIdx));
+        click(saveCommentButton);
         waitForPageToLoad();
     }
 
     public void clickResponseCommentDelete(int sessionIdx, int questionIdx, int responseIdx, int commentIdx) {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementById('"
-                + "commentdelete-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx + "').click();");
+        WebElement deleteCommentButton = browser.driver.findElement(
+                By.id("commentdelete-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx));
+        click(deleteCommentButton);
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
     }
@@ -216,7 +218,7 @@ public class InstructorCommentsPage extends AppPage {
     public void clickCommentsForStudentsPanelHeading() {
         WebElement e = browser.driver.findElement(By.cssSelector("div[id='panel_display-1']"));
 
-        e.findElement(By.cssSelector(".panel-heading")).click();
+        click(e.findElement(By.cssSelector(".panel-heading")));
     }
     
     /**
@@ -224,7 +226,7 @@ public class InstructorCommentsPage extends AppPage {
      */
     public void clickAllCommentsPanelHeading() {
         for (WebElement e : browser.driver.findElements(By.cssSelector("div[id^='panel_display-']"))) {
-            e.findElement(By.cssSelector(".panel-heading")).click();
+            click(e.findElement(By.cssSelector(".panel-heading")));
         }
     }
     
@@ -312,13 +314,9 @@ public class InstructorCommentsPage extends AppPage {
 
     public void search(String text) {
         WebElement searchBox = browser.driver.findElement(By.id("searchBox"));
-        //This click somehow causes an error.
-        //searchBox.click();
-        this.waitForElementPresence(By.id("searchBox"));
-        //searchBox.clear();
-        this.waitForElementPresence(By.id("searchBox"));
+        waitForElementPresence(By.id("searchBox"));
         searchBox.sendKeys(text);
-        this.waitForElementPresence(By.id("buttonSearch"));
-        browser.driver.findElement(By.id("buttonSearch")).click();
+        waitForElementPresence(By.id("buttonSearch"));
+        click(browser.driver.findElement(By.id("buttonSearch")));
     }
 }
