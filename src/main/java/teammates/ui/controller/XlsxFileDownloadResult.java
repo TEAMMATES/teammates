@@ -53,9 +53,7 @@ public class XlsxFileDownloadResult extends FileDownloadResult {
         if (!Strings.isNullOrEmpty(fileContent)) {
             String[] lines = fileContent.split(Const.EOL);
             for (String line : lines) {
-                // Split by comma only if comma has a zero or even number of
-                // quotes
-                // in front of it.
+                // Split by comma only if comma has a zero or even number of quotes infront.
                 String[] str = line.split(CSV_LINE_DELIMITTER_REGEX, -1);
                 rowNumber++;
                 XSSFRow currentRow = sheet.createRow(rowNumber);
