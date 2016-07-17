@@ -24,13 +24,13 @@ public class StudentCourseJoinConfirmationPage extends AppPage {
     }
     
     public <T extends AppPage> T clickConfirmButton(Class<T> typeOfPage) {
-        confirmButton.click();
+        click(confirmButton);
         waitForPageToLoad();
         return changePageType(typeOfPage);
     }
     
     public LoginPage clickCancelButton() {
-        cancelButton.click();
+        click(cancelButton);
         waitForPageToLoad();
         return createCorrectLoginPageType(browser);
     }

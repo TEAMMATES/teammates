@@ -226,8 +226,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.clickSubmitButton();
 
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                     submitPage.getStatus());
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
                                                    "SFSubmitUiT.alice.b@gmail.tmt",
@@ -348,7 +347,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                    "Team 2"));
 
         //check edited
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         assertEquals(editedResponse,
                      BackDoor.getFeedbackResponse(fq.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
                                                   "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData.getValue());
@@ -449,7 +448,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.charlie.d@gmail.tmt"));
 
         submitPage.clickSubmitButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPagePartiallyFilled.html");
 
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.benny.c@gmail.tmt"));
@@ -472,7 +471,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(14, 0, "");
         submitPage.fillResponseTextBox(14, 0, "0");
         submitPage.clickSubmitButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         FeedbackQuestionAttributes fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
 
@@ -489,7 +488,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "50000");
         submitPage.clickSubmitButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
 
@@ -508,7 +507,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "-99999");
         submitPage.clickSubmitButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
 
@@ -524,7 +523,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.selectRecipient(2, 2, "");
         submitPage.fillResponseTextBox(2, 2, "Response to no recipient");
         submitPage.clickSubmitButton();
-        assertEquals("You did not specify a recipient for your response in question(s) 2.", submitPage.getStatus());
+        submitPage.verifyStatus("You did not specify a recipient for your response in question(s) 2.");
     }
 
     private void testResponsiveSubmission() {
@@ -532,10 +531,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
 
         // Select the first option for the first question for each student
-        submitPage.clickRubricCell(21, 0, 0, 0);
-        submitPage.clickRubricCell(21, 1, 0, 0);
-        submitPage.clickRubricCell(21, 2, 0, 0);
-        submitPage.clickRubricCell(21, 3, 0, 0);
+        submitPage.clickRubricRadio(21, 0, 0, 0);
+        submitPage.clickRubricRadio(21, 1, 0, 0);
+        submitPage.clickRubricRadio(21, 2, 0, 0);
+        submitPage.clickRubricRadio(21, 3, 0, 0);
 
         // Switch to mobile view
         submitPage.changeToMobileView();
@@ -544,18 +543,16 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertTrue(submitPage.isRubricRadioMobileChecked(21, 1, 0, 0));
         assertTrue(submitPage.isRubricRadioMobileChecked(21, 2, 0, 0));
         assertTrue(submitPage.isRubricRadioMobileChecked(21, 3, 0, 0));
+        
+        // Clear option for the first question for each student
+        submitPage.reloadPage();
+        submitPage.changeToMobileView();
 
         // Select the second option for the second question for each student
         submitPage.clickRubricRadioMobile(21, 0, 1, 1);
         submitPage.clickRubricRadioMobile(21, 1, 1, 1);
         submitPage.clickRubricRadioMobile(21, 2, 1, 1);
         submitPage.clickRubricRadioMobile(21, 3, 1, 1);
-
-        // Clear option for the first question for each student
-        submitPage.clickRubricRadioMobile(21, 0, 0, 0);
-        submitPage.clickRubricRadioMobile(21, 1, 0, 0);
-        submitPage.clickRubricRadioMobile(21, 2, 0, 0);
-        submitPage.clickRubricRadioMobile(21, 3, 0, 0);
 
         // Switch to desktop view
         submitPage.changeToDesktopView();
