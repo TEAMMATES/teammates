@@ -21,6 +21,17 @@ $(document).ready(function() {
     hideUncommonPanels();
 });
 
+function addLoadingIndicator(element) {
+    currentText = element.text();
+    element.attr('data-loading-text',
+            "<span class='glyphicon glyphicon-refresh glyphicon-spin'></span> " + currentText);
+    element.button('loading');
+}
+
+function removeLoadingIndicator(element) {
+    element.button('reset');
+}
+
 /**
  * This function is called on edit page load.
  */
@@ -55,7 +66,12 @@ function readyFeedbackEditPage() {
     });
 
     $('form.form_question').submit(function() {
-        return checkFeedbackQuestion(this);
+        addLoadingIndicator($('#button_submit_add'));
+        formStatus = checkFeedbackQuestion(this);
+        if (!formStatus) {
+            removeLoadingIndicator($('#button_submit_add'));
+        }
+        return formStatus;
     });
 
     // Bind destructive changes
