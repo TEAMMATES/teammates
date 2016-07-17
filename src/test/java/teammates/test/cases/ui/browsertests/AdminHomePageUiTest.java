@@ -302,7 +302,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                                  .loginAsInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
                                                                     TestProperties.TEST_INSTRUCTOR_PASSWORD);
 
-        instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
+        instructorHomePage.getDeleteCourseLink(demoCourseId).click();
+        instructorHomePage.waitForConfirmationModalAndClickOk();
         assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been deleted."));
      
         instructorHomePage.logout();

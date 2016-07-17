@@ -138,7 +138,8 @@ public class InstructorHomePage extends AppPage {
      * This is for customized feedback session
      */
     public InstructorFeedbacksPage clickFeedbackSessionDeleteLink(String courseId, String fsName) {
-        clickAndConfirm(getDeleteEvalLink(courseId, fsName));
+        getDeleteEvalLink(courseId, fsName).click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorFeedbacksPage.class);
@@ -158,7 +159,8 @@ public class InstructorHomePage extends AppPage {
      * This is for customized feedback session
      */
     public InstructorHomePage clickFeedbackSessionRemindLink(String courseId, String fsName) {
-        clickAndConfirm(getRemindLink(courseId, fsName));
+        getRemindLink(courseId, fsName).click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorHomePage.class);
@@ -168,7 +170,8 @@ public class InstructorHomePage extends AppPage {
      * This is for customized feedback session
      */
     public InstructorHomePage clickFeedbackSessionUnpublishLink(String courseId, String fsName) {
-        clickAndConfirm(getUnpublishLink(courseId, fsName));
+        getUnpublishLink(courseId, fsName).click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorHomePage.class);
@@ -178,7 +181,8 @@ public class InstructorHomePage extends AppPage {
      * This is for customized feedback session
      */
     public InstructorHomePage clickFeedbackSessionPublishLink(String courseId, String fsName) {
-        clickAndConfirm(getPublishLink(courseId, fsName));
+        getPublishLink(courseId, fsName).click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorHomePage.class);
@@ -280,13 +284,15 @@ public class InstructorHomePage extends AppPage {
     }
 
     public InstructorHomePage clickArchiveCourseLinkAndConfirm(String courseId) {
-        clickAndConfirm(getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)));
+        getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)).click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return this;
     }
 
     public InstructorHomePage clickArchiveCourseLinkAndCancel(String courseId) {
-        clickAndCancel(getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)));
+        getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)).click();
+        waitForConfirmationModalAndClickCancel();
         waitForPageToLoad();
         return this;
     }

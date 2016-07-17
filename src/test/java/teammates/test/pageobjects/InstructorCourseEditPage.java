@@ -317,6 +317,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void clickInviteInstructorLink(int instrNum) {
         getInviteInstructorLink(instrNum).click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
     }
     
@@ -341,13 +342,15 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public InstructorCoursesPage clickDeleteCourseLinkAndConfirm() {
-        clickAndConfirm(deleteCourseLink);
+        deleteCourseLink.click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return changePageType(InstructorCoursesPage.class);
     }
 
     public void clickDeleteCourseLinkAndCancel() {
-        clickAndCancel(deleteCourseLink);
+        deleteCourseLink.click();
+        waitForConfirmationModalAndClickCancel();
     }
     
     /**
@@ -356,7 +359,8 @@ public class InstructorCourseEditPage extends AppPage {
      */
     public void clickDeleteInstructorLinkAndConfirm(int instrNum) {
         WebElement deleteInstructorLink = getDeleteInstructorLink(instrNum);
-        clickAndConfirm(deleteInstructorLink);
+        deleteInstructorLink.click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
     }
     
@@ -366,7 +370,8 @@ public class InstructorCourseEditPage extends AppPage {
      */
     public void clickDeleteInstructorLinkAndCancel(int instrNum) {
         WebElement deleteInstructorLink = getDeleteInstructorLink(instrNum);
-        clickAndCancel(deleteInstructorLink);
+        deleteInstructorLink.click();
+        waitForConfirmationModalAndClickCancel();
     }
 
     public boolean isCustomCheckboxChecked(String privilege, int instrNum) {

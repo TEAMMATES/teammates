@@ -66,9 +66,12 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.logout();
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
-        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentHomeNavLink")));
-        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentProfileNavLink")));
-        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentCommentsNavLink")));
+        browser.driver.findElement(By.id("studentHomeNavLink")).click();
+        submitPage.waitForConfirmationModalAndClickCancel();
+        browser.driver.findElement(By.id("studentProfileNavLink")).click();
+        submitPage.waitForConfirmationModalAndClickCancel();
+        browser.driver.findElement(By.id("studentCommentsNavLink")).click();
+        submitPage.waitForConfirmationModalAndClickCancel();
     }
 
     private void testContent() throws Exception {

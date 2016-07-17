@@ -668,7 +668,8 @@ public abstract class AppPage {
      * @return the resulting page.
      */
     public AppPage clickHiddenElementAndConfirm(String elementId) {
-        respondToAlertWithRetryForHiddenElement(elementId, true);
+        clickHiddenElement(elementId);
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return this;
     }
@@ -689,7 +690,8 @@ public abstract class AppPage {
      * @return the resulting page.
      */
     public void clickHiddenElementAndCancel(String elementId) {
-        respondToAlertWithRetryForHiddenElement(elementId, false);
+        clickHiddenElement(elementId);
+        waitForConfirmationModalAndClickCancel();
         waitForPageToLoad();
     }
 
@@ -1033,16 +1035,9 @@ public abstract class AppPage {
         }
     }
     
-    private void respondToAlertWithRetryForHiddenElement(String hiddenElementIdToClick, boolean isConfirm) {
+    private void clickHiddenElement(String elementId) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementById('" + hiddenElementIdToClick + "').click();");
-        waitForAlertPresence();
-        Alert alert = browser.driver.switchTo().alert();
-        if (isConfirm) {
-            alert.accept();
-        } else {
-            alert.dismiss();
-        }
+        jsExecutor.executeScript("document.getElementById('" + elementId + "').click();");
     }
 
     public void waitForAjaxLoaderGifToDisappear() {

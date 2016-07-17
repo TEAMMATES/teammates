@@ -773,7 +773,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public InstructorFeedbacksPage deleteSession() {
-        clickAndConfirm(getDeleteSessionLink());
+        getDeleteSessionLink().click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);
     }
@@ -872,14 +873,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement removeRubricRowLink =
                 browser.driver.findElement(By.id("rubricRemoveSubQuestionLink" + idSuffix + "-" + row));
         //addRubricRowLink.click();
-        clickAndConfirm(removeRubricRowLink);
+        removeRubricRowLink.click();
+        waitForConfirmationModalAndClickOk();
     }
     
     public void clickRemoveRubricColLinkAndConfirm(int qnIndex, int col) {
         String idSuffix = getIdSuffix(qnIndex);
         WebElement removeRubricColLink =
                 browser.driver.findElement(By.id("rubricRemoveChoiceLink" + idSuffix + "-" + col));
-        clickAndConfirm(removeRubricColLink);
+        removeRubricColLink.click();
+        waitForConfirmationModalAndClickOk();
     }
 
     public void verifyRankOptionIsHiddenForNewQuestion(int optionIndex) {

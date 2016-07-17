@@ -58,13 +58,15 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public InstructorStudentRecordsPage clickDeleteCommentAndCancel(int id) {
-        clickAndCancel(getCommentDeleteLink(id));
+        getCommentDeleteLink(id).click();
+        waitForConfirmationModalAndClickCancel();
         waitForPageToLoad();
         return this;
     }
 
     public InstructorStudentRecordsPage clickDeleteCommentAndConfirm(int id) {
-        clickAndConfirm(getCommentDeleteLink(id));
+        getCommentDeleteLink(id).click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return this;
     }

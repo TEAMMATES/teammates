@@ -47,14 +47,16 @@ public class AdminAccountManagementPage extends AppPage {
     public AdminAccountManagementPage clickAndCancelDeleteAccountLink(
             String googleId) {
         WebElement deleteAccountLink = getDeleteAccountLink(googleId);
-        clickAndCancel(deleteAccountLink);
+        deleteAccountLink.click();
+        waitForConfirmationModalAndClickCancel();
         return this;
     }
 
     public AdminAccountManagementPage clickAndConfirmDeleteAccountLink(
             String googleId) {
         WebElement deleteAccountLink = getDeleteAccountLink(googleId);
-        clickAndConfirm(deleteAccountLink);
+        deleteAccountLink.click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return this;
     }

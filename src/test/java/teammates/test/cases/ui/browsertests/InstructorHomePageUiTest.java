@@ -234,10 +234,12 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("remind action: OPEN feedback session - outer button");
         
-        homePage.clickAndCancel(homePage.getRemindLink(feedbackSessionOpen.getCourseId(),
-                                                       feedbackSessionOpen.getFeedbackSessionName()));
-        homePage.clickAndConfirm(homePage.getRemindLink(feedbackSessionOpen.getCourseId(),
-                                                        feedbackSessionOpen.getFeedbackSessionName()));
+        homePage.getRemindLink(
+                feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName()).click();
+        homePage.waitForConfirmationModalAndClickCancel();
+        homePage.getRemindLink(
+                feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName()).click();
+        homePage.waitForConfirmationModalAndClickOk();
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         
@@ -247,11 +249,13 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("remind action: OPEN feedback session - inner button");
         
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
-        homePage.clickAndCancel(homePage.getRemindInnerLink(feedbackSessionOpen.getCourseId(),
-                                                            feedbackSessionOpen.getFeedbackSessionName()));
+        homePage.getRemindInnerLink(
+                feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName()).click();
+        homePage.waitForConfirmationModalAndClickCancel();
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
-        homePage.clickAndConfirm(homePage.getRemindInnerLink(feedbackSessionOpen.getCourseId(),
-                                                             feedbackSessionOpen.getFeedbackSessionName()));
+        homePage.getRemindInnerLink(
+                feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName()).click();
+        homePage.waitForConfirmationModalAndClickOk();
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         
@@ -308,13 +312,15 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
         ______TS("publish action: OPEN feedback session");
         
-        homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionOpen.getCourseId(),
-                                                        feedbackSessionOpen.getFeedbackSessionName()));
+        homePage.getPublishLink(
+                feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName()).click();
+        homePage.waitForConfirmationModalAndClickCancel();
 
         ______TS("publish action: CLOSED feedback session");
         
-        homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionClosed.getCourseId(),
-                                                        feedbackSessionClosed.getFeedbackSessionName()));
+        homePage.getPublishLink(
+                feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName()).click();
+        homePage.waitForConfirmationModalAndClickCancel();
         
         ______TS("unpublish action: PUBLISHED feedback session");
         homePage.clickFeedbackSessionUnpublishLink(feedbackSessionPublished.getCourseId(),
@@ -378,7 +384,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
             // the link is already relative
             urlToArchive = createUrl(archiveLinkString);
         }
-        homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseIdForCS2104));
+        homePage.getDeleteCourseLink(courseIdForCS2104).click();
+        homePage.waitForConfirmationModalAndClickOk();
         browser.driver.get(urlToArchive.toAbsoluteString());
         assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ViewURIs.UNAUTHORIZED));
         
@@ -460,6 +467,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
         // Wait for modal to appear and show error.
         homePage.getFsCopyModal().waitForModalLoadingError();
+        homePage.getFsCopyModal().clickCloseButton();
 
     }
 
@@ -468,10 +476,12 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("delete course action");
         
         String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
-        homePage.clickAndCancel(homePage.getDeleteCourseLink(courseId));
+        homePage.getDeleteCourseLink(courseId).click();
+        homePage.waitForConfirmationModalAndClickCancel();
         assertNotNull(BackDoor.getCourse(courseId));
         
-        homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseId));
+        homePage.getDeleteCourseLink(courseId).click();
+        homePage.waitForConfirmationModalAndClickOk();
         assertTrue(BackDoor.isCourseNonExistent(courseId));
         homePage.verifyHtmlMainContent("/instructorHomeCourseDeleteSuccessful.html");
         
