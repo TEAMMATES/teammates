@@ -41,7 +41,7 @@ public class AdminActivityLogPage extends AppPage {
         WebElement table = browser.driver.findElement(By.id("logsTable"));
         WebElement tableRow = table.findElements(By.tagName("tr")).get(1);
         WebElement element = tableRow.findElement(By.tagName("button"));
-        element.click();
+        click(element);
     }
     
     public String getFilterBoxString() {
@@ -59,7 +59,7 @@ public class AdminActivityLogPage extends AppPage {
     public void clickSearchSubmitButton() {
         
         WebElement button = browser.driver.findElement(By.name("search_submit"));
-        button.click();
+        click(button);
     }
     
     public boolean isLogsTableVisible() {
@@ -95,12 +95,12 @@ public class AdminActivityLogPage extends AppPage {
     
     public void clickReferenceButton() {
         WebElement button = browser.driver.findElement(By.id("referenceText"));
-        button.click();
+        click(button);
     }
     
     public void clickUserTimezoneAtFirstRow() {
         WebElement button = browser.driver.findElement(By.cssSelector("#first-row > td > a"));
-        button.click();
+        click(button);
     }
     
     public boolean isFilterReferenceVisible() {

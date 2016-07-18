@@ -14,7 +14,7 @@ sudo: required
 dist: trusty
 
 addons:
-  firefox: "38.0.5"
+  firefox: "46.0"
 
 before_install:
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
@@ -22,7 +22,7 @@ before_install:
 
 before_script:
   - export DISPLAY=:99.0
-  - tar -xjf /tmp/firefox-38.0.5.tar.bz2 --directory $TRAVIS_BUILD_DIR/
+  - tar -xjf /tmp/firefox-46.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
   - export PATH="$TRAVIS_BUILD_DIR/firefox:$PATH"
   - ./gradlew createConfigs testClasses
   - npm install eslint@3.0.0
