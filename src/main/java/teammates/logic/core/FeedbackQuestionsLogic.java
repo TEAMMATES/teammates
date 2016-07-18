@@ -696,35 +696,24 @@ public class FeedbackQuestionsLogic {
         // Cascade delete responses for question.
         frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), hasResponseRateUpdate);
         
-        List<FeedbackQuestionAttributes> questionsToShiftQnNumber = null;
+        List<FeedbackQuestionAttributes> questionsInSession = null;
         try {
-            questionsToShiftQnNumber = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+            questionsInSession = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         } catch (EntityDoesNotExistException e) {
             Assumption.fail("Session disappeared.");
         }
         
         fqDb.deleteEntity(questionToDelete);
         
-        if (questionToDelete.questionNumber < questionsToShiftQnNumber.size()) {
-            shiftQuestionNumbersDown(questionToDelete.questionNumber, questionsToShiftQnNumber);
+        if (questionToDelete.questionNumber < questionsInSession.size()) {
+            shiftQuestionNumbersDown(questionToDelete.questionNumber, questionsInSession);
         }
     }
     
     // Shifts all question numbers after questionNumberToShiftFrom down by one.
     private void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
-            List<FeedbackQuestionAttributes> questionsToShift) {
-        for (FeedbackQuestionAttributes question : questionsToShift) {
-            if (question.questionNumber > questionNumberToShiftFrom) {
-                question.questionNumber -= 1;
-                try {
-                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
-                } catch (InvalidParametersException e) {
-                    Assumption.fail("Invalid question.");
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared.");
-                }
-            }
-        }
+            List<FeedbackQuestionAttributes> questions) {
+        adjustQuestionNumbers(questionNumberToShiftFrom, questions.size(), questions);
     }
     
     /*
