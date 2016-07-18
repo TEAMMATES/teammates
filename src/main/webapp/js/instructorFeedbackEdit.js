@@ -44,6 +44,7 @@ function readyFeedbackEditPage() {
     // Hide option tables
     $('.visibilityOptions').hide();
     
+    // AddQuestion button should be disabled on click to prevent double submissions
     $('#button_submit_add').click(function() {
         addLoadingIndicator($(this));
     });
