@@ -36,7 +36,7 @@ public class QuestionsDb extends EntitiesDb {
         List<EntityAttributes> entitiesToUpdate = new ArrayList<>();
         
         for (EntityAttributes entity : entitiesToAdd) {
-            FeedbackQuestionAttributes questionAttributes = (FeedbackQuestionAttributes) entity;
+            QuestionsDbPersistenceAttributes questionAttributes = (QuestionsDbPersistenceAttributes) entity;
             try {
                 createEntity(questionAttributes);
             } catch (EntityAlreadyExistsException e) {
@@ -69,7 +69,7 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
     
-    public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(FeedbackQuestionAttributes fqa)
+    public FeedbackQuestionAttributes createFeedbackQuestionWithoutIntegrityCheck(FeedbackQuestionAttributes fqa)
             throws InvalidParametersException, EntityDoesNotExistException {
         try {
             QuestionsDbPersistenceAttributes questionAttributes = new QuestionsDbPersistenceAttributes(fqa);
@@ -82,7 +82,7 @@ public class QuestionsDb extends EntitiesDb {
     }
     
     public void createFeedbackQuestions(FeedbackSessionAttributes session,
-                Collection<FeedbackQuestionAttributes> questionsToAdd)
+                                        Collection<FeedbackQuestionAttributes> questionsToAdd)
             throws InvalidParametersException, EntityDoesNotExistException {
         
         Transaction txn = getPm().currentTransaction();

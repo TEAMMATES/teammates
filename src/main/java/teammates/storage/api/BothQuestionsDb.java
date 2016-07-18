@@ -21,8 +21,8 @@ import teammates.storage.entity.QuestionsDbPersistenceAttributes;
  */
 public class BothQuestionsDb extends EntitiesDb {
     
-    FeedbackQuestionsDb oldQuestionsDb = new FeedbackQuestionsDb();
-    QuestionsDb newQuestionsDb = new QuestionsDb();
+    private FeedbackQuestionsDb oldQuestionsDb = new FeedbackQuestionsDb();
+    private QuestionsDb newQuestionsDb = new QuestionsDb();
 
     public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd)
             throws InvalidParametersException {
@@ -57,11 +57,18 @@ public class BothQuestionsDb extends EntitiesDb {
         return oldQuestion;
     }
 
+    /**
+     * 
+     * @param entityToAdd
+     * @return
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
     public FeedbackQuestionAttributes createFeedbackQuestionWithoutIntegrityCheck(
             EntityAttributes entityToAdd) throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackQuestionAttributes fqa =
                 oldQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(entityToAdd);
-        return newQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
+        return newQuestionsDb.createFeedbackQuestionWithoutIntegrityCheck(fqa);
     }
     
     /**
@@ -159,7 +166,12 @@ public class BothQuestionsDb extends EntitiesDb {
     public void updateFeedbackQuestion(FeedbackQuestionAttributes question)
             throws InvalidParametersException, EntityDoesNotExistException {
         oldQuestionsDb.updateFeedbackQuestion(question);
-        newQuestionsDb.updateFeedbackQuestion(question);
+        
+        try {
+            newQuestionsDb.updateFeedbackQuestion(question);
+        } catch (EntityDoesNotExistException e) {
+            // can happen on old questions where a copy of new question type does not exist
+        }
     }
     
     /**
@@ -175,7 +187,11 @@ public class BothQuestionsDb extends EntitiesDb {
     public void updateFeedbackQuestion(FeedbackQuestionAttributes question, boolean keepUpdateTimestamp)
             throws InvalidParametersException, EntityDoesNotExistException {
         oldQuestionsDb.updateFeedbackQuestion(question, keepUpdateTimestamp);
-        newQuestionsDb.updateFeedbackQuestion(question, keepUpdateTimestamp);
+        try {
+            newQuestionsDb.updateFeedbackQuestion(question, keepUpdateTimestamp);
+        } catch (EntityDoesNotExistException e) {
+            // can happen on old questions where a copy of new question type does not exist
+        }
         
     }
 
@@ -187,7 +203,7 @@ public class BothQuestionsDb extends EntitiesDb {
         } catch (EntityDoesNotExistException expected) {
             // can happen if entityToDelete was an orphaned question (for the old question type)
             // should be safe to ignore
-            log.warning("entityDoesNotExist of session during deletion of questions "
+            log.warning("EntityDoesNotExistException for session during deletion of questions "
                         + expected);
         }
     }
