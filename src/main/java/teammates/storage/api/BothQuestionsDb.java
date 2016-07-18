@@ -18,6 +18,7 @@ import teammates.storage.entity.QuestionAttributes;
 
 /**
  * Handles reading and writing for both FeedbackQuestion and Question types.
+ * See https://cloud.google.com/datastore/docs/articles/balancing-strong-and-eventual-consistency-with-google-cloud-datastore/#gradual-migration-to-entity-groups
  */
 public class BothQuestionsDb extends EntitiesDb {
     
@@ -50,7 +51,7 @@ public class BothQuestionsDb extends EntitiesDb {
             FeedbackQuestionAttributes newQuestion = newQuestionsDb.getFeedbackQuestion(
                     oldQuestion.feedbackSessionName, oldQuestion.courseId, oldQuestion.getId());
             if (newQuestion != null) {
-                return newQuestion;                
+                return newQuestion;
             }
         }
         return oldQuestion;
@@ -75,7 +76,7 @@ public class BothQuestionsDb extends EntitiesDb {
             FeedbackQuestionAttributes newQuestion = newQuestionsDb.getFeedbackQuestion(
                     oldQuestion.feedbackSessionName, oldQuestion.courseId, oldQuestion.getId());
             if (newQuestion != null) {
-                return newQuestion;                
+                return newQuestion;
             }
         }
         return oldQuestion;
