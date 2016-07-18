@@ -348,8 +348,8 @@ public class CommentsDb extends EntitiesDb {
         for (Comment lastEditorComment : lastEditorComments) {
             lastEditorComment.setLastEditorEmail(updatedInstrEmail);
         }
-        
-        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
+        log.info("updating last editor email from: " + oldInstrEmail + " to: " + updatedInstrEmail
+                 + " for student comments in the course: " + courseId);
         getPm().close();
     }
     

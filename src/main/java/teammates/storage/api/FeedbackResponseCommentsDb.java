@@ -385,7 +385,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
         
         log.info("updating last editor email from: " + oldEmail + " to: " + updatedEmail
-                 + " in the course: " + courseId);
+                 + " for feedback response comments in the course: " + courseId);
         getPm().close();
     }
     
