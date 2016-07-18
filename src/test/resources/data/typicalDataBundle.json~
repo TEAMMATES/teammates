@@ -887,7 +887,7 @@
             "questionType":"TEXT",
             "giverType":"SELF",
             "recipientType":"NONE",
-            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "numberOfEntitiesToGiveFeedbackTo":1,
             "showResponsesTo":[
                 "INSTRUCTORS"
             ],
