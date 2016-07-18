@@ -1875,10 +1875,10 @@
                 </ul>
                 <p>
                     <br> Given the example below, note how we can set the feedback path and visibility level for each question.
-                    <br> This sample question is
+                    <br> For the feedback path, "Other predefined combinations..." has been selected and further configured to be
                     <b>for instructors</b> (i.e. you, tutors, co-lecturers) to give feedback
                     <b>to the class in general</b>.
-                    <br> The receiving team can see the feedback and identify who gave the feedback. All instructors can see all the feedback as well as who gave feedback to whom.
+                    <br> As for visibility options, only the instructors can see all the feedback as well as who gave feedback to whom.
                     <br>
                 </p>
 
