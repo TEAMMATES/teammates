@@ -83,26 +83,31 @@
         "typicalCourse1":{
             "id":"idOfTypicalCourse1",
             "name":"Typical Course 1 with 2 Evals",
+            "timeZone":"UTC",
             "isArchived":false
         },
         "typicalCourse2":{
             "id":"idOfTypicalCourse2",
             "name":"Typical Course 2 with 1 Evals",
+            "timeZone":"UTC",
             "isArchived":false
         },
         "courseNoEvals":{
             "id":"idOfCourseNoEvals",
             "name":"Typical Course 3 with 0 Evals",
+            "timeZone":"UTC",
             "isArchived":false
         },
         "sampleCourse":{
             "id":"idOfSampleCourse-demo",
             "name":"Sample Course",
+            "timeZone":"UTC",
             "isArchived":false
         },
         "archivedCourse":{
             "id":"idOfArchivedCourse",
             "name":"Archived Course",
+            "timeZone":"UTC",
             "isArchived":true
         }
     },

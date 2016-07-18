@@ -13,11 +13,13 @@
     "ICJConfirmationUiT.CS2104": {
       "id": "ICJConfirmationUiT.CS2104",
       "name": "Programming Language Concepts",
+      "timeZone": "UTC",
       "isArchived": false
     },
     "ICJConfirmationUiT.CS1101": {
       "id": "ICJConfirmationUiT.CS1101",
       "name": "Programming Methodology",
+      "timeZone": "UTC",
       "isArchived": false
     }
   },

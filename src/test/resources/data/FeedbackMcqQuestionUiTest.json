@@ -20,6 +20,7 @@
     "course": {
       "id": "FMcqQnUiT.CS2104",
       "name": "Programming Language Concepts",
+      "timeZone": "UTC",
       "isArchived": false
     }
   },

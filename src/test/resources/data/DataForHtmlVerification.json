@@ -21,11 +21,13 @@
     "CS2104-TESTING": {
       "id": "CS2104-TESTING",
       "name": "Programming Language Concepts",
+      "timeZone": "UTC",
       "isArchived": false
     },
     "CS1101-TESTING": {
       "id": "CS1101-TESTING",
       "name": "Programming Methodology",
+      "timeZone": "UTC",
       "isArchived": false
     }
   },

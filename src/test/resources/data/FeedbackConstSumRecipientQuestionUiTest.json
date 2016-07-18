@@ -20,6 +20,7 @@
     "course": {
       "id": "FConstSumRecipientQnUiT.CS2104",
       "name": "Programming Language Concepts",
+      "timeZone": "UTC",
       "isArchived": false
     }
   },

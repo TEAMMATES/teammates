@@ -37,6 +37,7 @@
     "CCSDetailsUiT.CS2104": {
       "id": "CCSDetailsUiT.CS2104",
       "name": "Programming Language Concepts",
+      "timeZone": "UTC",
       "isArchived": false
     }
   },
