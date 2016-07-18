@@ -163,6 +163,7 @@ public class BaseComponentTestCase extends BaseTestCase {
                 fsDb.getFeedbackSession(expectedCopy.getCourseId(), expected.getFeedbackSessionName());
         expectedCopy.setRespondingInstructorList(actual.getRespondingInstructorList());
         expectedCopy.setRespondingStudentList(actual.getRespondingStudentList());
+        expectedCopy.setQuestions(actual.getQuestions());
         assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));
     }
 
