@@ -24,6 +24,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
+import teammates.logic.api.AccessControlUtil;
 import teammates.logic.api.Logic;
 
 /** An 'action' to be performed by the system. If the logged in user is allowed
@@ -46,6 +47,8 @@ public abstract class Action {
     public StudentAttributes student;
     
     protected Logic logic;
+    
+    protected AccessControlUtil accessControlUtil;
     
     /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
     protected String requestUrl;
@@ -88,6 +91,7 @@ public abstract class Action {
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
         logic = new Logic();
+        accessControlUtil = new AccessControlUtil();
         requestParameters = request.getParameterMap();
         session = request.getSession();
         
