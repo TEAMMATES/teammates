@@ -163,11 +163,6 @@ public class Question implements StoreCallback {
         return feedbackQuestionId;
     }
 
-    /* Auto generated. Don't set this.
-    public void setFeedbackQuestionId(String feedbackQuestionId) {
-        this.feedbackQuestionId = feedbackQuestionId;
-    }*/
-
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }

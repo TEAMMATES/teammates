@@ -2,9 +2,13 @@ package teammates.storage.entity;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 
-public class QuestionAttributes extends FeedbackQuestionAttributes {
+/**
+ * Handles the conversion of FeedbackQuestionAttributes to Question in QuestionsDb 
+ *
+ */
+public class QuestionsDbPersistenceAttributes extends FeedbackQuestionAttributes {
     
-    public QuestionAttributes(FeedbackQuestionAttributes old) {
+    public QuestionsDbPersistenceAttributes(FeedbackQuestionAttributes old) {
         feedbackQuestionId = old.getId();
         feedbackSessionName = old.feedbackSessionName;
         courseId = old.courseId;

@@ -24,7 +24,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.entity.Question;
 import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.QuestionAttributes;
+import teammates.storage.entity.QuestionsDbPersistenceAttributes;
 
 public class QuestionsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
@@ -50,7 +50,7 @@ public class QuestionsDb extends EntitiesDb {
     public Question createEntity(EntityAttributes entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
         
-        QuestionAttributes questionToAdd = (QuestionAttributes) entityToAdd;
+        QuestionsDbPersistenceAttributes questionToAdd = (QuestionsDbPersistenceAttributes) entityToAdd;
         
         String courseId = questionToAdd.courseId;
         String feedbackSessionName = questionToAdd.feedbackSessionName;
@@ -72,7 +72,7 @@ public class QuestionsDb extends EntitiesDb {
     public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(FeedbackQuestionAttributes fqa)
             throws InvalidParametersException, EntityDoesNotExistException {
         try {
-            QuestionAttributes questionAttributes = new QuestionAttributes(fqa);
+            QuestionsDbPersistenceAttributes questionAttributes = new QuestionsDbPersistenceAttributes(fqa);
             Question persistedQuestion = createEntity(questionAttributes);
             return new FeedbackQuestionAttributes(persistedQuestion);
         } catch (EntityAlreadyExistsException e) {
@@ -102,7 +102,7 @@ public class QuestionsDb extends EntitiesDb {
                     throw new InvalidParametersException(questionToAdd.getInvalidityInfo());
                 }
                 
-                QuestionAttributes questionAttributes = new QuestionAttributes(questionToAdd);
+                QuestionsDbPersistenceAttributes questionAttributes = new QuestionsDbPersistenceAttributes(questionToAdd);
                 fs.getFeedbackQuestions().add(questionAttributes.toEntity());
                 
                 log.info(questionToAdd.getBackupIdentifier());
@@ -167,7 +167,7 @@ public class QuestionsDb extends EntitiesDb {
             throw new EntityAlreadyExistsException(error, question);
         }
         
-        QuestionAttributes questionAttributes = new QuestionAttributes(question);
+        QuestionsDbPersistenceAttributes questionAttributes = new QuestionsDbPersistenceAttributes(question);
         Question questionEntity = questionAttributes.toEntity();
         fs.getFeedbackQuestions().add(questionEntity);
         
@@ -337,7 +337,7 @@ public class QuestionsDb extends EntitiesDb {
         
         List<Question> fqList = new ArrayList<Question>();
         for (FeedbackQuestionAttributes question : questions) {
-            QuestionAttributes questionAttributes = new QuestionAttributes(question);
+            QuestionsDbPersistenceAttributes questionAttributes = new QuestionsDbPersistenceAttributes(question);
             fqList.add(questionAttributes.toEntity());
         }
         return fqList;

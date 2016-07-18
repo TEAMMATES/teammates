@@ -13,7 +13,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.Question;
-import teammates.storage.entity.QuestionAttributes;
+import teammates.storage.entity.QuestionsDbPersistenceAttributes;
 
 /**
  * Handles reading and writing for both FeedbackQuestion and Question types.
@@ -28,12 +28,12 @@ public class BothQuestionsDb extends EntitiesDb {
             throws InvalidParametersException {
         // maybe too slow?
         oldQuestionsDb.createFeedbackQuestions(questionsToAdd);
-        List<QuestionAttributes> questionsToPersist = new ArrayList<>();
+        List<QuestionsDbPersistenceAttributes> questionsToPersist = new ArrayList<>();
         for (FeedbackQuestionAttributes question : questionsToAdd) {
             FeedbackQuestion persistedQuestion = (FeedbackQuestion) oldQuestionsDb.getEntity(question);
             
             FeedbackQuestionAttributes oldQuestionAttributes = new FeedbackQuestionAttributes(persistedQuestion);
-            QuestionAttributes newQuestionAttributes = new QuestionAttributes(oldQuestionAttributes);
+            QuestionsDbPersistenceAttributes newQuestionAttributes = new QuestionsDbPersistenceAttributes(oldQuestionAttributes);
             questionsToPersist.add(newQuestionAttributes);
         }
         newQuestionsDb.createEntities(questionsToPersist);

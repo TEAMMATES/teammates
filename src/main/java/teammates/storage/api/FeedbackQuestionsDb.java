@@ -16,7 +16,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.Question;
-import teammates.storage.entity.QuestionAttributes;
+import teammates.storage.entity.QuestionsDbPersistenceAttributes;
 
 // TODO delete this class
 public class FeedbackQuestionsDb extends EntitiesDb {
@@ -327,7 +327,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         List<Question> fqList = new ArrayList<Question>();
         for (FeedbackQuestionAttributes question : questions) {
-            QuestionAttributes newQuestionAttributes = new QuestionAttributes(question);
+            QuestionsDbPersistenceAttributes newQuestionAttributes = new QuestionsDbPersistenceAttributes(question);
             fqList.add(newQuestionAttributes.toEntity());
         }
         return fqList;
