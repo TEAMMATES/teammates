@@ -34,26 +34,31 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public boolean isArchived;
     private String id;
     private String name;
+    private String timeZone;
     
     public CourseAttributes() {
         // attributes to be set after construction
     }
 
-    public CourseAttributes(String courseId, String name) {
+    public CourseAttributes(String courseId, String name, String timeZone) {
         this.id = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeTitle(name);
+        this.timeZone = timeZone;
         this.isArchived = false;
     }
     
-    public CourseAttributes(String courseId, String name, boolean archiveStatus) {
+    public CourseAttributes(String courseId, String name, String timeZone,
+                            boolean archiveStatus) {
         this.id = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeTitle(name);
+        this.timeZone = timeZone;
         this.isArchived = archiveStatus;
     }
 
     public CourseAttributes(Course course) {
         this.id = course.getUniqueId();
         this.name = course.getName();
+        this.timeZone = course.getTimeZone();
         this.createdAt = course.getCreatedAt();
         
         Boolean status = course.getArchiveStatus();
@@ -72,6 +77,10 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         return name;
     }
     
+    public String getTimeZone() {
+        return timeZone;
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         
@@ -89,18 +98,23 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
             errors.add(error);
         }
         
+        error = validator.getInvalidityInfoForCourseTimeZone(getTimeZone());
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
         return errors;
     }
 
     @Override
     public Course toEntity() {
-        return new Course(getId(), getName(), Boolean.valueOf(isArchived), createdAt);
+        return new Course(getId(), getName(), getTimeZone(), Boolean.valueOf(isArchived), createdAt);
     }
 
     @Override
     public String toString() {
         return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
-               + " isArchived: " + isArchived;
+               + " timeZone: " + getTimeZone() + " isArchived: " + isArchived;
     }
 
     @Override
