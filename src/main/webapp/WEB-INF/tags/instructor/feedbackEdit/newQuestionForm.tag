@@ -119,8 +119,7 @@
           
             <div>
                 <span class="pull-right">
-                    <button id="button_submit_add" class="btn btn-primary"
-                        type="submit" tabindex="9">
+                    <button id="button_submit_add" class="btn btn-primary" type="submit" tabindex="9">
                         Save Question
                     </button>
                 </span>

@@ -24,7 +24,7 @@ $(document).ready(function() {
 function addLoadingIndicator(button) {
     currentText = button.text();
     button.prop('disabled', true);
-    button.append("<img src='/images/ajax-loader.gif'/>");
+    button.append('<img src="/images/ajax-loader.gif">');
 }
 
 function removeLoadingIndicator(button) {
