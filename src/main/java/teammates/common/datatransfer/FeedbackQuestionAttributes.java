@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -134,9 +133,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     public void setId(String id) {
-        if (id == null) {
-            Assumption.fail("id should not be null since we stopped relying on the database to generate id");
-        }
         this.feedbackQuestionId = id;
     }
     

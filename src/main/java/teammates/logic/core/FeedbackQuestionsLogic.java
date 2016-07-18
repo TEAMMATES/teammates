@@ -535,6 +535,8 @@ public class FeedbackQuestionsLogic {
         if (oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1) {
             for (int i = oldQuestionNumber - 1; i >= newQuestionNumber; i--) {
                 FeedbackQuestionAttributes question = questions.get(i - 1);
+                Assumption.assertNotNull("id of question to adjust number for cannot be null",
+                                         question.getId());
                 question.questionNumber += 1;
                 try {
                     updateFeedbackQuestionWithoutResponseRateUpdate(question);

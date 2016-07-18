@@ -27,7 +27,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.QuestionsDbPersistenceAttributes;
 
 public class QuestionsDb extends EntitiesDb {
-    public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
+    public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Question : ";
     
     @Override
     public List<EntityAttributes> createEntities(Collection<? extends EntityAttributes> entitiesToAdd)
@@ -266,7 +266,7 @@ public class QuestionsDb extends EntitiesDb {
 
         Question fq = getFeedbackQuestionEntity(feedbackSessionName, courseId, feedbackQuestionId);
         
-        if (fq == null) {
+        if (fq == null || JDOHelper.isDeleted(fq)) {
             log.info("Trying to get non-existent Question: " + feedbackQuestionId);
             return null;
         }
@@ -437,6 +437,14 @@ public class QuestionsDb extends EntitiesDb {
         
         //set true to prevent changes to last update timestamp
         fq.keepUpdateTimestamp = keepUpdateTimestamp;
+    }
+    
+    public void deleteQuestion(FeedbackQuestionAttributes questionToDelete)
+            throws EntityDoesNotExistException {
+        FeedbackSessionAttributes session = new FeedbackSessionAttributes();
+        session.setCourseId(questionToDelete.courseId);
+        session.setFeedbackSessionName(questionToDelete.feedbackSessionName);
+        deleteQuestion(session, questionToDelete);
     }
     
     public void deleteQuestion(FeedbackSessionAttributes fsa, FeedbackQuestionAttributes questionToDelete)

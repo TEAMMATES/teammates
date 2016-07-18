@@ -33,7 +33,8 @@ public class BothQuestionsDb extends EntitiesDb {
             FeedbackQuestion persistedQuestion = (FeedbackQuestion) oldQuestionsDb.getEntity(question);
             
             FeedbackQuestionAttributes oldQuestionAttributes = new FeedbackQuestionAttributes(persistedQuestion);
-            QuestionsDbPersistenceAttributes newQuestionAttributes = new QuestionsDbPersistenceAttributes(oldQuestionAttributes);
+            QuestionsDbPersistenceAttributes newQuestionAttributes =
+                    new QuestionsDbPersistenceAttributes(oldQuestionAttributes);
             questionsToPersist.add(newQuestionAttributes);
         }
         newQuestionsDb.createEntities(questionsToPersist);
@@ -176,6 +177,19 @@ public class BothQuestionsDb extends EntitiesDb {
         oldQuestionsDb.updateFeedbackQuestion(question, keepUpdateTimestamp);
         newQuestionsDb.updateFeedbackQuestion(question, keepUpdateTimestamp);
         
+    }
+
+    @Override
+    public void deleteEntity(EntityAttributes entityToDelete) {
+        oldQuestionsDb.deleteEntity(entityToDelete);
+        try {
+            newQuestionsDb.deleteQuestion((FeedbackQuestionAttributes) entityToDelete);
+        } catch (EntityDoesNotExistException expected) {
+            // can happen if entityToDelete was an orphaned question (for the old question type)
+            // should be safe to ignore
+            log.warning("entityDoesNotExist of session during deletion of questions "
+                        + expected);
+        }
     }
     
     public void deleteFeedbackQuestionsForCourse(String courseId) {

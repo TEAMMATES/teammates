@@ -372,7 +372,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
             fqLogic.updateFeedbackQuestion(questionToUpdate);
             signalFailureToDetectException("Expected EntityDoesNotExistException not caught.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals(e.getMessage(), "Trying to update a feedback question that does not exist.");
+            assertEquals("Trying to update a feedback question that does not exist.", e.getMessage());
         }
         
         ______TS("failure: invalid parameters");

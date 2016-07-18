@@ -3,7 +3,7 @@ package teammates.storage.entity;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 
 /**
- * Handles the conversion of FeedbackQuestionAttributes to Question in QuestionsDb 
+ * Handles the conversion of FeedbackQuestionAttributes to Question in QuestionsDb
  *
  */
 public class QuestionsDbPersistenceAttributes extends FeedbackQuestionAttributes {
