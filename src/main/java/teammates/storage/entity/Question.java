@@ -53,6 +53,8 @@ public class Question implements StoreCallback {
     @Persistent
     private int questionNumber;
     
+    private Text questionDescription;
+    
     @Persistent
     private FeedbackQuestionType questionType;
 
@@ -86,7 +88,8 @@ public class Question implements StoreCallback {
     public Question(
             String questionId,
             String feedbackSessionName, String courseId, String creatorEmail,
-            Text questionText, int questionNumber, FeedbackQuestionType questionType,
+            Text questionText, Text questionDescription, int questionNumber,
+            FeedbackQuestionType questionType,
             FeedbackParticipantType giverType,
             FeedbackParticipantType recipientType,
             int numberOfEntitiesToGiveFeedbackTo,
@@ -99,6 +102,7 @@ public class Question implements StoreCallback {
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
         this.questionMetaData = questionText;
+        this.questionDescription = questionDescription;
         this.questionNumber = questionNumber;
         this.questionType = questionType;
         this.giverType = giverType;
@@ -190,6 +194,14 @@ public class Question implements StoreCallback {
 
     public FeedbackQuestionType getQuestionType() {
         return questionType;
+    }
+    
+    public void setQuestionDescription(Text questionDescription) {
+        this.questionDescription = questionDescription;
+    }
+
+    public Text getQuestionDescription() {
+        return questionDescription;
     }
 
     public void setQuestionType(FeedbackQuestionType questionType) {

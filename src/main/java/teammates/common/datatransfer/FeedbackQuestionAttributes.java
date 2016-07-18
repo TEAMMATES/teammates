@@ -75,6 +75,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.questionMetaData = fq.getQuestionMetaData();
         this.questionNumber = fq.getQuestionNumber();
         this.questionType = fq.getQuestionType();
+        this.questionDescription = fq.getQuestionDescription();
         this.giverType = fq.getGiverType();
         this.recipientType = fq.getRecipientType();
         this.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
@@ -100,6 +101,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.courseId = other.getCourseId();
         this.creatorEmail = other.getCreatorEmail();
         this.questionMetaData = other.getQuestionMetaData();
+        this.questionDescription = other.getQuestionDescription();
         this.questionNumber = other.getQuestionNumber();
         this.questionType = other.getQuestionType();
         this.giverType = other.getGiverType();

@@ -72,7 +72,9 @@ public class QuestionsDb extends EntitiesDb {
     public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(FeedbackQuestionAttributes fqa)
             throws InvalidParametersException, EntityDoesNotExistException {
         try {
-            return new FeedbackQuestionAttributes(createEntity(fqa));
+            QuestionAttributes questionAttributes = new QuestionAttributes(fqa);
+            Question persistedQuestion = createEntity(questionAttributes);
+            return new FeedbackQuestionAttributes(persistedQuestion);
         } catch (EntityAlreadyExistsException e) {
             updateFeedbackQuestion(fqa);
             return fqa;
@@ -151,7 +153,7 @@ public class QuestionsDb extends EntitiesDb {
     private Question addQuestionToSessionWithoutCommitting(FeedbackSessionAttributes existingSession,
             FeedbackQuestionAttributes question) throws EntityDoesNotExistException,
             EntityAlreadyExistsException {
-        FeedbackSession fs = (FeedbackSession) getEntity(existingSession);
+        FeedbackSession fs = new FeedbackSessionsDb().getEntity(existingSession);
         
         if (fs == null) {
             throw new EntityDoesNotExistException(
@@ -424,6 +426,7 @@ public class QuestionsDb extends EntitiesDb {
         
         fq.setQuestionNumber(newAttributes.questionNumber);
         fq.setQuestionText(newAttributes.questionMetaData);
+        fq.setQuestionDescription(newAttributes.getQuestionDescription());
         fq.setQuestionType(newAttributes.questionType);
         fq.setGiverType(newAttributes.giverType);
         fq.setRecipientType(newAttributes.recipientType);
