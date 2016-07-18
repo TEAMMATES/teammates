@@ -21,7 +21,7 @@ public class FeedbackSubmissionEditQuestion {
     private boolean isRecipientTeam;
     private boolean isRecipientOtherTeams;
     private boolean isRecipientOtherStudentsInTheCourse;
-    private boolean isRecipientOwnTeamMembers ;
+    private boolean isRecipientOwnTeamMembers;
     
     public FeedbackSubmissionEditQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx,
                                     boolean isModeratedQuestion) {
@@ -98,6 +98,7 @@ public class FeedbackSubmissionEditQuestion {
     public boolean isRecipientOtherTeams() {
         return isRecipientOtherTeams;
     }
+    
     public boolean isRecipientOtherStudentsInTheCourse() {
         return isRecipientOtherStudentsInTheCourse;
     }
