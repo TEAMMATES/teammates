@@ -449,6 +449,7 @@ $(function() {
 function editCourse() {
     $('#btnSaveCourse').show();
     $('#' + COURSE_NAME).prop('disabled', false);
+    $('#' + COURSE_TIME_ZONE).prop('disabled', false);
     $('#courseEditLink').hide();
 }
 
@@ -462,4 +463,10 @@ $(document).ready(function() {
     bindCheckboxToggle();
     var index = $('#new-instructor-index').val();
     bindChangingRole(index);
+
+    if (typeof moment !== 'undefined') {
+        var $selectElement = $('#' + COURSE_TIME_ZONE);
+        TimeZone.prepareTimeZoneInput($selectElement);
+        TimeZone.updateTimeZone($selectElement, courseTimeZone);
+    }
 });

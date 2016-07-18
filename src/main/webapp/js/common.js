@@ -10,6 +10,7 @@ var USER_ID = 'user';
 // Used in instructorCourse.js
 var COURSE_ID = 'courseid';
 var COURSE_NAME = 'coursename';
+var COURSE_TIME_ZONE = 'coursetimezone';
 var COURSE_INSTRUCTOR_NAME = 'instructorname';
 var COURSE_INSTRUCTOR_EMAIL = 'instructoremail';
 var COURSE_INSTRUCTOR_ID = 'instructorid';
@@ -111,6 +112,7 @@ var DISPLAY_COURSE_LONG_ID = 'Course ID should not exceed ' + COURSE_ID_MAX_LENG
 var DISPLAY_COURSE_LONG_NAME = 'Course name should not exceed ' + COURSE_NAME_MAX_LENGTH + ' characters.';
 var DISPLAY_COURSE_INVALID_ID = 'Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs '
                                 + 'in course ID. Spaces are not allowed for course ID.';
+var DISPLAY_COURSE_INVALID_TIME_ZONE = 'Please select a valid course time zone from the provided options.';
 var DISPLAY_COURSE_COURSE_ID_EMPTY = 'Course ID cannot be empty.';
 var DISPLAY_COURSE_COURSE_NAME_EMPTY = 'Course name cannot be empty';
 
