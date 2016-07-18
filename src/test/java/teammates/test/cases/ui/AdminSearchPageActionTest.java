@@ -12,8 +12,8 @@ public class AdminSearchPageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() {
-        // TODO : Test is done as a browser test,
-        // cuz gaeSimulation gives problems when rebuilding the document
+        // Test is done as a browser test,
+        // because otherwise there are problems when rebuilding the document
     }
     
 }
