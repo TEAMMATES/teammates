@@ -17,7 +17,7 @@ public class StudentFeedbackResultsPage extends AppPage {
     public boolean clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {
         WebElement qnAdditionalInfoButton = browser.driver.findElement(
                 By.id("questionAdditionalInfoButton-" + qnNumber + "-" + additionalInfoId));
-        qnAdditionalInfoButton.click();
+        click(qnAdditionalInfoButton);
         // Check if links toggle properly.
         WebElement qnAdditionalInfo = browser.driver.findElement(
                 By.id("questionAdditionalInfo-" + qnNumber + "-" + additionalInfoId));

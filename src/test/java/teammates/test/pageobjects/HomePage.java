@@ -25,14 +25,14 @@ public class HomePage extends AppPage {
 
     public LoginPage clickInstructorLogin() {
         
-        this.instructorLoginLink.click();
+        click(instructorLoginLink);
         waitForPageToLoad();
         String pageSource = getPageSource();
         if (InstructorHomePage.containsExpectedPageContents(pageSource)) {
             //already logged in. We need to logout because the return type of
             //  this method is a LoginPage
             logout();
-            instructorLoginLink.click();
+            click(instructorLoginLink);
             waitForPageToLoad();
         }
         return createCorrectLoginPageType(browser);
@@ -40,14 +40,14 @@ public class HomePage extends AppPage {
     }
 
     public LoginPage clickStudentLogin() {
-        studentLoginLink.click();
+        click(studentLoginLink);
         waitForPageToLoad();
         String pageSource = getPageSource();
         if (StudentHomePage.containsExpectedPageContents(pageSource)) {
             //already logged in. We need to logout because the return type of
             //  this method is a LoginPage
             logout();
-            studentLoginLink.click();
+            click(studentLoginLink);
             waitForPageToLoad();
         }
         return createCorrectLoginPageType(browser);
