@@ -2169,7 +2169,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
     }
     
-    public void testSendFeedbackSessionSubmissionConfirmationEmail() throws Exception {
+    private void testSendFeedbackSessionSubmissionConfirmationEmail() throws Exception {
         // private method. no need to check for authentication.
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -2186,12 +2186,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                               + studentToSendConfirmation.email;
         assertNotNull(errorMessage, emailSent);
         assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
-                                   fs.getFeedbackSessionName()), emailSent.getSubject());
+                                   fs.getFeedbackSessionName()),
+                     emailSent.getSubject());
         
         ______TS("success: unregistered student");
         
         StudentAttributes unregStudent = new StudentAttributes("1", "Team0.1", "Unreg Student",
-                "                                              unreg@stud.ent", "asdf", "idOfTypicalCourse1");
+                                                               "unreg@stud.ent", "asdf", "idOfTypicalCourse1");
 
         StudentsDb stDb = new StudentsDb();
         stDb.createStudentWithoutDocument(unregStudent);
@@ -2203,7 +2204,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         assertNotNull(errorMessage, emailSent);
         assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
-                                   fs.getFeedbackSessionName()), emailSent.getSubject());
+                                   fs.getFeedbackSessionName()),
+                     emailSent.getSubject());
         
         ______TS("success: instructor");
         
@@ -2215,7 +2217,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         errorMessage = "No feedback submission confirmation email sent to selected instructor " + instructor.email;
         assertNotNull(errorMessage, emailSent);
         assertEquals(String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), courseName,
-                                   fs.getFeedbackSessionName()), emailSent.getSubject());
+                                   fs.getFeedbackSessionName()),
+                     emailSent.getSubject());
         
         ______TS("failure: non-existent Feedback session");
         

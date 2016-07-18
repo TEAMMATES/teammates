@@ -86,8 +86,8 @@ public class FeedbackSessionsLogic {
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
     private static final String ERROR_NON_EXISTENT_FS_CHECK = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "check");
     private static final String ERROR_NON_EXISTENT_FS_REMIND = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "remind");
-    private static final String ERROR_NON_EXISTENT_FS_CONFIRM = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT,
-                                                                "confirm submission");
+    private static final String ERROR_NON_EXISTENT_FS_CONFIRM =
+            String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "confirm submission");
     private static final String ERROR_NON_EXISTENT_FS_VIEW = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "view");
     private static final String ERROR_NON_EXISTENT_FS_PUBLISH =
             String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "publish");
@@ -1568,12 +1568,8 @@ public class FeedbackSessionsLogic {
         InstructorAttributes instructor = null;
         
         if (userId != null) {
-            student = studentsLogic.isStudentInAnyCourse(userId)
-                      ? studentsLogic.getStudentForCourseIdAndGoogleId(courseId, userId)
-                      : null;
-            instructor = instructorsLogic.isGoogleIdOfInstructorOfCourse(userId, courseId)
-                         ? instructorsLogic.getInstructorForGoogleId(courseId, userId)
-                         : null;
+            student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, userId);
+            instructor = instructorsLogic.getInstructorForGoogleId(courseId, userId);
         }
         
         if (student == null && unregisteredStudentEmail != null) {

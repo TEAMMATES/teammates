@@ -149,8 +149,7 @@ public class EmailGenerator {
                                  .withSessionName(session.getFeedbackSessionName())
                                  .toAbsoluteString();
 
-        return generateSubmissionConfirmationEmail(course, session, submitUrl,
-                                                   instructor.name, instructor.email);
+        return generateSubmissionConfirmationEmail(course, session, submitUrl, instructor.name, instructor.email);
     }
 
     private EmailWrapper generateFeedbackSessionEmailBaseForStudentSubmissionConfirmation(
@@ -162,8 +161,7 @@ public class EmailGenerator {
                                  .withRegistrationKey(StringHelper.encrypt(student.key))
                                  .withStudentEmail(student.email)
                                  .toAbsoluteString();
-        return generateSubmissionConfirmationEmail(course, session, submitUrl,
-                                                   student.name, student.email);
+        return generateSubmissionConfirmationEmail(course, session, submitUrl, student.name, student.email);
     }
     
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructorReminders(
