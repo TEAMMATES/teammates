@@ -113,6 +113,9 @@ public class FeedbackResponseCommentsLogic {
         }
     }
     
+    /*
+     * Updates all email fields of feedback response comments with the new email
+     */
     public void updateFeedbackResponseCommentsEmails(String courseId, String oldEmail, String updatedEmail) {
         frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
         frcDb.updateLastEditorEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);

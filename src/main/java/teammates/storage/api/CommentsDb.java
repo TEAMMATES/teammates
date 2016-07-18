@@ -341,6 +341,9 @@ public class CommentsDb extends EntitiesDb {
         getPm().close();
     }
     
+    /*
+     * Updates last editor (an instructor email) with the new one
+     */
     private void updateInstructorEmailAsLastEditor(String courseId, String oldInstrEmail,
                                                    String updatedInstrEmail) {
         List<Comment> lastEditorComments = getCommentEntitiesForLastEditor(courseId, oldInstrEmail);
@@ -614,6 +617,9 @@ public class CommentsDb extends EntitiesDb {
         return getCommentsWithoutDeletedEntity(commentList);
     }
     
+    /*
+     * Gets a list of Comments which have a last editor associated with the given email
+     */
     private List<Comment> getCommentEntitiesForLastEditor(String courseId, String lastEditorEmail) {
         Query q = getPm().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String lastEditorEmailParam");

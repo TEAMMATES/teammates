@@ -366,7 +366,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
     
     /*
-     * Update last editor (an instructor email) with the new one
+     * Updates last editor (an instructor email) with the new one
      */
     public void updateLastEditorEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -598,6 +598,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return feedbackResponseComments;
     }
     
+    /*
+     * Gets a list of FeedbackResponseComments which have a last editor associated with the given email
+     */
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForLastEditorInCourse(
                                                                     String courseId, String lastEditorEmail) {
         Query q = getPm().newQuery(FeedbackResponseComment.class);
