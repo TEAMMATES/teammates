@@ -111,7 +111,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         }
                     
         courseId = "new-course";
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, courseId, "New course");
+        CoursesLogic.inst().createCourseAndInstructor(instructorId, courseId, "New course", "UTC");
         
         gaeSimulation.loginAsAdmin("admin.user");
         
