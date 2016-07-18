@@ -162,6 +162,18 @@ $(document).on('ajaxComplete ready', function() {
     if (isTouchDevice()) {
         $tooltips.tooltip('disable');
     }
+    
+    /**
+     * Underlines all span elements with tool-tips except for
+     * the ones without a text value. This is to exclude elements
+     * such as 'icons' from underlining.
+    */
+    $('span[data-toggle="tooltip"]').each(function() {
+        textValue = $(this).text().replace(/\s/g, '');
+        if (textValue) {
+            $(this).addClass('tool-tip-decorate');
+        }
+    });
 });
 
 /**
