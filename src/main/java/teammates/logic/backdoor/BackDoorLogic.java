@@ -458,7 +458,7 @@ public class BackDoorLogic extends Logic {
         try {
             coursesLogic.setArchiveStatusOfCourse(course.getId(), course.isArchived);
         } catch (EntityDoesNotExistException e) {
-            coursesLogic.createCourse(course.getId(), course.getName());
+            coursesLogic.createCourse(course.getId(), course.getName(), course.getTimeZone());
             coursesLogic.setArchiveStatusOfCourse(course.getId(), course.isArchived);
         }
     }
