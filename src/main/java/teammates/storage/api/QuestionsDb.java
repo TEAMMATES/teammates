@@ -45,10 +45,9 @@ public class QuestionsDb extends EntitiesDb {
         }
         return entitiesToUpdate;
     }
-
     
     @Override
-    public Object createEntity(EntityAttributes entityToAdd)
+    public Question createEntity(EntityAttributes entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
         
         QuestionAttributes questionToAdd = (QuestionAttributes) entityToAdd;
@@ -67,6 +66,16 @@ public class QuestionsDb extends EntitiesDb {
         } catch (EntityDoesNotExistException e) {
             Assumption.fail("Session disappeared");
             return null;
+        }
+    }
+    
+    public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(FeedbackQuestionAttributes fqa)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        try {
+            return new FeedbackQuestionAttributes(createEntity(fqa));
+        } catch (EntityAlreadyExistsException e) {
+            updateFeedbackQuestion(fqa);
+            return fqa;
         }
     }
     
@@ -393,8 +402,6 @@ public class QuestionsDb extends EntitiesDb {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
         
-        // TODO: Sanitize values and update tests accordingly
-        
         updateFeedbackQuestionWithoutFlushing(newAttributes, keepUpdateTimestamp);
         
         log.info(newAttributes.getBackupIdentifier());
@@ -493,7 +500,9 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
     
-    // Gets a feedbackQuestion based on feedbackSessionName and questionNumber.
+    /**
+     *  Gets a feedbackQuestion based on feedbackSessionName and questionNumber.
+     */
     private Question getFeedbackQuestionEntity(
             String feedbackSessionName, String courseId, int questionNumber) {
         

@@ -9,7 +9,6 @@ import java.util.Map;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.FeedbackQuestion;
@@ -57,10 +56,11 @@ public class BothQuestionsDb extends EntitiesDb {
         return oldQuestion;
     }
 
-    public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(
-            EntityAttributes entityToAdd) throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackQuestionAttributes fqa = oldQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(entityToAdd);
-        return (FeedbackQuestionAttributes) newQuestionsDb.createEntity(fqa);
+    public FeedbackQuestionAttributes createFeedbackQuestionWithoutIntegrityCheck(
+            EntityAttributes entityToAdd) throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackQuestionAttributes fqa =
+                oldQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(entityToAdd);
+        return newQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
     }
     
     /**

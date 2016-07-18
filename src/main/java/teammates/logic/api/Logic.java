@@ -1687,15 +1687,15 @@ public class Logic {
     
     /**
      * Used for creating initial questions for template sessions only.
-     * Does not check if feedback session exists.
      * Does not check if question number supplied is valid(does not check for clashes, or make adjustments)
      * Preconditions: <br>
      * * All parameters are non-null.
      * * questionNumber is > 0
+     * @throws EntityDoesNotExistException if session does not exist
      */
     public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(
             FeedbackQuestionAttributes feedbackQuestion, int questionNumber)
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
         Assumption.assertTrue(questionNumber > 0);

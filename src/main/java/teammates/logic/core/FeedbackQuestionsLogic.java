@@ -24,7 +24,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
-import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.BothQuestionsDb;
 
 public class FeedbackQuestionsLogic {
     
@@ -32,7 +32,7 @@ public class FeedbackQuestionsLogic {
 
     private static FeedbackQuestionsLogic instance;
     
-    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    private static final BothQuestionsDb fqDb = new BothQuestionsDb();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -62,22 +62,27 @@ public class FeedbackQuestionsLogic {
             fqa.questionNumber = questions.size() + 1;
         }
         adjustQuestionNumbers(questions.size() + 1, fqa.questionNumber, questions);
-        createFeedbackQuestionNoIntegrityCheck(fqa, fqa.questionNumber);
+        try {
+            createFeedbackQuestionNoIntegrityCheck(fqa, fqa.questionNumber);
+        } catch (EntityDoesNotExistException e) {
+            Assumption.fail("Session disappeared.");
+        }
     }
     
     /**
      * Used for creating initial questions only.
-     * Does not check if feedback session exists.
-     * Does not check if question number supplied is valid(does not check for clashes, or make adjustments)
+     * Does not check if question number supplied is valid (does not check for clashes, or make adjustments)
      * @param fqa
      * @param questionNumber
      * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException if the session does not exist
      */
     public FeedbackQuestionAttributes createFeedbackQuestionNoIntegrityCheck(
-            FeedbackQuestionAttributes fqa, int questionNumber) throws InvalidParametersException {
+            FeedbackQuestionAttributes fqa, int questionNumber) throws InvalidParametersException,
+                                                                       EntityDoesNotExistException {
         fqa.questionNumber = questionNumber;
         fqa.removeIrrelevantVisibilityOptions();
-        return fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
+        return fqDb.createFeedbackQuestionWithoutIntegrityCheck(fqa);
     }
     
     public FeedbackQuestionAttributes copyFeedbackQuestion(
