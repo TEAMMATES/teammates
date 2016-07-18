@@ -19,6 +19,9 @@ public class FeedbackSubmissionEditQuestion {
     private boolean isRecipientNameHidden;
     private boolean isGiverTeam;
     private boolean isRecipientTeam;
+    private boolean isRecipientOtherTeams;
+    private boolean isRecipientOtherStudentsInTheCourse;
+    private boolean isRecipientOwnTeamMembers ;
     
     public FeedbackSubmissionEditQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx,
                                     boolean isModeratedQuestion) {
@@ -35,6 +38,9 @@ public class FeedbackSubmissionEditQuestion {
         isRecipientNameHidden = questionAttributes.isRecipientNameHidden();
         isGiverTeam = questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS);
         isRecipientTeam = questionAttributes.recipientType.isTeam();
+        isRecipientOwnTeamMembers = questionAttributes.recipientType.isOwnTeamMembers();
+        isRecipientOtherTeams = questionAttributes.recipientType.isOtherTeams();
+        isRecipientOtherStudentsInTheCourse = questionAttributes.recipientType.isOtherStudentsInTheCourse();
     }
 
     public String getCourseId() {
@@ -83,5 +89,16 @@ public class FeedbackSubmissionEditQuestion {
     
     public boolean isRecipientTeam() {
         return isRecipientTeam;
+    }
+    
+    public boolean isRecipientOwnTeamMembers() {
+        return isRecipientOwnTeamMembers;
+    }
+
+    public boolean isRecipientOtherTeams() {
+        return isRecipientOtherTeams;
+    }
+    public boolean isRecipientOtherStudentsInTheCourse() {
+        return isRecipientOtherStudentsInTheCourse;
     }
 }

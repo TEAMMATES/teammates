@@ -39,7 +39,21 @@
             </ul>
             
             <c:if test="${questionWithResponses.question.giverTeam}">
-                    <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p> 
+                    <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p>
+            </c:if>
+            
+            <c:if test="${questionWithResponses.numOfResponseBoxes eq 0}">
+                <p class="text-warning">
+                <c:if test="${questionWithResponses.question.recipientOwnTeamMembers}">
+                    This question is for team members and you don't have any team members. Therefore, you will not be able to answer this question.
+                </c:if>
+                <c:if test="${questionWithResponses.question.recipientOtherTeams}">
+                    This question is for other teams in this course and this course don't have any other team. Therefore, you will not be able to answer this question.
+                </c:if>
+                <c:if test="${questionWithResponses.question.recipientOtherStudentsInTheCourse}">
+                    This question is for other students in this course and this course don't have any other student. Therefore, you will not be able to answer this question.
+                </c:if>
+                </p> 
             </c:if>
               
             <c:forEach items="${questionWithResponses.responses}" var="response">
