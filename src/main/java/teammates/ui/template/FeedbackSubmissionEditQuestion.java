@@ -2,6 +2,8 @@ package teammates.ui.template;
 
 import java.util.List;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -12,6 +14,7 @@ public class FeedbackSubmissionEditQuestion {
     private int qnIndx; // If not showing real question number
     private String questionId;
     private String questionText;
+    private String questionDescription;
     private List<String> visibilityMessages;
     private FeedbackQuestionType questionType;
     private int numberOfEntitiesToGiveFeedbackTo;
@@ -28,6 +31,8 @@ public class FeedbackSubmissionEditQuestion {
         this.qnIndx = qnIndx;
         questionId = questionAttributes.getId();
         questionText = questionAttributes.getQuestionDetails().getQuestionText();
+        Text description = questionAttributes.getQuestionDescription();
+        questionDescription = description == null ? null : description.getValue();
         visibilityMessages = questionAttributes.getVisibilityMessage();
         questionType = questionAttributes.questionType;
         numberOfEntitiesToGiveFeedbackTo = questionAttributes.numberOfEntitiesToGiveFeedbackTo;
@@ -56,7 +61,11 @@ public class FeedbackSubmissionEditQuestion {
     public String getQuestionText() {
         return questionText;
     }
-    
+
+    public String getQuestionDescription() {
+        return questionDescription;
+    }
+
     public List<String> getVisibilityMessages() {
         return visibilityMessages;
     }

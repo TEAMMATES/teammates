@@ -388,6 +388,8 @@ public final class Const {
                 "Discard any unsaved edits and revert back to original question.";
         public static final String FEEDBACK_QUESTION_CANCEL_NEW =
                 "Cancel adding new question. No new question will be added to the feedback session.";
+        public static final String FEEDBACK_QUESTION_INPUT_DESCRIPTION =
+                "Please enter the description of the question.";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
@@ -621,6 +623,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
         public static final String FEEDBACK_QUESTION_TEXT = "questiontext";
+        public static final String FEEDBACK_QUESTION_DESCRIPTION = "questiondescription";
         public static final String FEEDBACK_QUESTION_TYPE = "questiontype";
         public static final String FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = "noofchoicecreated";
         public static final String FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";

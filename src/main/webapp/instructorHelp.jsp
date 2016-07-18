@@ -718,7 +718,7 @@
                             </div>
 
                             <div class="panel-body">
-                                <form method="post" action="#" id="formEditInstructor3>" name="formEditInstructors" class="form form-horizontal">
+                                <form method="post" action="#" id="formEditInstructor3" name="formEditInstructors" class="form form-horizontal">
                                     <input type="hidden" name="courseid" value="testCourse">
 
                                     <input type="hidden" name="instructorid" value="sampleInstr">

@@ -28,13 +28,17 @@ public class StudentHomePage extends AppPage {
 
         List<WebElement> viewTeamLinks = browser.driver.findElements(By.linkText("View Team"));
 
-        viewTeamLinks.get(0).click();
+        click(viewTeamLinks.get(0));
     }
     
     public WebElement getViewFeedbackButton(String feedbackName) {
         
         int rowId = getEvalRowId(feedbackName);
         return browser.driver.findElement(By.id("viewFeedbackResults" + rowId));
+    }
+    
+    public void clickViewFeedbackButton(String feedbackName) {
+        click(getViewFeedbackButton(feedbackName));
     }
 
     public WebElement getEditFeedbackButton(String feedbackName) {
@@ -43,10 +47,18 @@ public class StudentHomePage extends AppPage {
         return browser.driver.findElement(By.id("editFeedbackResponses" + rowId));
     }
     
+    public void clickEditFeedbackButton(String feedbackName) {
+        click(getEditFeedbackButton(feedbackName));
+    }
+
     public WebElement getSubmitFeedbackButton(String feedbackName) {
         
         int rowId = getEvalRowId(feedbackName);
         return browser.driver.findElement(By.id("submitFeedback" + rowId));
+    }
+
+    public void clickSubmitFeedbackButton(String feedbackName) {
+        click(getSubmitFeedbackButton(feedbackName));
     }
 
     private int getEvalRowId(String name) {

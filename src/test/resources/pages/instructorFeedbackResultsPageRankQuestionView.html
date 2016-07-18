@@ -81,6 +81,12 @@
                     Unpublish Results
                   </a>
                 </div>
+                <br>
+                <div>
+                  <button class="btn btn-primary btn-block" id="button-print" type="input">
+                    Print View
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -175,7 +181,7 @@
               <label class="col-sm-2 control-label" for="viewSelect">
                 Filter:
               </label>
-              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
+              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" id="filter-box-parent-div" title="">
                 <div class="input-group">
                   <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
                   <a class="input-group-addon btn btn-default">
@@ -402,7 +408,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -635,7 +641,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -865,7 +871,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>
@@ -1366,7 +1372,7 @@
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th>
+              <th class="action-header">
                 Actions
               </th>
             </tr>
@@ -1381,7 +1387,7 @@
               <td>
                 Teammates Helper who can only see section 1
               </td>
-              <td>
+              <td class="action-button-item">
               </td>
             </tr>
             <tr>
@@ -1391,7 +1397,7 @@
               <td>
                 Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
@@ -1407,7 +1413,7 @@
               <td>
                 Benny Charles
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
@@ -1423,7 +1429,7 @@
               <td>
                 Charlie Davis
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
@@ -1439,7 +1445,7 @@
               <td>
                 Danny Engrid
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
@@ -1455,7 +1461,7 @@
               <td>
                 Emily F.
               </td>
-              <td>
+              <td class="action-button-item">
                 <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
