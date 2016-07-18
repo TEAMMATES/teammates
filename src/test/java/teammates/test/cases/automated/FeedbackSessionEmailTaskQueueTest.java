@@ -257,6 +257,8 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     
     @Test
     public void testSendFeedbackSessionUnpublishedEmail() throws Exception {
+        // this method tests a function from FeedbackSessionLogic.java
+        
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
@@ -264,7 +266,9 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session2InCourse1");
         int counter = 0;
-
+        
+        // retry test when it fails, to avoid test failures when other tests ran
+        // in parallel were also adding tasks to the same task queue.
         while (counter != 10) {
             FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
             fsLogic.sendFeedbackSessionUnpublishedEmail(fsa);
