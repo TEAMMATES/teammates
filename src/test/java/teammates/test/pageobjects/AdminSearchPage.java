@@ -25,8 +25,8 @@ public class AdminSearchPage extends AppPage {
     }
     
     public void clickSearchButton() {
-        this.getSearchButton().click();
-        this.waitForPageToLoad();
+        click(getSearchButton());
+        waitForPageToLoad();
     }
     
     public String getPageTitle() {

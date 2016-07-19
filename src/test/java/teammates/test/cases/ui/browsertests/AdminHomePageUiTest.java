@@ -247,8 +247,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         
         instructor.email = "AHPUiT.email.tmt";
         homePage.createInstructor(shortName, instructor, institute);
-        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email,
-                                   FieldValidator.REASON_INCORRECT_FORMAT),
+        assertEquals(getPopulatedErrorMessage(
+                         FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email,
+                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                         FieldValidator.EMAIL_MAX_LENGTH),
                      homePage.getMessageFromResultTable(1));
 
         ______TS("action success: course is accessible for newly joined instructor as student");
@@ -274,12 +276,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         courseDetailsPage.verifyHtmlMainContent("/newlyJoinedInstructorStudentCourseDetailsPage.html");
         
         studentHomePage = courseDetailsPage.goToPreviousPage(StudentHomePage.class);
-        studentHomePage.getViewFeedbackButton("First team feedback session").click();
+        studentHomePage.clickViewFeedbackButton("First team feedback session");
         StudentFeedbackResultsPage sfrp = AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
         sfrp.verifyHtmlMainContent("/newlyJoinedInstructorStudentFeedbackResultsPage.html");
         
         studentHomePage = sfrp.goToPreviousPage(StudentHomePage.class);
-        studentHomePage.getEditFeedbackButton("First team feedback session").click();
+        studentHomePage.clickEditFeedbackButton("First team feedback session");
         FeedbackSubmitPage fsp = AppPage.getNewPageInstance(browser, FeedbackSubmitPage.class);
         fsp.verifyHtmlMainContent("/newlyJoinedInstructorStudentFeedbackSubmissionEdit.html");
         

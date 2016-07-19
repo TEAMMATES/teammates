@@ -12,7 +12,7 @@
                  <span class="icon-bar"></span>
                  <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/index.html">TEAMMATES</a>
+            <a class="navbar-brand" href="/index.jsp">TEAMMATES</a>
         </div>
         <div class="collapse navbar-collapse" id="contentLinks">
             <ul class="nav navbar-nav">
@@ -35,16 +35,18 @@
                     </a>
                 </li>
                 <li<c:if test="${fn:contains(data.class,'StudentHelp')}"> class="active"</c:if>>
-                    <a id="studentHelpLink" class='nav' href="/studentHelp.html" target="_blank">Help</a>
+                    <a id="studentHelpLink" class="nav" href="/studentHelp.jsp" target="_blank">Help</a>
                 </li>
             </ul>
             <c:if test="${not empty data.account && not empty data.account.googleId}">
                 <ul class="nav navbar-nav pull-right">
                     <li>
                         <a id="btnLogout" class="nav logout" href="<%= Const.ActionURIs.LOGOUT %>">Logout
-                            (<span class="text-info" data-toggle="tooltip" data-placement="bottom" 
-                                    title="${data.account.googleId}">
-                                    ${data.account.truncatedGoogleId}
+                            (<span class="text-info" 
+                              <c:if test="${data.account.googleId != data.account.truncatedGoogleId}">
+                                data-toggle="tooltip" title="${data.account.googleId}" data-placement="bottom"
+                                </c:if>>
+                                ${data.account.truncatedGoogleId}
                             </span>)
                         </a>
                     </li>

@@ -56,7 +56,7 @@ public class AdminHomePage extends AppPage {
             fillTextBox(institutionTextBox, institute);
         }
 
-        submitButton.click();
+        click(submitButton);
         waitForElementToBeClickable(submitButton);
         return this;
     }
@@ -65,7 +65,7 @@ public class AdminHomePage extends AppPage {
         if (instructorDetails != null) {
             fillTextBox(detailsSingleLineTextBox, instructorDetails);
         }
-        submitButtonDetailsSingleLineForm.click();
+        click(submitButtonDetailsSingleLineForm);
         waitForElementToBeClickable(submitButtonDetailsSingleLineForm);
     }
     

@@ -92,12 +92,12 @@ public class InstructorCopyFsToModal extends AppPage {
 
     public void clickSubmitButton() {
         WebElement fsCopySubmitButton = browser.driver.findElement(By.id("fscopy_submit"));
-        fsCopySubmitButton.click();
+        click(fsCopySubmitButton);
     }
     
     public void clickCloseButton() {
         WebElement closeButton = browser.driver.findElement(By.cssSelector("#fsCopyModal .close"));
-        closeButton.click();
+        click(closeButton);
         waitForElementToDisappear(By.cssSelector("#fsCopyModal"));
     }
 

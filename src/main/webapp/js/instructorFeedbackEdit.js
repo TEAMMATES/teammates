@@ -25,7 +25,6 @@ $(document).ready(function() {
     CustomFeedbackPaths.bindEventHandlers();
 });
 
-
 /**
  * This function is called on edit page load.
  */
@@ -38,11 +37,15 @@ function readyFeedbackEditPage() {
     
     // Bind submit text links
     $('a[id|=questionsavechangestext]').click(function() {
+        var form = $(this).parents('form.form_question');
+        prepareDescription(form);
+
         $(this).parents('form.form_question').submit();
     });
     
     // Bind submit actions
     $('form[id|=form_editquestion]').submit(function(event) {
+        prepareDescription($(event.currentTarget));
         if ($(this).attr('editStatus') === 'mustDeleteResponses') {
             event.preventDefault();
             var okCallback = function() {
@@ -91,6 +94,13 @@ function readyFeedbackEditPage() {
     
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
+}
+
+function prepareDescription(form) {
+    var questionNum = form.find('input[name^="questionnum"]').val();
+    tinyMCE.get('questiondescription-' + questionNum).save();
+    var descr = form.find('input[name^="questiondescription"]');
+    descr.attr('name', 'questiondescription');
 }
 
 function bindFeedbackSessionEditFormSubmission() {
@@ -193,11 +203,13 @@ function enableEditFS() {
 
     destroyEditor('instructions');
     if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
-            inline: true
+            inline: true,
+            fixed_toolbar_container: '#richtext-toolbar-container'
         });
+        /* eslint-enable camelcase */
     }
-
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit').show();
@@ -246,6 +258,17 @@ function backupQuestion(questionNum) {
  * @param questionNum
  */
 function enableQuestion(questionNum) {
+    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container-' + questionNum
+        });
+        /* eslint-enable camelcase */
+    }
+    $('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum).removeClass('well');
+
     var $currentQuestionTable = $('#questionTable' + questionNum);
     
     $currentQuestionTable.find('text,button,textarea,select,input')
@@ -307,6 +330,16 @@ function enableNewQuestion() {
     var $currentQuestionTableSuffix = $('#questionTable' + newQnSuffix);
     var $currentQuestionTableNumber = $('#questionTable' + NEW_QUESTION);
     
+    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION);
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container'
+        });
+        /* eslint-enable camelcase */
+    }
+
     $currentQuestionTableSuffix.find('text,button,textarea,select,input')
                                .not('[name="receiverFollowerCheckbox"]')
                                .not('.disabled_radio')
@@ -346,6 +379,18 @@ function enableNewQuestion() {
  * @param questionNum
  */
 function disableQuestion(questionNum) {
+    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container-' + questionNum,
+            readonly: true
+        });
+        /* eslint-enable camelcase */
+    }
+    $('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum).addClass('well');
+
     var $currentQuestionTable = $('#questionTable' + questionNum);
 
     $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
@@ -536,7 +581,8 @@ function showNewQuestionFrame(type) {
     $('#questionTableNew .custom-feedback-paths-display').hide();
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
-    getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
+
+    getVisibilityMessageIfPreviewIsActive($('#questionTableNew'));
 }
 
 function hideAllNewQuestionForms() {
@@ -696,68 +742,8 @@ function copyOptions() {
     $currTable.each(function(index) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
-    feedbackGiverUpdateVisibilityOptions($currGiver);
-    feedbackRecipientUpdateVisibilityOptions($currRecipient);
-}
 
-function enableRow(elem, row) {
-    var $visibilityOptions = $(elem).closest('form').find('.visibilityOptions');
-    var $table = $visibilityOptions.find('table');
-    var $tdElements = $($table.children().children()[row]).children();
-    
-    if ($tdElements.parent().prop('tagName') === 'tr') {
-        return;
-    }
-    $tdElements.unwrap().wrapAll('<tr>');
-}
-
-function disableRow(elem, row) {
-    var $visibilityOptions = $(elem).closest('form').find('.visibilityOptions');
-    var $table = $visibilityOptions.find('table');
-    var $tdElements = $($table.children().children()[row]).children();
-    
-    if ($tdElements.parent().prop('tagName') === 'hide') {
-        return;
-    }
-    $tdElements.unwrap().wrapAll('<hide>');
-    $tdElements.parent().hide();
-}
-
-function feedbackRecipientUpdateVisibilityOptions(elem) {
-    var $elem = $(elem);
-    if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType($elem.val())) {
-        // show the row Recipient(s) and hide the row Recipient's Team Members
-        enableRow($elem, 1);
-        disableRow($elem, 3);
-        return;
-    } else if ($elem.val() === 'NONE') {
-        // hide both the row Recipient(s) and the row Recipient's Team Members
-        disableRow($elem, 3);
-        disableRow($elem, 1);
-        return;
-    }
-    
-    enableRow($elem, 1);
-    enableRow($elem, 3);
-}
-
-/**
- * Returns true if "recipient's team members" visibility option
- * is not applicable for the recipient type
- */
-function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType) {
-    return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS'
-           || recipientType === 'INSTRUCTORS' || recipientType === 'OWN_TEAM_MEMBERS'
-           || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
-}
-
-function feedbackGiverUpdateVisibilityOptions(elem) {
-    var $elem = $(elem);
-    if ($elem.val() === 'INSTRUCTORS' || $elem.val() === 'TEAMS') {
-        disableRow($elem, 2);
-        return;
-    }
-    enableRow($elem, 2);
+    matchVisibilityOptionToFeedbackPath($currGiver);
 }
 
 /**
@@ -825,14 +811,19 @@ function bindCopyButton() {
         var index = 0;
         var hasRowSelected = false;
 
-        $('#copyTableModal >tbody>tr').each(function() {
-            var input = $(this).children('input:first');
+        $('#copyTableModal > tbody > tr').each(function() {
+            var $this = $(this);
+            var questionIdInput = $this.children('input:first');
             
-            if (!input.length) {
+            if (!questionIdInput.length) {
                 return true;
             }
-            if ($(this).hasClass('row-selected')) {
-                $(input).attr('name', 'questionid-' + index++);
+            if ($this.hasClass('row-selected')) {
+                $(questionIdInput).attr('name', 'questionid-' + index);
+                $this.find('input.courseid').attr('name', 'courseid-' + index);
+                $this.find('input.fsname').attr('name', 'fsname-' + index);
+                
+                index += 1;
                 hasRowSelected = true;
             }
         });

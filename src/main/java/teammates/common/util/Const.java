@@ -233,6 +233,7 @@ public final class Const {
     
         public static final String COURSE_INFO_EDIT = "Edit course name";
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
+        public static final String COURSE_INSTRUCTOR_CANCEL_EDIT = "Cancel editing instructor details";
         public static final String COURSE_INSTRUCTOR_DELETE = "Delete the instructor from the course";
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
         
@@ -381,10 +382,14 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS =
                 "Please enter the question for users to give feedback about. "
                 + "e.g. What is the biggest weakness of the presented product?";
-        public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
-        public static final String FEEDBACK_QUESTION_DISCARDCHANGES = "Discard your changes";
-        public static final String FEEDBACK_QUESTION_CANCEL_NEW = "Discard new question";
-        public static final String FEEDBACK_QUESTION_DELETE = "Delete this question";
+        public static final String FEEDBACK_QUESTION_EDIT =
+                "Edit the existing question. Do remember to save the changes before moving on to editing another question.";
+        public static final String FEEDBACK_QUESTION_DISCARDCHANGES =
+                "Discard any unsaved edits and revert back to original question.";
+        public static final String FEEDBACK_QUESTION_CANCEL_NEW =
+                "Cancel adding new question. No new question will be added to the feedback session.";
+        public static final String FEEDBACK_QUESTION_INPUT_DESCRIPTION =
+                "Please enter the description of the question.";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
@@ -618,6 +623,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
         public static final String FEEDBACK_QUESTION_TEXT = "questiontext";
+        public static final String FEEDBACK_QUESTION_DESCRIPTION = "questiondescription";
         public static final String FEEDBACK_QUESTION_TYPE = "questiontype";
         public static final String FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = "noofchoicecreated";
         public static final String FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";
@@ -1078,7 +1084,7 @@ public final class Const {
                 + "If you don't remember which Google account you used previously, "
                 + "email us from the same email account to which you receive TEAMMATES emails."
                 + "<br>2. You changed the primary email from a non-Gmail address to a Gmail address recently. "
-                + "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> "
+                + "In that case, <a href=\"/contact.jsp\">email us</a> "
                 + "so that we can reconfigure your account to use the new Gmail address."
                 + "<br>3. You joined this course just a few seconds ago and your data "
                 + "may be still in the process of propagating through our servers. "
@@ -1173,6 +1179,8 @@ public final class Const {
                 + "Please try again with a smaller picture.";
         public static final String STUDENT_PROFILE_PIC_SERVICE_DOWN = "We were unable to upload your picture at this time. "
                 + "Please try again after some time";
+        public static final String STUDENT_EMAIL_TAKEN_MESSAGE =
+                "Trying to update to an email that is already used by: %s/%s";
         
         public static final String FEEDBACK_SESSION_ADDED =
                 "The feedback session has been added. "
@@ -1289,8 +1297,8 @@ public final class Const {
         public static final String COMMENT_CLEARED_UNSUCCESSFULLY = "Notification for some pending comments fails to send";
         
         public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
-                + "<a href='/instructorHelp.html#gs' target='_blank'>Getting Started Guide</a>.<br>A video tour"
-                + " is also available in our <a href='/index.html' target='_blank'>home page</a>.";
+                + "<a href=\"/instructorHelp.jsp#gs\" target=\"_blank\">Getting Started Guide</a>.<br>A video tour"
+                + " is also available in our <a href=\"/index.jsp\" target=\"_blank\">home page</a>.";
         
         public static final String HINT_FOR_NO_SESSIONS_STUDENT =
                 "Currently, there are no open feedback sessions in the course %s. "
