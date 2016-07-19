@@ -21,16 +21,15 @@ $(document).ready(function() {
     hideUncommonPanels();
 });
 
-function addLoadingIndicator(button) {
-    currentText = button.text();
+function addLoadingIndicator(button, loadingText) {
+    button.html(loadingText);
     button.prop('disabled', true);
     button.append('<img src="/images/ajax-loader.gif">');
 }
 
-function removeLoadingIndicator(button) {
-    currentText = button.text();
+function removeLoadingIndicator(button, displayText) {
     button.empty();
-    button.html(currentText);
+    button.html(displayText);
     button.prop('disabled', false);
 }
 
@@ -46,7 +45,7 @@ function readyFeedbackEditPage() {
     
     // AddQuestion button should be disabled on click to prevent double submissions
     $('#button_submit_add').click(function() {
-        addLoadingIndicator($(this));
+        addLoadingIndicator($(this),'Saving ');
     });
     
     // Bind submit text links
@@ -73,9 +72,9 @@ function readyFeedbackEditPage() {
     });
 
     $('form.form_question').submit(function() {
-        formStatus = checkFeedbackQuestion(this);
+        var formStatus = checkFeedbackQuestion(this);
         if (!formStatus) {
-            removeLoadingIndicator($('#button_submit_add'));
+            removeLoadingIndicator($('#button_submit_add'), 'Save Question');
         }
         return formStatus;
     });
