@@ -19,16 +19,16 @@
       </div>
       <div class="col-sm-5 mobile-margin-top-10px">
         <span class="mobile-no-pull pull-right">
-          <a class="btn btn-primary btn-xs" data-original-title="Edit this question" data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,2)" style="display: none;" title="">
+          <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,2)" style="display: none;" title="">
             Edit
           </a>
           <a class="btn btn-primary btn-xs" id="questionsavechangestext-1" style="">
             Save Changes
           </a>
-          <a class="btn btn-primary btn-xs" data-original-title="Discard your changes" data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-1" onclick="discardChanges(1)" style="" title="">
+          <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-1" onclick="discardChanges(1)" style="" title="">
             Discard Changes
           </a>
-          <a class="btn btn-primary btn-xs" data-original-title="Delete this question" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(1)" title="">
+          <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(1)" title="">
             Delete
           </a>
         </span>
@@ -36,57 +36,83 @@
     </div>
   </div>
   <div class="panel-body">
-    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-      <div>
-        <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" id="questiontext-1" name="questiontext" rows="5" tabindex="9" title="">
-          Rank qn
-        </textarea>
+    <div class="col-sm-12 margin-15px background-color-light-blue">
+      <div class="form-group" style="padding: 15px;">
+        <h5 class="col-sm-2">
+          <label class="control-label" for="questiontext-1">
+            Question
+          </label>
+        </h5>
+        <div class="col-sm-10">
+          <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" id="questiontext-1" name="questiontext" rows="2" tabindex="9" title="">
+            Rank qn
+          </textarea>
+        </div>
       </div>
-      <div class="row">
-        <br>
-        <div class="col-sm-6" id="rankOptionTable-1">
-          <div class="margin-bottom-7px" id="rankOptionRow-0-1">
-            <div class="input-group width-100-pc">
-              <input class="form-control" id="rankOption-0-1" name="rankOption-0" type="text" value="Option 1 <>">
-              <span class="input-group-btn">
-                <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,1)" style="" tabindex="-1" type="button">
-                  <span class="glyphicon glyphicon-remove">
-                  </span>
-                </button>
-              </span>
-            </div>
+      <div class="form-group" style="padding: 0 15px;">
+        <h5 class="col-sm-2">
+          <label class="align-left" for="questiondescription-1">
+            [Optional]
+            <br>
+            Description
+          </label>
+        </h5>
+        <div class="col-sm-10">
+          <div id="rich-text-toolbar-q-descr-container-1">
           </div>
-          <div class="margin-bottom-7px" id="rankOptionRow-1-1">
-            <div class="input-group width-100-pc">
-              <input class="form-control" id="rankOption-1-1" name="rankOption-1" type="text" value="  Option 2  ">
-              <span class="input-group-btn">
-                <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,1)" style="" tabindex="-1" type="button">
-                  <span class="glyphicon glyphicon-remove">
-                  </span>
-                </button>
-              </span>
-            </div>
+          <div class="panel panel-default panel-body mce-content-body" contenteditable="true" data-original-title="Please enter the description of the question." data-placement="top" data-toggle="tooltip" id="questiondescription-1" rows="5" spellcheck="false" style="position: relative;" tabindex="9" title="">
+            <p>
+              more details
+            </p>
           </div>
-          <div id="rankAddOptionRow-1">
-            <div colspan="2">
-              <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-1" onclick="addRankOption(1)" style="">
-                <span class="glyphicon glyphicon-plus">
+          <input name="questiondescription-1" type="hidden">
+        </div>
+        <div class="row">
+          <br>
+          <div class="col-sm-6" id="rankOptionTable-1">
+            <div class="margin-bottom-7px" id="rankOptionRow-0-1">
+              <div class="input-group width-100-pc">
+                <input class="form-control" id="rankOption-0-1" name="rankOption-0" type="text" value="Option 1 <>">
+                <span class="input-group-btn">
+                  <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,1)" style="" tabindex="-1" type="button">
+                    <span class="glyphicon glyphicon-remove">
+                    </span>
+                  </button>
                 </span>
-                add more options
-              </a>
+              </div>
+            </div>
+            <div class="margin-bottom-7px" id="rankOptionRow-1-1">
+              <div class="input-group width-100-pc">
+                <input class="form-control" id="rankOption-1-1" name="rankOption-1" type="text" value="  Option 2  ">
+                <span class="input-group-btn">
+                  <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,1)" style="" tabindex="-1" type="button">
+                    <span class="glyphicon glyphicon-remove">
+                    </span>
+                  </button>
+                </span>
+              </div>
+            </div>
+            <div id="rankAddOptionRow-1">
+              <div colspan="2">
+                <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-1" onclick="addRankOption(1)" style="">
+                  <span class="glyphicon glyphicon-plus">
+                  </span>
+                  add more options
+                </a>
+              </div>
+            </div>
+            <input id="noofchoicecreated-1" name="noofchoicecreated" type="hidden" value="2">
+          </div>
+          <div class="col-sm-6">
+            <div class="checkbox" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple options" data-placement="top" data-toggle="tooltip" title="">
+              <label class="bold-label">
+                <input checked="" id="rankAreDuplicatesAllowed-1" name="rankAreDuplicatesAllowed" type="checkbox">
+                Allow response giver to give the same rank to multiple options
+              </label>
             </div>
           </div>
-          <input id="noofchoicecreated-1" name="noofchoicecreated" type="hidden" value="2">
+          <br>
         </div>
-        <div class="col-sm-6">
-          <div class="checkbox" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple options" data-placement="top" data-toggle="tooltip" title="">
-            <label class="bold-label">
-              <input checked="" id="rankAreDuplicatesAllowed-1" name="rankAreDuplicatesAllowed" type="checkbox">
-              Allow response giver to give the same rank to multiple options
-            </label>
-          </div>
-        </div>
-        <br>
       </div>
     </div>
     <br>

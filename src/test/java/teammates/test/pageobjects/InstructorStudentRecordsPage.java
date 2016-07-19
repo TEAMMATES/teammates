@@ -41,19 +41,19 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public InstructorStudentRecordsPage addComment(String commentText) {
-        addCommentLink.click();
+        click(addCommentLink);
         commentTextBox.sendKeys(commentText);
-        saveCommentLink.click();
+        click(saveCommentLink);
         waitForPageToLoad();
         return this;
     }
 
     public void addCommentWithVisibility(String commentText, int id) {
-        addCommentLink.click();
+        click(addCommentLink);
         commentTextBox.sendKeys(commentText);
-        getVisibilityToggleLink(id).click();
+        click(getVisibilityToggleLink(id));
         clickAllCheckboxes(id);
-        saveCommentLink.click();
+        click(saveCommentLink);
         waitForPageToLoad();
     }
 
@@ -72,10 +72,10 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public InstructorStudentRecordsPage editComment(int id, String comment) {
-        getCommentEditLink(id).click();
+        click(getCommentEditLink(id));
         getCommentTextBox(id).clear();
         getCommentTextBox(id).sendKeys(comment);
-        getCommentSaveLink(id).click();
+        click(getCommentSaveLink(id));
         waitForPageToLoad();
         return this;
     }
@@ -85,12 +85,12 @@ public class InstructorStudentRecordsPage extends AppPage {
                                             .findElement(By.id("visibility-options" + id))
                                             .findElements(By.className("answerCheckbox"));
         for (WebElement checkbox : answerCheckboxes) {
-            checkbox.click();
+            click(checkbox);
         }
     }
 
     public boolean verifyAddCommentButtonClick() {
-        addCommentLink.click();
+        click(addCommentLink);
         boolean display = commentTextBox.isDisplayed()
                        && saveCommentLink.isDisplayed()
                        && !addCommentLink.isDisplayed();
@@ -98,7 +98,7 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public boolean verifyEditCommentButtonClick(int id) {
-        getCommentEditLink(id).click();
+        click(getCommentEditLink(id));
         boolean display = getCommentTextBox(id).isEnabled()
                        && getCommentSaveLink(id).isDisplayed()
                        && !getCommentEditLink(id).isDisplayed();
@@ -106,8 +106,8 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
     
     public void clickEditCommentAndCancel(int id) {
-        getCommentEditLink(id).click();
-        getCommentEditCancelLink(id).click();
+        click(getCommentEditLink(id));
+        click(getCommentEditCancelLink(id));
     }
     
     public void verifyCommentEditBoxNotVisible(int id) {
@@ -142,19 +142,19 @@ public class InstructorStudentRecordsPage extends AppPage {
     // Visibility options
     
     public void clickVisibilityOptionsButton(int id) {
-        getVisibilityOptions(id).click();
+        click(getVisibilityOptions(id));
     }
     
     public void clickAnswerCheckboxForCourse(int id) {
-        getAnswerCheckboxForCourse(id).click();
+        click(getAnswerCheckboxForCourse(id));
     }
     
     public void clickGiverCheckboxForCourse(int id) {
-        getGiverCheckboxForCourse(id).click();
+        click(getGiverCheckboxForCourse(id));
     }
     
     public void clickRecipientCheckboxForCourse(int id) {
-        getRecipientCheckboxForCourse(id).click();
+        click(getRecipientCheckboxForCourse(id));
     }
     
     public boolean isAnswerCheckboxForCourseSelected(int id) {
@@ -194,7 +194,7 @@ public class InstructorStudentRecordsPage extends AppPage {
      */
     public void clickAllRecordPanelHeadings() {
         for (WebElement e : browser.driver.findElements(By.cssSelector("div[id^='studentFeedback-']"))) {
-            e.findElement(By.cssSelector(".panel-heading")).click();
+            click(e.findElement(By.cssSelector(".panel-heading")));
         }
     }
 

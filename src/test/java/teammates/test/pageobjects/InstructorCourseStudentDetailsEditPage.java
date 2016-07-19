@@ -73,7 +73,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
             fillTextBox(commentsTextbox, comments);
         }
         if (teamName == null) {
-            submitButton.click();
+            click(submitButton);
         } else {
             // if team name is edited, the confirmation dialog will pop up
             submitButton.click();
@@ -87,7 +87,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     }
 
     public InstructorCourseDetailsPage submitButtonClicked() {
-        submitButton.click();
+        click(submitButton);
         return changePageType(InstructorCourseDetailsPage.class);
     }
 }
