@@ -379,7 +379,7 @@ public class QuestionsDbTest extends BaseComponentTestCase {
         fsa.setInstructions(new Text("Give feedback."));
         
         return fsa;
-     }
+    }
 
     private QuestionsDbPersistenceAttributes getNewFeedbackQuestionAttributes() {
         FeedbackQuestionAttributes fqa = new FeedbackQuestionAttributes();
@@ -418,7 +418,7 @@ public class QuestionsDbTest extends BaseComponentTestCase {
                     fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber);
             if (existingQuestion != null) {
                 // use the retrieved entity to delete as that has the actual questionId
-                fqDb.deleteEntity(existingQuestion); 
+                fqDb.deleteEntity(existingQuestion);
             }
             
             fqa.setId(fqa.makeId());
@@ -449,7 +449,7 @@ public class QuestionsDbTest extends BaseComponentTestCase {
                     fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber);
             if (existingQuestion != null) {
                 // use the retrieved entity to delete as that has the actual questionId
-                fqDb.deleteEntity(existingQuestion); 
+                fqDb.deleteEntity(existingQuestion);
             }
             fqa.setId(fqa.makeId());
             fqDb.createEntity(fqa);

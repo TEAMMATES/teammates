@@ -19,6 +19,8 @@ import teammates.storage.entity.QuestionsDbPersistenceAttributes;
 /**
  * Handles reading and writing for both FeedbackQuestion and Question types.
  * See https://cloud.google.com/datastore/docs/articles/balancing-strong-and-eventual-consistency-with-google-cloud-datastore/#gradual-migration-to-entity-groups
+ * 
+ * TODO delete this class once the old questions have been migrated to the new question type
  */
 public class BothQuestionsDb extends EntitiesDb {
     
@@ -33,7 +35,6 @@ public class BothQuestionsDb extends EntitiesDb {
         return newQuestionsDb.createEntity(new QuestionsDbPersistenceAttributes(fqa));
     }
     
-
     public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd)
             throws InvalidParametersException {
         // maybe too slow?

@@ -30,6 +30,8 @@ import teammates.test.driver.AssertHelper;
 
 public class BothQuestionsDbTest extends BaseComponentTestCase {
     private static final BothQuestionsDb fqDb = new BothQuestionsDb();
+    private static final QuestionsDb newDb = new QuestionsDb();
+    private static final FeedbackQuestionsDb oldDb = new FeedbackQuestionsDb();
 
     @BeforeClass
     public static void classSetUp() throws InvalidParametersException, EntityAlreadyExistsException {
@@ -62,6 +64,15 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
         AssertHelper.assertDateIsNow(feedbackQuestion.getCreatedAt());
         AssertHelper.assertDateIsNow(feedbackQuestion.getUpdatedAt());
         
+        FeedbackQuestionAttributes questionInOldDb = oldDb.getFeedbackQuestion(
+                                        feedbackSessionName, courseId, questionNumber);
+        AssertHelper.assertDateIsNow(questionInOldDb.getCreatedAt());
+        AssertHelper.assertDateIsNow(questionInOldDb.getUpdatedAt());
+        FeedbackQuestionAttributes questionInNewDb = newDb.getFeedbackQuestion(
+                                        feedbackSessionName, courseId, questionNumber);
+        AssertHelper.assertDateIsNow(questionInNewDb.getCreatedAt());
+        AssertHelper.assertDateIsNow(questionInNewDb.getUpdatedAt());
+        
         ______TS("success : update lastUpdated");
         
         feedbackQuestion.questionNumber++;
@@ -73,6 +84,15 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
         // Assert lastUpdate has changed, and is now.
         assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
         AssertHelper.assertDateIsNow(updatedFq.getUpdatedAt());
+        
+        questionInOldDb = oldDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
+        assertFalse("lastUpdate should be changed",
+                    feedbackQuestion.getUpdatedAt().equals(questionInOldDb.getUpdatedAt()));
+        AssertHelper.assertDateIsNow(questionInOldDb.getUpdatedAt());
+        questionInNewDb = newDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
+        assertFalse("lastUpdate should be changed",
+                    feedbackQuestion.getUpdatedAt().equals(questionInNewDb.getUpdatedAt()));
+        AssertHelper.assertDateIsNow(questionInNewDb.getUpdatedAt());
         
         ______TS("success : keep lastUpdated");
 
@@ -202,6 +222,11 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
 
         assertEquals(numToCreate, questions.size());
         AssertHelper.assertSameContentIgnoreOrder(expectedQuestions, questions);
+        assertEquals("Both old question and new question type's db should have the same questions",
+                     oldDb.getFeedbackQuestionsForSession(expectedQuestions.get(0).feedbackSessionName,
+                                                          expectedQuestions.get(0).courseId),
+                     newDb.getFeedbackQuestionsForSession(expectedQuestions.get(0).feedbackSessionName,
+                                                          expectedQuestions.get(0).courseId));
 
         ______TS("null params");
 
@@ -243,18 +268,38 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
                                                       FeedbackParticipantType.INSTRUCTORS);
         
         assertEquals(numOfQuestions[0], questions.size());
+        assertEquals("Both old question and new question type's db should have the same questions",
+                     oldDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
+                                                            FeedbackParticipantType.INSTRUCTORS),
+                     newDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
+                                                            FeedbackParticipantType.INSTRUCTORS));
 
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
                                                           fqa.courseId, FeedbackParticipantType.STUDENTS);
         assertEquals(numOfQuestions[1], questions.size());
+        assertEquals("Both old question and new question type's db should have the same questions",
+                     oldDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
+                                    FeedbackParticipantType.STUDENTS),
+                     newDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
+                                    FeedbackParticipantType.STUDENTS));
 
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
                                                           fqa.courseId, FeedbackParticipantType.SELF);
         assertEquals(numOfQuestions[2], questions.size());
+        assertEquals("Both old question and new question type's db should have the same questions",
+                     oldDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
+                                                            FeedbackParticipantType.SELF),
+                     newDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
+                                                            FeedbackParticipantType.SELF));
 
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
                                                           fqa.courseId, FeedbackParticipantType.TEAMS);
         assertEquals(numOfQuestions[3], questions.size());
+        assertEquals("Both old question and new question type's db should have the same questions",
+                     oldDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
+                                    FeedbackParticipantType.TEAMS),
+                     newDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
+                                    FeedbackParticipantType.TEAMS));
 
         ______TS("null params");
 
@@ -355,6 +400,10 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
                                                     modifiedQuestion.courseId,
                                                     modifiedQuestion.questionNumber);
         assertEquals("New question text!", modifiedQuestion.getQuestionDetails().getQuestionText());
+        assertEquals(newDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
+                                               modifiedQuestion.courseId, modifiedQuestion.questionNumber),
+                     oldDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
+                                               modifiedQuestion.courseId, modifiedQuestion.questionNumber));
 
         fqDb.deleteEntity(modifiedQuestion);
     }
@@ -378,7 +427,7 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
         fsa.setInstructions(new Text("Give feedback."));
         
         return fsa;
-     }
+    }
 
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
         FeedbackQuestionAttributes fqa = new FeedbackQuestionAttributes();
@@ -414,7 +463,7 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
                     fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber);
             if (existingQuestion != null) {
                 // use the retrieved entity to delete as that has the actual questionId
-                fqDb.deleteEntity(existingQuestion); 
+                fqDb.deleteEntity(existingQuestion);
             }
             
             fqDb.createEntity(fqa);
@@ -444,7 +493,7 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
                     fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber);
             if (existingQuestion != null) {
                 // use the retrieved entity to delete as that has the actual questionId
-                fqDb.deleteEntity(existingQuestion); 
+                fqDb.deleteEntity(existingQuestion);
             }
             fqDb.createEntity(fqa);
         }
@@ -481,7 +530,37 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
             fqDb.deleteEntity(fqa);
         }
     }
-
+    
+    protected static void verifyAbsentInDatastore(FeedbackQuestionAttributes fq) {
+        assertNull(fqDb.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber));
+        assertNull(newDb.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber));
+        assertNull(oldDb.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber));
+    }
+    
+    protected static void verifyPresentInDatastore(FeedbackQuestionAttributes expected) {
+        verifyPresentInDatastore(expected, false);
+    }
+    
+    protected static void verifyPresentInDatastore(FeedbackQuestionAttributes expected, boolean wildcardId) {
+        BaseComponentTestCase.verifyPresentInDatastore(expected, wildcardId);
+        
+        FeedbackQuestionAttributes expectedCopy = expected.getCopy();
+        FeedbackQuestionAttributes actual = oldDb.getFeedbackQuestion(
+                expectedCopy.feedbackSessionName, expectedCopy.courseId, expectedCopy.questionNumber);
+        if (wildcardId) {
+            expectedCopy.setId(actual.getId());
+        }
+        assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));
+        
+        FeedbackQuestionAttributes expectedCopy1 = expected.getCopy();
+        FeedbackQuestionAttributes actual1 = newDb.getFeedbackQuestion(
+                expectedCopy1.feedbackSessionName, expectedCopy1.courseId, expectedCopy1.questionNumber);
+        if (wildcardId) {
+            expectedCopy1.setId(actual1.getId());
+        }
+        assertEquals(gson.toJson(expectedCopy1), gson.toJson(actual1));
+    }
+    
     @AfterClass
     public static void classTearDown() {
         printTestClassFooter();

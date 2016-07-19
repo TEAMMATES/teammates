@@ -16,7 +16,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 
-// TODO delete this class
+// TODO delete this class once the old questions are migrated to the new question type
 public class FeedbackQuestionsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
     
