@@ -366,7 +366,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
     
     /*
-     * Updates last editor (an instructor email) with the new one
+     * Updates last editor for all comments last edited by the given instructor with the instructor's new email
      */
     public void updateLastEditorEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);

@@ -324,7 +324,7 @@ public class CommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updatedInstrEmail);
         
         updateInstructorEmailAsGiver(courseId, oldInstrEmail, updatedInstrEmail);
-        updateInstructorEmailAsLastEditor(courseId, oldInstrEmail, updatedInstrEmail);
+        updateInstructorEmailAsLastEditorForStudentComments(courseId, oldInstrEmail, updatedInstrEmail);
         // for now, instructors can only be giver
         // updateInstructorEmailAsRecipient(courseId, oldInstrEmail, updatedInstrEmail);
     }
@@ -342,10 +342,10 @@ public class CommentsDb extends EntitiesDb {
     }
     
     /*
-     * Updates last editor (an instructor email) with the new one
+     * Updates last editor for all comments last edited by the given instructor with the instructor's new email
      */
-    private void updateInstructorEmailAsLastEditor(String courseId, String oldInstrEmail,
-                                                   String updatedInstrEmail) {
+    private void updateInstructorEmailAsLastEditorForStudentComments(String courseId, String oldInstrEmail,
+                                                                     String updatedInstrEmail) {
         List<Comment> lastEditorComments = getCommentEntitiesForLastEditor(courseId, oldInstrEmail);
         
         for (Comment lastEditorComment : lastEditorComments) {
