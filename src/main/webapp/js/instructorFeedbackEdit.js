@@ -45,7 +45,7 @@ function readyFeedbackEditPage() {
     
     // AddQuestion button should be disabled on click to prevent double submissions
     $('#button_submit_add').click(function() {
-        addLoadingIndicator($(this),'Saving ');
+        addLoadingIndicator($(this), 'Saving ');
     });
     
     // Bind submit text links
