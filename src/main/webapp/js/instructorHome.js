@@ -45,7 +45,6 @@ $(document).ready(function() {
 
         BootboxWrapper.showModalConfirmation('Confirm archiving course', messageText, okCallback, null,
                 BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
-
     });
 
     // AJAX loading of course panels

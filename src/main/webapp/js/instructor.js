@@ -341,7 +341,6 @@ function bindPublishButtons() {
 
         BootboxWrapper.showModalConfirmation('Confirm publishing responses', messageText, okCallback, null,
                 BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
-
     });
 }
 

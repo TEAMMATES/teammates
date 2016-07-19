@@ -156,7 +156,7 @@ public class InstructorCourseEditPageData extends PageData {
         String buttonContent = "<span class=\"glyphicon glyphicon-pencil\"></span> Edit";
         String buttonId = "courseEditLink";
         return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INFO_EDIT,
-                                  isDisabled);
+                                 isDisabled);
     }
 
     private ElementTag createDeleteCourseButton(boolean isDisabled) {
