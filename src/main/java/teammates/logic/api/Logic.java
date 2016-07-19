@@ -1235,7 +1235,7 @@ public class Logic {
     /**
      * Sends confirmation email for submission to user. <br>
      * Preconditions: <br>
-     * * All parameters are non-null. <br>
+     * * All parameters are non-null. One parameter out of userId and unregisteredStudentEmail can be empty.<br>
      */
     public void sendConfirmationEmailForSubmission(String courseId, String feedbackSessionName,
                                                    String userId, String unregisteredStudentEmail,
@@ -1244,6 +1244,7 @@ public class Logic {
  
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertFalse(ERROR_NULL_PARAMETER, userId.isEmpty() && (unregisteredStudentEmail.isEmpty() || unregisteredStudentRegKey.isEmpty()));
 
         feedbackSessionsLogic.sendConfirmationEmailForSubmission(courseId, feedbackSessionName, userId,
                                                                  unregisteredStudentEmail, unregisteredStudentRegKey);
