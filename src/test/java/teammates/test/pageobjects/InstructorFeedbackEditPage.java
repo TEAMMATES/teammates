@@ -765,8 +765,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement dropdownButton = questionTable.findElement(By.cssSelector(".feedback-path-dropdown > button"));
         WebElement otherOption = questionTable.findElement(
                                      By.className("feedback-path-dropdown-option-other"));
-        dropdownButton.click();
-        otherOption.click();
+        click(dropdownButton);
+        click(otherOption);
     }
 
     public void enableOtherFeedbackPathOptionsForNewQuestion() {
@@ -774,8 +774,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement dropdownButton = questionTable.findElement(By.cssSelector(".feedback-path-dropdown > button"));
         WebElement otherOption = questionTable.findElement(
                                      By.className("feedback-path-dropdown-option-other"));
-        dropdownButton.click();
-        otherOption.click();
+        click(dropdownButton);
+        click(otherOption);
     }
 
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
