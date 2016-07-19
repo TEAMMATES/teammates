@@ -1,6 +1,7 @@
 package teammates.storage.entity;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.util.Assumption;
 
 /**
  * Handles the conversion of FeedbackQuestionAttributes to Question in QuestionsDb
@@ -10,6 +11,15 @@ public class QuestionsDbPersistenceAttributes extends FeedbackQuestionAttributes
     
     public QuestionsDbPersistenceAttributes(FeedbackQuestionAttributes old) {
         feedbackQuestionId = old.getId();
+        
+        // during the period when the code supports both old (FeedbackQuestion) and new Question types
+        // allow setting of id by our code outside of (Feedback)?QuestionAttributes
+        // to allow setting id to be the same as the old question type
+        // TODO this should be removed once the old question type (FeedbackQuestion) is removed.
+        if (feedbackQuestionId == null) {
+            Assumption.fail("Question id should be set");
+        }
+        
         feedbackSessionName = old.feedbackSessionName;
         courseId = old.courseId;
         creatorEmail = old.creatorEmail;
@@ -32,9 +42,12 @@ public class QuestionsDbPersistenceAttributes extends FeedbackQuestionAttributes
     public Question toEntity() {
         // during the period when the code supports both old (FeedbackQuestion) and new Question types
         // allow setting of id by our code outside of (Feedback)?QuestionAttributes
+        // to allow setting id to be the same as the old question type
         // TODO this should be removed once the old question type (FeedbackQuestion) is removed.
-        String questionId = getId() == null ? makeId() : getId();
-        return new Question(questionId,
+        if (getId() == null) {
+            Assumption.fail("Question id should be set");
+        }
+        return new Question(getId(),
                             feedbackSessionName, courseId, creatorEmail,
                             questionMetaData, questionDescription, questionNumber, questionType, giverType,
                             recipientType, numberOfEntitiesToGiveFeedbackTo,
