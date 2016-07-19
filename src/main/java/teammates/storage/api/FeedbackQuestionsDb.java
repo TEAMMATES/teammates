@@ -15,8 +15,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
-import teammates.storage.entity.Question;
-import teammates.storage.entity.QuestionsDbPersistenceAttributes;
 
 // TODO delete this class
 public class FeedbackQuestionsDb extends EntitiesDb {
@@ -316,21 +314,6 @@ public class FeedbackQuestionsDb extends EntitiesDb {
                 (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId, giverType);
         
         return feedbackQuestionList;
-    }
-    
-    public static List<Question> getListOfQuestionEntities(
-            Collection<FeedbackQuestionAttributes> questions) {
-        
-        if (questions == null) {
-            return new ArrayList<Question>();
-        }
-        
-        List<Question> fqList = new ArrayList<Question>();
-        for (FeedbackQuestionAttributes question : questions) {
-            QuestionsDbPersistenceAttributes newQuestionAttributes = new QuestionsDbPersistenceAttributes(question);
-            fqList.add(newQuestionAttributes.toEntity());
-        }
-        return fqList;
     }
     
     @Override

@@ -609,4 +609,19 @@ public class QuestionsDb extends EntitiesDb {
                 feedbackQuestionToGet.questionNumber);
     }
 
+    public static List<Question> getListOfQuestionEntities(
+            Collection<FeedbackQuestionAttributes> questions) {
+        
+        if (questions == null) {
+            return new ArrayList<Question>();
+        }
+        
+        List<Question> fqList = new ArrayList<Question>();
+        for (FeedbackQuestionAttributes question : questions) {
+            QuestionsDbPersistenceAttributes newQuestionAttributes = new QuestionsDbPersistenceAttributes(question);
+            fqList.add(newQuestionAttributes.toEntity());
+        }
+        return fqList;
+    }
+
 }

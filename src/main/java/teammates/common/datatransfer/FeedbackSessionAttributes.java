@@ -15,7 +15,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
-import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.QuestionsDb;
 import teammates.storage.entity.FeedbackSession;
 
@@ -105,9 +104,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                      boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
                                      boolean isPublishedEmailEnabled, Set<String> instructorList,
                                      Set<String> studentList) {
-        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.creatorEmail = Sanitizer.sanitizeEmail(creatorId);
+        this.feedbackSessionName = feedbackSessionName;
+        this.courseId = courseId;
+        this.creatorEmail = creatorId;
         this.instructions = instructions == null ? null : new Text(Sanitizer.sanitizeForRichText(instructions.getValue()));
         this.createdTime = createdTime;
         this.startTime = startTime;
@@ -172,8 +171,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                    timeZone, gracePeriod, feedbackSessionType, sentOpenEmail, sentPublishedEmail,
                                    isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
                                    respondingInstructorList, respondingStudentList,
-                                   FeedbackQuestionsDb.getListOfQuestionEntities(
-                                           questions));
+                                   QuestionsDb.getListOfQuestionEntities(questions));
     }
 
     @Override
