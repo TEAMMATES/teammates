@@ -804,7 +804,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
     
-    public void clickAddMoreMcqOptionLink() {
+    public void clickAddMoreMcqOptionLinkForNewQuestion() {
         WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink--1"));
         click(addMoreOptionLink);
     }
@@ -847,7 +847,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
     
-    public void clickAddMoreConstSumOptionLink() {
+    public void clickAddMoreConstSumOptionLink(int qnIndex) {
         WebElement addMoreOptionLink = browser.driver.findElement(By.id("constSumAddOptionLink-" + qnIndex));
         click(addMoreOptionLink);
     }
