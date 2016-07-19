@@ -39,6 +39,7 @@ import com.google.gson.Gson;
 public class BaseComponentTestCase extends BaseTestCase {
 
     protected static GaeSimulation gaeSimulation = GaeSimulation.inst();
+    protected static Gson gson = Utils.getTeammatesGson();
     
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CommentsDb commentsDb = new CommentsDb();
@@ -49,8 +50,6 @@ public class BaseComponentTestCase extends BaseTestCase {
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
-
-    private static Gson gson = Utils.getTeammatesGson();
 
     @BeforeTest
     public void testSetUp() {
