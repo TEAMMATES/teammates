@@ -785,7 +785,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public InstructorFeedbacksPage deleteSession() {
-        getDeleteSessionLink().click();
+        click(getDeleteSessionLink());
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);
@@ -893,7 +893,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnIndex);
         WebElement removeRubricColLink =
                 browser.driver.findElement(By.id("rubricRemoveChoiceLink" + idSuffix + "-" + col));
-        removeRubricColLink.click();
+        click(removeRubricColLink);
         waitForConfirmationModalAndClickOk();
     }
 

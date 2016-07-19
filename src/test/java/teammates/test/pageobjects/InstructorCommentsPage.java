@@ -212,6 +212,11 @@ public class InstructorCommentsPage extends AppPage {
         waitForPageToLoad();
     }
     
+    public void clickDeleteStudentComment(int commentIdx) {
+        WebElement deleteLink = browser.driver.findElement(By.id("commentdelete-" + commentIdx));
+        click(deleteLink);
+    }
+    
     /**
      * Clicks 'Comments for students' panel heading of the comment panel to either expand/collapse the panel body.
      */

@@ -108,6 +108,10 @@ public class InstructorHomePage extends AppPage {
         return changePageType(InstructorCourseEditPage.class);
     }
     
+    public void clickCourseDeleteLink(String courseId) {
+        click(getDeleteCourseLink(courseId));
+    }
+    
     //TODO: rename course-add-eval-for-test
     public InstructorFeedbacksPage clickCourseAddEvaluationLink(String courseId) {
         click(getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)));
@@ -138,7 +142,7 @@ public class InstructorHomePage extends AppPage {
      * This is for customized feedback session
      */
     public InstructorFeedbacksPage clickFeedbackSessionDeleteLink(String courseId, String fsName) {
-        getDeleteEvalLink(courseId, fsName).click();
+        click(getDeleteEvalLink(courseId, fsName));
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         switchToNewWindow();
@@ -159,10 +163,12 @@ public class InstructorHomePage extends AppPage {
      * This is for customized feedback session
      */
     public InstructorHomePage clickFeedbackSessionRemindLink(String courseId, String fsName) {
-        getRemindLink(courseId, fsName).click();
-        waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
-        switchToNewWindow();
+        click(getRemindLink(courseId, fsName));
+        return changePageType(InstructorHomePage.class);
+    }
+    
+    public InstructorHomePage clickFeedbackSessionRemindInnerLink(String courseId, String fsName) {
+        click(getRemindInnerLink(courseId, fsName));
         return changePageType(InstructorHomePage.class);
     }
     
@@ -170,7 +176,7 @@ public class InstructorHomePage extends AppPage {
      * This is for customized feedback session
      */
     public InstructorHomePage clickFeedbackSessionUnpublishLink(String courseId, String fsName) {
-        getUnpublishLink(courseId, fsName).click();
+        click(getUnpublishLink(courseId, fsName));
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         switchToNewWindow();
@@ -181,10 +187,7 @@ public class InstructorHomePage extends AppPage {
      * This is for customized feedback session
      */
     public InstructorHomePage clickFeedbackSessionPublishLink(String courseId, String fsName) {
-        getPublishLink(courseId, fsName).click();
-        waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
-        switchToNewWindow();
+        click(getPublishLink(courseId, fsName));
         return changePageType(InstructorHomePage.class);
     }
     
@@ -288,14 +291,14 @@ public class InstructorHomePage extends AppPage {
     }
 
     public InstructorHomePage clickArchiveCourseLinkAndConfirm(String courseId) {
-        getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)).click();
+        click(getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)));
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return this;
     }
 
     public InstructorHomePage clickArchiveCourseLinkAndCancel(String courseId) {
-        getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)).click();
+        click(getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)));
         waitForConfirmationModalAndClickCancel();
         waitForPageToLoad();
         return this;

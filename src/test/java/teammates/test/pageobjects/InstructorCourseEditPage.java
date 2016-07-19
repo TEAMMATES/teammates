@@ -345,14 +345,14 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public InstructorCoursesPage clickDeleteCourseLinkAndConfirm() {
-        deleteCourseLink.click();
+        click(deleteCourseLink);
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return changePageType(InstructorCoursesPage.class);
     }
 
     public void clickDeleteCourseLinkAndCancel() {
-        deleteCourseLink.click();
+        click(deleteCourseLink);
         waitForConfirmationModalAndClickCancel();
     }
     
@@ -362,7 +362,7 @@ public class InstructorCourseEditPage extends AppPage {
      */
     public void clickDeleteInstructorLinkAndConfirm(int instrNum) {
         WebElement deleteInstructorLink = getDeleteInstructorLink(instrNum);
-        deleteInstructorLink.click();
+        click(deleteInstructorLink);
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
     }
@@ -373,7 +373,7 @@ public class InstructorCourseEditPage extends AppPage {
      */
     public void clickDeleteInstructorLinkAndCancel(int instrNum) {
         WebElement deleteInstructorLink = getDeleteInstructorLink(instrNum);
-        deleteInstructorLink.click();
+        click(deleteInstructorLink);
         waitForConfirmationModalAndClickCancel();
     }
 
