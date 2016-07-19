@@ -60,7 +60,7 @@
                     <a id="btnLogout" class="nav logout" href="<%= Const.ActionURIs.LOGOUT %>">
                         <span class="glyphicon glyphicon-user"></span> Logout
                         
-                        (<span class="text-info">
+                        (<span class="text-info" data-toggle="tooltip" title="${data.account.googleId}" data-placement="bottom">
                             ${data.account.truncatedGoogleId}
                         </span>)
                     </a>  
