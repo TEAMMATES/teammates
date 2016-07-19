@@ -339,7 +339,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("Hide feedback path details");
         feedbackEditPage.clickToggleCustomFeedbackPathsDisplayLink(1);
         assertFalse(feedbackEditPage.isCustomFeedbackPathsDisplayVisible(1));
-        feedbackEditPage.getDiscardChangesLink(1).click();
+        feedbackEditPage.clickDiscardChangesLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertFalse(feedbackEditPage.isToggleCustomFeedbackPathsDisplayLinkVisible(1));
     }
