@@ -9,6 +9,7 @@ import java.util.Map;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.FeedbackQuestion;
@@ -23,6 +24,15 @@ public class BothQuestionsDb extends EntitiesDb {
     
     private FeedbackQuestionsDb oldQuestionsDb = new FeedbackQuestionsDb();
     private QuestionsDb newQuestionsDb = new QuestionsDb();
+    
+    @Override
+    public Object createEntity(EntityAttributes entityToAdd)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        FeedbackQuestionAttributes fqa =
+                new FeedbackQuestionAttributes((FeedbackQuestion) oldQuestionsDb.createEntity(entityToAdd));
+        return newQuestionsDb.createEntity(new QuestionsDbPersistenceAttributes(fqa));
+    }
+    
 
     public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd)
             throws InvalidParametersException {
@@ -40,6 +50,21 @@ public class BothQuestionsDb extends EntitiesDb {
         newQuestionsDb.createEntities(questionsToPersist);
     }
     
+
+    /**
+     * 
+     * @param entityToAdd
+     * @return
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
+    public FeedbackQuestionAttributes createFeedbackQuestionWithoutIntegrityCheck(
+            EntityAttributes entityToAdd) throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackQuestionAttributes fqa =
+                oldQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(entityToAdd);
+        return newQuestionsDb.createFeedbackQuestionWithoutIntegrityCheck(fqa);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -55,20 +80,6 @@ public class BothQuestionsDb extends EntitiesDb {
             }
         }
         return oldQuestion;
-    }
-
-    /**
-     * 
-     * @param entityToAdd
-     * @return
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
-     */
-    public FeedbackQuestionAttributes createFeedbackQuestionWithoutIntegrityCheck(
-            EntityAttributes entityToAdd) throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackQuestionAttributes fqa =
-                oldQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(entityToAdd);
-        return newQuestionsDb.createFeedbackQuestionWithoutIntegrityCheck(fqa);
     }
     
     /**
