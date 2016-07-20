@@ -606,6 +606,7 @@ function setStatusMessageToForm(message, status, form) {
     
     $(form).find($('.statusMessage')).remove();
     $(form).prepend($statusMessagesToUser.clone().show());
+    $statusMessagesToUser.remove();
 }
 
 /**
