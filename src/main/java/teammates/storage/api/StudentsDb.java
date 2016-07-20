@@ -173,7 +173,7 @@ public class StudentsDb extends EntitiesDb {
         // Return CourseStudent if it exists. Otherwise, fall back on Student.
         Query q = getPm().newQuery(CourseStudent.class);
         q.declareParameters("String googleIdParam, String courseIdParam");
-        q.setFilter("googleId == googleIdParam && courseID == courseIdParam");
+        q.setFilter("googleId == googleIdParam && courseId == courseIdParam");
         
         @SuppressWarnings("unchecked")
         List<CourseStudent> courseStudentList = (List<CourseStudent>) q.execute(googleId, courseId);
@@ -817,7 +817,7 @@ public class StudentsDb extends EntitiesDb {
         
         Query q = getPm().newQuery(CourseStudent.class);
         q.declareParameters("String courseIdParam, String emailParam");
-        q.setFilter("courseID == courseIdParam && email == emailParam");
+        q.setFilter("courseId == courseIdParam && email == emailParam");
         
         @SuppressWarnings("unchecked")
         List<CourseStudent> studentList = (List<CourseStudent>) q.execute(courseId, email);
@@ -872,7 +872,7 @@ public class StudentsDb extends EntitiesDb {
     private List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId) {
         Query q = getPm().newQuery(CourseStudent.class);
         q.declareParameters("String courseIdParam");
-        q.setFilter("courseID == courseIdParam");
+        q.setFilter("courseId == courseIdParam");
         
         return (List<CourseStudent>) q.execute(courseId);
     }
@@ -880,7 +880,7 @@ public class StudentsDb extends EntitiesDb {
     @SuppressWarnings("unchecked")
     private List<CourseStudent> getCourseStudentEntitiesForCourses(List<String> courseIds) {
         Query q = getPm().newQuery(CourseStudent.class);
-        q.setFilter(":p.contains(courseID)");
+        q.setFilter(":p.contains(courseId)");
         
         return (List<CourseStudent>) q.execute(courseIds);
     }
@@ -899,7 +899,7 @@ public class StudentsDb extends EntitiesDb {
     private List<CourseStudent> getCourseStudentEntitiesForTeam(String teamName, String courseId) {
         Query q = getPm().newQuery(CourseStudent.class);
         q.declareParameters("String teamNameParam, String courseIDParam");
-        q.setFilter("teamName == teamNameParam && courseID == courseIDParam");
+        q.setFilter("teamName == teamNameParam && courseId == courseIDParam");
         
         @SuppressWarnings("unchecked")
         List<CourseStudent> studentList = (List<CourseStudent>) q.execute(teamName, courseId);
@@ -910,7 +910,7 @@ public class StudentsDb extends EntitiesDb {
     private List<CourseStudent> getCourseStudentEntitiesForSection(String sectionName, String courseId) {
         Query q = getPm().newQuery(CourseStudent.class);
         q.declareParameters("String sectionNameParam, String courseIDParam");
-        q.setFilter("sectionName == sectionNameParam && courseID == courseIDParam");
+        q.setFilter("sectionName == sectionNameParam && courseId == courseIDParam");
 
         @SuppressWarnings("unchecked")
         List<CourseStudent> studentList = (List<CourseStudent>) q.execute(sectionName, courseId);
