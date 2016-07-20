@@ -20,7 +20,9 @@ $(document).ready(function() {
                 inline: true,
                 fixed_toolbar_container: '#rich-text-toolbar-response-text-container' + idSuffix,
                 setup: function(ed) {
-                    // Handles Keyup and Keydown on Text question to display response length
+                    ed.on('init', function(e) {
+                        updateTextQuestionCharCount(id, $(textField).data('lengthtextid'));
+                    });
                     ed.on('keyup', function(e) {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                     });
@@ -28,6 +30,9 @@ $(document).ready(function() {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                     });
                     ed.on('init', function(e) {
+                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                    });
+                    ed.on('change', function(e) {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                     });
                 }
