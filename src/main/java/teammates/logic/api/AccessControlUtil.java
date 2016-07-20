@@ -9,6 +9,7 @@ import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 
 public class AccessControlUtil {
     private Logic logic = new Logic();
@@ -139,7 +140,8 @@ public class AccessControlUtil {
     }
     
     private boolean isStudentTeamRecipientOfComment(CommentAttributes comment, StudentAttributes student) {
-        return CommentParticipantType.TEAM.equals(comment.recipientType) && comment.recipients.contains(student.team);
+        return CommentParticipantType.TEAM.equals(comment.recipientType)
+                && comment.recipients.contains(Sanitizer.sanitizeForHtml(student.team));
     }
     
     private boolean isStudentInSameTeamAsRecipientOfComment(

@@ -29,6 +29,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
+import teammates.logic.api.AccessControlUtil;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -51,6 +52,8 @@ public class CommentsLogic {
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    
+    private static final AccessControlUtil acu = AccessControlUtil.inst();
 
     public static CommentsLogic inst() {
         if (instance == null) {
@@ -342,32 +345,36 @@ public class CommentsLogic {
         List<CommentAttributes> commentsForStudent = getCommentsForReceiver(student.course,
                                                                             CommentParticipantType.PERSON,
                                                                             student.email);
-        removeNonVisibleCommentsForStudent(commentsForStudent, commentsVisitedSet, comments);
+        addCommentsToList(commentsForStudent, student, teammatesEmails,
+                          sectionStudentsEmails, teamsInThisSection,
+                          commentsVisitedSet, comments);
         
         //Get comments visible to the given student's teammates
         List<CommentAttributes> commentsForTeam = getCommentsForCommentViewer(student.course,
                                                                               CommentParticipantType.TEAM);
-        removeNonVisibleCommentsForTeam(commentsForTeam, student, teammatesEmails, commentsVisitedSet, comments);
+        addCommentsToList(commentsForTeam, student, teammatesEmails,
+                          sectionStudentsEmails, teamsInThisSection,
+                          commentsVisitedSet, comments);
         
         //Get comments visible to the given student's section
         List<CommentAttributes> commentsForSection = getCommentsForCommentViewer(student.course,
                                                                                  CommentParticipantType.SECTION);
-        removeNonVisibleCommentsForSection(commentsForSection, student, teammatesEmails,
-                                           sectionStudentsEmails, teamsInThisSection,
-                                           commentsVisitedSet, comments);
+        addCommentsToList(commentsForSection, student, teammatesEmails,
+                          sectionStudentsEmails, teamsInThisSection,
+                          commentsVisitedSet, comments);
         
         //Get comments visible to the whole course
         List<CommentAttributes> commentsForCourse = getCommentsForCommentViewer(student.course,
                                                                                 CommentParticipantType.COURSE);
-        removeNonVisibleCommentsForCourse(commentsForCourse, student, teammatesEmails,
-                                          sectionStudentsEmails, teamsInThisSection,
-                                          commentsVisitedSet, comments);
+        addCommentsToList(commentsForCourse, student, teammatesEmails,
+                          sectionStudentsEmails, teamsInThisSection,
+                          commentsVisitedSet, comments);
         
         java.util.Collections.sort(comments);
         
         return comments;
     }
-    
+
     private List<String> getTeamsForSection(List<StudentAttributes> studentsInTheSameSection) {
         List<String> teams = new ArrayList<String>();
         for (StudentAttributes stu : studentsInTheSameSection) {
@@ -391,98 +398,42 @@ public class CommentsLogic {
         }
         return teammatesEmails;
     }
-
-    private void removeNonVisibleCommentsForCourse(List<CommentAttributes> commentsForCourse, StudentAttributes student,
-                                                   List<String> teammates, List<String> sectionStudentsEmails,
-                                                   List<String> teamsInThisSection, HashSet<String> commentsVisitedSet,
-                                                   List<CommentAttributes> comments) {
-        removeNonVisibleCommentsForSection(commentsForCourse, student, teammates,
-                                           sectionStudentsEmails, teamsInThisSection,
-                                           commentsVisitedSet, comments);
-        
-        for (CommentAttributes c : commentsForCourse) {
-            if (c.courseId.equals(student.course)) {
-                if (c.recipientType == CommentParticipantType.COURSE) {
-                    removeGiverNameByVisibilityOptions(c, CommentParticipantType.COURSE);
-                } else {
-                    removeGiverAndRecipientNameByVisibilityOptions(c, CommentParticipantType.COURSE);
-                }
-                appendComments(c, comments, commentsVisitedSet);
+    
+    private void addCommentsToList(List<CommentAttributes> commentsToAdd, StudentAttributes student,
+                                   List<String> teammatesEmails, List<String> sectionStudentsEmails,
+                                   List<String> teamsInThisSection, HashSet<String> commentsVisitedSet,
+                                   List<CommentAttributes> comments) {
+        for (CommentAttributes commentToAdd : commentsToAdd) {
+            if (!commentsVisitedSet.contains(commentToAdd.getCommentId().toString())) {
+                List<Boolean> permissionsForComment =
+                        acu.getVisibilityPermissionsOnCommentForStudent(
+                                commentToAdd, student, teammatesEmails, sectionStudentsEmails, teamsInThisSection);
+                addCommentToList(commentToAdd, comments, permissionsForComment);
+                commentsVisitedSet.add(commentToAdd.getCommentId().toString());
             }
         }
     }
     
-    private void removeNonVisibleCommentsForSection(List<CommentAttributes> commentsForSection,
-            StudentAttributes student, List<String> teammatesEmails, List<String> sectionStudentsEmails,
-            List<String> teamsInThisSection, HashSet<String> commentsVisitedSet, List<CommentAttributes> comments) {
-        removeNonVisibleCommentsForTeam(commentsForSection, student, teammatesEmails, commentsVisitedSet, comments);
-        
-        for (CommentAttributes c : commentsForSection) {
-            //for teammates
-            if (c.recipientType == CommentParticipantType.PERSON
-                    && isCommentRecipientsWithinGroup(sectionStudentsEmails, c)) {
-                if (c.showCommentTo.contains(CommentParticipantType.SECTION)) {
-                    removeGiverAndRecipientNameByVisibilityOptions(c, CommentParticipantType.SECTION);
-                    appendComments(c, comments, commentsVisitedSet);
-                } else {
-                    preventAppendingThisCommentAgain(commentsVisitedSet, c);
-                }
-            //for team
-            } else if (c.recipientType == CommentParticipantType.TEAM
-                       && isCommentRecipientsWithinGroup(teamsInThisSection, c)) {
-                if (c.showCommentTo.contains(CommentParticipantType.SECTION)) {
-                    removeGiverNameByVisibilityOptions(c, CommentParticipantType.SECTION);
-                    appendComments(c, comments, commentsVisitedSet);
-                } else {
-                    preventAppendingThisCommentAgain(commentsVisitedSet, c);
-                }
-            //for section
-            } else if (c.recipientType == CommentParticipantType.SECTION && c.recipients.contains(student.section)) {
-                if (c.showCommentTo.contains(CommentParticipantType.SECTION)) {
-                    removeGiverNameByVisibilityOptions(c, CommentParticipantType.SECTION);
-                    appendComments(c, comments, commentsVisitedSet);
-                } else {
-                    preventAppendingThisCommentAgain(commentsVisitedSet, c);
-                }
-            }
+    private void addCommentToList(
+            CommentAttributes commentToAdd, List<CommentAttributes> comments, List<Boolean> permissionsForComment) {
+        if (permissionsForComment.get(AccessControlUtil.COMMENT_PERMISSIONS_IS_DISPLAYED_INDEX)) {
+            boolean isGiverDisplayed =
+                    permissionsForComment.get(AccessControlUtil.COMMENT_PERMISSIONS_GIVER_IS_DISPLAYED_INDEX);
+            boolean isRecipientDisplayed =
+                    permissionsForComment.get(AccessControlUtil.COMMENT_PERMISSIONS_RECIPIENT_IS_DISPLAYED_INDEX);
+            removeGiverAndRecipientName(commentToAdd, isGiverDisplayed, isRecipientDisplayed);
+            comments.add(commentToAdd);
         }
     }
     
-    private void removeNonVisibleCommentsForTeam(List<CommentAttributes> commentsForTeam, StudentAttributes student,
-                                                 List<String> teammates, HashSet<String> commentsVisitedSet,
-                                                 List<CommentAttributes> comments) {
-        for (CommentAttributes c : commentsForTeam) {
-            //for teammates
-            if (c.recipientType == CommentParticipantType.PERSON && isCommentRecipientsWithinGroup(teammates, c)) {
-                if (c.showCommentTo.contains(CommentParticipantType.TEAM)) {
-                    removeGiverAndRecipientNameByVisibilityOptions(c, CommentParticipantType.TEAM);
-                    appendComments(c, comments, commentsVisitedSet);
-                } else {
-                    preventAppendingThisCommentAgain(commentsVisitedSet, c);
-                }
-            //for team
-            } else if (c.recipientType == CommentParticipantType.TEAM
-                       && c.recipients.contains(Sanitizer.sanitizeForHtml(student.team))) {
-                if (c.showCommentTo.contains(CommentParticipantType.TEAM)) {
-                    removeGiverNameByVisibilityOptions(c, CommentParticipantType.TEAM);
-                    appendComments(c, comments, commentsVisitedSet);
-                } else {
-                    preventAppendingThisCommentAgain(commentsVisitedSet, c);
-                }
-            }
+    private void removeGiverAndRecipientName(
+            CommentAttributes comment, boolean isGiverDisplayed, boolean isRecipientDisplayed) {
+        if (!isGiverDisplayed) {
+            comment.giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
         }
-    }
-
-    private void removeNonVisibleCommentsForStudent(List<CommentAttributes> commentsForStudent,
-                                                    HashSet<String> commentsVisitedSet,
-                                                    List<CommentAttributes> comments) {
-        for (CommentAttributes c : commentsForStudent) {
-            if (c.showCommentTo.contains(CommentParticipantType.PERSON)) {
-                removeGiverNameByVisibilityOptions(c, CommentParticipantType.PERSON);
-                appendComments(c, comments, commentsVisitedSet);
-            } else {
-                preventAppendingThisCommentAgain(commentsVisitedSet, c);
-            }
+        if (!isRecipientDisplayed) {
+            comment.recipients = new HashSet<String>();
+            comment.recipients.add(Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT);
         }
     }
     
@@ -505,6 +456,7 @@ public class CommentsLogic {
         }
         return false;
     }
+    
     
     private void removeGiverNameByVisibilityOptions(CommentAttributes c, CommentParticipantType viewerType) {
         if (!c.showGiverNameTo.contains(viewerType)) {
@@ -532,15 +484,6 @@ public class CommentsLogic {
     
     private void preventAppendingThisCommentAgain(HashSet<String> commentsVisitedSet, CommentAttributes c) {
         commentsVisitedSet.add(c.getCommentId().toString());
-    }
-
-    private boolean isCommentRecipientsWithinGroup(List<String> group, CommentAttributes c) {
-        for (String recipient : c.recipients) {
-            if (group.contains(recipient)) {
-                return true;
-            }
-        }
-        return false;
     }
     
     /************ Send Email For Pending Comments ************/
