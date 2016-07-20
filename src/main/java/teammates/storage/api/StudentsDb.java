@@ -126,7 +126,7 @@ public class StudentsDb extends EntitiesDb {
 
     public void createStudent(StudentAttributes student, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        StudentAttributes createdStudent = new StudentAttributes((CourseStudent)createEntity(student));
+        StudentAttributes createdStudent = new StudentAttributes((CourseStudent) createEntity(student));
         if (hasDocument) {
             putDocument(createdStudent);
         }
@@ -176,7 +176,7 @@ public class StudentsDb extends EntitiesDb {
         q.setFilter("googleId == googleIdParam && courseID == courseIdParam");
         
         @SuppressWarnings("unchecked")
-        List<CourseStudent> courseStudentList = (List<CourseStudent>)q.execute(googleId, courseId);
+        List<CourseStudent> courseStudentList = (List<CourseStudent>) q.execute(googleId, courseId);
         
         if (courseStudentList.isEmpty() || JDOHelper.isDeleted(courseStudentList.get(0))) {
             // Don't return yet, look up Student.
@@ -207,11 +207,8 @@ public class StudentsDb extends EntitiesDb {
      */
     public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, registrationKey);
-        StudentAttributes studentAttributes;
-
-        
+   
         try {
-
             // CourseStudent
             String decryptedKey = StringHelper.decrypt(registrationKey.trim());
             CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(decryptedKey);
@@ -233,7 +230,7 @@ public class StudentsDb extends EntitiesDb {
             String decryptedKey = StringHelper.decrypt(registrationKey.trim());
             Student student = getPm().getObjectById(Student.class,
                     KeyFactory.stringToKey(decryptedKey));
-            return new StudentAttributes(student); 
+            return new StudentAttributes(student);
         } catch (Exception e) {
             // There is no such student
             return null;
@@ -414,11 +411,11 @@ public class StudentsDb extends EntitiesDb {
     
     /**
      * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all students in the database. 
+     * @return the list of all students in the database.
      */
     @Deprecated
-    public List<StudentAttributes> getAllCourseStudents() { 
-        List<StudentAttributes> list = new LinkedList<StudentAttributes>();  
+    public List<StudentAttributes> getAllCourseStudents() {
+        List<StudentAttributes> list = new LinkedList<StudentAttributes>();
         List<CourseStudent> entities = getCourseStudentEntities();
         Iterator<CourseStudent> it = entities.iterator();
         while (it.hasNext()) {
@@ -517,7 +514,7 @@ public class StudentsDb extends EntitiesDb {
             courseStudent.setSectionName(newSectionName);
             
             if (hasDocument) {
-                putDocument(new StudentAttributes(courseStudent));   
+                putDocument(new StudentAttributes(courseStudent));
             }
         
             // Set true to prevent changes to last update timestamp
@@ -585,7 +582,7 @@ public class StudentsDb extends EntitiesDb {
         CourseStudent courseStudentToDelete = getCourseStudentEntityForEmail(courseId, email);
 
         if (courseStudentToDelete != null) {
-            if(hasDocument){
+            if (hasDocument) {
                 deleteDocument(new StudentAttributes(courseStudentToDelete));
             }
            
@@ -691,7 +688,7 @@ public class StudentsDb extends EntitiesDb {
             for (Student student : studentList) {
                 deleteDocument(new StudentAttributes(student));
             }
-            for(CourseStudent student : courseStudentList){
+            for (CourseStudent student : courseStudentList) {
                 deleteDocument(new StudentAttributes(student));
             }
         }
@@ -823,7 +820,7 @@ public class StudentsDb extends EntitiesDb {
         q.setFilter("courseID == courseIdParam && email == emailParam");
         
         @SuppressWarnings("unchecked")
-        List<CourseStudent> studentList = (List<CourseStudent>)q.execute(courseId, email);
+        List<CourseStudent> studentList = (List<CourseStudent>) q.execute(courseId, email);
     
         if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
             return null;
@@ -847,14 +844,14 @@ public class StudentsDb extends EntitiesDb {
         
         try {
             List<CourseStudent> studentList = new ArrayList<CourseStudent>();
-            studentList.addAll((List<CourseStudent>)q1.execute(registrationKey));
-            studentList.addAll((List<CourseStudent>)q2.execute(registrationKey));
+            studentList.addAll((List<CourseStudent>) q1.execute(registrationKey));
+            studentList.addAll((List<CourseStudent>) q2.execute(registrationKey));
     
-            // If registration key detected is not unique, something is seriously wrong...
+            // If registration key detected is not unique, something is wrong
             if (studentList.size() > 1) {
-                String duplicatedStudentsUniqueIds = "";
+                StringBuilder duplicatedStudentsUniqueIds = new StringBuilder();
                 for (CourseStudent s : studentList) {
-                    duplicatedStudentsUniqueIds += s.getUniqueId() + "\n";
+                    duplicatedStudentsUniqueIds.append(s.getUniqueId() + '\n');
                 }
                 log.severe("Duplicate registration keys detected for: \n" + duplicatedStudentsUniqueIds);
             }
@@ -871,27 +868,23 @@ public class StudentsDb extends EntitiesDb {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId) {
         Query q = getPm().newQuery(CourseStudent.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
         
-        @SuppressWarnings("unchecked")
-        List<CourseStudent> studentList = (List<CourseStudent>) q.execute(courseId);
-        return studentList;
+        return (List<CourseStudent>) q.execute(courseId);
     }
     
-    private List<CourseStudent> getCourseStudentEntitiesForCourses(List<String> courseIds){
+    @SuppressWarnings("unchecked")
+    private List<CourseStudent> getCourseStudentEntitiesForCourses(List<String> courseIds) {
         Query q = getPm().newQuery(CourseStudent.class);
         q.setFilter(":p.contains(courseID)");
         
-        @SuppressWarnings("unchecked")
-        List<CourseStudent> studentList = (List<CourseStudent>) q.execute(courseIds);
-        
-        return studentList;
+        return (List<CourseStudent>) q.execute(courseIds);
     }
 
-    
     private List<CourseStudent> getCourseStudentEntitiesForGoogleId(String googleId) {
         Query q = getPm().newQuery(CourseStudent.class);
         q.declareParameters("String googleIdParam");
@@ -929,7 +922,7 @@ public class StudentsDb extends EntitiesDb {
     /**
      * Retrieves all course tudent entities. This function is not scalable.
      */
-    public  List<CourseStudent> getCourseStudentEntities() { 
+    public List<CourseStudent> getCourseStudentEntities() {
         
         Query q = getPm().newQuery(CourseStudent.class);
         
@@ -943,7 +936,7 @@ public class StudentsDb extends EntitiesDb {
      * Checks if two StudentAttributes refer to the same student from the same course.
      */
     private boolean isSameStudentAttributes(StudentAttributes s1, StudentAttributes s2) {
-       return  s1.getId().equals(s2.getId());
+        return s1.getId().equals(s2.getId());
     }
     
     private boolean isListContainsSameStudentAttributes(List<StudentAttributes> studentList, StudentAttributes student) {

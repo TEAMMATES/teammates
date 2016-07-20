@@ -22,6 +22,13 @@ import com.google.gson.annotations.SerializedName;
 @PersistenceCapable
 public class CourseStudent implements StoreCallback {
     // TODO: some of the serialized names are not correct.
+    /**
+     * Setting this to true prevents changes to the lastUpdate time stamp.
+     * Set to true when using scripts to update entities when you want to
+     * preserve the lastUpdate time stamp.
+     **/
+    @NotPersistent
+    public transient boolean keepUpdateTimestamp;
 
     /**
      * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
@@ -36,26 +43,19 @@ public class CourseStudent implements StoreCallback {
     @Persistent
     private Date updatedAt;
     
-    /**
-     * Setting this to true prevents changes to the lastUpdate time stamp.
-     * Set to true when using scripts to update entities when you want to 
-     * preserve the lastUpdate time stamp.
-     **/
-    @NotPersistent
-    public transient boolean keepUpdateTimestamp = false;
     
     /**
      * Copied from old student class in string form
      * Null if using new registration key instead.
      */
     @Persistent
-    private transient String oldRegistrationKey = null;
+    private transient String oldRegistrationKey;
 
     /**
      * Registration key, not used if old registration key is not null.
      */
     @Persistent
-    private transient String registrationKey = null;
+    private transient String registrationKey;
     
 
     /**
@@ -64,7 +64,7 @@ public class CourseStudent implements StoreCallback {
      */
     @Persistent
     @SerializedName("google_id")
-    private String googleId = null;
+    private String googleId;
 
     /**
      * The email used to contact the student regarding this course.
@@ -79,29 +79,29 @@ public class CourseStudent implements StoreCallback {
      */
     @Persistent
     @SerializedName("coursename")
-    private String courseID;
+    private String courseId;
 
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     @SerializedName("name")
-    private String name = null;
+    private String name;
 
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     @SerializedName("lastName")
-    private String lastName = null;
+    private String lastName;
 
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
-    private String comments = null;
+    private String comments;
 
     @Persistent
     @SerializedName("teamname")
-    private String teamName = null;
+    private String teamName;
 
     @Persistent
     @SerializedName("sectionname")
-    private String sectionName = null;
+    private String sectionName;
 
     /**
      * 
@@ -180,7 +180,7 @@ public class CourseStudent implements StoreCallback {
     }
 
     public void setGoogleId(String googleId) {
-        this.googleId = (googleId == null ? null : googleId.trim());
+        this.googleId = googleId == null ? null : googleId.trim();
     }
 
     public String getName() {
@@ -188,10 +188,10 @@ public class CourseStudent implements StoreCallback {
     }
 
     public void setName(String name) {
-        name = name.trim();
-        String processedFullName = StringHelper.splitName(name)[2];
+        String trimmedName = name.trim();
+        String processedFullName = StringHelper.splitName(trimmedName)[2];
         this.name = processedFullName.trim();
-        this.setLastName(StringHelper.splitName(name)[1]);
+        this.setLastName(StringHelper.splitName(trimmedName)[1]);
     }
 
     public void setLastName(String lastName) {
@@ -212,14 +212,14 @@ public class CourseStudent implements StoreCallback {
 
     // null comment setting are not tested
     public void setComments(String comments) {
-        this.comments = (comments == null ? null : comments.trim());
+        this.comments = comments == null ? null : comments.trim();
     }
 
     public String getRegistrationKey() {
-        if (oldRegistrationKey != null) {
-            return oldRegistrationKey;
-        } else {
+        if (oldRegistrationKey == null) {
             return registrationKey;
+        } else {
+            return oldRegistrationKey;
         }
     }
     
@@ -232,11 +232,11 @@ public class CourseStudent implements StoreCallback {
     }
  
     public String getCourseId() {
-        return courseID;
+        return courseId;
     }
 
     public void setCourseId(String courseId) {
-        this.courseID = courseId.trim();
+        this.courseId = courseId.trim();
     }
 
     public String getTeamName() {
@@ -245,7 +245,7 @@ public class CourseStudent implements StoreCallback {
 
     // null team name setting are not tested
     public void setTeamName(String teamName) {
-        this.teamName = (teamName == null ? null : teamName.trim());
+        this.teamName = teamName == null ? null : teamName.trim();
     }
 
     public String getSectionName() {
@@ -253,7 +253,7 @@ public class CourseStudent implements StoreCallback {
     }
 
     public void setSectionName(String sectionName) {
-        this.sectionName = (sectionName == null ? null : sectionName.trim());
+        this.sectionName = sectionName == null ? null : sectionName.trim();
     }
 
     // not tested as this is part of client script
@@ -274,7 +274,7 @@ public class CourseStudent implements StoreCallback {
     }
     
     /**
-     * Generate unique registration key for the student. 
+     * Generate unique registration key for the student.
      * The key contains random elements to avoid being guessed.
      * @return
      */

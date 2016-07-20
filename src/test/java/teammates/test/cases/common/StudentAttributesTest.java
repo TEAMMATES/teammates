@@ -78,7 +78,7 @@ public class StudentAttributesTest extends BaseTestCase {
         expected = generateTypicalStudentObject();
         studentUnderTest = new StudentAttributes("  sect 1 ", "  team 1   ", "   name 1   ",
                                                  "   email@email.com  ", "  comment 1  ", "courseId1");
-        verifyStudentContent(expected, (Student)studentUnderTest.toEntity());
+        verifyStudentContent(expected, (Student) studentUnderTest.toEntity());
 
         ______TS("Typical case: contains google id");
         expected = generateTypicalStudentObject();

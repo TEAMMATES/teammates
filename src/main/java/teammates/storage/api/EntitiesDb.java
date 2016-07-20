@@ -215,7 +215,7 @@ public abstract class EntitiesDb {
     /**
      * Note: This is a non-cascade delete.<br>
      *   <br> Fails silently if there is no such object.
-     * <br> Preconditions: 
+     * <br> Preconditions:
      * <br> * {@code entityToDelete} is not null.
      */
     public void deleteEntity(EntityAttributes entityToDelete) {

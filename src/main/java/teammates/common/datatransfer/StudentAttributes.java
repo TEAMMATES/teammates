@@ -133,7 +133,7 @@ public class StudentAttributes extends EntityAttributes {
         this.section = (student.getSectionName() == null) ? Const.DEFAULT_SECTION
                                                           : Sanitizer.sanitizeTitle(student.getSectionName());
         this.googleId = (student.getGoogleId() == null) ? ""
-                                                        : student.getGoogleId();        
+                                                        : student.getGoogleId();
         this.key = student.getRegistrationKey();
         /*
          * TODO: this is for backward compatibility with old system.
@@ -373,7 +373,6 @@ public class StudentAttributes extends EntityAttributes {
         return toCourseStudentEntity();
     }
     
-
     @Override
     public String toString() {
         return toString(0);
