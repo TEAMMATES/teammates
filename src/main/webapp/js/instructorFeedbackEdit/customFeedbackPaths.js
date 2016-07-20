@@ -76,7 +76,13 @@ var CustomFeedbackPaths = {
         var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
         var giverType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();
         var recipientType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]').val();
-        var data = CustomFeedbackPaths.getDataForFeedbackPathsSpreadsheet(giverType, recipientType);
+        var data;
+        if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM
+                && recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM) {
+            data = JSON.parse($questionForm.find('.custom-feedback-paths-spreadsheet-data-input').val());
+        } else {
+            data = CustomFeedbackPaths.getDataForFeedbackPathsSpreadsheet(giverType, recipientType);
+        }
         var columns = CustomFeedbackPaths.getColumnsForFeedbackPathsSpreadsheet(giverType, recipientType);
         $container.handsontable({
             data: data,
