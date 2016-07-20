@@ -370,6 +370,25 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         assertEquals(1, actual.size());
         assertEquals(c.commentText, actual.get(0).commentText);
     }
+    
+    @Test
+    public void testUpdateCommentEmail() throws Exception {
+        CommentAttributes existingComment1 = dataBundle.comments.get("comment1FromI1C1toS1C1");
+        
+        ______TS("typical success case: email changed");
+        String courseId = existingComment1.courseId;
+        String oldInstrEmail = existingComment1.lastEditorEmail;
+        String updatedInstrEmail = "otheremail@gmail.tmt";
+        commentsLogic.updateInstructorEmail(courseId, oldInstrEmail, updatedInstrEmail);
+        
+        List<CommentAttributes> updatedComments = commentsLogic.getCommentsForGiver(courseId, updatedInstrEmail);
+        for (CommentAttributes updatedComment : updatedComments) {
+            assertEquals(updatedInstrEmail, updatedComment.giverEmail);
+            if (updatedComment.lastEditorEmail != null) {
+                assertEquals(updatedInstrEmail, updatedComment.lastEditorEmail);
+            }
+        }
+    }
 
     @Test
     public void testDeleteComment() {

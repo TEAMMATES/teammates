@@ -366,6 +366,30 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
     
     /*
+     * Updates last editor for all comments last edited by the given instructor with the instructor's new email
+     */
+    public void updateLastEditorEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updatedEmail);
+        
+        if (oldEmail.equals(updatedEmail)) {
+            return;
+        }
+        
+        List<FeedbackResponseComment> responseComments =
+                this.getFeedbackResponseCommentEntitiesForLastEditorInCourse(courseId, oldEmail);
+        
+        for (FeedbackResponseComment responseComment : responseComments) {
+            responseComment.setLastEditorEmail(updatedEmail);
+        }
+        
+        log.info("updating last editor email from: " + oldEmail + " to: " + updatedEmail
+                 + " for feedback response comments in the course: " + courseId);
+        getPm().close();
+    }
+    
+    /*
      * Get response comments for a sending state (SENT|SENDING|PENDING)
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId,
@@ -570,6 +594,22 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<FeedbackResponseComment> feedbackResponseComments =
                 (List<FeedbackResponseComment>) q.execute(courseId, giverEmail);
+        
+        return feedbackResponseComments;
+    }
+    
+    /*
+     * Gets a list of FeedbackResponseComments which have a last editor associated with the given email
+     */
+    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForLastEditorInCourse(
+                                                                    String courseId, String lastEditorEmail) {
+        Query q = getPm().newQuery(FeedbackResponseComment.class);
+        q.declareParameters("String courseIdParam, String lastEditorParam");
+        q.setFilter("courseId == courseIdParam && lastEditorEmail == lastEditorParam");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> feedbackResponseComments =
+                (List<FeedbackResponseComment>) q.execute(courseId, lastEditorEmail);
         
         return feedbackResponseComments;
     }
