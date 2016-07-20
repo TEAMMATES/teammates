@@ -19,7 +19,7 @@ public class InstructorCourseEnrollResultPage extends AppPage {
     }
     
     public InstructorCourseEnrollPage clickEditLink() {
-        editLink.click();
+        click(editLink);
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollPage.class);
     }

@@ -27,6 +27,8 @@
             <td>${row.qnType}</td>
             <td>${row.qnText}</td>
             <input type="hidden" value="${row.qnId}">
+            <input type="hidden" class="courseid" value="${row.courseId}">
+            <input type="hidden" class="fsname" value="${row.fsName}">
         </tr>
     </c:forEach>
 </table>

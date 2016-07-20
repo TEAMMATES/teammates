@@ -115,6 +115,21 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.respondingStudentList = studentList;
     }
     
+    private FeedbackSessionAttributes(FeedbackSessionAttributes other) {
+        this(other.feedbackSessionName, other.courseId, other.creatorEmail,
+            other.instructions, other.createdTime, other.startTime, other.endTime,
+            other.sessionVisibleFromTime, other.resultsVisibleFromTime, other.timeZone,
+            other.gracePeriod, other.feedbackSessionType,
+            other.sentOpenEmail, other.sentPublishedEmail,
+            other.isOpeningEmailEnabled, other.isClosingEmailEnabled,
+            other.isPublishedEmailEnabled, other.respondingInstructorList,
+            other.respondingStudentList);
+    }
+    
+    public FeedbackSessionAttributes getCopy() {
+        return new FeedbackSessionAttributes(this);
+    }
+
     public String getCourseId() {
         return courseId;
     }

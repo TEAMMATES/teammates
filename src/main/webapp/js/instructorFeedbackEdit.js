@@ -33,11 +33,15 @@ function readyFeedbackEditPage() {
     
     // Bind submit text links
     $('a[id|=questionsavechangestext]').click(function() {
+        var form = $(this).parents('form.form_question');
+        prepareDescription(form);
+
         $(this).parents('form.form_question').submit();
     });
     
     // Bind submit actions
     $('form[id|=form_editquestion]').submit(function(event) {
+        prepareDescription($(event.currentTarget));
         if ($(this).attr('editStatus') === 'mustDeleteResponses') {
             event.preventDefault();
             var okCallback = function() {
@@ -86,6 +90,13 @@ function readyFeedbackEditPage() {
     
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
+}
+
+function prepareDescription(form) {
+    var questionNum = form.find('input[name^="questionnum"]').val();
+    tinyMCE.get('questiondescription-' + questionNum).save();
+    var descr = form.find('input[name^="questiondescription"]');
+    descr.attr('name', 'questiondescription');
 }
 
 function bindFeedbackSessionEditFormSubmission() {
@@ -187,14 +198,14 @@ function enableEditFS() {
                               .prop('disabled', false);
 
     destroyEditor('instructions');
-    /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
     if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
             fixed_toolbar_container: '#richtext-toolbar-container'
         });
+        /* eslint-enable camelcase */
     }
-    /* eslint-enable camelcase */
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit').show();
@@ -241,6 +252,17 @@ function backupQuestion(questionNum) {
  * @param questionNum
  */
 function enableQuestion(questionNum) {
+    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container-' + questionNum
+        });
+        /* eslint-enable camelcase */
+    }
+    $('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum).removeClass('well');
+
     var $currentQuestionTable = $('#questionTable' + questionNum);
     
     $currentQuestionTable.find('text,button,textarea,select,input')
@@ -301,6 +323,16 @@ function enableNewQuestion() {
     var $currentQuestionTableSuffix = $('#questionTable' + newQnSuffix);
     var $currentQuestionTableNumber = $('#questionTable' + NEW_QUESTION);
     
+    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION);
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container'
+        });
+        /* eslint-enable camelcase */
+    }
+
     $currentQuestionTableSuffix.find('text,button,textarea,select,input')
                                .not('[name="receiverFollowerCheckbox"]')
                                .not('.disabled_radio')
@@ -340,6 +372,18 @@ function enableNewQuestion() {
  * @param questionNum
  */
 function disableQuestion(questionNum) {
+    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container-' + questionNum,
+            readonly: true
+        });
+        /* eslint-enable camelcase */
+    }
+    $('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum).addClass('well');
+
     var $currentQuestionTable = $('#questionTable' + questionNum);
 
     $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
@@ -525,8 +569,7 @@ function showNewQuestionFrame(type) {
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
 
-    var selectedFeedbackPathOption = $('#givertype');
-    matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption);
+    getVisibilityMessageIfPreviewIsActive($('#questionTableNew'));
 }
 
 function hideAllNewQuestionForms() {
@@ -751,14 +794,19 @@ function bindCopyButton() {
         var index = 0;
         var hasRowSelected = false;
 
-        $('#copyTableModal >tbody>tr').each(function() {
-            var input = $(this).children('input:first');
+        $('#copyTableModal > tbody > tr').each(function() {
+            var $this = $(this);
+            var questionIdInput = $this.children('input:first');
             
-            if (!input.length) {
+            if (!questionIdInput.length) {
                 return true;
             }
-            if ($(this).hasClass('row-selected')) {
-                $(input).attr('name', 'questionid-' + index++);
+            if ($this.hasClass('row-selected')) {
+                $(questionIdInput).attr('name', 'questionid-' + index);
+                $this.find('input.courseid').attr('name', 'courseid-' + index);
+                $this.find('input.fsname').attr('name', 'fsname-' + index);
+                
+                index += 1;
                 hasRowSelected = true;
             }
         });

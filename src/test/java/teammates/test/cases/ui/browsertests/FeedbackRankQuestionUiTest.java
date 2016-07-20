@@ -78,15 +78,15 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         // try to submit with error
         submitPage.clickSubmitButton();
-        assertEquals("Please fix the error(s) for rank question(s) 5. To skip a rank question, leave all the boxes blank.",
-                     submitPage.getStatus());
+        submitPage.verifyStatus("Please fix the error(s) for rank question(s) 5. "
+                                + "To skip a rank question, leave all the boxes blank.");
         
         submitPage.selectResponseTextDropdown(5, 1, 0, "1");
         assertEquals("Please rank the above recipients.", submitPage.getRankMessage(5, 3));
         
         // Submit
         submitPage.clickSubmitButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         
         FeedbackQuestionAttributes fq1 = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 1);
         assertNotNull(BackDoor.getFeedbackResponse(fq1.getId(),
@@ -257,7 +257,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("Rank edit: empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
     }
 
     @Override
@@ -272,19 +272,20 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
         
         feedbackEditPage.fillNewQuestionBox("Rank qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1 <>");
         
         assertEquals(2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(-1));
         // try to submit with insufficient non-blank option
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
-                     + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".",
-                     feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
+                                      + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".");
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
         
         feedbackEditPage.fillNewQuestionBox("Rank qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         
         // blank option at the start and end, to check they are removed
         feedbackEditPage.clickAddMoreRankOptionLinkForNewQn();
@@ -296,7 +297,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.tickDuplicatesAllowedCheckboxForNewQuestion();
         
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
         
         assertEquals("Blank options should have been removed", 2, feedbackEditPage.getNumOfOptionsInRankOptionsQuestion(1));
@@ -310,9 +311,10 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(0);
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(1);
         feedbackEditPage.fillNewQuestionBox("Rank recipients qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 2));
         
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRankQuestionAddSuccess.html");
@@ -328,6 +330,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                                         "/instructorFeedbackRankQuestionEdit.html");
         
         feedbackEditPage.fillEditQuestionBox("edited Rank qn text", 1);
+        feedbackEditPage.fillEditQuestionDescription("more details", 1);
 
         feedbackEditPage.clickRemoveRankOptionLink(1, 0);
         assertEquals("Should still remain with 2 options,"
@@ -345,7 +348,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.untickDuplicatesAllowedCheckboxForQuestion(1);
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRankQuestionEditSuccess.html");
 
         ______TS("rank edit: edit rank recipients question success");
@@ -353,7 +356,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.tickDuplicatesAllowedCheckboxForQuestion(2);
         feedbackEditPage.clickSaveExistingQuestionButton(2);
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         assertTrue(feedbackEditPage.isRankDuplicatesAllowedChecked(2));
     }
 
@@ -361,14 +364,14 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     public void testDeleteQuestionAction() {
         ______TS("rank: qn delete");
 
-        feedbackEditPage.getDeleteQuestionLink(2).click();
+        feedbackEditPage.clickDeleteQuestionLink(2);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 2));
         
-        feedbackEditPage.getDeleteQuestionLink(1).click();
+        feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
     }
 
