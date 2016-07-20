@@ -11,7 +11,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 
 /**
- * Data model for adding/editing a single question 
+ * Data model for adding/editing a single question
  *
  */
 public class FeedbackQuestionEditForm {
@@ -22,6 +22,7 @@ public class FeedbackQuestionEditForm {
     
     private String questionNumberSuffix;
     private String questionText;
+    private String questionDescription;
     private String questionTypeDisplayName;
     private FeedbackQuestionType questionType;
     private int questionIndex;
@@ -43,16 +44,16 @@ public class FeedbackQuestionEditForm {
     private String questionId;
     
     public static FeedbackQuestionEditForm getNewQnForm(String doneEditingLink, FeedbackSessionAttributes feedbackSession,
-                                                        String questionTypeChoiceOptions,  List<ElementTag> giverOptions,
-                                                        List<ElementTag> recipientOptions, List<ElementTag> qnNumOptions, 
+                                                        String questionTypeChoiceOptions, List<ElementTag> giverOptions,
+                                                        List<ElementTag> recipientOptions, List<ElementTag> qnNumOptions,
                                                         String newQuestionEditForm) {
         
         FeedbackQuestionEditForm newQnForm = new FeedbackQuestionEditForm();
         
         newQnForm.doneEditingLink = doneEditingLink;
         newQnForm.actionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
-        newQnForm.courseId = feedbackSession.courseId;
-        newQnForm.feedbackSessionName = feedbackSession.feedbackSessionName;
+        newQnForm.courseId = feedbackSession.getCourseId();
+        newQnForm.feedbackSessionName = feedbackSession.getFeedbackSessionName();
         newQnForm.questionNumberSuffix = "";
         
         newQnForm.questionTypeOptions = questionTypeChoiceOptions;
@@ -70,7 +71,7 @@ public class FeedbackQuestionEditForm {
         newQnForm.questionSpecificEditFormHtml = newQuestionEditForm;
         newQnForm.isEditable = true;
         
-        FeedbackQuestionVisibilitySettings visibilitySettings = 
+        FeedbackQuestionVisibilitySettings visibilitySettings =
                                         getDefaultVisibilityOptions();
         newQnForm.visibilitySettings = visibilitySettings;
         
@@ -82,8 +83,10 @@ public class FeedbackQuestionEditForm {
         Map<String, Boolean> isRecipientNameVisible = new HashMap<String, Boolean>();
         Map<String, Boolean> isResponsesVisible = new HashMap<String, Boolean>();
         
-        FeedbackParticipantType[] participantTypes = { FeedbackParticipantType.INSTRUCTORS,
-                                                       FeedbackParticipantType.RECEIVER    };
+        FeedbackParticipantType[] participantTypes = {
+                FeedbackParticipantType.INSTRUCTORS,
+                FeedbackParticipantType.RECEIVER
+        };
         
         for (FeedbackParticipantType participant : participantTypes) {
             isGiverNameVisible.put(participant.name(), true);
@@ -134,9 +137,13 @@ public class FeedbackQuestionEditForm {
     public void setQuestionSpecificEditFormHtml(String questionSpecificEditFormHtml) {
         this.questionSpecificEditFormHtml = questionSpecificEditFormHtml;
     }
-   
+
     public String getQuestionText() {
         return questionText;
+    }
+
+    public String getQuestionDescription() {
+        return questionDescription;
     }
 
     public String getAction() {
@@ -156,8 +163,8 @@ public class FeedbackQuestionEditForm {
     
     /**
      * @return empty string if questionIndex is 0 (uninitialised), otherwise the value of the questionIndex
-     * @see {@link #getQuestionIndex}. An example of use of this will be if 
-     *      the html id of elements in the form of a new question is not suffixed by question index  
+     * @see {@link #getQuestionIndex}. An example of use of this will be if
+     *      the html id of elements in the form of a new question is not suffixed by question index
      */
     public String getQuestionIndexIfNonZero() {
         return questionIndex == 0 ? "" : String.valueOf(questionIndex);
@@ -234,7 +241,11 @@ public class FeedbackQuestionEditForm {
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }
-    
+
+    public void setQuestionDescription(String questionDescription) {
+        this.questionDescription = questionDescription;
+    }
+
     public void setQuestionType(FeedbackQuestionType questionType) {
         this.questionType = questionType;
     }

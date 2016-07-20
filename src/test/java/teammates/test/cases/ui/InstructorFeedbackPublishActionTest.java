@@ -30,17 +30,17 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
         String[] paramsNormal = {
-                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session.feedbackSessionName
+                session.getFeedbackSessionName()
         };
         String[] paramsWithNullCourseId = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session.feedbackSessionName
+                session.getFeedbackSessionName()
         };
         String[] paramsWithNullFeedbackSessionName = {
                 Const.ParamsNames.COURSE_ID,
-                session.courseId
+                session.getCourseId()
         };
         
         ______TS("Typical successful case: session publishable");
@@ -97,7 +97,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
                               + "&user=idOfInstructor1OfCourse1";
         
         assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertEquals("Session is already published.", result.getStatusMessage());
+        assertEquals("Error publishing feedback session: Session has already been published.",
+                     result.getStatusMessage());
         assertTrue(result.isError);
         
         makeFeedbackSessionUnpublished(session);
@@ -109,18 +110,18 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         Date endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         Date resultsVisibleFromTimeForPublishedSession = TimeHelper.getDateOffsetToCurrentTime(-1);
         
-        session.startTime = startTime;
-        session.endTime = endTime;
+        session.setStartTime(startTime);
+        session.setEndTime(endTime);
         
         if (isPublished) {
-            session.resultsVisibleFromTime = resultsVisibleFromTimeForPublishedSession;
+            session.setResultsVisibleFromTime(resultsVisibleFromTimeForPublishedSession);
             assertTrue(session.isPublished());
         } else {
-            session.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
             assertFalse(session.isPublished());
         }
         
-        session.sentPublishedEmail = false;
+        session.setSentPublishedEmail(false);
         
         new FeedbackSessionsDb().updateFeedbackSession(session);
     }

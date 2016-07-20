@@ -14,8 +14,6 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.DevServerLoginPage;
-import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.NotAuthorizedPage;
@@ -29,16 +27,16 @@ import teammates.test.util.Priority;
 @Priority(6)
 public class AllAccessControlUiTests extends BaseUiTestCase {
     
-    private static String unregUsername = TestProperties.inst().TEST_UNREG_ACCOUNT;
-    private static String unregPassword = TestProperties.inst().TEST_UNREG_PASSWORD;
+    private static String unregUsername = TestProperties.TEST_UNREG_ACCOUNT;
+    private static String unregPassword = TestProperties.TEST_UNREG_PASSWORD;
 
-    private static String studentUsername = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
-    private static String studentPassword = TestProperties.inst().TEST_STUDENT1_PASSWORD;
+    private static String studentUsername = TestProperties.TEST_STUDENT1_ACCOUNT;
+    private static String studentPassword = TestProperties.TEST_STUDENT1_PASSWORD;
     
-    private static String instructorUsername = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-    private static String instructorPassword = TestProperties.inst().TEST_INSTRUCTOR_PASSWORD;
+    private static String instructorUsername = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
+    private static String instructorPassword = TestProperties.TEST_INSTRUCTOR_PASSWORD;
 
-    static String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT;
+    private static String adminUsername = TestProperties.TEST_ADMIN_ACCOUNT;
 
     private static Browser browser;
     private static DataBundle testData;
@@ -68,7 +66,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
     
     @Test
-    public void testUserNotLoggedIn() throws Exception {
+    public void testUserNotLoggedIn() {
         
         logout(browser);
         AppPage.getNewPageInstance(browser, HomePage.class);
@@ -88,7 +86,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
 
     @Test
-    public void testUserNotRegistered() throws Exception {
+    public void testUserNotRegistered() {
         
         ______TS("student pages");
 
@@ -117,7 +115,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
 
     @Test
-    public void testStudentAccessToAdminPages() throws Exception {
+    public void testStudentAccessToAdminPages() {
         loginStudent(studentUsername, studentPassword);
         verifyCannotAccessAdminPages();
     }
@@ -197,8 +195,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         testData = loadDataBundle("/AllAccessControlUiTest.json");
         
         // This test suite requires some real accounts; Here, we inject them to the test data.
-        testData.students.get("student1InCourse1.access").googleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
-        testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+        testData.students.get("student1InCourse1.access").googleId = TestProperties.TEST_STUDENT1_ACCOUNT;
+        testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
         
         removeAndRestoreTestDataOnServer(testData);
     }
@@ -227,7 +225,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
 
     private void verifyRedirectToForbidden(AppUrl url) {
-        if (TestProperties.inst().isDevServer()) {
+        if (TestProperties.isDevServer()) {
             verifyRedirectToNotAuthorized(url);
         } else {
             printUrl(url.toAbsoluteString());
@@ -245,12 +243,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     private void verifyRedirectToLogin(AppUrl url) {
         printUrl(url.toAbsoluteString());
         currentPage.navigateTo(url);
-        assertTrue(isLoginPage(currentPage));
-    }
-
-    private boolean isLoginPage(AppPage currentPage) {
-        return GoogleLoginPage.containsExpectedPageContents(currentPage.getPageSource())
-                || DevServerLoginPage.containsExpectedPageContents(currentPage.getPageSource());
+        AppPage.createCorrectLoginPageType(browser);
     }
 
     private void printUrl(String url) {
@@ -258,13 +251,13 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         //delete any data related to real accounts used in testing (to prevent state leakage to other tests)
         testData = loadDataBundle("/AllAccessControlUiTest.json");
         
         // This test suite requires some real accounts; Here, we inject them to the test data.
-        testData.students.get("student1InCourse1.access").googleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
-        testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+        testData.students.get("student1InCourse1.access").googleId = TestProperties.TEST_STUDENT1_ACCOUNT;
+        testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
         removeTestDataOnServer(testData);
         BrowserPool.release(browser);
     }

@@ -25,11 +25,7 @@ public class GoogleLoginPage extends LoginPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return containsExpectedPageContents(getPageSource());
-    }
-    
-    public static boolean containsExpectedPageContents(String pageSource) {
-        return pageSource.contains("Sign in with your Google Account");
+        return getPageSource().contains("Sign in with your Google Account");
     }
 
     @Override
@@ -98,10 +94,10 @@ public class GoogleLoginPage extends LoginPage {
         fillTextBox(passwordTextBox, password);
         
         if (staySignedCheckbox.isSelected()) {
-            staySignedCheckbox.click();
+            click(staySignedCheckbox);
         }
         
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
     }
 

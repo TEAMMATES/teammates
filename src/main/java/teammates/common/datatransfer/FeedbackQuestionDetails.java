@@ -19,8 +19,8 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
  * question type
  */
 public abstract class FeedbackQuestionDetails {
-    public FeedbackQuestionType questionType;
-    public String questionText;
+    private FeedbackQuestionType questionType;
+    private String questionText;
 
     protected FeedbackQuestionDetails(FeedbackQuestionType questionType) {
         this.questionType = questionType;
@@ -65,9 +65,9 @@ public abstract class FeedbackQuestionDetails {
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
     public String getCsvDetailedResponsesHeader() {
         return "Team" + "," + "Giver's Full Name" + ","
-               + "Giver's Last Name" + "," + "Giver's Email" + "," 
+               + "Giver's Last Name" + "," + "Giver's Email" + ","
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
-               + "Recipient's Last Name" + "," + "Recipient's Email" + "," 
+               + "Recipient's Last Name" + "," + "Recipient's Email" + ","
                + this.getCsvHeader() + Const.EOL;
     }
 
@@ -75,18 +75,18 @@ public abstract class FeedbackQuestionDetails {
                                              FeedbackResponseAttributes feedbackResponseAttributes,
                                              FeedbackQuestionAttributes question) {
         // Retrieve giver details
-        String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giverEmail);
-        String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giverEmail);
-        String giverTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
+        String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giver);
+        String giverTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giver);
         String giverEmail = fsrBundle.getDisplayableEmailGiver(feedbackResponseAttributes);
 
         // Retrieve recipient details
-        String recipientLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.recipientEmail);
-        String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipientEmail);
-        String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.recipient);
+        String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipient);
+        String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
 
-        String detailedResponsesRow = Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
+        return Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName))
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
@@ -96,8 +96,6 @@ public abstract class FeedbackQuestionDetails {
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                                       + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
                                       + Const.EOL;
-
-        return detailedResponsesRow;
     }
     
     public String getQuestionText() {
@@ -123,16 +121,17 @@ public abstract class FeedbackQuestionDetails {
     /**
      * Validates the question details
      *
-     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an 
+     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
      * empty list if question details are valid.
      */
     public abstract List<String> validateQuestionDetails();
 
     /**
-     * Validates {@code List<FeedbackResponseAttributes>} for the question based on the current {@code Feedback*QuestionDetails}.
+     * Validates {@code List<FeedbackResponseAttributes>} for the question
+     * based on the current {@code Feedback*QuestionDetails}.
      *
      * @param responses - The {@code List<FeedbackResponseAttributes>} for the question to be validated
-     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an 
+     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
      * empty list if question responses are valid.
      */
     public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses, int numRecipients);
@@ -165,10 +164,7 @@ public abstract class FeedbackQuestionDetails {
         Assumption.assertNotNull("Null question text", questionText);
         Assumption.assertNotEmpty("Empty question text", questionText);
 
-        FeedbackQuestionDetails questionDetails = questionType.getFeedbackQuestionDetailsInstance(questionText,
-                                                                                                  requestParameters);
-
-        return questionDetails;
+        return questionType.getFeedbackQuestionDetailsInstance(questionText, requestParameters);
     }
 
     // The following function handle the display of rows between possible givers
@@ -181,11 +177,13 @@ public abstract class FeedbackQuestionDetails {
                + Sanitizer.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question))
                + "</i>";
     }
-
-    public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail,
-                                            FeedbackQuestionAttributes question) {
+    
+    /**
+     * @return true if 'No Response' is to be displayed in the Response rows.
+     */
+    public boolean shouldShowNoResponseText(FeedbackQuestionAttributes question) {
         // we do not show all possible responses
-        return question.recipientType != FeedbackParticipantType.STUDENTS 
+        return question.recipientType != FeedbackParticipantType.STUDENTS
             && question.recipientType != FeedbackParticipantType.TEAMS;
     }
 
@@ -234,4 +232,13 @@ public abstract class FeedbackQuestionDetails {
     }
 
     public abstract Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder();
+
+    public FeedbackQuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
+
 }

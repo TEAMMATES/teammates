@@ -19,14 +19,14 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/StudentCourseDetailsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     
-    @Test    
+    @Test
     public void testAll() throws Exception {
 
         ______TS("content");
@@ -35,8 +35,9 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
         // This is the full HTML verification for Student Course Details Page, the rest can all be verifyMainHtml
         verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.alice", "/studentCourseDetailsWithTeammatesHTML.html", true);
 
-        //without teammates 
-        verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie", "/studentCourseDetailsWithoutTeammatesHTML.html", false);
+        //without teammates
+        verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie",
+                      "/studentCourseDetailsWithoutTeammatesHTML.html", false);
         
         ______TS("links, inputValidation, actions");
         
@@ -58,7 +59,7 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Data model for the giver panel in InstructorFeedbackResults for Giver > Recipient > Question,
- * and for the recipient panel in Recipient > Giver > Question 
+ * and for the recipient panel in Recipient > Giver > Question
  * 
  */
 public class InstructorFeedbackResultsGroupByParticipantPanel extends InstructorFeedbackResultsParticipantPanel {
@@ -13,12 +13,12 @@ public class InstructorFeedbackResultsGroupByParticipantPanel extends Instructor
     private List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels;
 
     public InstructorFeedbackResultsGroupByParticipantPanel(
-                                    List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels) {
+            List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels) {
         this.secondaryParticipantPanels = secondaryParticipantPanels;
     }
 
     public List<InstructorFeedbackResultsSecondaryParticipantPanelBody> getSecondaryParticipantPanels() {
         return secondaryParticipantPanels;
-    }    
+    }
     
 }

@@ -10,8 +10,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.AjaxResult;
+import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.InstructorFeedbackEditCopyData;
 
 public class InstructorFeedbackEditCopyActionTest extends
@@ -28,7 +28,7 @@ public class InstructorFeedbackEditCopyActionTest extends
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");
         String instructorId = instructor.googleId;
         
@@ -46,7 +46,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         ______TS("Failure case: Courses not passed in, instructor home page");
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
@@ -59,7 +59,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         ______TS("Failure case: Courses not passed in, instructor feedbacks page");
         params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
@@ -73,7 +73,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         ______TS("Failure case: Courses not passed in, instructor feedback copy page");
         params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
@@ -87,7 +87,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         ______TS("Failure case: Courses not passed in, instructor feedback edit page");
         params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
@@ -101,7 +101,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         ______TS("Failure case: copying from course with insufficient permission");
         params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, "FeedbackEditCopy.CS2107",
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId()
@@ -120,7 +120,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         ______TS("Failure case: copying to course with insufficient permission");
         params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
                 Const.ParamsNames.COPIED_COURSES_ID, "FeedbackEditCopy.CS2107"
@@ -133,7 +133,7 @@ public class InstructorFeedbackEditCopyActionTest extends
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
             expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
-                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]"; 
+                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
             assertEquals(expectedString, uae.getMessage());
         }
         
@@ -157,7 +157,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         ______TS("Failure case: copying to non-existing course");
         params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
                 Const.ParamsNames.COPIED_COURSES_ID, "non.existing.course"
@@ -191,7 +191,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
-                         + "the following course(s): FeedbackEditCopy.CS2104."; 
+                         + "the following course(s): FeedbackEditCopy.CS2104.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         ______TS("Failure case: course already has feedback session with same name, instructor feedbacks page");
@@ -211,7 +211,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
-                         + "the following course(s): FeedbackEditCopy.CS2104."; 
+                         + "the following course(s): FeedbackEditCopy.CS2104.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         ______TS("Failure case: course already has feedback session with same name, instructor feedback copy page");
@@ -232,7 +232,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
-                         + "the following course(s): FeedbackEditCopy.CS2104."; 
+                         + "the following course(s): FeedbackEditCopy.CS2104.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         ______TS("Failure case: course already has feedback session with same name, instructor feedback edit page");
@@ -253,7 +253,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
-                         + "the following course(s): FeedbackEditCopy.CS2104."; 
+                         + "the following course(s): FeedbackEditCopy.CS2104.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         ______TS("Failure case: empty name, instructor home page");
@@ -273,16 +273,16 @@ public class InstructorFeedbackEditCopyActionTest extends
 
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                         + "The value of feedback session name should be no longer than 38 characters. "
+        expectedString = "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
+                         + "The value of a/an feedback session name should be no longer than 38 characters. "
                          + "It should not be empty.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as a/an feedback session name "
+                + "because it is empty. The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
@@ -302,16 +302,16 @@ public class InstructorFeedbackEditCopyActionTest extends
 
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                         + "The value of feedback session name should be no longer than 38 characters. "
+        expectedString = "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
+                         + "The value of a/an feedback session name should be no longer than 38 characters. "
                          + "It should not be empty.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as a/an feedback session name "
+                + "because it is empty. The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
@@ -332,16 +332,16 @@ public class InstructorFeedbackEditCopyActionTest extends
 
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                         + "The value of feedback session name should be no longer than 38 characters. "
+        expectedString = "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
+                         + "The value of a/an feedback session name should be no longer than 38 characters. "
                          + "It should not be empty.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as a/an feedback session name "
+                + "because it is empty. The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
@@ -361,16 +361,16 @@ public class InstructorFeedbackEditCopyActionTest extends
  
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                         + "The value of feedback session name should be no longer than 38 characters. "
+        expectedString = "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
+                         + "The value of a/an feedback session name should be no longer than 38 characters. "
                          + "It should not be empty.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as a/an feedback session name "
+                + "because it is empty. The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
@@ -404,14 +404,15 @@ public class InstructorFeedbackEditCopyActionTest extends
                          + "to</span> Thu Apr 30 23:59:00 UTC 2026<br><span class=\"bold\">Session visible from:</span> "
                          + "Sun Apr 01 23:59:00 UTC 2012<br><span class=\"bold\">Results visible from:</span> "
                          + "Fri May 01 23:59:00 UTC 2026<br><br><span class=\"bold\">Instructions:</span> "
-                         + "<Text: Instructions for first session><br>Copied from <span class=\"bold\">(First Session)</span> "
+                         + "<Text: Instructions for first session><br>Copied from "
+                         + "<span class=\"bold\">(First Session)</span> "
                          + "for Course <span class=\"bold\">[FeedbackEditCopy.CS2104]</span> created.<br>|||"
                          + "/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
     }
     
-    private InstructorFeedbackEditCopyAction getAction(String... params) throws Exception {
+    private InstructorFeedbackEditCopyAction getAction(String... params) {
         return (InstructorFeedbackEditCopyAction) gaeSimulation.getActionObject(uri, params);
     }
 }

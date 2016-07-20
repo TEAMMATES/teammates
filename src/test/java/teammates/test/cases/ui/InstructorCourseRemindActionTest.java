@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
@@ -47,13 +47,13 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
-        assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO +  anotherInstructorOfCourse1.email,
+        assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + anotherInstructorOfCourse1.email,
                      redirectResult.getStatusMessage());
              
         String expectedLogSegment = "Registration Key sent to the following users "
-                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>"
-                + anotherInstructorOfCourse1.name + "<span class=\"bold\"> (" 
-                + anotherInstructorOfCourse1.email + ")" + "</span>.<br/>";
+                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"
+                + anotherInstructorOfCourse1.name + "<span class=\"bold\"> ("
+                + anotherInstructorOfCourse1.email + ")" + "</span>.<br>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
 
         ______TS("Typical case: Send email to remind a student to register for the course");
@@ -69,21 +69,23 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
-        assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO +  student1InCourse1.email,
+        assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student1InCourse1.email,
                      redirectResult.getStatusMessage());
              
         expectedLogSegment = "Registration Key sent to the following users "
-                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>"
-                + student1InCourse1.name + "<span class=\"bold\"> (" 
-                + student1InCourse1.email + ")" + "</span>.<br/>";
+                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"
+                + student1InCourse1.name + "<span class=\"bold\"> ("
+                + student1InCourse1.email + ")" + "</span>.<br>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
 
         ______TS("Masquerade mode: Send emails to all unregistered student to remind registering for the course");
         gaeSimulation.loginAsAdmin(adminUserId);
-        StudentAttributes unregisteredStudent1 = new StudentAttributes("Section 1", "Team Unregistered", "Unregistered student 1",
-                                                                           "unregistered1@email.com", "", courseId);
-        StudentAttributes unregisteredStudent2 = new StudentAttributes("Section 1", "Team Unregistered", "Unregistered student 2",
-                                                                           "unregistered2@email.com", "", courseId);
+        StudentAttributes unregisteredStudent1 =
+                new StudentAttributes("Section 1", "Team Unregistered", "Unregistered student 1",
+                                      "unregistered1@email.com", "", courseId);
+        StudentAttributes unregisteredStudent2 =
+                new StudentAttributes("Section 1", "Team Unregistered", "Unregistered student 2",
+                                      "unregistered2@email.com", "", courseId);
         StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent1);
         StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent2);
         
@@ -91,8 +93,8 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         unregisteredStudent1 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent1.email);
         unregisteredStudent2 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent2.email);
         
-        submissionParams = new String[]{
-            Const.ParamsNames.COURSE_ID, courseId
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId
         };
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
@@ -102,15 +104,15 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                      redirectResult.getStatusMessage());
              
         expectedLogSegment = "Registration Key sent to the following users "
-                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>"
-                + unregisteredStudent1.name + "<span class=\"bold\"> (" 
-                + unregisteredStudent1.email + ")" + "</span>.<br/>"
-                + StringHelper.encrypt(unregisteredStudent1.key) 
-                + "&studentemail=unregistered1%40email.com&courseid=idOfTypicalCourse1<br/>"
-                + unregisteredStudent2.name + "<span class=\"bold\"> (" 
-                + unregisteredStudent2.email + ")" + "</span>.<br/>"
-                + StringHelper.encrypt(unregisteredStudent2.key) 
-                + "&studentemail=unregistered2%40email.com&courseid=idOfTypicalCourse1<br/>";
+                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"
+                + unregisteredStudent1.name + "<span class=\"bold\"> ("
+                + unregisteredStudent1.email + ")" + "</span>.<br>"
+                + StringHelper.encrypt(unregisteredStudent1.key)
+                + "&studentemail=unregistered1%40email.com&courseid=idOfTypicalCourse1<br>"
+                + unregisteredStudent2.name + "<span class=\"bold\"> ("
+                + unregisteredStudent2.email + ")" + "</span>.<br>"
+                + StringHelper.encrypt(unregisteredStudent2.key)
+                + "&studentemail=unregistered2%40email.com&courseid=idOfTypicalCourse1<br>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
         
         StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent1.email);
@@ -124,16 +126,16 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
         };
         
-        try { 
+        try {
             remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
             redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
-        } catch (EntityDoesNotExistException e) {
-            assertEquals("Instructor [" + invalidEmail + "] does not exist in course [" + courseId + "]", e.getMessage());    
+        } catch (EntityNotFoundException e) {
+            assertEquals("Instructor [" + invalidEmail + "] does not exist in course [" + courseId + "]", e.getMessage());
         }
         
     }
 
-    private InstructorCourseRemindAction getAction(String... parameters) throws Exception {
+    private InstructorCourseRemindAction getAction(String... parameters) {
         return (InstructorCourseRemindAction) gaeSimulation.getActionObject(uri, parameters);
     }
 

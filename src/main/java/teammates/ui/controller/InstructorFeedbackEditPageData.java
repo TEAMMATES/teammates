@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -16,14 +18,12 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
 import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
-import teammates.ui.template.FeedbackQuestionTableRow;
 import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
+import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbackEditPageData extends PageData {
@@ -32,7 +32,6 @@ public class InstructorFeedbackEditPageData extends PageData {
     private List<FeedbackQuestionEditForm> qnForms;
     private FeedbackQuestionEditForm newQnForm;
     private FeedbackSessionPreviewForm previewForm;
-    private FeedbackQuestionCopyTable copyQnForm;
     private String statusForAjax;
     private boolean hasError;
     
@@ -41,7 +40,6 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
     
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
-                     List<FeedbackQuestionAttributes> copiableQuestions, 
                      Map<String, Boolean> questionHasResponses,
                      List<StudentAttributes> studentList, List<InstructorAttributes> instructorList,
                      InstructorAttributes instructor) {
@@ -52,8 +50,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         qnForms = new ArrayList<FeedbackQuestionEditForm>();
         for (int i = 0; i < questions.size(); i++) {
             FeedbackQuestionAttributes question = questions.get(i);
-            buildExistingQuestionForm(feedbackSession.feedbackSessionName, 
-                                      questions.size(), questionHasResponses, 
+            buildExistingQuestionForm(feedbackSession.getFeedbackSessionName(),
+                                      questions.size(), questionHasResponses,
                                       instructor.courseId, question, i + 1);
         }
         
@@ -61,14 +59,13 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         buildPreviewForm(feedbackSession, studentList, instructorList);
         
-        buildCopyQnForm(feedbackSession, copiableQuestions, instructor);
     }
     
     private void buildPreviewForm(FeedbackSessionAttributes feedbackSession,
                                     List<StudentAttributes> studentList,
                                     List<InstructorAttributes> instructorList) {
-        previewForm = new FeedbackSessionPreviewForm(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
-                                                     getPreviewAsStudentOptions(studentList), 
+        previewForm = new FeedbackSessionPreviewForm(feedbackSession.getCourseId(), feedbackSession.getFeedbackSessionName(),
+                                                     getPreviewAsStudentOptions(studentList),
                                                      getPreviewAsInstructorOptions(instructorList));
     }
 
@@ -76,43 +73,19 @@ public class InstructorFeedbackEditPageData extends PageData {
         buildBasicFsForm(feedbackSession, buildFsFormAdditionalSettings(feedbackSession));
     }
     
-    private void buildBasicFsForm(FeedbackSessionAttributes fsa, FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
-        String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.courseId, fsa.feedbackSessionName, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+    private void buildBasicFsForm(FeedbackSessionAttributes fsa,
+                                  FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
+        String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.getCourseId(), fsa.getFeedbackSessionName(),
+                                                              Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         String copyToLink = getInstructorFeedbackEditCopyLink();
         
-        fsForm = FeedbackSessionsForm.getFsFormForExistingFs(fsa, additionalSettings, 
+        fsForm = FeedbackSessionsForm.getFsFormForExistingFs(fsa, additionalSettings,
                                                              fsDeleteLink, copyToLink);
     }
     
-    private FeedbackSessionsAdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
-        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession); 
-    }   
-
-    private void buildCopyQnForm(FeedbackSessionAttributes feedbackSession,
-                                    List<FeedbackQuestionAttributes> copiableQuestions,
-                                    InstructorAttributes instructor) {
-        List<FeedbackQuestionTableRow> copyQuestionRows = buildCopyQuestionsModalRows(copiableQuestions,
-                                                                                      instructor);
-        copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
-                                                   copyQuestionRows);
-    }
-
-    private List<FeedbackQuestionTableRow> buildCopyQuestionsModalRows(List<FeedbackQuestionAttributes> copiableQuestions,
-                                                                       InstructorAttributes instructor) {
-        List<FeedbackQuestionTableRow> copyQuestionRows = new ArrayList<FeedbackQuestionTableRow>();
-        if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
-            for (FeedbackQuestionAttributes question : copiableQuestions) {
-                String courseId = question.courseId;
-                String fsName = question.feedbackSessionName;
-                String qnType = question.getQuestionDetails().getQuestionTypeDisplayName();
-                String qnText = question.getQuestionDetails().questionText;
-                String qnId = question.getId();
-                
-                FeedbackQuestionTableRow row = new FeedbackQuestionTableRow(courseId, fsName, qnType, qnText, qnId);
-                copyQuestionRows.add(row);
-            }
-        }
-        return copyQuestionRows;
+    private FeedbackSessionsAdditionalSettingsFormSegment
+            buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
+        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(newFeedbackSession);
     }
 
     private void buildExistingQuestionForm(String feedbackSessionName,
@@ -126,7 +99,9 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         qnForm.setFeedbackSessionName(feedbackSessionName);
-        qnForm.setQuestionText(questionDetails.questionText);
+        qnForm.setQuestionText(questionDetails.getQuestionText());
+        Text questionDescription = question.getQuestionDescription();
+        qnForm.setQuestionDescription(questionDescription == null ? null : questionDescription.getValue());
         qnForm.setQuestionNumberSuffix("-" + questionIndex);
         qnForm.setQuestionIndex(questionIndex);
         qnForm.setQuestionId(question.getId());
@@ -139,11 +114,12 @@ public class InstructorFeedbackEditPageData extends PageData {
         feedbackPathSettings.setGiverParticipantOptions(getParticipantOptions(question, true));
         feedbackPathSettings.setRecipientParticipantOptions(getParticipantOptions(question, false));
         
-        boolean isNumberOfEntitiesToGiveFeedbackToChecked = question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
+        boolean isNumberOfEntitiesToGiveFeedbackToChecked =
+                question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
         feedbackPathSettings.setNumberOfEntitiesToGiveFeedbackToChecked(isNumberOfEntitiesToGiveFeedbackToChecked);
         feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(isNumberOfEntitiesToGiveFeedbackToChecked
-                                                                   ?  question.numberOfEntitiesToGiveFeedbackTo
-                                                                   :  1);
+                                                                   ? question.numberOfEntitiesToGiveFeedbackTo
+                                                                   : 1);
         qnForm.setFeedbackPathSettings(feedbackPathSettings);
 
         // maps for setting visibility
@@ -164,7 +140,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         FeedbackQuestionVisibilitySettings visibilitySettings = new FeedbackQuestionVisibilitySettings(
                                                                         question.getVisibilityMessage(),
                                                                         isResponsesVisibleFor,
-                                                                        isGiverNameVisibleFor, 
+                                                                        isGiverNameVisibleFor,
                                                                         isRecipientNameVisibleFor);
         qnForm.setVisibilitySettings(visibilitySettings);
         
@@ -180,12 +156,13 @@ public class InstructorFeedbackEditPageData extends PageData {
       
         String doneEditingLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                                 .withUserId(account.googleId)
-                                .withCourseId(feedbackSession.courseId)
-                                .withSessionName(feedbackSession.feedbackSessionName)
+                                .withCourseId(feedbackSession.getCourseId())
+                                .withSessionName(feedbackSession.getFeedbackSessionName())
                                 .toString();
         newQnForm = FeedbackQuestionEditForm.getNewQnForm(doneEditingLink, feedbackSession,
                                                           getQuestionTypeChoiceOptions(), getParticipantOptions(null, true),
-                                                          getParticipantOptions(null, false), getQuestionNumberOptions(nextQnNum), 
+                                                          getParticipantOptions(null, false),
+                                                          getQuestionNumberOptions(nextQnNum),
                                                           getNewQuestionSpecificEditFormHtml());
     }
 
@@ -211,7 +188,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                     boolean isGiverType = isValidGiver && question.giverType == option;
                     boolean isRecipientType = isValidRecipient && question.recipientType == option;
                     
-                    isSelected = isGiverType || isRecipientType; 
+                    isSelected = isGiverType || isRecipientType;
                 }
                 
                 ElementTag optionTag = createOption(participantName, option.toString(), isSelected);
@@ -296,10 +273,6 @@ public class InstructorFeedbackEditPageData extends PageData {
         return previewForm;
     }
     
-    public FeedbackQuestionCopyTable getCopyQnForm() {
-        return copyQnForm;
-    }
-
     public String getStatusForAjax() {
         return statusForAjax;
     }
@@ -309,7 +282,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     /**
-     * Retrieves the link to submit the request for copy of session. 
+     * Retrieves the link to submit the request for copy of session.
      * Also contains feedback page link to return after the action.
      * @return form submit action link
      */

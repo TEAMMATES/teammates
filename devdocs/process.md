@@ -19,9 +19,13 @@ the organization structure of the TEAMMATES dev community.
 * `Project Advisor`
 
 Those who are at the rank of `Committer` or above are considered a core member if they are 'active'. 
-An *active* member is someone who contributes to almost every release cycle, thereby helping to maintin the 
+An *active* member is someone who contributes to almost every release cycle, thereby helping to maintain the 
 project velocity. An active member is expected to *pledge* at least one issue to each release, at the beginning of 
 the release cycle. They are also strongly encouraged to pick at least one high priority issue for each release cycle. 
+
+## Naming conventions
+* For pull request titles, refer to [creating a pull request](#creating-a-pull-request)
+* For branch names, refer to [creating a branch](#creating-a-branch)
 
 ##Workflow
 
@@ -34,7 +38,7 @@ Role: Dev
 {If you need any help regarding the workflow, please [post a new issue in our issue tracker] 
 (https://github.com/TEAMMATES/teammates/issues/new) (Yes, our issue tracker doubles as a discussion board).}
 
-This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/index.html).
+This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/index.jsp).
 
 1. Select an issue to handle. If you are a contributor, there is no need to get the issue assigned to you. <br>
    (If you are a committer, assign the issue to yourself and assign it a milestone).
@@ -58,7 +62,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    git pull upstream master
    ``` 
 
-7. Start a new branch named `{IssueNumber}-{some-keywords}`. 
+7. <a name="creating-a-branch"></a>Start a new branch named `{IssueNumber}-{some-keywords}`.
    If you are already working in a branch, remember to switch to the `master` 
    before creating the new branch. e.g.,
     ```
@@ -94,6 +98,9 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
        git merge master
        ```
 
+   * If there are updates to the dependencies on the build configuration, you should update your local
+   copies accordingly. The details on the steps can be found on [this document](dependencies.md).
+
 9. When the work is ready for review:
    * Format the code: Select the code segments you modified and apply the code 
      formatting function of Eclipse (`Source → Format`). 
@@ -118,8 +125,8 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    * Push your branch to the committer repo (push to the fork if you do not 
      have push permission to the committer repo), if you haven't done that already.
    
-   * Create a pull request (PR). For the pull request name, copy paste the relevant
-     issue name.<br>
+   * <a name="creating-a-pull-request"></a>Create a pull request (PR). For the pull request name, copy paste
+     the relevant issue name and include the issue number as well.<br>
      e.g. ` Incorrect error message when adding an existing instructor #1760`<br>
      In the PR description, mention the issue number in this format: `Fixes #1760`. 
      Doing so will create an automatic reference from the issue to the pull request.<br>
@@ -197,31 +204,33 @@ Role: PM
 
 
 ###Applying a fix
-Role: committer
+Role: dev (with push permission), or reviewer
 
-  * Do not merge online. Always merge locally and push to the repo. If you 
-    merge online, you will not be able to run tests or use the required format
-    for the commit message.
-  * Fetch code from upstream: <br>
-    `git fetch origin`<br>
-  * Checkout the branch and update with latest master<br>
-    `git checkout -b 2287-add-sample-course-test origin/2287-add-sample-course-test`<br>
-    `git merge master` <br>
-  * Test the code by running the `Local tests` and ensure that the all tests pass on Travis.
-  * If green, 
-    * Merge to master and push.<br>
-      `git checkout master` <br>
-       Merge the branch. Format of the commit message: 
-       `[Issue number] Issue title as given in the original issue`<br>
-       e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`
-    * Remove any status labels from the pull request. Delete the branch (from GitHub UI).
-    * Remove any status labels from the corresponding issue and close it.
-    * Optionally, apply an `e.` label to the issue (not the PR) to indicate 
-      the estimated effort required to fix the issue.
-  * If not green,
-    * Delete the merge commit, if any.
-    * Change the pull request status to `s.Ongoing`
-    * Add a comment to mention the test failure.
+  * Merging can be done via GitHub. Make sure that GitHub gives a green light for merging.
+    There are a few scenarios where GitHub can prevent merging from proceeding:
+    * **Merge conflict**: The PR is conflicting with the current `master` branch; the author will
+      need to resolve the conflicts before proceeding.
+    * **Outdated branch**: The PR is not in sync with the current `master` branch; the author will
+      need to sync it before proceeding. This can be done via GitHub with the "Update branch" button.
+    
+    The dev will need to resolve them before merging can proceed. It is up to the dev/reviewer's discretion
+    on whether the merge conflict or outdated branch needs another review to be called for.
+    In general, unless the changeset is functionally conflicting, there is no need for another review.
+  * When GitHub gives a green light for merging,
+    * Checkout to the PR branch, merge with the current `master` branch, and test the code locally by running the "Local tests".<br>
+      `git checkout -b 2287-add-sample-course-test origin/2287-add-sample-course-test`<br>
+      `git merge master`<br>
+    * If green,
+      * Merge with "squash and merge" option (preferable). Format of the commit message:<br>
+        `[Issue number] Issue title as given in the original issue`<br>
+        e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`<br>
+        The additional descriptions can be left as is.
+      * Optionally, apply an `e.*` label to the issue (not the PR) to indicate 
+        the estimated effort required to fix the issue, and another `e.*` label to the PR
+        to indicate the estimated effort required to review the PR.
+    * If not green,
+      * Change the pull request status to `s.Ongoing`.
+      * Add a comment to mention the test failure.
 
 ###Assigning labels, reviewers, and milestones
 Roles: PM (Project Manager) + RL (Release Lead)
@@ -260,8 +269,8 @@ RL:
     * Add/revise `e.` labels for the issues/PRs in the release.
     * Ensure all branches merged in the milestone have been deleted.
     * Announce the release on slack and issue tracker.
-    * Update `about.html` with names of new contributors, if any. Alternatively,
-      create an issue to update `about.html`.
+    * Update `about.jsp` with names of new contributors, if any. Alternatively,
+      create an issue to update `about.jsp`.
     * Close the current milestone and create a new milestone for the next+1 release.
     * Create an issue for the next release. Post a comment in that issue to 
       remind active devs who don't have issues scheduled for next release. 

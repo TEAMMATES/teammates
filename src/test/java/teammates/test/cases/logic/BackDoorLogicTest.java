@@ -14,18 +14,14 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
 
-import com.google.gson.Gson;
-
 public class BackDoorLogicTest extends BaseComponentTestCase {
-    Gson gson = Utils.getTeammatesGson();
     private static DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public static void classSetUp() {
         printTestClassHeader();
     }
 
@@ -64,16 +60,17 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
             logic.persistDataBundle(dataBundle);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            assertTrue(e.getMessage().equals(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE,
-                                                           "invalid id",
-                                                           FieldValidator.REASON_INCORRECT_FORMAT)));
+            assertTrue(e.getMessage().equals(
+                    getPopulatedErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE, "invalid id",
+                            FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                            FieldValidator.COURSE_ID_MAX_LENGTH)));
         }
 
         // Not checking for invalid values in other entities because they
         // should be checked at lower level methods
     }
     
-    private void verifyPresentInDatastore(DataBundle data) throws Exception {
+    private void verifyPresentInDatastore(DataBundle data) {
         HashMap<String, AccountAttributes> accounts = data.accounts;
         for (AccountAttributes expectedAccount : accounts.values()) {
             verifyPresentInDatastore(expectedAccount);
@@ -108,7 +105,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     */
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
     }
 

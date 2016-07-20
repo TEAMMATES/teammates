@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -68,8 +68,8 @@ public class FeedbackResponseCommentsLogic {
                 }
                 frComment.setId(existingComment.getId());
                 
-                return frcDb.updateFeedbackResponseComment(frComment);            
-            } catch (Exception EntityDoesNotExistException) {
+                return frcDb.updateFeedbackResponseComment(frComment);
+            } catch (Exception ex) {
                 Assumption.fail();
                 return null;
             }
@@ -103,18 +103,22 @@ public class FeedbackResponseCommentsLogic {
     }
     
     public void updateFeedbackResponseCommentsForChangingResponseId(
-            String oldResponseId, String newResponseId) 
+            String oldResponseId, String newResponseId)
             throws InvalidParametersException, EntityDoesNotExistException {
-        List<FeedbackResponseCommentAttributes> responseComments = 
+        List<FeedbackResponseCommentAttributes> responseComments =
                 getFeedbackResponseCommentForResponse(oldResponseId);
         for (FeedbackResponseCommentAttributes responseComment : responseComments) {
-            responseComment.feedbackResponseId = newResponseId;         
+            responseComment.feedbackResponseId = newResponseId;
             updateFeedbackResponseComment(responseComment);
         }
     }
     
-    public void updateFeedbackResponseCommentsGiverEmail(String courseId, String oldEmail, String updatedEmail) {
+    /*
+     * Updates all email fields of feedback response comments with the new email
+     */
+    public void updateFeedbackResponseCommentsEmails(String courseId, String oldEmail, String updatedEmail) {
         frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
+        frcDb.updateLastEditorEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
     }
     
     // right now this method only updates comment's giverSection and receiverSection for a given response
@@ -132,11 +136,11 @@ public class FeedbackResponseCommentsLogic {
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
                                                      FeedbackResponseCommentAttributes feedbackResponseComment)
                                                      throws InvalidParametersException, EntityDoesNotExistException {
-        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);    
+        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(
-                                                           String courseId, CommentSendingState state) 
+                                                           String courseId, CommentSendingState state)
                                                            throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId);
         
@@ -145,21 +149,21 @@ public class FeedbackResponseCommentsLogic {
         for (FeedbackSessionAttributes fs : feedbackSessions) {
             if (fs.isPublished()) {
                 frcList.addAll(
-                        frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.feedbackSessionName, state));
+                        frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.getFeedbackSessionName(), state));
             }
         }
         return frcList;
     }
     
     public void updateFeedbackResponseCommentsSendingState(
-            String courseId, CommentSendingState oldState, CommentSendingState newState) 
+            String courseId, CommentSendingState oldState, CommentSendingState newState)
             throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId);
         
         List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes fs : feedbackSessions) {
             if (fs.isPublished()) {
-                frcDb.updateFeedbackResponseComments(courseId, fs.feedbackSessionName, oldState, newState);    
+                frcDb.updateFeedbackResponseComments(courseId, fs.getFeedbackSessionName(), oldState, newState);
             }
         }
     }
@@ -192,7 +196,7 @@ public class FeedbackResponseCommentsLogic {
     }
     
     public void deleteFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
-        frcDb.deleteEntity(feedbackResponseComment);    
+        frcDb.deleteEntity(feedbackResponseComment);
     }
     
     /**
@@ -225,12 +229,12 @@ public class FeedbackResponseCommentsLogic {
         }
         
         String responseGiverTeam = "giverTeam";
-        if (roster.getStudentForEmail(response.giverEmail) != null) {
-            responseGiverTeam = roster.getStudentForEmail(response.giverEmail).team;
+        if (roster.getStudentForEmail(response.giver) != null) {
+            responseGiverTeam = roster.getStudentForEmail(response.giver).team;
         }
         String responseRecipientTeam = "recipientTeam";
-        if (roster.getStudentForEmail(response.recipientEmail) != null) {
-            responseRecipientTeam = roster.getStudentForEmail(response.recipientEmail).team;
+        if (roster.getStudentForEmail(response.recipient) != null) {
+            responseRecipientTeam = roster.getStudentForEmail(response.recipient).team;
         }
         String currentUserTeam = "currentUserTeam";
         if (roster.getStudentForEmail(userEmail) != null) {
@@ -238,11 +242,11 @@ public class FeedbackResponseCommentsLogic {
         }
         
         for (FeedbackParticipantType type : showNameTo) {
-            if (type == FeedbackParticipantType.GIVER && userEmail.equals(response.giverEmail)) {
+            if (type == FeedbackParticipantType.GIVER && userEmail.equals(response.giver)) {
                 return true;
             } else if (type == FeedbackParticipantType.INSTRUCTORS && roster.getInstructorForEmail(userEmail) != null) {
                 return true;
-            } else if (type == FeedbackParticipantType.RECEIVER && userEmail.equals(response.recipientEmail)) {
+            } else if (type == FeedbackParticipantType.RECEIVER && userEmail.equals(response.recipient)) {
                 return true;
             } else if (type == FeedbackParticipantType.OWN_TEAM_MEMBERS && responseGiverTeam.equals(currentUserTeam)) {
                 return true;
@@ -252,7 +256,7 @@ public class FeedbackResponseCommentsLogic {
             } else if (type == FeedbackParticipantType.STUDENTS && roster.getStudentForEmail(userEmail) != null) {
                 return true;
             }
-        }   
+        }
         return false;
     }
     
@@ -269,7 +273,7 @@ public class FeedbackResponseCommentsLogic {
         }
         
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion 
+        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
                                  || relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
         
         boolean isVisibleResponseComment = false;
@@ -282,30 +286,30 @@ public class FeedbackResponseCommentsLogic {
                 userIsInstructor && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                                                FeedbackParticipantType.INSTRUCTORS);
         boolean userIsResponseRecipientAndRelatedResponseCommentIsVisibleToRecipients =
-                response.recipientEmail.equals(userEmail) && isResponseCommentVisibleTo(relatedQuestion,
+                response.recipient.equals(userEmail) && isResponseCommentVisibleTo(relatedQuestion,
                                                                      relatedComment, FeedbackParticipantType.RECEIVER);
         boolean userIsResponseGiverAndRelatedResponseCommentIsVisibleToGivers =
-                response.giverEmail.equals(userEmail) && isVisibleToGiver;
+                response.giver.equals(userEmail) && isVisibleToGiver;
         boolean userIsRelatedResponseCommentGiver = relatedComment.giverEmail.equals(userEmail);
         boolean userIsStudentAndRelatedResponseCommentIsVisibleToStudents =
                 userIsStudent && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                                             FeedbackParticipantType.STUDENTS);
         
-        boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients = 
-                userIsStudent 
+        boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients =
+                userIsStudent
                 && relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
                 && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.RECEIVER)
-                && response.recipientEmail.equals(student.team);
+                && response.recipient.equals(student.team);
         boolean userIsInResponseGiverTeamAndRelatedResponseCommentIsVisibleToGiversTeamMembers =
                 (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
                 || isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.OWN_TEAM_MEMBERS))
-                && studentsEmailInTeam.contains(response.giverEmail);
+                && studentsEmailInTeam.contains(response.giver);
         boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipientsTeamMembers =
                 isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                            FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                && studentsEmailInTeam.contains(response.recipientEmail);
+                && studentsEmailInTeam.contains(response.recipient);
         
         if (userIsInstructorAndRelatedResponseCommentIsVisibleToInstructors
                 || userIsResponseRecipientAndRelatedResponseCommentIsVisibleToRecipients
@@ -325,8 +329,8 @@ public class FeedbackResponseCommentsLogic {
                                                FeedbackResponseCommentAttributes relatedComment,
                                                FeedbackParticipantType viewerType) {
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion 
-                            ? relatedQuestion.isResponseVisibleTo(viewerType) 
+        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion
+                            ? relatedQuestion.isResponseVisibleTo(viewerType)
                             : relatedComment.isVisibleTo(viewerType);
         return isVisibleTo;
     }
@@ -350,7 +354,7 @@ public class FeedbackResponseCommentsLogic {
             throws EntityDoesNotExistException {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
         if (session == null) {
-            throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName 
+            throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName
                                                 + " is not a session for course " + courseId + ".");
         }
     }

@@ -9,6 +9,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -16,7 +17,7 @@ import teammates.test.driver.AssertHelper;
 public class EntitiesDbTest extends BaseComponentTestCase {
 
     @Test
-    public void testCreateEntity() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateEntity() throws Exception {
         //We are using CoursesDb to test EntititesDb here.
         CoursesDb coursesDb = new CoursesDb();
         
@@ -37,8 +38,10 @@ public class EntitiesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(c);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(String.format(CoursesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, c.getEntityTypeAsString())
-                    + c.getIdentificationString(), e.getMessage());
+            AssertHelper.assertContains(String.format(CoursesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
+                                                      c.getEntityTypeAsString())
+                                                + c.getIdentificationString(),
+                                        e.getMessage());
         }
         coursesDb.deleteEntity(c);
         
@@ -49,16 +52,19 @@ public class EntitiesDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(), REASON_INCORRECT_FORMAT),
+                    getPopulatedErrorMessage(
+                        COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(),
+                        FieldValidator.COURSE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
                     e.getMessage());
-        } 
+        }
         
         ______TS("fails: null parameter");
         try {
             coursesDb.createEntity(null);
             signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
 

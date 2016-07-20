@@ -35,13 +35,17 @@ public class InstructorHomePage extends AppPage {
     @FindBy(className = "button_sortenddate")
     private List<WebElement> tablesSortByEndDate;
 
-    public InstructorCopyFsToModal fsCopyModal;
+    private InstructorCopyFsToModal fsCopyModal;
     
     public InstructorHomePage(Browser browser) {
         super(browser);
         if (InstructorCopyFsToModal.isPresentOnPage(browser)) {
             this.fsCopyModal = new InstructorCopyFsToModal(browser);
         }
+    }
+    
+    public InstructorCopyFsToModal getFsCopyModal() {
+        return fsCopyModal;
     }
 
     @Override
@@ -53,31 +57,24 @@ public class InstructorHomePage extends AppPage {
         return pageSource.contains("<h1>Instructor Home</h1>");
     }
 
-    public InstructorHelpPage clickHelpLink() {
-        instructorHelpTab.click();
-        waitForPageToLoad();
-        switchToNewWindow();
-        return changePageType(InstructorHelpPage.class);
-    }
-    
     public void clickSortByIdButton() {
-        sortByIdButton.click();
+        click(sortByIdButton);
         waitForPageToLoad();
     }
     
     public void clickSortByNameButton() {
-        sortByNameButton.click();
+        click(sortByNameButton);
         waitForPageToLoad();
     }
     
     public void clickSortByDateButton() {
-        sortByDateButton.click();
+        click(sortByDateButton);
         waitForPageToLoad();
     }
 
     private void clickElements(List<WebElement> elements) {
         for (WebElement ele : elements) {
-            ele.click();
+            click(ele);
         }
     }
     
@@ -94,51 +91,51 @@ public class InstructorHomePage extends AppPage {
     }
 
     public InstructorCourseEnrollPage clickCourseErollLink(String courseId) {
-        getCourseLinkInRow("course-enroll-for-test", getCourseRowId(courseId)).click();
+        click(getCourseLinkInRow("course-enroll-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollPage.class);
     }
     
     public InstructorCourseDetailsPage clickCourseViewLink(String courseId) {
-        getCourseLinkInRow("course-view-for-test", getCourseRowId(courseId)).click();
+        click(getCourseLinkInRow("course-view-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         return changePageType(InstructorCourseDetailsPage.class);
     }
     
     public InstructorCourseEditPage clickCourseEditLink(String courseId) {
-        getCourseLinkInRow("course-edit-for-test", getCourseRowId(courseId)).click();
+        click(getCourseLinkInRow("course-edit-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         return changePageType(InstructorCourseEditPage.class);
     }
     
     //TODO: rename course-add-eval-for-test
     public InstructorFeedbacksPage clickCourseAddEvaluationLink(String courseId) {
-        getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)).click();
+        click(getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         ThreadHelper.waitBriefly();
         return changePageType(InstructorFeedbacksPage.class);
     }
     
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public InstructorFeedbackResultsPage clickFeedbackSessionViewResultsLink(String courseId, String fsName) {
-        getViewResultsLink(courseId, fsName).click();
+        click(getViewResultsLink(courseId, fsName));
         waitForPageToLoad();
         return changePageType(InstructorFeedbackResultsPage.class);
     }
 
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public InstructorFeedbackEditPage clickFeedbackSessionEditLink(String courseId, String fsName) {
-        getEditLink(courseId, fsName).click();
+        click(getEditLink(courseId, fsName));
         waitForPageToLoad();
         return changePageType(InstructorFeedbackEditPage.class);
     }
     
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public InstructorFeedbacksPage clickFeedbackSessionDeleteLink(String courseId, String fsName) {
         clickAndConfirm(getDeleteEvalLink(courseId, fsName));
@@ -148,17 +145,17 @@ public class InstructorHomePage extends AppPage {
     }
     
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public FeedbackSubmitPage clickFeedbackSessionSubmitLink(String courseId, String fsName) {
-        this.getSubmitLink(courseId, fsName).click();
+        click(getSubmitLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(FeedbackSubmitPage.class);
     }
     
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public InstructorHomePage clickFeedbackSessionRemindLink(String courseId, String fsName) {
         clickAndConfirm(getRemindLink(courseId, fsName));
@@ -168,7 +165,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public InstructorHomePage clickFeedbackSessionUnpublishLink(String courseId, String fsName) {
         clickAndConfirm(getUnpublishLink(courseId, fsName));
@@ -178,7 +175,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     /**
-     * This is for customized feedback session 
+     * This is for customized feedback session
      */
     public InstructorHomePage clickFeedbackSessionPublishLink(String courseId, String fsName) {
         clickAndConfirm(getPublishLink(courseId, fsName));
@@ -186,16 +183,11 @@ public class InstructorHomePage extends AppPage {
         switchToNewWindow();
         return changePageType(InstructorHomePage.class);
     }
-
-    public void clickHomeTab() {
-        instructorHomeTab.click();
-        waitForPageToLoad();
-    }
     
     public InstructorStudentListPage searchForStudent(String studentName) {
         searchBox.clear();
         searchBox.sendKeys(studentName);
-        searchButton.click();
+        click(searchButton);
         waitForPageToLoad();
         return changePageType(InstructorStudentListPage.class);
     }
@@ -208,8 +200,12 @@ public class InstructorHomePage extends AppPage {
     }
     
     public void setViewResponseLinkValue(WebElement element, String newValue) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver; 
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         js.executeScript("arguments[0].href=arguments[1]", element, newValue);
+    }
+    
+    public void clickViewResponseLink(String courseId, String evalName) {
+        click(getViewResponseLink(courseId, evalName));
     }
 
     public WebElement getViewResultsLink(String courseId, String evalName) {
@@ -237,7 +233,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     public void clickRemindOptionsLink(String courseId, String evalName) {
-        getRemindOptionsLink(courseId, evalName).click();
+        click(getRemindOptionsLink(courseId, evalName));
     }
     
     public WebElement getRemindInnerLink(String courseId, String evalName) {
@@ -249,13 +245,13 @@ public class InstructorHomePage extends AppPage {
     }
     
     public void clickRemindParticularUsersLink(String courseId, String evalName) {
-        getRemindParticularUsersLink(courseId, evalName).click();
+        click(getRemindParticularUsersLink(courseId, evalName));
         ThreadHelper.waitFor(1000);
     }
     
     public void cancelRemindParticularUsersForm() {
         WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
-        remindModal.findElement(By.tagName("button")).click();
+        click(remindModal.findElement(By.tagName("button")));
     }
     
     public void fillRemindParticularUsersForm() {
@@ -316,15 +312,15 @@ public class InstructorHomePage extends AppPage {
     }
 
     private int getEvaluationRowId(String courseId, String evalName) {
-        int courseRowID = getCourseRowId(courseId);
-        if (courseRowID == -1) {
+        int courseRowId = getCourseRowId(courseId);
+        if (courseRowId == -1) {
             return -2;
         }
         String template = "//div[@id='course-%d']//tr[@id='session%d']";
         int max = browser.driver.findElements(By.xpath("//div[starts-with(@id, 'course-')]//tr")).size();
         for (int id = 0; id < max; id++) {
             if (getElementText(
-                    By.xpath(String.format(template + "//td[1]", courseRowID,
+                    By.xpath(String.format(template + "//td[1]", courseRowId,
                             id))).equals(evalName)) {
                 return id;
             }
@@ -370,6 +366,6 @@ public class InstructorHomePage extends AppPage {
         
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
         waitForElementNotCovered(fsCopyButton);
-        fsCopyButton.click();
+        click(fsCopyButton);
     }
 }

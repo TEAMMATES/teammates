@@ -3,9 +3,6 @@ package teammates.test.cases.logic;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -16,9 +13,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.Emails;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -72,8 +70,10 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         String email = "ILT.instr@email.tmt";
         String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
-        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);      
-        InstructorAttributes instr = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
+        InstructorPrivileges privileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorAttributes instr =
+                new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         
         instructorsLogic.createInstructor(instr);
         
@@ -98,7 +98,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
             instructorsLogic.createInstructor(instr);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("\"" + instr.email + "\" is not acceptable to TEAMMATES as an email",
+            AssertHelper.assertContains("\"" + instr.email + "\" is not acceptable to TEAMMATES as a/an email",
                                 e.getMessage());
         }
         
@@ -109,10 +109,10 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
-        }    
-    }   
+        }
+    }
     
-    public void testGetInstructorForEmail() throws Exception {
+    public void testGetInstructorForEmail() {
         
         ______TS("failure: instructor doesn't exist");
 
@@ -148,7 +148,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
     }
     
-    public void testGetInstructorForGoogleId() throws Exception {
+    public void testGetInstructorForGoogleId() {
         
         ______TS("failure: instructor doesn't exist");
 
@@ -184,7 +184,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
     }
     
-    public void testGetInstructorForRegistrationKey() throws Exception {
+    public void testGetInstructorForRegistrationKey() {
         
         ______TS("failure: instructor doesn't exist");
         String key = "non-existing-key";
@@ -255,7 +255,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testGetInstructorsForGoogleId() throws Exception {
+    public void testGetInstructorsForGoogleId() {
         
         ______TS("success: get all instructors for a google id");
 
@@ -287,7 +287,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testGetInstructorsForEmail() throws Exception {
+    public void testGetInstructorsForEmail() {
         
         ______TS("success: get all instructors for a google id");
 
@@ -296,7 +296,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForEmail(email);
         assertEquals(1, instructors.size());
         
-        InstructorAttributes instructor1 = instructorsDb.getInstructorForEmail("idOfTypicalCourse1", email); 
+        InstructorAttributes instructor1 = instructorsDb.getInstructorForEmail("idOfTypicalCourse1", email);
         verifySameInstructor(instructor1, instructors.get(0));
         
         ______TS("failure: non-exist email");
@@ -325,14 +325,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
         InstructorAttributes instructor = instructorsDb.getInstructorForEmail(courseId, email);
         
-        String key = instructorsLogic.getKeyForInstructor(instructor.courseId, instructor.email);
-        String expected = instructor.key;
+        String key = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email);
+        String expected = StringHelper.encrypt(instructor.key);
         assertEquals(expected, key);
         
         ______TS("failure: non-existent instructor");
 
         try {
-            instructorsLogic.getKeyForInstructor(courseId, "non-existent@email.tmt");
+            instructorsLogic.getEncryptedKeyForInstructor(courseId, "non-existent@email.tmt");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             assertEquals("Instructor " + "non-existent@email.tmt"
@@ -342,14 +342,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         ______TS("failure: null parameter");
 
         try {
-            instructorsLogic.getKeyForInstructor(courseId, null);
+            instructorsLogic.getEncryptedKeyForInstructor(courseId, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
 
         try {
-            instructorsLogic.getKeyForInstructor(null, email);
+            instructorsLogic.getEncryptedKeyForInstructor(null, email);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
@@ -357,7 +357,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
 
     }
     
-    public void testIsGoogleIdOfInstructorOfCourse() throws Exception {
+    public void testIsGoogleIdOfInstructorOfCourse() {
         
         ______TS("success: is an instructor of a given course");
 
@@ -393,7 +393,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testIsEmailOfInstructorOfCourse() throws Exception {
+    public void testIsEmailOfInstructorOfCourse() {
         
         ______TS("success: is an instructor of a given course");
 
@@ -430,7 +430,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
 
     }
 
-    public void testVerifyInstructorExists() throws Exception  {
+    public void testVerifyInstructorExists() throws Exception {
         
         ______TS("success: instructor does exist");
         
@@ -458,7 +458,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testVerifyIsEmailOfInstructorOfCourse() throws Exception  {
+    public void testVerifyIsEmailOfInstructorOfCourse() throws Exception {
         
         ______TS("success: instructor belongs to course");
         
@@ -493,7 +493,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    public void testIsNewInstructor() throws Exception {
+    public void testIsNewInstructor() {
         
         ______TS("success: instructor with only 1 sample course");
         
@@ -645,7 +645,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
 
         ______TS("typical case: delete a non-existent instructor");
 
-        instructorsLogic.deleteInstructorCascade(courseId, "non-existent@course1.tmt"); 
+        instructorsLogic.deleteInstructorCascade(courseId, "non-existent@course1.tmt");
 
         ______TS("failure: null parameter");
 
@@ -677,7 +677,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         
         instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
         
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);      
+        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
         assertTrue(instructorList.isEmpty());
         verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
         verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
@@ -701,7 +701,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         }
     }
 
-    public void testDeleteInstructorsForCourse() throws Exception {
+    public void testDeleteInstructorsForCourse() {
         
         ______TS("typical case: delete all instructors of a given course");
         
@@ -733,16 +733,16 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         ______TS("success: send invite to instructor using instructor email");
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        String courseName = coursesLogic.getCourse(instructor.courseId).getName();
+        EmailWrapper email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
     
-        MimeMessage email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
-    
-        verifyJoinInviteToInstructor(instructor, email);
+        verifyJoinInviteToInstructor(instructor, email, courseName, instructor.courseId);
         
         ______TS("success: send invite to instructor using instructor attributes");
 
         email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor);
     
-        verifyJoinInviteToInstructor(instructor, email);
+        verifyJoinInviteToInstructor(instructor, email, courseName, instructor.courseId);
         
         ______TS("failure: send to non-existing instructor");
     
@@ -791,11 +791,11 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
         assertEquals(instructor1.email, instructor2.email);
     }
     
-    private void verifyJoinInviteToInstructor(InstructorAttributes instr, MimeMessage email)
-                                    throws MessagingException {
-        assertEquals(instr.email, email.getAllRecipients()[0].toString());
-        AssertHelper.assertContains(Emails.SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN, email.getSubject());
-        AssertHelper.assertContains(instr.courseId, email.getSubject());
+    private void verifyJoinInviteToInstructor(InstructorAttributes instructor, EmailWrapper email, String courseName,
+                                              String courseId) {
+        assertEquals(instructor.email, email.getRecipient());
+        assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), courseName, courseId),
+                     email.getSubject());
     }
 
 }

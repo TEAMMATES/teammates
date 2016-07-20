@@ -16,7 +16,7 @@ public class StudentProfilePictureAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         boolean isRequestFromStudent = getRequestParamValue(Const.ParamsNames.BLOB_KEY) != null;
-        boolean isRequestFromInstructorOrOtherStudent = 
+        boolean isRequestFromInstructorOrOtherStudent =
                                         getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL) != null;
         
         if (!isRequestFromStudent && !isRequestFromInstructorOrOtherStudent) {
@@ -30,7 +30,7 @@ public class StudentProfilePictureAction extends Action {
         } else if (isRequestFromInstructorOrOtherStudent) {
             result = handleRequestWithEmailAndCourse();
             statusToAdmin = "Requested Profile Picture by instructor/other students";
-        } 
+        }
         
         return result;
     }

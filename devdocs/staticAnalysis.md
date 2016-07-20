@@ -26,14 +26,21 @@ The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/
 
 #####Suppressing Checkstyle warnings
 
-To introduce code that violates Checkstyle rules, wrap the violating code with `//CHECKSTYLE:OFF` and re-enable it afterwards with `//CHECKSTYLE:ON`. Checkstyle also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://checkstyle.sourceforge.net/config_filters.html).
+To introduce code that violates Checkstyle rules, wrap the violating code with `// CHECKSTYLE.OFF:RuleName` and re-enable it afterwards with `// CHECKSTYLE.ON:RuleName` (note the absence of space around `.` and `:`). Checkstyle also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://checkstyle.sourceforge.net/config_filters.html).
 The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
 An example for suppressing the `Avoid star imports` rule is as follows:
-```
-//CHECKSTYLE:OFF as there would be many (>100) import lines added if we were to import all of the ActionURIs
+```java
+// CHECKSTYLE.OFF:AvoidStarImports as there would be many (>100) import lines added if we were to import all of the ActionURIs
 import static teammates.common.util.Const.ActionURIs.*;
-//CHECKSTYLE:ON
+// CHECKSTYLE.ON:AvoidStarImports
+```
+
+To suppress multiple violations at once, separate the rules with vertical bar `|`:
+```java
+// CHECKSTYLE.OFF:AbbreviationAsWordInName|MemberName the database uses ID
+private String ID;
+// CHECKSTYLE.ON:AbbreviationAsWordInName|MemberName
 ```
 
 ### PMD
@@ -42,10 +49,18 @@ import static teammates.common.util.Const.ActionURIs.*;
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-pmd.xml).
 The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
 
+#####Configuring PMD Eclipse plugin
+
+1. In `Project > Properties`, go to the `PMD` tab.
+2. Check `Enable PMD`.
+3. Under `Rule Source`, check `Use the ruleset configured in a project file`. Click `Browse`,  
+   navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`. Click OK. 
+   You have successfully setup the PMD Eclipse plugin.
+
+
 #####Suppressing PMD warnings
-To introduce code that violates PMD rules, PMD provides several methods of [suppressing](http://pmd.sourceforge.net/snapshot/usage/suppressing.html) rule violations, such as 
-the `SuppressWarnings` annotation or the `NOPMD` marker, which can be used to tell PMD to ignore specific parts of the code.
-The suppression should be as specific as possible, and the reason for violating the rule should be explained.      
+To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://pmd.sourceforge.net/snapshot/usage/suppressing.html).
+The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
 ### FindBugs
 
@@ -53,20 +68,25 @@ The suppression should be as specific as possible, and the reason for violating 
 In Gradle build, the rules are configured by specifying the classes in the `visitors` variable.
 The plugin for Eclipse can be found [here](http://findbugs.cs.umd.edu/eclipse/).
 
+### Macker
+
+[Macker](https://github.com/andrena/macker) checks the architectural integrity of Java source code.
+The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-macker.xml).
+
 ### EclEmma/JaCoCo
 
 [EclEmma/JaCoCo](http://eclemma.org/jacoco/) measures code coverage for Java test run.
 Normally, the coverage will be run against all classes specified as the source code, but it can be configured to exclude classes matching certain name patterns.
 The plugin for Eclipse can be found [here](http://eclemma.org).
 
-### ESLint
+### ESLint (version 3.0.0)
 
 [ESLint](http://eslint.org) functions both to enforce coding standard and also to find potential bugs in JavaScript source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-eslint.yml).
 ESLint is a node.js package, currently not supported for Eclipse Java EE project.
-To set it up, [install node.js](https://nodejs.org/en/download/) if necessary and then install the ESLint package:
+To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (version 4 or later required) and then install the ESLint package:
 ```
-npm install -g eslint
+npm install -g eslint@3.0.0
 ```
 
 ##### Suppressing ESLint warnings
@@ -105,22 +125,30 @@ The analysis results are immediately reported in Eclipse and you can traverse to
 
 To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin, right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`. The report can be found in the `Markers` window in Eclipse.
 
+To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`. The report can be viewed in the PMD Perspective view under `Violations Overview`. Note that currently, the Eclipse plugin uses a different PMD version from what `build.gradle` is using. 
+
 Alternatively, run the tools via Gradle:
 ```
-./gradlew -b travis.gradle {toolType}{sourceCodeType}
+./gradlew {toolType}{sourceCodeType}
 ```
 where `{toolType}` = checkstyle, pmd, findbugs (lowercase), and `{sourceCodeType}` = Main, Test (Pascal Case).
 The reports can be found in the `build/reports/{toolType}/` directory.
 
+To run Macker analysis on all Java source files, run the following command:
+```
+./gradlew macker
+```
+The violations caught, if any, will be printed to the console itself.
+
 To run ESLint analysis on all JavaScript source files, run the following command:
 ```
-./gradlew -b travis.gradle eslint
+./gradlew eslint
 ```
 The violations caught, if any, will be printed to the console itself.
 
 To run all static analysis tasks in one sitting, run the following command:
 ```
-./gradlew -b travis.gradle staticAnalysis
+./gradlew staticAnalysis --continue
 ```
 
 ## Running code coverage session
@@ -137,8 +165,8 @@ The coverage will be reported in Eclipse after the test run is over.
 
 Alternatively, use Gradle to run the tests, and obtain the coverage data with `jacocoTestReport` task, i.e:
 ```
-./gradlew -b travis.gradle travisTests
-./gradlew -b travis.gradle jacocoTestReport
+./gradlew travisTests
+./gradlew jacocoTestReport
 ```
 The report can be found in the `build/reports/jacoco/test/` directory.
 

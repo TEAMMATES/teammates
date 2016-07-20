@@ -21,7 +21,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackNumScaleQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -29,7 +29,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
@@ -51,19 +51,23 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
     }
 
+    @Override
     public void testNewQuestionFrame() {
         ______TS("NUMSCALE: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Numerical-scale question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("NUMSCALE");
+        
         assertTrue(feedbackEditPage.verifyNewNumScaleQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
         
         ______TS("empty options");
         
-        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.fillMinNumScaleBox("", -1);
         feedbackEditPage.fillStepNumScaleBox("", -1);
         feedbackEditPage.fillMaxNumScaleBox("", -1);
@@ -73,12 +77,13 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.clickAddQuestionButton();
         
-        assertEquals("Please enter valid options. The min/max/step cannot be empty.", feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus("Please enter valid options. The min/max/step cannot be empty.");
         
         
         ______TS("invalid options");
         
-        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.fillMinNumScaleBox("1", -1);
         feedbackEditPage.fillStepNumScaleBox("0.3", -1);
         feedbackEditPage.fillMaxNumScaleBox("5", -1);
@@ -88,25 +93,29 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         
         feedbackEditPage.clickAddQuestionButton();
         
-        assertEquals("Please enter valid options. The interval is not divisible by the specified increment.", feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus("Please enter valid options. "
+                                      + "The interval is not divisible by the specified increment.");
         
         ______TS("possible floating point error");
         
-        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.fillMinNumScaleBox("1", -1);
         feedbackEditPage.fillStepNumScaleBox("0.001", -1);
         feedbackEditPage.fillMaxNumScaleBox("5555", -1);
         
-        assertEquals("[Based on the above settings, acceptable responses are: 1, 1.001, 1.002, ..., 5554.998, 5554.999, 5555]",
-                feedbackEditPage.getNumScalePossibleValuesString(-1));
+        assertEquals("[Based on the above settings, acceptable responses are: 1, 1.001, 1.002, ..., "
+                             + "5554.998, 5554.999, 5555]",
+                     feedbackEditPage.getNumScalePossibleValuesString(-1));
         
         ______TS("more than three dp step rounding test");
 
         feedbackEditPage.fillMaxNumScaleBox("1002", -1);
         feedbackEditPage.fillStepNumScaleBox("1.00123456789", -1);
 
-        assertEquals("[Based on the above settings, acceptable responses are: 1, 2.001, 3.002, ..., 999.998, 1000.999, 1002]",
-                feedbackEditPage.getNumScalePossibleValuesString(-1));
+        assertEquals("[Based on the above settings, acceptable responses are: 1, 2.001, 3.002, ..., "
+                             + "999.998, 1000.999, 1002]",
+                     feedbackEditPage.getNumScalePossibleValuesString(-1));
         
         ______TS("NUMSCALE: min >= max test");
         //Tests javascript that automatically makes max = min+1 when max is <= min.
@@ -124,8 +133,10 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMaxNumScaleBox(5, -1);
     }
 
+    @Override
     public void testCustomizeOptions() {
-        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionBox("NumScale qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
         feedbackEditPage.fillStepNumScaleBox(0.3, -1);
@@ -143,43 +154,49 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
         ______TS("NUMSCALE: add question action success");
 
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("NUMSCALE: edit question success");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("edited numscale qn text", 1);
+        feedbackEditPage.fillEditQuestionDescription("more details", 1);
         feedbackEditPage.fillMinNumScaleBox(3, 1);
         feedbackEditPage.fillMaxNumScaleBox(4, 1);
         feedbackEditPage.fillStepNumScaleBox(0.002, 1);
         assertEquals("[Based on the above settings, acceptable responses are: 3, 3.002, 3.004, ..., 3.996, 3.998, 4]",
                 feedbackEditPage.getNumScalePossibleValuesString(1));
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionEditSuccess.html");
     }
     
+    @Override
     public void testDeleteQuestionAction() {
         ______TS("NUMSCALE: qn delete then cancel");
 
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         ______TS("NUMSCALE: qn delete then accept");
 
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
@@ -201,7 +218,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

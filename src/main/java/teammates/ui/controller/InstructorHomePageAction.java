@@ -10,9 +10,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Const.StatusMessages;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorHomePageAction extends Action {
@@ -57,7 +57,7 @@ public class InstructorHomePageAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME_AJAX_COURSE_TABLE, data);
     }
 
-    private ActionResult loadPage() throws EntityDoesNotExistException {
+    private ActionResult loadPage() {
         boolean omitArchived = true;
         HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
                                                                  account.googleId, omitArchived);
@@ -101,5 +101,5 @@ public class InstructorHomePageAction extends Action {
         default:
             throw new RuntimeException("Invalid course sorting criteria.");
         }
-    }    
+    }
 }

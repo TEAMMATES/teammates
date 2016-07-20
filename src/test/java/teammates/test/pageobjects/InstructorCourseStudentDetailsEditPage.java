@@ -2,6 +2,7 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -38,7 +39,8 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * If the parameter value is not null, the value will be filled into the
      * relevent input filed.
      */
-    public InstructorCourseDetailsPage submitSuccessfully(String studentName, String teamName, String studentEmail, String comments) {
+    public InstructorCourseDetailsPage submitSuccessfully(String studentName, String teamName,
+                                                          String studentEmail, String comments) {
         fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
         return changePageType(InstructorCourseDetailsPage.class);
     }
@@ -47,7 +49,8 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * If the parameter value is not null, the value will be filled into the
      * relevent input field.
      */
-    public InstructorCourseStudentDetailsEditPage submitUnsuccessfully(String studentName, String teamName, String studentEmail, String comments) {
+    public InstructorCourseStudentDetailsEditPage submitUnsuccessfully(
+            String studentName, String teamName, String studentEmail, String comments) {
         fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
         return this;
     }
@@ -70,7 +73,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
             fillTextBox(commentsTextbox, comments);
         }
         if (teamName == null) {
-            submitButton.click();
+            click(submitButton);
         } else {
             // if team name is edited, the confirmation dialog will pop up
             clickAndConfirm(submitButton);
@@ -83,7 +86,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     }
 
     public InstructorCourseDetailsPage submitButtonClicked() {
-        submitButton.click();
+        click(submitButton);
         return changePageType(InstructorCourseDetailsPage.class);
     }
 }

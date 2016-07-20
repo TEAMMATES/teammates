@@ -13,7 +13,7 @@ import teammates.logic.api.GateKeeper;
 public class AdminAccountDetailsPageAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         new GateKeeper().verifyAdminPrivileges(account);
         
@@ -22,7 +22,8 @@ public class AdminAccountDetailsPageAction extends Action {
 
         List<CourseDetailsBundle> instructorCourseList;
         try {
-            instructorCourseList = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(googleId).values());
+            instructorCourseList =
+                    new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(googleId).values());
         } catch (EntityDoesNotExistException e) {
             //Not an instructor of any course
             instructorCourseList = null;
@@ -36,7 +37,7 @@ public class AdminAccountDetailsPageAction extends Action {
             studentCourseList = null;
         }
         
-        AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account, accountInformation, 
+        AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account, accountInformation,
                                                                            instructorCourseList, studentCourseList);
         statusToAdmin = "adminAccountDetails Page Load<br>"
                 + "Viewing details for " + data.getAccountInformation().name + "(" + googleId + ")";

@@ -5,8 +5,8 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 
 public abstract class FeedbackSubmissionEditPageAction extends Action {
     protected String courseId;
@@ -27,7 +27,8 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         
         if (feedbackSession == null) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS,
+                                               StatusMessageColor.WARNING));
                        
             return createSpecificRedirectResult();
         }
@@ -46,7 +47,8 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         setStatusToAdmin();
         
         if (!data.isSessionOpenForSubmission()) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN,
+                                               StatusMessageColor.WARNING));
         }
         
         data.init(regKey, email, courseId);
@@ -60,7 +62,8 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
     
     protected abstract String getUserEmailForCourse();
 
-    protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
+    protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse)
+            throws EntityDoesNotExistException;
 
     protected abstract boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session);
     

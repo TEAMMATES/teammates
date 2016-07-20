@@ -4,7 +4,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByRQG.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByRGQ.js"></script>
 </c:set>
 
 <results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}" data="${data}">

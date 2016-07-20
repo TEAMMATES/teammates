@@ -8,10 +8,9 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
-import teammates.common.util.FieldValidator.FieldType;
-import teammates.common.util.Sanitizer;
 import teammates.storage.entity.FeedbackResponseComment;
 
 import com.google.appengine.api.datastore.Text;
@@ -21,7 +20,6 @@ import com.google.appengine.api.datastore.Text;
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
-    private Long feedbackResponseCommentId;
     public String courseId;
     public String feedbackSessionName;
     public String feedbackQuestionId;
@@ -39,6 +37,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public Text commentText;
     public String lastEditorEmail;
     public Date lastEditedAt;
+    private Long feedbackResponseCommentId;
 
     public FeedbackResponseCommentAttributes() {
         this.feedbackResponseCommentId = null;
@@ -59,7 +58,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     
     public FeedbackResponseCommentAttributes(String courseId, String feedbackSessionName, String feedbackQuestionId,
             String giverEmail, String feedbackResponseId, Date createdAt, Text commentText) {
-        this(courseId, feedbackSessionName, feedbackQuestionId, giverEmail, 
+        this(courseId, feedbackSessionName, feedbackQuestionId, giverEmail,
                 feedbackResponseId, createdAt, commentText, "None", "None");
     }
 
@@ -106,7 +105,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
                                                                     : comment.getLastEditorEmail();
         this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt();
         
-        if (comment.getIsVisibilityFollowingFeedbackQuestion() == null 
+        if (comment.getIsVisibilityFollowingFeedbackQuestion() == null
                                         || comment.getIsVisibilityFollowingFeedbackQuestion()) {
             setDefaultVisibilityOptions();
         } else {
@@ -142,7 +141,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        error = validator.getInvalidityInfoForCourseId(courseId);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -152,7 +151,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
             errors.add(error);
         }
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        error = validator.getInvalidityInfoForEmail(giverEmail);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -191,14 +190,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        this.courseId = this.courseId.trim();
-        this.feedbackSessionName = this.feedbackSessionName.trim();
         this.commentText = Sanitizer.sanitizeTextField(this.commentText);
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
-        this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
-        this.feedbackQuestionId = Sanitizer.sanitizeForHtml(feedbackQuestionId);
-        this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
-        this.feedbackResponseId = Sanitizer.sanitizeForHtml(feedbackResponseId);
         if (commentText != null) {
             //replacing "\n" with "\n<br>" here is to make comment text support displaying breakline
             String sanitizedText = Sanitizer.sanitizeForHtml(commentText.getValue()).replace("\n", "\n<br>");
@@ -210,13 +202,13 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public String toString() {
         //TODO: print visibilityOptions also
         return "FeedbackResponseCommentAttributes ["
-                + "feedbackResponseCommentId = " + feedbackResponseCommentId 
-                + ", courseId = " + courseId 
+                + "feedbackResponseCommentId = " + feedbackResponseCommentId
+                + ", courseId = " + courseId
                 + ", feedbackSessionName = " + feedbackSessionName
                 + ", feedbackQuestionId = " + feedbackQuestionId
-                + ", giverEmail = " + giverEmail 
+                + ", giverEmail = " + giverEmail
                 + ", feedbackResponseId = " + feedbackResponseId
-                + ", commentText = " + commentText.getValue() 
+                + ", commentText = " + commentText.getValue()
                 + ", createdAt = " + createdAt
                 + ", lastEditorEmail = " + lastEditorEmail
                 + ", lastEditedAt = " + lastEditedAt + "]";
@@ -224,6 +216,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     
     public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
         Collections.sort(frcs, new Comparator<FeedbackResponseCommentAttributes>() {
+            @Override
             public int compare(FeedbackResponseCommentAttributes frc1, FeedbackResponseCommentAttributes frc2) {
                 return frc1.createdAt.compareTo(frc2.createdAt);
             }
@@ -233,7 +226,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public String getEditedAtText(Boolean isGiverAnonymous) {
         if (this.lastEditedAt == null || this.lastEditedAt.equals(this.createdAt)) {
             return "";
-        } 
+        }
         return "(last edited "
              + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
              + "at " + TimeHelper.formatDateTimeForComments(this.lastEditedAt) + ")";

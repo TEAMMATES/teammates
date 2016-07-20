@@ -4,7 +4,6 @@
 
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
-<%@ tag import="teammates.logic.core.Emails.EmailType" %>
 
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
 
@@ -123,11 +122,10 @@
                                 </label>
                             </h5>
                             <div class="col-sm-10">
-                                <textarea class="form-control"
-                                    rows="4" cols="100%"
-                                    name="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>"
-                                    id="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>"
-                                    placeholder="e.g. Please answer all the given questions.">${fsForm.instructions}</textarea>
+                                <div id="richtext-toolbar-container"></div>
+                                <div id="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>" class="panel panel-default panel-body">
+                                    ${fsForm.instructions}
+                                </div>
                             </div>
                         </div>
                     </div>

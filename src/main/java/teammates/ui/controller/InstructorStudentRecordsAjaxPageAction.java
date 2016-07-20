@@ -13,8 +13,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentRecordsAjaxPageAction extends Action {
@@ -37,7 +37,8 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS, StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS,
+                                               StatusMessageColor.DANGER));
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
@@ -67,7 +68,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
                       + "for session <span class=\"bold\">[" + targetSessionName + "]</span> "
                       + "in course <span class=\"bold\">[" + courseId + "]</span>";
 
-        InstructorStudentRecordsAjaxPageData data = 
+        InstructorStudentRecordsAjaxPageData data =
                                         new InstructorStudentRecordsAjaxPageData(account, student, results);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);
@@ -78,8 +79,8 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
         Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
         while (iterFs.hasNext()) {
             FeedbackSessionAttributes tempFs = iterFs.next();
-            if (!tempFs.courseId.equals(courseId)
-                 || !currentInstructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
+            if (!tempFs.getCourseId().equals(courseId)
+                    || !currentInstructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                 iterFs.remove();
             }

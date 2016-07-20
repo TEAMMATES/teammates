@@ -13,13 +13,13 @@ import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 /**
  * Generate list of institutes and number of users per institute.
@@ -31,11 +31,11 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             .getPersistenceManagerFactory("transactions-optional")
             .getPersistenceManager();
     
-    private int iterationCounter;
-    
     private static final int INSTRUCTOR_INDEX = 0;
     private static final int STUDENT_INDEX = 1;
     private static final String UNKNOWN_INSTITUTE = "Unknown Institute";
+    
+    private int iterationCounter;
     
     private HashMap<String, String> courseIdToInstituteMap = new HashMap<String, String>();
     
@@ -44,6 +44,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         statistics.doOperationRemotely();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     protected void doOperation() {
         
@@ -56,10 +57,12 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         StatsBundle statsBundle = generateStatsPerInstitute(allStudents, allInstructors);
         List<InstituteStats> statsPerInstituteList = statsBundle.instituteStatsList;
         
-        String statsForUniqueStudentEmail =  generateUniqueStudentEmailStatsInWholeSystem(statsBundle.numOfAllStudentEmails,
-                                                                                          statsBundle.numOfUniqueStudentEmails);
-        String statsForUniqueInstructorEmail = generateUniqueInstructorEmailStatsInWholeSystem(statsBundle.numOfAllInstructorEmail,
-                                                                                               statsBundle.numOfUniqueInstructorEmails);
+        String statsForUniqueStudentEmail =
+                generateUniqueStudentEmailStatsInWholeSystem(statsBundle.numOfAllStudentEmails,
+                                                             statsBundle.numOfUniqueStudentEmails);
+        String statsForUniqueInstructorEmail =
+                generateUniqueInstructorEmailStatsInWholeSystem(statsBundle.numOfAllInstructorEmail,
+                                                                statsBundle.numOfUniqueInstructorEmails);
         
         print(statsPerInstituteList);
         System.out.println("\n\n" + "***************************************************" + "\n\n");
@@ -83,12 +86,12 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         if (instructor.getEmail() != null && instructor.getEmail().toLowerCase().endsWith(".tmt")) {
             isTestingData = true;
-        }       
+        }
         
         String instituteForInstructor = getInstituteForInstructor(instructor);
         if (instituteForInstructor == null || instituteForInstructor.contains("TEAMMATES Test Institute")) {
             isTestingData = true;
-        } 
+        }
         
         return isTestingData;
     }
@@ -107,17 +110,18 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         if (student.getEmail().toLowerCase().endsWith(".tmt")) {
             isTestingData = true;
-        }       
+        }
         
         if (getInstituteForStudent(student).contains("TEAMMATES Test Institute")) {
             isTestingData = true;
-        } 
+        }
         
         return isTestingData;
     }
 
     private StatsBundle generateStatsPerInstitute(List<Student> allStudents, List<Instructor> allInstructors) {
-        HashMap<String, HashMap<Integer, HashSet<String>>> institutes = new HashMap<String, HashMap<Integer, HashSet<String>>>();
+        HashMap<String, HashMap<Integer, HashSet<String>>> institutes =
+                new HashMap<String, HashMap<Integer, HashSet<String>>>();
         
         HashSet<String> allInstructorEmailSet = new HashSet<String>();
         HashSet<String> allStudentEmailSet = new HashSet<String>();
@@ -126,13 +130,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         for (Instructor instructor : allInstructors) {
             
-            if (isTestingInstructorData(instructor) || instructor.getEmail() == null) {               
+            if (isTestingInstructorData(instructor) || instructor.getEmail() == null) {
                 continue;
             }
             
             String institute = getInstituteForInstructor(instructor);
             
-            if (!institutes.containsKey(institute)) {               
+            if (!institutes.containsKey(institute)) {
                 institutes.put(institute, new HashMap<Integer, HashSet<String>>());
                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
                 institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
@@ -151,7 +155,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             
             String institute = getInstituteForStudent(student);
             
-            if (!institutes.containsKey(institute)) {               
+            if (!institutes.containsKey(institute)) {
                 institutes.put(institute, new HashMap<Integer, HashSet<String>>());
                 
                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
@@ -159,7 +163,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             }
             
             institutes.get(institute).get(STUDENT_INDEX).add(student.getEmail().toLowerCase());
-            allStudentEmailSet.add(student.getEmail().toLowerCase());  
+            allStudentEmailSet.add(student.getEmail().toLowerCase());
             studentEmailCounter++;
             updateProgressIndicator();
         }
@@ -182,12 +186,12 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         if (courseIdToInstituteMap.containsKey(student.getCourseId())) {
             return courseIdToInstituteMap.get(student.getCourseId());
-        } 
+        }
 
         Query q = pm.newQuery(Instructor.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseId == courseIdParam");
-        List<Instructor> instructorList = (List<Instructor>) q.execute(student.getCourseId());        
+        List<Instructor> instructorList = (List<Instructor>) q.execute(student.getCourseId());
         
         String institute = getInstituteForInstructors(instructorList);
         
@@ -234,13 +238,11 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             
             if (JDOHelper.isDeleted(account)) {
                 return null;
-            } 
+            }
             
             return account;
             
-        } catch (IllegalArgumentException iae) {
-            return null;            
-        } catch (JDOObjectNotFoundException je) {
+        } catch (IllegalArgumentException | JDOObjectNotFoundException e) {
             return null;
         }
     }
@@ -256,10 +258,10 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             int numInstructors = stats.instructorTotal;
             int numStudents = stats.studentTotal;
             int total = numInstructors + numStudents;
-            runningTotal += total; 
+            runningTotal += total;
             System.out.println(
-                    "[" + i + "]" + numInstructors + " + " + numStudents + "=" 
-                            + total    + "{" + runningTotal + "}\t[" + stats.name + "]");
+                    "[" + i + "]" + numInstructors + " + " + numStudents + "="
+                            + total + "{" + runningTotal + "}\t[" + stats.name + "]");
         }
         
     }
@@ -279,17 +281,18 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     
     private void sortByTotalStudentsDescending(List<InstituteStats> list) {
         Collections.sort(list, new Comparator<InstituteStats>() {
+            @Override
             public int compare(InstituteStats inst1, InstituteStats inst2) {
                 //the two objects are swapped, to sort in descending order
-                return new Integer(inst2.studentTotal).compareTo(new Integer(inst1.studentTotal));
+                return Integer.valueOf(inst2.studentTotal).compareTo(Integer.valueOf(inst1.studentTotal));
             }
         });
     }
     
     private void updateProgressIndicator() {
-        iterationCounter++;       
-        if (iterationCounter % 1000 == 0) {           
-            System.out.print("------------------  iterations count:" + iterationCounter + "  ------------------------\n");
+        iterationCounter++;
+        if (iterationCounter % 1000 == 0) {
+            System.out.print("------------------ iterations count:" + iterationCounter + " ------------------------\n");
         }
     }
     

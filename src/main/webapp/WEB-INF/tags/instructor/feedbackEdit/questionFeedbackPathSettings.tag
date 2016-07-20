@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
-<%@ tag import="teammates.logic.core.Emails.EmailType" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
@@ -22,7 +21,7 @@
                 id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>${fqForm.questionNumberSuffix}"
                 name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
                 <c:if test="${!fqForm.editable}">disabled</c:if>
-                onchange="feedbackGiverUpdateVisibilityOptions(this)">
+                onchange="matchVisibilityOptionToFeedbackPath(this)">
                 <c:forEach items="${fqForm.feedbackPathSettings.giverParticipantOptions}" var="option">
                     <option ${option.attributesToString}>
                         ${option.content}
@@ -40,7 +39,7 @@
             <select class="form-control participantSelect"
                 id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>${fqForm.questionNumberSuffix}"
                 name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
-                <c:if test="${!fqForm.editable}">disabled</c:if> onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+                <c:if test="${!fqForm.editable}">disabled</c:if> onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
                 <c:forEach items="${fqForm.feedbackPathSettings.recipientParticipantOptions}" var="option">
                     <option ${option.attributesToString}>
                         ${option.content}

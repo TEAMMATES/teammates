@@ -27,7 +27,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcess() throws Exception {
+    public void testExecuteAndPostProcess() {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentId = student1InCourse1.googleId;
         String adminUserId = "admin.user";
@@ -73,7 +73,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
     
-    private StudentCommentsPageAction getAction(String... params) throws Exception {
+    private StudentCommentsPageAction getAction(String... params) {
         return (StudentCommentsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

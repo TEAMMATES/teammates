@@ -89,19 +89,19 @@ public class StudentProfilePage extends AppPage {
     }
 
     public StudentProfilePage submitEditedProfile() {
-        submitButton.click();
+        click(submitButton);
         waitForPageToLoad();
         return changePageType(StudentProfilePage.class);
     }
 
-    public void fillProfilePic(String fileName) throws Exception {
+    public void fillProfilePic(String fileName) {
         showPictureEditor();
         RemoteWebElement ele = (RemoteWebElement) browser.driver.findElement(By.id("studentPhoto"));
         fillFileBox(ele, fileName);
     }
 
-    public void showPictureEditor() throws Exception {
-        uploadPopupButton.click();
+    public void showPictureEditor() {
+        click(uploadPopupButton);
         waitForUploadEditModalVisible();
     }
 
@@ -128,13 +128,13 @@ public class StudentProfilePage extends AppPage {
     public void selectGender(String gender) {
         switch (gender) {
         case Const.GenderTypes.MALE:
-            genderMaleRadio.click();
+            click(genderMaleRadio);
             break;
         case Const.GenderTypes.FEMALE:
-            genderFemaleRadio.click();
+            click(genderFemaleRadio);
             break;
         case Const.GenderTypes.OTHER:
-            genderOtherRadio.click();
+            click(genderOtherRadio);
             break;
         default:
             fail("Given gender " + gender + " is not valid!");
@@ -143,7 +143,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void editProfileThroughUi(String fileName, String shortName, String email, String institute,
-                                     String nationality, String gender, String moreInfo) throws Exception {
+                                     String nationality, String gender, String moreInfo) {
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);
@@ -181,31 +181,32 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void uploadPicture() {
-        uploadPictureSubmit.click();
+        click(uploadPictureSubmit);
         waitForPageToLoad();
     }
 
     public void editProfilePhoto() {
-        editPictureZoomIn.click();
-        editPictureZoomOut.click();
-        editPictureZoomIn.click();
+        click(editPictureZoomIn);
+        click(editPictureZoomOut);
+        click(editPictureZoomIn);
 
-        editPictureRotateRight.click();
-        editPictureRotateLeft.click();
-        editPictureRotateRight.click();
+        click(editPictureRotateRight);
+        click(editPictureRotateLeft);
+        click(editPictureRotateRight);
 
-        editPicturePanDown.click();
-        editPicturePanUp.click();
-        editPicturePanDown.click();
+        click(editPicturePanDown);
+        click(editPicturePanUp);
+        click(editPicturePanDown);
 
-        editPicturePanLeft.click();
-        editPicturePanRight.click();
-        editPicturePanLeft.click();
+        click(editPicturePanLeft);
+        click(editPicturePanRight);
+        click(editPicturePanLeft);
 
-        editPictureSubmit.click();
+        click(editPictureSubmit);
+        waitForPageToLoad();
     }
 
-    public void verifyPhotoSize(int height, int width) throws Exception {
+    public void verifyPhotoSize(int height, int width) {
         assertEquals(String.valueOf(height), browser.driver.findElement(By.id("pictureHeight"))
                                                            .getAttribute("value"));
         assertEquals(String.valueOf(width), browser.driver.findElement(By.id("pictureWidth"))
@@ -224,7 +225,7 @@ public class StudentProfilePage extends AppPage {
     public void closeEditPictureModal() {
         WebElement closeButton = browser.driver.findElement(By.className("close"));
         waitForElementVisibility(closeButton);
-        closeButton.click();
+        click(closeButton);
     }
 
 }

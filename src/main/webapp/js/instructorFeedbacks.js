@@ -193,7 +193,7 @@ function bindCopyEvents() {
         $('#modalSessionName').val(feedbackSessionName);
 
         var $previouslySelectedRadio = $currentlySelectedRow.parent().find('input:checked');
-        var $previouslySelectedRow = $previouslySelectedRadio.parent().parent();
+        var $previouslySelectedRow = $previouslySelectedRadio.closest('tr');
 
         $previouslySelectedRadio.prop('checked', false);
         $previouslySelectedRow.removeClass('row-selected');
@@ -330,3 +330,17 @@ function collapseIfPrivateSession() {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();
     }
 }
+
+$(document).ready(function() {
+    var isEdit = typeof readyFeedbackEditPage === 'function';
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            readonly: isEdit,
+            fixed_toolbar_container: '#richtext-toolbar-container'
+        });
+        /* eslint-enable camelcase */
+    }
+});

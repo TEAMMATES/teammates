@@ -1,11 +1,10 @@
-
 function handleError() {
     var contentHolder = d3.select('#contentHolder');
     contentHolder.html('');
     contentHolder.append('p')
         .text('An error has occured in getting data, please try reloading.');
     contentHolder.append('p')
-        .html('If the problem persists after a few retries, please <a href="/contact.html">contact us</a>.');
+        .html('If the problem persists after a few retries, please <a href="/contact.jsp">contact us</a>.');
 }
 
 function handleData(err, countryCoordinates, userData) {
@@ -179,7 +178,7 @@ function handleData(err, countryCoordinates, userData) {
         }
 
         function datumHasCoords(datum) {
-            return typeof datum !== 'undefined' && typeof datum.latitude !== 'undefined' && typeof datum.longitude !== 'undefined';
+            return datum && datum.latitude && datum.longitude;
         }
     });
 

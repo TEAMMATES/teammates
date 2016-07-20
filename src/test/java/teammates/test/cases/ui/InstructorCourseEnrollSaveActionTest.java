@@ -43,7 +43,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         gaeSimulation.loginAsInstructor(instructorId);
 
-        ______TS("Typical case: add and edit students for non-empty course");        
+        ______TS("Typical case: add and edit students for non-empty course");
         
         enrollString = "Section | Team | Name | Email | Comment" + Const.EOL
                        // A new student
@@ -67,7 +67,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         InstructorCourseEnrollSaveAction enrollAction = getAction(submissionParams);
         
         ShowPageResult pageResult = getShowPageResult(enrollAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT + "?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT + "?error=false&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -87,7 +87,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         StudentAttributes modifiedStudent = dataBundle.students.get("student1InCourse1");
         modifiedStudent.comments = "New comment added";
-        modifiedStudent.section  = "Section 2";
+        modifiedStudent.section = "Section 2";
         modifiedStudent.team = "Team 1.3";
         modifiedStudent.updateStatus = StudentAttributes.UpdateStatus.MODIFIED;
         verifyStudentEnrollmentStatus(modifiedStudent, pageData.getEnrollResultPanelList());
@@ -101,7 +101,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         verifyStudentEnrollmentStatus(unmodifiedStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
 
         String expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]"
-                                    + ":</span><br>" + Sanitizer.sanitizeForHtml(enrollString).replace("\n", "<br>"); 
+                                    + ":</span><br>" + Sanitizer.sanitizeForHtml(enrollString).replace("\n", "<br>");
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Masquerade mode, enrollment into empty course");
@@ -118,7 +118,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         String headerRow = "Name\tEmail\tTeam\tComment";
         String studentsInfo = "Jean Wong\tjean@email.tmt\tTeam 1\tExchange student"
                               + Const.EOL + "James Tan\tjames@email.tmt\tTeam 2\t";
-        enrollString = headerRow + Const.EOL +  studentsInfo;
+        enrollString = headerRow + Const.EOL + studentsInfo;
         
         submissionParams = new String[]{
                 Const.ParamsNames.USER_ID, instructorId,
@@ -136,18 +136,18 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
 
-        StudentAttributes student1 = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong", 
+        StudentAttributes student1 = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong",
                                                            "Exchange student", courseId, "Team 1", "None");
         student1.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student1, pageData.getEnrollResultPanelList());
         
-        StudentAttributes student2 = new StudentAttributes("james", "james@email.tmt", "James Tan", "", 
+        StudentAttributes student2 = new StudentAttributes("james", "james@email.tmt", "James Tan", "",
                                                            courseId, "Team 2", "None");
         student2.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student2, pageData.getEnrollResultPanelList());
         
         expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]:</span>"
-                             + "<br>" + enrollString.replace("\n", "<br>"); 
+                             + "<br>" + enrollString.replace("\n", "<br>");
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Failure case: enrollment failed due to invalid lines");
@@ -172,27 +172,30 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         String expectedStatusMessage = "<p>"
                                             + "<span class=\"bold\">Problem in line : "
                                                 + "<span class=\"invalidLine\">"
-                                                    + Sanitizer.sanitizeForHtml(studentWithoutEnoughParam) 
+                                                    + Sanitizer.sanitizeForHtml(studentWithoutEnoughParam)
                                                 + "</span>"
                                             + "</span>"
                                             + "<br>"
-                                            + "<span class=\"problemDetail\">&bull; " 
-                                                + StudentAttributesFactory.ERROR_ENROLL_LINE_TOOFEWPARTS 
+                                            + "<span class=\"problemDetail\">&bull; "
+                                                + StudentAttributesFactory.ERROR_ENROLL_LINE_TOOFEWPARTS
                                             + "</span>"
-                                        + "</p>" 
-                                        + "<br>" 
+                                        + "</p>"
+                                        + "<br>"
                                         + "<p>"
                                             + "<span class=\"bold\">Problem in line : "
-                                                + "<span class=\"invalidLine\">" 
-                                                    + Sanitizer.sanitizeForHtml(studentWithInvalidEmail) 
+                                                + "<span class=\"invalidLine\">"
+                                                    + Sanitizer.sanitizeForHtml(studentWithInvalidEmail)
                                                 + "</span>"
                                             + "</span>"
                                             + "<br>"
                                             + "<span class=\"problemDetail\">&bull; "
                                                 + Sanitizer.sanitizeForHtml(
-                                                        String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
-                                                                      "invalid.email.tmt",
-                                                                      FieldValidator.REASON_INCORRECT_FORMAT))
+                                                        getPopulatedErrorMessage(
+                                                            FieldValidator.EMAIL_ERROR_MESSAGE,
+                                                            "invalid.email.tmt",
+                                                            FieldValidator.EMAIL_FIELD_NAME,
+                                                            FieldValidator.REASON_INCORRECT_FORMAT,
+                                                            FieldValidator.EMAIL_MAX_LENGTH))
                                             + "</span>"
                                         + "</p>";
         assertEquals(expectedStatusMessage, pageResult.getStatusMessage());
@@ -202,7 +205,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals(enrollString, enrollPageData.getEnrollStudents());
         
         expectedLogSegment = expectedStatusMessage + "<br>Enrollment string entered by user:<br>"
-                             + (enrollString).replace("\n", "<br>");
+                             + enrollString.replace("\n", "<br>");
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Boundary test for size limit per enrollment");
@@ -214,7 +217,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         StringBuilder enrollStringBuilder = new StringBuilder(200);
         enrollStringBuilder.append("Section\tTeam\tName\tEmail");
         for (int i = 0; i < sizeLimitBoundary; i++) {
-            enrollStringBuilder.append(Const.EOL).append("section" + i + "\tteam" + i + "\tname" + i 
+            enrollStringBuilder.append(Const.EOL).append("section" + i + "\tteam" + i + "\tname" + i
                                                          + "\temail" + i + "@nonexistemail.nonexist");
         }
         submissionParams = new String[]{
@@ -227,8 +230,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         //fail to enroll, if exceed the range
-        enrollStringBuilder.append(Const.EOL).append("section" + sizeLimitBoundary + "\tteam" + sizeLimitBoundary 
-                                                     + "\tname" + sizeLimitBoundary + "\temail" + sizeLimitBoundary 
+        enrollStringBuilder.append(Const.EOL).append("section" + sizeLimitBoundary + "\tteam" + sizeLimitBoundary
+                                                     + "\tname" + sizeLimitBoundary + "\temail" + sizeLimitBoundary
                                                      + "@nonexistemail.nonexist");
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -251,7 +254,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollAction = getAction(submissionParams);
         
         pageResult = getShowPageResult(enrollAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=true&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=true&user=idOfInstructor1OfCourse1",
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, pageResult.getStatusMessage());
@@ -283,7 +286,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertTrue(result);
     }
     
-    private InstructorCourseEnrollSaveAction getAction(String... params) throws Exception {
+    private InstructorCourseEnrollSaveAction getAction(String... params) {
         return (InstructorCourseEnrollSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 

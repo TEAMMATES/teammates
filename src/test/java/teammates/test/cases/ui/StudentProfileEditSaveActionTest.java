@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -37,7 +36,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         testActionInMasqueradeMode(student);
     }
 
-    private void testActionWithInvalidParameters(AccountAttributes student) throws EntityDoesNotExistException {
+    private void testActionWithInvalidParameters(AccountAttributes student) throws Exception {
         gaeSimulation.loginAsStudent(student.googleId);
         ______TS("Failure case: invalid parameters");
         
@@ -54,13 +53,16 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                                     result.getDestinationWithParams());
         List<String> expectedErrorMessages = new ArrayList<String>();
         
-        expectedErrorMessages.add(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                                                submissionParams[1], "a person name",
-                                                FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                                                "a person name"));
-        expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
-                                                submissionParams[3],
-                                                FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, submissionParams[1],
+                                         FieldValidator.PERSON_NAME_FIELD_NAME,
+                                         FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                                         FieldValidator.PERSON_NAME_MAX_LENGTH));
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, submissionParams[3],
+                                         FieldValidator.EMAIL_FIELD_NAME,
+                                         FieldValidator.REASON_INCORRECT_FORMAT,
+                                         FieldValidator.EMAIL_MAX_LENGTH));
         
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
         
@@ -71,7 +73,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
     }
 
-    private void testActionTypicalSuccess(AccountAttributes student) throws EntityDoesNotExistException {
+    private void testActionTypicalSuccess(AccountAttributes student) {
         String[] submissionParams = createValidParamsForProfile();
         StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
         gaeSimulation.loginAsStudent(student.googleId);
@@ -90,7 +92,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         verifyLogMessage(student, action, expectedProfile, false);
     }
 
-    private void testActionInMasqueradeMode(AccountAttributes student) throws EntityDoesNotExistException {
+    private void testActionInMasqueradeMode(AccountAttributes student) {
 
         ______TS("Typical case: masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");

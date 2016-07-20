@@ -17,29 +17,30 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
 public class AdminEmailPageUiTest extends BaseUiTestCase {
+    
+    private static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
+
     private static Browser browser;
     private static AdminEmailPage emailPage;
     
-    public static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
-
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }
     
-    @Test 
-    public void allTests() throws Exception {    
+    @Test
+    public void allTests() throws Exception {
         testCompose();
         testSent();
         testDraft();
         testTrash();
     }
     
-    private void testCompose() {
+    private void testCompose() throws Exception {
         ______TS("email compose page");
         
-        emailPage = loginAdminToPageForAdminUiTests(
+        emailPage = loginAdminToPage(
                         browser, createUrl(Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE), AdminEmailPage.class);
         assertTrue(isEmailComposeElementsPresent());
         
@@ -103,14 +104,20 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
             && emailPage.isElementPresent(By.id("composeSaveButton"));
     }
     
-    private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) {
+    private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) throws Exception {
         return emailPage.getStatus().contains(
-                String.format(FieldValidator.EMAIL_ERROR_MESSAGE, recipientName, FieldValidator.REASON_INCORRECT_FORMAT));
+                getPopulatedErrorMessage(
+                    FieldValidator.EMAIL_ERROR_MESSAGE, recipientName,
+                    FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                    FieldValidator.EMAIL_MAX_LENGTH));
     }
     
-    private boolean hasStatusMessageNoSubject() {
+    private boolean hasStatusMessageNoSubject() throws Exception {
         return emailPage.getStatus().equals(
-                String.format(FieldValidator.EMAIL_SUBJECT_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY));
+                getPopulatedErrorMessage(
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                    FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                    FieldValidator.EMAIL_SUBJECT_MAX_LENGTH));
     }
     
     private boolean hasErrorMessage() {
@@ -141,8 +148,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isEmailTrashDataDisplayCorrect() {
-        return emailPage.isElementPresent(By.className("table")) 
-            && isEmptyTrashButtonPresent() 
+        return emailPage.isElementPresent(By.className("table"))
+            && isEmptyTrashButtonPresent()
             && isEmailTableHeaderCorrect();
     }
 
@@ -178,7 +185,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

@@ -25,20 +25,20 @@ public class InstructorSearchPage extends AppPage {
     }
     
     public void clickSearchButton() {
-        this.getSearchButton().click();
-        this.waitForPageToLoad();
+        click(getSearchButton());
+        waitForPageToLoad();
     }
     
     public void clickStudentCommentCheckBox() {
-        this.getStudentCommentCheckBox().click();
+        click(getStudentCommentCheckBox());
     }
     
     public void clickFeedbackResponseCommentCheckBox() {
-        this.getFeedbackResponseCommentCheckBox().click();
+        click(getFeedbackResponseCommentCheckBox());
     }
     
     public void clickStudentCheckBox() {
-        this.getStudentCheckBox().click();
+        click(getStudentCheckBox());
     }
     
     private WebElement getSearchBox() {
@@ -62,7 +62,7 @@ public class InstructorSearchPage extends AppPage {
     }
 
     public void clickAndHoverPicture(String cellId) {
-        browser.driver.findElement(By.id(cellId)).findElement(By.tagName("a")).click();
+        click(browser.driver.findElement(By.id(cellId)).findElement(By.tagName("a")));
     }
 
 }

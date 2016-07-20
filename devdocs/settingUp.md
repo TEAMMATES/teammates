@@ -30,19 +30,18 @@ Important: When a version is specified, please install that version instead of t
    Instructions are at https://developers.google.com/eclipse/docs/install-eclipse-4.4 <br>
    Note: Sometimes the update site for the GAE plug-in does not work. In which case, 
    follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
-5. Install Google App Engine SDK version 1.9.27. <br>
-   Download link to the SDK is http://central.maven.org/maven2/com/google/appengine/appengine-java-sdk/1.9.27/appengine-java-sdk-1.9.27.zip.<br>
-   Go to `Window → Preferences → Google → App Engine` (Mac: `Eclipse → Preferences → Google → App Engine`), click the `Add` button,
-   and point it to where you extracted the SDK zip file. <br>
-   Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
-6. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
+5. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
 
 ## Setting up the dev server
 `Dev server` means running the server in your own computer.
 
 1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
-2. Configure Eclipse (if you worry that these settings will interfere with your 
-    other projects, you can use a separate eclipse instance for TEAMMATES):
+2. Run the command `./gradlew appengineDownloadSdk` to obtain the Google App Engine SDK (version specified in `build.gradle`).
+3. Configure Eclipse (if you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES):
+   * Google App Engine: Go to `Window → Preferences → Google → App Engine` (Mac: `Eclipse → Preferences → Google → App Engine`),
+   click the `Add` button, and point it to where Gradle kept the SDK.
+   This directory can be found by running the command `./gradlew printUserHomeDir`.<br>
+   Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
    * Text encoding: Go to `Window → Preferences → General → Workspace` (Mac: `Eclipse → Preferences → General → Workspace`), change the 
    `Text file encoding` setting from `Default` to `Other: UTF-8`.
    * JRE: Go to `Windows → Preferences → Java → Installed JRE` (Mac: `Eclipse → Preferences → Java → Installed JRE`) and ensure a 
@@ -57,29 +56,33 @@ Important: When a version is specified, please install that version instead of t
     to indent using 4 spaces instead of tabs.
     * HTML syntax: We prefer not to use the HTML syntax validator provided by Eclipse.
     To turn it off, go to `Window → Preferences → Validation → HTML Syntax Validator` (Mac: `Eclipse → Preferences → Validation → HTML Syntax Validator`) and uncheck the `Build` option.
-3. Run the command `./gradlew setUp`.<br>
+4. Run the command `./gradlew setup`.<br>
    This creates the main config files {These are not under revision control because their content vary from developer to developer}.
+   * `.project`<br>
+   * `gradle.properties`<br>
+   If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.<br>
+   This value must be a valid **JDK 1.7** directory.<br>
    * `src/main/resources/build.properties`<br>
-   For now, property values can remain as they are.
-   If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
+   For now, property values can remain as they are.<br>
+   (Optional) If you want to use alternative email services to develop and test email features, refer to [this document](emails.md).
    * `src/test/resources/test.properties`<br>
    Append a unique id (e.g. your name) to **each** of the default accounts found at the bottom of this file. 
    e.g. change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`<br>
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
-   * `.settings/com.google.gdt.eclipse.core.prefs`<br>
-   Additionally, this command downloads the dependencies required by TEAMMATES and places them in the appropriate directories.<br>
+   For now, property values can remain as they are.
+4. Run the command `./gradlew resetEclipseDeps`.<br>
+   This will download the dependencies required by TEAMMATES and places them in the appropriate directories to be used by Eclipse.<br>
+   In addition, it will generate the `.classpath` file for Eclipse configuration.<br>
    This command can be run again whenever the dependencies need to be updated.
-   Sometimes, the changes from this command might not show up in Eclipse immediately. "Refreshing" the project or restarting Eclipse
-   should fix that.
-4. Start Eclipse and go to `File → Import...` and select `Existing Projects into Workspace` under `General`. Set the `root directory` to the location where
+5. Start Eclipse and go to `File → Import...` and select `Existing Projects into Workspace` under `General`. Set the `root directory` to the location where
    the repo is cloned. Click `Finish`.
-5. Start the dev server.<br>
+6. Start the dev server.<br>
     Right-click on the project folder and choose `Run → As Web Application`. 
     After some time, you should see this message on the console 
     `Dev App Server is now running` or something similar.
     The dev server is now ready to serve requests at the URL given in the console output.
     e.g `http://localhost:8888`.<br> 
-6. To confirm the server is up, go to the server URL in your Browser.
+7. To confirm the server is up, go to the server URL in your Browser.
    To log in to the system, you need to add yourself as an instructor first:
    * Go to `http://[appURL]/admin/adminHomePage` 
    (On your computer, it may be `http://localhost:8888/admin/adminHomePage`) 
@@ -90,12 +93,12 @@ Important: When a version is specified, please install that version instead of t
       Name: `John Dorian` <br>
       Email: `teammates.instructor@university.edu` <br>
       Institute: `National University of Singapore` 
-7. On the `dev server`, emails which contains the join link will not be sent to the added instructor.<br>
+8. On the `dev server`, emails which contains the join link will not be sent to the added instructor.<br>
    Instead, you can use the join link given after adding an intructor, to complete the joining process.<br>
    Remember to change the URL of the link if necessary, but keep the parameters.<br>
    e.g. Change <b>`http://teammates-john.appspot.com`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS` <br>
    to <b>`http://localhost:8888`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
-8. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
+9. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
    After that, log in as admin by going to `http://localhost:8888/admin/adminSearchPage` and provide the same GoogleID you used for logging in step 6.<br>
    Search for the student you added in as instructor. From the search results, click anywhere on the desired row(except on the student name) to get the course join link for that student.<br>
    Then, log out and use that join link to log in as a student. You have the required access now.<br>
@@ -113,7 +116,7 @@ Refer to [this document](staticAnalysis.md) for details on the tools used, how t
 
 
 1. TEAMMATES automated testing requires Firefox (works on Windows and OS-X).
-   Only Firefox between versions 38.0.5 and 42.0 are supported, although the primary support is for 38.0.5.
+   Only Firefox between versions 38.0.5 and 46.0 are supported, although the primary support is for 46.0.
    To downgrade your Firefox version, obtain the executable from [here](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/).
    If you want to use a different path for this version, choose `custom setup` during install.
    After installation, specify the Firefox path in `test.properties` by modifying the `test.firefox.path` property.
@@ -184,21 +187,11 @@ this section.
 
 * Build the project in Eclipse (`Project -> Clean`).
 * Start the dev server in Eclipse.
-* Open a DOS window in the project folder and run the `runtests.bat` 
-  in the following manner.<br>
-  `runtests.bat  appengine_SDK_location  project_folder_location` <br>
-  e.g. `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates`<br>
+* Run the following command in the project root folder:<br>
+  `./gradlew travisTests`<br>
   This will run the full test suite once and retry the failed tests several times.<br>
-  (**Mac**: In Terminal, navigate to the project folder and run the `runtests.sh` in the following manner.<br>
-  `./runtests.sh GAE_SDK_Location Project_Folder_location`<br>
-  e.g. `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES`, if the path to GAE_SDK_Location is `/Users/someuser/appengine-java-sdk-1.9.27` and path to Project_Folder_location is `/Users/someuser/TEAMMATES`.<br>
-  It's recommended to use absolute path on Mac, and you could retrieve the absolute path by navigate to that folder and type `pwd` command.<br>
-  If the file is not an executable, change its permission by: `chmod +x runtests.sh`)
-* The final result can be viewed by opening `[project folder]/testrunner/test-output/index.html`.
-* To run only certain `<test>` segments of the `testng.xml`, add the `-testnames`
-  option followed by the names of the `<test>` segments you want to run.<br>e.g.
-  `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates -testnames component-tests,sequential-ui-tests,parallel-ui-tests`<br>
-  (**Mac**: `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES -testnames component-tests,sequential-ui-tests,parallel-ui-tests`)
+* The final result can be viewed by opening `{project folder}/build/test-try-{n}/index.html`,
+  where `{n}` is the sequence number of the test run.
   
 ## Deploying to a staging server
 `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.
@@ -256,7 +249,7 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
 * **Google App Engine SDK** [version 1.9.27]
 * **GitHub** : Used to host the repo and code reviewing.
 * **Gradle** : Build and dependency management tool.
-* **CheckStyle, PMD, FindBugs, ESLint** [all latest stable versions]: Static analysis tools for code quality check. The details of these tools can be found in [this document](staticAnalysis.md).
+* **CheckStyle, PMD, FindBugs, Macker, ESLint** [all latest stable versions]: Static analysis tools for code quality check. The details of these tools can be found in [this document](staticAnalysis.md).
 * [**PowerPointLabs**](http://PowerPointLabs.info) [Sister project]: Used for creating demo videos.
 * Optional: [**HubTurbo**](https://github.com/HubTurbo/HubTurbo/wiki/Getting-Started) [Sister project]: 
   Can be used as a client for accessing the GitHub issue tracker.
@@ -280,12 +273,13 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
   Comes with App Engine SDK.
 * **Java Persistence API (JPA)** [version 1.0]: JPA is a standard interface for accessing databases in Java, providing an automatic mapping between Java classes and database tables.
 * **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
-* **SendGrid** Alternative framework to JavaMail for sending emails.
+* **Jsoup** [version 1.9.2]: This library is required to parse HTML files. It is needed by some email services to obtain the plain text component from the HTML component. In addition, this is also used during UI testing, for doing a logical comparison of the pages generated against expected pages.
+* **SendGrid, Mailgun, Mailjet** Alternative framework to JavaMail for sending emails. The details of these tools can be found in [this document](emails.md).
 * **Google Cloud SDK**: This is a set of tools that helps us manage resources and applications hosted on Google Cloud Platform. We use it to run client scripts on GAE remotely.
 
 ####Tools used in testing
 
-* **Selenium** [version 2.46.0]
+* **Selenium** [version 2.53.0]
     Selenium automates browsers. We use it for automating our UI tests.
     We require Selenium standalone server and Java language bindings.
 * **JavaMail** [version 1.4.5]
@@ -299,10 +293,6 @@ Troubleshooting instructions are given [in this document](troubleshooting-guide.
     QUnit is a JavaScript unit test suite.
 * **Blanket.js** [version 1.2.1]
     Blanket.js is a JavaScript code coverage library.
-* **NekoHtml** [version 1.9.22]
-    NekoHTML is a simple HTML scanner and tag balancer that enables application programmers to parse HTML documents and access the information using standard XML interfaces.
-    NekoHTML is included in the Selenium libraries.
-    Usage: During UI testing, for doing a logical comparison of the pages generated against expected pages.
 * **HttpUnit** [version 1.7]
     We use the ServletUnit component of HttpUnit to create HttpServletUnit objects used for testing.
 

@@ -17,6 +17,7 @@
         <classes>
             <class name="teammates.test.cases.testdriver.AssertHelperTest" />
             <class name="teammates.test.cases.testdriver.DataBundleTest" />
+            <class name="teammates.test.cases.testdriver.EmailCheckerTest" />
             <class name="teammates.test.cases.testdriver.HtmlHelperTest" />
             <class name="teammates.test.cases.testdriver.TestNgTest" />
             <class name="teammates.test.cases.testdriver.TestPropertiesTest" />
@@ -57,6 +58,7 @@
         </listeners>
         <classes>
             <class name="teammates.test.cases.ui.browsertests.AppPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.TimezoneSyncerTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
@@ -81,7 +83,6 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackSubmitPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackQuestionSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorStudentListPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorStudentRecordsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorSubmissionAdjustmentUiTest" />
@@ -89,7 +90,6 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorSearchPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackSubmitPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.StudentFeedbackQuestionSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackResultsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentProfilePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />

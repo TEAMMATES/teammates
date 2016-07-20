@@ -20,7 +20,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
     private CoursesDb coursesDb = new CoursesDb();
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
 
@@ -45,7 +45,8 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(c);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(String.format(EntitiesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, "Course"), e.getMessage());
+            AssertHelper.assertContains(String.format(EntitiesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, "Course"),
+                                        e.getMessage());
         }
 
         ______TS("Failure: create a course with invalid parameter");
@@ -55,8 +56,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(invalidIdCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format", 
-                                        e.getMessage());
+            AssertHelper.assertContains(
+                    "not acceptable to TEAMMATES as a/an course ID because it is not in the correct format",
+                    e.getMessage());
         }
 
         String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
@@ -65,7 +67,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(invalidNameCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is too long",
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course name because it is too long",
                                         e.getMessage());
         }
 
@@ -125,9 +127,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.updateCourse(invalidCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is empty",
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course ID because it is empty",
                                         e.getMessage());
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is empty",
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course name because it is empty",
                                         e.getMessage());
         }
         

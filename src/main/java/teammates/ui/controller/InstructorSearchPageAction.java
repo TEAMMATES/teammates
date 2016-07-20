@@ -17,7 +17,6 @@ import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
@@ -29,7 +28,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorSearchPageAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         new GateKeeper().verifyInstructorPrivileges(account);
         String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         if (searchKey == null) {
@@ -74,7 +73,7 @@ public class InstructorSearchPageAction extends Action {
                 studentSearchResults = logic.searchStudents(searchKey, instructors, "");
             }
             
-            totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize() 
+            totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize()
                                             + studentSearchResults.getResultSize();
             
             Set<String> instructorEmails = new HashSet<String>();
@@ -82,17 +81,19 @@ public class InstructorSearchPageAction extends Action {
             for (InstructorAttributes instructor : instructors) {
                 instructorEmails.add(instructor.email);
             }
-            totalResultsSize = filterCommentSearchResults(commentSearchResults, totalResultsSize, instructors, instructorEmails);
+            totalResultsSize = filterCommentSearchResults(commentSearchResults, totalResultsSize, instructors,
+                                                          instructorEmails);
             totalResultsSize = filterFeedbackResponseCommentResults(frCommentSearchResults, instructors, totalResultsSize);
             removeQuestionsAndResponsesWithoutComments(frCommentSearchResults);
             
             if (totalResultsSize == 0) {
-                statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS, StatusMessageColor.WARNING));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS,
+                                                   StatusMessageColor.WARNING));
             }
         }
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
-        data.init(commentSearchResults, frCommentSearchResults, studentSearchResults, searchKey, 
+        data.init(commentSearchResults, frCommentSearchResults, studentSearchResults, searchKey,
                       isSearchCommentForStudents, isSearchCommentForResponses, isSearchForStudents);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
@@ -102,7 +103,8 @@ public class InstructorSearchPageAction extends Action {
             FeedbackResponseCommentSearchResultBundle frCommentSearchResults,
             List<InstructorAttributes> instructors, int totalResultsSize) {
         
-        Iterator<Entry<String, List<FeedbackResponseAttributes>>> iterFr = frCommentSearchResults.responses.entrySet().iterator();
+        Iterator<Entry<String, List<FeedbackResponseAttributes>>> iterFr =
+                frCommentSearchResults.responses.entrySet().iterator();
         
         int filteredResultsSize = totalResultsSize;
         while (iterFr.hasNext()) {
@@ -113,12 +115,15 @@ public class InstructorSearchPageAction extends Action {
                 FeedbackResponseAttributes response = fr.next();
                 InstructorAttributes instructor = this.getInstructorForCourseId(response.courseId, instructors);
                 
-                boolean isVisibleResponse = true;               
-                boolean isNotAllowedForInstructor = instructor == null 
-                                                    || !(instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName, 
-                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                                                    || !(instructor.isAllowedForPrivilege(response.recipientSection, response.feedbackSessionName, 
-                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                boolean isVisibleResponse = true;
+                boolean isNotAllowedForInstructor =
+                            instructor == null
+                            || !(instructor.isAllowedForPrivilege(
+                                    response.giverSection, response.feedbackSessionName,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
+                            || !(instructor.isAllowedForPrivilege(
+                                    response.recipientSection, response.feedbackSessionName,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
                 
                 if (isNotAllowedForInstructor) {
                     isVisibleResponse = false;
@@ -126,15 +131,16 @@ public class InstructorSearchPageAction extends Action {
                 if (!isVisibleResponse) {
                     int sizeOfCommentList = frCommentSearchResults.comments.get(response.getId()).size();
                     filteredResultsSize -= sizeOfCommentList;
-                    //TODO: also need to decrease the size for commentSearchResults|frCommentSearchResults|studentSearchResults
+                    // TODO: also need to decrease the size for (fr)CommentSearchResults|studentSearchResults
                     frCommentSearchResults.comments.remove(response.getId());
                     fr.remove();
                 }
             }
-        }   
+        }
 
         Set<String> emailList = frCommentSearchResults.instructorEmails;
-        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> iterQn = frCommentSearchResults.questions.entrySet().iterator();
+        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> iterQn =
+                frCommentSearchResults.questions.entrySet().iterator();
         while (iterQn.hasNext()) {
             String fsName = (String) iterQn.next().getKey();
             List<FeedbackQuestionAttributes> questionList = frCommentSearchResults.questions.get(fsName);
@@ -145,7 +151,8 @@ public class InstructorSearchPageAction extends Action {
 
                 for (int j = responseList.size() - 1; j >= 0; j--) {
                     FeedbackResponseAttributes response = responseList.get(j);
-                    List<FeedbackResponseCommentAttributes> commentList = frCommentSearchResults.comments.get(response.getId());
+                    List<FeedbackResponseCommentAttributes> commentList =
+                            frCommentSearchResults.comments.get(response.getId());
 
                     for (int k = commentList.size() - 1; k >= 0; k--) {
                         FeedbackResponseCommentAttributes comment = commentList.get(k);
@@ -158,7 +165,7 @@ public class InstructorSearchPageAction extends Action {
                         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
                                                  || comment.isVisibleTo(FeedbackParticipantType.GIVER);
 
-                        if (isVisibleToGiver && emailList.contains(response.giverEmail)) {
+                        if (isVisibleToGiver && emailList.contains(response.giver)) {
                             continue;
                         }
 
@@ -166,7 +173,7 @@ public class InstructorSearchPageAction extends Action {
                                                     ? question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                                                     : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
 
-                        if (isVisibleToReceiver && emailList.contains(response.recipientEmail)) {
+                        if (isVisibleToReceiver && emailList.contains(response.recipient)) {
                             continue;
                         }
 
@@ -195,8 +202,10 @@ public class InstructorSearchPageAction extends Action {
         return filteredResultsSize;
     }
     
-    private void removeQuestionsAndResponsesWithoutComments(FeedbackResponseCommentSearchResultBundle frCommentSearchResults) {
-        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> fqsIter = frCommentSearchResults.questions.entrySet().iterator();
+    private void removeQuestionsAndResponsesWithoutComments(
+            FeedbackResponseCommentSearchResultBundle frCommentSearchResults) {
+        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> fqsIter =
+                frCommentSearchResults.questions.entrySet().iterator();
         
         while (fqsIter.hasNext()) {
             Iterator<FeedbackQuestionAttributes> fqIter = fqsIter.next().getValue().iterator();
@@ -210,13 +219,13 @@ public class InstructorSearchPageAction extends Action {
         }
     }
 
-    private int filterCommentSearchResults(CommentSearchResultBundle commentSearchResults, int totalResultsSize, 
-                                               List<InstructorAttributes> instructors, Set<String> instructorEmails) {        
+    private int filterCommentSearchResults(CommentSearchResultBundle commentSearchResults, int totalResultsSize,
+                                               List<InstructorAttributes> instructors, Set<String> instructorEmails) {
         Iterator<Entry<String, List<CommentAttributes>>> iter = commentSearchResults.giverCommentTable.entrySet().iterator();
         int filteredResultsSize = totalResultsSize;
         while (iter.hasNext()) {
             List<CommentAttributes> commentList = iter.next().getValue();
-            if (!commentList.isEmpty() 
+            if (!commentList.isEmpty()
                     && !isInstructorAllowedToViewComment(commentList.get(0), instructorEmails, instructors)) {
                 iter.remove();
                 filteredResultsSize -= commentList.size();
@@ -235,7 +244,7 @@ public class InstructorSearchPageAction extends Action {
         return null;
     }
 
-    private boolean isInstructorAllowedToViewComment(CommentAttributes commentAttributes, Set<String> instructorEmails, 
+    private boolean isInstructorAllowedToViewComment(CommentAttributes commentAttributes, Set<String> instructorEmails,
                                                          List<InstructorAttributes> instructors) {
         if (instructorEmails.contains(commentAttributes.giverEmail)) {
             return true;
@@ -259,7 +268,7 @@ public class InstructorSearchPageAction extends Action {
                         return false;
                     }
                     
-                    section = student.section;              
+                    section = student.section;
                 } else if (commentAttributes.recipientType == CommentParticipantType.TEAM) {
                     List<StudentAttributes> studentsInTeam = logic.getStudentsForTeam(recipient, commentAttributes.courseId);
                     if (studentsInTeam.isEmpty()) {
@@ -276,11 +285,12 @@ public class InstructorSearchPageAction extends Action {
                 }
                 
                 if (isForSection) {
-                    return instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
+                    return instructor.isAllowedForPrivilege(
+                            section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
                 }
                 return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
             }
-        }      
+        }
         return false;
     }
 }

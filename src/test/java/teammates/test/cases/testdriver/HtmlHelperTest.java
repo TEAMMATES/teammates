@@ -4,20 +4,17 @@ import static teammates.common.util.Const.EOL;
 
 import java.io.IOException;
 
-import javax.xml.transform.TransformerException;
-
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
 
-import teammates.common.util.FileHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.FileHelper;
 
 public class HtmlHelperTest extends BaseTestCase {
     
     @Test
-    public void testComparison() throws SAXException, IOException, TransformerException {
+    public void testComparison() throws IOException {
         String expected = "<html></html>";
         String actual = expected;
         HtmlHelper.assertSameHtml(expected, actual, false);
@@ -25,7 +22,8 @@ public class HtmlHelperTest extends BaseTestCase {
         actual = "<html> </html>";
         HtmlHelper.assertSameHtml(expected, actual, false);
         
-        expected = "<HTML><HEAD><SCRIPT language=\"JavaScript\" src=\"a.js\" ></SCRIPT></HEAD><BODY id=\"5\"><P>abc</P><DIV id=\"frameBottom\"><DIV></DIV></DIV></BODY></HTML>";
+        expected = "<HTML><HEAD><SCRIPT language=\"JavaScript\" src=\"a.js\" ></SCRIPT></HEAD>"
+                   + "<BODY id=\"5\"><P>abc</P><DIV id=\"frameBottom\"><DIV></DIV></DIV></BODY></HTML>";
         actual = expected.replace("<HEAD>", "    <HEAD>    \t" + EOL);
         HtmlHelper.assertSameHtml(expected, actual, false);
         

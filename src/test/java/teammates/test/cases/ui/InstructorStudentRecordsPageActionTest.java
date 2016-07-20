@@ -25,7 +25,7 @@ import teammates.ui.controller.ShowPageResult;
 public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    Logic logic = new Logic();
+    private final Logic logic = new Logic();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -129,7 +129,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                      r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("Normally, we would show the student’s profile here. "
-                         + "However, you do not have access to view this student's profile<br />"
+                         + "However, you do not have access to view this student's profile<br>"
                          + "No records were found for this student",
                      r.getStatusMessage());
 
@@ -176,7 +176,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         return student;
     }
 
-    private InstructorStudentRecordsPageAction getAction(String... params) throws Exception {
+    private InstructorStudentRecordsPageAction getAction(String... params) {
         return (InstructorStudentRecordsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 

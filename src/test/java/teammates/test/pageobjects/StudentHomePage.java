@@ -24,42 +24,41 @@ public class StudentHomePage extends AppPage {
         return pageSource.contains("<h1>Student Home</h1>");
     }
 
-    public StudentHelpPage clickHelpLink() {
-        studentHelpTab.click();
-        waitForPageToLoad();
-        switchToNewWindow();
-        return changePageType(StudentHelpPage.class);
-    }
-
-    public void clickHomeTab() {
-        studentHomeTab.click();
-        waitForPageToLoad();
-
-    }
-
     public void clickViewTeam() {
 
         List<WebElement> viewTeamLinks = browser.driver.findElements(By.linkText("View Team"));
 
-        viewTeamLinks.get(0).click();
+        click(viewTeamLinks.get(0));
     }
     
     public WebElement getViewFeedbackButton(String feedbackName) {
         
-        int rowId = getEvalRowId(feedbackName);       
+        int rowId = getEvalRowId(feedbackName);
         return browser.driver.findElement(By.id("viewFeedbackResults" + rowId));
+    }
+    
+    public void clickViewFeedbackButton(String feedbackName) {
+        click(getViewFeedbackButton(feedbackName));
     }
 
     public WebElement getEditFeedbackButton(String feedbackName) {
     
-        int rowId = getEvalRowId(feedbackName);       
+        int rowId = getEvalRowId(feedbackName);
         return browser.driver.findElement(By.id("editFeedbackResponses" + rowId));
     }
     
+    public void clickEditFeedbackButton(String feedbackName) {
+        click(getEditFeedbackButton(feedbackName));
+    }
+
     public WebElement getSubmitFeedbackButton(String feedbackName) {
         
-        int rowId = getEvalRowId(feedbackName);       
+        int rowId = getEvalRowId(feedbackName);
         return browser.driver.findElement(By.id("submitFeedback" + rowId));
+    }
+
+    public void clickSubmitFeedbackButton(String feedbackName) {
+        click(getSubmitFeedbackButton(feedbackName));
     }
 
     private int getEvalRowId(String name) {

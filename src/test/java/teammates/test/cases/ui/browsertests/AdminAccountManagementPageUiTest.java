@@ -28,7 +28,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/AdminAccountManagementPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -54,7 +54,8 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
         accountsPage.verifyIsCorrectPage();
         assertTrue(accountsPage.isTableVisible());
         
-        List<String> expectedTableHeaders = Arrays.asList("Account Info", "Instructor for", "Institute", "Create At", "Options");
+        List<String> expectedTableHeaders =
+                Arrays.asList("Account Info", "Instructor for", "Institute", "Create At", "Options");
         assertEquals(expectedTableHeaders, accountsPage.getTableHeaders());
     }
 
@@ -104,15 +105,15 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     }
     
     private void loginToAdminAccountsManagementPage(String instructorIdToShow) {
-        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true&googleId=" + instructorIdToShow);
-        accountsPage = loginAdminToPageForAdminUiTests(browser, accountsPageUrl, AdminAccountManagementPage.class);
-        // Extra 60 seconds of wait as it can take a longer time to load in non-dev environments
+        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE
+                                    + "?all=true&googleId=" + instructorIdToShow);
+        accountsPage = loginAdminToPage(browser, accountsPageUrl, AdminAccountManagementPage.class);
         accountsPage.waitForAdminAccountsManagementPageToFinishLoading();
         accountsPage.verifyIsCorrectPage();
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
     

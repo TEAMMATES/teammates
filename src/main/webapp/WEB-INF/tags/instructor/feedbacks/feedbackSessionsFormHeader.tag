@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
-<%@ tag import="teammates.logic.core.Emails.EmailType" %>
 
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
 
@@ -24,7 +23,7 @@
             </div>
             <div class="col-xs-1">
                 <h5>
-                    <a href="/instructorHelp.html#fbSetupSession" target="_blank">
+                    <a href="/instructorHelp.jsp#fbSetupSession" target="_blank">
                         <span class="glyphicon glyphicon-info-sign"></span>
                     </a>
                 </h5>

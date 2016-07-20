@@ -6,7 +6,7 @@
             </strong>
         </div>
         <div class="col-sm-3 pull-right">
-            [<a href="/instructorHelp.html#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
+            [<a href="/instructorHelp.jsp#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
         </div>
     </div>
     <div class="row">
@@ -19,10 +19,10 @@
                     <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this)">Student
                         <span class="icon-sort unsorted"></span></td>
                     <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title='${Const.Tooltips.CLAIMED}'>
-                        <abbr title="Claimed Contribution">CC</abbr>
+                        <span data-toggle="tooltip" title="Claimed Contribution">CC</span>
                         <span class="icon-sort unsorted"></span></td>
                     <td class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title='${Const.Tooltips.PERCEIVED}'>
-                        <abbr title="Percived Contribution">PC</abbr>
+                        <span data-toggle="tooltip" title="Percived Contribution">PC</span>
                         <span class="icon-sort unsorted"></span></td>
                     <td class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,sortByDiff)"
                         data-toggle="tooltip" data-placement="top" data-container="body" title='${Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF}'>Diff

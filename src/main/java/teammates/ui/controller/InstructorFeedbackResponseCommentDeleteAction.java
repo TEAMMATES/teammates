@@ -4,7 +4,6 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -15,7 +14,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackResponseCommentDeleteAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("null course id", courseId);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
@@ -43,7 +42,7 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
                 + "Deleting feedback response comment: " + feedbackResponseComment.getId() + "<br>"
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
         
-        InstructorFeedbackResponseCommentAjaxPageData data = 
+        InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
         
         return createAjaxResult(data);
@@ -60,9 +59,9 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
         if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
             return;
         }
-        new GateKeeper().verifyAccessible(instructor, session, false, response.giverSection, 
+        new GateKeeper().verifyAccessible(instructor, session, false, response.giverSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        new GateKeeper().verifyAccessible(instructor, session, false, response.recipientSection, 
+        new GateKeeper().verifyAccessible(instructor, session, false, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 

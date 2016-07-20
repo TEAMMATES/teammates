@@ -8,8 +8,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
@@ -29,24 +27,22 @@ import teammates.ui.controller.ShowPageResult;
  */
 public abstract class BaseActionTest extends BaseComponentTestCase {
     
-    private DataBundle data = getTypicalDataBundle();
-    
     /**URI that matches with the action being tested */
     protected static String uri;
 
+    private DataBundle data = getTypicalDataBundle();
+    
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
      */
-    protected ShowPageResult getShowPageResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    protected ShowPageResult getShowPageResult(Action a) {
         return (ShowPageResult) a.executeAndPostProcess();
     }
     
     /** Executes the action and returns the result.
      * Assumption: The action returns a RedirectResult.
      */
-    protected RedirectResult getRedirectResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    protected RedirectResult getRedirectResult(Action a) {
         //TODO: check existing code to use this method instead of casting independently
         return (RedirectResult) a.executeAndPostProcess();
     }
@@ -54,13 +50,12 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     /** Executes the action and returns the result.
      * Assumption: The action returns a AjaxResult.
      */
-    protected AjaxResult getAjaxResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    protected AjaxResult getAjaxResult(Action a) {
         return (AjaxResult) a.executeAndPostProcess();
     }
 
     /**
-     * @return The {@code params} array with the {@code userId} 
+     * @return The {@code params} array with the {@code userId}
      * (together with the parameter name) inserted at the beginning.
      */
     protected String[] addUserIdToParams(String userId, String[] params) {
@@ -74,7 +69,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
     
     private String[] addStudentAuthenticationInfo(String[] params) {
-        StudentAttributes unregStudent = StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+        StudentAttributes unregStudent =
+                StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
         List<String> list = new ArrayList<String>();
         list.add(Const.ParamsNames.REGKEY);
         list.add(StringHelper.encrypt(unregStudent.key));
@@ -116,18 +112,20 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             return typicalCase;
         }
         
-        List<String> paramList = Arrays.asList(typicalCase); 
+        List<String> paramList = Arrays.asList(typicalCase);
         int indexOfSessionVisibleDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         int indexOfSessionVisibleTime = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME);
-        int indexOfSessionVisibleButtonValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
+        int indexOfSessionVisibleButtonValue =
+                1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         
         int indexOfSessionPublishDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
         int indexOfSessionPublishTime = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME);
-        int indexOfResultsVisibleButtonValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+        int indexOfResultsVisibleButtonValue =
+                1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         
         int indexOfSessionInstructionsValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS);
         
-        switch(order) {
+        switch (order) {
         case 1:
             typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
             typicalCase[indexOfSessionVisibleDate] = "";
@@ -144,7 +142,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             
             typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
             
-            typicalCase[indexOfSessionInstructionsValue] = "<script<script>>test</script</script>>";
+            typicalCase[indexOfSessionInstructionsValue] = "<script>test</script>instructions";
             break;
         case 3:
             typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
@@ -167,12 +165,18 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, "0",
                 Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, "01/01/2015",
                 Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, "0",
-                Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON, Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM,
+                
+                Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON,
+                Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM,
+                
                 Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, "01/01/2012",
                 Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME, "0",
-                Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON, Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE,
+                
+                Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON,
+                Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE,
+                
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, "",
-                Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",                
+                Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",
                 Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, "8",
                 Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD, "10",
                 Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS, "instructions"
@@ -189,6 +193,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "question",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
@@ -201,7 +206,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     /**
      * Modifies the value of a key in a parameter list.
      * Assumes Key is present. Use for testing.
-     * @param params An array of Strings in the form {key1, value1, key2, value2,....} 
+     * @param params An array of Strings in the form {key1, value1, key2, value2,....}
      * @param key Key to modify
      * @param value Value to set
      */
@@ -220,10 +225,10 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
     
     /**
-     * Verifies that the {@code parameters} violates an assumption of the 
+     * Verifies that the {@code parameters} violates an assumption of the
      * matching {@link Action}. e.g., missing a compulsory parameter.
      */
-    protected void verifyAssumptionFailure(String... parameters) throws Exception {
+    protected void verifyAssumptionFailure(String... parameters) {
         try {
             Action c = gaeSimulation.getActionObject(uri, parameters);
             c.executeAndPostProcess();
@@ -234,18 +239,18 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     /*
-     * 'high-level' tests here means it tests access control of an action for the 
+     * 'high-level' tests here means it tests access control of an action for the
      * full range of user types.
      */
     
-    protected void verifyAnyRegisteredUserCanAccess(String[] submissionParams) throws Exception {
+    protected void verifyAnyRegisteredUserCanAccess(String[] submissionParams) {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyAccessibleForStudents(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
     }
     
-    protected void verifyOnlyAdminsCanAccess(String[] submissionParams) throws Exception {
+    protected void verifyOnlyAdminsCanAccess(String[] submissionParams) {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
@@ -253,7 +258,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         //we omit checking for admin access because these are covered by UI tests
     }
     
-    protected void verifyOnlyLoggedInUsersCanAccess(String[] submissionParams) throws Exception {
+    protected void verifyOnlyLoggedInUsersCanAccess(String[] submissionParams) {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyAccessibleForUnregisteredUsers(submissionParams);
         verifyAccessibleForStudents(submissionParams);
@@ -262,7 +267,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
     
-    protected void verifyOnlyInstructorsCanAccess(String[] submissionParams) throws Exception {
+    protected void verifyOnlyInstructorsCanAccess(String[] submissionParams) {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
@@ -270,8 +275,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
     
-    protected void verifyOnlyInstructorsOfTheSameCourseCanAccess(String[] submissionParams)
-            throws Exception {
+    protected void verifyOnlyInstructorsOfTheSameCourseCanAccess(String[] submissionParams) {
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
@@ -280,8 +284,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
     
-    protected void verifyOnlyStudentsOfTheSameCourseCanAccess(String[] submissionParams)
-            throws Exception {
+    protected void verifyOnlyStudentsOfTheSameCourseCanAccess(String[] submissionParams) {
         verifyAccessibleWithoutLogin(submissionParams);
         verifyAccessibleForUnregisteredStudents(submissionParams);
         verifyUnaccessibleForStudentsOfOtherCourses(submissionParams);
@@ -291,15 +294,15 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     /*
-     * 'mid-level' tests here tests access control of an action for 
+     * 'mid-level' tests here tests access control of an action for
      * one user types.
      */
-    protected void verifyAccessibleWithoutLogin(String[] submissionParams) throws Exception {
+    protected void verifyAccessibleWithoutLogin(String[] submissionParams) {
         gaeSimulation.logoutUser();
         verifyCanAccess(addStudentAuthenticationInfo(submissionParams));
     }
 
-    protected void verifyAccessibleForUnregisteredUsers(String[] submissionParams) throws Exception {
+    protected void verifyAccessibleForUnregisteredUsers(String[] submissionParams) {
         
         ______TS("non-registered users can access");
         
@@ -314,7 +317,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
     }
 
-    protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) throws Exception {
+    protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) {
         
         ______TS("students of the same course can access");
         
@@ -327,7 +330,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
     }
 
-    protected void verifyAccessibleForStudents(String[] submissionParams) throws Exception {
+    protected void verifyAccessibleForStudents(String[] submissionParams) {
         
         ______TS("students can access");
         
@@ -342,14 +345,13 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
     }
 
-    private void verifyAccessibleForUnregisteredStudents(
-            String[] submissionParams) throws Exception {
+    private void verifyAccessibleForUnregisteredStudents(String[] submissionParams) {
         
         gaeSimulation.logoutUser();
-        verifyCanAccess(addStudentAuthenticationInfo(submissionParams));        
+        verifyCanAccess(addStudentAuthenticationInfo(submissionParams));
     }
 
-    protected void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) throws Exception {
+    protected void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) {
         
         ______TS("course instructor can access");
         
@@ -365,7 +367,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
     }
 
-    protected void verifyAccessibleForInstructorsOfOtherCourses(String[] submissionParams) throws Exception {
+    protected void verifyAccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
         
         ______TS("other course instructor can access");
     
@@ -375,7 +377,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCanAccess(submissionParams);
     }
 
-    protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) throws Exception {
+    protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) {
         
         ______TS("admin can access");
         
@@ -387,7 +389,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
     }
 
-    protected void verifyAccessibleForAdminToMasqueradeAsStudent(String[] submissionParams) throws Exception {
+    protected void verifyAccessibleForAdminToMasqueradeAsStudent(String[] submissionParams) {
         
         ______TS("admin can access");
         
@@ -399,7 +401,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
     }
 
-    protected void verifyUnaccessibleWithoutLogin(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutLogin(String[] submissionParams) {
         
         ______TS("not-logged-in users cannot access");
         
@@ -425,11 +427,11 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         }
     }
 
-    protected void verifyUnaccessibleForUnregisteredUsers(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleForUnregisteredUsers(String[] submissionParams) {
         
         ______TS("non-registered users cannot access");
         
-        String    unregUserId = "unreg.user";
+        String unregUserId = "unreg.user";
         
         InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
@@ -441,7 +443,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
     }
     
-    protected void verifyUnaccessibleWithoutModifyCoursePrivilege(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutModifyCoursePrivilege(String[] submissionParams) {
         
         ______TS("without Modify-Course privilege cannot access");
         
@@ -451,7 +453,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
-    protected void verifyUnaccessibleWithoutModifyInstructorPrivilege(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutModifyInstructorPrivilege(String[] submissionParams) {
         
         ______TS("without Modify-Instructor privilege cannot access");
         
@@ -461,7 +463,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
-    protected void verifyUnaccessibleWithoutModifySessionPrivilege(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutModifySessionPrivilege(String[] submissionParams) {
 
         ______TS("without Modify-Session privilege cannot access");
         
@@ -471,7 +473,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
-    protected void verifyUnaccessibleWithoutModifyStudentPrivilege(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutModifyStudentPrivilege(String[] submissionParams) {
         
         ______TS("without Modify-Student privilege cannot access");
         
@@ -481,7 +483,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
-    protected void verifyUnaccessibleWithoutViewStudentInSectionsPrivilege(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutViewStudentInSectionsPrivilege(String[] submissionParams) {
         
         ______TS("without View-Student-In-Sections privilege cannot access");
         
@@ -491,7 +493,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
-    protected void verifyUnaccessibleWithoutGiveCommentInSectionsPrivilege(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutGiveCommentInSectionsPrivilege(String[] submissionParams) {
         
         ______TS("without Give-Comment-In-Sections privilege cannot access");
         
@@ -501,7 +503,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
-    protected void verifyUnaccessibleWithoutModifyCommentInSectionsPrivilege(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutModifyCommentInSectionsPrivilege(String[] submissionParams) {
         
         ______TS("without Modify-Comment-In-Sections privilege cannot access");
         
@@ -511,7 +513,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
-    protected void verifyUnaccessibleWithoutViewSessionInSectionsPrivilege(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutViewSessionInSectionsPrivilege(String[] submissionParams) {
         
         ______TS("without View-Student-In-Sections privilege cannot access");
         
@@ -521,7 +523,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
-    protected void verifyUnaccessibleWithoutModifySessionInSectionsPrivilege(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutModifySessionInSectionsPrivilege(String[] submissionParams) {
         
         ______TS("without Modify-Session-In-Sections privilege cannot access");
         
@@ -531,7 +533,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
-    protected void verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(String[] submissionParams) {
         
         ______TS("without Submit-Session-In-Sections privilege cannot access");
         
@@ -541,7 +543,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
-    protected void verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(String[] submissionParams) {
         
         ______TS("without Modify-Session-Comment-In-Sections privilege cannot access");
         
@@ -551,7 +553,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
-    protected void verifyUnaccessibleForStudents(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleForStudents(String[] submissionParams) {
         
         ______TS("students cannot access");
         
@@ -564,7 +566,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
     }
     
-    protected void verifyUnaccessibleForStudentsOfOtherCourses(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleForStudentsOfOtherCourses(String[] submissionParams) {
         
         ______TS("students of other courses cannot access");
     
@@ -574,7 +576,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
 
-    protected void verifyUnaccessibleForDifferentStudentOfTheSameCourses(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleForDifferentStudentOfTheSameCourses(String[] submissionParams) {
         
         ______TS("other students of the same course cannot access");
     
@@ -584,7 +586,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
 
-    protected void verifyUnaccessibleForInstructors(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleForInstructors(String[] submissionParams) {
         
         ______TS("instructors cannot access");
         
@@ -597,7 +599,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         
     }
     
-    protected void verifyUnaccessibleForInstructorsOfOtherCourses(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
         
         ______TS("other course instructor cannot access");
     
@@ -612,10 +614,10 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      * These methods are not aware of the user type.
      */
     /**
-     * Verifies that the {@link Action} matching the {@code params} is 
-     * accessible to the logged in user. 
+     * Verifies that the {@link Action} matching the {@code params} is
+     * accessible to the logged in user.
      */
-    protected void verifyCanAccess(String... params) throws Exception {
+    protected void verifyCanAccess(String... params) {
         Action c = gaeSimulation.getActionObject(uri, params);
         assertTrue(c.isValidUser());
         c.executeAndPostProcess();
@@ -623,9 +625,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is
-     * accessible to the logged in user masquerading as another user. 
+     * accessible to the logged in user masquerading as another user.
      */
-    protected void verifyCanMasquerade(String... params) throws Exception {
+    protected void verifyCanMasquerade(String... params) {
         Action c = gaeSimulation.getActionObject(uri, params);
         assertTrue(c.isValidUser());
         c.executeAndPostProcess();
@@ -633,19 +635,19 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is not
-     * accessible to the logged in user. 
+     * accessible to the logged in user.
      * This could be one of the following ways:
      * -> Unauthorised Access Exception
-     * -> 
+     * ->
      */
-    protected void verifyCannotAccess(String... params) throws Exception {
+    protected void verifyCannotAccess(String... params) {
         try {
             Action c = gaeSimulation.getActionObject(uri, params);
             ActionResult result = c.executeAndPostProcess();
             
             String classNameOfResult = result.getClass().getName();
             assertEquals(classNameOfResult, result.getClass().getName());
-            AssertHelper.assertContains("You are not registered in the course ", result.getStatusMessage()); 
+            AssertHelper.assertContains("You are not registered in the course ", result.getStatusMessage());
         } catch (UnauthorizedAccessException e) {
             ignoreExpectedException();
         }
@@ -653,9 +655,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is not
-     * accessible to the logged in user masquerading as another user. 
+     * accessible to the logged in user masquerading as another user.
      */
-    protected void verifyCannotMasquerade(String... params) throws Exception {
+    protected void verifyCannotMasquerade(String... params) {
         try {
             Action c = gaeSimulation.getActionObject(uri, params);
             c.executeAndPostProcess();
@@ -666,12 +668,12 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     /**
-     * Verifies that the {@link Action} matching the {@code params} is 
-     * redirected to {@code expectedRedirectUrl}. Note that only the base 
-     * URI is matched and parameters are ignored. E.g. "/page/studentHome" 
-     * matches "/page/studentHome?user=abc". 
+     * Verifies that the {@link Action} matching the {@code params} is
+     * redirected to {@code expectedRedirectUrl}. Note that only the base
+     * URI is matched and parameters are ignored. E.g. "/page/studentHome"
+     * matches "/page/studentHome?user=abc".
      */
-    protected void verifyRedirectTo(String expectedRedirectUrl,    String... params) throws Exception {
+    protected void verifyRedirectTo(String expectedRedirectUrl, String... params) {
         Action c = gaeSimulation.getActionObject(uri, params);
         RedirectResult r = (RedirectResult) c.executeAndPostProcess();
         AssertHelper.assertContains(expectedRedirectUrl, r.destination);

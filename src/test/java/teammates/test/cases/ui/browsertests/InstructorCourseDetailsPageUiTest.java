@@ -8,7 +8,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.EmailAccount;
@@ -34,15 +33,15 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     private static String courseId;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseDetailsPageUiTest.json");
         
         // use both the student accounts injected for this test
         
-        String student1GoogleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+        String student1GoogleId = TestProperties.TEST_STUDENT1_ACCOUNT;
         String student1Email = student1GoogleId + "@gmail.com";
-        String student2GoogleId = TestProperties.inst().TEST_STUDENT2_ACCOUNT;
+        String student2GoogleId = TestProperties.TEST_STUDENT2_ACCOUNT;
         String student2Email = student2GoogleId + "@gmail.com";
         testData.accounts.get("Alice").googleId = student1GoogleId;
         testData.accounts.get("Charlie").googleId = student2GoogleId;
@@ -57,7 +56,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser(true);
     }
     
-    @Test 
+    @Test
     public void allTests() throws Exception {
         testContent();
         testCommentToWholeCourse();
@@ -129,9 +128,15 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         patternString = "Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
         detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
         
-        patternString = "Team 1</option><option value=\"dump\"></td><td>'\"{*}Team 1</option><option value=\"dump\"></td><td>'\"{*}Team 2{*}Team 2";
+        patternString = "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
+                        + "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
+                        + "Team 2{*}"
+                        + "Team 2";
         detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
-        patternString = "Team 2{*}Team 2{*}Team 1</option><option value=\"dump\"></td><td>'\"{*}Team 1</option><option value=\"dump\"></td><td>'\"";
+        patternString = "Team 2{*}"
+                        + "Team 2{*}"
+                        + "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
+                        + "Team 1</option><option value=\"dump\"></td><td>'\"";
         detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
     }
     
@@ -178,24 +183,25 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
     public void testRemindAction() throws Exception {
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();
+        String courseName = testData.courses.get("CCDetailsUiT.CS2104").getName();
         StudentAttributes student1 = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
         StudentAttributes student2 = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
 
         // student2 is yet to register, student1 is already registered
-        String student1Password = TestProperties.inst().TEST_STUDENT1_PASSWORD;
-        String student2Password = TestProperties.inst().TEST_STUDENT2_PASSWORD;
-        boolean isEmailEnabled = !TestProperties.inst().isDevServer();
+        String student1Password = TestProperties.TEST_STUDENT1_PASSWORD;
+        String student2Password = TestProperties.TEST_STUDENT2_PASSWORD;
+        boolean isEmailEnabled = !TestProperties.isDevServer();
 
         ______TS("action: remind single student");
 
         detailsPage.clickRemindStudentAndCancel(student2.name);
         if (isEmailEnabled) {
-            assertFalse(didStudentReceiveReminder(courseId, student2.email, student2Password));
+            assertFalse(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
         }
 
         detailsPage.clickRemindStudentAndConfirm(student2.name);
         if (isEmailEnabled) {
-            assertTrue(didStudentReceiveReminder(courseId, student2.email, student2Password));
+            assertTrue(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
         }
         
         // Hiding of the 'Send invite' link is already covered by content test.
@@ -208,14 +214,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         if (isEmailEnabled) {
             // verify an unregistered student received reminder
-            assertTrue(didStudentReceiveReminder(courseId, student2.email, student2Password));
+            assertTrue(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
             // verify a registered student did not receive a reminder
-            assertFalse(didStudentReceiveReminder(courseId, student1.email, student1Password));
+            assertFalse(didStudentReceiveReminder(courseName, courseId, student1.email, student1Password));
         }
     }
 
     public void testDeleteAction() throws Exception {
-        String courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();        
+        String courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();
         StudentAttributes benny = testData.students.get("benny.tmms@CCDetailsUiT.CS2104");
         StudentAttributes danny = testData.students.get("danny.tmms@CCDetailsUiT.CS2104");
         
@@ -224,12 +230,12 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.clickDeleteAndCancel(benny.name);
         assertNotNull(BackDoor.getStudent(courseId, benny.email));
 
-        //Use ${test.student1} etc. 
+        //Use ${test.student1} etc.
         detailsPage.clickDeleteAndConfirm(benny.name)
                         .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
                 
         detailsPage.clickDeleteAndCancel(danny.name);
-        assertNotNull(BackDoor.getStudent(courseId, danny.email));        
+        assertNotNull(BackDoor.getStudent(courseId, danny.email));
     }
     
     private InstructorCourseDetailsPage getCourseDetailsPage() {
@@ -240,17 +246,19 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
     }
     
-    private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword) 
-                                            throws Exception {
-        String keyToSend = StringHelper.encrypt(BackDoor.getKeyForStudent(courseId, studentEmail));
+    private boolean didStudentReceiveReminder(String courseName, String courseId, String studentEmail,
+                                              String studentPassword)
+            throws Exception {
+        String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
     
         ThreadHelper.waitFor(5000); //TODO: replace this with a more efficient check
-        String keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(studentEmail, studentPassword, courseId);
+        String keyReceivedInEmail =
+                EmailAccount.getRegistrationKeyFromGmail(studentEmail, studentPassword, courseName, courseId);
         return keyToSend.equals(keyReceivedInEmail);
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
     }

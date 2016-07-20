@@ -129,7 +129,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <div class="panel panel-primary">
+        <div class="panel panel-primary student-comments-panel">
           <div class="panel-heading cursor-pointer" data-target="#panelBodyCollapse" data-toggle="collapse" onclick="toggleChevron(this)">
             <div class="display-icon pull-right">
               <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -184,13 +184,13 @@
                                 User/Group
                               </th>
                               <th class="text-center">
-                                Can see your comment
+                                Can see this comment
                               </th>
                               <th class="text-center">
-                                Can see giver's name
+                                Can see comment giver's name
                               </th>
                               <th class="text-center">
-                                Can see recipient's name
+                                Can see comment recipient's name
                               </th>
                             </tr>
                             <tr id="recipient-person1">
@@ -750,7 +750,7 @@
                     <div class="col-md-2">
                       To:
                       <strong>
-                        Anonymous student 1479876785
+                        Anonymous student ${participant.hash}
                       </strong>
                     </div>
                     <div class="col-md-10">

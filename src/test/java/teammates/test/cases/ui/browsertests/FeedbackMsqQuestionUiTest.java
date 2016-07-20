@@ -22,7 +22,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
     private static String instructorId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackMsqQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -30,7 +30,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
-        feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
@@ -52,33 +52,38 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         testDeleteQuestionAction();
     }
 
+    @Override
     public void testNewQuestionFrame() {
 
         ______TS("MSQ: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
     }
     
+    @Override
     public void testInputValidation() {
 
         ______TS("empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
         
         ______TS("empty options");
 
-        feedbackEditPage.fillQuestionBox("Test question text");
+        feedbackEditPage.fillNewQuestionBox("Test question text");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (multiple answers) question. "
+                                      + "Minimum number of options is: 2.");
         
         ______TS("remove when 1 left");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.fillQuestionBox("Test question text");
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillNewQuestionBox("Test question text");
+        feedbackEditPage.fillNewQuestionDescription("more details");
 
         feedbackEditPage.clickRemoveMsqOptionLink(1, -1);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-1--1"));
@@ -88,13 +93,15 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMsqOptionLink(0, -1);
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (multiple answers) question. "
+                                      + "Minimum number of options is: 2.");
         
         ______TS("select Add Other Option");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.fillQuestionBox("Msq with other option");
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillNewQuestionBox("Msq with other option");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
         
         assertTrue(feedbackEditPage.isElementPresent("msqOtherOptionFlag--1"));
@@ -103,10 +110,11 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
     }
 
+    @Override
     public void testCustomizeOptions() {
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
         
         feedbackEditPage.fillMsqOption(0, "Choice 1");
         feedbackEditPage.fillMsqOption(1, "Choice 2");
@@ -133,37 +141,42 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-4--1"));
     }
 
+    @Override
     public void testAddQuestionAction() throws Exception {
 
         ______TS("MSQ: add question action success");
 
-        feedbackEditPage.fillQuestionBox("msq qn");
+        feedbackEditPage.fillNewQuestionBox("msq qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.selectRecipientsToBeStudents();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionAddSuccess.html");
     }
 
+    @Override
     public void testEditQuestionAction() throws Exception {
 
         ______TS("MSQ: edit question success");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("edited msq qn text", 1);
+        feedbackEditPage.fillEditQuestionDescription("more details", 1);
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
         feedbackEditPage.clickRemoveMsqOptionLink(0, 1);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionEditSuccess.html");
 
         ______TS("MSQ: edit to generated options");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("generated msq qn text", 1);
+        feedbackEditPage.fillEditQuestionDescription("more details", 1);
         assertTrue(feedbackEditPage.isElementVisible("msqAddOptionLink"));
         feedbackEditPage.verifyFieldValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
@@ -177,7 +190,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(feedbackEditPage.isElementVisible("msqAddOptionLink"));
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
         assertFalse(feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
         assertTrue(feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
@@ -191,7 +204,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MSQ: change generated type");
 
-        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.clickEditQuestionButton(1);
         assertTrue(feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
         assertTrue(feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
         assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
@@ -205,22 +218,25 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
     }
     
+    @Override
     public void testDeleteQuestionAction() {
 
         ______TS("MSQ: qn delete then cancel");
 
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         ______TS("MSQ: qn delete then accept");
 
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

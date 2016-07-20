@@ -77,7 +77,7 @@ function showHideStats() {
 // the panel will be shown
 function filterResults(rawSearchText) {
     // Reduce white spaces to only 1 white space
-    var searchText = rawSearchText.split('\\s+').join(' ');
+    var searchText = rawSearchText.split('\\s+').join(' ').toLowerCase();
 
     // all panel text will be sorted in post-order
     var allPanelText = $('#mainContent').find('div.panel-heading-text');
@@ -112,7 +112,7 @@ function filterResults(rawSearchText) {
         if ($(panelText).text().toLowerCase().indexOf(searchText) !== -1) {
             // pop and show all parent panels from the showStack
             while (showStack.length > 0) {
-                $(showStack.pop()).hide();
+                $(showStack.pop()).show();
             }
 
             // show current panel
@@ -150,7 +150,12 @@ function filterResults(rawSearchText) {
 }
 
 function updateResultsFilter() {
+    $('input[id=filterTextForDownload]').val($('#results-search-box').val());
     filterResults($('#results-search-box').val());
+}
+
+function updateStatsCheckBox() {
+    $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
 }
 
 function toggleCollapse(e, pans) {
@@ -163,10 +168,6 @@ function toggleCollapse(e, pans) {
         var i = 0;
         for (var idx = 0; idx < panels.length; idx++) {
             if ($(panels[idx]).attr('class').indexOf('in') === -1) {
-
-                // The timeout value '50' is being used in InstructorFeedbackResultsPage.verifyAllResultsPanelBodyVisibility()
-                // and InstructorFeedbackResultsPageUiTest.testPanelsCollapseExpand()
-                // Therefore, when changing this timeout value, please update the waiting times accordingly
                 setTimeout(showSingleCollapse, 50 * i, panels[idx]);
                 i++;
             }
@@ -211,10 +212,35 @@ function bindCollapseEvents(panels, nPanels) {
             if ($(heading[0]).attr('class') === 'panel-heading') {
                 $(heading[0]).click(toggleSingleCollapse);
             }
-            $(heading[0]).attr('data-target', '#panelBodyCollapse-' + numPanels);
-            $(heading[0]).attr('id', 'panelHeading-' + numPanels);
+
+            var sectionIndex = '';
+
+            /*
+             * There is one call of bindCollapseEvents() for outer section panels and one call per request
+             * for every section's content.
+             * For outer section panels we add prefix in format "-section-<sectionIndex>".
+             * For panels inside section we add prefix in format "-<sectionIndex>-". This is done in order
+             * to have fixed IDs for panels regardless of asynchronous execution of requests.
+            */
+            var isSectionPanel = true;
+            var sectionBody = $(heading).next().find('[id^="sectionBody-"]');
+
+            if (sectionBody.length === 0) {
+                sectionBody = $(heading).parents('[id^="sectionBody-"]');
+                isSectionPanel = false;
+            }
+
+            if (sectionBody.length !== 0) {
+                sectionIndex = sectionBody.attr('id').match(/sectionBody-(\d+)/)[1] + '-';
+                if (isSectionPanel) {
+                    sectionIndex = 'section-' + sectionIndex;
+                }
+            }
+
+            $(heading[0]).attr('data-target', '#panelBodyCollapse-' + sectionIndex + numPanels);
+            $(heading[0]).attr('id', 'panelHeading-' + sectionIndex + numPanels);
             $(heading[0]).css('cursor', 'pointer');
-            $(bodyCollapse[0]).attr('id', 'panelBodyCollapse-' + numPanels);
+            $(bodyCollapse[0]).attr('id', 'panelBodyCollapse-' + sectionIndex + numPanels);
         }
     }
     return numPanels;
@@ -235,6 +261,18 @@ function displayAjaxRetryMessageForPanelHeading($element) {
     $element.html(ajaxErrorStart + warningSign + errorMsg + chevronDown + ajaxErrorEnd);
 }
 
+function isEmptySection(content) {
+    var panelsInSection = content.find('div.panel');
+
+    return panelsInSection.length === 0;
+}
+
+function removeSection(id) {
+    var $heading = $('[id^=panelHeading-section-' + id + ']');
+
+    $heading.parent().remove();
+}
+
 $(document).ready(function() {
     var participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
@@ -246,12 +284,18 @@ $(document).ready(function() {
         } else {
             childPanelType = participantPanelType;
         }
-        var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
+        var panels = $(this).closest('.panel-success')
+                            .children('.panel-collapse')
+                            .find(childPanelType)
+                            .children('.panel-collapse');
         toggleCollapse(this, panels);
     });
 
     $('a[id^="collapse-panels-button-team-"]').on('click', function() {
-        var panels = $(this).closest('.panel-warning').children('.panel-collapse').find(participantPanelType).children('.panel-collapse');
+        var panels = $(this).closest('.panel-warning')
+                            .children('.panel-collapse')
+                            .find(participantPanelType)
+                            .children('.panel-collapse');
         toggleCollapse(this, panels);
     });
 
@@ -286,4 +330,19 @@ $(document).ready(function() {
     
     bindPublishButtons();
     bindUnpublishButtons();
+    
+    $('#button-print').on('click', function() {
+        // Fix to hide the filter placeholder when it is empty.
+        if ($('#results-search-box').val()) {
+            $('#filter-box-parent-div').removeClass('hide-for-print');
+        } else {
+            $('#filter-box-parent-div').addClass('hide-for-print');
+        }
+        
+        $('#mainContent').printThis({
+            importCSS: true,
+            importStyle: true,
+            loadCSS: '/stylesheets/printview.css'
+        });
+    });
 });

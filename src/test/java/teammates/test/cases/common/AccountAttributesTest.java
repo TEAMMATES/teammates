@@ -1,10 +1,11 @@
 package teammates.test.cases.common;
 
+import static teammates.common.util.Const.EOL;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static teammates.common.util.Const.EOL;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
@@ -19,12 +20,12 @@ public class AccountAttributesTest extends BaseTestCase {
     //TODO: test toString() method
     
     @BeforeClass
-    public static void setupClass() throws Exception {
+    public static void setupClass() {
         printTestClassHeader();
     }
     
     @Test
-    public void testGetInvalidStateInfo() {
+    public void testGetInvalidStateInfo() throws Exception {
         ______TS("valid account");
         
         AccountAttributes account = createValidAccountAttributesObject();
@@ -43,10 +44,24 @@ public class AccountAttributesTest extends BaseTestCase {
         ______TS("invalid account");
         
         account = createInvalidAccountAttributesObject();
-        String expectedError = String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY) + EOL
-                + String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
-                + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com", FieldValidator.REASON_INCORRECT_FORMAT) + EOL
-                + String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", FieldValidator.REASON_TOO_LONG);
+        String expectedError =
+                getPopulatedErrorMessage(
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                    FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
+                      FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
+                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                      FieldValidator.INSTITUTE_NAME_MAX_LENGTH);
         assertFalse("all valid values", account.isValid());
         assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
         
@@ -61,8 +76,9 @@ public class AccountAttributesTest extends BaseTestCase {
     @Test
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
-        Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
-                                account.email, account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
+        Account expectedAccount =
+                new Account(account.googleId, account.name, account.isInstructor, account.email,
+                            account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
         Account actualAccount = new AccountAttributes(expectedAccount).toEntity();
         
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
@@ -163,7 +179,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
         
-        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail, 
+        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail,
                 profileInstitute, nationality, gender, moreInfo, pictureKey);
         
         return account;

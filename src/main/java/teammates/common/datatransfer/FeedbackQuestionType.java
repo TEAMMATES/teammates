@@ -21,6 +21,19 @@ public enum FeedbackQuestionType {
     private final Class<? extends FeedbackResponseDetails> responseDetailsClass;
 
     /**
+     * Constructor for FeedbackQuestionType.
+     * Pass in the corresponding questionDetailsClass and responseDetailsClass
+     *
+     * @param questionDetailsClass
+     * @param responseDetailsClass
+     */
+    FeedbackQuestionType(Class<? extends FeedbackQuestionDetails> questionDetailsClass,
+                         Class<? extends FeedbackResponseDetails> responseDetailsClass) {
+        this.questionDetailsClass = questionDetailsClass;
+        this.responseDetailsClass = responseDetailsClass;
+    }
+
+    /**
      * Returns an instance of a corresponding Feedback*QuestionDetails class
      *
      * @return FeedbackQuestionDetails
@@ -29,7 +42,7 @@ public enum FeedbackQuestionType {
         return getFeedbackQuestionDetailsInstance(null, null);
     }
 
-    public FeedbackQuestionDetails getFeedbackQuestionDetailsInstance(String questionText, 
+    public FeedbackQuestionDetails getFeedbackQuestionDetailsInstance(String questionText,
                                                                       Map<String, String[]> requestParameters) {
         FeedbackQuestionDetails feedbackQuestionDetails = null;
 
@@ -68,7 +81,7 @@ public enum FeedbackQuestionType {
         }
 
         if (questionText != null && requestParameters != null) {
-            feedbackQuestionDetails.questionText = questionText;
+            feedbackQuestionDetails.setQuestionText(questionText);
             feedbackQuestionDetails.extractQuestionDetails(requestParameters, this);
         }
 
@@ -80,9 +93,9 @@ public enum FeedbackQuestionType {
      *
      * @return FeedbackResponseDetails
      */
-    public FeedbackResponseDetails getFeedbackResponseDetailsInstance(FeedbackQuestionDetails questionDetails,
-                                                                      String[] answer, Map<String, String[]> requestParameters,
-                                                                      int questionIndx, int responseIndx) {
+    public FeedbackResponseDetails getFeedbackResponseDetailsInstance(
+            FeedbackQuestionDetails questionDetails, String[] answer, Map<String, String[]> requestParameters,
+            int questionIndx, int responseIndx) {
         FeedbackResponseDetails feedbackResponseDetails = null;
 
         switch (this) {
@@ -141,19 +154,6 @@ public enum FeedbackQuestionType {
         }
 
         return feedbackResponseDetails;
-    }
-
-    /**
-     * Constructor for FeedbackQuestionType.
-     * Pass in the corresponding questionDetailsClass and responseDetailsClass
-     *
-     * @param questionDetailsClass
-     * @param responseDetailsClass
-     */
-    private FeedbackQuestionType(Class<? extends FeedbackQuestionDetails> questionDetailsClass,
-                                 Class<? extends FeedbackResponseDetails> responseDetailsClass) {
-        this.questionDetailsClass = questionDetailsClass;
-        this.responseDetailsClass = responseDetailsClass;
     }
 
     /**

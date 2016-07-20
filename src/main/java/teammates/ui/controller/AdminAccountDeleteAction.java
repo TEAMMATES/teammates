@@ -2,16 +2,15 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class AdminAccountDeleteAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         new GateKeeper().verifyAdminPrivileges(account);
         
@@ -20,13 +19,13 @@ public class AdminAccountDeleteAction extends Action {
         String account = getRequestParamValue("account");
         
         //TODO: We should extract these into separate actions e.g., AdminInstructorDowngradeAction
-        if (courseId == null && account == null) {    
+        if (courseId == null && account == null) {
             //delete instructor status
             logic.downgradeInstructorToStudentCascade(instructorId);
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_STATUS_DELETED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor Status for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
             return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
-        } 
+        }
         
         if (courseId == null && account != null) {
             //delete entire account
@@ -34,16 +33,18 @@ public class AdminAccountDeleteAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_ACCOUNT_DELETED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor Account for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
             return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
-        } 
+        }
 
         String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
         if (courseId != null && studentId != null) {
             //remove student from course
             StudentAttributes student = logic.getStudentForGoogleId(courseId, studentId);
             logic.deleteStudent(courseId, student.email);
-            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Instructor <span class=\"bold\">" + instructorId 
-                          + "</span>'s student status in Course<span class=\"bold\">[" + courseId + "]</span> has been deleted"; 
+            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE,
+                                               StatusMessageColor.SUCCESS));
+            statusToAdmin = "Instructor <span class=\"bold\">" + instructorId
+                            + "</span>'s student status in Course"
+                            + "<span class=\"bold\">[" + courseId + "]</span> has been deleted";
             return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE + "?instructorid=" + studentId);
         }
         
@@ -51,8 +52,8 @@ public class AdminAccountDeleteAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
         logic.deleteInstructor(courseId, instructor.email);
         statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Instructor <span class=\"bold\">" + instructorId 
-                      + "</span> has been deleted from Course<span class=\"bold\">[" + courseId + "]</span>"; 
+        statusToAdmin = "Instructor <span class=\"bold\">" + instructorId
+                      + "</span> has been deleted from Course<span class=\"bold\">[" + courseId + "]</span>";
         return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE + "?instructorid=" + instructorId);
     }
 

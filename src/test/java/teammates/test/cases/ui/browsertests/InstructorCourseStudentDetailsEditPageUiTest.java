@@ -8,8 +8,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -26,7 +26,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     private static DataBundle testData;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public static void classSetup() {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseStudentDetailsEditPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -69,54 +69,62 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         editPage.verifyHtml("/InstructorCourseStudentEditPage.html");
     }
     
-    public void testInputValidation() {
+    public void testInputValidation() throws Exception {
         
         ______TS("input validation");
         
-        String teamNameFieldName = "a team name";
-        String personNameFieldName = "a person name";
-        
         editPage.submitUnsuccessfully(null, "", null, null)
-            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                    "", teamNameFieldName, FieldValidator.REASON_EMPTY, teamNameFieldName, FieldValidator.TEAM_NAME_MAX_LENGTH));
+                .verifyStatus(getPopulatedErrorMessage(
+                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                                  FieldValidator.TEAM_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                                  FieldValidator.TEAM_NAME_MAX_LENGTH));
         
         ______TS("empty student name and the team field is edited");
         String newTeamName = "New teamname";
         editPage.submitUnsuccessfully("", newTeamName, null, null)
-            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                    "", personNameFieldName, FieldValidator.REASON_EMPTY, personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));
+                .verifyStatus(getPopulatedErrorMessage(
+                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                                  FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                                  FieldValidator.PERSON_NAME_MAX_LENGTH));
         
         ______TS("long student name and the team field is not edited");
         String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(invalidStudentName, null, null, null)
-            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                    invalidStudentName, personNameFieldName, FieldValidator.REASON_TOO_LONG, personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));
-        
+                .verifyStatus(getPopulatedErrorMessage(
+                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidStudentName,
+                                  FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                                  FieldValidator.PERSON_NAME_MAX_LENGTH));
+
         String newStudentName = "New guy";
         String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(newStudentName, invalidTeamName, null, null)
-            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                    invalidTeamName, teamNameFieldName, FieldValidator.REASON_TOO_LONG, teamNameFieldName, FieldValidator.TEAM_NAME_MAX_LENGTH));
+                .verifyStatus(getPopulatedErrorMessage(
+                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidTeamName,
+                                  FieldValidator.TEAM_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                                  FieldValidator.TEAM_NAME_MAX_LENGTH));
         
         String invalidEmail = "invalidemail";
         editPage.submitUnsuccessfully(newStudentName, newTeamName, invalidEmail, null)
-            .verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidEmail, FieldValidator.REASON_INCORRECT_FORMAT));
+                .verifyStatus(getPopulatedErrorMessage(
+                                  FieldValidator.EMAIL_ERROR_MESSAGE, invalidEmail,
+                                  FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                                  FieldValidator.EMAIL_MAX_LENGTH));
     }
 
-    public void testEditAction() throws Exception {
+    public void testEditAction() {
         
         ______TS("Error case, invalid email parameter (email already taken by others)");
 
         StudentAttributes anotherStudent = testData.students.get("unregisteredStudent");
 
-        editPage  = editPage.submitUnsuccessfully("New name2", "New team2", anotherStudent.email, "New comments2");
-        editPage.verifyStatus(String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, anotherStudent.name,
+        editPage = editPage.submitUnsuccessfully("New name2", "New team2", anotherStudent.email, "New comments2");
+        editPage.verifyStatus(String.format(Const.StatusMessages.STUDENT_EMAIL_TAKEN_MESSAGE, anotherStudent.name,
                                             anotherStudent.email));
         editPage.verifyIsCorrectPage("CCSDEditUiT.jose.tmms@gmail.tmt");
             
         // Verify data
-        StudentAttributes student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
-                                                                              "CCSDEditUiT.jose.tmms@gmail.tmt");
+        StudentAttributes student = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
+                                                                             "CCSDEditUiT.jose.tmms@gmail.tmt");
         assertEquals("José Gómez</option></td></div>'\"", student.name);
         assertEquals("Team 1</td></div>'\"", student.team);
         assertEquals(testData.students.get("registeredStudent").googleId, student.googleId);
@@ -125,13 +133,14 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 
         ______TS("edit action");
         
-        InstructorCourseDetailsPage detailsPage = editPage.submitSuccessfully("New name", "New team", "newemail@gmail.tmt", "New comments");
+        InstructorCourseDetailsPage detailsPage =
+                editPage.submitSuccessfully("New name", "New team", "newemail@gmail.tmt", "New comments");
         detailsPage.verifyStatus(Const.StatusMessages.STUDENT_EDITED);
         detailsPage.verifyIsCorrectPage(testData.courses.get("CCSDEditUiT.CS2104").getId());
             
         // Verify data
-        student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
-                                       "newemail@gmail.tmt");
+        student = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").getId(),
+                                      "newemail@gmail.tmt");
         assertEquals("New name", student.name);
         assertEquals("New team", student.team);
         assertEquals(testData.students.get("registeredStudent").googleId, student.googleId);
@@ -140,7 +149,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         BrowserPool.release(browser);
     }
 }

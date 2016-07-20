@@ -17,7 +17,7 @@ public class AppPageUiTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        browser = BrowserPool.getBrowser();        
+        browser = BrowserPool.getBrowser();
         page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/appPage0.html"));
     }
     
@@ -52,7 +52,7 @@ public class AppPageUiTest extends BaseUiTestCase {
     //TODO: add test cases for other methods in AppPage
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
         BrowserPool.release(browser);
     }

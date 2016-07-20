@@ -42,6 +42,7 @@ public class CourseDetailsBundle {
     
     public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
+            @Override
             public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
                 return obj1.course.getId().compareTo(obj2.course.getId());
             }
@@ -51,9 +52,10 @@ public class CourseDetailsBundle {
     
     /**
      * Sorts courses based on course ID
-     */ 
+     */
     public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
+            @Override
             public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
                 return obj1.course.getId().compareTo(obj2.course.getId());
             }
@@ -65,6 +67,7 @@ public class CourseDetailsBundle {
      */
     public static void sortDetailedCoursesByCreationDate(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
+            @Override
             public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
                 return (-1) * obj1.course.createdAt.compareTo(obj2.course.createdAt);
             }

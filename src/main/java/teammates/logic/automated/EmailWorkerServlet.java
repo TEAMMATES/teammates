@@ -1,35 +1,29 @@
 package teammates.logic.automated;
 
-import java.util.logging.Logger;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.seleniumhq.jetty7.server.Response;
-
 import teammates.common.util.Assumption;
-import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
-import teammates.logic.core.Emails;
+import teammates.common.util.EmailType;
+import teammates.common.util.HttpRequestHelper;
 
 @SuppressWarnings("serial")
 public class EmailWorkerServlet extends WorkerServlet {
     
-    private static Logger log = Utils.getLogger();
-    
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         
-        Emails.EmailType typeOfMail = Emails.EmailType.valueOf(HttpRequestHelper
-                .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_TYPE));
-        Assumption.assertNotNull(typeOfMail);
+        String emailTypeParam = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_TYPE);
+        EmailType emailType = EmailType.valueOf(emailTypeParam);
+        Assumption.assertNotNull(emailType);
         
         EmailAction emailObj = null;
-        int responseCode = Response.SC_OK;
+        int responseCode = HttpServletResponse.SC_OK;
         
         log.info("Email worker activated for :" + HttpRequestHelper.printRequestParameters(req));
         
-        switch(typeOfMail) {
+        switch (emailType) {
         case FEEDBACK_CLOSING:
             emailObj = new FeedbackSessionClosingMailAction(req);
             break;
@@ -42,19 +36,26 @@ public class EmailWorkerServlet extends WorkerServlet {
         case PENDING_COMMENT_CLEARED:
             emailObj = new PendingCommentClearedMailAction(req);
             break;
+        case FEEDBACK_SESSION_REMINDER:
+        case NEW_INSTRUCTOR_ACCOUNT:
+        case STUDENT_COURSE_JOIN:
+        case STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET:
+        case INSTRUCTOR_COURSE_JOIN:
+        case ADMIN_SYSTEM_ERROR:
+        case SEVERE_LOGS_COMPILATION:
+            // not sent via email worker
+            break;
         default:
-            log.severe("Type of email is null");
-            responseCode = Response.SC_INTERNAL_SERVER_ERROR;
             break;
         }
         
         if (emailObj == null) {
-            log.severe("Email object is null");
-            responseCode = Response.SC_INTERNAL_SERVER_ERROR;
+            log.severe("Email object is null for type: " + emailTypeParam);
+            responseCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
         } else {
             emailObj.sendEmails();
         }
         
         resp.setStatus(responseCode);
     }
-}    
+}

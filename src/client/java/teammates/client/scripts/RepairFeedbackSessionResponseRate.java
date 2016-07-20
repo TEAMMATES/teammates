@@ -28,11 +28,11 @@ import teammates.storage.entity.FeedbackSession;
 /**
  * Script to go through either:
  * <ul>
- * <li> every feedback session, </li> 
- * <li> feedback sessions with start date within a specified range, </li> 
+ * <li> every feedback session, </li>
+ * <li> feedback sessions with start date within a specified range, </li>
  * <li> or a specified feedback session, </li>
  * </ul>
- * and verifies that the non-respondents do not have a response in the feedback session. <br/>
+ * and verifies that the non-respondents do not have a response in the feedback session. <br>
  * 
  * If isPreview is false, whenever an inconsistency is found, {@code logic.updateRespondants} will
  * be used to recompute the respondents' set.
@@ -43,7 +43,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     private Logic logic = new Logic();
     private FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     
-    // if isPreview is true, then no writes will be done 
+    // if isPreview is true, then no writes will be done
     private boolean isPreview = true;
 
     // if numDays is set to > 0,
@@ -98,41 +98,40 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         boolean isRepairRequired = false;
         for (String nonRespondentEmail : nonRespondants) {
             boolean isRespondentWithResponses = logic.hasGiverRespondedForSession(
-                                                        nonRespondentEmail, 
-                                                        feedbackSession.feedbackSessionName, 
-                                                        feedbackSession.courseId);
+                                                        nonRespondentEmail,
+                                                        feedbackSession.getFeedbackSessionName(),
+                                                        feedbackSession.getCourseId());
             if (isRespondentWithResponses) {
-                System.out.println("Inconsistent data for " + feedbackSession.getIdentificationString() 
+                System.out.println("Inconsistent data for " + feedbackSession.getIdentificationString()
                                  + nonRespondentEmail);
                 isRepairRequired = true;
-            } 
+            }
         }
         
         if (!isPreview && isRepairRequired) {
             System.out.println("fixing " + feedbackSession.getIdentificationString());
-            logic.updateRespondants(feedbackSession.feedbackSessionName, feedbackSession.courseId);
+            logic.updateRespondants(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
         }
     }
 
-    private Set<String> getNonRespondentsForFeedbackSession(
-                                    FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException {
+    private Set<String> getNonRespondentsForFeedbackSession(FeedbackSessionAttributes feedbackSession) {
         
         // obtain the respondents first
-        Set<String> respondingStudentsEmail = feedbackSession.respondingStudentList;                
-        Set<String> respondingInstructorsEmail = feedbackSession.respondingInstructorList;
+        Set<String> respondingStudentsEmail = feedbackSession.getRespondingStudentList();
+        Set<String> respondingInstructorsEmail = feedbackSession.getRespondingInstructorList();
         
         Set<String> respondents = new HashSet<>(respondingInstructorsEmail);
         respondents.addAll(respondingStudentsEmail);
 
         Set<String> nonRespondentsEmails;
         // obtain emails of every student and instructor in the course
-        if (emailsInCourse.containsKey(feedbackSession.courseId)) {
-            nonRespondentsEmails = emailsInCourse.get(feedbackSession.courseId);
+        if (emailsInCourse.containsKey(feedbackSession.getCourseId())) {
+            nonRespondentsEmails = emailsInCourse.get(feedbackSession.getCourseId());
         } else {
-            List<InstructorAttributes> allInstructors = 
-                                            logic.getInstructorsForCourse(feedbackSession.courseId);
-            List<StudentAttributes> allStudents = 
-                                            logic.getStudentsForCourse(feedbackSession.courseId);
+            List<InstructorAttributes> allInstructors =
+                                            logic.getInstructorsForCourse(feedbackSession.getCourseId());
+            List<StudentAttributes> allStudents =
+                                            logic.getStudentsForCourse(feedbackSession.getCourseId());
             List<EntityAttributes> allPossibleRespondents = new ArrayList<>();
             allPossibleRespondents.addAll(allInstructors);
             allPossibleRespondents.addAll(allStudents);
@@ -148,7 +147,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
                 }
             }
             
-            emailsInCourse.put(feedbackSession.courseId, nonRespondentsEmails);
+            emailsInCourse.put(feedbackSession.getCourseId(), nonRespondentsEmails);
         }
         
         // non-respondents = all students and instructors - respondents
@@ -162,7 +161,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     }
     
     /**
-     * Return a list of feedback sessions with start time from (now - numDays) and now 
+     * Return a list of feedback sessions with start time from (now - numDays) and now
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWithStartDateNoOlderThan(int numDays) {
         Calendar startCal = Calendar.getInstance();

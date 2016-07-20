@@ -16,7 +16,7 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -43,8 +43,13 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
@@ -75,14 +80,15 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
         AssertHelper.assertContains(
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, 
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS, redirectResult.getStatusMessage());
 
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
-                + "|||instr1@course1.tmt|||Servlet Action Failure : Trying to create a Instructor that exists: idOfTypicalCourse1/ICIAAT.newInstructor@email.tmt"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
+                + "|||Servlet Action Failure : Trying to create a Instructor that exists: "
+                + "idOfTypicalCourse1/ICIAAT.newInstructor@email.tmt"
                 + "|||/page/instructorCourseInstructorAdd";
         AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
         
@@ -92,24 +98,30 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInvalidInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
         };
         
         addAction = getAction(submissionParams);
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
         AssertHelper.assertContains(
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, 
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
-        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
-                                   FieldValidator.REASON_INCORRECT_FORMAT), redirectResult.getStatusMessage());
+        assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
+                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                         FieldValidator.EMAIL_MAX_LENGTH),
+                     redirectResult.getStatusMessage());
             
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
                + "|||Servlet Action Failure : "
-               + String.format(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
-                               FieldValidator.REASON_INCORRECT_FORMAT)
+               + getPopulatedErrorMessage(
+                     FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
+                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                     FieldValidator.EMAIL_MAX_LENGTH)
                + "|||/page/instructorCourseInstructorAdd";
         AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
         
@@ -122,8 +134,13 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
@@ -148,7 +165,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, addAction.getLogMessage());
     }
     
-    private InstructorCourseInstructorAddAction getAction(String... parameters) throws Exception {
+    private InstructorCourseInstructorAddAction getAction(String... parameters) {
         return (InstructorCourseInstructorAddAction) gaeSimulation.getActionObject(uri, parameters);
     }
 

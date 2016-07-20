@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -18,18 +17,16 @@ public class AdminEmailImageUploadAction extends Action {
     AdminEmailComposePageData data;
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         GateKeeper.inst().verifyAdminPrivileges(account);
        
-        BlobInfo blobInfo = null;
-        
-        data = new AdminEmailComposePageData(account);    
-        blobInfo = extractImageKey();
+        data = new AdminEmailComposePageData(account);
+        BlobInfo blobInfo = extractImageKey();
         
         if (blobInfo == null) {
             data.isFileUploaded = false;
-            data.fileSrcUrl = null;            
+            data.fileSrcUrl = null;
             log.info("Image Upload Failed");
             statusToAdmin = "Image Upload Failed";
             
@@ -37,7 +34,7 @@ public class AdminEmailImageUploadAction extends Action {
         }
         
         
-        BlobKey blobKey = blobInfo.getBlobKey();     
+        BlobKey blobKey = blobInfo.getBlobKey();
         
       
         data.isFileUploaded = true;
@@ -46,7 +43,7 @@ public class AdminEmailImageUploadAction extends Action {
         String absoluteFileSrcUrl = Config.getAppUrl(data.fileSrcUrl).toAbsoluteString();
         
         log.info("New Image Uploaded : " + absoluteFileSrcUrl);
-        statusToAdmin = "New Image Uploaded : " + "<a href=" 
+        statusToAdmin = "New Image Uploaded : " + "<a href="
                 + data.fileSrcUrl + " target=blank>" + absoluteFileSrcUrl + "</a>";
         data.ajaxStatus = "Image Successfully Uploaded to Google Cloud Storage";
 
@@ -62,7 +59,7 @@ public class AdminEmailImageUploadAction extends Action {
                 data.ajaxStatus = Const.StatusMessages.NO_IMAGE_GIVEN;
                 isError = true;
                 return null;
-            } 
+            }
             
             BlobInfo image = blobs.get(0);
             return validateImage(image);
@@ -82,7 +79,7 @@ public class AdminEmailImageUploadAction extends Action {
             isError = true;
             data.ajaxStatus = Const.StatusMessages.FILE_NOT_A_PICTURE;
             return null;
-        } 
+        }
            
         return image;
     }
@@ -95,7 +92,7 @@ public class AdminEmailImageUploadAction extends Action {
         try {
             logic.deleteAdminEmailUploadedFile(blobKey);
         } catch (BlobstoreFailureException bfe) {
-            statusToAdmin = Const.ACTION_RESULT_FAILURE 
+            statusToAdmin = Const.ACTION_RESULT_FAILURE
                     + " : Unable to delete picture (possible unused picture with key: "
                     + blobKey.getKeyString()
                     + " || Error Message: "

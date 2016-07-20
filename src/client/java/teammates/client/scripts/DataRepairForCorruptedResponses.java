@@ -33,7 +33,8 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
         }
     }
     
-    private void repairDataForSession(String courseId, String sessionName) throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+    private void repairDataForSession(String courseId, String sessionName)
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(sessionName, courseId);
         for (FeedbackQuestionAttributes question : questions) {
             boolean needRepairGiverSection = isGiverContainingSection(question.giverType);
@@ -44,14 +45,16 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
         }
     }
     
-    private void repairResponsesForQuestion(FeedbackQuestionAttributes question, boolean needRepairGiverSection, boolean needRepairRecipientSection) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+    private void repairResponsesForQuestion(FeedbackQuestionAttributes question, boolean needRepairGiverSection,
+                                            boolean needRepairRecipientSection)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responses = logic.getFeedbackResponsesForQuestion(question.getId());
         for (FeedbackResponseAttributes response : responses) {
             boolean needUpdateResponse = false;
             String originalGiverSection = "";
             String originalRecipientSection = "";
             if (needRepairGiverSection) {
-                StudentAttributes student = logic.getStudentForEmail(question.courseId, response.giverEmail);
+                StudentAttributes student = logic.getStudentForEmail(question.courseId, response.giver);
                 if (!response.giverSection.equals(student.section)) {
                     originalGiverSection = response.giverSection;
                     response.giverSection = student.section;
@@ -61,14 +64,15 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             
             if (needRepairRecipientSection) {
                 if (isTeamRecipient(question.recipientType)) {
-                    String recipientSection = logic.getStudentsForTeam(response.recipientEmail, question.courseId).get(0).section;
+                    String recipientSection =
+                            logic.getStudentsForTeam(response.recipient, question.courseId).get(0).section;
                     if (!recipientSection.equals(response.recipientSection)) {
                         originalRecipientSection = response.recipientSection;
                         response.recipientSection = recipientSection;
                         needUpdateResponse = true;
                     }
                 } else {
-                    StudentAttributes student = logic.getStudentForEmail(question.courseId, response.recipientEmail);
+                    StudentAttributes student = logic.getStudentForEmail(question.courseId, response.recipient);
                     if (!response.recipientSection.equals(student.section)) {
                         originalRecipientSection = response.recipientSection;
                         response.recipientSection = student.section;
@@ -78,9 +82,9 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             }
             
             if (needUpdateResponse) {
-                System.out.println("Repairing giver section:" 
+                System.out.println("Repairing giver section:"
                         + originalGiverSection + "-->" + response.giverSection
-                        + " receiver section:" 
+                        + " receiver section:"
                         + originalRecipientSection + "-->" + response.recipientSection);
                 logic.updateFeedbackResponse(response);
             }

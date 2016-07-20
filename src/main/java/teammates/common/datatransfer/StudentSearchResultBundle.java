@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.search.Cursor;
@@ -43,13 +44,13 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for (ScoredDocument doc : filteredResults) {
             StudentAttributes student = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(),
                     StudentAttributes.class);
             if (student.key == null) {
                 studentsLogic.deleteDocument(student);
                 continue;
             }
-            if (studentsLogic.getStudentForRegistrationKey(student.key) == null) {
+            if (studentsLogic.getStudentForRegistrationKey(StringHelper.encrypt(student.key)) == null) {
                 studentsLogic.deleteDocument(student);
                 continue;
             }
@@ -64,13 +65,13 @@ public class StudentSearchResultBundle extends SearchResultBundle {
     }
 
     /**
-     * This method should be used by admin only since the previous searching does not restrict the 
-     * visibility according to the logged-in user's google ID. Therefore,This fromResults method 
+     * This method should be used by admin only since the previous searching does not restrict the
+     * visibility according to the logged-in user's google ID. Therefore,This fromResults method
      * does not require a googleID as a parameter. Returned results bundle will contain information
      * related to matched students only.
      * @param results
      * @return studentResultBundle containing information related to matched students only.
-     */   
+     */
     public StudentSearchResultBundle getStudentsfromResults(Results<ScoredDocument> results) {
         if (results == null) {
             return this;
@@ -79,10 +80,11 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         cursor = results.getCursor();
         
         for (ScoredDocument doc : results) {
-            StudentAttributes student = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 
-                                                                             StudentAttributes.class);
+            StudentAttributes student =
+                    new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(),
+                                                         StudentAttributes.class);
             
-            if (studentsLogic.getStudentForRegistrationKey(student.key) == null) {
+            if (studentsLogic.getStudentForRegistrationKey(StringHelper.encrypt(student.key)) == null) {
                 studentsLogic.deleteDocument(student);
                 continue;
             }

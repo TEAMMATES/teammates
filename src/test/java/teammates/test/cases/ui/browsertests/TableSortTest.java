@@ -18,12 +18,12 @@ public class TableSortTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        browser = BrowserPool.getBrowser();        
+        browser = BrowserPool.getBrowser();
         page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/tableSort.html"));
     }
     
     @Test
-    public void testTableSortingID() throws Exception {
+    public void testTableSortingId() {
         verifySortingOrder(By.id("button_sortid"),
             
                 "-13.5",
@@ -45,7 +45,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingName() throws Exception {
+    public void testTableSortingName() {
         
         verifySortingOrder(By.id("button_sortname"),
                 
@@ -68,7 +68,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingDate() throws Exception {
+    public void testTableSortingDate() {
         
         verifySortingOrder(By.id("button_sortdate"),
                 
@@ -90,7 +90,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
 
     @Test
-    public void testTableSortingDiff() throws Exception {
+    public void testTableSortingDiff() {
         
         verifySortingOrder(By.id("button_sortDiff"),
                 
@@ -113,7 +113,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testTableSortingPoint() throws Exception {
+    public void testTableSortingPoint() {
         verifySortingOrder(By.id("button_sortPoint"),
         
                 "E -99%",
@@ -134,7 +134,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
  
     @Test
-    public void testStableSort() throws Exception {
+    public void testStableSort() {
         page.click(By.id("button_sortid"));
         page.click(By.id("button_sortid"));
         page.click(By.id("button_sortname"));
@@ -208,7 +208,7 @@ public class TableSortTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public static void classTearDown() throws Exception {
+    public static void classTearDown() {
         printTestClassFooter();
         BrowserPool.release(browser);
     }

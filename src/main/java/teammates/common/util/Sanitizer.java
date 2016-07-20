@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.PolicyFactory;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -18,7 +19,23 @@ import com.google.appengine.api.datastore.Text;
  * and possible threats can be removed first.
  */
 public final class Sanitizer {
-    
+
+    private static PolicyFactory policy =
+            new HtmlPolicyBuilder()
+                .allowStandardUrlProtocols()
+                .allowAttributes("title").globally()
+                .allowAttributes("href").onElements("a")
+                .allowAttributes("src").onElements("img")
+                .allowAttributes("align")
+                    .matching(true, "center", "left", "right", "justify", "char")
+                    .onElements("p")
+                .allowElements(
+                    "a", "p", "div", "i", "b", "em", "blockquote", "tt", "strong", "hr",
+                    "br", "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6", "img", "span")
+                .allowElements("quote", "ecode")
+                .allowStyling()
+                .toFactory();
+
     private Sanitizer() {
         // utility class
     }
@@ -116,6 +133,17 @@ public final class Sanitizer {
     }
 
     /**
+     * Sanitizes the string with rich-text.
+     * Removes disallowed elements based on defined policy.
+     */
+    public static String sanitizeForRichText(String content) {
+        if (content == null) {
+            return null;
+        }
+        return policy.sanitize(content);
+    }
+
+    /**
      * Sanitizes the string for inserting into HTML. Converts special characters
      * into HTML-safe equivalents.
      */
@@ -146,7 +174,7 @@ public final class Sanitizer {
     /**
      * Sanitizes a list of strings for inserting into HTML.
      */
-    public static List<String> sanitizeForHtml(List<String> list) { 
+    public static List<String> sanitizeForHtml(List<String> list) {
         List<String> sanitizedList = new ArrayList<String>();
         for (String str : list) {
             sanitizedList.add(sanitizeForHtml(str));
@@ -157,7 +185,7 @@ public final class Sanitizer {
     /**
      * Sanitizes a set of strings for inserting into HTML.
      */
-    public static Set<String> sanitizeForHtml(Set<String> set) { 
+    public static Set<String> sanitizeForHtml(Set<String> set) {
         Set<String> sanitizedSet = new TreeSet<String>();
         for (String str : set) {
             sanitizedSet.add(sanitizeForHtml(str));
@@ -200,7 +228,7 @@ public final class Sanitizer {
     
     /**
      * Recovers the URL from sanitization due to {@link #sanitizeForNextUrl}.
-     * In addition, any un-encoded whitespace (they may be there due to Google's 
+     * In addition, any un-encoded whitespace (they may be there due to Google's
      * behind-the-screen decoding process) will be encoded again to +.
      */
     public static String desanitizeFromNextUrl(String url) {
@@ -208,15 +236,8 @@ public final class Sanitizer {
                   .replace(" ", "+");
     }
     
-    public static String sanitizeForRichText(String richText) {
-        if (richText == null) {
-            return null;
-        }
-        return escapeHtml4(richText);
-    }
-    
     /**
-     * Sanitize the string for searching. 
+     * Sanitize the string for searching.
      */
     public static String sanitizeForSearch(String str) {
         if (str == null) {
@@ -260,7 +281,7 @@ public final class Sanitizer {
     }
 
     /**
-     * Trims the string if it is not null. 
+     * Trims the string if it is not null.
      * 
      * @param string
      * @return the trimmed string or null (if the parameter was null).
@@ -283,7 +304,8 @@ public final class Sanitizer {
      */
     public static String convertStringForXPath(String text) {
         StringBuilder result = new StringBuilder();
-        int startPos = 0, i = 0;
+        int startPos = 0;
+        int i = 0;
         while (i < text.length()) {
             while (i < text.length() && text.charAt(i) != '\'') {
                 i++;
@@ -304,5 +326,12 @@ public final class Sanitizer {
             return "''";
         }
         return "concat(" + result.toString() + "'')";
+    }
+
+    /**
+     * @return text with all non-ASCII characters removed
+     */
+    public static String removeNonAscii(String text) {
+        return text.replaceAll("[^\\x00-\\x7F]", "");
     }
 }

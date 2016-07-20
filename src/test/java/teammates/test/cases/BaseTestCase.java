@@ -1,15 +1,17 @@
 package teammates.test.cases;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.testng.AssertJUnit;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.FileHelper;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.FileHelper;
 
 /** Base class for all test cases */
 public class BaseTestCase {
@@ -22,9 +24,11 @@ public class BaseTestCase {
      * @param description
      *            of the logical section. This will be printed.
      */
+    // CHECKSTYLE.OFF:AbbreviationAsWordInName|MethodName the weird name is for easy spotting.
     public static void ______TS(String description) {
         print(" * " + description);
     }
+    // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
     public static void printTestCaseHeader() {
         print("[TestCase]---:" + Thread.currentThread().getStackTrace()[2].getMethodName());
@@ -57,7 +61,7 @@ public class BaseTestCase {
                                   + pathToJsonFileParam;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -78,7 +82,7 @@ public class BaseTestCase {
         backDoorLogic.persistDataBundle(dataBundle);
     }
     
-    protected static void removeTypicalDataInDatastore() throws Exception {
+    protected static void removeTypicalDataInDatastore() {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = getTypicalDataBundle();
         backDoorLogic.deleteExistingData(dataBundle);
@@ -87,7 +91,7 @@ public class BaseTestCase {
     /**
      * Creates in the datastore a fresh copy of data in the given json file
      */
-    protected static  void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
+    protected static void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = loadDataBundle(pathToJsonFile);
         backDoorLogic.persistDataBundle(dataBundle);
@@ -112,6 +116,37 @@ public class BaseTestCase {
         assertTrue(true);
     }
     
+    /**
+     * Invokes the method named {@code methodName} as defined in the {@code definingClass}.
+     * @param definingClass     the class which defines the method
+     * @param methodName
+     * @param parameterTypes    the parameter types of the method,
+     *                          which must be passed in the same order defined in the method
+     * @param invokingObject    the object which invokes the method, can be {@code null} if the method is static
+     * @param args              the arguments to be passed to the method invocation
+     */
+    protected static Object invokeMethod(Class<?> definingClass, String methodName, Class<?>[] parameterTypes,
+                                         Object invokingObject, Object[] args)
+            throws ReflectiveOperationException {
+        Method method = definingClass.getDeclaredMethod(methodName, parameterTypes);
+        method.setAccessible(true);
+        return method.invoke(invokingObject, args);
+    }
+    
+    protected static String getPopulatedErrorMessage(String messageTemplate, String userInput,
+                                                     String fieldName, String errorReason)
+            throws ReflectiveOperationException {
+        return getPopulatedErrorMessage(messageTemplate, userInput, fieldName, errorReason, 0);
+    }
+
+    protected static String getPopulatedErrorMessage(String messageTemplate, String userInput,
+                                                     String fieldName, String errorReason, int maxLength)
+            throws ReflectiveOperationException {
+        return (String) invokeMethod(FieldValidator.class, "getPopulatedErrorMessage",
+                                     new Class<?>[] { String.class, String.class, String.class, String.class, int.class },
+                                     null, new Object[] { messageTemplate, userInput, fieldName, errorReason, maxLength });
+    }
+
     /*
      * Here are some of the most common assertion methods provided by JUnit.
      * They are copied here to prevent repetitive importing in test classes.
