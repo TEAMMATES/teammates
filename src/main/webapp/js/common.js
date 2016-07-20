@@ -602,7 +602,7 @@ function setStatusMessageToForm(message, status, form) {
     $statusMessage.html(message);
     
     $statusMessagesToUser.empty();
-    $statusMessagesToUser.append($statusMessage);    
+    $statusMessagesToUser.append($statusMessage);
     
     $(form).find($('.statusMessage')).remove();
     $(form).prepend($statusMessagesToUser.clone().show());
