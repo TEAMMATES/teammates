@@ -135,6 +135,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("create new responses");
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
 
         String responseText = "Test Self Feedback";
         submitPage.fillResponseTextBox(1, 0, responseText);
@@ -348,7 +349,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         //check edited
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
-        assertEquals(editedResponse,
+        assertEquals("<p>" + editedResponse + "</p>",
                      BackDoor.getFeedbackResponse(fq.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
                                                   "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData.getValue());
 

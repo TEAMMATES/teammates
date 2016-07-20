@@ -175,12 +175,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
         WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
         click(showResponseCommentAddFormButton);
-        waitForElementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea")));
-        fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
+        // Delay to initialize TinyMCE editor
+        ThreadHelper.waitFor(1000);
+        WebElement editorElement = addResponseCommentForm.findElement(By.className("mce-content-body"));
+        waitForElementToBeClickable(editorElement);
+        fillRichTextEditor(editorElement.getAttribute("id"), commentText);
         click(addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
         if (commentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
-            waitForElementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea")));
+            waitForElementToBeClickable(editorElement);
         } else {
             // non-empty comment: wait until the add comment form disappears
             waitForElementToDisappear(By.id(addResponseCommentId));
@@ -192,7 +195,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(commentRow.findElements(By.tagName("a")).get(1));
 
         WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
-        fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
+        fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
         click(commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
         ThreadHelper.waitFor(1000);
     }

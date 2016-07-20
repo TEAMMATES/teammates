@@ -43,7 +43,8 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         click(element);
-        fillTextBox(element, text);
+        element.clear();
+        element.sendKeys(text);
         // Fire the change event using javascript since firefox with selenium
         // might be buggy and fail to trigger.
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
@@ -55,7 +56,8 @@ public class FeedbackSubmitPage extends AppPage {
                 By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                       + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
         click(element);
-        fillTextBox(element, text);
+        element.clear();
+        element.sendKeys(text);
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("$(arguments[0]).change();", element);
     }

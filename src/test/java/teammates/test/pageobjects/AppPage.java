@@ -472,9 +472,10 @@ public abstract class AppPage {
     }
     
     protected void fillRichTextEditor(String id, String content) {
+        String preparedContent = content.replace("\n", "<br>");
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                                 + "    tinyMCE.get('" + id + "').setContent('" + content + "\t\t');"
+                                 + "    tinyMCE.get('" + id + "').setContent('" + preparedContent + "\t\t');"
                                  + "}");
     }
 

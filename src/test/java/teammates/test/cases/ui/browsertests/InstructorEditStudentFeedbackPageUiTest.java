@@ -66,7 +66,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                           "student1InIESFPTCourse@gmail.tmt",
                                           "student1InIESFPTCourse@gmail.tmt");
         
-        assertEquals("Good design", fr.getResponseDetails().getAnswerString());
+        assertEquals("<p>Good design</p>", fr.getResponseDetails().getAnswerString());
     }
     
     private void testAddResponse() throws Exception {

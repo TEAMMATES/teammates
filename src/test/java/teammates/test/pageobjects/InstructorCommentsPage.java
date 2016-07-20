@@ -147,8 +147,7 @@ public class InstructorCommentsPage extends AppPage {
     public void fillTextareaToEditStudentCommentForRow(int i, String text) {
         WebElement textarea = browser.driver.findElement(By.id("commentText" + i));
         click(textarea);
-        textarea.clear();
-        textarea.sendKeys(text);
+        fillRichTextEditor(textarea.getAttribute("id"), text);
     }
     
     public void saveEditStudentCommentForRow(int i) {
