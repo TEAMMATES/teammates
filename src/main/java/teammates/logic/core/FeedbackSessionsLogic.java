@@ -417,8 +417,8 @@ public class FeedbackSessionsLogic {
                 new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
 
-        List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
-                courseId);
+        List<FeedbackQuestionAttributes> questions =
+                fqLogic.getFeedbackQuestionsForStudent(feedbackSessionName, courseId, student);
 
         Set<String> hiddenInstructorEmails = null;
         

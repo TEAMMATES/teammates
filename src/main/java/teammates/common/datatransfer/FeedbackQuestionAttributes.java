@@ -630,6 +630,37 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return getFeedbackPaths(feedbackPathAttributesList);
     }
     
+    /** 
+     * Verifies whether the given student is a giver in the question's feedback path attributes list
+     */
+    public boolean hasStudentAsGiverInFeedbackPathAttributesList(StudentAttributes student) {
+        if (giverType == FeedbackParticipantType.CUSTOM && recipientType == FeedbackParticipantType.CUSTOM) {
+            for (FeedbackPathAttributes feedbackPathAttributes : feedbackPathAttributesList) {
+                String[] giver = feedbackPathAttributes.getGiver().split(" ");
+                if (giver[0].equals(student.getTeam())
+                        || giver[0].equals(student.getEmail()) && "(Student)".equals(giver[1])) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    /** 
+     * Verifies whether the given instructor is a giver in the question's feedback path attributes list
+     */
+    public boolean hasInstructorAsGiverInFeedbackPathAttributesList(String instructorEmail) {
+        if (giverType == FeedbackParticipantType.CUSTOM && recipientType == FeedbackParticipantType.CUSTOM) {
+            for (FeedbackPathAttributes feedbackPathAttributes : feedbackPathAttributesList) {
+                String[] giver = feedbackPathAttributes.getGiver().split(" ");
+                if (giver[0].equals(instructorEmail) && "(Instructor)".equals(giver[1])) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     public static List<FeedbackPathAttributes> getFeedbackPathAttributesListFromSpreadsheetData(
             String courseId, String customFeedbackPathsSpreadsheetData) {
         Gson gson = new Gson();
