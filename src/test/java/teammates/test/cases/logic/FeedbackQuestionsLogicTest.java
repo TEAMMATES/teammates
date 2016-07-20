@@ -188,19 +188,19 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         try {
             fqLogic.createFeedbackQuestion(question);
             signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(e.getMessage(), "Session disappeared.");
+        } catch (EntityDoesNotExistException e) {
+            assertEquals(e.getMessage(), "Session disappeared");
         }
         
         ______TS("Add question for course that does not exist");
         question = getQuestionFromDatastore("qn1InSession1InCourse1");
-        question.courseId = "non-existent course id";
+        question.courseId = "non-existent-course-id";
         question.setId(null);
         try {
             fqLogic.createFeedbackQuestion(question);
             signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(e.getMessage(), "Session disappeared.");
+        } catch (EntityDoesNotExistException e) {
+            assertEquals(e.getMessage(), "Session disappeared");
         }
         
         ______TS("Add questions sequentially");
@@ -231,7 +231,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         List<FeedbackQuestionAttributes> actualList =
                 fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
         
-        assertEquals(actualList.size(), expectedList.size());
+        assertEquals(expectedList.size(), actualList.size());
         for (int i = 0; i < actualList.size(); i++) {
             assertEquals(actualList.get(i), expectedList.get(i));
         }
@@ -631,7 +631,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
                 question.feedbackSessionName, question.courseId, question.questionNumber);
         return question;
     }
-    
+
     @AfterClass
     public static void classTearDown() {
         printTestClassFooter();
