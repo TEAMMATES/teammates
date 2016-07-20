@@ -843,6 +843,11 @@ function hideOption($containingSelect, value) {
 }
 
 function setRecipientSelectToFirstVisibleOption($recipientSelect) {
-    var firstVisibleOptionValue = $recipientSelect.find('option').not('[style="display: none;"]').val();
-    $recipientSelect.val(firstVisibleOptionValue);
+    $recipientSelect.find('option').each(function() {
+        var $recipientOption = $(this);
+        if ($recipientOption.css('display') !== 'none') {
+            $recipientSelect.val($recipientOption.val());
+            return false;
+        }
+    });
 }
