@@ -53,19 +53,19 @@ public class InstructorCoursesPage extends AppPage {
         fillTextBox(courseIdTextBox, courseId);
         fillTextBox(courseNameTextBox, courseName);
 
-        submitButton.click();
+        click(submitButton);
         waitForPageToLoad();
         return this;
     }
     
     public InstructorCoursesPage archiveCourse(String courseId) {
-        getArchiveLink(courseId).click();
+        click(getArchiveLink(courseId));
         waitForPageToLoad();
         return this;
     }
     
     public InstructorCoursesPage unarchiveCourse(String courseId) {
-        getUnarchiveLink(courseId).click();
+        click(getUnarchiveLink(courseId));
         waitForPageToLoad();
         return this;
     }
@@ -106,12 +106,12 @@ public class InstructorCoursesPage extends AppPage {
     }
     
     public InstructorCoursesPage sortByCourseName() {
-        sortByCourseNameIcon.click();
+        click(sortByCourseNameIcon);
         return this;
     }
     
     public InstructorCoursesPage sortByCourseId() {
-        sortByCourseIdIcon.click();
+        click(sortByCourseIdIcon);
         return this;
     }
 
@@ -210,7 +210,7 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     private <T extends AppPage> T goToLinkInRow(By locator, Class<T> destinationPageType) {
-        browser.driver.findElement(locator).click();
+        click(browser.driver.findElement(locator));
         waitForPageToLoad();
         return changePageType(destinationPageType);
     }

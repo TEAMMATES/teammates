@@ -34,20 +34,20 @@ public class InstructorCourseEnrollPage extends AppPage {
     }
 
     public void clickSpreadsheetLink() {
-        spreadsheetLink.click();
+        click(spreadsheetLink);
         waitForPageToLoad();
     }
     
     public InstructorCourseEnrollResultPage enroll(String enrollString) {
         fillTextBox(enrollTextBox, enrollString);
-        enrollButton.click();
+        click(enrollButton);
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollResultPage.class);
     }
 
     public InstructorCourseEnrollPage enrollUnsuccessfully(String enrollString) {
         fillTextBox(enrollTextBox, enrollString);
-        enrollButton.click();
+        click(enrollButton);
         waitForPageToLoad();
         return this;
     }

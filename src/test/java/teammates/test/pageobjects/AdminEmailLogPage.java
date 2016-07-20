@@ -22,7 +22,7 @@ public class AdminEmailLogPage extends AppPage {
     
     public void clickReferenceButton() {
         WebElement button = browser.driver.findElement(By.id("referenceText"));
-        button.click();
+        click(button);
     }
         
     public boolean isFilterReferenceVisible() {

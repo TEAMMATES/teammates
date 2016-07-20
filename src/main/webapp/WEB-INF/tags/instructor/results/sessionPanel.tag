@@ -64,6 +64,12 @@
                             <f:feedbackSessionPublishButton buttonType="${sessionPanel.feedbackSessionPublishButton.buttonType}"
                                                             publishButton="${sessionPanel.feedbackSessionPublishButton}" />
                         </div>
+                        <br>
+                        <div>
+                            <button id="button-print" type="input" class="btn btn-primary btn-block">
+                                Print View
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
