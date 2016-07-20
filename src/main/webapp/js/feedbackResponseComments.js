@@ -14,13 +14,19 @@ var addCommentHandler = function(e) {
     var formObject = $(this).closest('form');
     var addFormRow = formObject.closest("li[id^='showResponseCommentAddForm']");
     var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
-    var formData = formObject.serialize();
-    var responseCommentId = addFormRow.parent().attr('id');
+
+    var responseCommentTableId = addFormRow.parent().attr('id');
+    var responseCommentId = responseCommentTableId.substring('responseCommentTable-'.length);
     var numberOfComments = addFormRow.parent().find('li').length;
-    var commentId = responseCommentId.substring('responseCommentTable-'.length) + '-' + numberOfComments;
-    
+    var commentId = responseCommentId + '-' + numberOfComments;
+
     e.preventDefault();
-    
+
+    var editor = tinyMCE.get('responseCommentAddForm-' + responseCommentId);
+    formObject.find('input[name=responsecommenttext]').val(editor.getContent());
+
+    var formData = formObject.serialize();
+
     $.ajax({
         type: 'POST',
         url: submitButton.attr('href') + '?' + formData + '&commentid=' + commentId,
@@ -45,6 +51,7 @@ var addCommentHandler = function(e) {
                 submitButton.prop('disabled', false);
                 cancelButton.prop('disabled', false);
             } else if (isInCommentsPage()) {
+                destroyEditor('responseCommentAddForm-' + responseCommentId);
                 reloadFeedbackResponseComments(formObject, panelHeading);
             } else {
                 // Inject new comment row
@@ -61,7 +68,9 @@ var addCommentHandler = function(e) {
                 removeFormErrorMessage(submitButton);
                 addFormRow.prev().show();
                 addFormRow.hide();
+                destroyEditor('responseCommentAddForm-' + responseCommentId);
             }
+
         }
     });
 };
@@ -73,9 +82,14 @@ var editCommentHandler = function(e) {
     var displayedText = formObject.siblings("div[id^='plainCommentText']").first();
     var commentBar = displayedText.parent().find('div[id^=commentBar]');
     var panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
-    var formData = formObject.serialize();
-    
+
     e.preventDefault();
+
+    var commentTextId = formObject.find('div[id^="responsecommenttext-"]').attr('id');
+    tinyMCE.get(commentTextId).save();
+    formObject.find('input[name^="responsecommenttext-"]').attr('name', 'responsecommenttext');
+
+    var formData = formObject.serialize();
     
     $.ajax({
         type: 'POST',
@@ -101,6 +115,7 @@ var editCommentHandler = function(e) {
                 submitButton.prop('disabled', false);
                 cancelButton.prop('disabled', false);
             } else if (isInCommentsPage()) {
+                destroyEditor(commentTextId);
                 reloadFeedbackResponseComments(formObject, panelHeading);
             } else {
                 // Update editted comment
@@ -117,6 +132,7 @@ var editCommentHandler = function(e) {
                 removeFormErrorMessage(submitButton);
                 formObject.hide();
                 displayedText.show();
+                destroyEditor(commentTextId);
             }
         }
     });
@@ -314,6 +330,18 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, opts) {
         $('#responseCommentTable' + id).css('margin-top', '15px');
     }
     $('#showResponseCommentAddForm' + id).show();
+
+    $('#responseCommentAddForm' + id).empty();
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#responseCommentAddForm' + id, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-comment-container' + id
+        });
+        /* eslint-enable camelcase */
+    }
+
     $('#responseCommentAddForm' + id).focus();
 }
 
@@ -357,6 +385,18 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     $('#responseCommentEditForm' + id + ' > div > textarea').val($('#plainCommentText' + id).text());
     $('#responseCommentEditForm' + id).show();
     $('#responseCommentEditForm' + id + ' > div > textarea').focus();
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        if (tinymce.get('responsecommenttext' + id)) {
+            return;
+        }
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#responsecommenttext' + id, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-comment-container' + id
+        });
+        /* eslint-enable camelcase */
+    }
 }
 
 function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, opts) {

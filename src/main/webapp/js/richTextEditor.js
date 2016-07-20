@@ -24,6 +24,7 @@ var richTextEditorBuilder = {
                 
             relative_urls: false,
             convert_urls: false,
+            remove_linebreaks : false,
             plugins: [
                 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
                 'searchreplace wordcount visualblocks visualchars code fullscreen',

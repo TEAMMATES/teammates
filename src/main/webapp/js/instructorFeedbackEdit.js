@@ -136,16 +136,6 @@ function bindFeedbackSessionEditFormSubmission() {
     });
 }
 
-function destroyEditor(id) {
-    if (typeof tinyMCE === 'undefined') {
-        return;
-    }
-    var currentEditor = tinyMCE.get(id);
-    if (currentEditor) {
-        currentEditor.destroy();
-    }
-}
-
 /**
  * Disables the editing of feedback session details.
  */
