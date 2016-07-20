@@ -192,6 +192,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
+        feedbackEditPage.waitForTextContainedInElementPresence(
+                By.id("visibilityMessage"),
+                "You can see your own feedback in the results page later on.");
+        feedbackEditPage.waitForTextContainedInElementPresence(
+                By.id("visibilityMessage"),
+                "Instructors in this course can see your response, the name of the recipient, and your name.");
         assertTrue("Visibility preview for new question should be displayed",
                    feedbackEditPage.isVisibilityPreviewDisplayedForNewQuestion());
     }
