@@ -524,7 +524,6 @@ public class FeedbackQuestionsLogic {
      * response visibility is increased.<br>
      * Precondition: <br>
      * {@code newAttributes} is not {@code null}
-     * @throws EntityAlreadyExistsException 
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {

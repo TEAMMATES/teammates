@@ -265,7 +265,7 @@ public class QuestionsDb extends EntitiesDb {
                                                         List<FeedbackQuestionAttributes> questions) {
         if (oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1) {
             for (int i = oldQuestionNumber - 1; i >= newQuestionNumber; i--) {
-                FeedbackQuestionAttributes question = questions.get(i - 1);
+                FeedbackQuestionAttributes question = questions.get(i - 1).getCopy();
                 question.questionNumber += 1;
                 try {
                     updateQuestionWithoutFlushing(question, false);
@@ -277,7 +277,7 @@ public class QuestionsDb extends EntitiesDb {
             }
         } else if (oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()) {
             for (int i = oldQuestionNumber + 1; i <= newQuestionNumber; i++) {
-                FeedbackQuestionAttributes question = questions.get(i - 1);
+                FeedbackQuestionAttributes question = questions.get(i - 1).getCopy();
                 question.questionNumber -= 1;
                 try {
                     updateQuestionWithoutFlushing(question, false);
