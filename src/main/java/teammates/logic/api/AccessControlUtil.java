@@ -15,7 +15,7 @@ public class AccessControlUtil {
     private Logic logic = new Logic();
     private static AccessControlUtil instance;
     
-    public static int COMMENT_PERMISSIONS_IS_DISPLAYED_INDEX = 0;
+    public static int COMMENT_PERMISSIONS_COMMENT_IS_DISPLAYED_INDEX = 0;
     public static int COMMENT_PERMISSIONS_GIVER_IS_DISPLAYED_INDEX = 1;
     public static int COMMENT_PERMISSIONS_RECIPIENT_IS_DISPLAYED_INDEX = 2;
     
@@ -28,6 +28,9 @@ public class AccessControlUtil {
         return instance;
     }
     
+    /**
+     * Checks if the instructor has permission to view the given comment.
+     */
     public boolean isInstructorAllowedToViewComment(InstructorAttributes instructor, CommentAttributes comment) {
         if (instructor == null || comment == null) {
             return false;
@@ -41,7 +44,10 @@ public class AccessControlUtil {
         return isInstructorAllowedForPrivilegeOnComment(
                 instructor, comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
     }
-    
+
+    /**
+     * Checks if the instructor has permission to modify the given comment.
+     */
     public boolean isInstructorAllowedToModifyComment(InstructorAttributes instructor, CommentAttributes comment) {
         if (instructor == null || comment == null) {
             return false;
@@ -55,7 +61,11 @@ public class AccessControlUtil {
         return isInstructorAllowedForPrivilegeOnComment(
                 instructor, comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
     }
-    
+
+    /**
+     * Checks if the instructor has the associated permission for the comment.
+     * Preconditions: No parameter is null.
+     */
     private boolean isInstructorAllowedForPrivilegeOnComment(InstructorAttributes instructor, CommentAttributes comment,
                                                              String privilegeName) {
         // TODO: remember to come back and change this if
@@ -94,11 +104,22 @@ public class AccessControlUtil {
             return false;
         }
     }
-    
+
+    /**
+     * Returns a {@code List} of boolean values representing the permissions a student has for a given comment.
+     */
     public List<Boolean> getVisibilityPermissionsOnCommentForStudent(
             CommentAttributes comment, StudentAttributes student, List<String> teammatesEmails,
             List<String> sectionStudentsEmails, List<String> teamsInSection) {
-        List<Boolean> permissions;
+        
+        List<Boolean> permissions = new ArrayList<Boolean>();
+        for (int i = 0; i < COMMENT_PERMISSIONS_TOTAL_SIZE; i++) {
+            permissions.add(false);
+        };
+        
+        if (comment == null || student == null) {
+            return permissions;
+        }
         
         // the following if-else if-else blocks rely on their ordering to properly classify the comment
         // eg. a comment directed at the student's team will not be classified as "in the same section as student"
@@ -127,10 +148,6 @@ public class AccessControlUtil {
             
         // comment not in same course as student, so student should not be able to view the comment
         } else {
-            permissions = new ArrayList<Boolean>();
-            for (int i = 0; i < COMMENT_PERMISSIONS_TOTAL_SIZE; i++) {
-                permissions.add(false);
-            }
         }
         return permissions;
     }
@@ -189,14 +206,22 @@ public class AccessControlUtil {
         return comment.courseId.equals(student.course);
     }
     
+    /**
+     * Checks if the recipient of the comment is found in the provided list of emails/names.
+     * Preconditions: comment is not null.
+     */
     private boolean isCommentRecipientPresentInList(CommentAttributes comment, List<String> candidateRecipients) {
-        if (!comment.recipients.isEmpty()) {
+        if (!comment.recipients.isEmpty() && candidateRecipients != null) {
             String commentRecipient = comment.recipients.iterator().next();
             return candidateRecipients.contains(commentRecipient);
         }
         return false;
     }
     
+    /**
+     * Returns a {@code List} of boolean values representing the permissions a comment has for a specific participant type.
+     * Preconditions: No parameter is null.
+     */
     private List<Boolean> getPermissionsForComment(
             CommentAttributes comment, CommentParticipantType participantType, boolean isRecipientOfComment) {
         List<Boolean> permissions = new ArrayList<Boolean>();
@@ -204,7 +229,7 @@ public class AccessControlUtil {
             permissions.add(false);
         }
         
-        permissions.set(COMMENT_PERMISSIONS_IS_DISPLAYED_INDEX, comment.showCommentTo.contains(participantType));
+        permissions.set(COMMENT_PERMISSIONS_COMMENT_IS_DISPLAYED_INDEX, comment.showCommentTo.contains(participantType));
         permissions.set(COMMENT_PERMISSIONS_GIVER_IS_DISPLAYED_INDEX, comment.showGiverNameTo.contains(participantType));
         // if the person is the recipient of the comment, do not hide the recipient name
         permissions.set(COMMENT_PERMISSIONS_RECIPIENT_IS_DISPLAYED_INDEX,

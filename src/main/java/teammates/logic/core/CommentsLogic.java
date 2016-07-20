@@ -416,7 +416,7 @@ public class CommentsLogic {
     
     private void addCommentToList(
             CommentAttributes commentToAdd, List<CommentAttributes> comments, List<Boolean> permissionsForComment) {
-        if (permissionsForComment.get(AccessControlUtil.COMMENT_PERMISSIONS_IS_DISPLAYED_INDEX)) {
+        if (permissionsForComment.get(AccessControlUtil.COMMENT_PERMISSIONS_COMMENT_IS_DISPLAYED_INDEX)) {
             boolean isGiverDisplayed =
                     permissionsForComment.get(AccessControlUtil.COMMENT_PERMISSIONS_GIVER_IS_DISPLAYED_INDEX);
             boolean isRecipientDisplayed =
