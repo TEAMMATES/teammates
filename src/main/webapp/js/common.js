@@ -586,6 +586,14 @@ function setStatusMessage(message, status) {
     scrollToElement($statusMessagesToUser[0], { offset: window.innerHeight / 2 * -1 });
 }
 
+/**
+ * Sets a status message and the message status to a given form.
+ * Default message type is info.
+ *
+ * @param message the text message to be shown to the user
+ * @param status type
+ * @param form form which should own the status
+ */
 function setStatusMessageToForm(message, status, form) {
     if (message === '' || message === undefined || message === null) {
         return;
@@ -604,9 +612,14 @@ function setStatusMessageToForm(message, status, form) {
     $statusMessagesToUser.empty();
     $statusMessagesToUser.append($statusMessage);
     
+    // Copy the statusMessage and prepend to form
     $(form).find($('.statusMessage')).remove();
     $(form).prepend($statusMessagesToUser.clone().show());
-    $statusMessagesToUser.remove();
+    
+    // After copying remove the original element from DOM
+    if ($$statusMessagesToUser.length > 1) {
+        $statusMessagesToUser[0].remove();
+    }
 }
 
 /**
