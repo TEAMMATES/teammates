@@ -121,6 +121,18 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         } else {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
+        
+        if (newQuestion.questionType != FeedbackQuestionType.CONTRIB
+                && newQuestion.giverType == FeedbackParticipantType.CUSTOM
+                && newQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
+            String customFeedbackPathsSpreadsheetData =
+                    HttpRequestHelper.getValueFromParamMap(
+                            requestParameters, "custom-feedback-paths-spreadsheet-data");
+            
+            newQuestion.feedbackPathAttributesList =
+                    FeedbackQuestionAttributes.getFeedbackPathAttributesListFromSpreadsheetData(
+                            newQuestion.getCourseId(), customFeedbackPathsSpreadsheetData);
+        }
 
         newQuestion.showResponsesTo = getParticipantListFromParams(
                 HttpRequestHelper.getValueFromParamMap(requestParameters,

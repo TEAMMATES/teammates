@@ -75,6 +75,9 @@ public class FeedbackQuestion implements StoreCallback {
     private List<FeedbackParticipantType> showRecipientNameTo;
     
     @Persistent
+    private List<FeedbackPath> feedbackPaths;
+    
+    @Persistent
     private Date createdAt;
     
     @Persistent
@@ -88,7 +91,8 @@ public class FeedbackQuestion implements StoreCallback {
             int numberOfEntitiesToGiveFeedbackTo,
             List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo,
-            List<FeedbackParticipantType> showRecipientNameTo) {
+            List<FeedbackParticipantType> showRecipientNameTo,
+            List<FeedbackPath> feedbackPaths) {
         
         this.feedbackQuestionId = null; // Allow GAE to generate key.
         this.feedbackSessionName = feedbackSessionName;
@@ -103,6 +107,7 @@ public class FeedbackQuestion implements StoreCallback {
         this.showResponsesTo = showResponsesTo;
         this.showGiverNameTo = showGiverNameTo;
         this.showRecipientNameTo = showRecipientNameTo;
+        this.feedbackPaths = feedbackPaths;
         this.setCreatedAt(new Date());
     }
 
@@ -230,6 +235,14 @@ public class FeedbackQuestion implements StoreCallback {
     public void setShowRecipientNameTo(
             List<FeedbackParticipantType> showRecipientNameTo) {
         this.showRecipientNameTo = showRecipientNameTo;
+    }
+    
+    public void setFeedbackPaths(List<FeedbackPath> feedbackPaths) {
+        this.feedbackPaths = feedbackPaths;
+    }
+    
+    public List<FeedbackPath> getFeedbackPaths() {
+        return feedbackPaths;
     }
     
     /**

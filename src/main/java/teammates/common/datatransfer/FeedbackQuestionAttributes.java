@@ -8,10 +8,12 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
+import teammates.storage.entity.FeedbackPath;
 import teammates.storage.entity.FeedbackQuestion;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
@@ -58,6 +60,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.createdAt = fq.getCreatedAt();
         this.updatedAt = fq.getUpdatedAt();
         
+        this.feedbackPathAttributesList = getFeedbackPathAttributesList(fq.getFeedbackPaths());
+        
         removeIrrelevantVisibilityOptions();
     }
 
@@ -83,7 +87,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
                                     questionMetaData, questionNumber, questionType, giverType,
                                     recipientType, numberOfEntitiesToGiveFeedbackTo,
-                                    showResponsesTo, showGiverNameTo, showRecipientNameTo);
+                                    showResponsesTo, showGiverNameTo, showRecipientNameTo, getFeedbackPaths());
     }
 
     @Override
@@ -602,4 +606,44 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
     }
     
+    public List<FeedbackPathAttributes> getFeedbackPathAttributesList(List<FeedbackPath> feedbackPaths) {
+        List<FeedbackPathAttributes> feedbackPathsAttributesList =
+                new ArrayList<FeedbackPathAttributes>();
+        for (FeedbackPath feedbackPath : feedbackPaths) {
+            feedbackPathsAttributesList.add(new FeedbackPathAttributes(feedbackPath));
+        }
+        return feedbackPathsAttributesList;
+    }
+    
+    public List<FeedbackPath> getFeedbackPaths(List<FeedbackPathAttributes> feedbackPathsAttributesList) {
+        List<FeedbackPath> feedbackPaths = new ArrayList<FeedbackPath>();
+        if (feedbackPathsAttributesList != null) {
+            for (FeedbackPathAttributes feedbackPath : feedbackPathsAttributesList) {
+                feedbackPaths.add(feedbackPath.toEntity());
+            }
+        }
+        
+        return feedbackPaths;
+    }
+    
+    public List<FeedbackPath> getFeedbackPaths() {
+        return getFeedbackPaths(feedbackPathAttributesList);
+    }
+    
+    public static List<FeedbackPathAttributes> getFeedbackPathAttributesListFromSpreadsheetData(
+            String courseId, String customFeedbackPathsSpreadsheetData) {
+        Gson gson = new Gson();
+        TypeToken<List<List<String>>> token = new TypeToken<List<List<String>>>(){};
+        List<List<String>> customFeedbackPaths =
+                gson.fromJson(customFeedbackPathsSpreadsheetData, token.getType());
+        List<FeedbackPathAttributes> feedbackPathAttributesList = new ArrayList<FeedbackPathAttributes>();
+        for (List<String> feedbackPath : customFeedbackPaths) {
+            if (!feedbackPath.contains("") && !feedbackPath.contains(null)) {
+                feedbackPathAttributesList.add(
+                        new FeedbackPathAttributes(courseId, feedbackPath.get(0), feedbackPath.get(1)));
+            }
+        }
+        
+        return feedbackPathAttributesList;
+    }
 }
