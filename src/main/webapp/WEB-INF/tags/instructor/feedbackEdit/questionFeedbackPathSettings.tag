@@ -74,6 +74,9 @@
         </div>
     </div>
     <div class="row custom-feedback-paths-row">
+        <input hidden class="custom-feedback-paths-spreadsheet-data-input"
+               name="custom-feedback-paths-spreadsheet-data"
+               value="${fqForm.feedbackPathSettings.customFeedbackPathsSpreadsheetData}">
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-12">
