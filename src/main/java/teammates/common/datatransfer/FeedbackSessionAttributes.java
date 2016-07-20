@@ -21,8 +21,6 @@ import teammates.storage.entity.FeedbackSession;
 import com.google.appengine.api.datastore.Text;
 
 public class FeedbackSessionAttributes extends EntityAttributes implements SessionAttributes {
-    private transient String feedbackSessionId;
-    
     private String feedbackSessionName;
     private String courseId;
     private String creatorEmail;
@@ -55,7 +53,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
 
     public FeedbackSessionAttributes(FeedbackSession fs) {
-        this.feedbackSessionId = fs.getId();
         this.feedbackSessionName = fs.getFeedbackSessionName();
         this.courseId = fs.getCourseId();
         this.creatorEmail = fs.getCreatorEmail();
@@ -306,10 +303,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     @Override
     public boolean isValid() {
         return getInvalidityInfo().isEmpty();
-    }
-    
-    public String getId() {
-        return feedbackSessionId == null ? makeId(this.feedbackSessionName, this.courseId) : feedbackSessionId;
     }
 
     public boolean isClosingWithinTimeLimit(int hours) {
