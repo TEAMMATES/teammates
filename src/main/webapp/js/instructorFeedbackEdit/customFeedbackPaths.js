@@ -94,8 +94,18 @@ var CustomFeedbackPaths = {
             columns: columns,
             manualColumnResize: true,
             manualRowResize: true,
-            stretchH: 'all'
+            stretchH: 'all',
+            afterChange: function() {
+                CustomFeedbackPaths.updateCustomFeedbackPathsSpreadsheetDataInput($questionForm);
+            }
         });
+    },
+    
+    updateCustomFeedbackPathsSpreadsheetDataInput: function($questionForm) {
+        var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
+        var data = $container.handsontable('getData');
+        var $customFeedbackPathsSpreadsheetDataInput = $questionForm.find('.custom-feedback-paths-spreadsheet-data-input');
+        $customFeedbackPathsSpreadsheetDataInput.attr('value', JSON.stringify(data));
     },
     
     updateFeedbackPathsSpreadsheet: function($questionForm) {
