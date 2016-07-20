@@ -11,6 +11,8 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -67,7 +69,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                           + "<span class=\"bold\">"
                           + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
                           + ":</span> " + feedbackQuestion.getQuestionDetails().getQuestionText();
-        } catch (InvalidParametersException e) {
+        } catch (InvalidParametersException | EntityDoesNotExistException | EntityAlreadyExistsException e) {
             statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
             statusToAdmin = e.getMessage();
             isError = true;

@@ -238,4 +238,19 @@ public class BothQuestionsDb extends EntitiesDb {
         }
         return oldQuestionsDb.getEntity(attributes);
     }
+
+    public void saveQuestionAndAdjustQuestionNumbers(FeedbackQuestionAttributes question,
+                                                     boolean isUpdating,
+                                                     int oldQuestionNumber)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        FeedbackQuestionAttributes fqaSaved =
+                oldQuestionsDb.saveQuestionAndAdjustQuestionNumbers(question, isUpdating, oldQuestionNumber);
+        newQuestionsDb.saveQuestionAndAdjustQuestionNumbers(fqaSaved, isUpdating, oldQuestionNumber);
+    }
+
+    public void adjustQuestionNumbers(int oldQuestionNumber, int newQuestionNumber,
+                                      List<FeedbackQuestionAttributes> questions) {
+        oldQuestionsDb.adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
+        newQuestionsDb.adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
+    }
 }

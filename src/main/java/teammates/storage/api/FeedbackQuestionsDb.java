@@ -2,6 +2,7 @@ package teammates.storage.api;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.jdo.JDOHelper;
@@ -10,6 +11,7 @@ import javax.jdo.Query;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -99,6 +101,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
                 feedbackSessionName, courseId);
         List<FeedbackQuestionAttributes> fqList = getListOfQuestionAttributes(questions);
         
+        Collections.sort(fqList);
         return fqList;
     }
     
@@ -156,9 +159,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
      * * {@code newAttributes.getId()} is non-null and
      *  correspond to an existing feedback question. <br>
      */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
+    public FeedbackQuestionAttributes updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
-        updateFeedbackQuestion(newAttributes, false);
+        return new FeedbackQuestionAttributes(updateFeedbackQuestion(newAttributes, false));
     }
     
     /**
@@ -171,7 +174,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
      * * {@code newAttributes.getId()} is non-null and
      *  correspond to an existing feedback question. <br>
      */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean keepUpdateTimestamp)
+    public FeedbackQuestion updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean keepUpdateTimestamp)
             throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
@@ -205,6 +208,8 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         log.info(newAttributes.getBackupIdentifier());
         getPm().close();
+        
+        return fq;
     }
     
     public void deleteFeedbackQuestionsForCourse(String courseId) {
@@ -316,6 +321,35 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         return feedbackQuestionList;
     }
     
+    public void adjustQuestionNumbers(int oldQuestionNumber, int newQuestionNumber,
+            List<FeedbackQuestionAttributes> questions) {
+        if (oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1) {
+            for (int i = oldQuestionNumber - 1; i >= newQuestionNumber; i--) {
+                FeedbackQuestionAttributes question = questions.get(i - 1);
+                question.questionNumber += 1;
+                try {
+                    updateFeedbackQuestion(question, false);
+                } catch (InvalidParametersException e) {
+                    Assumption.fail("Invalid question. " + e);
+                } catch (EntityDoesNotExistException e) {
+                    Assumption.fail("Question disappeared." + e);
+                }
+            }
+        } else if (oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()) {
+            for (int i = oldQuestionNumber + 1; i <= newQuestionNumber; i++) {
+                FeedbackQuestionAttributes question = questions.get(i - 1);
+                question.questionNumber -= 1;
+                try {
+                    updateFeedbackQuestion(question, false);
+                } catch (InvalidParametersException e) {
+                    Assumption.fail("Invalid question." + e);
+                } catch (EntityDoesNotExistException e) {
+                    Assumption.fail("Question disappeared." + e);
+                }
+            }
+        }
+    }
+    
     @Override
     protected Object getEntity(EntityAttributes attributes) {
         FeedbackQuestionAttributes feedbackQuestionToGet = (FeedbackQuestionAttributes) attributes;
@@ -328,5 +362,32 @@ public class FeedbackQuestionsDb extends EntitiesDb {
                 feedbackQuestionToGet.feedbackSessionName,
                 feedbackQuestionToGet.courseId,
                 feedbackQuestionToGet.questionNumber);
+    }
+
+    public FeedbackQuestionAttributes saveQuestionAndAdjustQuestionNumbers(
+                FeedbackQuestionAttributes question, boolean isUpdating, int oldQuestionNumber)
+                throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        
+        String courseId = question.courseId;
+        String feedbackSessionName = question.feedbackSessionName;
+        List<FeedbackQuestionAttributes> questions =
+                getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+
+        if (question.questionNumber <= 0) {
+            question.questionNumber = questions.size() + 1;
+        }
+        int numberAdjustmentRangeStart = oldQuestionNumber <= 0 ? questions.size() + 1
+                                                                : oldQuestionNumber;
+        adjustQuestionNumbers(numberAdjustmentRangeStart, question.questionNumber, questions);
+        FeedbackQuestionAttributes questionSaved;
+        if (isUpdating) {
+            questionSaved = updateFeedbackQuestion(question);
+        } else {
+            questionSaved =
+                    new FeedbackQuestionAttributes((FeedbackQuestion) createEntity(question));
+        }
+    
+        getPm().close();
+        return questionSaved;
     }
 }
