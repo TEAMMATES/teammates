@@ -476,22 +476,15 @@ public class FeedbackQuestionsLogic {
     
     
     /**
-     * Updates the feedback question number, shifts other questions up/down
+     * Updates the feedback question, including propagating question number update,
+     * shifts other questions up/down
      * depending on the change.
      * @throws EntityAlreadyExistsException
      */
-    public void updateFeedbackQuestionNumber(FeedbackQuestionAttributes newQuestion)
+    public void updateFeedbackQuestionWithQuestionNumberUpdate(FeedbackQuestionAttributes newQuestion)
         throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        
-        FeedbackQuestionAttributes oldQuestion =
-                fqDb.getFeedbackQuestion(newQuestion.getId());
 
-        if (oldQuestion == null) {
-            throw new EntityDoesNotExistException("Trying to update a feedback question that does not exist.");
-        }
-
-        int oldQuestionNumber = oldQuestion.questionNumber;
-        adjustQuestionNumbersAndUpdateQuestion(newQuestion, oldQuestionNumber);
+        updateFeedbackQuestion(newQuestion, true);
     }
     
     
@@ -511,8 +504,7 @@ public class FeedbackQuestionsLogic {
             int oldQuestionNumber)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         
-        fqDb.saveQuestionAndAdjustQuestionNumbers(question, true,
-                                   oldQuestionNumber);
+        fqDb.saveQuestionAndAdjustQuestionNumbers(question, true, oldQuestionNumber);
     }
     
     private void adjustQuestionNumbersAndCreateQuestion(
@@ -532,6 +524,7 @@ public class FeedbackQuestionsLogic {
      * response visibility is increased.<br>
      * Precondition: <br>
      * {@code newAttributes} is not {@code null}
+     * @throws EntityAlreadyExistsException 
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -560,7 +553,12 @@ public class FeedbackQuestionsLogic {
         
         oldQuestion.updateValues(newAttributes);
         newAttributes.removeIrrelevantVisibilityOptions();
-        fqDb.updateFeedbackQuestion(newAttributes);
+        
+        try {
+            adjustQuestionNumbersAndUpdateQuestion(newAttributes, oldQuestion.questionNumber);
+        } catch (EntityAlreadyExistsException e) {
+            Assumption.fail("Update question should not be able to throw EntityAlreadyExistsException");
+        }
     }
 
     public void deleteFeedbackQuestionsForSession(String feedbackSessionName, String courseId)
@@ -568,6 +566,7 @@ public class FeedbackQuestionsLogic {
         List<FeedbackQuestionAttributes> questions =
                 getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         
+        Collections.reverse(questions);
         for (FeedbackQuestionAttributes question : questions) {
             deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(question.getId());
         }

@@ -141,7 +141,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 1;
-        fqLogic.updateFeedbackQuestionNumber(questionToUpdate);
+        fqLogic.updateFeedbackQuestionWithQuestionNumberUpdate(questionToUpdate);
         
         List<FeedbackQuestionAttributes> actualList =
                 fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
@@ -169,7 +169,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 3;
-        fqLogic.updateFeedbackQuestionNumber(questionToUpdate);
+        fqLogic.updateFeedbackQuestionWithQuestionNumberUpdate(questionToUpdate);
         
         actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
         

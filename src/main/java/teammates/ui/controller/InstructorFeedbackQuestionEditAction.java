@@ -52,10 +52,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                 
                 editQuestion(updatedQuestion);
             } else if ("delete".equals(editType)) {
-                // branch not tested because if it's not edit or delete, Assumption.fail will cause test failure
                 deleteQuestion(updatedQuestion);
             } else {
-                // Assumption.fails are not tested
                 Assumption.fail("Invalid editType");
             }
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
@@ -93,7 +91,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         }
 
         if (questionDetailsErrors.isEmpty()) {
-            logic.updateFeedbackQuestionNumber(updatedQuestion);
+            logic.updateFeedbackQuestionWithQuestionNumberUpdate(updatedQuestion);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber

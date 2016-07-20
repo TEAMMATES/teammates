@@ -1728,18 +1728,18 @@ public class Logic {
     }
     
     /**
-     * Updates the question number of a Feedback Question.<br>
+     * Updates a question and adjusts question numbers if required.<br>
      * Preconditions: <br>
      * * All parameters are non-null.
      * @throws EntityAlreadyExistsException
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public void updateFeedbackQuestionNumber(FeedbackQuestionAttributes updatedQuestion)
+    public void updateFeedbackQuestionWithQuestionNumberUpdate(FeedbackQuestionAttributes updatedQuestion)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
-        feedbackQuestionsLogic.updateFeedbackQuestionNumber(updatedQuestion);
+        feedbackQuestionsLogic.updateFeedbackQuestionWithQuestionNumberUpdate(updatedQuestion);
     }
     
     /**

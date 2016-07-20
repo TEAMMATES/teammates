@@ -332,7 +332,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
                 } catch (InvalidParametersException e) {
                     Assumption.fail("Invalid question. " + e);
                 } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared." + e);
+                    Assumption.fail("Question disappeared. " + e);
                 }
             }
         } else if (oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()) {
@@ -344,7 +344,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
                 } catch (InvalidParametersException e) {
                     Assumption.fail("Invalid question." + e);
                 } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared." + e);
+                    Assumption.fail("Question disappeared. " + e);
                 }
             }
         }
