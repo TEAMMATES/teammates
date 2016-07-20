@@ -49,18 +49,6 @@ public enum FeedbackParticipantType {
     public boolean isTeam() {
         return this == TEAMS || this == OWN_TEAM;
     }
-    
-    public boolean isOwnTeamMembers() {
-        return this == OWN_TEAM_MEMBERS;
-    }
-    
-    public boolean isOtherStudentsInTheCourse() {
-        return this == STUDENTS;
-    }
-    
-    public boolean isOtherTeams() {
-        return this == TEAMS;
-    }
 
     /**
      * Formats the participant type as a giver for display to user.

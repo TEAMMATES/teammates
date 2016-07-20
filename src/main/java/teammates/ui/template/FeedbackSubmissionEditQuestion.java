@@ -12,6 +12,7 @@ public class FeedbackSubmissionEditQuestion {
     private int qnIndx; // If not showing real question number
     private String questionId;
     private String questionText;
+    private String messageToDisplayIfNoRecipientAvailable;
     private List<String> visibilityMessages;
     private FeedbackQuestionType questionType;
     private int numberOfEntitiesToGiveFeedbackTo;
@@ -19,9 +20,6 @@ public class FeedbackSubmissionEditQuestion {
     private boolean isRecipientNameHidden;
     private boolean isGiverTeam;
     private boolean isRecipientTeam;
-    private boolean isRecipientOtherTeams;
-    private boolean isRecipientOtherStudentsInTheCourse;
-    private boolean isRecipientOwnTeamMembers;
     
     public FeedbackSubmissionEditQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx,
                                     boolean isModeratedQuestion) {
@@ -38,11 +36,27 @@ public class FeedbackSubmissionEditQuestion {
         isRecipientNameHidden = questionAttributes.isRecipientNameHidden();
         isGiverTeam = questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS);
         isRecipientTeam = questionAttributes.recipientType.isTeam();
-        isRecipientOwnTeamMembers = questionAttributes.recipientType.isOwnTeamMembers();
-        isRecipientOtherTeams = questionAttributes.recipientType.isOtherTeams();
-        isRecipientOtherStudentsInTheCourse = questionAttributes.recipientType.isOtherStudentsInTheCourse();
-    }
+        
+        setMessageToDisplayIfNoRecipientAvailable(questionAttributes);
 
+    }
+    
+    private void setMessageToDisplayIfNoRecipientAvailable(FeedbackQuestionAttributes questionAttributes) {
+        messageToDisplayIfNoRecipientAvailable = "";
+        if(questionAttributes.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+            messageToDisplayIfNoRecipientAvailable = "This question is for team members and you don't have any team members."
+                                                     + " Therefore, you will not be able to answer this question.";
+        } else if(questionAttributes.recipientType == FeedbackParticipantType.TEAMS) {
+            messageToDisplayIfNoRecipientAvailable = "This question is for other teams in this course and this course don't "
+                                                     + "have any other team. Therefore, you will not be able to answer this "
+                                                     + "question.";
+        } else if(questionAttributes.recipientType == FeedbackParticipantType.STUDENTS) {
+            messageToDisplayIfNoRecipientAvailable = "This question is for other students in this course and this course "
+                                                     + "don't have any other student. Therefore, you will not be able to "
+                                                     + "answer this question.";
+        }
+    }
+    
     public String getCourseId() {
         return courseId;
     }
@@ -51,6 +65,10 @@ public class FeedbackSubmissionEditQuestion {
         return questionNumber;
     }
     
+    public String getMessageToDisplayIfNoRecipientAvailable() {
+        return messageToDisplayIfNoRecipientAvailable;
+    }
+
     public int getQnIndx() {
         return qnIndx;
     }
@@ -89,17 +107,5 @@ public class FeedbackSubmissionEditQuestion {
     
     public boolean isRecipientTeam() {
         return isRecipientTeam;
-    }
-    
-    public boolean isRecipientOwnTeamMembers() {
-        return isRecipientOwnTeamMembers;
-    }
-
-    public boolean isRecipientOtherTeams() {
-        return isRecipientOtherTeams;
-    }
-    
-    public boolean isRecipientOtherStudentsInTheCourse() {
-        return isRecipientOtherStudentsInTheCourse;
     }
 }
