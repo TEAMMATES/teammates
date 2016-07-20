@@ -63,7 +63,7 @@ public class BothQuestionsDb extends EntitiesDb {
             EntityAttributes entityToAdd) throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackQuestionAttributes fqa =
                 oldQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(entityToAdd);
-        return newQuestionsDb.createFeedbackQuestionWithoutIntegrityCheck(fqa);
+        return newQuestionsDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
     }
     
     /**

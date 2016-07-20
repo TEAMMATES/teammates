@@ -1679,8 +1679,8 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws EntityAlreadyExistsException
-     * @throws EntityDoesNotExistException
+     * @throws EntityAlreadyExistsException if question already exists
+     * @throws EntityDoesNotExistException if session that the question belongs to doesn't exist
      */
     public void createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
@@ -1694,6 +1694,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      * * questionNumber is > 0
+     * @throws InvalidParametersException
      * @throws EntityDoesNotExistException if session does not exist
      */
     public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(
@@ -1708,6 +1709,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * @throws InvalidParametersException
      * @throws EntityAlreadyExistsException
      * @throws EntityDoesNotExistException
      */

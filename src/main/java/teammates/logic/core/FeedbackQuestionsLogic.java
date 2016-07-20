@@ -507,6 +507,15 @@ public class FeedbackQuestionsLogic {
         fqDb.saveQuestionAndAdjustQuestionNumbers(question, true, oldQuestionNumber);
     }
     
+    /**
+     * Saves {@code question} to the database. Updates the question numbers of the other questions
+     * in the session based on the question number of {@code question} and {@code oldQuestionNumber}.
+     * @param question
+     * @param oldQuestionNumber
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     * @throws EntityAlreadyExistsException
+     */
     private void adjustQuestionNumbersAndCreateQuestion(
                 FeedbackQuestionAttributes question,
                 int oldQuestionNumber)
@@ -565,7 +574,6 @@ public class FeedbackQuestionsLogic {
         List<FeedbackQuestionAttributes> questions =
                 getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         
-        Collections.reverse(questions);
         for (FeedbackQuestionAttributes question : questions) {
             deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(question.getId());
         }
@@ -661,7 +669,11 @@ public class FeedbackQuestionsLogic {
         }
     }
     
-    // Shifts all question numbers after questionNumberToShiftFrom down by one.
+    /**
+     *  Shifts all question numbers after questionNumberToShiftFrom down by one.
+     * @param questionNumberToShiftFrom
+     * @param questions all questions in the session
+     */
     private void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
             List<FeedbackQuestionAttributes> questions) {
         fqDb.adjustQuestionNumbers(questionNumberToShiftFrom, questions.size(), questions);

@@ -70,7 +70,14 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
     
-    public FeedbackQuestionAttributes createFeedbackQuestionWithoutIntegrityCheck(FeedbackQuestionAttributes fqa)
+    /**
+     * Creates question. If the question already exist, simply writes over it instead of failing.
+     * @param fqa
+     * @return attributes written to the database
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
+    public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(FeedbackQuestionAttributes fqa)
             throws InvalidParametersException, EntityDoesNotExistException {
         try {
             QuestionsDbPersistenceAttributes questionAttributes = new QuestionsDbPersistenceAttributes(fqa);
@@ -126,6 +133,15 @@ public class QuestionsDb extends EntitiesDb {
         return addQuestionToSession(fsa, question);
     }
     
+    /**
+     * Add {@code question} to {@code existingSession}. This is done in a transaction so this
+     * cannot be called in as part of a separate transaction.
+     * @param existingSession
+     * @param question
+     * @throws EntityDoesNotExistException
+     * @throws EntityAlreadyExistsException
+     * @throws InvalidParametersException
+     */
     private Question addQuestionToSession(
             FeedbackSessionAttributes existingSession, FeedbackQuestionAttributes question)
         throws EntityDoesNotExistException, EntityAlreadyExistsException, InvalidParametersException {
@@ -151,6 +167,14 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
     
+    /**
+     * Add {@code question} to {@code existingSession}. This is not flushed or commited, therefore
+     * the caller of this method must handle committing or flushing.
+     * @param existingSession
+     * @param question
+     * @throws EntityDoesNotExistException
+     * @throws EntityAlreadyExistsException
+     */
     private Question addQuestionToSessionWithoutCommitting(FeedbackSessionAttributes existingSession,
             FeedbackQuestionAttributes question) throws EntityDoesNotExistException,
             EntityAlreadyExistsException {
@@ -175,6 +199,16 @@ public class QuestionsDb extends EntitiesDb {
         return questionEntity;
     }
 
+    /**
+     * Adds {@code question} to {@code fsa}. This does not commit or flush so the caller of this
+     * method needs to handle committing.
+     * @param fsa
+     * @param question
+     * @return
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     * @throws EntityAlreadyExistsException
+     */
     private FeedbackQuestionAttributes createFeedbackQuestionWithoutCommitting(FeedbackSessionAttributes fsa,
                                                          FeedbackQuestionAttributes question)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
@@ -246,6 +280,12 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
     
+    /**
+     * Adjusts {@code questions} between {@code oldQuestionNumber} and {@code newQuestionNumber}
+     * @param oldQuestionNumber
+     * @param newQuestionNumber
+     * @param questions sorted list of question
+     */
     public void adjustQuestionNumbers(int oldQuestionNumber, int newQuestionNumber,
             List<FeedbackQuestionAttributes> questions) {
         adjustQuestionNumbersWithoutCommitting(oldQuestionNumber, newQuestionNumber, questions);
