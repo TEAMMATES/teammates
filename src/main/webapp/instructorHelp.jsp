@@ -7694,9 +7694,9 @@
                                         <tbody>
                                             <tr>
                                                 <th class="text-center">User/Group</th>
-                                                <th class="text-center">Can see your comment</th>
-                                                <th class="text-center">Can see giver's name</th>
-                                                <th class="text-center">Can see recipient's name</th>
+                                                <th class="text-center">Can see this comment</th>
+                                                <th class="text-center">Can see comment giver's name</th>
+                                                <th class="text-center">Can see comment recipient's name</th>
                                             </tr>
                                             <tr id="recipient-course">
                                                 <td class="text-left">
@@ -7811,8 +7811,8 @@
                                                                 <tbody>
                                                                     <tr>
                                                                         <th class="text-center">User/Group</th>
-                                                                        <th class="text-center">Can see your comment</th>
-                                                                        <th class="text-center">Can see your name</th>
+                                                                        <th class="text-center">Can see this comment</th>
+                                                                        <th class="text-center">Can see comment giver's name</th>
                                                                     </tr>
                                                                     <tr id="response-giver-8-0-1">
                                                                         <td class="text-left">
@@ -7950,9 +7950,9 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see your comment</th>
-                                                            <th class="text-center">Can see giver's name</th>
-                                                            <th class="text-center">Can see recipient's name</th>
+                                                            <th class="text-center">Can see this comment</th>
+                                                            <th class="text-center">Can see comment giver's name</th>
+                                                            <th class="text-center">Can see comment recipient's name</th>
                                                         </tr>
 
                                                         <tr id="recipient-person1">
@@ -8196,9 +8196,9 @@
                                                                     <tbody>
                                                                         <tr>
                                                                             <th class="text-center">User/Group</th>
-                                                                            <th class="text-center">Can see your comment</th>
-                                                                            <th class="text-center">Can see giver's name</th>
-                                                                            <th class="text-center">Can see recipient's name</th>
+                                                                            <th class="text-center">Can see this comment</th>
+                                                                            <th class="text-center">Can see comment giver's name</th>
+                                                                            <th class="text-center">Can see comment recipient's name</th>
                                                                         </tr>
 
 
