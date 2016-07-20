@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "blanket": "1.2.3",
+    "bootbox": "4.4.0",
+    "bootstrap": "3.1.1",
+    "d3": "3.5.17",
+    "datamaps": "0.5.7",
+    "guillotine": "1.3.1",
+    "html5shiv": "3.7.3",
+    "jquery": "1.11.3",
+    "jquery-highlight": "3.3.0",
+    "jquery-ui-bundle": "1.11.4",
+    "moment": "2.14.1",
+    "moment-timezone": "0.5.4",
+    "printthis": "0.1.5",
+    "qunitjs": "1.22.0",
+    "respond.js": "1.4.2",
+    "tinymce": "4.1.7",
+    "topojson": "1.6.26"
+  }
+}
