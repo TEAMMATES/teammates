@@ -586,6 +586,28 @@ function setStatusMessage(message, status) {
     scrollToElement($statusMessagesToUser[0], { offset: window.innerHeight / 2 * -1 });
 }
 
+function setStatusMessageToForm(message, status, form) {
+    if (message === '' || message === undefined || message === null) {
+        return;
+    }
+
+    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+    var $statusMessage = $('<div></div>');
+    
+    $statusMessage.addClass('overflow-auto');
+    $statusMessage.addClass('alert');
+    // Default the status type to info if any invalid status is passed in
+    $statusMessage.addClass('alert-' + (StatusType.isValidType(status) ? status : StatusType.INFO));
+    $statusMessage.addClass('statusMessage');
+    $statusMessage.html(message);
+    
+    $statusMessagesToUser.empty();
+    $statusMessagesToUser.append($statusMessage);    
+    
+    $(form).find($('.statusMessage')).remove();
+    $(form).prepend($statusMessagesToUser.clone().show());
+}
+
 /**
  * Appends the status messages panels into the current list of panels of status messages.
  * @param  messages the list of status message panels to be added (not just text)
