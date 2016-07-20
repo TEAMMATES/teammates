@@ -25,8 +25,16 @@
             <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
             <span class="text-preserve-space"><c:out value="${questionWithResponses.question.questionText}"/></span>
         </div>
-        
+
         <div class="panel-body">
+            <c:if test="${not empty questionWithResponses.question.questionDescription}">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <b>More details:</b><br><hr>${questionWithResponses.question.questionDescription}
+                    </div>
+                </div>
+
+            </c:if>
             <p class="text-muted">Only the following persons can see your responses: </p>
             <ul class="text-muted">
                 <c:if test="${empty questionWithResponses.question.visibilityMessages}">

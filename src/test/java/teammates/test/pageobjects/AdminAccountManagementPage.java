@@ -21,38 +21,36 @@ public class AdminAccountManagementPage extends AppPage {
                         "<h1>Instructor Account Management</h1>");
     }
 
-    public AdminAccountManagementPage clickDeleteInstructorStatus(
-            String instructorId) {
-        browser.driver.findElement(By.id(instructorId + "_delete")).click();
+    public AdminAccountManagementPage clickDeleteInstructorStatus(String instructorId) {
+        WebElement button = browser.driver.findElement(By.id(instructorId + "_delete"));
+        click(button);
         waitForPageToLoad();
         return this;
     }
 
-    public AdminAccountDetailsPage clickViewInstructorDetails(
-            String instructorId) {
-        browser.driver.findElement(By.id(instructorId + "_details")).click();
+    public AdminAccountDetailsPage clickViewInstructorDetails(String instructorId) {
+        WebElement button = browser.driver.findElement(By.id(instructorId + "_details"));
+        click(button);
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(AdminAccountDetailsPage.class);
     }
     
-    public AdminActivityLogPage clickViewRecentActions(
-            String instructorId) {
-        browser.driver.findElement(By.id(instructorId + "_recentActions")).click();
+    public AdminActivityLogPage clickViewRecentActions(String instructorId) {
+        WebElement button = browser.driver.findElement(By.id(instructorId + "_recentActions"));
+        click(button);
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(AdminActivityLogPage.class);
     }
 
-    public AdminAccountManagementPage clickAndCancelDeleteAccountLink(
-            String googleId) {
+    public AdminAccountManagementPage clickAndCancelDeleteAccountLink(String googleId) {
         WebElement deleteAccountLink = getDeleteAccountLink(googleId);
         clickAndCancel(deleteAccountLink);
         return this;
     }
 
-    public AdminAccountManagementPage clickAndConfirmDeleteAccountLink(
-            String googleId) {
+    public AdminAccountManagementPage clickAndConfirmDeleteAccountLink(String googleId) {
         WebElement deleteAccountLink = getDeleteAccountLink(googleId);
         clickAndConfirm(deleteAccountLink);
         waitForPageToLoad();

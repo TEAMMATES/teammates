@@ -67,7 +67,11 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         String[] params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME + "-0", question1.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID + "-0", question1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-0", question1.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME + "-1", question2.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID + "-1", question2.getCourseId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", question2.getId()
         };
 
@@ -127,6 +131,8 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME + "-0", question3.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID + "-0", question3.getCourseId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-0", question3.getId(),
         };
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);

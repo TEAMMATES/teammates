@@ -19,7 +19,7 @@
                             onclick="toggleSort(this)" style="width: 30%;">
                             Name<span class="icon-sort unsorted"></span>
                         </th>
-                        <th>
+                        <th class="action-header">
                             Actions
                         </th>
                     </tr>
@@ -36,7 +36,7 @@
                                 </c:otherwise>
                             </c:choose>
                             <td>${fn:escapeXml(noResponsePanel.names[email])}</td>
-                            <td>
+                            <td class="action-button-item">
                                 <c:if test="${not empty noResponsePanel.moderationButtons[email]}">
                                     <results:moderationButton moderationButton="${noResponsePanel.moderationButtons[email]}"/>
                                 </c:if>
