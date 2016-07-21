@@ -55,13 +55,11 @@ public class QuestionsDb extends EntitiesDb {
         
         String courseId = questionToAdd.courseId;
         String feedbackSessionName = questionToAdd.feedbackSessionName;
-        FeedbackSessionAttributes session = new FeedbackSessionsDb().getFeedbackSession(
-                                                                        courseId, feedbackSessionName);
-        if (session == null) {
-            throw new InvalidParametersException(
-                    "feedbackSessionName and courseId provided does not refer to an existing feedback session: "
-                    + courseId + "/" + feedbackSessionName);
-        }
+        
+        FeedbackSessionAttributes session = new FeedbackSessionAttributes();
+        session.setCourseId(courseId);
+        session.setFeedbackSessionName(feedbackSessionName);
+        
         try {
             return createFeedbackQuestion(session, questionToAdd);
         } catch (EntityDoesNotExistException e) {
