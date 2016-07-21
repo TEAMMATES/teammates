@@ -21,6 +21,18 @@ $(document).ready(function() {
     hideUncommonPanels();
 });
 
+function addLoadingIndicator(button, loadingText) {
+    button.html(loadingText);
+    button.prop('disabled', true);
+    button.append('<img src="/images/ajax-loader.gif">');
+}
+
+function removeLoadingIndicator(button, displayText) {
+    button.empty();
+    button.html(displayText);
+    button.prop('disabled', false);
+}
+
 /**
  * This function is called on edit page load.
  */
@@ -30,6 +42,11 @@ function readyFeedbackEditPage() {
 
     // Hide option tables
     $('.visibilityOptions').hide();
+    
+    // AddQuestion button should be disabled on click to prevent double submissions
+    $('#button_submit_add').click(function() {
+        addLoadingIndicator($(this), 'Saving ');
+    });
     
     // Bind submit text links
     $('a[id|=questionsavechangestext]').click(function() {
@@ -55,7 +72,11 @@ function readyFeedbackEditPage() {
     });
 
     $('form.form_question').submit(function() {
-        return checkFeedbackQuestion(this);
+        var formStatus = checkFeedbackQuestion(this);
+        if (!formStatus) {
+            removeLoadingIndicator($('#button_submit_add'), 'Save Question');
+        }
+        return formStatus;
     });
 
     // Bind destructive changes

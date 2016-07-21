@@ -2,6 +2,9 @@ package teammates.storage.api;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 
 import javax.jdo.JDOHelper;
@@ -55,13 +58,11 @@ public class QuestionsDb extends EntitiesDb {
         
         String courseId = questionToAdd.courseId;
         String feedbackSessionName = questionToAdd.feedbackSessionName;
-        FeedbackSessionAttributes session = new FeedbackSessionsDb().getFeedbackSession(
-                                                                        courseId, feedbackSessionName);
-        if (session == null) {
-            throw new InvalidParametersException(
-                    "feedbackSessionName and courseId provided does not refer to an existing feedback session: "
-                    + courseId + "/" + feedbackSessionName);
-        }
+        
+        FeedbackSessionAttributes session = new FeedbackSessionAttributes();
+        session.setCourseId(courseId);
+        session.setFeedbackSessionName(feedbackSessionName);
+        
         try {
             return createFeedbackQuestion(session, questionToAdd);
         } catch (EntityDoesNotExistException e) {
@@ -254,15 +255,8 @@ public class QuestionsDb extends EntitiesDb {
                 throw new InvalidParametersException(questionToAddOrUpdate.getInvalidityInfo());
             }
             
-            List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(fs);
-
-            if (questionToAddOrUpdate.questionNumber <= 0) {
-                questionToAddOrUpdate.questionNumber = questions.size() + 1;
-            }
-            int numberAdjustmentRangeStart = oldQuestionNumber <= 0 ? questions.size() + 1
-                                                                    : oldQuestionNumber;
-            adjustQuestionNumbersWithoutCommitting(numberAdjustmentRangeStart,
-                                                   questionToAddOrUpdate.questionNumber, questions);
+            adjustQuestionNumbersInSession(questionToAddOrUpdate, oldQuestionNumber, fs);
+            
             FeedbackQuestionAttributes questionMade;
             if (isUpdating) {
                 questionMade = updateFeedbackQuestionWithoutComitting(questionToAddOrUpdate);
@@ -278,6 +272,29 @@ public class QuestionsDb extends EntitiesDb {
             }
             getPm().close();
         }
+    }
+
+    private void adjustQuestionNumbersInSession(FeedbackQuestionAttributes questionToAddOrUpdate,
+                                                int oldQuestionNumber, FeedbackSession fs) {
+        List<FeedbackQuestionAttributes> questionsForAdjustingNumbers = getFeedbackQuestionsForSession(fs);
+        
+        // remove question getting edited
+        for (Iterator<FeedbackQuestionAttributes> iter = questionsForAdjustingNumbers.iterator();
+                iter.hasNext();) {
+            FeedbackQuestionAttributes questionForAdjustment = iter.next();
+            if (questionForAdjustment.getId().equals(questionToAddOrUpdate.getId())) {
+                iter.remove();
+            }
+        }
+        
+        if (questionToAddOrUpdate.questionNumber <= 0) {
+            questionToAddOrUpdate.questionNumber = questionsForAdjustingNumbers.size() + 1;
+        }
+        int numberAdjustmentRangeStart = oldQuestionNumber <= 0 ? questionsForAdjustingNumbers.size() + 1
+                                                                : oldQuestionNumber;
+        
+        adjustQuestionNumbersWithoutCommitting(numberAdjustmentRangeStart,
+                                               questionToAddOrUpdate.questionNumber, questionsForAdjustingNumbers);
     }
     
     /**
@@ -297,38 +314,52 @@ public class QuestionsDb extends EntitiesDb {
      * if oldQuestionNumber is less than newQuestionNumber, the question numbers of the affected questions
      * are decreased by 1, otherwise they are increased by 1.
      * Does not commit or flush, the caller of this method must handle that.
+     * * This should be called in an active transaction.
      * @param oldQuestionNumber
      * @param newQuestionNumber
      * @param questions list of questions sorted in ascending question numbers
      */
     private void adjustQuestionNumbersWithoutCommitting(int oldQuestionNumber, int newQuestionNumber,
                                                         List<FeedbackQuestionAttributes> questions) {
-        if (oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1) {
-            for (int i = oldQuestionNumber - 1; i >= newQuestionNumber; i--) {
-                FeedbackQuestionAttributes question = questions.get(i - 1).getCopy();
-                question.questionNumber += 1;
-                try {
-                    updateQuestionWithoutFlushing(question, false);
-                } catch (InvalidParametersException e) {
-                    Assumption.fail("Invalid question. " + e);
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared." + e);
-                }
-            }
-        } else if (oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()) {
-            for (int i = oldQuestionNumber + 1; i <= newQuestionNumber; i++) {
-                FeedbackQuestionAttributes question = questions.get(i - 1).getCopy();
-                question.questionNumber -= 1;
-                try {
-                    updateQuestionWithoutFlushing(question, false);
-                } catch (InvalidParametersException e) {
-                    Assumption.fail("Invalid question." + e);
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared." + e);
-                }
+        if (oldQuestionNumber < 0 || newQuestionNumber < 0) {
+            Assumption.fail("Invalid question number");
+        }
+        if (oldQuestionNumber > newQuestionNumber) {
+            increaseQuestionNumber(newQuestionNumber, oldQuestionNumber, questions);
+            
+        } else if (oldQuestionNumber < newQuestionNumber) {
+            decreaseQuestionNumber(oldQuestionNumber, newQuestionNumber, questions);
+        }
+    }
+    
+    private void increaseQuestionNumber(int start, int end, List<FeedbackQuestionAttributes> questions) {
+        for (FeedbackQuestionAttributes question : questions) {
+            if (question.questionNumber >= start && question.questionNumber <= end) {
+                adjustQuestionNumberOfQuestion(question, 1);
             }
         }
     }
+    
+    private void decreaseQuestionNumber(int start, int end, List<FeedbackQuestionAttributes> questions) {
+        for (FeedbackQuestionAttributes question : questions) {
+            if (question.questionNumber >= start && question.questionNumber <= end) {
+                adjustQuestionNumberOfQuestion(question, -1);
+            }
+        }
+    }
+
+    private void adjustQuestionNumberOfQuestion(FeedbackQuestionAttributes question, int change) {
+        FeedbackQuestionAttributes updatedQuestion = question.getCopy();
+        updatedQuestion.questionNumber += change;
+        try {
+            updateFeedbackQuestionWithoutComitting(updatedQuestion);
+        } catch (InvalidParametersException e) {
+            Assumption.fail("Invalid question." + e);
+        } catch (EntityDoesNotExistException e) {
+            Assumption.fail("Question disappeared. " + e);
+        }
+    }
+    
     
     /**
      * Preconditions: <br>
@@ -700,7 +731,7 @@ public class QuestionsDb extends EntitiesDb {
         for (Question question : questions) {
             questionAttributes.add(new FeedbackQuestionAttributes(question));
         }
-        
+        Collections.sort(questionAttributes);
         return questionAttributes;
     }
     
