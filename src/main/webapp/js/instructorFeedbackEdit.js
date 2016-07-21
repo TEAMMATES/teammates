@@ -17,9 +17,23 @@ var questionsBeforeEdit = [];
 $(document).ready(function() {
     readyFeedbackEditPage();
     bindUncommonSettingsEvents();
+    bindParticipantSelectChangeEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
+    hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
 });
+
+function addLoadingIndicator(button, loadingText) {
+    button.html(loadingText);
+    button.prop('disabled', true);
+    button.append('<img src="/images/ajax-loader.gif">');
+}
+
+function removeLoadingIndicator(button, displayText) {
+    button.empty();
+    button.html(displayText);
+    button.prop('disabled', false);
+}
 
 /**
  * This function is called on edit page load.
@@ -30,6 +44,11 @@ function readyFeedbackEditPage() {
 
     // Hide option tables
     $('.visibilityOptions').hide();
+    
+    // AddQuestion button should be disabled on click to prevent double submissions
+    $('#button_submit_add').click(function() {
+        addLoadingIndicator($(this), 'Saving ');
+    });
     
     // Bind submit text links
     $('a[id|=questionsavechangestext]').click(function() {
@@ -55,7 +74,11 @@ function readyFeedbackEditPage() {
     });
 
     $('form.form_question').submit(function() {
-        return checkFeedbackQuestion(this);
+        var formStatus = checkFeedbackQuestion(this);
+        if (!formStatus) {
+            removeLoadingIndicator($('#button_submit_add'), 'Save Question');
+        }
+        return formStatus;
     });
 
     // Bind destructive changes
@@ -561,6 +584,7 @@ function showNewQuestionFrame(type) {
 	
     copyOptions();
     prepareQuestionForm(type);
+    hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
     $('#questionTableNew').show();
     enableNewQuestion();
     
@@ -585,11 +609,11 @@ function hideAllNewQuestionForms() {
 }
 
 function prepareQuestionForm(type) {
+    hideAllNewQuestionForms();
+    
     switch (type) {
     case 'TEXT':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_TEXT);
-        
-        hideAllNewQuestionForms();
         
         $('#textForm').show();
         break;
@@ -597,22 +621,16 @@ function prepareQuestionForm(type) {
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MCQ);
         
-        hideAllNewQuestionForms();
-        
         $('#mcqForm').show();
         break;
     case 'MSQ':
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MSQ);
         
-        hideAllNewQuestionForms();
-        
         $('#msqForm').show();
         break;
     case 'NUMSCALE':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
-        
-        hideAllNewQuestionForms();
         
         $('#numScaleForm').show();
         $('#' + FEEDBACK_QUESTION_TEXT).attr('placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
@@ -623,8 +641,6 @@ function prepareQuestionForm(type) {
         $('#constSumOption_Recipient-' + NEW_QUESTION).hide();
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
         
-        hideAllNewQuestionForms();
-        
         $('#constSumForm').show();
         break;
     case 'CONSTSUM_RECIPIENT':
@@ -633,8 +649,6 @@ function prepareQuestionForm(type) {
         $('#constSumOption_Recipient-' + NEW_QUESTION).show();
         hideConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
-        
-        hideAllNewQuestionForms();
         
         $('#constSumForm').show();
         var optionText = $('#constSum_labelText-' + NEW_QUESTION).text();
@@ -645,8 +659,6 @@ function prepareQuestionForm(type) {
     case 'CONTRIB':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
         
-        hideAllNewQuestionForms();
-        
         $('#contribForm').show();
         fixContribQnGiverRecipient();
         setDefaultContribQnVisibility();
@@ -654,8 +666,6 @@ function prepareQuestionForm(type) {
         break;
     case 'RUBRIC':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
-        
-        hideAllNewQuestionForms();
         
         $('#rubricForm').show();
         break;
@@ -665,8 +675,6 @@ function prepareQuestionForm(type) {
         $('#rankOption_Recipient-' + NEW_QUESTION).hide();
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
         
-        hideAllNewQuestionForms();
-        
         $('#rankOptionsForm').show();
         break;
     case 'RANK_RECIPIENTS':
@@ -674,8 +682,6 @@ function prepareQuestionForm(type) {
         $('#rankOption_Option-' + NEW_QUESTION).hide();
         hideRankOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
-        
-        hideAllNewQuestionForms();
         
         $('#rankRecipientsForm').show();
         break;
@@ -857,3 +863,62 @@ function getQuestionIdSuffix(questionNum) {
     return idSuffix;
 }
 
+function bindParticipantSelectChangeEvents() {
+    $('body').on('change', 'select[name="givertype"]', function() {
+        var $recipientSelect = $(this).closest('.form_question').find('select[name="recipienttype"]');
+        $recipientSelect.find('option').show();
+        hideInvalidRecipientTypeOptions($(this));
+    });
+}
+
+function hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions() {
+    $('.form_question').not('[name="form_addquestions"]').find('select[name="givertype"]').each(function() {
+        hideInvalidRecipientTypeOptions($(this));
+    });
+}
+
+function hideInvalidRecipientTypeOptionsForNewlyAddedQuestion() {
+    hideInvalidRecipientTypeOptions($('form[name="form_addquestions"]').find('select[name="givertype"]'));
+}
+
+function hideInvalidRecipientTypeOptions($giverSelect) {
+    var giverType = $giverSelect.val();
+    var $recipientSelect = $giverSelect.closest('.form_question').find('select[name="recipienttype"]');
+    var recipientType = $recipientSelect.val();
+    switch (giverType) {
+    case 'STUDENTS':
+        // all recipientType options enabled
+        break;
+    case 'SELF':
+    case 'INSTRUCTORS':
+        hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
+        hideOption($recipientSelect, 'OWN_TEAM_MEMBERS_INCLUDING_SELF');
+        if (recipientType === 'OWN_TEAM_MEMBERS' || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF') {
+            setRecipientSelectToFirstVisibleOption($recipientSelect);
+        }
+        break;
+    case 'TEAMS':
+        hideOption($recipientSelect, 'OWN_TEAM');
+        hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
+        if (recipientType === 'OWN_TEAM' || recipientType === 'OWN_TEAM_MEMBERS') {
+            setRecipientSelectToFirstVisibleOption($recipientSelect);
+        }
+        break;
+    default:
+        throw 'Unexpected giverType';
+    }
+}
+
+function hideOption($containingSelect, value) {
+    $containingSelect.find('option[value="' + value + '"]').hide();
+}
+
+function setRecipientSelectToFirstVisibleOption($recipientSelect) {
+    $recipientSelect.find('option').each(function() {
+        var $recipientOption = $(this);
+        if ($recipientOption.css('display') !== 'none') {
+            $recipientSelect.val($recipientOption.val());
+            return false;
+        }
+    });
+}

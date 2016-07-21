@@ -992,10 +992,10 @@
                 <option value="OWN_TEAM">
                   Giver's team
                 </option>
-                <option value="OWN_TEAM_MEMBERS">
+                <option style="display: none;" value="OWN_TEAM_MEMBERS">
                   Giver's team members
                 </option>
-                <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
+                <option style="display: none;" value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
                   Giver's team members and Giver
                 </option>
                 <option value="NONE">
@@ -2097,7 +2097,9 @@
         </div>
         <div>
           <span class="pull-right">
-            <input class="btn btn-primary" id="button_submit_add" tabindex="9" type="submit" value="Save Question">
+            <button class="btn btn-primary" id="button_submit_add" tabindex="9" type="submit">
+              Save Question
+            </button>
           </span>
         </div>
       </div>
