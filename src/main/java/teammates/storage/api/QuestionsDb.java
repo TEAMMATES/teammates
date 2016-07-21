@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 
 import javax.jdo.JDOHelper;
@@ -730,7 +731,7 @@ public class QuestionsDb extends EntitiesDb {
         for (Question question : questions) {
             questionAttributes.add(new FeedbackQuestionAttributes(question));
         }
-        
+        Collections.sort(questionAttributes);
         return questionAttributes;
     }
     
