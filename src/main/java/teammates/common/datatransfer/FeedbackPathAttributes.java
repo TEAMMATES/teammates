@@ -42,6 +42,14 @@ public class FeedbackPathAttributes extends EntityAttributes {
         // TODO Auto-generated method stub
         return null;
     }
+    
+    @Override
+    public String toString() {
+        return "FeedbackPathAttributes ["
+                + "courseId=" + courseId
+                + ", giver=" + giver
+                + ", recipient=" + recipient + "]";
+    }
 
     @Override
     public FeedbackPath toEntity() {

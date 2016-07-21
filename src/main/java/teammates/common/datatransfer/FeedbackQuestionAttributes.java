@@ -101,7 +101,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                + ", numberOfEntitiesToGiveFeedbackTo="
                + numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
                + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
-               + ", showRecipientNameTo=" + showRecipientNameTo + "]";
+               + ", showRecipientNameTo=" + showRecipientNameTo
+               + ", feedbackPathAttributesList=" + feedbackPathAttributesList + "]";
     }
 
     @Override
