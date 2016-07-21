@@ -48,12 +48,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testContent();
         
         testEditInstructorLink();
+        testCancelEditInstructorLink();
         testNewInstructorLink();
         testInputValidation();
         
         testInviteInstructorAction();
         testAddInstructorAction();
         testEditInstructorAction();
+        testCancelEditInstructorAction();
         testDeleteInstructorAction();
         
         testUnregisteredInstructorEmailNotEditable();
@@ -105,7 +107,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     
     private void testEditInstructorLink() {
         ______TS("edit instructor link");
-        assertTrue(courseEditPage.clickEditInstructorLink(1));
+        courseEditPage.clickEditInstructorLink(1);
+        assertTrue(courseEditPage.isInstructorEditable(1));
+    }
+    
+    private void testCancelEditInstructorLink() {
+        ______TS("cancel edit instructor link");
+        courseEditPage.clickCancelEditInstructorLink(1);
+        courseEditPage.verifyInstructorEditFormDisabled(1);
     }
 
     private void testNewInstructorLink() {
@@ -124,6 +133,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         String maxLengthInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH);
         String longInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
+        
+        courseEditPage.clickEditInstructorLink(1);
+        courseEditPage.clickShowNewInstructorFormButton();
         
         // Add instructor
         assertEquals(maxLengthInstructorName, courseEditPage.fillNewInstructorName(maxLengthInstructorName));
@@ -221,7 +233,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         int editInstructorIndex = 1;
         
         courseEditPage.changeCourseIdInForm(editInstructorIndex, "InvalidCourse");
-        courseEditPage.getEditInstructorLink(editInstructorIndex).click();
+        courseEditPage.clickEditInstructorLinkUnsuccessfully(editInstructorIndex);
         courseEditPage.waitForAjaxLoaderGifToDisappear();
         assertTrue(courseEditPage.getEditInstructorLink(editInstructorIndex).getText().contains("Edit failed."));
         courseEditPage.reloadPage();
@@ -234,7 +246,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("success: edit an instructor (InsCrsEdit.coord)--viewing instructor permission details");
         
-        assertTrue(courseEditPage.clickEditInstructorLink(editInstructorIndex));
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        assertTrue(courseEditPage.isInstructorEditable(editInstructorIndex));
         
         ______TS("view details: manager");
         
@@ -378,7 +391,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         courseEditPage.clickSaveInstructorButton(editInstructorIndex);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
-        assertTrue(courseEditPage.clickEditInstructorLink(editInstructorIndex));
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        assertTrue(courseEditPage.isInstructorEditable(editInstructorIndex));
         courseEditPage.verifyHtmlMainContent(
                             "/instructorCourseEditEditInstructorPrivilegesSuccessfulAndCheckEditAgain.html");
         courseEditPage.clickSaveInstructorButton(editInstructorIndex);
@@ -637,6 +651,78 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.selectRoleForInstructor(editInstructorIndex, "Co-owner");
     }
     
+    private void testCancelEditInstructorAction() throws Exception {
+
+        ______TS("success: cancel editing an instructor role from Co-owner to Manager");
+        
+        int editInstructorIndex = 7;
+        
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Manager");
+        courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
+        assertFalse(courseEditPage.isRoleSelectedForInstructor(editInstructorIndex, "Manager"));
+        assertTrue(courseEditPage.isRoleSelectedForInstructor(editInstructorIndex, "Co-owner"));
+        
+        ______TS("success: cancel editing an instructor role from Co-owner to Custom");
+        
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Custom");
+        courseEditPage.clickCourseLevelPrivilegesLink(
+                editInstructorIndex, InstructorCourseEditPage.COURSE_MODIFY_INSTRUCTORS);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 0, 0);
+        courseEditPage.clickSectionLevelPrivilegeLink(
+                editInstructorIndex, 0, InstructorCourseEditPage.SECTION_VIEW_STUDENTS);
+        courseEditPage.clickSessionLevelInSectionLevel(editInstructorIndex, 0);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 1);
+        courseEditPage.clickSectionLevelPrivilegeLink(
+                editInstructorIndex, 1, InstructorCourseEditPage.SECTION_VIEW_STUDENTS);
+        courseEditPage.clickAddSectionLevelPrivilegesLink(editInstructorIndex);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 2, 2);
+        courseEditPage.clickSectionLevelPrivilegeLink(
+                editInstructorIndex, 2, InstructorCourseEditPage.SECTION_VIEW_STUDENTS);
+        courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
+
+        courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex),
+                                      "/instructorCourseEditCancelEditCoownerForm.html");
+        
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        assertFalse(courseEditPage.isTunePermissionsDivVisible(editInstructorIndex));
+        
+        ______TS("success: cancel editing an instructor role from Custom to Co-owner");
+        
+        editInstructorIndex = 1;
+        
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        courseEditPage.selectRoleForInstructor(editInstructorIndex, "Co-owner");
+        courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
+
+        courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex),
+                                      "/instructorCourseEditCancelEditCustomInstructorForm.html");
+        
+        ______TS("success: cancel editing a Custom instructor's permissions");
+
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        courseEditPage.clickCourseLevelPrivilegesLink(
+                editInstructorIndex, InstructorCourseEditPage.COURSE_MODIFY_INSTRUCTORS);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 0, 0);
+        courseEditPage.clickSectionLevelPrivilegeLink(
+                editInstructorIndex, 0, InstructorCourseEditPage.SECTION_VIEW_STUDENTS);
+        courseEditPage.clickSectionSelectionCheckBox(editInstructorIndex, 1, 1);
+        courseEditPage.clickSectionLevelPrivilegeLink(
+                editInstructorIndex, 1, InstructorCourseEditPage.SECTION_VIEW_STUDENTS);
+        courseEditPage.clickHideSectionLevelPrivileges(editInstructorIndex, 2);
+        courseEditPage.clickCancelEditInstructorLink(editInstructorIndex);
+
+        courseEditPage.verifyHtmlPart(By.id("formEditInstructor" + editInstructorIndex),
+                                      "/instructorCourseEditCancelEditCustomInstructorPermissionsForm.html");
+        
+        courseEditPage.clickEditInstructorLink(editInstructorIndex);
+        assertTrue(courseEditPage.isTunePermissionsDivVisible(editInstructorIndex));
+        
+    }
+    
     private void testDeleteInstructorAction() {
         
         ______TS("delete instructor then cancel");
@@ -676,13 +762,13 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         // Delete own instructor role
         courseEditPage.clickDeleteInstructorLinkAndConfirm(2);
-        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, courseEditPage.getStatus());
+        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);
         
         // Delete other instructors
         courseEditPage.clickDeleteInstructorLinkAndConfirm(3);
-        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, courseEditPage.getStatus());
+        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
         courseEditPage.clickDeleteInstructorLinkAndConfirm(1);
-        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, courseEditPage.getStatus());
+        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
         
         ______TS("delete own instructor role and redirect to courses page");
         
@@ -705,7 +791,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     /**
      * Tests the UI of edit course.
      */
-    private void testEditCourseAction() {
+    private void testEditCourseAction() throws Exception {
         courseEditPage = getCourseEditPage();
         
         ______TS("edit course valid name");
@@ -716,7 +802,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         courseEditPage.clickSaveCourseButton();
         courseEditPage.changePageType(InstructorCourseEditPage.class);
-        assertEquals(Const.StatusMessages.COURSE_EDITED, courseEditPage.getStatus());
+        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_EDITED);
         
         ______TS("edit course invalid name");
         assertFalse(courseEditPage.isCourseEditFormEnabled());
@@ -725,11 +811,10 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.editCourseName("");
         courseEditPage.clickSaveCourseButton();
         courseEditPage.changePageType(InstructorCourseEditPage.class);
-        assertEquals(getPopulatedErrorMessage(
-                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                         FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                         FieldValidator.COURSE_NAME_MAX_LENGTH),
-                     courseEditPage.getStatus());
+        courseEditPage.verifyStatus(
+                getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                                         FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                                         FieldValidator.COURSE_NAME_MAX_LENGTH));
     }
     
     private void testDeleteCourseAction() {
@@ -757,7 +842,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertEquals("Unreg Instructor", courseEditPage.getNameField(unregInstrNum).getAttribute("value"));
         assertFalse(courseEditPage.getNameField(unregInstrNum).isEnabled());
         
-        assertTrue(courseEditPage.clickEditInstructorLink(unregInstrNum));
+        courseEditPage.clickEditInstructorLink(unregInstrNum);
+        assertTrue(courseEditPage.isInstructorEditable(unregInstrNum));
         assertEquals("true", courseEditPage.getEmailField(unregInstrNum).getAttribute("readonly"));
         assertTrue(courseEditPage.getNameField(unregInstrNum).isEnabled());
     }

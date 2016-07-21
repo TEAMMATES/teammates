@@ -2,17 +2,14 @@ package teammates.test.driver;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.cyberneko.html.parsers.DOMParser;
+import org.jsoup.Jsoup;
+import org.jsoup.helper.W3CDom;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -120,10 +117,8 @@ public final class HtmlHelper {
         }
     }
 
-    private static Node getNodeFromString(String string) throws SAXException, IOException {
-        DOMParser parser = new DOMParser();
-        parser.parse(new InputSource(new StringReader(string)));
-        return parser.getDocument();
+    private static Node getNodeFromString(String string) {
+        return new W3CDom().fromJsoup(Jsoup.parse(string));
     }
 
     private static String convertToStandardHtmlRecursively(Node currentNode, String indentation,
@@ -413,6 +408,12 @@ public final class HtmlHelper {
                       // jQuery-ui js file
                       .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()),
                                "${lib.path}/jquery-ui.min.js")
+                      // TinyMCE CSS skin
+                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/skin.min.css",
+                               "${lib.path}/skins/lightgray/skin.min.css")
+                      // TinyMCE CSS skin
+                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/content.inline.min.css",
+                               "${lib.path}/skins/lightgray/content.inline.min.css")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -461,7 +462,11 @@ public final class HtmlHelper {
                       .replace("<!-- filepath.jquery -->",
                                Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()))
                       .replace("<!-- filepath.jquery-ui -->",
-                               Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()));
+                               Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()))
+                      .replace("<!-- tinymce.skin.min -->",
+                               TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/skin.min.css")
+                      .replace("<!-- tinymce.skin.inline -->",
+                               TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/content.inline.min.css");
     }
 
 }

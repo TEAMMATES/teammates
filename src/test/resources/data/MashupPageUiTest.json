@@ -857,7 +857,7 @@
             "courseId":"CS2104",
             "feedbackSessionName":"First feedback session",
             "feedbackQuestionId":"1",
-            "giver":"teammates.test@gmail.tmt",
+            "giverEmail":"teammates.test@gmail.tmt",
             "feedbackResponseId":"1%teammates.test@gmail.tmt%teammates.test@gmail.tmt",
             "createdAt":"2026-03-01 11:59 PM UTC",
             "commentText":{
@@ -870,7 +870,7 @@
             "courseId":"CS2104",
             "feedbackSessionName":"First feedback session",
             "feedbackQuestionId":"1",
-            "giver":"teammates.instr@gmail.tmt",
+            "giverEmail":"teammates.instr@gmail.tmt",
             "feedbackResponseId":"1%teammates.test@gmail.tmt%teammates.test@gmail.tmt",
             "createdAt":"2026-03-02 11:59 PM UTC",
             "commentText":{
@@ -883,14 +883,13 @@
     "comments":{
         "comment1FromI1C1toS1C1":{
             "courseId":"CS2104",
-            "giver":"teammates.test@gmail.tmt",
+            "giverEmail":"teammates.test@gmail.tmt",
             "recipientType":"PERSON",
             "recipients":["alice.b.tmms@gmail.tmt"],
             "status": "FINAL",
             "showCommentTo": [PERSON],
             "showGiverNameTo": [PERSON],
             "showRecipientNameTo": [],
-            "receiverEmail":"alice.b.tmms@gmail.tmt",
             "createdAt":"2026-04-01 11:59 PM UTC",
             "commentText":{
                 "value":"Comment 1 from Instructor to Alice in course CS2104"
@@ -899,14 +898,13 @@
         },
         "comment2FromI1C1toS1C1":{
             "courseId":"CS2104",
-            "giver":"teammates.test@gmail.tmt",
+            "giverEmail":"teammates.test@gmail.tmt",
             "recipientType":"PERSON",
             "recipients":["benny.c.tmms@gmail.tmt"],
             "status": "FINAL",
             "showCommentTo": [COURSE],
             "showGiverNameTo": [COURSE],
             "showRecipientNameTo": [],
-            "receiverEmail":"benny.c.tmms@gmail.tmt",
             "createdAt":"2026-05-01 08:51 AM UTC",
             "commentText":{
                 "value":"Comment 2 from Instructor to Benny in course CS2104"

@@ -69,7 +69,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         editPage.verifyHtml("/InstructorCourseStudentEditPage.html");
     }
     
-    public void testInputValidation() {
+    public void testInputValidation() throws Exception {
         
         ______TS("input validation");
         

@@ -177,7 +177,7 @@ public class CommentsLogic {
     }
     
     /**
-     * update comment's giver email (assume to be an instructor)
+     * updates comment's giver and last editor email (assume to be an instructor)
      * @param courseId
      * @param oldInstrEmail
      * @param updatedInstrEmail

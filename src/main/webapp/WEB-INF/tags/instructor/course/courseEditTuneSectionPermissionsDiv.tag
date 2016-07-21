@@ -6,10 +6,10 @@
 <%@ attribute name="panelIndex" required="true" %>
 <%@ attribute name="sectionRow" type="teammates.ui.template.CourseEditSectionRow" required="true" %>
 
-<div id="tuneSectionPermissionsDiv${panelIndex}ForInstructor${instructorIndex}" 
-        <c:if test="${not sectionRow.sectionSpecial}"> 
-            style="display: none;"
-        </c:if> >
+<div id="tuneSectionPermissionsDiv${panelIndex}ForInstructor${instructorIndex}" data-is-originally-displayed="${sectionRow.sectionSpecial}" 
+    <c:if test="${not sectionRow.sectionSpecial}"> 
+        style="display: none;"
+    </c:if> >
     <div class="panel panel-info">
         <div class="panel-heading">
             <div class="row">
