@@ -14,11 +14,15 @@ public class InstructorFeedbackResultsSessionPanel {
     private String resultsVisibleFrom;
     private FeedbackSessionPublishButton feedbackSessionPublishButton;
     private String selectedSection;
+    private boolean isStatsShown;
+    private boolean isMissingResponsesShown;
 
     public InstructorFeedbackResultsSessionPanel(FeedbackSessionAttributes session,
                                                  String editLink,
                                                  FeedbackSessionPublishButton feedbackSessionPublishButton,
-                                                 String selectedSection) {
+                                                 String selectedSection,
+                                                 boolean isMissingResponsesShown,
+                                                 boolean isStatsShown) {
         this.courseId = Sanitizer.sanitizeForHtml(session.getCourseId());
         this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.getFeedbackSessionName());
         this.editLink = editLink;
@@ -27,6 +31,8 @@ public class InstructorFeedbackResultsSessionPanel {
         this.resultsVisibleFrom = getResultsVisibleFromText(session);
         this.feedbackSessionPublishButton = feedbackSessionPublishButton;
         this.selectedSection = selectedSection;
+        this.isStatsShown = isStatsShown;
+        this.isMissingResponsesShown = isMissingResponsesShown;
     }
     
     public String getCourseId() {
@@ -61,6 +67,14 @@ public class InstructorFeedbackResultsSessionPanel {
         return selectedSection;
     }
     
+    public boolean getIsStatsShown() {
+        return isStatsShown;
+    }
+    
+    public boolean getIsMissingResponsesShown() {
+        return isMissingResponsesShown;
+    }
+
     private String getResultsVisibleFromText(FeedbackSessionAttributes feedbackSession) {
         if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             if (feedbackSession.getSessionVisibleFromTime().equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {

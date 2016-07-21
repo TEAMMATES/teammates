@@ -21,10 +21,8 @@ public class AdminEmailImageUploadAction extends Action {
         
         GateKeeper.inst().verifyAdminPrivileges(account);
        
-        BlobInfo blobInfo = null;
-        
         data = new AdminEmailComposePageData(account);
-        blobInfo = extractImageKey();
+        BlobInfo blobInfo = extractImageKey();
         
         if (blobInfo == null) {
             data.isFileUploaded = false;

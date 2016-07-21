@@ -552,7 +552,7 @@ public class StudentsLogic {
         
         try {
             EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, studentData);
-            new EmailSender().sendEmailWithLogging(email);
+            new EmailSender().sendEmail(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
@@ -579,7 +579,7 @@ public class StudentsLogic {
         try {
             EmailWrapper email =
                     new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
-            new EmailSender().sendEmailWithLogging(email);
+            new EmailSender().sendEmail(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);

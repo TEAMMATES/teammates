@@ -1111,7 +1111,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             coursesLogic.createCourseAndInstructor(i.googleId, invalidCourse.getId(), invalidCourse.getName());
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID", e.getMessage());
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course ID", e.getMessage());
         }
         verifyAbsentInDatastore(invalidCourse);
         verifyAbsentInDatastore(i);

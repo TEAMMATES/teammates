@@ -21,12 +21,13 @@ public class InstructorFeedbackResultsResponsePanel {
     private boolean isAllowedToAddComment;
     
     // The indexes are used for the parameters of js functions for handling response comments
+    private int sectionId;
     private int recipientIndex;
     private int giverIndex;
     private int qnIndex; // TODO  investigate using question number instead of tracking an index
     
     public InstructorFeedbackResultsResponsePanel(FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
-                                                  String questionText, String additionalInfoText,
+                                                  String questionText, int sectionId, String additionalInfoText,
                                                   ElementTag rowAttributes,
                                                   String displayableResponse,
                                                   List<FeedbackResponseCommentRow> comments,
@@ -35,6 +36,7 @@ public class InstructorFeedbackResultsResponsePanel {
         this.response = response;
         this.questionText = questionText;
         this.additionalInfoText = additionalInfoText;
+        this.sectionId = sectionId;
         this.rowAttributes = rowAttributes;
         this.displayableResponse = displayableResponse;
         this.comments = comments;
@@ -97,6 +99,14 @@ public class InstructorFeedbackResultsResponsePanel {
 
     public FeedbackResponseCommentRow getFrcForAdding() {
         return frcForAdding;
+    }
+
+    public int getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(int sectionId) {
+        this.sectionId = sectionId;
     }
     
 }

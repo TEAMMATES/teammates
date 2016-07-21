@@ -194,7 +194,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         ______TS("fail: invalid params");
         
         frComment.courseId = "invalid course name";
-        verifyExceptionThrownWhenUpdateFrComment(frComment, "not acceptable to TEAMMATES as a Course ID");
+        verifyExceptionThrownWhenUpdateFrComment(frComment, "not acceptable to TEAMMATES as a/an course ID");
         restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
         
         ______TS("typical success case");
@@ -218,17 +218,18 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         
         String oldEmail = frComment.giverEmail;
         String updatedEmail = "newEmail@gmail.tmt";
-        frcLogic.updateFeedbackResponseCommentsGiverEmail(frComment.courseId, oldEmail, updatedEmail);
+        frcLogic.updateFeedbackResponseCommentsEmails(frComment.courseId, oldEmail, updatedEmail);
         
         actualFrComment = frcLogic.getFeedbackResponseComment(
                                            frComment.feedbackResponseId, updatedEmail, frComment.createdAt);
 
         assertEquals(frComment.courseId, actualFrComment.courseId);
         assertEquals(updatedEmail, actualFrComment.giverEmail);
+        assertEquals(updatedEmail, actualFrComment.lastEditorEmail);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
         
         // reset email
-        frcLogic.updateFeedbackResponseCommentsGiverEmail(frComment.courseId, updatedEmail, oldEmail);
+        frcLogic.updateFeedbackResponseCommentsEmails(frComment.courseId, updatedEmail, oldEmail);
         
         ______TS("typical success case update feedback response comment feedbackResponseId");
         

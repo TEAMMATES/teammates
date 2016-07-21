@@ -1,6 +1,6 @@
 # **Contributor Orientation Guide**
 
-We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/about.html) for a list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in a OSS production environment. Here are some information that might be useful to would-be contributors.
+We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/about.jsp) for a list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in a OSS production environment. Here are some information that might be useful to would-be contributors.
 
 
 
@@ -31,7 +31,7 @@ Roles:
 
 ## Dev Community Structure
 
-[TEAMMATES community](https://teammatesv4.appspot.com/about.html) has three tiers, defined based on the level of involvement.
+[TEAMMATES community](https://teammatesv4.appspot.com/about.jsp) has three tiers, defined based on the level of involvement.
 
 *   **Contributor**: Small but noteworthy contribution to the project.
 *   **Committer**: Significant contributions sustained over a long period of time.
@@ -60,7 +60,7 @@ _**Phase A**: Know the project_
     * [product intro page](https://teammatesv4.appspot.com) shown to potential users
 
     * [project vision, challenges, and principles](./overview.md)
-    * [feature overview](https://teammatesv4.appspot.com/features.html) (users’ point of view)
+    * [feature overview](https://teammatesv4.appspot.com/features.jsp) (users’ point of view)
 
 2.  Decide in which role(s) you want to contribute. i.e., tester, copy-editor, etc. as specified [earlier in this document](#knowledge-required).
     * If you are aiming for tech writer or tester roles, get an instructor account using the link in the TEAMMATES home page. Remember to mention the purpose of your request under any other comments.If you are sure you want to become a contributor, you can skip this step. In Phase B, you get to set up TEAMMATES on your own machine and use that instance to try the functionality.

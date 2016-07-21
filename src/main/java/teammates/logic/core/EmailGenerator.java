@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.google.appengine.api.log.AppLogLine;
+
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -317,9 +319,10 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}",
-                        "The email below has been sent to students of course: " + course.getId() + ".<p/><br>",
-                "${submitUrl}", "{The student's unique submission url appears here}",
-                "${reportUrl}", "{The student's unique results url appears here}",
+                        "The email below has been sent to students of course: " + course.getId()
+                        + ".<p/><br><br>=== Email message as seen by the students ===<br>",
+                "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
+                "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
@@ -406,12 +409,10 @@ public class EmailGenerator {
      * Generates the join link to be sent to the account requester's email.
      */
     public String generateNewInstructorAccountJoinLink(InstructorAttributes instructor, String institute) {
-        return instructor == null
-               ? ""
-               : Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                       .withRegistrationKey(StringHelper.encrypt(instructor.key))
-                       .withInstructorInstitution(institute)
-                       .toAbsoluteString();
+        return Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                     .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                     .withInstructorInstitution(institute)
+                     .toAbsoluteString();
     }
     
     /**
@@ -470,9 +471,7 @@ public class EmailGenerator {
     }
     
     private String fillUpStudentJoinFragment(StudentAttributes student, String emailBody) {
-        String joinUrl = student == null
-                         ? "{The join link unique for each student appears here}"
-                         : Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+        String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
         
         return Templates.populateTemplate(emailBody,
                 "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
@@ -480,9 +479,7 @@ public class EmailGenerator {
     }
     
     private String fillUpStudentRejoinAfterGoogleIdResetFragment(StudentAttributes student, String emailBody) {
-        String joinUrl = student == null
-                         ? "{The join link unique for each student appears here}"
-                         : Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+        String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
         
         return Templates.populateTemplate(emailBody,
                 "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
@@ -491,11 +488,9 @@ public class EmailGenerator {
     }
     
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
-        String joinUrl = instructor == null
-                         ? ""
-                         : Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
-                                 .toAbsoluteString();
+        String joinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                               .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                               .toAbsoluteString();
         
         return Templates.populateTemplate(emailBody,
                 "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN,
@@ -517,7 +512,7 @@ public class EmailGenerator {
         if (errorMessage == null) {
             int msgTruncateIndex = stackTrace.indexOf("at");
             if (msgTruncateIndex > 0) {
-                errorMessage = stackTrace.substring(0, msgTruncateIndex);
+                errorMessage = stackTrace.substring(0, msgTruncateIndex).trim();
             } else {
                 errorMessage = "";
             }
@@ -544,14 +539,24 @@ public class EmailGenerator {
     /**
      * Generates the logs compilation email for the given {@code logs}.
      */
-    public EmailWrapper generateCompiledLogsEmail(String logs) {
-        
-        String emailBody = logs.replace("\n", "<br>");
+    public EmailWrapper generateCompiledLogsEmail(List<AppLogLine> logs) {
+        StringBuilder emailBody = new StringBuilder();
+        for (int i = 0; i < logs.size(); i++) {
+            emailBody.append(generateSevereErrorLogLine(i, logs.get(i)));
+        }
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         email.setSubject(String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.getAppVersion()));
-        email.setContent(emailBody);
+        email.setContent(emailBody.toString());
         return email;
+    }
+    
+    private String generateSevereErrorLogLine(int index, AppLogLine logLine) {
+        return Templates.populateTemplate(
+                EmailTemplates.SEVERE_ERROR_LOG_LINE,
+                "${index}", String.valueOf(index),
+                "${errorType}", logLine.getLogLevel().toString(),
+                "${errorMessage}", logLine.getLogMessage().replace("\n", "<br>"));
     }
     
     /**

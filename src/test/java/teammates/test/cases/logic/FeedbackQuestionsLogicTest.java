@@ -296,7 +296,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         question1 = fqLogic.getFeedbackQuestion(question1.feedbackSessionName, question1.courseId, question1.questionNumber);
         
         FeedbackQuestionAttributes copiedQuestion =
-                fqLogic.copyFeedbackQuestion(question1.getId(), question1.feedbackSessionName, question1.courseId,
+                fqLogic.copyFeedbackQuestion(question1.courseId, question1.feedbackSessionName,
+                                             question1.getId(), question1.feedbackSessionName, question1.courseId,
                                              instructor2OfCourse1.email);
         
         FeedbackQuestionDetails question1Details = question1.getQuestionDetails();

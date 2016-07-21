@@ -1,36 +1,27 @@
 package teammates.ui.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.TaskQueuesLogic;
 
-import com.google.appengine.api.blobstore.BlobInfo;
-import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreInputStream;
 import com.google.appengine.api.datastore.Text;
 
 public class AdminEmailComposeSendAction extends Action {
-    
-    private static final int MAX_READING_LENGTH = 900000;
     
     private List<String> addressReceiver = new ArrayList<String>();
     private List<String> groupReceiver = new ArrayList<String>();
@@ -63,7 +54,7 @@ public class AdminEmailComposeSendAction extends Action {
         if (groupModeOn) {
             try {
                 groupReceiver.add(groupReceiverListFileKey);
-                checkGroupReceiverListFile(groupReceiverListFileKey);
+                GoogleCloudStorageHelper.getGroupReceiverList(new BlobKey(groupReceiverListFileKey));
             } catch (Exception e) {
                 isError = true;
                 setStatusForException(e, "An error occurred when retrieving receiver list, please try again");
@@ -129,106 +120,6 @@ public class AdminEmailComposeSendAction extends Action {
             }
         }
        
-    }
-    
-    /**
-     * This method: <br>
-     * 1. makes sure the list file given the blobkey exists in the Google Cloud Storage<br>
-     * 2. goes through the list file by splitting the content of the txt file(email addresses separated by comma)
-     * into separated email addresses, which makes sure the file content is intact and of correct format
-     * <br><br>
-     * 
-     * @param listFileKey
-     * @throws IOException
-     */
-    private void checkGroupReceiverListFile(String listFileKey) throws IOException {
-        Assumption.assertNotNull(listFileKey);
-
-        BlobKey blobKey = new BlobKey(listFileKey);
-        
-        //it turns out that error will occur if we read more than around 900000 bytes of data per time
-        //from the blobstream, which also brings problems when this large number of emails are all stored in one
-        //list. As a result, to prevent unexpected errors, we read the txt file several times and each time
-        //at most 900000 bytes are read, after which a new list is created to store all the emails addresses that
-        //happen to be in the newly read bytes.
-        
-        //For email address which happens to be broken according to two consecutive reading, a check will be done
-        //before storing all emails separated from the second reading into a new list. Broken email will be fixed by
-        //deleting the first item of the email list from current reading  AND
-        //appending it to the last item of the email list from last reading
-        
-        //the email list from each reading is inserted into a upper list(list of list).
-        //the structure is as below:
-        
-        //ListOfList:
-        //      ListFromReading_1 :
-        //                     [example@email.com]
-        //                            ...
-        //      ListFromReading_2 :
-        //                     [example@email.com]
-        //                            ...
-        
-        //offset is needed for remembering where it stops from last reading
-        int offset = 0;
-        //file size is needed to track the number of unread bytes
-        int size = (int) getFileSize(listFileKey);
-        
-        //this is the list of list
-        List<List<String>> listOfList = new LinkedList<List<String>>();
-   
-        while (size > 0) {
-            //makes sure not to over-read
-            int bytesToRead = size > MAX_READING_LENGTH ? MAX_READING_LENGTH : size;
-            InputStream blobStream = new BlobstoreInputStream(blobKey, offset);
-            byte[] array = new byte[bytesToRead];
-            
-            blobStream.read(array);
-            
-            //remember where it stops reading
-            offset += MAX_READING_LENGTH;
-            //decrease unread bytes
-            size -= MAX_READING_LENGTH;
-            
-            //get the read bytes into string and split it by ","
-            String readString = new String(array);
-            List<String> newList = Arrays.asList(readString.split(","));
-
-            if (listOfList.isEmpty()) {
-                //this is the first time reading
-                listOfList.add(newList);
-            } else {
-                //check if the last reading stopped in the middle of a email address string
-                List<String> lastAddedList = listOfList.get(listOfList.size() - 1);
-                //get the last item of the list from last reading
-                String lastStringOfLastAddedList = lastAddedList.get(lastAddedList.size() - 1);
-                //get the first item of the list from current reading
-                String firstStringOfNewList = newList.get(0);
-                
-                if (lastStringOfLastAddedList.contains("@") && firstStringOfNewList.contains("@")) {
-                    //no broken email from last reading found, simply add the list
-                    //from current reading into the upper list.
-                    listOfList.add(newList);
-                } else {
-                    //either the left part or the right part of the broken email string
-                    //does not contains a "@".
-                    //simply append the right part to the left part(last item of the list from last reading)
-                    listOfList.get(listOfList.size() - 1)
-                              .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
-                    
-                    //and also needs to delete the right part which is the first item of the list from current reading
-                    listOfList.add(newList.subList(1, newList.size() - 1));
-                }
-            }
-            
-            blobStream.close();
-        }
-
-    }
-    
-    private long getFileSize(String blobkeyString) {
-        BlobInfoFactory blobInfoFactory = new BlobInfoFactory();
-        BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(new BlobKey(blobkeyString));
-        return blobInfo.getSize();
     }
     
     private void moveJobToGroupModeTaskQueue() {

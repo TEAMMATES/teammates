@@ -93,7 +93,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void testMiscellaneous() {
+    public void testMiscellaneous() throws Exception {
         testAjaxErrorForLoadingSessionList();
         testValidationReload();
         testJScripts();
@@ -180,14 +180,21 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.clickManualPublishTimeButton();
         
+        Text instructions = newSession.getInstructions();
+
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
-                newSession.getInstructions(), newSession.getGracePeriod());
+                instructions, newSession.getGracePeriod());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
         FeedbackSessionAttributes savedSession =
                 BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
+
+        // TinyMCE wraps text with <p> tag
+        newSession.setInstructions(new Text("<p>" + instructions.getValue() + "</p>"));
         assertEquals(newSession.toString(), savedSession.toString());
+        newSession.setInstructions(instructions);
+
         // Check that we are redirected to the edit page.
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackAddSuccess.html");
         
@@ -223,8 +230,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod());
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, feedbackPage.getStatus());
-        
+        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
         
         ______TS("success case: private session, boundary length name, timezone = 5.75, only results email");
 
@@ -252,7 +258,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.toggleSendClosingEmailCheckbox();
         
         // fill in defaults
-        newSession.setInstructions(new Text("Please answer all the given questions."));
+        newSession.setInstructions(new Text("<p>Please answer all the given questions.</p>"));
         newSession.setGracePeriod(15);
         
         newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
@@ -315,7 +321,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickEditUncommonSettingsButton();
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickNeverPublishTimeButton();
-        
+
+        instructions = new Text("cannot see responses<script>test</script>$^/\\=?");
+
         newSession.setFeedbackSessionName("responses cant be seen my students 1 #");
         // start time in past
         newSession.setStartTime(TimeHelper.convertToDate("2012-05-01 4:00 AM UTC"));
@@ -323,7 +331,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
         newSession.setGracePeriod(25);
-        newSession.setInstructions(new Text("cannot \r\n see responses<script>test</script> $^/\\=?"));
+        newSession.setInstructions(instructions);
         newSession.setTimeZone(-2);
         newSession.setPublishedEmailEnabled(false);
         newSession.setClosingEmailEnabled(true);
@@ -335,12 +343,14 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod(), newSession.getTimeZone());
-        
+
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
+
+        newSession.setInstructions(new Text("<p>cannot see responses</p>\r\n\r\n<p>$^/&#61;?</p>"));
+
         assertEquals(newSession.toString(), savedSession.toString());
-        
-        
+
         ______TS("success case: timezone 0, custom publish time, very looong instructions (~ 500 words)");
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
@@ -368,6 +378,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
+        newSession.setInstructions(new Text("<p>" + newSession.getInstructionsString() + "</p>"));
         assertEquals(newSession.toString(), savedSession.toString());
         
         
@@ -398,20 +409,17 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         expectedStatusStrings.add(String.format(
                 FieldValidator.TIME_FRAME_ERROR_MESSAGE,
                 FieldValidator.RESULTS_VISIBLE_TIME_FIELD_NAME,
-                FieldValidator.FEEDBACK_SESSION_NAME,
                 FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME));
         
         expectedStatusStrings.add(String.format(
                 FieldValidator.TIME_FRAME_ERROR_MESSAGE,
-                FieldValidator.START_TIME_FIELD_NAME,
-                FieldValidator.FEEDBACK_SESSION_NAME,
+                FieldValidator.SESSION_START_TIME_FIELD_NAME,
                 FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME));
 
         expectedStatusStrings.add(String.format(
                 FieldValidator.TIME_FRAME_ERROR_MESSAGE,
-                FieldValidator.END_TIME_FIELD_NAME,
-                FieldValidator.FEEDBACK_SESSION_NAME,
-                FieldValidator.START_TIME_FIELD_NAME));
+                FieldValidator.SESSION_END_TIME_FIELD_NAME,
+                FieldValidator.SESSION_START_TIME_FIELD_NAME));
         
         AssertHelper.assertContains(expectedStatusStrings, feedbackPage.getStatus());
 
@@ -426,13 +434,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod());
-        assertEquals(String.format(
-                        FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                        "bad name %% #",
-                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                        FieldValidator.REASON_CONTAINS_INVALID_CHAR,
-                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
-                     feedbackPage.getStatus());
+        feedbackPage.verifyStatus(getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, "bad name %% #",
+                                                           FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                                           FieldValidator.REASON_CONTAINS_INVALID_CHAR));
         
     }
     
@@ -463,8 +467,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.copyFeedbackSession("", newSession.getCourseId());
         feedbackPage.verifyStatus(
-                "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
+                "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
+                + "The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.");
         
         
@@ -473,7 +477,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.copyFeedbackSession("(New Session ##)", newSession.getCourseId());
         feedbackPage.verifyStatus(
-                "\"(New Session ##)\" is not acceptable to TEAMMATES as feedback session name because "
+                "\"(New Session ##)\" is not acceptable to TEAMMATES as a/an feedback session name because "
                 + "it starts with a non-alphanumeric character. "
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
@@ -527,7 +531,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
         feedbackPage.getFsCopyToModal().verifyStatusMessage(
-                "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
+                "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as a/an "
                 + "feedback session name because it contains invalid characters. "
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
@@ -939,7 +943,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.isCopySubmitButtonEnabled());
     }
     
-    public void testValidationReload() {
+    public void testValidationReload() throws Exception {
         
         ______TS("form fields do not reset on form validation failure when session type is STANDARD");
         
@@ -993,15 +997,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(),
                 newSession.getGracePeriod());
-        assertEquals(String.format(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                        "",
-                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                        FieldValidator.REASON_EMPTY,
-                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                        FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH,
-                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
-                     feedbackPage.getStatus());
+        feedbackPage.verifyStatus(getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                                                           "", FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                                           FieldValidator.REASON_EMPTY,
+                                                           FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH));
         assertTrue(feedbackPage.verifyVisible(By.id("timeFramePanel")));
         assertTrue(feedbackPage.verifyVisible(By.id("responsesVisibleFromColumn")));
         assertTrue(feedbackPage.verifyVisible(By.id("instructionsRow")));

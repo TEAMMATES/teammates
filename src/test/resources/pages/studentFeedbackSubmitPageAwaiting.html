@@ -43,7 +43,7 @@
         <span class="icon-bar">
         </span>
       </button>
-      <a class="navbar-brand" href="/index.html">
+      <a class="navbar-brand" href="/index.jsp">
         TEAMMATES
       </a>
     </div>
@@ -65,7 +65,7 @@
           </a>
         </li>
         <li>
-          <a class="nav" href="/studentHelp.html" id="studentHelpLink" target="_blank">
+          <a class="nav" href="/studentHelp.jsp" id="studentHelpLink" target="_blank">
             Help
           </a>
         </li>
@@ -74,7 +74,7 @@
         <li>
           <a class="nav logout" href="/logout" id="btnLogout">
             Logout (
-            <span class="text-info" data-original-title="SFSubmitUiT.alice.b" data-placement="bottom" data-toggle="tooltip" title="">
+            <span class="text-info tool-tip-decorate" data-original-title="SFSubmitUiT.alice.b" data-placement="bottom" data-toggle="tooltip" title="">
               SFSubmitUiT.alice.b
             </span>
             )
@@ -99,7 +99,7 @@
     </script>
     ${studentmotd.container}
   </div>
-  <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_student_submit_response">
+  <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_submit_response">
     <input name="fsname" type="hidden" value="Fourth Session">
     <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104">
     <input name="user" type="hidden" value="SFSubmitUiT.alice.b">
@@ -271,7 +271,7 @@
     <br>
     <br>
     <div class="bold align-center">
-      <input class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="" id="response_submit_button" style="background: #66727A;" title="" type="submit" value="Submit Feedback">
+      <input class="btn btn-primary center-block" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="" id="response_submit_button" style="background: #66727A;" title="" type="submit" value="Submit Feedback">
     </div>
     <br>
     <br>
@@ -283,7 +283,7 @@
       <div class="col-md-2">
         <span>
           [
-          <a href="/index.html">
+          <a href="/index.jsp">
             TEAMMATES
           </a>
           V${version}]
@@ -299,7 +299,7 @@
       <div class="col-md-2">
         <span>
           [Send
-          <a class="link" href="../contact.html" target="_blank">
+          <a class="link" href="/contact.jsp" target="_blank">
             Feedback
           </a>
           ]

@@ -89,6 +89,14 @@ public final class Config {
     }
     
     /**
+     * This method is not to be used by classes not compiled by GAE (e.g non-production codes).
+     * @return The app ID specified in appengine-web.xml, e.g. "teammatesv4"
+     */
+    public static String getAppId() {
+        return SystemProperty.applicationId.get();
+    }
+
+    /**
      * @return The app version specifed in appengine-web.xml but with '.'
      * instead of '-' e.g., "4.53"
      */

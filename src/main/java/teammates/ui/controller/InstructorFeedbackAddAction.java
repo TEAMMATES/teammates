@@ -157,7 +157,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
         newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
-        newSession.setFeedbackSessionName(Sanitizer.sanitizeTextField(
+        newSession.setFeedbackSessionName(Sanitizer.sanitizeTitle(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
         
         newSession.setCreatedTime(new Date());

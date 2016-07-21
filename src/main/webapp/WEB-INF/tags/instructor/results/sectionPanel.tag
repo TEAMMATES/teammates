@@ -37,20 +37,18 @@
             </div>
         </c:when>
         <c:otherwise>
-            <div class="panel-heading ajax_submit">
+            <div class="panel-heading ajax_auto">
                 <div class="row">
                     <div class="col-sm-9 panel-heading-text">
                         <strong>${sectionPanel.sectionNameForDisplay}</strong>
                     </div>
                     <div class="col-sm-3">
                         <div class="pull-right">
-                            <a class="btn btn-success btn-xs" style="display:none" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
-                                Expand ${isGroupedByTeam ? 'Teams' : 'Students'}
+                            <a class="btn btn-success btn-xs" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
+                                Collapse ${isGroupedByTeam ? 'Teams' : 'Students'}
                             </a>
                             &nbsp;
-                            <div class="display-icon" style="display:inline;">
-                                <span class="glyphicon glyphicon-chevron-down"></span>
-                            </div>
+                            <span class="glyphicon glyphicon-chevron-down"></span>
                         </div>
                      </div>
                 </div>
@@ -64,7 +62,7 @@
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="${data.sortType}">
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on" id="showStats-${sectionIndex}">
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES%>" value="${data.missingResponsesShown}">                    
-                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX%>" value="on" id="mainIndex-${sectionIndex}">
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX%>" value="-1" id="mainIndex-${sectionIndex}">
                 </form>
             </div>
         </c:otherwise>

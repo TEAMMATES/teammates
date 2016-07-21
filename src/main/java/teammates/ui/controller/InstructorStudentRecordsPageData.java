@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -15,6 +16,7 @@ import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.StudentProfile;
 
 public class InstructorStudentRecordsPageData extends PageData {
+    public static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "0you";
 
     public StudentProfileAttributes spa; // used for testing admin message
     private String courseId;
@@ -27,8 +29,9 @@ public class InstructorStudentRecordsPageData extends PageData {
 
     public InstructorStudentRecordsPageData(AccountAttributes account, StudentAttributes student,
                                             String courseId, String showCommentBox, StudentProfileAttributes spa,
-                                            List<CommentAttributes> comments, List<String> sessionNames,
-                                            InstructorAttributes instructor) {
+                                            Map<String, List<CommentAttributes>> giverEmailToCommentsMap,
+                                            Map<String, String> giverEmailToGiverNameMap,
+                                            List<String> sessionNames, InstructorAttributes instructor) {
         super(account, student);
         this.courseId = courseId;
         this.studentName = student.name;
@@ -39,24 +42,15 @@ public class InstructorStudentRecordsPageData extends PageData {
             String pictureUrl = getPictureUrl(spa.pictureKey);
             this.studentProfile = new StudentProfile(student.name, spa, pictureUrl);
         }
-        List<CommentRow> commentDivs = new ArrayList<CommentRow>();
-        for (CommentAttributes comment : comments) {
-            String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
-            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
-            CommentRow commentDiv = new CommentRow(comment, "You", unsanitizedRecipientDetails);
-            String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
-            commentDiv.setVisibilityIcon(whoCanSeeComment);
-            commentDiv.setEditDeleteEnabled(false);
-            commentDiv.setNotFromCommentsPage(student.email);
-            commentDiv.setNumComments(comments.size());
-            commentDivs.add(commentDiv);
-        }
         this.commentsForStudentTable = new ArrayList<CommentsForStudentsTable>();
-        CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable("You", commentDivs);
-        commentsForStudent.setInstructorAllowedToGiveComment(
-                                        instructor.isAllowedForPrivilege(student.section,
-                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-        commentsForStudentTable.add(commentsForStudent);
+        int commentCount = 0;
+        for (String giverEmail : giverEmailToCommentsMap.keySet()) {
+            commentCount += giverEmailToCommentsMap.get(giverEmail).size();
+        }
+        for (String giverEmail : giverEmailToCommentsMap.keySet()) {
+            addCommentsToTable(student, giverEmailToCommentsMap, giverEmailToGiverNameMap,
+                               instructor, giverEmail, commentCount);
+        }
         this.sessionNames = sessionNames;
     }
 
@@ -90,6 +84,61 @@ public class InstructorStudentRecordsPageData extends PageData {
 
     public List<String> getSessionNames() {
         return sessionNames;
+    }
+
+    private void addCommentsToTable(StudentAttributes student,
+                                    Map<String, List<CommentAttributes>> giverEmailToCommentsMap,
+                                    Map<String, String> giverEmailToGiverNameMap, InstructorAttributes instructor,
+                                    String giverEmail, int totalNumOfComments) {
+        List<CommentAttributes> comments = giverEmailToCommentsMap.get(giverEmail);
+        if (!comments.isEmpty() || COMMENT_GIVER_NAME_THAT_COMES_FIRST.equals(giverEmail)) {
+            String giverName = giverEmailToGiverNameMap.get(giverEmail);
+            List<CommentRow> commentDivs = generateCommentRows(student, instructor, giverEmail,
+                                                               totalNumOfComments, comments);
+            
+            CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable(giverName, commentDivs);
+            commentsForStudent.setInstructorAllowedToGiveComment(
+                    instructor.isAllowedForPrivilege(student.section,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+            commentsForStudent.setIsRepresentingSelf(Const.DISPLAYED_NAME_FOR_SELF_IN_COMMENTS.equals(giverName));
+            commentsForStudentTable.add(commentsForStudent);
+        }
+    }
+    
+    /**
+     * Generates the comment rows for a specific giver,
+     * based on the current instructor's privilege to modify comments.
+     * @param student
+     * @param instructor
+     * @param giverEmail
+     * @param totalNumOfComments
+     * @param comments
+     * @return A list of comment rows for comments from giverEmail.
+     */
+    private List<CommentRow> generateCommentRows(StudentAttributes student, InstructorAttributes instructor,
+            String giverEmail, int totalNumOfComments, List<CommentAttributes> comments) {
+        List<CommentRow> commentDivs = new ArrayList<CommentRow>();
+        
+        for (CommentAttributes comment : comments) {
+            String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
+            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
+            CommentRow commentDiv = new CommentRow(comment, giverEmail, unsanitizedRecipientDetails);
+            String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
+            commentDiv.setVisibilityIcon(whoCanSeeComment);
+            
+            boolean canModifyComment = COMMENT_GIVER_NAME_THAT_COMES_FIRST.equals(giverEmail)
+                                       || instructor.isAllowedForPrivilege(student.section,
+                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+            
+            if (canModifyComment) {
+                commentDiv.setEditDeleteEnabled(false);
+            }
+            commentDiv.setNotFromCommentsPage(student.email);
+            commentDiv.setNumComments(totalNumOfComments);
+            commentDivs.add(commentDiv);
+        }
+        
+        return commentDivs;
     }
 
 }

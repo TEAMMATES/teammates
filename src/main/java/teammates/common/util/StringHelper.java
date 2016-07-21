@@ -38,9 +38,9 @@ public final class StringHelper {
     }
     
     /**
-     * Check whether the input string matches the regex repression
+     * Check whether the input string matches the regex
      * @param input The string to be matched
-     * @param regex The regex repression used for the matching
+     * @param regex The regex  used for the matching
      */
     public static boolean isMatching(String input, String regex) {
         // Important to use the CANON_EQ flag to make sure that canonical characters
@@ -53,7 +53,7 @@ public final class StringHelper {
      * Currently only used in header row processing in StudentAttributesFactory: locateColumnIndexes
      * Case Insensitive
      * @param input The string to be matched
-     * @param regexArray The regex repression array used for the matching
+     * @param regexArray The regex array used for the matching
      */
     public static boolean isAnyMatching(String input, String[] regexArray) {
         for (String regex : regexArray) {

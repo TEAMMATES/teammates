@@ -21,7 +21,7 @@ import teammates.common.util.EmailWrapper;
  * @see MailjetRequest
  * @see MailjetResponse
  */
-public class MailjetService implements EmailSenderService {
+public class MailjetService extends EmailSenderService {
     
     /**
      * {@inheritDoc}
@@ -46,11 +46,8 @@ public class MailjetService implements EmailSenderService {
         return request;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void sendEmail(EmailWrapper wrapper) throws MailjetException {
+    protected void sendEmailWithService(EmailWrapper wrapper) throws MailjetException {
         MailjetRequest email = parseToEmail(wrapper);
         MailjetClient mailjet = new MailjetClient(Config.MAILJET_APIKEY, Config.MAILJET_SECRETKEY);
         MailjetResponse response = mailjet.post(email);

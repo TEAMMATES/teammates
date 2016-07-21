@@ -1,19 +1,39 @@
 var NEW_QUESTION = -1;
 
+var WARNING_DISCARD_CHANGES = 'Warning: Any unsaved changes will be lost';
+var CONFIRM_DISCARD_CHANGES = 'Are you sure you want to discard your unsaved edits?';
+var CONFIRM_DISCARD_NEW_QNS = 'Are you sure you want to discard this question?';
+
+var WARNING_DELETE_QNS = 'Warning: Deleted question cannot be recovered';
+var CONFIRM_DELETE_QNS = 'Are you sure you want to delete this question?';
+
+var WARNING_EDIT_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
+var CONFIRM_EDIT_DELETE_RESPONSES =
+        '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
+        + '<p>Are you sure you want to continue?</p>';
+
 var questionsBeforeEdit = [];
 
 $(document).ready(function() {
     readyFeedbackEditPage();
     bindUncommonSettingsEvents();
+    bindParticipantSelectChangeEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
+    hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
 });
 
-var WARNING_DELETE_RESPONSES = 'Warning: Existing responses will be deleted by your action';
-var CONFIRMATION_BODY =
-        '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
-        + '<p>Are you sure you want to continue?</p>';
-var CONFIRM_DELETE = 'Yes, continue and delete the existing responses.';
+function addLoadingIndicator(button, loadingText) {
+    button.html(loadingText);
+    button.prop('disabled', true);
+    button.append('<img src="/images/ajax-loader.gif">');
+}
+
+function removeLoadingIndicator(button, displayText) {
+    button.empty();
+    button.html(displayText);
+    button.prop('disabled', false);
+}
 
 /**
  * This function is called on edit page load.
@@ -25,26 +45,40 @@ function readyFeedbackEditPage() {
     // Hide option tables
     $('.visibilityOptions').hide();
     
+    // AddQuestion button should be disabled on click to prevent double submissions
+    $('#button_submit_add').click(function() {
+        addLoadingIndicator($(this), 'Saving ');
+    });
+    
     // Bind submit text links
     $('a[id|=questionsavechangestext]').click(function() {
+        var form = $(this).parents('form.form_question');
+        prepareDescription(form);
+
         $(this).parents('form.form_question').submit();
     });
     
     // Bind submit actions
     $('form[id|=form_editquestion]').submit(function(event) {
+        prepareDescription($(event.currentTarget));
         if ($(this).attr('editStatus') === 'mustDeleteResponses') {
             event.preventDefault();
             var okCallback = function() {
                 event.currentTarget.submit();
             };
             BootboxWrapper.showModalConfirmation(
-                    WARNING_DELETE_RESPONSES, CONFIRMATION_BODY, okCallback, null,
-                    CONFIRM_DELETE, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+                    WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
+                    BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                    StatusType.DANGER);
         }
     });
 
     $('form.form_question').submit(function() {
-        return checkFeedbackQuestion(this);
+        var formStatus = checkFeedbackQuestion(this);
+        if (!formStatus) {
+            removeLoadingIndicator($('#button_submit_add'), 'Save Question');
+        }
+        return formStatus;
     });
 
     // Bind destructive changes
@@ -81,11 +115,22 @@ function readyFeedbackEditPage() {
     bindFeedbackSessionEditFormSubmission();
 }
 
+function prepareDescription(form) {
+    var questionNum = form.find('input[name^="questionnum"]').val();
+    tinyMCE.get('questiondescription-' + questionNum).save();
+    var descr = form.find('input[name^="questiondescription"]');
+    descr.attr('name', 'questiondescription');
+}
+
 function bindFeedbackSessionEditFormSubmission() {
     $('#form_feedbacksession').submit(function(event) {
         // Prevent form submission
         event.preventDefault();
         
+        // populate hidden input
+        if (typeof tinyMCE !== 'undefined') {
+            tinyMCE.get('instructions').save();
+        }
         var $form = $(event.target);
         // Use Ajax to submit form data
         $.ajax({
@@ -111,6 +156,16 @@ function bindFeedbackSessionEditFormSubmission() {
     });
 }
 
+function destroyEditor(id) {
+    if (typeof tinyMCE === 'undefined') {
+        return;
+    }
+    var currentEditor = tinyMCE.get(id);
+    if (currentEditor) {
+        currentEditor.destroy();
+    }
+}
+
 /**
  * Disables the editing of feedback session details.
  */
@@ -121,6 +176,15 @@ function disableEditFS() {
     });
     $('#form_feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
+
+    destroyEditor('instructions');
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            readonly: true
+        });
+    }
+
     $('#fsEditLink').show();
     $('#fsSaveLink').hide();
     $('#button_submit').hide();
@@ -155,6 +219,16 @@ function enableEditFS() {
                               .not($sessionOpeningReminder)
                               .not('.disabled')
                               .prop('disabled', false);
+
+    destroyEditor('instructions');
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            fixed_toolbar_container: '#richtext-toolbar-container'
+        });
+        /* eslint-enable camelcase */
+    }
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit').show();
@@ -201,6 +275,17 @@ function backupQuestion(questionNum) {
  * @param questionNum
  */
 function enableQuestion(questionNum) {
+    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container-' + questionNum
+        });
+        /* eslint-enable camelcase */
+    }
+    $('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum).removeClass('well');
+
     var $currentQuestionTable = $('#questionTable' + questionNum);
     
     $currentQuestionTable.find('text,button,textarea,select,input')
@@ -250,7 +335,7 @@ function enableQuestion(questionNum) {
     
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).hide();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).show();
-    $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + questionNum).show();
+    $('#' + FEEDBACK_QUESTION_DISCARDCHANGES + '-' + questionNum).show();
     $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('edit');
     $('#button_question_submit-' + questionNum).show();
 }
@@ -261,6 +346,16 @@ function enableNewQuestion() {
     var $currentQuestionTableSuffix = $('#questionTable' + newQnSuffix);
     var $currentQuestionTableNumber = $('#questionTable' + NEW_QUESTION);
     
+    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION);
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container'
+        });
+        /* eslint-enable camelcase */
+    }
+
     $currentQuestionTableSuffix.find('text,button,textarea,select,input')
                                .not('[name="receiverFollowerCheckbox"]')
                                .not('.disabled_radio')
@@ -300,6 +395,18 @@ function enableNewQuestion() {
  * @param questionNum
  */
 function disableQuestion(questionNum) {
+    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum);
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum, {
+            inline: true,
+            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container-' + questionNum,
+            readonly: true
+        });
+        /* eslint-enable camelcase */
+    }
+    $('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum).addClass('well');
+
     var $currentQuestionTable = $('#questionTable' + questionNum);
 
     $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
@@ -343,31 +450,40 @@ function deleteQuestion(questionNum) {
     if (questionNum === NEW_QUESTION) {
         location.reload();
         return false;
-    } else if (confirm('Are you sure you want to delete this question?')) {
+    }
+
+    var okCallback = function() {
         $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('delete');
         $('#form_editquestion-' + questionNum).submit();
-        return true;
-    }
+    };
+    BootboxWrapper.showModalConfirmation(
+            WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback, null,
+            BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+            StatusType.DANGER);
     return false;
 }
 
 /**
- * Allows users to cancel editing questions
+ * Allows users to discard unsaved edits to the question
  */
-function cancelEdit(questionNum) {
+function discardChanges(questionNum) {
     var confirmationMsg = questionNum === NEW_QUESTION
-                        ? 'Are you sure you want to cancel adding this question?'
-                        : 'Are you sure you want to cancel your changes?';
-    if (confirm(confirmationMsg)) {
-        discardChanges(questionNum);
-    }
+                          ? CONFIRM_DISCARD_NEW_QNS
+                          : CONFIRM_DISCARD_CHANGES;
+    var okCallback = function() {
+        restoreOriginal(questionNum);
+    };
+    BootboxWrapper.showModalConfirmation(
+            WARNING_DISCARD_CHANGES, confirmationMsg, okCallback, null,
+            BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+            StatusType.WARNING);
 }
 
 /**
  * Discards new changes made and restores the original question
  * @param questionNum
  */
-function discardChanges(questionNum) {
+function restoreOriginal(questionNum) {
     if (questionNum === NEW_QUESTION) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
@@ -375,7 +491,7 @@ function discardChanges(questionNum) {
 
         $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).show();
         $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
-        $('#' + FEEDBACK_QUESTION_CANCELEDIT + '-' + questionNum).hide();
+        $('#' + FEEDBACK_QUESTION_DISCARDCHANGES + '-' + questionNum).hide();
         $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + questionNum).val('');
         $('#button_question_submit-' + questionNum).hide();
     }
@@ -387,6 +503,10 @@ function discardChanges(questionNum) {
 function hideNewQuestionAndShowNewQuestionForm() {
     $('#questionTableNew').hide();
     $('#addNewQuestionTable').show();
+
+    // re-enables all feedback path options, which may have been hidden by team contribution question
+    $('#givertype').find('option').show().prop('disabled', false);
+    $('#recipienttype').find('option').show().prop('disabled', false);
 }
 
 /**
@@ -464,6 +584,7 @@ function showNewQuestionFrame(type) {
 	
     copyOptions();
     prepareQuestionForm(type);
+    hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
     $('#questionTableNew').show();
     enableNewQuestion();
     
@@ -471,7 +592,8 @@ function showNewQuestionFrame(type) {
     $('#empty_message').hide();
     scrollToElement($('#questionTableNew')[0], { duration: 1000 });
     $('#questionTableNew').find('.visibilityOptions').hide();
-    getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
+
+    getVisibilityMessageIfPreviewIsActive($('#questionTableNew'));
 }
 
 function hideAllNewQuestionForms() {
@@ -486,17 +608,15 @@ function hideAllNewQuestionForms() {
 }
 
 function prepareQuestionForm(type) {
+    hideAllNewQuestionForms();
+    
     switch (type) {
     case 'TEXT':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_TEXT);
-        
-        hideAllNewQuestionForms();
         break;
     case 'MCQ':
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MCQ);
-        
-        hideAllNewQuestionForms();
         
         $('#mcqForm').show();
         break;
@@ -504,14 +624,10 @@ function prepareQuestionForm(type) {
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MSQ);
         
-        hideAllNewQuestionForms();
-        
         $('#msqForm').show();
         break;
     case 'NUMSCALE':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
-        
-        hideAllNewQuestionForms();
         
         $('#numScaleForm').show();
         $('#' + FEEDBACK_QUESTION_TEXT).attr('placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
@@ -522,8 +638,6 @@ function prepareQuestionForm(type) {
         $('#constSumOption_Recipient-' + NEW_QUESTION).hide();
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
         
-        hideAllNewQuestionForms();
-        
         $('#constSumForm').show();
         break;
     case 'CONSTSUM_RECIPIENT':
@@ -532,8 +646,6 @@ function prepareQuestionForm(type) {
         $('#constSumOption_Recipient-' + NEW_QUESTION).show();
         hideConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
-        
-        hideAllNewQuestionForms();
         
         $('#constSumForm').show();
         var optionText = $('#constSum_labelText-' + NEW_QUESTION).text();
@@ -544,8 +656,6 @@ function prepareQuestionForm(type) {
     case 'CONTRIB':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
         
-        hideAllNewQuestionForms();
-        
         $('#contribForm').show();
         fixContribQnGiverRecipient();
         setDefaultContribQnVisibility();
@@ -553,8 +663,6 @@ function prepareQuestionForm(type) {
         break;
     case 'RUBRIC':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
-        
-        hideAllNewQuestionForms();
         
         $('#rubricForm').show();
         break;
@@ -564,8 +672,6 @@ function prepareQuestionForm(type) {
         $('#rankOption_Recipient-' + NEW_QUESTION).hide();
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
         
-        hideAllNewQuestionForms();
-        
         $('#rankOptionsForm').show();
         break;
     case 'RANK_RECIPIENTS':
@@ -573,8 +679,6 @@ function prepareQuestionForm(type) {
         $('#rankOption_Option-' + NEW_QUESTION).hide();
         hideRankOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
-        
-        hideAllNewQuestionForms();
         
         $('#rankRecipientsForm').show();
         break;
@@ -627,68 +731,8 @@ function copyOptions() {
     $currTable.each(function(index) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
-    feedbackGiverUpdateVisibilityOptions($currGiver);
-    feedbackRecipientUpdateVisibilityOptions($currRecipient);
-}
 
-function enableRow(elem, row) {
-    var $visibilityOptions = $(elem).closest('form').find('.visibilityOptions');
-    var $table = $visibilityOptions.find('table');
-    var $tdElements = $($table.children().children()[row]).children();
-    
-    if ($tdElements.parent().prop('tagName') === 'tr') {
-        return;
-    }
-    $tdElements.unwrap().wrapAll('<tr>');
-}
-
-function disableRow(elem, row) {
-    var $visibilityOptions = $(elem).closest('form').find('.visibilityOptions');
-    var $table = $visibilityOptions.find('table');
-    var $tdElements = $($table.children().children()[row]).children();
-    
-    if ($tdElements.parent().prop('tagName') === 'hide') {
-        return;
-    }
-    $tdElements.unwrap().wrapAll('<hide>');
-    $tdElements.parent().hide();
-}
-
-function feedbackRecipientUpdateVisibilityOptions(elem) {
-    var $elem = $(elem);
-    if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType($elem.val())) {
-        // show the row Recipient(s) and hide the row Recipient's Team Members
-        enableRow($elem, 1);
-        disableRow($elem, 3);
-        return;
-    } else if ($elem.val() === 'NONE') {
-        // hide both the row Recipient(s) and the row Recipient's Team Members
-        disableRow($elem, 3);
-        disableRow($elem, 1);
-        return;
-    }
-    
-    enableRow($elem, 1);
-    enableRow($elem, 3);
-}
-
-/**
- * Returns true if "recipient's team members" visibility option
- * is not applicable for the recipient type
- */
-function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType) {
-    return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS'
-           || recipientType === 'INSTRUCTORS' || recipientType === 'OWN_TEAM_MEMBERS'
-           || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
-}
-
-function feedbackGiverUpdateVisibilityOptions(elem) {
-    var $elem = $(elem);
-    if ($elem.val() === 'INSTRUCTORS' || $elem.val() === 'TEAMS') {
-        disableRow($elem, 2);
-        return;
-    }
-    enableRow($elem, 2);
+    matchVisibilityOptionToFeedbackPath($currGiver);
 }
 
 /**
@@ -756,14 +800,19 @@ function bindCopyButton() {
         var index = 0;
         var hasRowSelected = false;
 
-        $('#copyTableModal >tbody>tr').each(function() {
-            var input = $(this).children('input:first');
+        $('#copyTableModal > tbody > tr').each(function() {
+            var $this = $(this);
+            var questionIdInput = $this.children('input:first');
             
-            if (!input.length) {
+            if (!questionIdInput.length) {
                 return true;
             }
-            if ($(this).hasClass('row-selected')) {
-                $(input).attr('name', 'questionid-' + index++);
+            if ($this.hasClass('row-selected')) {
+                $(questionIdInput).attr('name', 'questionid-' + index);
+                $this.find('input.courseid').attr('name', 'courseid-' + index);
+                $this.find('input.fsname').attr('name', 'fsname-' + index);
+                
+                index += 1;
                 hasRowSelected = true;
             }
         });
@@ -811,3 +860,62 @@ function getQuestionIdSuffix(questionNum) {
     return idSuffix;
 }
 
+function bindParticipantSelectChangeEvents() {
+    $('body').on('change', 'select[name="givertype"]', function() {
+        var $recipientSelect = $(this).closest('.form_question').find('select[name="recipienttype"]');
+        $recipientSelect.find('option').show();
+        hideInvalidRecipientTypeOptions($(this));
+    });
+}
+
+function hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions() {
+    $('.form_question').not('[name="form_addquestions"]').find('select[name="givertype"]').each(function() {
+        hideInvalidRecipientTypeOptions($(this));
+    });
+}
+
+function hideInvalidRecipientTypeOptionsForNewlyAddedQuestion() {
+    hideInvalidRecipientTypeOptions($('form[name="form_addquestions"]').find('select[name="givertype"]'));
+}
+
+function hideInvalidRecipientTypeOptions($giverSelect) {
+    var giverType = $giverSelect.val();
+    var $recipientSelect = $giverSelect.closest('.form_question').find('select[name="recipienttype"]');
+    var recipientType = $recipientSelect.val();
+    switch (giverType) {
+    case 'STUDENTS':
+        // all recipientType options enabled
+        break;
+    case 'SELF':
+    case 'INSTRUCTORS':
+        hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
+        hideOption($recipientSelect, 'OWN_TEAM_MEMBERS_INCLUDING_SELF');
+        if (recipientType === 'OWN_TEAM_MEMBERS' || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF') {
+            setRecipientSelectToFirstVisibleOption($recipientSelect);
+        }
+        break;
+    case 'TEAMS':
+        hideOption($recipientSelect, 'OWN_TEAM');
+        hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
+        if (recipientType === 'OWN_TEAM' || recipientType === 'OWN_TEAM_MEMBERS') {
+            setRecipientSelectToFirstVisibleOption($recipientSelect);
+        }
+        break;
+    default:
+        throw 'Unexpected giverType';
+    }
+}
+
+function hideOption($containingSelect, value) {
+    $containingSelect.find('option[value="' + value + '"]').hide();
+}
+
+function setRecipientSelectToFirstVisibleOption($recipientSelect) {
+    $recipientSelect.find('option').each(function() {
+        var $recipientOption = $(this);
+        if ($recipientOption.css('display') !== 'none') {
+            $recipientSelect.val($recipientOption.val());
+            return false;
+        }
+    });
+}

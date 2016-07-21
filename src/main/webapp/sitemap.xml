@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url> 
-    <loc>http://teammatesv4.appspot.com/index.html</loc> 
+    <loc>http://teammatesv4.appspot.com/index.jsp</loc> 
     <changefreq>yearly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -17,7 +17,7 @@
     </image:image>
   </url>
   <url> 
-    <loc>http://teammatesv4.appspot.com/features.html</loc> 
+    <loc>http://teammatesv4.appspot.com/features.jsp</loc> 
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -62,7 +62,7 @@
     </image:image>
   </url>
   <url> 
-    <loc>http://teammatesv4.appspot.com/about.html</loc> 
+    <loc>http://teammatesv4.appspot.com/about.jsp</loc> 
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -72,7 +72,7 @@
     </image:image>
   </url>
   <url> 
-    <loc>http://teammatesv4.appspot.com/contact.html</loc> 
+    <loc>http://teammatesv4.appspot.com/contact.jsp</loc> 
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
     <image:image>
@@ -82,7 +82,7 @@
     </image:image>
   </url>
   <url> 
-    <loc>http://teammatesv4.appspot.com/terms.html</loc> 
+    <loc>http://teammatesv4.appspot.com/terms.jsp</loc> 
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
     <image:image>
@@ -92,7 +92,17 @@
     </image:image>
   </url>
   <url> 
-    <loc>http://teammatesv4.appspot.com/request.html</loc> 
+    <loc>http://teammatesv4.appspot.com/request.jsp</loc> 
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+       <image:loc>http://teammatesv4.appspot.com/images/teammateslogo.jpg</image:loc>
+       <image:title>Teammates Online Peer Feedback System for Student Team Projects</image:title>
+       <image:caption>Teammates is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+  </url>
+  <url> 
+    <loc>http://teammatesv4.appspot.com/usermap.jsp</loc> 
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
     <image:image>

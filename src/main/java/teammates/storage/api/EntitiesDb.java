@@ -14,6 +14,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.datastore.Datastore;
@@ -22,7 +23,6 @@ import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
@@ -282,19 +282,7 @@ public abstract class EntitiesDb {
     }
     
     public void deletePicture(BlobKey key) {
-        try {
-            BlobstoreServiceFactory.getBlobstoreService().delete(key);
-        } catch (Exception e) {
-            log.warning("tried to delete non-existent picture");
-        }
-    }
-    
-    public void deletePictures(BlobKey[] keys) {
-        try {
-            BlobstoreServiceFactory.getBlobstoreService().delete(keys);
-        } catch (Exception e) {
-            log.warning("tried to delete non-existent pictures");
-        }
+        GoogleCloudStorageHelper.deleteFile(key);
     }
     
     /**

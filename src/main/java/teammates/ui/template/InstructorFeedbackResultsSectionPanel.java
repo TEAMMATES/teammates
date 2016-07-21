@@ -37,6 +37,13 @@ public class InstructorFeedbackResultsSectionPanel {
         participantPanels = new LinkedHashMap<String, List<InstructorFeedbackResultsParticipantPanel>>();
     }
     
+    public InstructorFeedbackResultsSectionPanel(String name, String nameForDisplay, boolean loadByAjax) {
+        this();
+        sectionName = name;
+        sectionNameForDisplay = nameForDisplay;
+        isLoadSectionResponsesByAjax = loadByAjax;
+    }
+
     /**
      * Adds a participant panel. The participant panel will not be grouped with any team panel.
      * @see {@link #addParticipantPanel(String, InstructorFeedbackResultsParticipantPanel)}

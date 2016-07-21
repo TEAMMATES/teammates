@@ -8,7 +8,7 @@
 
 <div class="panel-body">
     <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE%>"
-            id="formEditInstructor${instructorPanel.index}>" name="formEditInstructors" class="form form-horizontal" >
+            id="formEditInstructor${instructorPanel.index}" name="formEditInstructors" class="form form-horizontal" >
         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${instructorPanel.instructor.courseId}">
         <c:if test="${not empty instructorPanel.instructor.googleId}" >
             <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="${instructorPanel.instructor.googleId}">
