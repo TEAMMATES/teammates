@@ -20,10 +20,10 @@ $(document).ready(function() {
     });
     
     /**
-     * Triggering keyup event for all text question type textfields, to call
+     * Triggering input event for all text question type textfields, to call
      * function that finds out input length.
      */
-    $('textarea[id^="responsetext-"]').keyup();
+    $('textarea[id^="responsetext-"]').trigger('input');
 
     $('form[name="form_submit_response"]').submit(function() {
         formatRubricQuestions();
