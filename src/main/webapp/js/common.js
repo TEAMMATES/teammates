@@ -616,7 +616,6 @@ function setStatusMessageToForm(message, status, form) {
     var $copyOfStatusMessagesToUser = $statusMessagesToUser.clone().show();
     $statusMessagesToUser.remove();
     $(form).prepend($copyOfStatusMessagesToUser);
-    
 }
 
 /**
