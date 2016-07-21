@@ -783,7 +783,8 @@
             ],
             "showRecipientNameTo":[
                 "INSTRUCTORS"
-            ]
+            ],
+            "feedbackPathAttributesList":[]
             
         },
         "qn2InSession1InCourse1":{
@@ -808,7 +809,8 @@
             "showRecipientNameTo":[
                 "INSTRUCTORS",
                 "RECEIVER"
-            ]
+            ],
+            "feedbackPathAttributesList":[]
             
         },
         "qn3InSession1InCourse1":{
@@ -840,7 +842,8 @@
                 "OWN_TEAM_MEMBERS",
                 "STUDENTS",
                 "INSTRUCTORS"
-            ]
+            ],
+            "feedbackPathAttributesList":[]
             
         },
         "qn4InSession1InCourse1":{
@@ -887,12 +890,9 @@
             "giverType":"CUSTOM",
             "recipientType":"CUSTOM",
             "numberOfEntitiesToGiveFeedbackTo":-100,
-            "showResponsesTo":[
-            ],
-            "showGiverNameTo":[
-            ],
-            "showRecipientNameTo":[
-            ],
+            "showResponsesTo":[],
+            "showGiverNameTo":[],
+            "showRecipientNameTo":[],
             "feedbackPathAttributesList":[
                 {"courseId":"idOfTypicalCourse1","giver":"student1InCourse1@gmail.tmt (Student)","recipient":"student1InCourse1@gmail.tmt (Student)"}
             ]

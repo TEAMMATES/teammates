@@ -13,6 +13,10 @@ public class FeedbackPathAttributes extends EntityAttributes {
     private String giver;
     private String recipient;
     
+    public FeedbackPathAttributes() {
+        // attributes to be set after construction
+    }
+    
     public FeedbackPathAttributes(String feedbackPathId, String courseId, String giver, String recipient) {
         this.feedbackPathId = feedbackPathId;
         this.courseId = courseId;
