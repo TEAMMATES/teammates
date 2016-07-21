@@ -1613,7 +1613,7 @@ public class FeedbackSessionsLogic {
         try {
             EmailWrapper email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmails(
                     session, student, instructor);
-            new EmailSender().sendEmailWithLogging(email);
+            new EmailSender().sendEmail(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException(ERROR_SENDING_EMAILS, e);
