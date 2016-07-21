@@ -875,6 +875,50 @@
             ]
             
         },
+        "custom.feedback.paths.student.question":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"A particular student's feedback about their own progress"
+            },
+            "questionNumber":"5",
+            "questionType":"TEXT",
+            "giverType":"CUSTOM",
+            "recipientType":"CUSTOM",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+            ],
+            "showGiverNameTo":[
+            ],
+            "showRecipientNameTo":[
+            ],
+            "feedbackPathAttributesList":[
+                {"courseId":"idOfTypicalCourse1","giver":"student1InCourse1@gmail.tmt (Student)","recipient":"student1InCourse1@gmail.tmt (Student)"}
+            ]
+        },
+        "custom.feedback.paths.instructor.question":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"A particular instructor's feedback about their own progress"
+            },
+            "questionNumber":"6",
+            "questionType":"TEXT",
+            "giverType":"CUSTOM",
+            "recipientType":"CUSTOM",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+            ],
+            "showGiverNameTo":[
+            ],
+            "showRecipientNameTo":[
+            ],
+            "feedbackPathAttributesList":[
+                {"courseId":"idOfTypicalCourse1","giver":"instructor2@course1.tmt (Instructor)","recipient":"instructor2@course1.tmt (Instructor)"}
+            ]
+        },
         "team.feedback":{
             "feedbackSessionName":"Second feedback session",
             "courseId":"idOfTypicalCourse1",
