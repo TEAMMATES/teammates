@@ -12,7 +12,7 @@ There are two factors to consider:
 - Whether the library is for production or non-production code
 - Whether the library is needed for compile-time or runtime only
 
-Add the library in the appropriate section in the `build.gradle` file.
+Add the library based on the name listed in [Maven Central](http://search.maven.org) in the appropriate section in the `build.gradle` file.
 
 ## Updating libraries
 
@@ -30,9 +30,18 @@ Sometimes, the changes from this command might not show up in Eclipse immediatel
 
 # Managing Client-Side Dependencies
 
-Currently, the dependencies for CSS/JS are hosted in the repository and listed down in `src/main/webapp/package.json`.
+The dependencies for CSS/JS are hosted in the repository and additionally listed down in `src/main/webapp/package.json` for versioning purpose.
 
-When adding new libraries, try to find the library in the [npm registry](https://www.npmjs.com) and if it can be found, list it in the aforementioned package file, then download and include the necessary library files (usually in `/dist` or `/build` folder) in the repository.
-Node.js developers can do this with the command `npm install --save package@version`. Remember to exclude any non-exact version syntax (e.g `^` and `~`) in the package file as we require specific versions.
+The recommended way to add/update client-side dependencies is using [NPM](https://nodejs.org).
+Obtain the package name and version number as listed in [NPM registry](https://www.npmjs.com), then run the following command to obtain a local copy of the package and simultaneously update the package file:
 
-Otherwise, simply host the necessary library files in the repository without updating the package file.
+```sh
+npm install --prefix src/main/webapp --save --save-exact package@version
+
+# Alternatively, navigate to the src/main/webapp directory and run the shorter version of the command:
+npm install --save --save-exact package@version
+```
+
+Afterwards, copy the necessary package files (usually in the `/dist` or `/build` folder of the package) into the appropriate directory in the repository.
+
+If the library cannot be found in NPM, simply host a local copy in the repository without updating the package file.
