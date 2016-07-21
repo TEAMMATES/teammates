@@ -317,8 +317,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         long deadlineMillis = deadline.getTimeInMillis();
         long differenceBetweenNowAndDeadline = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
         
-        return differenceBetweenNowAndDeadline >= 0
-               && differenceBetweenNowAndDeadline < 1;
+        return differenceBetweenNowAndDeadline == 0;
     }
 
     /**

@@ -141,7 +141,8 @@ public class FeedbackSessionClosedReminderTest extends BaseComponentUsingTaskQue
         
         for (EmailWrapper email : preparedEmails) {
             assertEquals(String.format(EmailType.FEEDBACK_CLOSED.getSubject(), course1Name,
-                                       session1.getFeedbackSessionName()), email.getSubject());
+                                       session1.getFeedbackSessionName()),
+                         email.getSubject());
         }
         
         // Reuse an existing session to create a new one that is closed
