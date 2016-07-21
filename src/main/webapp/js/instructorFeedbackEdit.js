@@ -45,11 +45,6 @@ function readyFeedbackEditPage() {
     // Hide option tables
     $('.visibilityOptions').hide();
     
-    // AddQuestion button should be disabled on click to prevent double submissions
-    $('#button_submit_add').click(function() {
-        addLoadingIndicator($(this), 'Saving ');
-    });
-    
     // Bind submit text links
     $('a[id|=questionsavechangestext]').click(function() {
         var form = $(this).parents('form.form_question');
@@ -74,6 +69,7 @@ function readyFeedbackEditPage() {
     });
 
     $('form.form_question').submit(function() {
+        addLoadingIndicator($('#button_submit_add'), 'Saving ');
         var formStatus = checkFeedbackQuestion(this);
         if (!formStatus) {
             removeLoadingIndicator($('#button_submit_add'), 'Save Question');
