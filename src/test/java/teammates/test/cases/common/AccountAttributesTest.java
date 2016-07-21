@@ -25,7 +25,7 @@ public class AccountAttributesTest extends BaseTestCase {
     }
     
     @Test
-    public void testGetInvalidStateInfo() {
+    public void testGetInvalidStateInfo() throws Exception {
         ______TS("valid account");
         
         AccountAttributes account = createValidAccountAttributesObject();

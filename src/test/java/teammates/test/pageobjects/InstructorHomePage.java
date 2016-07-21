@@ -58,23 +58,23 @@ public class InstructorHomePage extends AppPage {
     }
 
     public void clickSortByIdButton() {
-        sortByIdButton.click();
+        click(sortByIdButton);
         waitForPageToLoad();
     }
     
     public void clickSortByNameButton() {
-        sortByNameButton.click();
+        click(sortByNameButton);
         waitForPageToLoad();
     }
     
     public void clickSortByDateButton() {
-        sortByDateButton.click();
+        click(sortByDateButton);
         waitForPageToLoad();
     }
 
     private void clickElements(List<WebElement> elements) {
         for (WebElement ele : elements) {
-            ele.click();
+            click(ele);
         }
     }
     
@@ -91,26 +91,26 @@ public class InstructorHomePage extends AppPage {
     }
 
     public InstructorCourseEnrollPage clickCourseErollLink(String courseId) {
-        getCourseLinkInRow("course-enroll-for-test", getCourseRowId(courseId)).click();
+        click(getCourseLinkInRow("course-enroll-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollPage.class);
     }
     
     public InstructorCourseDetailsPage clickCourseViewLink(String courseId) {
-        getCourseLinkInRow("course-view-for-test", getCourseRowId(courseId)).click();
+        click(getCourseLinkInRow("course-view-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         return changePageType(InstructorCourseDetailsPage.class);
     }
     
     public InstructorCourseEditPage clickCourseEditLink(String courseId) {
-        getCourseLinkInRow("course-edit-for-test", getCourseRowId(courseId)).click();
+        click(getCourseLinkInRow("course-edit-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         return changePageType(InstructorCourseEditPage.class);
     }
     
     //TODO: rename course-add-eval-for-test
     public InstructorFeedbacksPage clickCourseAddEvaluationLink(String courseId) {
-        getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)).click();
+        click(getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         ThreadHelper.waitBriefly();
         return changePageType(InstructorFeedbacksPage.class);
@@ -120,7 +120,7 @@ public class InstructorHomePage extends AppPage {
      * This is for customized feedback session
      */
     public InstructorFeedbackResultsPage clickFeedbackSessionViewResultsLink(String courseId, String fsName) {
-        getViewResultsLink(courseId, fsName).click();
+        click(getViewResultsLink(courseId, fsName));
         waitForPageToLoad();
         return changePageType(InstructorFeedbackResultsPage.class);
     }
@@ -129,7 +129,7 @@ public class InstructorHomePage extends AppPage {
      * This is for customized feedback session
      */
     public InstructorFeedbackEditPage clickFeedbackSessionEditLink(String courseId, String fsName) {
-        getEditLink(courseId, fsName).click();
+        click(getEditLink(courseId, fsName));
         waitForPageToLoad();
         return changePageType(InstructorFeedbackEditPage.class);
     }
@@ -148,7 +148,7 @@ public class InstructorHomePage extends AppPage {
      * This is for customized feedback session
      */
     public FeedbackSubmitPage clickFeedbackSessionSubmitLink(String courseId, String fsName) {
-        this.getSubmitLink(courseId, fsName).click();
+        click(getSubmitLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(FeedbackSubmitPage.class);
@@ -187,7 +187,7 @@ public class InstructorHomePage extends AppPage {
     public InstructorStudentListPage searchForStudent(String studentName) {
         searchBox.clear();
         searchBox.sendKeys(studentName);
-        searchButton.click();
+        click(searchButton);
         waitForPageToLoad();
         return changePageType(InstructorStudentListPage.class);
     }
@@ -202,6 +202,10 @@ public class InstructorHomePage extends AppPage {
     public void setViewResponseLinkValue(WebElement element, String newValue) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         js.executeScript("arguments[0].href=arguments[1]", element, newValue);
+    }
+    
+    public void clickViewResponseLink(String courseId, String evalName) {
+        click(getViewResponseLink(courseId, evalName));
     }
 
     public WebElement getViewResultsLink(String courseId, String evalName) {
@@ -229,7 +233,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     public void clickRemindOptionsLink(String courseId, String evalName) {
-        getRemindOptionsLink(courseId, evalName).click();
+        click(getRemindOptionsLink(courseId, evalName));
     }
     
     public WebElement getRemindInnerLink(String courseId, String evalName) {
@@ -241,13 +245,13 @@ public class InstructorHomePage extends AppPage {
     }
     
     public void clickRemindParticularUsersLink(String courseId, String evalName) {
-        getRemindParticularUsersLink(courseId, evalName).click();
+        click(getRemindParticularUsersLink(courseId, evalName));
         ThreadHelper.waitFor(1000);
     }
     
     public void cancelRemindParticularUsersForm() {
         WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
-        remindModal.findElement(By.tagName("button")).click();
+        click(remindModal.findElement(By.tagName("button")));
     }
     
     public void fillRemindParticularUsersForm() {
@@ -362,6 +366,6 @@ public class InstructorHomePage extends AppPage {
         
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
         waitForElementNotCovered(fsCopyButton);
-        fsCopyButton.click();
+        click(fsCopyButton);
     }
 }

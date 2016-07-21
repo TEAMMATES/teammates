@@ -30,7 +30,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() {
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         

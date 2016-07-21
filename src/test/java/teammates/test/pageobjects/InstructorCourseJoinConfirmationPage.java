@@ -20,13 +20,13 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
     }
 
     public InstructorHomePage clickConfirmButton() {
-        confirmButton.click();
+        click(confirmButton);
         waitForPageToLoad();
         return changePageType(InstructorHomePage.class);
     }
     
     public HomePage clickCancelButton() {
-        cancelButton.click();
+        click(cancelButton);
         waitForPageToLoad();
         return changePageType(HomePage.class);
     }

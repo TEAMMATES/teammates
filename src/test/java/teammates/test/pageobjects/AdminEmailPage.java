@@ -33,13 +33,13 @@ public class AdminEmailPage extends AppPage {
     }
     
     public void clickSendButton() {
-        this.getSendButton().click();
-        this.waitForPageToLoad();
+        click(getSendButton());
+        waitForPageToLoad();
     }
     
     public void clickSaveButton() {
-        this.getSaveButton().click();
-        this.waitForPageToLoad();
+        click(getSaveButton());
+        waitForPageToLoad();
     }
     
     public void clearSubjectBox() {
@@ -48,18 +48,18 @@ public class AdminEmailPage extends AppPage {
     }
     
     public void clickSentTab() {
-        this.getSentTab().click();
-        this.waitForPageToLoad();
+        click(getSentTab());
+        waitForPageToLoad();
     }
 
     public void clickDraftTab() {
-        this.getDraftTab().click();
-        this.waitForPageToLoad();
+        click(getDraftTab());
+        waitForPageToLoad();
     }
     
     public void clickTrashTab() {
-        this.getTrashTab().click();
-        this.waitForPageToLoad();
+        click(getTrashTab());
+        waitForPageToLoad();
     }
     
     private WebElement getRecipientBox() {

@@ -324,6 +324,7 @@ public class CommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updatedInstrEmail);
         
         updateInstructorEmailAsGiver(courseId, oldInstrEmail, updatedInstrEmail);
+        updateInstructorEmailAsLastEditorForStudentComments(courseId, oldInstrEmail, updatedInstrEmail);
         // for now, instructors can only be giver
         // updateInstructorEmailAsRecipient(courseId, oldInstrEmail, updatedInstrEmail);
     }
@@ -337,6 +338,21 @@ public class CommentsDb extends EntitiesDb {
         }
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
+        getPm().close();
+    }
+    
+    /*
+     * Updates last editor for all comments last edited by the given instructor with the instructor's new email
+     */
+    private void updateInstructorEmailAsLastEditorForStudentComments(String courseId, String oldInstrEmail,
+                                                                     String updatedInstrEmail) {
+        List<Comment> lastEditorComments = getCommentEntitiesForLastEditor(courseId, oldInstrEmail);
+        
+        for (Comment lastEditorComment : lastEditorComments) {
+            lastEditorComment.setLastEditorEmail(updatedInstrEmail);
+        }
+        log.info("updating last editor email from: " + oldInstrEmail + " to: " + updatedInstrEmail
+                 + " for student comments in the course: " + courseId);
         getPm().close();
     }
     
@@ -597,6 +613,20 @@ public class CommentsDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<Comment> commentList = (List<Comment>) q.execute(giverEmail, CommentStatus.DRAFT.toString());
+        
+        return getCommentsWithoutDeletedEntity(commentList);
+    }
+    
+    /*
+     * Gets a list of Comments which have a last editor associated with the given email
+     */
+    private List<Comment> getCommentEntitiesForLastEditor(String courseId, String lastEditorEmail) {
+        Query q = getPm().newQuery(Comment.class);
+        q.declareParameters("String courseIdParam, String lastEditorEmailParam");
+        q.setFilter("courseId == courseIdParam && lastEditorEmail == lastEditorEmailParam");
+        
+        @SuppressWarnings("unchecked")
+        List<Comment> commentList = (List<Comment>) q.execute(courseId, lastEditorEmail);
         
         return getCommentsWithoutDeletedEntity(commentList);
     }

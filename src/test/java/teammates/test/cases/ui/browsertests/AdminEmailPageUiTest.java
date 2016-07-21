@@ -30,14 +30,14 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void allTests() {
+    public void allTests() throws Exception {
         testCompose();
         testSent();
         testDraft();
         testTrash();
     }
     
-    private void testCompose() {
+    private void testCompose() throws Exception {
         ______TS("email compose page");
         
         emailPage = loginAdminToPage(
@@ -104,7 +104,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
             && emailPage.isElementPresent(By.id("composeSaveButton"));
     }
     
-    private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) {
+    private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) throws Exception {
         return emailPage.getStatus().contains(
                 getPopulatedErrorMessage(
                     FieldValidator.EMAIL_ERROR_MESSAGE, recipientName,
@@ -112,7 +112,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
                     FieldValidator.EMAIL_MAX_LENGTH));
     }
     
-    private boolean hasStatusMessageNoSubject() {
+    private boolean hasStatusMessageNoSubject() throws Exception {
         return emailPage.getStatus().equals(
                 getPopulatedErrorMessage(
                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",

@@ -31,14 +31,14 @@ public class InstructorStudentListPage extends AppPage {
 
     public InstructorCourseEnrollPage clickEnrollStudents(String courseId) {
         int courseNumber = getCourseNumber(courseId);
-        getEnrollLink(courseNumber).click();
+        click(getEnrollLink(courseNumber));
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollPage.class);
     }
 
     public InstructorCourseStudentDetailsViewPage clickViewStudent(String courseId, String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
-        getViewLink(rowId).click();
+        click(getViewLink(rowId));
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
@@ -46,7 +46,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public InstructorCourseStudentDetailsEditPage clickEditStudent(String courseId, String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
-        getEditLink(rowId).click();
+        click(getEditLink(rowId));
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorCourseStudentDetailsEditPage.class);
@@ -54,7 +54,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public InstructorStudentRecordsPage clickViewRecordsStudent(String courseId, String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
-        getViewRecordsLink(rowId).click();
+        click(getViewRecordsLink(rowId));
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorStudentRecordsPage.class);
@@ -62,14 +62,14 @@ public class InstructorStudentListPage extends AppPage {
 
     public InstructorStudentListPage clickDeleteAndCancel(String courseId, String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
-        getDeleteLink(rowId).click();
+        click(getDeleteLink(rowId));
         waitForConfirmationModalAndClickCancel();
         return this;
     }
 
     public InstructorStudentListPage clickDeleteAndConfirm(String courseId, String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
-        getDeleteLink(rowId).click();
+        click(getDeleteLink(rowId));
         waitForConfirmationModalAndClickOk();
         return this;
     }
@@ -78,24 +78,23 @@ public class InstructorStudentListPage extends AppPage {
         String rowId = getStudentRowId(courseId, studentName);
         WebElement photoCell = browser.driver.findElement(By.id("studentphoto-c" + rowId));
         WebElement photoLink = photoCell.findElement(By.tagName("a"));
-        Actions actions = new Actions(browser.driver);
-        actions.click(photoLink).build().perform();
+        click(photoLink);
         return this;
     }
 
     public void setSearchKey(String searchKey) {
         searchBox.clear();
         searchBox.sendKeys(searchKey);
-        searchButton.click();
+        click(searchButton);
     }
 
     public void checkCourse(int courseIdx) {
-        browser.driver.findElement(By.id("course_check-" + courseIdx)).click();
+        click(browser.driver.findElement(By.id("course_check-" + courseIdx)));
         waitForAjaxLoaderGifToDisappear();
     }
 
     public void clickDisplayArchiveOptions() {
-        displayArchiveOptions.click();
+        click(displayArchiveOptions);
     }
 
     public void verifyProfilePhoto(String courseId, String studentName, String profilePhotoSrc) {

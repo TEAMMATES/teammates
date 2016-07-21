@@ -63,7 +63,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testCreateStudent() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateStudent() throws Exception {
         
         StudentAttributes s = new StudentAttributes();
         s.name = "valid student";

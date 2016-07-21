@@ -11,6 +11,7 @@
         <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
         <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponseRate.js"></script>
         <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+        <script type="text/javascript" src="/js/lib/printthis.js"></script>
         ${jsIncludes}
     </jsp:attribute>
     <jsp:body>

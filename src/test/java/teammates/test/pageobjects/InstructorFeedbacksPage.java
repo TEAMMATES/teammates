@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.fail;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -120,78 +121,78 @@ public class InstructorFeedbacksPage extends AppPage {
     }
 
     public AppPage sortByName() {
-        sortByNameIcon.click();
+        click(sortByNameIcon);
         waitForPageToLoad();
         return this;
     }
     
     public AppPage sortById() {
-        sortByIdIcon.click();
+        click(sortByIdIcon);
         waitForPageToLoad();
         return this;
     }
 
     public void clickSubmitButton() {
-        submitButton.click();
+        click(submitButton);
         waitForPageToLoad();
     }
     
     public void clickEditUncommonSettingsButton() {
-        uncommonSettingsButton.click();
+        click(uncommonSettingsButton);
     }
     
     public void clickCustomVisibleTimeButton() {
-        customSessionVisibleTimeButton.click();
+        click(customSessionVisibleTimeButton);
     }
 
     public void clickCustomPublishTimeButton() {
-        customResultsVisibleTimeButton.click();
+        click(customResultsVisibleTimeButton);
     }
     
     public void clickNeverVisibleTimeButton() {
-        neverSessionVisibleTimeButton.click();
+        click(neverSessionVisibleTimeButton);
     }
     
     public void clickNeverPublishTimeButton() {
-        neverResultsVisibleTimeButton.click();
+        click(neverResultsVisibleTimeButton);
     }
     
     public void clickManualPublishTimeButton() {
-        manualResultsVisibleTimeButton.click();
+        click(manualResultsVisibleTimeButton);
     }
     
     public void clickDefaultVisibleTimeButton() {
-        defaultSessionVisibleTimeButton.click();
+        click(defaultSessionVisibleTimeButton);
     }
     
     public void clickDefaultPublishTimeButton() {
-        defaultResultsVisibleTimeButton.click();
+        click(defaultResultsVisibleTimeButton);
     }
     
     public void clickCopyButton() {
-        copyButton.click();
+        click(copyButton);
     }
     
     public void clickCopySubmitButton() {
-        copySubmitButton.click();
+        click(copySubmitButton);
         waitForPageToLoad();
     }
 
     public void clickViewResponseLink(String courseId, String sessionName) {
-        getViewResponseLink(courseId, sessionName).click();
+        click(getViewResponseLink(courseId, sessionName));
         waitForPageToLoad();
     }
     
     public void toggleSendOpenEmailCheckbox() {
-        sendOpenEmailCheckbox.click();
+        click(sendOpenEmailCheckbox);
     }
     
     public void toggleSendClosingEmailCheckbox() {
-        sendClosingEmailCheckbox.click();
+        click(sendClosingEmailCheckbox);
     }
     
     public void toggleSendPublishedEmailCheckbox() {
-        sendPublishedEmailCheckbox.click();
+        click(sendPublishedEmailCheckbox);
     }
     
     public void addFeedbackSessionWithTimeZone(
@@ -262,14 +263,14 @@ public class InstructorFeedbacksPage extends AppPage {
         WebElement row = browser.driver.findElement(By.id("copyTableModal"))
                                        .findElements(By.tagName("tr"))
                                        .get(rowIndex + 1);
-        row.click();
+        click(row);
     }
     
     public void clickCopyTableRadioButtonAtRow(int rowIndex) {
         WebElement button = browser.driver.findElement(By.id("copyTableModal"))
                                        .findElements(By.tagName("tr"))
                                        .get(rowIndex + 1).findElement(By.tagName("input"));
-        button.click();
+        click(button);
     }
     
     public void fillStartTime(Date startTime) {
@@ -309,15 +310,15 @@ public class InstructorFeedbacksPage extends AppPage {
     */
     public void fillTimeValueForDatePickerTest(String timeId, Calendar newValue) {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-
-        dateInputElement.click();
-
+        click(dateInputElement);
         dateInputElement.clear();
         dateInputElement.sendKeys(newValue.get(Calendar.DATE) + "/" + (newValue.get(Calendar.MONTH) + 1)
                                   + "/" + newValue.get(Calendar.YEAR));
 
-        js.executeScript("$('.ui-datepicker-current-day').click();");
+        List<WebElement> elements = browser.driver.findElements(By.className("ui-datepicker-current-day"));
+        for (WebElement element : elements) {
+            click(element);
+        }
     }
     
     public String getValueOfDate(String timeId) {
@@ -548,7 +549,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
 
     private <T extends AppPage> T goToLinkInRow(By locator, Class<T> destinationPageType) {
-        browser.driver.findElement(locator).click();
+        click(browser.driver.findElement(locator));
         waitForPageToLoad();
         return changePageType(destinationPageType);
     }
@@ -560,7 +561,7 @@ public class InstructorFeedbacksPage extends AppPage {
         waitForElementPresence(fsCopyButtonElement);
         
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
-        fsCopyButton.click();
+        click(fsCopyButton);
     }
     
     public void changeUserIdInAjaxForSessionsForm(String newUserId) {

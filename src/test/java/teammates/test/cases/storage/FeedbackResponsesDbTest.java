@@ -93,8 +93,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testCreateDeleteFeedbackResponse()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateDeleteFeedbackResponse() throws Exception {
         
         ______TS("standard success case");
         

@@ -2,6 +2,8 @@ package teammates.ui.template;
 
 import java.util.List;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -12,12 +14,14 @@ public class FeedbackSubmissionEditQuestion {
     private int qnIndx; // If not showing real question number
     private String questionId;
     private String questionText;
+    private String questionDescription;
     private List<String> visibilityMessages;
     private FeedbackQuestionType questionType;
     private int numberOfEntitiesToGiveFeedbackTo;
     private boolean isModeratedQuestion;
     private boolean isRecipientNameHidden;
-    private boolean isTeamQuestion;
+    private boolean isGiverTeam;
+    private boolean isRecipientTeam;
     
     public FeedbackSubmissionEditQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx,
                                     boolean isModeratedQuestion) {
@@ -27,12 +31,15 @@ public class FeedbackSubmissionEditQuestion {
         this.qnIndx = qnIndx;
         questionId = questionAttributes.getId();
         questionText = questionAttributes.getQuestionDetails().getQuestionText();
+        Text description = questionAttributes.getQuestionDescription();
+        questionDescription = description == null ? null : description.getValue();
         visibilityMessages = questionAttributes.getVisibilityMessage();
         questionType = questionAttributes.questionType;
         numberOfEntitiesToGiveFeedbackTo = questionAttributes.numberOfEntitiesToGiveFeedbackTo;
         this.isModeratedQuestion = isModeratedQuestion;
         isRecipientNameHidden = questionAttributes.isRecipientNameHidden();
-        isTeamQuestion = questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS);
+        isGiverTeam = questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS);
+        isRecipientTeam = questionAttributes.recipientType.isTeam();
     }
 
     public String getCourseId() {
@@ -54,7 +61,11 @@ public class FeedbackSubmissionEditQuestion {
     public String getQuestionText() {
         return questionText;
     }
-    
+
+    public String getQuestionDescription() {
+        return questionDescription;
+    }
+
     public List<String> getVisibilityMessages() {
         return visibilityMessages;
     }
@@ -75,7 +86,11 @@ public class FeedbackSubmissionEditQuestion {
         return isRecipientNameHidden;
     }
     
-    public boolean isTeamQuestion() {
-        return isTeamQuestion;
+    public boolean isGiverTeam() {
+        return isGiverTeam;
+    }
+    
+    public boolean isRecipientTeam() {
+        return isRecipientTeam;
     }
 }

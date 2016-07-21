@@ -81,6 +81,12 @@
                     Unpublish Results
                   </a>
                 </div>
+                <br>
+                <div>
+                  <button class="btn btn-primary btn-block" id="button-print" type="input">
+                    Print View
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -175,7 +181,7 @@
               <label class="col-sm-2 control-label" for="viewSelect">
                 Filter:
               </label>
-              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
+              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" id="filter-box-parent-div" title="">
                 <div class="input-group">
                   <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
                   <a class="input-group-addon btn btn-default">
@@ -385,7 +391,7 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th>
+                <th class="action-header">
                   Actions
                 </th>
               </tr>

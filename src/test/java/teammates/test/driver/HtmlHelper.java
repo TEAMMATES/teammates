@@ -2,17 +2,14 @@ package teammates.test.driver;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.cyberneko.html.parsers.DOMParser;
+import org.jsoup.Jsoup;
+import org.jsoup.helper.W3CDom;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -120,10 +117,8 @@ public final class HtmlHelper {
         }
     }
 
-    private static Node getNodeFromString(String string) throws SAXException, IOException {
-        DOMParser parser = new DOMParser();
-        parser.parse(new InputSource(new StringReader(string)));
-        return parser.getDocument();
+    private static Node getNodeFromString(String string) {
+        return new W3CDom().fromJsoup(Jsoup.parse(string));
     }
 
     private static String convertToStandardHtmlRecursively(Node currentNode, String indentation,

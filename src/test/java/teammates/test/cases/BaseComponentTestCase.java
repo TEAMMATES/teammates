@@ -111,12 +111,13 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     protected static void verifyPresentInDatastore(FeedbackQuestionAttributes expected, boolean wildcardId) {
-        FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(expected.feedbackSessionName,
-                                                                     expected.courseId, expected.questionNumber);
+        FeedbackQuestionAttributes expectedCopy = expected.getCopy();
+        FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
+                expectedCopy.feedbackSessionName, expectedCopy.courseId, expectedCopy.questionNumber);
         if (wildcardId) {
-            expected.setId(actual.getId());
+            expectedCopy.setId(actual.getId());
         }
-        assertEquals(gson.toJson(expected), gson.toJson(actual));
+        assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));
     }
     
     protected static void verifyAbsentInDatastore(FeedbackResponseCommentAttributes frc) {
@@ -142,13 +143,14 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     protected static void verifyPresentInDatastore(FeedbackResponseAttributes expected, boolean wildcardId) {
-        FeedbackResponseAttributes actual = frDb.getFeedbackResponse(expected.feedbackQuestionId,
-                                                                     expected.giver, expected.recipient);
+        FeedbackResponseAttributes expectedCopy = new FeedbackResponseAttributes(expected);
+        FeedbackResponseAttributes actual = frDb.getFeedbackResponse(
+                expectedCopy.feedbackQuestionId, expectedCopy.giver, expectedCopy.recipient);
         if (wildcardId) {
-            expected.setId(actual.getId());
+            expectedCopy.setId(actual.getId());
         }
         
-        assertEquals(gson.toJson(expected), gson.toJson(actual));
+        assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));
     }
     
     protected static void verifyAbsentInDatastore(FeedbackSessionAttributes fs) {
@@ -156,11 +158,12 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
     
     protected static void verifyPresentInDatastore(FeedbackSessionAttributes expected) {
+        FeedbackSessionAttributes expectedCopy = expected.getCopy();
         FeedbackSessionAttributes actual =
-                fsDb.getFeedbackSession(expected.getCourseId(), expected.getFeedbackSessionName());
-        expected.setRespondingInstructorList(actual.getRespondingInstructorList());
-        expected.setRespondingStudentList(actual.getRespondingStudentList());
-        assertEquals(gson.toJson(expected), gson.toJson(actual));
+                fsDb.getFeedbackSession(expectedCopy.getCourseId(), expected.getFeedbackSessionName());
+        expectedCopy.setRespondingInstructorList(actual.getRespondingInstructorList());
+        expectedCopy.setRespondingStudentList(actual.getRespondingStudentList());
+        assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));
     }
 
     protected static void verifyAbsentInDatastore(InstructorAttributes instructor) {
@@ -168,12 +171,13 @@ public class BaseComponentTestCase extends BaseTestCase {
     }
 
     protected static void verifyPresentInDatastore(InstructorAttributes expected) {
+        InstructorAttributes expectedCopy = expected.getCopy();
         InstructorAttributes actual = expected.googleId == null
-                                    ? instructorsDb.getInstructorForEmail(expected.courseId, expected.email)
-                                    : instructorsDb.getInstructorForGoogleId(expected.courseId, expected.googleId);
-        equalizeIrrelevantData(expected, actual);
+                                    ? instructorsDb.getInstructorForEmail(expectedCopy.courseId, expected.email)
+                                    : instructorsDb.getInstructorForGoogleId(expectedCopy.courseId, expected.googleId);
+        equalizeIrrelevantData(expectedCopy, actual);
 
-        assertTrue(expected.isEqualToAnotherInstructor(actual));
+        assertTrue(expectedCopy.isEqualToAnotherInstructor(actual));
     }
     
     private static void equalizeIrrelevantData(InstructorAttributes expectedInstructor,
@@ -191,10 +195,11 @@ public class BaseComponentTestCase extends BaseTestCase {
     
     protected static void verifyPresentInDatastore(StudentAttributes expected) {
         StudentAttributes actual = studentsDb.getStudentForEmail(expected.course, expected.email);
-        expected.updateStatus = UpdateStatus.UNKNOWN;
-        expected.lastName = StringHelper.splitName(expected.name)[1];
-        equalizeIrrelevantData(expected, actual);
-        assertEquals(gson.toJson(expected), gson.toJson(actual));
+        StudentAttributes expectedCopy = expected.getCopy();
+        expectedCopy.updateStatus = UpdateStatus.UNKNOWN;
+        expectedCopy.lastName = StringHelper.splitName(expected.name)[1];
+        equalizeIrrelevantData(expectedCopy, actual);
+        assertEquals(gson.toJson(expectedCopy), gson.toJson(actual));
     }
 
     private static void equalizeIrrelevantData(

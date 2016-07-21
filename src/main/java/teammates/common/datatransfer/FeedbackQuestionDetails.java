@@ -240,4 +240,5 @@ public abstract class FeedbackQuestionDetails {
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }
+
 }

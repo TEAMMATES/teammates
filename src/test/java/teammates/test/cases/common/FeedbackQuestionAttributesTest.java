@@ -60,7 +60,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidate() {
+    public void testValidate() throws Exception {
         FeedbackQuestionAttributes fq = new FeedbackQuestionAttributes();
 
         fq.feedbackSessionName = "";

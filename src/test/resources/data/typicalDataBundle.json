@@ -1352,7 +1352,9 @@
             "createdAt":"2026-03-01 11:59 PM UTC",
             "commentText":{
                 "value":"Instructor 1 comment to student 1 self feedback"	
-            }
+            },
+            "lastEditorEmail":"instructor1@course1.tmt",
+            "lastEditedAt":"2012-04-02 11:59 PM UTC"
         },
         "comment1FromT1C1ToR1Q2S1C1": {
             "courseId":"idOfTypicalCourse1",
@@ -1391,8 +1393,9 @@
             "createdAt":"2012-04-01 11:59 PM UTC",
             "commentText":{
                 "value":"Comment 1 from Instructor 1 to Student 1 in course 1"
-            }
-            
+            },
+            "lastEditorEmail":"instructor1@course1.tmt",
+            "lastEditedAt":"2012-04-02 11:59 PM UTC"
         },
         "comment2FromI1C1toS1C1":{
             "courseId":"idOfTypicalCourse1",
