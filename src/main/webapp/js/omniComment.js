@@ -220,7 +220,7 @@ $(document).ready(function() {
         
         // to show student comments (only works for Giver filter)
         if (commentToShow.hasClass('student-record-comments')) {
-            var studentCommentPanelBody = commentToShow.closest('.student-comments-panel').parent();
+            var studentCommentPanelBody = commentToShow.parent();
             studentCommentPanelBody.show();
         } else { // to show feedback question + feedback session panel
             var commentListRegionForFeedbackResponse = commentToShow.closest('tr');
