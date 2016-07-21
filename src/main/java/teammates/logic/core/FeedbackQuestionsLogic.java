@@ -604,7 +604,7 @@ public class FeedbackQuestionsLogic {
     }
 
     /**
-     * Deletes a question by its auto-generated ID. <br>
+     * Deletes a question by its ID. <br>
      * Cascade the deletion of all existing responses for the question and then
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is updated accordingly.
@@ -665,6 +665,9 @@ public class FeedbackQuestionsLogic {
         fqDb.deleteEntity(questionToDelete);
         
         if (questionToDelete.questionNumber < questionsInSession.size()) {
+            // don't need to adjust the question number of a deleted question
+            questionsInSession.remove(questionToDelete);
+            
             shiftQuestionNumbersDown(questionToDelete.questionNumber, questionsInSession);
         }
     }
@@ -676,7 +679,7 @@ public class FeedbackQuestionsLogic {
      */
     private void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
             List<FeedbackQuestionAttributes> questions) {
-        fqDb.adjustQuestionNumbers(questionNumberToShiftFrom, questions.size(), questions);
+        fqDb.adjustQuestionNumbers(questionNumberToShiftFrom, questions.size() + 1, questions);
     }
     
     /*

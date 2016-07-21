@@ -3,6 +3,7 @@ package teammates.storage.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.JDOHelper;
@@ -323,30 +324,42 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     
     public void adjustQuestionNumbers(int oldQuestionNumber, int newQuestionNumber,
             List<FeedbackQuestionAttributes> questions) {
-        if (oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1) {
-            for (int i = oldQuestionNumber - 1; i >= newQuestionNumber; i--) {
-                FeedbackQuestionAttributes question = questions.get(i - 1).getCopy();
-                question.questionNumber += 1;
-                try {
-                    updateFeedbackQuestion(question, false);
-                } catch (InvalidParametersException e) {
-                    Assumption.fail("Invalid question. " + e);
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared. " + e);
-                }
+        if (oldQuestionNumber < 0 || newQuestionNumber < 0) {
+            Assumption.fail("Invalid question number");
+        }
+        if (oldQuestionNumber > newQuestionNumber) {
+            increaseQuestionNumber(newQuestionNumber, oldQuestionNumber, questions);
+            
+        } else if (oldQuestionNumber < newQuestionNumber) {
+            decreaseQuestionNumber(oldQuestionNumber, newQuestionNumber, questions);
+        }
+    }
+    
+    private void increaseQuestionNumber(int start, int end, List<FeedbackQuestionAttributes> questions) {
+        for (FeedbackQuestionAttributes question : questions) {
+            if (question.questionNumber >= start && question.questionNumber <= end) {
+                adjustQuestionNumberOfQuestion(question, 1);
             }
-        } else if (oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()) {
-            for (int i = oldQuestionNumber + 1; i <= newQuestionNumber; i++) {
-                FeedbackQuestionAttributes question = questions.get(i - 1).getCopy();
-                question.questionNumber -= 1;
-                try {
-                    updateFeedbackQuestion(question, false);
-                } catch (InvalidParametersException e) {
-                    Assumption.fail("Invalid question." + e);
-                } catch (EntityDoesNotExistException e) {
-                    Assumption.fail("Question disappeared. " + e);
-                }
+        }
+    }
+    
+    private void decreaseQuestionNumber(int start, int end, List<FeedbackQuestionAttributes> questions) {
+        for (FeedbackQuestionAttributes question : questions) {
+            if (question.questionNumber >= start && question.questionNumber <= end) {
+                adjustQuestionNumberOfQuestion(question, -1);
             }
+        }
+    }
+
+    private void adjustQuestionNumberOfQuestion(FeedbackQuestionAttributes question, int change) {
+        FeedbackQuestionAttributes updatedQuestion = question.getCopy();
+        updatedQuestion.questionNumber += change;
+        try {
+            updateFeedbackQuestion(updatedQuestion);
+        } catch (InvalidParametersException e) {
+            Assumption.fail("Invalid question." + e);
+        } catch (EntityDoesNotExistException e) {
+            Assumption.fail("Question disappeared. " + e);
         }
     }
     
@@ -376,9 +389,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         if (question.questionNumber <= 0) {
             question.questionNumber = questions.size() + 1;
         }
-        int numberAdjustmentRangeStart = oldQuestionNumber <= 0 ? questions.size() + 1
-                                                                : oldQuestionNumber;
-        adjustQuestionNumbers(numberAdjustmentRangeStart, question.questionNumber, questions);
+        adjustQuestionNumbersInSession(question, oldQuestionNumber, questions);
         FeedbackQuestionAttributes questionSaved;
         if (isUpdating) {
             questionSaved = updateFeedbackQuestion(question);
@@ -389,5 +400,20 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     
         getPm().close();
         return questionSaved;
+    }
+
+    private void adjustQuestionNumbersInSession(FeedbackQuestionAttributes question, int oldQuestionNumber,
+            List<FeedbackQuestionAttributes> questions) {
+        int numberAdjustmentRangeStart = oldQuestionNumber <= 0 ? questions.size() + 1
+                                                                : oldQuestionNumber;
+        // remove question getting edited
+        for (Iterator<FeedbackQuestionAttributes> iter = questions.iterator();
+                iter.hasNext();) {
+            FeedbackQuestionAttributes questionForAdjustment = iter.next();
+            if (questionForAdjustment.getId().equals(question.getId())) {
+                iter.remove();
+            }
+        }
+        adjustQuestionNumbers(numberAdjustmentRangeStart, question.questionNumber, questions);
     }
 }
