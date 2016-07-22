@@ -79,21 +79,21 @@ public class StudentAttributesTest extends BaseTestCase {
         expected = generateTypicalStudentObject();
         studentUnderTest = new StudentAttributes("  sect 1 ", "  team 1   ", "   name 1   ",
                                                  "   email@email.com  ", "  comment 1  ", "courseId1");
-        verifyStudentContent(expected, studentUnderTest.toEntity());
+        verifyStudentContent(expected, (CourseStudent) studentUnderTest.toEntity());
 
         ______TS("Typical case: contains google id");
         expected = generateTypicalStudentObject();
         studentUnderTest = new StudentAttributes("googleId.1", "email@email.com", "name 1", "comment 1",
                                                  "courseId1", "team 1", "section 1");
 
-        verifyStudentContentIncludingId(expected, studentUnderTest.toEntity());
+        verifyStudentContentIncludingId(expected, (CourseStudent) studentUnderTest.toEntity());
 
 
         ______TS("Typical case: initialize from entity");
         expected = generateTypicalStudentObject();
         studentUnderTest = new StudentAttributes(expected);
 
-        verifyStudentContentIncludingId(expected, studentUnderTest.toEntity());
+        verifyStudentContentIncludingId(expected, (CourseStudent) studentUnderTest.toEntity());
 
         ______TS("Failure case: empty course id");
         invalidStudent = new StudentAttributes("section", "team", "name", "e@e.com", "c", "");

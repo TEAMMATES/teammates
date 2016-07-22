@@ -15,6 +15,7 @@ import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.datatransfer.StudentWithOldRegistrationKeyAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -158,6 +159,18 @@ public class StudentsDb extends EntitiesDb {
         }
     
         return new StudentAttributes(s);
+    }
+    
+    public StudentWithOldRegistrationKeyAttributes getStudentForCopyingToCourseStudent(
+                                                            String courseId, String email) {
+        Student s = getStudentEntityForEmail(courseId, email);
+
+        if (s == null) {
+            log.info("Trying to get non-existent Student: " + courseId + "/" + email);
+            return null;
+        }
+    
+        return new StudentWithOldRegistrationKeyAttributes(s);
     }
 
     /**

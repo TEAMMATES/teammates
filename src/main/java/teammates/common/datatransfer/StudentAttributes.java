@@ -364,7 +364,7 @@ public class StudentAttributes extends EntityAttributes {
         return new CourseStudent(email, name, googleId, comments, course, team, section);
     }
     
-    public CourseStudent toEntity() {
+    public Object toEntity() {
         return toCourseStudentEntity();
     }
     
