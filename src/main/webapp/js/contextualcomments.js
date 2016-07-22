@@ -21,7 +21,7 @@ $(document).ready(function() {
         return checkComment(this);
     });
     
-    function checkComment(form) {
+    function checkComment() {
         var formTextField = tinymce.get('commenttext').getContent();
         if (isBlank(formTextField)) {
             setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);

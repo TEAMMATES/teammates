@@ -20,19 +20,16 @@ $(document).ready(function() {
                 inline: true,
                 fixed_toolbar_container: '#rich-text-toolbar-response-text-container' + idSuffix,
                 setup: function(ed) {
-                    ed.on('init', function(e) {
-                        updateTextQuestionCharCount(id, $(textField).data('lengthtextid'));
-                    });
-                    ed.on('keyup', function(e) {
+                    ed.on('keyup', function() {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                     });
-                    ed.on('keydown', function(e) {
+                    ed.on('keydown', function() {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                     });
-                    ed.on('init', function(e) {
+                    ed.on('init', function() {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                     });
-                    ed.on('change', function(e) {
+                    ed.on('change', function() {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                     });
                 }
