@@ -264,6 +264,15 @@ public class InstructorCommentsPage extends AppPage {
         return true;
     }
     
+    public boolean isStudentCommentsPanelBodyVisible() {
+        return getStudentCommentsPanelBody().isDisplayed();
+    }
+    
+    private WebElement getStudentCommentsPanelBody() {
+        WebElement studentCommentsPanel = browser.driver.findElement(By.className("student-comments-panel"));
+        return studentCommentsPanel.findElement(By.className("panel-body"));
+    }
+    
     /**
      * Waits for all the panels to collapse.
      */
