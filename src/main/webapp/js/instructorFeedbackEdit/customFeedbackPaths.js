@@ -59,8 +59,10 @@ var CustomFeedbackPaths = {
         for (i = 0; i < CustomFeedbackPaths.instructorEmails.length; i++) {
             CustomFeedbackPaths.allPossibleFeedbackGivers.push(CustomFeedbackPaths.instructorEmails[i] + ' (Instructor)');
         }
-        CustomFeedbackPaths.allPossibleFeedbackGivers =
-                CustomFeedbackPaths.allPossibleFeedbackGivers.concat(CustomFeedbackPaths.teamNames);
+        for (i = 0; i < CustomFeedbackPaths.teamNames.length; i++) {
+            CustomFeedbackPaths.allPossibleFeedbackGivers.push(CustomFeedbackPaths.teamNames[i] + ' (Team)');
+        }
+
         CustomFeedbackPaths.allPossibleFeedbackRecipients = CustomFeedbackPaths.allPossibleFeedbackGivers.slice();
         CustomFeedbackPaths.allPossibleFeedbackRecipients.push(CustomFeedbackPaths.TEAM_NAME_INSTRUCTORS);
         CustomFeedbackPaths.allPossibleFeedbackRecipients.push('Class');
@@ -202,25 +204,46 @@ var CustomFeedbackPaths = {
     getFeedbackPathsDataUsingGiverToRecipientsMap: function(giverToRecipientsMap, giverType, recipientType) {
         
         var giverSuffix = '';
-        if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS) {
+        var isGiverAStudent =
+                giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS;
+        var isGiverAnInstructor =
+                giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
+                || giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS;
+        var isGiverATeam =
+                giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS;
+        
+        if (isGiverAStudent) {
             giverSuffix = ' (Student)';
-        } else if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
-                || giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS) {
+        } else if (isGiverAnInstructor) {
             giverSuffix = ' (Instructor)';
+        } else if (isGiverATeam) {
+            giverSuffix = ' (Team)';
         }
         
         var recipientSuffix = '';
-        if (recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
+        var isRecipientAStudent =
+                recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
                 && giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS
                 || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS
                 || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM_MEMBERS
-                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM_MEMBERS_INCLUDING_SELF) {
-            recipientSuffix = ' (Student)';
-        } else if (recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
+                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM_MEMBERS_INCLUDING_SELF;
+        var isRecipientAnInstructor =
+                recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
                 && (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
                         || giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS)
-                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS) {
+                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS;
+        var isRecipientATeam =
+                recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
+                && giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS
+                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS
+                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM;
+        
+        if (isRecipientAStudent) {
+            recipientSuffix = ' (Student)';
+        } else if (isRecipientAnInstructor) {
             recipientSuffix = ' (Instructor)';
+        } else if (isRecipientATeam) {
+            recipientSuffix = ' (Team)';
         }
         
         var data = [];
