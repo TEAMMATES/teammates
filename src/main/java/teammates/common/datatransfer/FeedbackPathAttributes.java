@@ -43,7 +43,6 @@ public class FeedbackPathAttributes extends EntityAttributes {
     
     @Override
     public List<String> getInvalidityInfo() {
-        // TODO Auto-generated method stub
         return null;
     }
     
@@ -82,7 +81,7 @@ public class FeedbackPathAttributes extends EntityAttributes {
 
     @Override
     public void sanitizeForSaving() {
-        // TODO Auto-generated method stub
+        // TODO: See if anything needs to be sanitized
     }
     
     public boolean isStudentFeedbackPathGiver(StudentAttributes student) {
