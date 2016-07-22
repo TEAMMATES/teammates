@@ -590,10 +590,10 @@ function setStatusMessage(message, status) {
     if (message === '' || message === undefined || message === null) {
         return;
     }
-
     prepareStatusMessage(message, status);
-    $statusMessagesToUser.show();
     
+    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+    $statusMessagesToUser.show();
     scrollToElement($statusMessagesToUser[0], { offset: window.innerHeight / 2 * -1 });
 }
 
@@ -609,11 +609,10 @@ function setStatusMessageToForm(message, status, form) {
     if (message === '' || message === undefined || message === null) {
         return;
     }
-
     prepareStatusMessage(message, status);
-    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
- 
+    
     // Copy the statusMessage and prepend to form
+    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     var $copyOfStatusMessagesToUser = $statusMessagesToUser.clone().show();
     $statusMessagesToUser.remove();
     $(form).prepend($copyOfStatusMessagesToUser);
