@@ -487,20 +487,20 @@ public class FeedbackQuestionsLogic {
                 instructorEmailToInstructorNameMap.put(instructor.getEmail(), instructor.getName());
             }
             
-            for (FeedbackPathAttributes feedbackPathAttributes : question.feedbackPaths) {
+            for (FeedbackPathAttributes feedbackPath : question.feedbackPaths) {
                 boolean isUserStudentAndFeedbackPathGiver =
                         isStudentGiver
-                        && feedbackPathAttributes.isStudentFeedbackPathGiver(studentGiver);
+                        && feedbackPath.isStudentFeedbackPathGiver(studentGiver);
                 
                 boolean isUserInstructorAndFeedbackPathGiver =
                         isInstructorGiver
-                        && feedbackPathAttributes.isInstructorFeedbackPathGiver(instructorGiver.getEmail());
+                        && feedbackPath.isInstructorFeedbackPathGiver(instructorGiver.getEmail());
                 
                 boolean isUserFeedbackPathGiver =
                         isUserStudentAndFeedbackPathGiver || isUserInstructorAndFeedbackPathGiver;
                 
                 if (isUserFeedbackPathGiver) {
-                    String feedbackPathRecipientId = feedbackPathAttributes.getRecipientId();
+                    String feedbackPathRecipientId = feedbackPath.getRecipientId();
                     String name = "";
                     
                     if (studentEmailToStudentNameMap.containsKey(feedbackPathRecipientId)) {

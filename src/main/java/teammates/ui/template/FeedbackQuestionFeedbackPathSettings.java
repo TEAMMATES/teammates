@@ -59,11 +59,11 @@ public class FeedbackQuestionFeedbackPathSettings {
         return customFeedbackPathsSpreadsheetData;
     }
 
-    public void setCustomFeedbackPathsSpreadsheetData(List<FeedbackPathAttributes> feedbackPathAttributesList) {
+    public void setCustomFeedbackPathsSpreadsheetData(List<FeedbackPathAttributes> feedbackPaths) {
         List<List<String>> customFeedbackPaths = new ArrayList<List<String>>();
-        for (FeedbackPathAttributes feedbackPathAttributes : feedbackPathAttributesList) {
-            customFeedbackPaths.add(Arrays.asList(feedbackPathAttributes.getGiver(),
-                                                  feedbackPathAttributes.getRecipient()));
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            customFeedbackPaths.add(Arrays.asList(feedbackPath.getGiver(),
+                                                  feedbackPath.getRecipient()));
         }
         List<String> customFeedbackPathStrings = new ArrayList<String>();
         for (List<String> customFeedbackPath : customFeedbackPaths) {
