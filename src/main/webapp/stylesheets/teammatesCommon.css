@@ -955,3 +955,16 @@ Prevent Long URL From Breaking Out of Container
         white-space: nowrap;
     }
 }
+
+.content-editor {
+    padding-top: 5px;
+}
+
+.content-editor:before {
+    display: none;
+}
+.content-editor.empty:before {
+    display: block;
+    color: gray;
+    content: attr(data-placeholder);
+}

@@ -1420,4 +1420,12 @@ public final class Const {
         public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
     }
 
+    public class PlaceholderText {
+        public static final String FEEDBACK_QUESTION = "A concise version of the question e.g. "
+                + "&quot;How well did the team member communicate?&quot;";
+        public static final String FEEDBACK_QUESTION_DESCRIPTION = "More details about the question e.g. &quot;In answering "
+                + "the question, do consider communications made informally within the team, and formal communications with "
+                + "the instructors and tutors.&quot;";
+    }
+
 }
