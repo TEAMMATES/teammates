@@ -1245,7 +1245,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertFalse(ERROR_NULL_PARAMETER,
-                userId.isEmpty() && (unregisteredStudentEmail.isEmpty() || unregisteredStudentRegKey.isEmpty()));
+                userId == null && (unregisteredStudentEmail == null || unregisteredStudentRegKey == null));
 
         feedbackSessionsLogic.sendConfirmationEmailForSubmission(courseId, feedbackSessionName, userId,
                                                                  unregisteredStudentEmail, unregisteredStudentRegKey);
