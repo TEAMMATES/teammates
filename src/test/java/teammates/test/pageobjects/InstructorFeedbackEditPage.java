@@ -700,6 +700,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(recipientDropdownForQuestion1, recipientType);
     }
     
+    public String getGiverTypeForQuestion1() {
+        return giverDropdownForQuestion1.getAttribute("value");
+    }
+    
+    public String getRecipientTypeForQuestion1() {
+        return recipientDropdownForQuestion1.getAttribute("value");
+    }
+    
     public void selectRecipientTypeForNewQuestion(String recipientType) {
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("recipienttype--1")), recipientType);
     }
@@ -722,6 +730,25 @@ public class InstructorFeedbackEditPage extends AppPage {
             }
         }
         return true;
+    }
+    
+    public boolean isAllRecipientOptionsDisplayed(int questionNumber) {
+        List<WebElement> recipientOptions =
+                browser.driver.findElements(By.cssSelector("#recipienttype-" + questionNumber + " option"));
+        for (WebElement recipientOption : recipientOptions) {
+            if ("none".equals(recipientOption.getCssValue("display"))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean isRecipientOptionDisplayed(FeedbackParticipantType recipientType, int questionNumber) {
+        WebElement recipientOption =
+                browser.driver.findElement(
+                        By.cssSelector("#recipienttype-" + questionNumber
+                                       + " option[value='" + recipientType + "']"));
+        return !"none".equals(recipientOption.getCssValue("display"));
     }
     
     public void selectGiverToBe(FeedbackParticipantType giverType, int questionNumber) {

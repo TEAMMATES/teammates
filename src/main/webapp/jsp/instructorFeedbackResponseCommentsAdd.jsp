@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:choose>
-    <c:when test="${not empty data.commentIds[4]}">
+    <c:when test="${fn:length(data.commentIds) eq 5}">
         <shared:feedbackResponseCommentRow frc="${data.comment}"
                                    firstIndex="${data.commentIds[3]}"
                                    secondIndex="${data.commentIds[1]}"

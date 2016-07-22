@@ -58,6 +58,7 @@
         </listeners>
         <classes>
             <class name="teammates.test.cases.ui.browsertests.AppPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.TimezoneSyncerTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
