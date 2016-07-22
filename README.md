@@ -4,12 +4,12 @@
 <img src="https://img.shields.io/badge/universities-700%2B-green.svg"> 
 [![Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=master)](https://travis-ci.org/TEAMMATES/teammates)
 
-<img src="https://img.shields.io/badge/java-110%20KLoC-blue.svg">
+<img src="https://img.shields.io/badge/java-119%20KLoC-blue.svg">
 [![Dependency Status](https://www.versioneye.com/user/projects/579103ca51500e0031886f12/badge.svg)](https://www.versioneye.com/user/projects/579103ca51500e0031886f12)
 
 <img src="https://img.shields.io/badge/html-5%20KLoC-blue.svg">
-<img src="https://img.shields.io/badge/css-7%20KLoC-blue.svg">
-<img src="https://img.shields.io/badge/js-14%20KLoC-blue.svg">
+<img src="https://img.shields.io/badge/css-2%20KLoC-blue.svg">
+<img src="https://img.shields.io/badge/js-20%20KLoC-blue.svg">
 [![Dependency Status](https://www.versioneye.com/user/projects/579103d351500e0039e7b76a/badge.svg)](https://www.versioneye.com/user/projects/579103d351500e0039e7b76a)
 
 
