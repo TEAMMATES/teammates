@@ -22,8 +22,7 @@ public class FeedbackPath {
     @Persistent
     private String recipient;
     
-    public FeedbackPath(String feedbackPathId, String courseId, String giver, String recipient) {
-        this.feedbackPathId = feedbackPathId;
+    public FeedbackPath(String courseId, String giver, String recipient) {
         this.courseId = courseId;
         this.giver = giver;
         this.recipient = recipient;

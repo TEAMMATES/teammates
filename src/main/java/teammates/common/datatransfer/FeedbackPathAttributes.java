@@ -56,12 +56,12 @@ public class FeedbackPathAttributes extends EntityAttributes {
 
     @Override
     public FeedbackPath toEntity() {
-        return new FeedbackPath(feedbackPathId, courseId, giver, recipient);
+        return new FeedbackPath(courseId, giver, recipient);
     }
 
     @Override
     public String getIdentificationString() {
-        return courseId + "/" + feedbackPathId;
+        return courseId + "/" + feedbackPathId + "/" + giver + "/" + recipient;
     }
 
     @Override
