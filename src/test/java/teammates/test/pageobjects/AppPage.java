@@ -202,6 +202,20 @@ public abstract class AppPage {
     }
     
     /**
+     * Waits until TinyMCE editor is fully loaded.
+     */
+    public void waitForRichTextEditorToLoad(final String id) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
+        wait.until(new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver d) {
+                String script = "return tinymce.get('" + id + "') !== null";
+                return (Boolean) ((JavascriptExecutor) d).executeScript(script);
+            }
+        });
+    }
+
+    /**
      * Waits until the element is not covered by any other element.
      */
     public void waitForElementNotCovered(final WebElement element) {

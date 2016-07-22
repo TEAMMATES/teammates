@@ -87,8 +87,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     public void submitCommentToCourse(String comment) {
         clickAddCommentToCourseButton();
         WebElement commentTextForm = browser.driver.findElement(By.id("commenttext"));
-        commentTextForm.click();
-        commentTextForm.sendKeys(comment);
+        fillTextBox(commentTextForm, comment);
         browser.driver.findElement(By.id("button_save_comment")).click();
         waitForPageToLoad();
     }

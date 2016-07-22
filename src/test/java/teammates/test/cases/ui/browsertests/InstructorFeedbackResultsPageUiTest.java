@@ -615,7 +615,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Failure case: add empty feedback response comment");
 
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "");
-        ThreadHelper.waitFor(1000);
         resultsPage.verifyCommentFormErrorMessage("-0-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
 
         ______TS("Typical case: add new feedback response comments");

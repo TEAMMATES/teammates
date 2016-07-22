@@ -175,10 +175,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
         WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
         click(showResponseCommentAddFormButton);
-        // Delay to initialize TinyMCE editor
-        ThreadHelper.waitFor(1000);
         WebElement editorElement = addResponseCommentForm.findElement(By.className("mce-content-body"));
-        waitForElementToBeClickable(editorElement);
+        waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
         fillRichTextEditor(editorElement.getAttribute("id"), commentText);
         click(addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
         if (commentText.isEmpty()) {
@@ -302,6 +300,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentTable" + commentTableIdSuffix));
+        waitForElementPresence(
+                By.cssSelector("#responseCommentTable" + commentTableIdSuffix + " .col-sm-offset-5 #errorMessage"));
         assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5"))
                                              .findElement(By.tagName("span")).getText());
     }
