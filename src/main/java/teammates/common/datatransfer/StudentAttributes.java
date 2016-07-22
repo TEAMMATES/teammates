@@ -359,17 +359,12 @@ public class StudentAttributes extends EntityAttributes {
             this.section = originalStudent.section;
         }
     }
-
-    public Student toStudentEntity() {
-        return new Student(email, name, googleId, comments, course, team, section);
-    }
     
     public CourseStudent toCourseStudentEntity() {
         return new CourseStudent(email, name, googleId, comments, course, team, section);
     }
     
     public CourseStudent toEntity() {
-        // TODO: Check if this is correct
         return toCourseStudentEntity();
     }
     

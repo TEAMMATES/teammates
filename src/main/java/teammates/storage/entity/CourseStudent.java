@@ -10,9 +10,9 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
 
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -21,7 +21,6 @@ import com.google.gson.annotations.SerializedName;
  */
 @PersistenceCapable
 public class CourseStudent implements StoreCallback {
-    // TODO: some of the serialized names are not correct.
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp.
      * Set to true when using scripts to update entities when you want to
@@ -31,7 +30,7 @@ public class CourseStudent implements StoreCallback {
     public transient boolean keepUpdateTimestamp;
 
     /**
-     * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
+     * Format: email%courseId e.g., adam@gmail.com%cs1101
      */
     @PrimaryKey
     @Persistent
@@ -45,7 +44,7 @@ public class CourseStudent implements StoreCallback {
     
     
     /**
-     * Copied from old student class in string form
+     * Copied from old student class
      * Null if using new registration key instead.
      */
     @Persistent
@@ -59,23 +58,19 @@ public class CourseStudent implements StoreCallback {
     
 
     /**
-     * The student's Google ID. Used as the foreign key for the Account object.
-     * This can be null/empty if the student's hasn't joined the course yet.
+     * The student's Google ID. Links to the Account object.
+     * This can be null if the student hasn't joined the course yet.
      */
     @Persistent
     @SerializedName("google_id")
     private String googleId;
 
-    /**
-     * The email used to contact the student regarding this course.
-     */
     @Persistent
     @SerializedName("email")
     private String email;
 
     /**
      * The student's Course ID. References the primary key of the course.
-     * This shows the course the student is taking.
      */
     @Persistent
     @SerializedName("coursename")
@@ -120,7 +115,7 @@ public class CourseStudent implements StoreCallback {
      * @param teamName
      */
     public CourseStudent(String email, String name, String googleId, String comments, String courseId,
-                   String teamName, String sectionName) {
+                         String teamName, String sectionName) {
         this.setEmail(email);
         this.setName(name);
         this.setGoogleId(googleId);
@@ -131,8 +126,7 @@ public class CourseStudent implements StoreCallback {
         
         this.setCreatedAt(new Date());
 
-        // setId should be called after setting email and courseId
-        this.setUniqueId(this.getEmail() + '%' + this.getCourseId());
+        this.setId(this.getEmail() + '%' + this.getCourseId());
         this.setRegistrationKey(generateRegistrationKey());
     }
     
@@ -161,9 +155,9 @@ public class CourseStudent implements StoreCallback {
     
     /**
      * @param uniqueId
-     *          The unique ID of the entity (format: googleId%courseId).
+     *          The ID of the entity (format: googleId%courseId).
      */
-    public void setUniqueId(String uniqueId) {
+    public void setId(String uniqueId) {
         this.id = uniqueId;
     }
 
@@ -256,16 +250,6 @@ public class CourseStudent implements StoreCallback {
         this.sectionName = sectionName == null ? null : sectionName.trim();
     }
 
-    // not tested as this is part of client script
-    public boolean isRegistered() {
-        // Null or "" => unregistered
-        return googleId != null && !googleId.isEmpty();
-    }
-
-    public static String getStringKeyForLongKey(long longKey) {
-        return KeyFactory.createKeyString(Student.class.getSimpleName(), longKey);
-    }
-    
     /**
      * Called by jdo before storing takes place.
      */
@@ -280,10 +264,9 @@ public class CourseStudent implements StoreCallback {
      */
     private String generateRegistrationKey() {
         String uniqueId = getUniqueId();
+        Assumption.assertNotNull(uniqueId);
+        
         SecureRandom prng = new SecureRandom();
-        
-        String key = uniqueId + "%" + prng.nextInt();
-        
-        return key;
+        return uniqueId + "%" + prng.nextInt();
     }
 }

@@ -3,8 +3,10 @@ package teammates.storage.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
@@ -143,13 +145,10 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
     
-        
-        // Return CourseStudent if it exists. Otherwise, fall back on Student.
         CourseStudent cs = getCourseStudentEntityForEmail(courseId, email);
         if (cs != null) {
             return new StudentAttributes(cs);
         }
-        
         
         Student s = getStudentEntityForEmail(courseId, email);
 
@@ -178,9 +177,7 @@ public class StudentsDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<CourseStudent> courseStudentList = (List<CourseStudent>) q.execute(googleId, courseId);
         
-        if (courseStudentList.isEmpty() || JDOHelper.isDeleted(courseStudentList.get(0))) {
-            // Don't return yet, look up Student.
-        } else {
+        if (!courseStudentList.isEmpty() && !JDOHelper.isDeleted(courseStudentList.get(0))) {
             return new StudentAttributes(courseStudentList.get(0));
         }
         
@@ -210,26 +207,22 @@ public class StudentsDb extends EntitiesDb {
    
         try {
             // CourseStudent
-            String decryptedKey = StringHelper.decrypt(registrationKey.trim());
-            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(decryptedKey);
+            String originalKey = StringHelper.decrypt(registrationKey.trim());
+            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(originalKey);
             if (courseStudent != null) {
                 return new StudentAttributes(courseStudent);
             }
         } catch (Exception e) {
-            // CourseStudent with unencrypted key
-            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(registrationKey);
-            if (courseStudent != null) {
-                return new StudentAttributes(courseStudent);
-            }
+            // no such student
+            return null;
         }
         
         try {
-
             // Student
             // First, try to retrieve the student by assuming the given registrationKey key is encrypted
             String decryptedKey = StringHelper.decrypt(registrationKey.trim());
             Student student = getPm().getObjectById(Student.class,
-                    KeyFactory.stringToKey(decryptedKey));
+                                                    KeyFactory.stringToKey(decryptedKey));
             return new StudentAttributes(student);
         } catch (Exception e) {
             // There is no such student
@@ -248,8 +241,8 @@ public class StudentsDb extends EntitiesDb {
         
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
         
-        List<CourseStudent> courseStudentList = getCourseStudentEntitiesForGoogleId(googleId);
-        for (CourseStudent student : courseStudentList) {
+        List<CourseStudent> courseStudents = getCourseStudentEntitiesForGoogleId(googleId);
+        for (CourseStudent student : courseStudents) {
             if (!JDOHelper.isDeleted(student)) {
                 studentDataList.add(new StudentAttributes(student));
             }
@@ -312,7 +305,6 @@ public class StudentsDb extends EntitiesDb {
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
         List<CourseStudent> courseStudentList = getCourseStudentEntitiesForTeam(teamName, courseId);
         
-        //TODO: See if we can use a generic method to convert a list of entities to a list of attributes.
         //  e.g., convertToAttributes(entityList, new ArrayList<StudentAttributes>())
         for (CourseStudent student : courseStudentList) {
             if (!JDOHelper.isDeleted(student)) {
@@ -392,21 +384,28 @@ public class StudentsDb extends EntitiesDb {
      */
     @Deprecated
     public List<StudentAttributes> getAllStudents() {
-        List<StudentAttributes> list = new LinkedList<StudentAttributes>();
+        Map<String, StudentAttributes> result = new LinkedHashMap<String, StudentAttributes>();
         
-        // TODO: Need to read from CourseStudents? Create a separate method?
-        // Need a method for Students not in CourseStudents?
+        for (StudentAttributes student : getAllOldStudents()) {
+            result.put(student.getId(), student);
+        }
+        for (StudentAttributes student : getAllCourseStudents()) {
+            result.put(student.getId(), student);
+        }
+        return new ArrayList<>(result.values());
+    }
+
+    @Deprecated
+    public List<StudentAttributes> getAllOldStudents() {
+        List<StudentAttributes> students = new ArrayList<>();
+        List<Student> studentEntities = getStudentEntities();
         
-        List<Student> entities = getStudentEntities();
-        Iterator<Student> it = entities.iterator();
-        while (it.hasNext()) {
-            Student student = it.next();
-            
+        for (Student student : studentEntities) {
             if (!JDOHelper.isDeleted(student)) {
-                list.add(new StudentAttributes(student));
+                students.add(new StudentAttributes(student));
             }
         }
-        return list;
+        return students;
     }
     
     /**
@@ -490,9 +489,7 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         
-        // This verifies for either/both Student and CourseStudent.
         verifyStudentExists(courseId, email);
-        
         
         // Update CourseStudent if it exists.
         CourseStudent courseStudent = getCourseStudentEntityForEmail(courseId, email);
@@ -706,15 +703,17 @@ public class StudentsDb extends EntitiesDb {
         List<CourseStudent> courseStudentsToDelete = getCourseStudentEntitiesForCourses(courseIds);
         List<Student> studentsToDelete = getStudentEntitiesForCourses(courseIds);
         
-        // TODO: Delete search documents not done
-        // This method is only called to delete data bundle which should not use search documents,
-        // but it should still be done or documented properly.
-        
         getPm().deletePersistentAll(courseStudentsToDelete);
         getPm().deletePersistentAll(studentsToDelete);
         getPm().flush();
     }
     
+    /**
+     *  This verifies for either/both Student and CourseStudent.
+     * @param courseId
+     * @param email
+     * @throws EntityDoesNotExistException
+     */
     public void verifyStudentExists(String courseId, String email)
             throws EntityDoesNotExistException {
         
@@ -862,7 +861,6 @@ public class StudentsDb extends EntitiesDb {
         
             return studentList.get(0);
         } catch (Exception e) {
-            // Log exception here, will be swallowed by higher level otherwise.
             log.severe("Exception : " + e.getMessage() + "\n" + e.getStackTrace());
             return null;
         }
@@ -920,7 +918,7 @@ public class StudentsDb extends EntitiesDb {
     
     @Deprecated
     /**
-     * Retrieves all course tudent entities. This function is not scalable.
+     * Retrieves all course student entities. This function is not scalable.
      */
     public List<CourseStudent> getCourseStudentEntities() {
         
