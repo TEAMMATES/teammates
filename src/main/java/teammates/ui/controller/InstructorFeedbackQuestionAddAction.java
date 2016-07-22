@@ -122,8 +122,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
         
-        if (newQuestion.questionType != FeedbackQuestionType.CONTRIB
-                && newQuestion.giverType == FeedbackParticipantType.CUSTOM
+        if (newQuestion.giverType == FeedbackParticipantType.CUSTOM
                 && newQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
             String customFeedbackPathsSpreadsheetData =
                     HttpRequestHelper.getValueFromParamMap(
