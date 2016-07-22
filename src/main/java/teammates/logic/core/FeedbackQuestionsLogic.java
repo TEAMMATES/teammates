@@ -238,7 +238,7 @@ public class FeedbackQuestionsLogic {
                             feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
             
             for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
-                if (question.hasInstructorAsGiverInFeedbackPathAttributesList(instructor.getEmail())) {
+                if (question.hasInstructorAsGiverInFeedbackPaths(instructor.getEmail())) {
                     questions.add(question);
                 }
             }
@@ -285,7 +285,7 @@ public class FeedbackQuestionsLogic {
                         feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
         
         for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
-            if (question.hasInstructorAsGiverInFeedbackPathAttributesList(fsa.getCreatorEmail())) {
+            if (question.hasInstructorAsGiverInFeedbackPaths(fsa.getCreatorEmail())) {
                 questions.add(question);
             }
         }
@@ -380,7 +380,7 @@ public class FeedbackQuestionsLogic {
                         feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
         
         for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
-            if (question.hasStudentAsGiverInFeedbackPathAttributesList(student)) {
+            if (question.hasStudentAsGiverInFeedbackPaths(student)) {
                 questions.add(question);
             }
         }
@@ -487,7 +487,7 @@ public class FeedbackQuestionsLogic {
                 instructorEmailToInstructorNameMap.put(instructor.getEmail(), instructor.getName());
             }
             
-            for (FeedbackPathAttributes feedbackPathAttributes : question.feedbackPathAttributesList) {
+            for (FeedbackPathAttributes feedbackPathAttributes : question.feedbackPaths) {
                 boolean isUserStudentAndFeedbackPathGiver =
                         isStudentGiver
                         && feedbackPathAttributes.isStudentFeedbackPathGiver(studentGiver);

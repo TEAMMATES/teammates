@@ -125,7 +125,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                                    ? question.numberOfEntitiesToGiveFeedbackTo
                                                                    : 1);
         
-        feedbackPathSettings.setCustomFeedbackPathsSpreadsheetData(question.feedbackPathAttributesList);
+        feedbackPathSettings.setCustomFeedbackPathsSpreadsheetData(question.feedbackPaths);
         qnForm.setFeedbackPathSettings(feedbackPathSettings);
 
         // maps for setting visibility

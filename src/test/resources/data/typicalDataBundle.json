@@ -893,8 +893,8 @@
             "showResponsesTo":[],
             "showGiverNameTo":[],
             "showRecipientNameTo":[],
-            "feedbackPathAttributesList":[
-                {"courseId":"idOfTypicalCourse1","giver":"student1InCourse1@gmail.tmt (Student)","recipient":"student1InCourse1@gmail.tmt (Student)"}
+            "feedbackPaths":[
+                {"courseId":"idOfTypicalCourse1","giver":"student5InCourse1@gmail.tmt (Student)","recipient":"student5InCourse1@gmail.tmt (Student)"}
             ]
         },
         "custom.feedback.paths.instructor.question":{
@@ -915,7 +915,7 @@
             ],
             "showRecipientNameTo":[
             ],
-            "feedbackPathAttributesList":[
+            "feedbackPaths":[
                 {"courseId":"idOfTypicalCourse1","giver":"instructor2@course1.tmt (Instructor)","recipient":"instructor2@course1.tmt (Instructor)"}
             ]
         },

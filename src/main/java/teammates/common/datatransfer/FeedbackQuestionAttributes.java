@@ -33,7 +33,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
-    public List<FeedbackPathAttributes> feedbackPathAttributesList;
+    public List<FeedbackPathAttributes> feedbackPaths;
     protected transient Date createdAt;
     protected transient Date updatedAt;
     private String feedbackQuestionId;
@@ -60,7 +60,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.createdAt = fq.getCreatedAt();
         this.updatedAt = fq.getUpdatedAt();
         
-        this.feedbackPathAttributesList = getFeedbackPathAttributesList(fq.getFeedbackPaths());
+        this.feedbackPaths = getFeedbackPathAttributesList(fq.getFeedbackPaths());
         
         removeIrrelevantVisibilityOptions();
     }
@@ -102,7 +102,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                + numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
                + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
                + ", showRecipientNameTo=" + showRecipientNameTo
-               + ", feedbackPathAttributesList=" + feedbackPathAttributesList + "]";
+               + ", feedbackPaths=" + feedbackPaths + "]";
     }
 
     @Override
@@ -628,13 +628,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
     
     public List<FeedbackPath> getFeedbackPaths() {
-        return getFeedbackPaths(feedbackPathAttributesList);
+        return getFeedbackPaths(feedbackPaths);
     }
     
     /** 
      * Verifies whether the given student is a giver in the question's feedback path attributes list
      */
-    public boolean hasStudentAsGiverInFeedbackPathAttributesList(StudentAttributes student) {
+    public boolean hasStudentAsGiverInFeedbackPaths(StudentAttributes student) {
         if (giverType == FeedbackParticipantType.CUSTOM && recipientType == FeedbackParticipantType.CUSTOM) {
             for (FeedbackPathAttributes feedbackPathAttributes : feedbackPathAttributesList) {
                 String[] giver = feedbackPathAttributes.getGiver().split(" ");
@@ -650,7 +650,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     /** 
      * Verifies whether the given instructor is a giver in the question's feedback path attributes list
      */
-    public boolean hasInstructorAsGiverInFeedbackPathAttributesList(String instructorEmail) {
+    public boolean hasInstructorAsGiverInFeedbackPaths(String instructorEmail) {
         if (giverType == FeedbackParticipantType.CUSTOM && recipientType == FeedbackParticipantType.CUSTOM) {
             for (FeedbackPathAttributes feedbackPathAttributes : feedbackPathAttributesList) {
                 String[] giver = feedbackPathAttributes.getGiver().split(" ");

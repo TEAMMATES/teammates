@@ -370,7 +370,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqa.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
         fqa.showResponsesTo = new ArrayList<FeedbackParticipantType>();
         
-        fqa.feedbackPathAttributesList = new ArrayList<FeedbackPathAttributes>();
+        fqa.feedbackPaths = new ArrayList<FeedbackPathAttributes>();
 
         return fqa;
     }

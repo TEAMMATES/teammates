@@ -129,7 +129,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                     HttpRequestHelper.getValueFromParamMap(
                             requestParameters, "custom-feedback-paths-spreadsheet-data");
             
-            newQuestion.feedbackPathAttributesList =
+            newQuestion.feedbackPaths =
                     FeedbackQuestionAttributes.getFeedbackPathAttributesListFromSpreadsheetData(
                             newQuestion.getCourseId(), customFeedbackPathsSpreadsheetData);
         }
