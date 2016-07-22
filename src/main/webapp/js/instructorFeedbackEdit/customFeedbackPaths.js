@@ -104,8 +104,18 @@ var CustomFeedbackPaths = {
     updateCustomFeedbackPathsSpreadsheetDataInput: function($questionForm) {
         var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
         var data = $container.handsontable('getData');
+        
+        var dataWithoutPartiallyFilledOrEmptyRows = [];
+
+        for (var i = 0; i < data.length; i++) {
+            if (!data[i].includes('') && !data[i].includes(null)) {
+                dataWithoutPartiallyFilledOrEmptyRows.push(data[i]);
+            }
+        }
+        
         var $customFeedbackPathsSpreadsheetDataInput = $questionForm.find('.custom-feedback-paths-spreadsheet-data-input');
-        $customFeedbackPathsSpreadsheetDataInput.attr('value', JSON.stringify(data));
+        $customFeedbackPathsSpreadsheetDataInput.attr(
+                'value', JSON.stringify(dataWithoutPartiallyFilledOrEmptyRows));
     },
     
     updateFeedbackPathsSpreadsheet: function($questionForm) {

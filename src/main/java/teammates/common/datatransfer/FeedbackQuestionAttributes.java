@@ -670,10 +670,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                 gson.fromJson(customFeedbackPathsSpreadsheetData, token.getType());
         List<FeedbackPathAttributes> feedbackPathAttributesList = new ArrayList<FeedbackPathAttributes>();
         for (List<String> feedbackPath : customFeedbackPaths) {
-            if (!feedbackPath.contains("") && !feedbackPath.contains(null)) {
-                feedbackPathAttributesList.add(
-                        new FeedbackPathAttributes(courseId, feedbackPath.get(0), feedbackPath.get(1)));
-            }
+            feedbackPathAttributesList.add(
+                    new FeedbackPathAttributes(courseId, feedbackPath.get(0), feedbackPath.get(1)));
         }
         
         return feedbackPathAttributesList;
