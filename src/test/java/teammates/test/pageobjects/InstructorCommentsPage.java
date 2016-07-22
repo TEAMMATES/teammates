@@ -269,8 +269,7 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     private WebElement getStudentCommentsPanelBody() {
-        WebElement studentCommentsPanel = browser.driver.findElement(By.className("student-comments-panel"));
-        return studentCommentsPanel.findElement(By.className("panel-body"));
+        return browser.driver.findElement(By.cssSelector(".student-comments-panel .panel-body"));
     }
     
     /**
