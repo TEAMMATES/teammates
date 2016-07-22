@@ -33,7 +33,7 @@ public class QuestionsDb extends EntitiesDb {
     
     @Override
     public List<EntityAttributes> createEntities(Collection<? extends EntityAttributes> entitiesToAdd)
-                throws InvalidParametersException {
+            throws InvalidParametersException {
         
         List<EntityAttributes> entitiesToUpdate = new ArrayList<>();
         
@@ -90,8 +90,8 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
     
-    public void createFeedbackQuestions(FeedbackSessionAttributes session,
-                                        Collection<FeedbackQuestionAttributes> questionsToAdd)
+    public void createFeedbackQuestions(
+            FeedbackSessionAttributes session, Collection<FeedbackQuestionAttributes> questionsToAdd)
             throws InvalidParametersException, EntityDoesNotExistException {
         
         Transaction txn = getPm().currentTransaction();
@@ -100,8 +100,7 @@ public class QuestionsDb extends EntitiesDb {
             FeedbackSession fs = new FeedbackSessionsDb().getEntity(session);
             
             if (fs == null) {
-                throw new EntityDoesNotExistException(
-                        ERROR_UPDATE_NON_EXISTENT + session.toString());
+                throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + session.toString());
             }
             
             for (FeedbackQuestionAttributes questionToAdd : questionsToAdd) {
@@ -176,14 +175,13 @@ public class QuestionsDb extends EntitiesDb {
      * @throws EntityDoesNotExistException
      * @throws EntityAlreadyExistsException
      */
-    private Question addQuestionToSessionWithoutCommitting(FeedbackSessionAttributes existingSession,
-            FeedbackQuestionAttributes question) throws EntityDoesNotExistException,
-            EntityAlreadyExistsException {
+    private Question addQuestionToSessionWithoutCommitting(
+            FeedbackSessionAttributes existingSession, FeedbackQuestionAttributes question)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
         FeedbackSession fs = new FeedbackSessionsDb().getEntity(existingSession);
         
         if (fs == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT + existingSession.toString());
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + existingSession.toString());
         }
         
         if (fs.getFeedbackQuestions().contains(question.toEntity())) {
@@ -210,8 +208,8 @@ public class QuestionsDb extends EntitiesDb {
      * @throws EntityDoesNotExistException
      * @throws EntityAlreadyExistsException
      */
-    private FeedbackQuestionAttributes createFeedbackQuestionWithoutCommitting(FeedbackSessionAttributes fsa,
-                                                         FeedbackQuestionAttributes question)
+    private FeedbackQuestionAttributes createFeedbackQuestionWithoutCommitting(
+            FeedbackSessionAttributes fsa, FeedbackQuestionAttributes question)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, fsa);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, question);
@@ -231,9 +229,7 @@ public class QuestionsDb extends EntitiesDb {
      * @throws EntityAlreadyExistsException
      */
     public FeedbackQuestionAttributes saveQuestionAndAdjustQuestionNumbers(
-                                                     FeedbackQuestionAttributes questionToAddOrUpdate,
-                                                     boolean isUpdating,
-                                                     int oldQuestionNumber)
+            FeedbackQuestionAttributes questionToAddOrUpdate, boolean isUpdating, int oldQuestionNumber)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         
         String courseId = questionToAddOrUpdate.courseId;
@@ -274,8 +270,8 @@ public class QuestionsDb extends EntitiesDb {
         }
     }
 
-    private void adjustQuestionNumbersInSession(FeedbackQuestionAttributes questionToAddOrUpdate,
-                                                int oldQuestionNumber, FeedbackSession fs) {
+    private void adjustQuestionNumbersInSession(
+            FeedbackQuestionAttributes questionToAddOrUpdate, int oldQuestionNumber, FeedbackSession fs) {
         List<FeedbackQuestionAttributes> questionsForAdjustingNumbers = getFeedbackQuestionsForSession(fs);
         
         // remove question getting edited
@@ -293,8 +289,8 @@ public class QuestionsDb extends EntitiesDb {
         int numberAdjustmentRangeStart = oldQuestionNumber <= 0 ? questionsForAdjustingNumbers.size() + 1
                                                                 : oldQuestionNumber;
         
-        adjustQuestionNumbersWithoutCommitting(numberAdjustmentRangeStart,
-                                               questionToAddOrUpdate.questionNumber, questionsForAdjustingNumbers);
+        adjustQuestionNumbersWithoutCommitting(
+                numberAdjustmentRangeStart, questionToAddOrUpdate.questionNumber, questionsForAdjustingNumbers);
     }
     
     /**
