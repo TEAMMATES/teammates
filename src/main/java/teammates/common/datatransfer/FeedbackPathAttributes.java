@@ -122,45 +122,45 @@ public class FeedbackPathAttributes extends EntityAttributes {
     }
     
     private String getStudentEmail(String participant) {
-        int studentParticipantTypeIndex = getStudentParticipantTypeIndex();
+        int studentParticipantTypeIndex = getStudentParticipantTypeIndex(participant);
         return participant.substring(0, studentParticipantTypeIndex - 1);
     }
     
     private String getInstructorEmail(String participant) {
-        int instructorParticipantTypeIndex = getInstructorParticipantTypeIndex();
+        int instructorParticipantTypeIndex = getInstructorParticipantTypeIndex(participant);
         return participant.substring(0, instructorParticipantTypeIndex - 1);
     }
     
     private String getTeamName(String participant) {
-        int teamParticipantTypeIndex = getTeamParticipantTypeIndex();
+        int teamParticipantTypeIndex = getTeamParticipantTypeIndex(participant);
         return participant.substring(0, teamParticipantTypeIndex - 1);
     }
     
     private boolean isFeedbackPathParticipantAStudent(String participant) {
-        int studentParticipantTypeIndex = getStudentParticipantTypeIndex();
+        int studentParticipantTypeIndex = getStudentParticipantTypeIndex(participant);
         return FEEDBACK_PARTICIPANT_TYPE_STUDENT.equals(participant.substring(studentParticipantTypeIndex));
     }
     
     private boolean isFeedbackPathParticipantAnInstructor(String participant) {
-        int instructorParticipantTypeIndex = getInstructorParticipantTypeIndex();
+        int instructorParticipantTypeIndex = getInstructorParticipantTypeIndex(participant);
         return FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR.equals(
                 participant.substring(instructorParticipantTypeIndex));
     }
     
     private boolean isFeedbackPathParticipantATeam(String participant) {
-        int teamParticipantTypeIndex = getTeamParticipantTypeIndex();
+        int teamParticipantTypeIndex = getTeamParticipantTypeIndex(participant);
         return FEEDBACK_PARTICIPANT_TYPE_TEAM.equals(participant.substring(teamParticipantTypeIndex));
     }
     
-    private int getStudentParticipantTypeIndex() {
-        return giver.length() - FEEDBACK_PARTICIPANT_TYPE_STUDENT.length();
+    private int getStudentParticipantTypeIndex(String participant) {
+        return participant.length() - FEEDBACK_PARTICIPANT_TYPE_STUDENT.length();
     }
     
-    private int getInstructorParticipantTypeIndex() {
-        return giver.length() - FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR.length();
+    private int getInstructorParticipantTypeIndex(String participant) {
+        return participant.length() - FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR.length();
     }
     
-    private int getTeamParticipantTypeIndex() {
-        return giver.length() - FEEDBACK_PARTICIPANT_TYPE_TEAM.length();
+    private int getTeamParticipantTypeIndex(String participant) {
+        return participant.length() - FEEDBACK_PARTICIPANT_TYPE_TEAM.length();
     }
 }
