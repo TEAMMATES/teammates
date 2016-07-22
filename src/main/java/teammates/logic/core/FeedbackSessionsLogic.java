@@ -2699,7 +2699,7 @@ public class FeedbackSessionsLogic {
         // where the responses of the questions are visible to the students
         List<FeedbackQuestionAttributes> questionsWithVisibleResponses = new ArrayList<FeedbackQuestionAttributes>();
         List<FeedbackQuestionAttributes> questionsForInstructors =
-                                        fqLogic.getFeedbackQuestionsForCreatorInstructor(session);
+                                        fqLogic.getFeedbackQuestionsForSessionCreatorInstructor(session);
         for (FeedbackQuestionAttributes question : questionsForInstructors) {
             if (frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question)) {
                 questionsWithVisibleResponses.add(question);
