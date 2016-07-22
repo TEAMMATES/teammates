@@ -396,7 +396,7 @@ Apply to thead to make headers not bold.
 }
 
 .tool-tip-decorate {
-    border-bottom: 1px dashed #808080;
+    border-bottom: 1px dotted #808080;
     text-decoration: none;
 }
 

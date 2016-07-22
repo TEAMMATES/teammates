@@ -441,6 +441,7 @@ public abstract class AppPage {
      */
     public AppPage logout() {
         click(logoutButton);
+        waitForPageToLoad();
         return this;
     }
     
