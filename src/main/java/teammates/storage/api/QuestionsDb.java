@@ -352,7 +352,9 @@ public class QuestionsDb extends EntitiesDb {
         } catch (InvalidParametersException e) {
             Assumption.fail("Invalid question." + e);
         } catch (EntityDoesNotExistException e) {
-            Assumption.fail("Question disappeared. " + e);
+            // this can happen if question is an old question which did not have a Question copy of it
+            // TODO Remove silencing the exception, this is not expected after the migration.
+            log.warning("EntityDoesNotExistException thrown for " + e);
         }
     }
     
