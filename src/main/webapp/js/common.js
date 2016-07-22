@@ -557,18 +557,7 @@ function scrollToTop(duration) {
 /** Selector for status message div tag (to be used in jQuery) */
 var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
-/**
- * Sets a status message and the message status.
- * Default message type is info.
- *
- * @param message the text message to be shown to the user
- * @param status type
- */
-function setStatusMessage(message, status) {
-    if (message === '' || message === undefined || message === null) {
-        return;
-    }
-
+function prepareStatusMessage(message, status) {
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     var $statusMessage = $('<div></div>');
     
@@ -581,6 +570,21 @@ function setStatusMessage(message, status) {
     
     $statusMessagesToUser.empty();
     $statusMessagesToUser.append($statusMessage);
+}
+
+/**
+ * Sets a status message and the message status.
+ * Default message type is info.
+ *
+ * @param message the text message to be shown to the user
+ * @param status type
+ */
+function setStatusMessage(message, status) {
+    if (message === '' || message === undefined || message === null) {
+        return;
+    }
+
+    prepareStatusMessage(message, status);
     $statusMessagesToUser.show();
     
     scrollToElement($statusMessagesToUser[0], { offset: window.innerHeight / 2 * -1 });
@@ -599,19 +603,9 @@ function setStatusMessageToForm(message, status, form) {
         return;
     }
 
+    prepareStatusMessage(message, status);
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
-    var $statusMessage = $('<div></div>');
-    
-    $statusMessage.addClass('overflow-auto');
-    $statusMessage.addClass('alert');
-    // Default the status type to info if any invalid status is passed in
-    $statusMessage.addClass('alert-' + (StatusType.isValidType(status) ? status : StatusType.INFO));
-    $statusMessage.addClass('statusMessage');
-    $statusMessage.html(message);
-    
-    $statusMessagesToUser.empty();
-    $statusMessagesToUser.append($statusMessage);
-    
+ 
     // Copy the statusMessage and prepend to form
     var $copyOfStatusMessagesToUser = $statusMessagesToUser.clone().show();
     $statusMessagesToUser.remove();
