@@ -7,6 +7,10 @@ import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackPath;
 
 public class FeedbackPathAttributes extends EntityAttributes {
+    
+    public static final String FEEDBACK_PARTICIPANT_TYPE_STUDENT = "(Student)";
+    public static final String FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR = "(Instructor)";
+    public static final String FEEDBACK_PARTICIPANT_TYPE_TEAM = "(Team)";
 
     private String feedbackPathId;
     private String courseId;
@@ -85,14 +89,78 @@ public class FeedbackPathAttributes extends EntityAttributes {
     }
     
     public boolean isStudentFeedbackPathGiver(StudentAttributes student) {
-        String[] feedbackPathGiver = giver.split(" ");
-        return feedbackPathGiver[0].equals(student.getTeam())
-                || feedbackPathGiver[0].equals(student.getEmail())
-                && "(Student)".equals(feedbackPathGiver[1]);
+        String studentFeedbackPathGiver = getStudentEmail(giver);
+        String teamFeedbackPathGiver = getTeamName(giver);
+        return isFeedbackPathParticipantAStudent(giver) && studentFeedbackPathGiver.equals(student.getEmail())
+               || isFeedbackPathParticipantATeam(giver) && teamFeedbackPathGiver.equals(student.getTeam());
     }
     
     public boolean isInstructorFeedbackPathGiver(String instructorEmail) {
-        String[] feedbackPathGiver = giver.split(" ");
-        return feedbackPathGiver[0].equals(instructorEmail) && "(Instructor)".equals(feedbackPathGiver[1]);
+        String instructorFeedbackPathGiver = getInstructorEmail(giver);
+        return isFeedbackPathParticipantAnInstructor(giver)
+                && instructorFeedbackPathGiver.equals(instructorEmail);
+    }
+    
+    public String getGiverId() {
+        return getParticipantId(giver);
+    }
+    
+    public String getRecipientId() {
+        return getParticipantId(recipient);
+    }
+    
+    private String getParticipantId(String participant) {
+        if (isFeedbackPathParticipantAStudent(participant)) {
+            return getStudentEmail(participant);
+        } else if (isFeedbackPathParticipantAnInstructor(participant)) {
+            return getInstructorEmail(participant);
+        } else if (isFeedbackPathParticipantATeam(participant)) {
+            return getTeamName(participant);
+        } else {
+            return "";
+        }
+    }
+    
+    private String getStudentEmail(String participant) {
+        int studentParticipantTypeIndex = getStudentParticipantTypeIndex();
+        return participant.substring(0, studentParticipantTypeIndex - 1);
+    }
+    
+    private String getInstructorEmail(String participant) {
+        int instructorParticipantTypeIndex = getInstructorParticipantTypeIndex();
+        return participant.substring(0, instructorParticipantTypeIndex - 1);
+    }
+    
+    private String getTeamName(String participant) {
+        int teamParticipantTypeIndex = getTeamParticipantTypeIndex();
+        return participant.substring(0, teamParticipantTypeIndex - 1);
+    }
+    
+    private boolean isFeedbackPathParticipantAStudent(String participant) {
+        int studentParticipantTypeIndex = getStudentParticipantTypeIndex();
+        return FEEDBACK_PARTICIPANT_TYPE_STUDENT.equals(participant.substring(studentParticipantTypeIndex));
+    }
+    
+    private boolean isFeedbackPathParticipantAnInstructor(String participant) {
+        int instructorParticipantTypeIndex = getInstructorParticipantTypeIndex();
+        return FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR.equals(
+                participant.substring(instructorParticipantTypeIndex));
+    }
+    
+    private boolean isFeedbackPathParticipantATeam(String participant) {
+        int teamParticipantTypeIndex = getTeamParticipantTypeIndex();
+        return FEEDBACK_PARTICIPANT_TYPE_TEAM.equals(participant.substring(teamParticipantTypeIndex));
+    }
+    
+    private int getStudentParticipantTypeIndex() {
+        return giver.length() - FEEDBACK_PARTICIPANT_TYPE_STUDENT.length();
+    }
+    
+    private int getInstructorParticipantTypeIndex() {
+        return giver.length() - FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR.length();
+    }
+    
+    private int getTeamParticipantTypeIndex() {
+        return giver.length() - FEEDBACK_PARTICIPANT_TYPE_TEAM.length();
     }
 }

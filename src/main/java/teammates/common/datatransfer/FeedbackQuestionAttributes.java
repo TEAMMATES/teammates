@@ -636,10 +636,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      */
     public boolean hasStudentAsGiverInFeedbackPaths(StudentAttributes student) {
         if (giverType == FeedbackParticipantType.CUSTOM && recipientType == FeedbackParticipantType.CUSTOM) {
-            for (FeedbackPathAttributes feedbackPathAttributes : feedbackPathAttributesList) {
-                String[] giver = feedbackPathAttributes.getGiver().split(" ");
-                if (giver[0].equals(student.getTeam())
-                        || giver[0].equals(student.getEmail()) && "(Student)".equals(giver[1])) {
+            for (FeedbackPathAttributes feedbackPathAttributes : feedbackPaths) {
+                if (feedbackPathAttributes.isStudentFeedbackPathGiver(student)) {
                     return true;
                 }
             }
@@ -652,9 +650,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      */
     public boolean hasInstructorAsGiverInFeedbackPaths(String instructorEmail) {
         if (giverType == FeedbackParticipantType.CUSTOM && recipientType == FeedbackParticipantType.CUSTOM) {
-            for (FeedbackPathAttributes feedbackPathAttributes : feedbackPathAttributesList) {
-                String[] giver = feedbackPathAttributes.getGiver().split(" ");
-                if (giver[0].equals(instructorEmail) && "(Instructor)".equals(giver[1])) {
+            for (FeedbackPathAttributes feedbackPathAttributes : feedbackPaths) {
+                if (feedbackPathAttributes.isInstructorFeedbackPathGiver(instructorEmail)) {
                     return true;
                 }
             }

@@ -500,18 +500,18 @@ public class FeedbackQuestionsLogic {
                         isUserStudentAndFeedbackPathGiver || isUserInstructorAndFeedbackPathGiver;
                 
                 if (isUserFeedbackPathGiver) {
-                    String[] feedbackPathRecipient = feedbackPathAttributes.getRecipient().split(" ");
+                    String feedbackPathRecipientId = feedbackPathAttributes.getRecipientId();
                     String name = "";
                     
-                    if (studentEmailToStudentNameMap.containsKey(feedbackPathRecipient[0])) {
-                        name = studentEmailToStudentNameMap.get(feedbackPathRecipient[0]);
-                    } else if (instructorEmailToInstructorNameMap.containsKey(feedbackPathRecipient[0])) {
-                        name = instructorEmailToInstructorNameMap.get(feedbackPathRecipient[0]);
+                    if (studentEmailToStudentNameMap.containsKey(feedbackPathRecipientId)) {
+                        name = studentEmailToStudentNameMap.get(feedbackPathRecipientId);
+                    } else if (instructorEmailToInstructorNameMap.containsKey(feedbackPathRecipientId)) {
+                        name = instructorEmailToInstructorNameMap.get(feedbackPathRecipientId);
                     } else {
-                        name = feedbackPathRecipient[0];
+                        name = feedbackPathRecipientId;
                     }
                     
-                    recipients.put(feedbackPathRecipient[0], name);
+                    recipients.put(feedbackPathRecipientId, name);
                 }
             }
             break;
