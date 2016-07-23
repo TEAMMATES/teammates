@@ -14,83 +14,112 @@
             <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="${instructorPanel.instructor.googleId}">
         </c:if>
         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
-    
+
         <div id="instructorTable${instructorPanel.index}">
-            <c:if test="${not empty instructorPanel.instructor.googleId}" >
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Google ID:</label>
-                    <div class="col-sm-9">
-                        <input class="form-control immutable" type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>${instructorPanel.index}"
-                                value="${instructorPanel.instructor.googleId}" maxlength="<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%>" 
-                                tabindex="3" disabled>
-                    </div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Google ID:</label>
+                <div class="col-sm-9">
+                    <c:choose>
+                        <c:when test="${not empty instructorPanel.instructor.googleId}">
+                            <input class="form-control immutable"
+                                type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>${instructorPanel.index}"
+                                value="${instructorPanel.instructor.googleId}"
+                                maxlength="<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%>" tabindex="3" disabled>
+                        </c:when>
+                        <c:otherwise>
+                            <p class="form-control-static">
+                                <span class="text-warning">Not available. Instructor is yet to join
+                                    this course.</span>
+                            </p>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
-            </c:if>
-        
+            </div>
+
             <div class="form-group">
                 <label class="col-sm-3 control-label">Name:</label>
                 <div class="col-sm-9">
-                    <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>" 
-                            id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>${instructorPanel.index}" value="${instructorPanel.instructor.name}" 
-                            data-toggle="tooltip" data-placement="top" title="Enter the name of the instructor." 
-                            maxlength="<%=FieldValidator.PERSON_NAME_MAX_LENGTH%>" tabindex="4" disabled>
+                    <input class="form-control" type="text"
+                        name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>"
+                        id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>${instructorPanel.index}"
+                        value="${instructorPanel.instructor.name}"
+                        data-toggle="tooltip" data-placement="top"
+                        title="Enter the name of the instructor."
+                        maxlength="<%=FieldValidator.PERSON_NAME_MAX_LENGTH%>"
+                        tabindex="4" disabled>
                 </div>
             </div>
-        
+
             <div class="form-group">
                 <label class="col-sm-3 control-label">Email:</label>
                 <div class="col-sm-9">
-                    <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" 
-                            id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>${instructorPanel.index}" value="${instructorPanel.instructor.email}"
-                            data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor." 
-                            maxlength="<%=FieldValidator.EMAIL_MAX_LENGTH%>" tabindex="5" disabled
-                            <c:if test="${empty instructorPanel.instructor.googleId}">
+                    <input class="form-control" type="text"
+                        name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>"
+                        id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>${instructorPanel.index}"
+                        value="${instructorPanel.instructor.email}"
+                        data-toggle="tooltip" data-placement="top"
+                        title="Enter the Email of the instructor."
+                        maxlength="<%=FieldValidator.EMAIL_MAX_LENGTH%>"
+                        tabindex="5" disabled
+                        <c:if test="${empty instructorPanel.instructor.googleId}">
                                 readonly
-                            </c:if> >
+                            </c:if>>
                 </div>
             </div>
-            
+
             <div class="form-group">
-                <label class="col-sm-3 control-label">
-                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true"
-                            <c:if test="${instructorPanel.instructor.displayedToStudents}">
+                <label class="col-sm-3 control-label"> <input
+                    type="checkbox"
+                    name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>"
+                    value="true"
+                    <c:if test="${instructorPanel.instructor.displayedToStudents}">
                                 checked
                             </c:if>
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>"
-                            disabled>
-                    Display to students as:
+                    data-toggle="tooltip" data-placement="top"
+                    title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>"
+                    disabled> Display to students as:
                 </label>
 
                 <div class="col-sm-9">
-                    <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
-                            placeholder="E.g.Co-lecturer, Teaching Assistant" value="${instructorPanel.instructor.displayedName}"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"
-                            disabled>
+                    <input class="form-control" type="text"
+                        name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>"
+                        placeholder="E.g.Co-lecturer, Teaching Assistant"
+                        value="${instructorPanel.instructor.displayedName}"
+                        data-toggle="tooltip" data-placement="top"
+                        title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"
+                        disabled>
                 </div>
             </div>
 
             <div id="accessControlInfoForInstr${instructorPanel.index}">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Access Level:</label>
+                    <label class="col-sm-3 control-label">Access
+                        Level:</label>
                     <div class="col-sm-9">
                         <p class="form-control-static">
                             <span>${instructorPanel.instructor.role}</span>
-                            <c:if test="${not instructorPanel.instructor.customRole}">
-                                <a href="javascript:;" onclick="showInstructorRoleModal('${instructorPanel.instructor.role}')">
-                                    &nbsp;View Details
-                                </a>
+                            <c:if
+                                test="${not instructorPanel.instructor.customRole}">
+                                <a href="javascript:;"
+                                    onclick="showInstructorRoleModal('${instructorPanel.instructor.role}')">
+                                    &nbsp;View Details </a>
                             </c:if>
                         </p>
                     </div>
                 </div>
             </div>
-            
-            <course:courseEditAccessControlEditDivForInstr instructorPanel="${instructorPanel}"/>
-            
+
+            <course:courseEditAccessControlEditDivForInstr
+                instructorPanel="${instructorPanel}" />
+
             <div class="form-group">
                 <div class="align-center">
-                    <input id="btnSaveInstructor${instructorPanel.index}" type="submit" class="btn btn-primary"
-                            style="display:none;" value="Save changes" tabindex="6">
+                    <input
+                        id="btnSaveInstructor${instructorPanel.index}"
+                        type="submit" class="btn btn-primary"
+                        style="display: none;" value="Save changes"
+                        tabindex="6">
                 </div>
             </div>
         </div>
