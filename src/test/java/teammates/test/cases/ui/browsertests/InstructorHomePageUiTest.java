@@ -111,23 +111,21 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     private void testShowFeedbackStatsLink() throws Exception {
         WebElement viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
-        
         String currentValidUrl = viewResponseLink.getAttribute("href");
         
         ______TS("test case: fail, fetch response rate of invalid url");
         homePage.setViewResponseLinkValue(viewResponseLink, "/invalid/url");
-        viewResponseLink.click();
+        homePage.clickViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.verifyHtmlMainContent("/InstructorHomeHTMLResponseRateFail.html");
         
         ______TS("test case: fail to fetch response rate again, check consistency of fail message");
-        viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
-        viewResponseLink.click();
+        homePage.clickViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.verifyHtmlMainContent("/InstructorHomeHTMLResponseRateFail.html");
         
         ______TS("test case: pass with valid url after multiple fails");
         viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.setViewResponseLinkValue(viewResponseLink, currentValidUrl);
-        viewResponseLink.click();
+        homePage.clickViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.verifyHtmlMainContent("/instructorHomeHTMLResponseRatePass.html");
     }
     

@@ -36,6 +36,9 @@ public class EmailWorkerServlet extends WorkerServlet {
         case FEEDBACK_PUBLISHED:
             emailObj = new FeedbackSessionPublishedMailAction(req);
             break;
+        case FEEDBACK_UNPUBLISHED:
+            emailObj = new FeedbackSessionUnpublishedMailAction(req);
+            break;
         case PENDING_COMMENT_CLEARED:
             emailObj = new PendingCommentClearedMailAction(req);
             break;

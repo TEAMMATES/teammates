@@ -230,8 +230,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod());
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, feedbackPage.getStatus());
-        
+        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
         
         ______TS("success case: private session, boundary length name, timezone = 5.75, only results email");
 
@@ -435,10 +434,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod());
-        assertEquals(getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                         "bad name %% #", FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                         FieldValidator.REASON_CONTAINS_INVALID_CHAR),
-                     feedbackPage.getStatus());
+        feedbackPage.verifyStatus(getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, "bad name %% #",
+                                                           FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                                           FieldValidator.REASON_CONTAINS_INVALID_CHAR));
         
     }
     
@@ -999,10 +997,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(),
                 newSession.getGracePeriod());
-        assertEquals(getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                         FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
-                     feedbackPage.getStatus());
+        feedbackPage.verifyStatus(getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                                                           "", FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                                           FieldValidator.REASON_EMPTY,
+                                                           FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH));
         assertTrue(feedbackPage.verifyVisible(By.id("timeFramePanel")));
         assertTrue(feedbackPage.verifyVisible(By.id("responsesVisibleFromColumn")));
         assertTrue(feedbackPage.verifyVisible(By.id("instructionsRow")));

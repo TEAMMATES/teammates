@@ -93,7 +93,7 @@ public class InstructorCourseEditPage extends AppPage {
         fillNewInstructorName(name);
         fillNewInstructorEmail(email);
         
-        addInstructorButton.click();
+        click(addInstructorButton);
         waitForPageToLoad();
     }
 
@@ -110,7 +110,7 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void clickSaveInstructorButton(int instrNum) {
         WebElement button = browser.driver.findElement(By.id("btnSaveInstructor" + instrNum));
-        button.click();
+        click(button);
         waitForPageToLoad();
     }
     
@@ -136,24 +136,28 @@ public class InstructorCourseEditPage extends AppPage {
         return getTextBoxValue(newInstructorEmailTextBox);
     }
     
-    public boolean clickEditInstructorLink(int instrNum) {
-        getEditInstructorLink(instrNum).click();
-        
+    public void clickEditInstructorLink(int instrNum) {
+        click(getEditInstructorLink(instrNum));
         WebElement saveButton = getSaveInstructorButton(instrNum);
         waitForElementVisibility(saveButton);
-        
+    }
+    
+    public void clickEditInstructorLinkUnsuccessfully(int instrNum) {
+        click(getEditInstructorLink(instrNum));
+    }
+    
+    public boolean isInstructorEditable(int instrNum) {
         WebElement editInstructorNameTextBox = getNameField(instrNum);
         WebElement editInstructorEmailTextBox = getEmailField(instrNum);
         
         boolean isEditable = editInstructorNameTextBox.isEnabled()
-                             && editInstructorEmailTextBox.isEnabled()
-                             && saveButton.isDisplayed();
+                             && editInstructorEmailTextBox.isEnabled();
         
         return isEditable;
     }
     
     public void clickCancelEditInstructorLink(int instrNum) {
-        getCancelEditInstructorLink(instrNum).click();
+        click(getCancelEditInstructorLink(instrNum));
     }
     
     public void verifyInstructorEditFormDisabled(int instrNum) {
@@ -169,17 +173,17 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public void saveEditInstructor(int instrNum) {
-        getSaveInstructorButton(instrNum).click();
+        click(getSaveInstructorButton(instrNum));
     }
     
     public void clickDisplayedToStudentCheckBox(int instrNum) {
-        getDisplayedToStudentCheckBox(instrNum).click();
+        click(getDisplayedToStudentCheckBox(instrNum));
     }
     
     public void selectRoleForInstructor(int instrNum, String role) {
         WebElement roleRadioButton = browser.driver.findElement(By.cssSelector(
                 "input[id='instructorroleforinstructor" + instrNum + "'][value='" + role + "']"));
-        roleRadioButton.click();
+        click(roleRadioButton);
     }
     
     public boolean isRoleSelectedForInstructor(int instrNum, String role) {
@@ -201,14 +205,14 @@ public class InstructorCourseEditPage extends AppPage {
                         By.cssSelector("#accessControlEditDivForInstr" + instrNum
                                        + " > div.form-group > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
         
-        viewLink.click();
+        click(viewLink);
         waitForPageToLoad();
     }
     
     public void closeModal() {
         WebElement closeButton = browser.driver.findElement(By.className("close"));
         waitForElementToBeClickable(closeButton);
-        closeButton.click();
+        click(closeButton);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -232,19 +236,19 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void clickCourseLevelPrivilegesLink(int instrNum, int linkNum) {
         WebElement coursePanel = getCourseLevelPanel(instrNum);
-        coursePanel.findElements(By.cssSelector("input[type='checkbox']")).get(linkNum).click();
+        click(coursePanel.findElements(By.cssSelector("input[type='checkbox']")).get(linkNum));
     }
     
     public void clickAddSectionLevelPrivilegesLink(int instrNum) {
-        getAddSectionLevelPrivilegesLink(instrNum).click();
+        click(getAddSectionLevelPrivilegesLink(instrNum));
     }
     
     public void clickSectionSelectionCheckBox(int instrNum, int sectionLevelIndex, int sectionNum) {
-        getSectionSelectionCheckBox(instrNum, sectionLevelIndex, sectionNum).click();
+        click(getSectionSelectionCheckBox(instrNum, sectionLevelIndex, sectionNum));
     }
     
     public void clickSectionLevelPrivilegeLink(int instrNum, int sectionLevelIndex, int linkNum) {
-        getSectionLevelPanelCheckBox(instrNum, sectionLevelIndex, linkNum).click();
+        click(getSectionLevelPanelCheckBox(instrNum, sectionLevelIndex, linkNum));
     }
     
     public boolean isSectionLevelPrivilegeLinkClicked(int instrNum, int sectionLevelIndex, int linkNum) {
@@ -253,7 +257,7 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void clickSessionLevelPrivilegeLink(int instrNum, int sectionLevelIndex,
                                                int sessionIndex, int linkNum) {
-        getSessionLevelTableCheckbox(instrNum, sectionLevelIndex, sessionIndex, linkNum).click();
+        click(getSessionLevelTableCheckbox(instrNum, sectionLevelIndex, sessionIndex, linkNum));
     }
     
     public boolean isSessionLevelPrivilegeLinkClicked(int instrNum, int sectionLevelIndex,
@@ -263,12 +267,11 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelIndex) {
         String linkId = "toggleSessionLevelInSection" + sectionLevelIndex + "ForInstructor" + instrNum;
-        browser.driver.findElement(By.id(linkId)).click();
+        click(browser.driver.findElement(By.id(linkId)));
     }
     
     public void clickHideSectionLevelPrivileges(int instrNum, int sectionLevelIndex) {
-        getSectionLevelPanel(instrNum, sectionLevelIndex)
-                .findElement(By.cssSelector(".glyphicon-trash")).click();
+        click(getSectionLevelPanel(instrNum, sectionLevelIndex).findElement(By.cssSelector(".glyphicon-trash")));
     }
     
     public boolean isTuneSessionPermissionsDivVisible(int instrNum, int sectionLevelIndex) {
@@ -283,7 +286,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public boolean clickShowNewInstructorFormButton() {
-        showNewInstructorFormButton.click();
+        click(showNewInstructorFormButton);
         
         boolean isFormShownCorrectly = newInstructorNameTextBox.isEnabled()
                 && newInstructorEmailTextBox.isEnabled()
@@ -297,7 +300,7 @@ public class InstructorCourseEditPage extends AppPage {
         
         WebElement viewDetailsLink = instructorForm.findElement(By.cssSelector(
                                             "a[onclick=\"showInstructorRoleModal('" + role + "')\"]"));
-        viewDetailsLink.click();
+        click(viewDetailsLink);
         
         WebElement viewDetailsModal = browser.driver.findElement(By.cssSelector(
                                             "div#tunePermissionsDivForInstructorAll"));
@@ -311,12 +314,12 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public void clickAddInstructorButton() {
-        addInstructorButton.click();
+        click(addInstructorButton);
         waitForPageToLoad();
     }
 
     public void clickInviteInstructorLink(int instrNum) {
-        getInviteInstructorLink(instrNum).click();
+        click(getInviteInstructorLink(instrNum));
         waitForPageToLoad();
     }
     
@@ -324,7 +327,7 @@ public class InstructorCourseEditPage extends AppPage {
      * Clicks the button to edit the course.
      */
     public void clickEditCourseLink() {
-        editCourseLink.click();
+        click(editCourseLink);
         waitForElementVisibility(saveCourseButton);
     }
     
@@ -332,7 +335,7 @@ public class InstructorCourseEditPage extends AppPage {
      * Clicks the save changes button to save the changes made to the course.
      */
     public void clickSaveCourseButton() {
-        saveCourseButton.click();
+        click(saveCourseButton);
         waitForPageToLoad();
     }
     

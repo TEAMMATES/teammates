@@ -157,6 +157,17 @@ public class InstructorAttributes extends EntityAttributes {
         // deprecated
     }
     
+    private InstructorAttributes(InstructorAttributes other) {
+        this(other.googleId, other.courseId, other.name, other.email,
+             other.role, other.isDisplayedToStudents, other.displayedName, other.privileges);
+        this.key = other.key;
+        this.isArchived = other.isArchived;
+    }
+    
+    public InstructorAttributes getCopy() {
+        return new InstructorAttributes(this);
+    }
+
     public String getTextFromInstructorPrivileges() {
         return gson.toJson(privileges, InstructorPrivileges.class);
     }

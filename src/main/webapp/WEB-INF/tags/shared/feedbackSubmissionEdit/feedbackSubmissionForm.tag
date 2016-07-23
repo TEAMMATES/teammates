@@ -32,11 +32,9 @@
     </c:if>
     
     <c:forEach items="${data.questionsWithResponses}" var="questionWithResponses">
-        <c:if test="${questionWithResponses.numOfResponseBoxes ne 0}">
-            <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}" 
-                                         isShowRealQuestionNumber="${data.showRealQuestionNumber}" 
-                                         questionWithResponses="${questionWithResponses}"/>
-        </c:if>
+        <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}" 
+                                     isShowRealQuestionNumber="${data.showRealQuestionNumber}" 
+                                     questionWithResponses="${questionWithResponses}"/>
     </c:forEach>
     
     <div class="bold align-center"> 

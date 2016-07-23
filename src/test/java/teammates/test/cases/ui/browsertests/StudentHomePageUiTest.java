@@ -131,7 +131,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         ______TS("link: link of published feedback");
 
-        studentHomePage.getViewFeedbackButton("Closed Feedback Session").click();
+        studentHomePage.clickViewFeedbackButton("Closed Feedback Session");
         studentHomePage.reloadPage();
         String pageSource = browser.driver.getPageSource();
         assertTrue(pageSource.contains("Feedback Results"));
@@ -139,7 +139,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         assertTrue(pageSource.contains("Closed Feedback Session"));
         studentHomePage.loadStudentHomeTab();
 
-        studentHomePage.getSubmitFeedbackButton("Closed Feedback Session").click();
+        studentHomePage.clickSubmitFeedbackButton("Closed Feedback Session");
         studentHomePage.reloadPage();
         pageSource = browser.driver.getPageSource();
         assertTrue(pageSource.contains("Submit Feedback"));
@@ -152,7 +152,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         assertEquals("true", studentHomePage.getViewFeedbackButton("Graced Feedback Session").getAttribute("disabled"));
         
-        studentHomePage.getSubmitFeedbackButton("Graced Feedback Session").click();
+        studentHomePage.clickSubmitFeedbackButton("Graced Feedback Session");
         studentHomePage.reloadPage();
         pageSource = browser.driver.getPageSource();
         assertTrue(pageSource.contains("Submit Feedback"));
@@ -165,7 +165,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         assertEquals("true", studentHomePage.getViewFeedbackButton("First Feedback Session").getAttribute("disabled"));
         
-        studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
+        studentHomePage.clickSubmitFeedbackButton("First Feedback Session");
         studentHomePage.reloadPage();
         pageSource = browser.driver.getPageSource();
         assertTrue(pageSource.contains("Submit Feedback"));
@@ -184,7 +184,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         ______TS("access the feedback session exactly after it is deleted");
         
         BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");
-        studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
+        studentHomePage.clickSubmitFeedbackButton("First Feedback Session");
         studentHomePage.waitForPageToLoad();
         studentHomePage.verifyHtmlMainContent("/studentHomeFeedbackDeletedHTML.html");
         

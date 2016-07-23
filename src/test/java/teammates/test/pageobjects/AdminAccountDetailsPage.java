@@ -16,14 +16,15 @@ public class AdminAccountDetailsPage extends AppPage {
     }
 
     public AdminAccountDetailsPage clickRemoveInstructorFromCourse(String courseId) {
-        this.waitForElementPresence(By.id("instructor_" + courseId));
-        browser.driver.findElement(By.id("instructor_" + courseId)).click();
+        waitForElementPresence(By.id("instructor_" + courseId));
+        click(browser.driver.findElement(By.id("instructor_" + courseId)));
         waitForPageToLoad();
         return this;
     }
     
     public AdminAccountDetailsPage clickRemoveStudentFromCourse(String courseId) {
-        browser.driver.findElement(By.id("student_" + courseId)).click();
+        waitForElementPresence(By.id("student_" + courseId));
+        click(browser.driver.findElement(By.id("student_" + courseId)));
         waitForPageToLoad();
         return this;
     }

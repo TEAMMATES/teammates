@@ -26,7 +26,7 @@ public class DevServerLoginPage extends LoginPage {
     @Override
     public InstructorHomePage loginAsInstructor(String username, String password) {
         fillTextBox(emailTextBox, username);
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorHomePage.class);
@@ -35,7 +35,7 @@ public class DevServerLoginPage extends LoginPage {
     @Override
     public AppPage loginAsInstructorUnsuccessfully(String userName, String password) {
         fillTextBox(emailTextBox, userName);
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
         return this;
@@ -45,8 +45,8 @@ public class DevServerLoginPage extends LoginPage {
     public void loginAdminAsInstructor(
             String adminUsername, String adminPassword, String instructorUsername) {
         fillTextBox(emailTextBox, instructorUsername);
-        isAdminCheckBox.click();
-        loginButton.click();
+        click(isAdminCheckBox);
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = true;
     }
@@ -59,7 +59,7 @@ public class DevServerLoginPage extends LoginPage {
     @Override
     public <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
         fillTextBox(emailTextBox, username);
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
         return changePageType(typeOfPage);
@@ -68,7 +68,7 @@ public class DevServerLoginPage extends LoginPage {
     @Override
     public StudentCourseJoinConfirmationPage loginAsJoiningStudent(String username, String password) {
         fillTextBox(emailTextBox, username);
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
         return changePageType(StudentCourseJoinConfirmationPage.class);
@@ -77,7 +77,7 @@ public class DevServerLoginPage extends LoginPage {
     @Override
     public InstructorCourseJoinConfirmationPage loginAsJoiningInstructor(String username, String password) {
         fillTextBox(emailTextBox, username);
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorCourseJoinConfirmationPage.class);
@@ -86,7 +86,7 @@ public class DevServerLoginPage extends LoginPage {
     @Override
     public InstructorHomePage loginAsJoiningInstructorByPassConfirmation(String username, String password) {
         fillTextBox(emailTextBox, username);
-        loginButton.click();
+        click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorHomePage.class);
