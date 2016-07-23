@@ -3,7 +3,6 @@ package teammates.storage.api;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import java.util.Iterator;
 import java.util.Collections;
 import java.util.List;
 
@@ -220,7 +219,7 @@ public class QuestionsDb extends EntitiesDb {
      * Saves (either creating or updating one, determined by {@code isUpdating}) a question
      * to {@code session}.
      * @param session
-     * @param questionToAddOrUpdate
+     * @param questionToSave
      * @param isUpdating
      * @param oldQuestionNumber
      * @throws InvalidParametersException
@@ -228,11 +227,11 @@ public class QuestionsDb extends EntitiesDb {
      * @throws EntityAlreadyExistsException
      */
     public FeedbackQuestionAttributes saveQuestionAndAdjustQuestionNumbers(
-            FeedbackQuestionAttributes questionToAddOrUpdate, boolean isUpdating, int oldQuestionNumber)
+            FeedbackQuestionAttributes questionToSave, boolean isUpdating, int oldQuestionNumber)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         
-        String courseId = questionToAddOrUpdate.courseId;
-        String feedbackSessionName = questionToAddOrUpdate.feedbackSessionName;
+        String courseId = questionToSave.courseId;
+        String feedbackSessionName = questionToSave.feedbackSessionName;
        
         Transaction txn = getPm().currentTransaction();
         try {
@@ -246,21 +245,21 @@ public class QuestionsDb extends EntitiesDb {
             if (fs == null) {
                 throw new EntityDoesNotExistException("Session disappeared");
             }
-            if (!questionToAddOrUpdate.isValid()) {
-                throw new InvalidParametersException(questionToAddOrUpdate.getInvalidityInfo());
+            if (!questionToSave.isValid()) {
+                throw new InvalidParametersException(questionToSave.getInvalidityInfo());
             }
             
-            adjustQuestionNumbersInSession(questionToAddOrUpdate, oldQuestionNumber, fs);
+            adjustQuestionNumbersInSession(questionToSave, oldQuestionNumber, fs);
             
-            FeedbackQuestionAttributes questionMade;
+            FeedbackQuestionAttributes savedQuestion;
             if (isUpdating) {
-                questionMade = updateFeedbackQuestionWithoutComitting(questionToAddOrUpdate);
+                savedQuestion = updateFeedbackQuestionWithoutComitting(questionToSave);
             } else {
-                questionMade = createFeedbackQuestionWithoutCommitting(fsa, questionToAddOrUpdate);
+                savedQuestion = createFeedbackQuestionWithoutCommitting(fsa, questionToSave);
             }
             txn.commit();
             
-            return questionMade;
+            return savedQuestion;
         } finally {
             if (txn.isActive()) {
                 txn.rollback();
@@ -270,27 +269,23 @@ public class QuestionsDb extends EntitiesDb {
     }
 
     private void adjustQuestionNumbersInSession(
-            FeedbackQuestionAttributes questionToAddOrUpdate, int oldQuestionNumber, FeedbackSession session) {
+            FeedbackQuestionAttributes questionToSave, int oldQuestionNumber, FeedbackSession session) {
         List<FeedbackQuestionAttributes> questionsForAdjustingNumbers = getFeedbackQuestionsForSession(session);
         
         // remove question getting edited
-        for (Iterator<FeedbackQuestionAttributes> iter = questionsForAdjustingNumbers.iterator();
-                iter.hasNext();) {
-            FeedbackQuestionAttributes questionForAdjustment = iter.next();
-            if (questionForAdjustment.getId().equals(questionToAddOrUpdate.getId())) {
-                iter.remove();
-            }
-        }
+        FeedbackQuestionAttributes.removeQuestionWithIdInQuestions(
+                                        questionToSave.getId(), questionsForAdjustingNumbers);
         
-        if (questionToAddOrUpdate.questionNumber <= 0) {
-            questionToAddOrUpdate.questionNumber = questionsForAdjustingNumbers.size() + 1;
+        if (questionToSave.questionNumber <= 0) {
+            questionToSave.questionNumber = questionsForAdjustingNumbers.size() + 1;
         }
         int numberAdjustmentRangeStart = oldQuestionNumber <= 0 ? questionsForAdjustingNumbers.size() + 1
                                                                 : oldQuestionNumber;
         
         adjustQuestionNumbersWithoutCommitting(
-                numberAdjustmentRangeStart, questionToAddOrUpdate.questionNumber, questionsForAdjustingNumbers);
+                numberAdjustmentRangeStart, questionToSave.questionNumber, questionsForAdjustingNumbers);
     }
+
     
     /**
      * Adjusts {@code questions} between {@code oldQuestionNumber} and {@code newQuestionNumber}

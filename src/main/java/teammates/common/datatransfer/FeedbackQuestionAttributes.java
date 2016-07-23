@@ -2,7 +2,9 @@ package teammates.common.datatransfer;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import teammates.common.util.Const;
@@ -690,6 +692,16 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     public String getQuestionAdditionalInfoHtml() {
         return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
+    }
+    
+    public static void removeQuestionWithIdInQuestions(String questionId,
+                                                Collection<FeedbackQuestionAttributes> questions) {
+        for (Iterator<FeedbackQuestionAttributes> iter = questions.iterator(); iter.hasNext();) {
+            FeedbackQuestionAttributes questionForAdjustment = iter.next();
+            if (questionForAdjustment.getId().equals(questionId)) {
+                iter.remove();
+            }
+        }
     }
     
 }
