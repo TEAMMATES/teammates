@@ -91,7 +91,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_done_editing")
     private WebElement doneEditingButton;
     
-    @FindBy(id = "questiontext")
+    @FindBy(id = "questiontext--1")
     private WebElement questionTextBox;
 
     @FindBy(id = "mcqOtherOptionFlag--1")
@@ -100,10 +100,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "msqOtherOptionFlag--1")
     private WebElement addMsqOtherOptionCheckboxForNewQuestion;
     
-    @FindBy(id = "givertype")
+    @FindBy(id = "givertype--1")
     private WebElement giverDropdown;
     
-    @FindBy(id = "recipienttype")
+    @FindBy(id = "recipienttype--1")
     private WebElement recipientDropdown;
     
     @FindBy(id = "givertype-1")
@@ -117,9 +117,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "questionsavechangestext-1")
     private WebElement questionSaveForQuestion1;
-    
-    @FindBy(id = "numofrecipients")
-    private WebElement numberOfRecipients;
     
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='max']")
     private WebElement maxNumOfRecipients;
@@ -189,14 +186,16 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void fillNewQuestionDescription(String qnDescription) {
-        fillRichTextEditor(Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, qnDescription);
+        fillRichTextEditor(Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION + "--1", qnDescription);
     }
 
     public void fillEditQuestionDescription(String qnDescription, int qnIndex) {
         fillRichTextEditor(Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION + "-" + qnIndex, qnDescription);
     }
 
-    public void fillNumOfEntitiesToGiveFeedbackToBox(String num) {
+    public void fillNumOfEntitiesToGiveFeedbackToBoxForNewQuestion(String num) {
+        WebElement questionForm = browser.driver.findElement(By.id("form_editquestion--1"));
+        WebElement numberOfRecipients = questionForm.findElement(By.className("numberOfEntitiesBox"));
         fillTextBox(numberOfRecipients, num);
     }
 
@@ -457,11 +456,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void clickVisibilityPreviewForNewQuestion() {
-        click(browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessageButton")));
+        click(browser.driver.findElement(By.cssSelector("#questionTable--1 .visibilityMessageButton")));
     }
     
     public void clickVisibilityOptionsForNewQuestion() {
-        click(browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityOptionsLabel")));
+        click(browser.driver.findElement(By.cssSelector("#questionTable--1 .visibilityOptionsLabel")));
     }
     
     public void clickAddQuestionButton() {
@@ -480,7 +479,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public boolean isOptionForSelectingNumberOfEntitiesVisible(int qnNumber) {
-        return isElementVisible(By.className("numberOfEntitiesElements" + qnNumber));
+        return isElementVisible(By.cssSelector("#form_editquestion-" + qnNumber + " .numberOfEntitiesElements"));
     }
 
     public void clickSaveExistingQuestionButton(int qnNumber) {
@@ -701,8 +700,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(recipientDropdownForQuestion1, recipientType);
     }
     
+    public String getGiverTypeForQuestion1() {
+        return giverDropdownForQuestion1.getAttribute("value");
+    }
+    
+    public String getRecipientTypeForQuestion1() {
+        return recipientDropdownForQuestion1.getAttribute("value");
+    }
+    
     public void selectRecipientTypeForNewQuestion(String recipientType) {
-        selectDropdownByVisibleValue(browser.driver.findElement(By.id("recipienttype")), recipientType);
+        selectDropdownByVisibleValue(browser.driver.findElement(By.id("recipienttype--1")), recipientType);
     }
     
     /**
@@ -714,15 +721,34 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(openNewQuestionButton);
     }
 
-    public boolean isAllFeedbackPathOptionsEnabled() {
-        List<WebElement> options = browser.driver.findElements(By.cssSelector("#givertype option"));
-        options.addAll(browser.driver.findElements(By.cssSelector("#recipienttype option")));
+    public boolean isAllFeedbackPathOptionsEnabledForNewQuestion() {
+        List<WebElement> options = browser.driver.findElements(By.cssSelector("#givertype--1 option"));
+        options.addAll(browser.driver.findElements(By.cssSelector("#recipienttype--1 option")));
         for (WebElement option : options) {
             if (!option.isEnabled()) {
                 return false;
             }
         }
         return true;
+    }
+    
+    public boolean isAllRecipientOptionsDisplayed(int questionNumber) {
+        List<WebElement> recipientOptions =
+                browser.driver.findElements(By.cssSelector("#recipienttype-" + questionNumber + " option"));
+        for (WebElement recipientOption : recipientOptions) {
+            if ("none".equals(recipientOption.getCssValue("display"))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean isRecipientOptionDisplayed(FeedbackParticipantType recipientType, int questionNumber) {
+        WebElement recipientOption =
+                browser.driver.findElement(
+                        By.cssSelector("#recipienttype-" + questionNumber
+                                       + " option[value='" + recipientType + "']"));
+        return !"none".equals(recipientOption.getCssValue("display"));
     }
     
     public void selectGiverToBe(FeedbackParticipantType giverType, int questionNumber) {
@@ -805,8 +831,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
     
-    public void clickAddMoreMcqOptionLink() {
-        WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink"));
+    public void clickAddMoreMcqOptionLinkForNewQuestion() {
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink--1"));
         click(addMoreOptionLink);
     }
     
@@ -830,8 +856,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
     
-    public void clickAddMoreMsqOptionLink() {
-        WebElement addMoreOptionLink = browser.driver.findElement(By.id("msqAddOptionLink"));
+    public void clickAddMoreMsqOptionLink(int qnIndex) {
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("msqAddOptionLink-" + qnIndex));
         click(addMoreOptionLink);
     }
     
@@ -848,8 +874,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
     
-    public void clickAddMoreConstSumOptionLink() {
-        WebElement addMoreOptionLink = browser.driver.findElement(By.id("constSumAddOptionLink"));
+    public void clickAddMoreConstSumOptionLink(int qnIndex) {
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("constSumAddOptionLink-" + qnIndex));
         click(addMoreOptionLink);
     }
     
@@ -1018,7 +1044,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public boolean isVisibilityPreviewDisplayedForNewQuestion() {
-        WebElement visibilityPreviewDiv = browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessage"));
+        WebElement visibilityPreviewDiv = browser.driver.findElement(By.cssSelector("#questionTable--1 .visibilityMessage"));
         List<WebElement> visibilityMessages = visibilityPreviewDiv.findElements(By.cssSelector("ul > li"));
         return visibilityPreviewDiv.isDisplayed() && !visibilityMessages.isEmpty();
     }
@@ -1049,7 +1075,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public WebElement getNewQnVisibilityOptions() {
-        return browser.driver.findElement(By.id("visibilityOptions"));
+        return browser.driver.findElement(By.id("visibilityOptions--1"));
     }
 
     public void toggleNotSureCheck(int questionNumber) {
@@ -1070,7 +1096,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void clickResponseVisiblityCheckBoxForNewQuestion(String checkBoxValue) {
-        By responseVisibilitycheckBox = By.cssSelector("#questionTableNew input[value='" + checkBoxValue
+        By responseVisibilitycheckBox = By.cssSelector("#questionTable--1 input[value='" + checkBoxValue
                                                        + "'].answerCheckbox");
         WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
         waitForElementVisibility(checkbox);
