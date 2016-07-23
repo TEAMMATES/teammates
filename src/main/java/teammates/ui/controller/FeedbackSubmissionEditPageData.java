@@ -205,16 +205,13 @@ public class FeedbackSubmissionEditPageData extends PageData {
             if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS || numOfResponseBoxes > maxResponsesPossible) {
                 numOfResponseBoxes = maxResponsesPossible;
             }
-            
-            if (numOfResponseBoxes > 0) {
-                FeedbackSubmissionEditQuestion question = createQuestion(questionAttributes, qnIndx);
-                List<FeedbackSubmissionEditResponse> responses =
-                        createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
-            
-                questionsWithResponses.add(new StudentFeedbackSubmissionEditQuestionsWithResponses(
-                                                question, responses, numOfResponseBoxes, maxResponsesPossible));
-                qnIndx++;
-            }
+            FeedbackSubmissionEditQuestion question = createQuestion(questionAttributes, qnIndx);
+            List<FeedbackSubmissionEditResponse> responses =
+                    createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
+
+            questionsWithResponses.add(new StudentFeedbackSubmissionEditQuestionsWithResponses(
+                    question, responses, numOfResponseBoxes, maxResponsesPossible));
+            qnIndx++;
         }
     }
 
