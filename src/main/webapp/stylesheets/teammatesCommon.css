@@ -310,6 +310,7 @@ Apply to thead to make headers not bold.
 
 .text-preserve-space {
     white-space: pre-wrap;
+    word-break: break-all;
 }
 
 .text-strike {
