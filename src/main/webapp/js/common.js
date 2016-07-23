@@ -608,7 +608,7 @@ function setStatusMessage(message, status) {
 function setStatusMessageToForm(message, status, form) {
     if (message === '' || message === undefined || message === null) {
         return;
-    }    
+    }
     // Copy the statusMessage and prepend to form
     var $copyOfStatusMessagesToUser = createStatusMessageDivge(message, status).clone().show();
     $statusMessagesToUser.remove();
