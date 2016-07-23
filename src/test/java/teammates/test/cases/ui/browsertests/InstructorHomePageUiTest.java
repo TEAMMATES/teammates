@@ -325,6 +325,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("unpublish action: PUBLISHED feedback session");
         homePage.clickFeedbackSessionUnpublishLink(feedbackSessionPublished.getCourseId(),
                                                    feedbackSessionPublished.getFeedbackSessionName());
+        homePage.waitForConfirmationModalAndClickOk();
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
         assertFalse(BackDoor.getFeedbackSession(feedbackSessionPublished.getCourseId(),

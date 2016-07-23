@@ -177,7 +177,6 @@ public class InstructorHomePage extends AppPage {
      */
     public InstructorHomePage clickFeedbackSessionUnpublishLink(String courseId, String fsName) {
         click(getUnpublishLink(courseId, fsName));
-        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorHomePage.class);
