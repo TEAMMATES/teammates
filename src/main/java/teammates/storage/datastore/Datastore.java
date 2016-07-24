@@ -51,23 +51,4 @@ public final class Datastore {
         return pm;
     }
 
-    public static void finishRequest() {
-
-        PersistenceManager pm = PER_THREAD_PM.get();
-        
-        if (pm == null) {
-            return;
-        }
-        
-        PER_THREAD_PM.remove();
-
-        if (!pm.isClosed()) {
-            Transaction tx = pm.currentTransaction();
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-            pm.close();
-        }
-
-    }
 }
