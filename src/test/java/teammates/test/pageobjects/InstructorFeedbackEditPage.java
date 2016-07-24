@@ -787,7 +787,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void enableOtherFeedbackPathOptions(int qnNumber) {
-        WebElement questionTable = browser.driver.findElement(By.id("questionTable" + qnNumber));
+        WebElement questionTable = browser.driver.findElement(By.id("questionTable-" + qnNumber));
         WebElement dropdownButton = questionTable.findElement(By.cssSelector(".feedback-path-dropdown > button"));
         WebElement otherOption = questionTable.findElement(
                                      By.className("feedback-path-dropdown-option-other"));
@@ -796,7 +796,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void enableOtherFeedbackPathOptionsForNewQuestion() {
-        WebElement questionTable = browser.driver.findElement(By.id("questionTableNew"));
+        WebElement questionTable = browser.driver.findElement(By.id("questionTable--1"));
         WebElement dropdownButton = questionTable.findElement(By.cssSelector(".feedback-path-dropdown > button"));
         WebElement otherOption = questionTable.findElement(
                                      By.className("feedback-path-dropdown-option-other"));

@@ -90,6 +90,7 @@ function setContribQnVisibilityFormat(questionNum) {
 function fixContribQnGiverRecipient(questionNum) {
     var $giverType = $('#givertype-' + questionNum);
     var $recipientType = $('#recipienttype-' + questionNum);
+    var $questionTable = $('#questionTable-' + questionNum);
 
     // Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
     $giverType.find('option').not('[value="STUDENTS"]').hide();
