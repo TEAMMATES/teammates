@@ -129,7 +129,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         FeedbackQuestionFeedbackPathSettings feedbackPath = questionForms.get(0).getFeedbackPathSettings();
         assertTrue(feedbackPath.isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO, feedbackPath.getNumOfEntitiesToGiveFeedbackToValue());
-        assertEquals("-1", questionForms.get(0).getQuestionNumberSuffix());
+        assertEquals(1, questionForms.get(0).getQuestionIndex());
         
         // Test visibility settings for the zero'th question form
         FeedbackQuestionVisibilitySettings visibilitySettings = questionForms.get(0).getVisibilitySettings();
@@ -153,7 +153,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         
         assertEquals("My comments on the class", questionForms.get(2).getQuestionText());
         
-        assertEquals("-3", questionForms.get(2).getQuestionNumberSuffix());
+        assertEquals(3, questionForms.get(2).getQuestionIndex());
         
         assertFalse(questionForms.get(2).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO,
@@ -184,7 +184,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
                         .withCourseId(fs.getCourseId())
                         .withSessionName(fs.getFeedbackSessionName()).toString(), newQuestionForm.getDoneEditingLink());
         assertFalse(newQuestionForm.getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
-        assertTrue(newQuestionForm.getQuestionNumberSuffix().isEmpty());
+        assertEquals(-1, newQuestionForm.getQuestionIndex());
         
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                             .withUserId(instructor.googleId)

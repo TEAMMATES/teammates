@@ -5,7 +5,7 @@
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
-<c:set var="isNewQuestion" value="${empty fqForm.questionNumberSuffix}" />
+<c:set var="isNewQuestion" value="${empty fqForm.questionIndex}" />
 
 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
     <div class="col-sm-12 padding-0 margin-bottom-7px">
@@ -57,7 +57,7 @@
             </label>
             <div class="col-sm-8 col-lg-7">
                 <select class="form-control participantSelect"
-                    id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>${fqForm.questionNumberSuffix}"
+                    id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>${fqForm.questionIndex}"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
                     <c:if test="${!fqForm.editable}">disabled</c:if>
                     onchange="matchVisibilityOptionToFeedbackPath(this)">
@@ -76,7 +76,7 @@
             </label>
             <div class="col-sm-8 col-lg-7">
                 <select class="form-control participantSelect"
-                    id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>${fqForm.questionNumberSuffix}"
+                    id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>${fqForm.questionIndex}"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
                     <c:if test="${!fqForm.editable}">disabled</c:if> onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
                     <c:forEach items="<%= FeedbackParticipantType.RECIPIENTS %>" var="recipientType">
@@ -85,23 +85,22 @@
                         </option>
                     </c:forEach>
                 </select>
-            </div>
         </div>
-        <div class="col-sm-12 row numberOfEntitiesElements${fqForm.questionIndexIfNonZero}">
-            <label id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text-${fqForm.questionIndexIfNonZero}" class="control-label col-sm-4 small">
-                The maximum number of <span id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text_inner-${fqForm.questionIndexIfNonZero}"></span> each respondant should give feedback to:
-            </label>
-            <div class="col-sm-8 form-control-static">
-                <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
-                    <input class="nonDestructive" type="radio"
-                        name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>"
-                        <c:if test="${fqForm.feedbackPathSettings.numberOfEntitiesToGiveFeedbackToChecked}">checked</c:if>
-                        value="custom" <c:if test="${!fqForm.editable}">disabled</c:if>>
-                    <input class="nonDestructive numberOfEntitiesBox width-75-pc" type="number"
-                        name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>"
-                        id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>${fqForm.questionNumberSuffix}" 
-                        value="${fqForm.feedbackPathSettings.numOfEntitiesToGiveFeedbackToValue}" 
-                        min="1" max="250" <c:if test="${!fqForm.editable}">disabled</c:if>>
+    </div>
+    <div class="col-sm-12 row numberOfEntitiesElements">
+        <label class="control-label col-sm-4 small">
+            The maximum number of <span class='number-of-entities-inner-text'></span> each respondant should give feedback to:
+        </label>
+        <div class="col-sm-8 form-control-static">
+            <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
+                <input class="nonDestructive" type="radio"
+                    name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>"
+                    <c:if test="${fqForm.feedbackPathSettings.numberOfEntitiesToGiveFeedbackToChecked}">checked</c:if>
+                    value="custom" <c:if test="${!fqForm.editable}">disabled</c:if>>
+                <input class="nonDestructive numberOfEntitiesBox width-75-pc" type="number"
+                    name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>"
+                    value="${fqForm.feedbackPathSettings.numOfEntitiesToGiveFeedbackToValue}" 
+                    min="1" max="250" <c:if test="${!fqForm.editable}">disabled</c:if>>
                 </div>
                 <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
                     <input class="nonDestructive" type="radio"
