@@ -76,6 +76,8 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
         
         List<FeedbackQuestionAttributes> feedbackQuestions =
                 FeedbackQuestionsDb.getListOfQuestionAttributes(feedbackQuestionsEntities);
+        System.out.println("Size of feedbackQuestions = " + feedbackQuestions.size());
+        int i = 0;
         for (FeedbackQuestionAttributes old : feedbackQuestions) {
             FeedbackSessionAttributes session = new Logic().getFeedbackSession(old.getFeedbackSessionName(), old.getCourseId());
             if (session == null) {
@@ -110,6 +112,11 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
                     System.out.println("New question type entity already exists for question:" + old.getIdentificationString());
                 }
             }
+            
+            if (i % 100 == 0) {
+                System.out.println("Migrating the " + i + "'th Question");
+            }
+            i += 1;
         }
     }
 
