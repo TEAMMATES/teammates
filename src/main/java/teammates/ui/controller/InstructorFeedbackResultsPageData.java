@@ -14,6 +14,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.collect.ComparisonChain;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -974,8 +976,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     @Override
                     public int compare(InstructorFeedbackResultsResponseRow a1,
                             InstructorFeedbackResultsResponseRow a2) {
-                        return a1.getGiverDisplayableIdentifier()
-                                .compareTo(a2.getGiverDisplayableIdentifier());
+                        return ComparisonChain.start()
+                                .compare(a1.getGiverTeam(), a2.getGiverTeam())
+                                .compare(a1.getGiverDisplayableIdentifier(),
+                                        a2.getGiverDisplayableIdentifier())
+                                .result();
                     }
                 });
             }
