@@ -65,6 +65,8 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionTextSubmissionFormTemplate.html");
             public static final String TEXT_RESULT_STATS =
                     FileHelper.readResourceFile("feedbackQuestionTextResultStatsTemplate.html");
+            public static final String TEXT_EDIT_FORM =
+                    FileHelper.readResourceFile("feedbackQuestionTextEditFormTemplate.html");
 
             public static final String MCQ_SUBMISSION_FORM =
                     FileHelper.readResourceFile("feedbackQuestionMcqSubmissionFormTemplate.html");
