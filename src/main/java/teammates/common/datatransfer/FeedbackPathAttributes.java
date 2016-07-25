@@ -137,19 +137,15 @@ public class FeedbackPathAttributes extends EntityAttributes {
     }
     
     private boolean isFeedbackPathParticipantAStudent(String participant) {
-        int studentParticipantTypeIndex = getStudentParticipantTypeIndex(participant);
-        return FEEDBACK_PARTICIPANT_TYPE_STUDENT.equals(participant.substring(studentParticipantTypeIndex));
+        return participant.endsWith(FEEDBACK_PARTICIPANT_TYPE_STUDENT);
     }
     
     private boolean isFeedbackPathParticipantAnInstructor(String participant) {
-        int instructorParticipantTypeIndex = getInstructorParticipantTypeIndex(participant);
-        return FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR.equals(
-                participant.substring(instructorParticipantTypeIndex));
+        return participant.endsWith(FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR);
     }
     
     private boolean isFeedbackPathParticipantATeam(String participant) {
-        int teamParticipantTypeIndex = getTeamParticipantTypeIndex(participant);
-        return FEEDBACK_PARTICIPANT_TYPE_TEAM.equals(participant.substring(teamParticipantTypeIndex));
+        return participant.endsWith(FEEDBACK_PARTICIPANT_TYPE_TEAM);
     }
     
     private int getStudentParticipantTypeIndex(String participant) {
