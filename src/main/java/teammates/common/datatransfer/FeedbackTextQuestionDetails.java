@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
@@ -14,19 +15,27 @@ import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     
+    private int recommendedLength;
+
     public FeedbackTextQuestionDetails() {
         super(FeedbackQuestionType.TEXT);
+        recommendedLength = 0;
     }
     
     public FeedbackTextQuestionDetails(String questionText) {
         super(FeedbackQuestionType.TEXT, questionText);
+        recommendedLength = 0;
     }
 
     @Override
     public boolean extractQuestionDetails(
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
-        // Nothing to do here.
+        String recommendedLengthString = HttpRequestHelper.getValueFromParamMap(requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT_RECOMMENDEDLENGTH);
+
+        recommendedLength = recommendedLengthString == null || recommendedLengthString.isEmpty() ? 0
+                : Integer.parseInt(recommendedLengthString);
         return true;
     }
 
@@ -49,6 +58,8 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                "${recommendedLengthDisplay}", recommendedLength == 0 ? "style=\"display:none\"" : "",
+                "${recommendedLength}", Integer.toString(recommendedLength),
                 Slots.TEXT_EXISTING_RESPONSE, Sanitizer.sanitizeForHtml(existingResponseDetails.getAnswerString()));
     }
 
@@ -61,17 +72,23 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                "${recommendedLengthDisplay}", recommendedLength == 0 ? "style=\"display:none\"" : "",
+                "${recommendedLength}", Integer.toString(recommendedLength),
                 Slots.TEXT_EXISTING_RESPONSE, "");
     }
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
-        return "";
+        return Templates.populateTemplate(
+                FormTemplates.TEXT_EDIT_FORM,
+                "${recommendedlength}", recommendedLength == 0 ? "" : Integer.toString(recommendedLength));
     }
     
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
-        return "";
+        return "<div id=\"textForm\">"
+                + getQuestionSpecificEditFormHtml(-1)
+                + "</div>";
     }
 
     @Override
