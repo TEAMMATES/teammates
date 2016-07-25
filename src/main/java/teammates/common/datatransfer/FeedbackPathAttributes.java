@@ -1,5 +1,6 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Const;
@@ -47,7 +48,7 @@ public class FeedbackPathAttributes extends EntityAttributes {
     
     @Override
     public List<String> getInvalidityInfo() {
-        return null;
+        return new ArrayList<String>();
     }
     
     @Override
@@ -85,20 +86,26 @@ public class FeedbackPathAttributes extends EntityAttributes {
 
     @Override
     public void sanitizeForSaving() {
-        // TODO: See if anything needs to be sanitized
+        // Nothing to sanitize
     }
     
     public boolean isStudentFeedbackPathGiver(StudentAttributes student) {
-        String studentFeedbackPathGiver = getStudentEmail(giver);
-        String teamFeedbackPathGiver = getTeamName(giver);
-        return isFeedbackPathParticipantAStudent(giver) && studentFeedbackPathGiver.equals(student.getEmail())
-               || isFeedbackPathParticipantATeam(giver) && teamFeedbackPathGiver.equals(student.getTeam());
+        if (isFeedbackPathParticipantAStudent(giver)) {
+            String studentFeedbackPathGiver = getStudentEmail(giver);
+            return studentFeedbackPathGiver.equals(student.getEmail());
+        } else if (isFeedbackPathParticipantATeam(giver)) {
+            String teamFeedbackPathGiver = getTeamName(giver);
+            return teamFeedbackPathGiver.equals(student.getTeam());
+        }
+        return false;
     }
     
     public boolean isInstructorFeedbackPathGiver(String instructorEmail) {
-        String instructorFeedbackPathGiver = getInstructorEmail(giver);
-        return isFeedbackPathParticipantAnInstructor(giver)
-                && instructorFeedbackPathGiver.equals(instructorEmail);
+        if (isFeedbackPathParticipantAnInstructor(giver)) {
+            String instructorFeedbackPathGiver = getInstructorEmail(giver);
+            return instructorFeedbackPathGiver.equals(instructorEmail);
+        }
+        return false;
     }
     
     public String getGiverId() {
