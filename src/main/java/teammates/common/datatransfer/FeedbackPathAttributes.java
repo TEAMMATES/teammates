@@ -116,6 +116,14 @@ public class FeedbackPathAttributes extends EntityAttributes {
         return getParticipantId(recipient);
     }
     
+    public boolean isFeedbackPathRecipientAStudent() {
+        return isFeedbackPathParticipantAStudent(recipient);
+    }
+    
+    public boolean isFeedbackPathRecipientAnInstructor() {
+        return isFeedbackPathParticipantAnInstructor(recipient);
+    }
+
     private String getParticipantId(String participant) {
         if (isFeedbackPathParticipantAStudent(participant)) {
             return getStudentEmail(participant);

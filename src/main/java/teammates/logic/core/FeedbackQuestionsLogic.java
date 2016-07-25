@@ -503,9 +503,9 @@ public class FeedbackQuestionsLogic {
                     String feedbackPathRecipientId = feedbackPath.getRecipientId();
                     String name = "";
                     
-                    if (studentEmailToStudentNameMap.containsKey(feedbackPathRecipientId)) {
+                    if (feedbackPath.isFeedbackPathRecipientAStudent()) {
                         name = studentEmailToStudentNameMap.get(feedbackPathRecipientId);
-                    } else if (instructorEmailToInstructorNameMap.containsKey(feedbackPathRecipientId)) {
+                    } else if (feedbackPath.isFeedbackPathRecipientAnInstructor()) {
                         name = instructorEmailToInstructorNameMap.get(feedbackPathRecipientId);
                     } else {
                         name = feedbackPathRecipientId;
