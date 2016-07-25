@@ -38,6 +38,14 @@ public class EmailLogEntry {
             logInfoAsHtml = "";
         }
     }
+    /*
+    It gets info of log 
+    Collects receiver,subject,Time,Content
+    Then display it in HTML format
+    in rows using <tr> ,<td>
+    
+    */
+    
     
     private String getLogInfoForTableRowAsHtml() {
         return "<tr class=\"log\">"
