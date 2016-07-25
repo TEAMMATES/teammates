@@ -518,7 +518,9 @@ public class FeedbackQuestionsLogic {
     private void adjustQuestionNumbersAndCreateQuestion(
             FeedbackQuestionAttributes question, int oldQuestionNumber)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        
+        if (fsLogic.getFeedbackSession(question.feedbackSessionName, question.courseId) == null) {
+            throw new EntityDoesNotExistException("Session disappeared");
+        }
         fqDb.saveQuestionAndAdjustQuestionNumbers(question, false, oldQuestionNumber);
     }
 
