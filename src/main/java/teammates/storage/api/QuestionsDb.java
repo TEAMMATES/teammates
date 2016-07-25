@@ -311,7 +311,7 @@ public class QuestionsDb extends EntitiesDb {
      */
     private void adjustQuestionNumbersWithoutCommitting(int oldQuestionNumber, int newQuestionNumber,
                                                         List<FeedbackQuestionAttributes> questions) {
-        if (oldQuestionNumber < 0 || newQuestionNumber < 0) {
+        if (oldQuestionNumber <= 0 || newQuestionNumber <= 0) {
             Assumption.fail("Invalid question number");
         }
         if (oldQuestionNumber > newQuestionNumber) {
