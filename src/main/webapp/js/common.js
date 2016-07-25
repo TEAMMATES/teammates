@@ -592,7 +592,7 @@ function setStatusMessage(message, status) {
     if (message === '' || message === undefined || message === null) {
         return;
     }
-    var $statusMessageDivToUser = createStatusMessageDivge(message, status);
+    var $statusMessageDivToUser = createStatusMessageDiv(message, status);
     $statusMessageDivToUser.show();
     scrollToElement($statusMessageDivToUser[0], { offset: window.innerHeight / 2 * -1 });
 }
@@ -610,8 +610,9 @@ function setStatusMessageToForm(message, status, form) {
         return;
     }
     // Copy the statusMessage and prepend to form
-    var $copyOfStatusMessagesToUser = createStatusMessageDivge(message, status).clone().show();
-    $statusMessagesToUser.remove();
+    var $statusMessageDivToUser = createStatusMessageDiv(message, status).clone().show();
+    var $copyOfStatusMessagesToUser = $statusMessageDivToUser;
+    $statusMessageDivToUser.remove();
     $(form).prepend($copyOfStatusMessagesToUser);
 }
 
