@@ -76,8 +76,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                                                                            : fs.getRespondingStudentList();
         this.questions = fs.getFeedbackQuestions() == null
                          ? new ArrayList<FeedbackQuestionAttributes>()
-                         : QuestionsDb.getListOfQuestionAttributes(
-                                 fs.getFeedbackQuestions());
+                         : QuestionsDb.getListOfQuestionAttributes(fs.getFeedbackQuestions());
     }
 
     public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId,

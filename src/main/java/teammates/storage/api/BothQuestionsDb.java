@@ -88,8 +88,8 @@ public class BothQuestionsDb extends EntitiesDb {
      * * All parameters are non-null.
      * @return Null if not found.
      */
-    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
-                                                          String courseId, int questionNumber) {
+    public FeedbackQuestionAttributes getFeedbackQuestion(
+                String feedbackSessionName, String courseId, int questionNumber) {
         FeedbackQuestionAttributes oldQuestion =
                 oldQuestionsDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
         if (oldQuestion != null) {
@@ -239,13 +239,16 @@ public class BothQuestionsDb extends EntitiesDb {
         return oldQuestionsDb.getEntity(attributes);
     }
 
-    public void saveQuestionAndAdjustQuestionNumbers(FeedbackQuestionAttributes question,
-                                                     boolean isUpdating,
-                                                     int oldQuestionNumber)
+    public void saveQuestionAndAdjustQuestionNumbers(
+            FeedbackQuestionAttributes question, boolean isUpdating, int oldQuestionNumber)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         FeedbackQuestionAttributes fqaSaved =
                 oldQuestionsDb.saveQuestionAndAdjustQuestionNumbers(question, isUpdating, oldQuestionNumber);
-        newQuestionsDb.saveQuestionAndAdjustQuestionNumbers(fqaSaved, isUpdating, oldQuestionNumber);
+        try {
+            newQuestionsDb.saveQuestionAndAdjustQuestionNumbers(fqaSaved, isUpdating, oldQuestionNumber);
+        } catch (EntityDoesNotExistException e) {
+            // can happen on old questions where a copy of new question type does not exist
+        }
     }
 
     public void adjustQuestionNumbers(int oldQuestionNumber, int newQuestionNumber,

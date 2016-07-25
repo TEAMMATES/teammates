@@ -173,9 +173,9 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
 
         assertEquals(expected.toString(), actual.toString());
 
-        ______TS("non-existant question");
+        ______TS("non-existent question");
 
-        assertNull(fqDb.getFeedbackQuestion("Non-existant feedback session", "non-existent-course", 1));
+        assertNull(fqDb.getFeedbackQuestion("Non-existent feedback session", "non-existent-course", 1));
 
         ______TS("null fsName");
 
@@ -327,9 +327,9 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
                                         expectedAssertion.getLocalizedMessage());
         }
 
-        ______TS("non-existant session");
+        ______TS("non-existent session");
 
-        assertTrue(fqDb.getFeedbackQuestionsForGiverType("non-existant session", fqa.courseId,
+        assertTrue(fqDb.getFeedbackQuestionsForGiverType("non-existent session", fqa.courseId,
                                                          FeedbackParticipantType.STUDENTS).isEmpty());
 
         ______TS("no questions in session");
@@ -370,11 +370,11 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("feedback session does not exist");
 
-        FeedbackQuestionAttributes nonexistantFq = getNewFeedbackQuestionAttributes();
-        nonexistantFq.setId("non-existent fq id");
+        FeedbackQuestionAttributes nonExistentFq = getNewFeedbackQuestionAttributes();
+        nonExistentFq.setId("non-existent fq id");
 
         try {
-            fqDb.updateFeedbackQuestion(nonexistantFq);
+            fqDb.updateFeedbackQuestion(nonExistentFq);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains(FeedbackQuestionsDb.ERROR_UPDATE_NON_EXISTENT, e.getLocalizedMessage());
@@ -450,11 +450,11 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
         return fqa;
     }
 
-    private List<FeedbackQuestionAttributes> createFeedbackQuestions(int num) throws Exception {
+    private List<FeedbackQuestionAttributes> createFeedbackQuestions(int numToCreate) throws Exception {
         FeedbackQuestionAttributes fqa;
         List<FeedbackQuestionAttributes> returnVal = new ArrayList<FeedbackQuestionAttributes>();
 
-        for (int i = 1; i <= num; i++) {
+        for (int i = 1; i <= numToCreate; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.questionNumber = i;
             

@@ -63,8 +63,8 @@ public class FeedbackQuestionsLogic {
      * @throws EntityDoesNotExistException if the session does not exist
      */
     public FeedbackQuestionAttributes createFeedbackQuestionNoIntegrityCheck(
-            FeedbackQuestionAttributes fqa, int questionNumber) throws InvalidParametersException,
-                                                                       EntityDoesNotExistException {
+            FeedbackQuestionAttributes fqa, int questionNumber)
+                    throws InvalidParametersException, EntityDoesNotExistException {
         fqa.questionNumber = questionNumber;
         fqa.removeIrrelevantVisibilityOptions();
         return fqDb.createFeedbackQuestionWithoutIntegrityCheck(fqa);
@@ -482,7 +482,7 @@ public class FeedbackQuestionsLogic {
      * @throws EntityAlreadyExistsException
      */
     public void updateFeedbackQuestionWithQuestionNumberUpdate(FeedbackQuestionAttributes newQuestion)
-        throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         updateFeedbackQuestion(newQuestion, true);
     }
@@ -500,8 +500,7 @@ public class FeedbackQuestionsLogic {
      * @throws InvalidParametersException
      */
     private void adjustQuestionNumbersAndUpdateQuestion(
-            FeedbackQuestionAttributes question,
-            int oldQuestionNumber)
+            FeedbackQuestionAttributes question, int oldQuestionNumber)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         
         fqDb.saveQuestionAndAdjustQuestionNumbers(question, true, oldQuestionNumber);
@@ -517,10 +516,11 @@ public class FeedbackQuestionsLogic {
      * @throws EntityAlreadyExistsException
      */
     private void adjustQuestionNumbersAndCreateQuestion(
-                FeedbackQuestionAttributes question,
-                int oldQuestionNumber)
+            FeedbackQuestionAttributes question, int oldQuestionNumber)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        
+        if (fsLogic.getFeedbackSession(question.feedbackSessionName, question.courseId) == null) {
+            throw new EntityDoesNotExistException("Session disappeared");
+        }
         fqDb.saveQuestionAndAdjustQuestionNumbers(question, false, oldQuestionNumber);
     }
 
@@ -581,7 +581,7 @@ public class FeedbackQuestionsLogic {
     }
     
     /**
-     * Deletes a question by its auto-generated ID. <br>
+     * Deletes a question by its ID. <br>
      * Cascade the deletion of all existing responses for the question and then
      * shifts larger question numbers down by one to preserve number order. The
      * response rate of the feedback session is not updated.
@@ -673,12 +673,12 @@ public class FeedbackQuestionsLogic {
     }
     
     /**
-     *  Shifts all question numbers after questionNumberToShiftFrom down by one.
+     * Shifts all question numbers after questionNumberToShiftFrom down by one.
      * @param questionNumberToShiftFrom
      * @param questions all questions in the session
      */
-    private void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
-            List<FeedbackQuestionAttributes> questions) {
+    private void shiftQuestionNumbersDown(
+            int questionNumberToShiftFrom, List<FeedbackQuestionAttributes> questions) {
         fqDb.adjustQuestionNumbers(questionNumberToShiftFrom, questions.size() + 1, questions);
     }
     

@@ -11,7 +11,7 @@
  * Licensed under the MIT licence:
  *              http://www.opensource.org/licenses/mit-license.php
  *
- * (c) Jason Day 2015
+ * (c) Jason Day 2014
  *
  * Usage:
  *
@@ -72,20 +72,6 @@
 
         // $iframe.ready() and $iframe.load were inconsistent between browsers    
         setTimeout(function() {
-
-            // Add doctype to fix the style difference between printing and render
-            function setDocType($iframe,doctype){
-                var win, doc;
-                win = $iframe.get(0);
-                win = win.contentWindow || win.contentDocument || win;
-                doc = win.document || win.contentDocument || win;
-                doc.open();
-                doc.write(doctype);
-                doc.close();
-            }
-            if(opt.doctypeString){
-                setDocType($iframe,opt.doctypeString);
-            }
 
             var $doc = $iframe.contents(),
                 $head = $doc.find("head"),
@@ -201,12 +187,8 @@
                     $head.append("<script>  window.print(); </script>");
                 } else {
                     // proper method
-                    if (document.queryCommandSupported("print")) {
-                        $iframe[0].contentWindow.document.execCommand("print", false, null);
-                    } else {
-                        $iframe[0].contentWindow.focus();
-                        $iframe[0].contentWindow.print();
-                    }
+                    $iframe[0].contentWindow.focus();
+                    $iframe[0].contentWindow.print();
                 }
 
                 //remove iframe after print
@@ -233,8 +215,7 @@
         removeInline: false,    // remove all inline styles
         printDelay: 333,        // variable print delay
         header: null,           // prefix to html
-        formValues: true,        // preserve input/form values
-        doctypeString: '<!DOCTYPE html>' // html doctype
+        formValues: true        // preserve input/form values
     };
 
     // $.selector container
