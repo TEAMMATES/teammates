@@ -21,14 +21,14 @@ import teammates.storage.entity.Student;
 public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
     
     private static final boolean isPreview = true;
+    private static final int numDays = 100;
+    private static final String courseId = "";
     
     private enum ScriptTarget {
         BY_TIME, BY_COURSE, ALL;
     }
     
     ScriptTarget target = ScriptTarget.BY_TIME;
-    private final int numDays = 100;
-    private final String courseId = "";
     
     private StudentsDb studentsDb = new StudentsDb();
     
@@ -86,11 +86,10 @@ public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
                 + " WHERE createdAt >= startDate"
                 + " PARAMETERS java.util.Date startDate";
         @SuppressWarnings("unchecked")
-        List<Student> oldStudents = 
-            (List<Student>) Datastore.getPersistenceManager().newQuery(query).execute(date);
+        List<Student> oldStudents =
+                (List<Student>) Datastore.getPersistenceManager().newQuery(query).execute(date);
         return getListOfStudentAttributes(oldStudents);
     }
-
 
     private List<StudentAttributes> getOldStudentsForCourse(String courseId) {
         Query q = Datastore.getPersistenceManager().newQuery(Student.class);

@@ -531,10 +531,7 @@ public class StudentsDb extends EntitiesDb {
             courseStudent.keepUpdateTimestamp = keepUpdateTimestamp;
             
             log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
-            getPm().close();
-            return;
         }
-        
         
         // Update on Student
         
@@ -547,20 +544,23 @@ public class StudentsDb extends EntitiesDb {
             throw new InvalidParametersException(error);
         }
 
-        student.setEmail(newEmail);
-        student.setName(newName);
-        student.setLastName(StringHelper.splitName(newName)[1]);
-        student.setComments(newComments);
-        student.setGoogleId(newGoogleId);
-        student.setTeamName(newTeamName);
-        student.setSectionName(newSectionName);
+        // student can be null if the student was only created with CourseStudent
+        if (student != null) {
+            student.setEmail(newEmail);
+            student.setName(newName);
+            student.setLastName(StringHelper.splitName(newName)[1]);
+            student.setComments(newComments);
+            student.setGoogleId(newGoogleId);
+            student.setTeamName(newTeamName);
+            student.setSectionName(newSectionName);
+            
+            if (hasDocument) {
+                putDocument(new StudentAttributes(student));
+            }
         
-        if (hasDocument) {
-            putDocument(new StudentAttributes(student));
+            // Set true to prevent changes to last update timestamp
+            student.keepUpdateTimestamp = keepUpdateTimestamp;
         }
-    
-        // Set true to prevent changes to last update timestamp
-        student.keepUpdateTimestamp = keepUpdateTimestamp;
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPm().close();

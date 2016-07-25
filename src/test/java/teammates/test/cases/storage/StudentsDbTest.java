@@ -142,7 +142,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testGetStudent() throws InvalidParametersException, EntityDoesNotExistException {
         
@@ -159,9 +158,9 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
         assertNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt("notExistingKey")));
         
-        ______TS("getStudentForRegistrationKey: key matches old student entity");
+        ______TS("getStudentForRegistrationKey: key matches old student entity without a CourseStudent copy");
         
-        StudentAttributes oldStudent = createOldStudentAttributes();
+        StudentAttributes oldStudent = createOldStudentAttributes("getStudent");
         assertTrue("Old student entity should be created", isOldStudentExists(oldStudent));
         assertFalse("New student entity should not be created", isNewStudentExists(oldStudent));
         assertNotNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(oldStudent.key)));
@@ -231,7 +230,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testupdateStudentWithoutDocument() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateStudentWithoutDocument() throws InvalidParametersException, EntityDoesNotExistException {
         
         // Create a new student with valid attributes
         StudentAttributes s = createNewStudent();
@@ -294,6 +293,53 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         StudentAttributes updatedStudent = studentsDb.getStudentForEmail(s.course, s.email);
         assertTrue(updatedStudent.isEnrollInfoSameAs(s));
+        
+        
+        ______TS("Can update old student entity without a CourseStudent copy");
+        
+        StudentAttributes oldStudent = createOldStudentAttributes("updateStudent");
+        assertTrue("Old student entity should be created", isOldStudentExists(oldStudent));
+        assertFalse("New student entity should not be created", isNewStudentExists(oldStudent));
+        
+        oldStudent.section = "new section";
+        studentsDb.updateStudentWithoutSearchability(
+                oldStudent.course, oldStudent.email, oldStudent.name, oldStudent.team, oldStudent.section,
+                oldStudent.email, oldStudent.googleId, oldStudent.comments);
+        StudentAttributes updatedOldStudent = studentsDb.getStudentForEmail(
+                                                        oldStudent.course, oldStudent.email);
+        assertTrue(updatedOldStudent.isEnrollInfoSameAs(oldStudent));
+        
+        ______TS("update works for a student having both Student and CourseStudent");
+        
+        StudentAttributes copiedStudent =
+                copyOldStudentEntityToCourseStudent(oldStudent.email, oldStudent.course);
+        assertTrue(isOldStudentExists(oldStudent));
+        assertTrue(isNewStudentExists(oldStudent));
+        copiedStudent.name = "new name";
+        studentsDb.updateStudentWithoutSearchability(
+                    copiedStudent.course, copiedStudent.email, copiedStudent.name, copiedStudent.team,
+                    copiedStudent.section, copiedStudent.email, copiedStudent.googleId,
+                    copiedStudent.comments);
+        StudentAttributes updatedCopiedStudent = studentsDb.getStudentForEmail(
+                copiedStudent.course, copiedStudent.email);
+        assertTrue(updatedCopiedStudent.isEnrollInfoSameAs(copiedStudent));
+        
+        
+        ______TS("getStudentForRegistrationKey works for a student only with CourseStudent");
+        StudentAttributes movedStudent =
+                moveOldStudentEntityToCourseStudent(oldStudent.email, oldStudent.course);
+        
+        assertFalse(isOldStudentExists(movedStudent));
+        assertTrue(isNewStudentExists(movedStudent));
+        movedStudent.name = "new name";
+        studentsDb.updateStudentWithoutSearchability(
+                movedStudent.course, movedStudent.email, movedStudent.name, movedStudent.team,
+                movedStudent.section, movedStudent.email, movedStudent.googleId,
+                    movedStudent.comments);
+        StudentAttributes updatedMovedStudent = studentsDb.getStudentForEmail(
+                movedStudent.course, movedStudent.email);
+        assertTrue(updatedMovedStudent.isEnrollInfoSameAs(movedStudent));
+        
     }
 
     @SuppressWarnings("deprecation")
@@ -341,12 +387,12 @@ public class StudentsDbTest extends BaseComponentTestCase {
       //       Reason: Difficult to reproduce a persistence delay during testing
     }
     
-    @SuppressWarnings("deprecation")
-    private StudentAttributes createOldStudentAttributes() throws InvalidParametersException {
+    private StudentAttributes createOldStudentAttributes(String testName)
+            throws InvalidParametersException {
         StudentAttributes s = new OldStudentEntityPersistanceAttributes();
         s.name = "valid student";
-        s.course = "valid-course";
-        s.email = "validOldStudent@email.com";
+        s.course = "valid-course" + testName;
+        s.email = "validOldStudent" + testName + "@email.com";
         s.team = "validTeamName";
         s.section = "validSectionName";
         s.comments = "";
@@ -378,6 +424,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         return studentsDb.getStudentForEmail(course, email);
     }
     
+    @SuppressWarnings("deprecation")
     private boolean isOldStudentExists(StudentAttributes s) {
         boolean isOldStudentExist = false;
         for (StudentAttributes studentsInDb : studentsDb.getAllOldStudents()) {
@@ -388,6 +435,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         return isOldStudentExist;
     }
     
+    @SuppressWarnings("deprecation")
     private boolean isNewStudentExists(StudentAttributes s) {
         boolean isNewStudentExist = false;
         for (StudentAttributes studentsInDb : studentsDb.getAllCourseStudents()) {
