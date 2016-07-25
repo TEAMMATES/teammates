@@ -96,6 +96,12 @@ public class EmailLogEntry {
         return StringHelper.recoverFromSanitizedText(content);
     }
     
+    /*used to get time from system 
+    and convert to Millisecons then
+     convert to the write format then
+     return to Timehelper
+    
+    */
     public String getTimeForDisplay() {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         appCal.setTimeInMillis(time);
