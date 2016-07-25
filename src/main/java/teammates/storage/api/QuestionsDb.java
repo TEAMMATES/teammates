@@ -50,8 +50,7 @@ public class QuestionsDb extends EntitiesDb {
     @Override
     public Question createEntity(EntityAttributes entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(
-                Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
         
         QuestionsDbPersistenceAttributes questionToAdd = (QuestionsDbPersistenceAttributes) entityToAdd;
         
@@ -274,7 +273,7 @@ public class QuestionsDb extends EntitiesDb {
         
         // remove question getting edited
         FeedbackQuestionAttributes.removeQuestionWithIdInQuestions(
-                                        questionToSave.getId(), questionsForAdjustingNumbers);
+                questionToSave.getId(), questionsForAdjustingNumbers);
         
         if (questionToSave.questionNumber <= 0) {
             questionToSave.questionNumber = questionsForAdjustingNumbers.size() + 1;
@@ -293,8 +292,8 @@ public class QuestionsDb extends EntitiesDb {
      * @param newQuestionNumber
      * @param questions sorted list of question
      */
-    public void adjustQuestionNumbers(int oldQuestionNumber, int newQuestionNumber,
-            List<FeedbackQuestionAttributes> questions) {
+    public void adjustQuestionNumbers(
+            int oldQuestionNumber, int newQuestionNumber, List<FeedbackQuestionAttributes> questions) {
         adjustQuestionNumbersWithoutCommitting(oldQuestionNumber, newQuestionNumber, questions);
         getPm().close();
     }
@@ -309,8 +308,8 @@ public class QuestionsDb extends EntitiesDb {
      * @param newQuestionNumber
      * @param questions
      */
-    private void adjustQuestionNumbersWithoutCommitting(int oldQuestionNumber, int newQuestionNumber,
-                                                        List<FeedbackQuestionAttributes> questions) {
+    private void adjustQuestionNumbersWithoutCommitting(
+            int oldQuestionNumber, int newQuestionNumber, List<FeedbackQuestionAttributes> questions) {
         if (oldQuestionNumber <= 0 || newQuestionNumber <= 0) {
             Assumption.fail("Invalid question number");
         }
@@ -358,9 +357,8 @@ public class QuestionsDb extends EntitiesDb {
      * * All parameters are non-null.
      * @return Null if not found.
      */
-    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
-                                                          String courseId,
-                                                          String feedbackQuestionId) {
+    public FeedbackQuestionAttributes getFeedbackQuestion(
+            String feedbackSessionName, String courseId, String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
         Question fq = getFeedbackQuestionEntity(feedbackSessionName, courseId, feedbackQuestionId);
@@ -502,8 +500,9 @@ public class QuestionsDb extends EntitiesDb {
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    public Question updateQuestionWithoutFlushing(FeedbackQuestionAttributes question,
-            boolean keepUpdateTimestamp) throws InvalidParametersException, EntityDoesNotExistException {
+    public Question updateQuestionWithoutFlushing(
+            FeedbackQuestionAttributes question, boolean keepUpdateTimestamp)
+            throws InvalidParametersException, EntityDoesNotExistException {
         Question fq = (Question) getEntity(question);
         
         if (fq == null) {

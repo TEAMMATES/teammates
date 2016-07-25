@@ -450,11 +450,11 @@ public class BothQuestionsDbTest extends BaseComponentTestCase {
         return fqa;
     }
 
-    private List<FeedbackQuestionAttributes> createFeedbackQuestions(int num) throws Exception {
+    private List<FeedbackQuestionAttributes> createFeedbackQuestions(int numToCreate) throws Exception {
         FeedbackQuestionAttributes fqa;
         List<FeedbackQuestionAttributes> returnVal = new ArrayList<FeedbackQuestionAttributes>();
 
-        for (int i = 1; i <= num; i++) {
+        for (int i = 1; i <= numToCreate; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.questionNumber = i;
             

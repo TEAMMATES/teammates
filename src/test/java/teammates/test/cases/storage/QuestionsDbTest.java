@@ -127,7 +127,7 @@ public class QuestionsDbTest extends BaseComponentTestCase {
         ______TS("invalid params");
 
         try {
-            fqa.creatorEmail = "haha";
+            fqa.creatorEmail = "invalidCreatorEmail";
             fqDb.createEntity(fqa);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
@@ -176,9 +176,7 @@ public class QuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("get by id");
 
-        actual = fqDb.getFeedbackQuestion(expected.feedbackSessionName,
-                                            expected.courseId,
-                                            expected.getId());
+        actual = fqDb.getFeedbackQuestion(expected.feedbackSessionName, expected.courseId, expected.getId());
         assertEquals(expected.toString(), actual.toString());
 
         ______TS("get non-existent question by id");
@@ -241,7 +239,7 @@ public class QuestionsDbTest extends BaseComponentTestCase {
         ______TS("standard success case");
 
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId,
-                                                      FeedbackParticipantType.INSTRUCTORS);
+                                                          FeedbackParticipantType.INSTRUCTORS);
         
         assertEquals(numOfQuestions[0], questions.size());
 
