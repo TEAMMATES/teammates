@@ -4,11 +4,14 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ attribute name="studentInfoTable" type="teammates.ui.template.StudentInfoTable" required="true" %>
 <%@ attribute name="newEmail" required="true" %>
+<%@ attribute name="anyEmailSentForTheCourse" required="true" %>
 <%@ tag import="teammates.common.util.Const" %>
 <div class="panel panel-primary">
     <div class="panel-body fill-plain">
         <form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE%>" method="post" class="form form-horizontal">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${studentInfoTable.course}">
+            <input type="hidden" id = "isSendEmail" name="isSendEmail" value="false">
+            <input type="hidden" id = "isAnyEmailSentForTheCourse" name="isAnyEmailSentForTheCourse" value="${anyEmailSentForTheCourse}">
             <div class="form-group">
                 <label class="col-sm-1 control-label">Student Name:</label>
                 <div class="col-sm-11">

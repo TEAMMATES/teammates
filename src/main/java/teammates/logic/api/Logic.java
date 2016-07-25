@@ -2111,6 +2111,11 @@ public class Logic {
         return feedbackResponsesLogic.isCourseHasResponses(courseId);
     }
     
+    public boolean isAnyEmailSentForTheCourse(String courseId) {
+        Assumption.assertNotNull(courseId);
+        return feedbackSessionsLogic.isAnyEmailSentForTheCourse(courseId);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.

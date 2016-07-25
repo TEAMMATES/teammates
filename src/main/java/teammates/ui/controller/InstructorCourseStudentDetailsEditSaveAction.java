@@ -13,6 +13,7 @@ import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.core.FeedbackSessionsLogic;
 
 public class InstructorCourseStudentDetailsEditSaveAction extends Action {
 
@@ -57,6 +58,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             
             boolean isSectionChanged = student.isSectionChanged(originalStudentAttribute);
             boolean isTeamChanged = student.isTeamChanged(originalStudentAttribute);
+            boolean isEmailChanged = student.isEmailChanged(originalStudentAttribute);
             if (isSectionChanged) {
                 logic.validateSectionsAndTeams(Arrays.asList(student), courseId);
             } else if (isTeamChanged) {
@@ -64,7 +66,17 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             }
             
             logic.updateStudent(studentEmail, student);
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
+            
+            boolean isSendEmail = Boolean.parseBoolean(getRequestParamValue("isSendEmail"));
+            if (isEmailChanged && isSendEmail) {
+                FeedbackSessionsLogic.inst().sendAllLinksToNewStudentEmail(courseId, student);
+            }
+            if (isSendEmail) {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT,
+                        StatusMessageColor.SUCCESS));
+            } else {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
+            }
             statusToAdmin = "Student <span class=\"bold\">" + studentEmail + "'s</span> details in "
                             + "Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                             + "New Email: " + student.email + "<br>New Team: " + student.team + "<br>"
@@ -78,8 +90,10 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             setStatusForException(e);
             String newEmail = student.email;
             student.email = studentEmail;
+            boolean isAnyEmailSentForTheCourse = logic.isAnyEmailSentForTheCourse(courseId);
             InstructorCourseStudentDetailsEditPageData data =
-                    new InstructorCourseStudentDetailsEditPageData(account, student, newEmail, hasSection);
+                    new InstructorCourseStudentDetailsEditPageData(account, student, newEmail, hasSection,
+                            isAnyEmailSentForTheCourse);
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
         }
         

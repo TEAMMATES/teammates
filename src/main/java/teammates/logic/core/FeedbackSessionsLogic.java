@@ -203,6 +203,23 @@ public class FeedbackSessionsLogic {
 
         return viewableSessions;
     }
+    
+    /**
+     * checks if there is any email sent from the course
+     * @param courseId
+     * @param userEmail
+     * @return true if there is any email sent from the course.
+     */
+    public boolean isAnyEmailSentForTheCourse(String courseId) {
+        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsForCourse(courseId);
+
+        for (FeedbackSessionAttributes session : sessions) {
+            if (session.isSentOpenEmail() || session.isSentPublishedEmail()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Returns a {@code List} of all feedback sessions bundled with their
@@ -1581,6 +1598,19 @@ public class FeedbackSessionsLogic {
                     session, studentsToRemindList, instructorsToRemindList, instructorList);
             new EmailSender().sendEmails(emails);
             return emails;
+        } catch (Exception e) {
+            throw new RuntimeException(ERROR_SENDING_EMAILS, e);
+        }
+    }
+    
+    public EmailWrapper sendAllLinksToNewStudentEmail(String courseId,
+            StudentAttributes student) throws EntityDoesNotExistException {
+
+        try {
+            EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendAllLinksEmail(
+                    courseId, student);
+            new EmailSender().sendEmail(email);
+            return email;
         } catch (Exception e) {
             throw new RuntimeException(ERROR_SENDING_EMAILS, e);
         }
