@@ -41,9 +41,9 @@ public class EmailLogEntry {
     
     private String getLogInfoForTableRowAsHtml() {
         return "<tr class=\"log\">"
-                 + "<td>" + this.receiver + "</td>"
-                 + "<td>" + this.subject + "</td>"
-                 + "<td>" + this.getTimeForDisplay() + "</td>"
+                 + "<td>" + this.receiver + "</td>"                //Add receiver to table data
+                 + "<td>" + this.subject + "</td>"                 //Add subject to table data
+                 + "<td>" + this.getTimeForDisplay() + "</td>"     //Add getTime to table data
              + "</tr>"
              + "<tr id=\"small\">"
                  + "<td colspan=\"3\">"
@@ -59,7 +59,7 @@ public class EmailLogEntry {
                      + "<div class=\"well\">"
                          + "<ul class=\"list-group\">"
                              + "<li class=\"list-group-item list-group-item-success\">"
-                                 + "<small>" + this.content + "</small>"
+                                 + "<small>" + this.content + "</small>"                  // Add content to the body
                              + "</li>"
                          + "</ul>"
                      + "</div>"
