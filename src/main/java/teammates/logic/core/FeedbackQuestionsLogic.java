@@ -507,6 +507,9 @@ public class FeedbackQuestionsLogic {
                         name = studentEmailToStudentNameMap.get(feedbackPathRecipientId);
                     } else if (feedbackPath.isFeedbackPathRecipientAnInstructor()) {
                         name = instructorEmailToInstructorNameMap.get(feedbackPathRecipientId);
+                    } else if (feedbackPath.isFeedbackPathRecipientTheClass()) {
+                        feedbackPathRecipientId = Const.GENERAL_QUESTION;
+                        name = Const.GENERAL_QUESTION;
                     } else {
                         name = feedbackPathRecipientId;
                     }

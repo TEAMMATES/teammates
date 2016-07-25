@@ -241,7 +241,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     public boolean isRecipientNameHidden() {
         return recipientType == FeedbackParticipantType.NONE
-               || recipientType == FeedbackParticipantType.SELF;
+               || recipientType == FeedbackParticipantType.SELF
+               || recipientType == FeedbackParticipantType.CUSTOM
+               && hasClassAsRecipientInFeedbackPaths();
     }
 
     public boolean isRecipientAStudent() {
@@ -652,6 +654,20 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         if (giverType == FeedbackParticipantType.CUSTOM && recipientType == FeedbackParticipantType.CUSTOM) {
             for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
                 if (feedbackPath.isInstructorFeedbackPathGiver(instructorEmail)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    /** 
+     * Verifies whether the class is a recipient in the question's feedback paths
+     */
+    public boolean hasClassAsRecipientInFeedbackPaths() {
+        if (giverType == FeedbackParticipantType.CUSTOM && recipientType == FeedbackParticipantType.CUSTOM) {
+            for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+                if (feedbackPath.isFeedbackPathRecipientTheClass()) {
                     return true;
                 }
             }

@@ -12,6 +12,7 @@ public class FeedbackPathAttributes extends EntityAttributes {
     public static final String FEEDBACK_PARTICIPANT_TYPE_STUDENT = "(Student)";
     public static final String FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR = "(Instructor)";
     public static final String FEEDBACK_PARTICIPANT_TYPE_TEAM = "(Team)";
+    public static final String FEEDBACK_PARTICIPANT_CLASS = "Class";
 
     private String feedbackPathId;
     private String courseId;
@@ -124,6 +125,10 @@ public class FeedbackPathAttributes extends EntityAttributes {
         return isFeedbackPathParticipantAnInstructor(recipient);
     }
 
+    public boolean isFeedbackPathRecipientTheClass() {
+        return isFeedbackPathParticipantTheClass(recipient);
+    }
+    
     private String getParticipantId(String participant) {
         if (isFeedbackPathParticipantAStudent(participant)) {
             return getStudentEmail(participant);
@@ -131,6 +136,8 @@ public class FeedbackPathAttributes extends EntityAttributes {
             return getInstructorEmail(participant);
         } else if (isFeedbackPathParticipantATeam(participant)) {
             return getTeamName(participant);
+        } else if (isFeedbackPathParticipantTheClass(participant)) {
+            return participant;
         } else {
             return "";
         }
@@ -161,6 +168,10 @@ public class FeedbackPathAttributes extends EntityAttributes {
     
     private boolean isFeedbackPathParticipantATeam(String participant) {
         return participant.endsWith(FEEDBACK_PARTICIPANT_TYPE_TEAM);
+    }
+    
+    private boolean isFeedbackPathParticipantTheClass(String participant) {
+        return participant.equals(FEEDBACK_PARTICIPANT_CLASS);
     }
     
     private int getStudentParticipantTypeIndex(String participant) {
