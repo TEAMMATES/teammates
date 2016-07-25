@@ -152,9 +152,9 @@ public class QuestionsDbTest extends BaseComponentTestCase {
 
         assertEquals(expected.toString(), actual.toString());
 
-        ______TS("non-existant question");
+        ______TS("non-existent question");
 
-        assertNull(fqDb.getFeedbackQuestion("Non-existant feedback session", "non-existent-course", 1));
+        assertNull(fqDb.getFeedbackQuestion("Non-existent feedback session", "non-existent-course", 1));
 
         ______TS("null fsName");
 
@@ -283,9 +283,9 @@ public class QuestionsDbTest extends BaseComponentTestCase {
                                         expectedAssertion.getLocalizedMessage());
         }
 
-        ______TS("non-existant session");
+        ______TS("non-existent session");
 
-        assertTrue(fqDb.getFeedbackQuestionsForGiverType("non-existant session", fqa.courseId,
+        assertTrue(fqDb.getFeedbackQuestionsForGiverType("non-existent session", fqa.courseId,
                                                          FeedbackParticipantType.STUDENTS).isEmpty());
 
         ______TS("no questions in session");
@@ -326,11 +326,11 @@ public class QuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("feedback session does not exist");
 
-        FeedbackQuestionAttributes nonexistantFq = getNewFeedbackQuestionAttributes();
-        nonexistantFq.setId("non-existent fq id");
+        FeedbackQuestionAttributes nonExistentFq = getNewFeedbackQuestionAttributes();
+        nonExistentFq.setId("non-existent fq id");
 
         try {
-            fqDb.updateFeedbackQuestion(nonexistantFq);
+            fqDb.updateFeedbackQuestion(nonExistentFq);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains(QuestionsDb.ERROR_UPDATE_NON_EXISTENT, e.getLocalizedMessage());
