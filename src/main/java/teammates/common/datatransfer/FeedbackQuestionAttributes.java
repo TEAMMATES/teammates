@@ -637,11 +637,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * Verifies whether the given student is a giver in the question's feedback paths
      */
     public boolean hasStudentAsGiverInFeedbackPaths(StudentAttributes student) {
-        if (giverType == FeedbackParticipantType.CUSTOM && recipientType == FeedbackParticipantType.CUSTOM) {
-            for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
-                if (feedbackPath.isStudentFeedbackPathGiver(student)) {
-                    return true;
-                }
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isStudentFeedbackPathGiver(student)) {
+                return true;
             }
         }
         return false;
@@ -651,11 +649,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * Verifies whether the given instructor is a giver in the question's feedback paths
      */
     public boolean hasInstructorAsGiverInFeedbackPaths(String instructorEmail) {
-        if (giverType == FeedbackParticipantType.CUSTOM && recipientType == FeedbackParticipantType.CUSTOM) {
-            for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
-                if (feedbackPath.isInstructorFeedbackPathGiver(instructorEmail)) {
-                    return true;
-                }
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isInstructorFeedbackPathGiver(instructorEmail)) {
+                return true;
             }
         }
         return false;
@@ -665,11 +661,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * Verifies whether the class is a recipient in the question's feedback paths
      */
     public boolean hasClassAsRecipientInFeedbackPaths() {
-        if (giverType == FeedbackParticipantType.CUSTOM && recipientType == FeedbackParticipantType.CUSTOM) {
-            for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
-                if (feedbackPath.isFeedbackPathRecipientTheClass()) {
-                    return true;
-                }
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isFeedbackPathRecipientTheClass()) {
+                return true;
             }
         }
         return false;
