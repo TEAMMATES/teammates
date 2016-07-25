@@ -128,7 +128,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MCQ: add mcq option");
         
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-2--1"));
-        feedbackEditPage.clickAddMoreMcqOptionLink();
+        feedbackEditPage.clickAddMoreMcqOptionLinkForNewQuestion();
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-2--1"));
 
         ______TS("MCQ: remove mcq option");
@@ -140,9 +140,9 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: add mcq option after remove");
 
-        feedbackEditPage.clickAddMoreMcqOptionLink();
+        feedbackEditPage.clickAddMoreMcqOptionLinkForNewQuestion();
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-3--1"));
-        feedbackEditPage.clickAddMoreMcqOptionLink();
+        feedbackEditPage.clickAddMoreMcqOptionLinkForNewQuestion();
         feedbackEditPage.fillMcqOption(4, "Choice 5");
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-4--1"));
     }
@@ -184,7 +184,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("generated mcq qn text", 1);
         feedbackEditPage.fillEditQuestionDescription("more details", 1);
-        assertTrue(feedbackEditPage.isElementVisible("mcqAddOptionLink"));
+        assertTrue(feedbackEditPage.isElementVisible("mcqAddOptionLink-1"));
         feedbackEditPage.verifyFieldValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 FeedbackParticipantType.NONE.toString());
@@ -194,7 +194,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyFieldValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS.toString());
-        assertFalse(feedbackEditPage.isElementVisible("mcqAddOptionLink"));
+        assertFalse(feedbackEditPage.isElementVisible("mcqAddOptionLink-1"));
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
