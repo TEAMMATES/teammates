@@ -773,16 +773,16 @@ function sanitizeForJs(rawString) {
  */
 function highlightSearchResult(searchKeyId, sectionToHighlight) {
     var searchKey = $(searchKeyId).val();
-    // trim symbols around every word in the string
-    var symbolTrimmedSearchKey = [];
+    // split search key string on symbols and spaces and add to searchKeyList
+    var searchKeyList = [];
     $.each(searchKey.split(/[ "'.-]/), function() {
-        symbolTrimmedSearchKey.push($.trim(this));
+        searchKeyList.push($.trim(this));
     });
-    // remove empty elements from symbolTrimmedSearchKey
-    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n) {
+    // remove empty elements from searchKeyList
+    searchKeyList = searchKeyList.filter(function(n) {
         return n !== '';
     });
-    $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
+    $(sectionToHighlight).highlight(searchKeyList);
 }
 
 /**
