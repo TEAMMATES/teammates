@@ -507,8 +507,7 @@ public class QuestionsDb extends EntitiesDb {
         Question fq = (Question) getEntity(question);
         
         if (fq == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT + question.toString());
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + question.toString());
         }
         
         fq.setQuestionNumber(question.questionNumber);

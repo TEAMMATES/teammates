@@ -244,7 +244,11 @@ public class BothQuestionsDb extends EntitiesDb {
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         FeedbackQuestionAttributes fqaSaved =
                 oldQuestionsDb.saveQuestionAndAdjustQuestionNumbers(question, isUpdating, oldQuestionNumber);
-        newQuestionsDb.saveQuestionAndAdjustQuestionNumbers(fqaSaved, isUpdating, oldQuestionNumber);
+        try {
+            newQuestionsDb.saveQuestionAndAdjustQuestionNumbers(fqaSaved, isUpdating, oldQuestionNumber);
+        } catch (EntityDoesNotExistException e) {
+            // can happen on old questions where a copy of new question type does not exist
+        }
     }
 
     public void adjustQuestionNumbers(int oldQuestionNumber, int newQuestionNumber,
