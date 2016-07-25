@@ -28,13 +28,23 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
     
     private final boolean isPreview = true;
     
+    /**
+     * 
+     * BY_TIME: migration will affect questions created in the past {@code numDays} days
+     * BY_COURSE: migration will affects questions in the specified {@code courseId}
+     * ALL: all questions will be migrated 
+     */
     private enum ScriptTarget {
         BY_TIME, BY_COURSE, ALL;
     }
     
-    ScriptTarget target = ScriptTarget.BY_TIME;
+    ScriptTarget target = ScriptTarget.ALL;
     
+    // When using ScriptTarget.BY_TIME, numDays can be changed to target
+    // questions created in the past number of days
     private final int numDays = 100;
+    
+    // When using ScriptTarget.BY_COURSE, specify the course to target with courseId
     private final String courseId = "";
     
     
@@ -46,31 +56,31 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
     protected void doOperation() {
         
         Datastore.initialize();
-        List<FeedbackQuestion> feedbackQuestions;
+        List<FeedbackQuestion> feedbackQuestionsEntities;
         if (target == ScriptTarget.BY_TIME) {
             Calendar startCal = Calendar.getInstance();
             startCal.add(Calendar.DAY_OF_YEAR, -1 * numDays);
             
-            feedbackQuestions = getOldQuestionsSince(startCal.getTime());
+            feedbackQuestionsEntities = getOldQuestionsSince(startCal.getTime());
             
         } else if (target == ScriptTarget.BY_COURSE) {
-            feedbackQuestions = getFeedbackQuestionEntitiesForCourse(courseId);
+            feedbackQuestionsEntities = getFeedbackQuestionEntitiesForCourse(courseId);
             
         } else if (target == ScriptTarget.ALL) {
-            feedbackQuestions = getAllOldQuestions();
+            feedbackQuestionsEntities = getAllOldQuestions();
             
         } else {
-            feedbackQuestions = null;
+            feedbackQuestionsEntities = null;
             Assumption.fail("no target selected");
         }
         
-        List<FeedbackQuestionAttributes> feedbackQuestionAttributes =
-                FeedbackQuestionsDb.getListOfQuestionAttributes(feedbackQuestions);
-        for (FeedbackQuestionAttributes old : feedbackQuestionAttributes) {
+        List<FeedbackQuestionAttributes> feedbackQuestions =
+                FeedbackQuestionsDb.getListOfQuestionAttributes(feedbackQuestionsEntities);
+        for (FeedbackQuestionAttributes old : feedbackQuestions) {
             FeedbackSessionAttributes session = new Logic().getFeedbackSession(old.getFeedbackSessionName(), old.getCourseId());
             if (session == null) {
-                System.out.println("question: " + old.getIdentificationString());
-                System.out.println(String.format("error finding session %s",
+                System.out.println("Question: " + old.getIdentificationString());
+                System.out.println(String.format("Error finding session %s",
                                                  old.getFeedbackSessionName() + ":"
                                                  + old.getCourseId()));
                 System.out.println("possibly due to orphaned responses");
@@ -83,7 +93,7 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
                 if (existingQn == null) {
                     System.out.println("Will create question: " + old.getIdentificationString());
                 } else {
-                    System.out.println("new qn type already exists for question:" + existingQn.getIdentificationString());
+                    System.out.println("New question type entity already exists for question:" + existingQn.getIdentificationString());
                 }
             } else {
                 try {
@@ -97,11 +107,10 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
                                     e);
                 } catch (EntityAlreadyExistsException e) {
                     // ignore if a copy of the old question already exists
-                    System.out.println("new qn type already exists for question:" + old.getIdentificationString());
+                    System.out.println("New question type entity already exists for question:" + old.getIdentificationString());
                 }
             }
         }
-        Datastore.getPersistenceManager().close();
     }
 
     private List<FeedbackQuestion> getFeedbackQuestionEntitiesForCourse(String courseId) {
