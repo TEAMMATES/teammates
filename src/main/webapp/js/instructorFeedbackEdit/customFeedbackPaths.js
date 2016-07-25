@@ -202,6 +202,9 @@ var CustomFeedbackPaths = {
     },
     
     getFeedbackPathsDataUsingGiverToRecipientsMap: function(giverToRecipientsMap, giverType, recipientType) {
+        var studentParticipantTypeSuffix = ' (Student)';
+        var instructorParticipantTypeSuffix = ' (Instructor)';
+        var teamParticipantTypeSuffix = ' (Team)';
         
         var giverSuffix = '';
         var isGiverAStudent =
@@ -213,11 +216,11 @@ var CustomFeedbackPaths = {
                 giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS;
         
         if (isGiverAStudent) {
-            giverSuffix = ' (Student)';
+            giverSuffix = studentParticipantTypeSuffix;
         } else if (isGiverAnInstructor) {
-            giverSuffix = ' (Instructor)';
+            giverSuffix = instructorParticipantTypeSuffix;
         } else if (isGiverATeam) {
-            giverSuffix = ' (Team)';
+            giverSuffix = teamParticipantTypeSuffix;
         }
         
         var recipientSuffix = '';
@@ -239,11 +242,11 @@ var CustomFeedbackPaths = {
                 || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM;
         
         if (isRecipientAStudent) {
-            recipientSuffix = ' (Student)';
+            recipientSuffix = studentParticipantTypeSuffix;
         } else if (isRecipientAnInstructor) {
-            recipientSuffix = ' (Instructor)';
+            recipientSuffix = instructorParticipantTypeSuffix;
         } else if (isRecipientATeam) {
-            recipientSuffix = ' (Team)';
+            recipientSuffix = teamParticipantTypeSuffix;
         }
         
         var data = [];
