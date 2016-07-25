@@ -17,9 +17,9 @@ public class EmailLogEntry {
     private String logInfoAsHtml;
     
     public EmailLogEntry(EmailWrapper msg) {
-        this.receiver = msg.getRecipient();
-        this.subject = msg.getSubject();
-        this.content = msg.getContent();
+        this.receiver = msg.getRecipient();     // Get Recipient information
+        this.subject = msg.getSubject();        // Get Subject of email 
+        this.content = msg.getContent();        // Get Content of email
     }
     
     public EmailLogEntry(AppLogLine appLog) {
