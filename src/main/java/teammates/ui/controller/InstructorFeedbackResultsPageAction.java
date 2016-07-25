@@ -118,7 +118,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         boolean isShowSectionWarningForParticipantView = !data.getBundle().isComplete
                                                    && !Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType);
         boolean isMultipleSectionAvaialble = data.getSections().size() > 1;
-        if (selectedSection.equals(ALL_SECTION_OPTION) && isMultipleSectionAvaialble && (isShowSectionWarningForParticipantView
+        if (selectedSection.equals(ALL_SECTION_OPTION) && isMultipleSectionAvaialble
+                && (isShowSectionWarningForParticipantView
                                                            || isShowSectionWarningForQuestionView)) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING,
                                                StatusMessageColor.WARNING));
