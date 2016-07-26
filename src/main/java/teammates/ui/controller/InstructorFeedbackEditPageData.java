@@ -137,19 +137,44 @@ public class InstructorFeedbackEditPageData extends PageData {
         for (FeedbackParticipantType giverType : question.showGiverNameTo) {
             isGiverNameVisibleFor.put(giverType.name(), true);
         }
-        
+
         Map<String, Boolean> isRecipientNameVisibleFor = new HashMap<String, Boolean>();
         for (FeedbackParticipantType recipientType : question.showRecipientNameTo) {
             isRecipientNameVisibleFor.put(recipientType.name(), true);
         }
-        
+
         Map<String, Boolean> isResponsesVisibleFor = new HashMap<String, Boolean>();
         for (FeedbackParticipantType participantType : question.showResponsesTo) {
             isResponsesVisibleFor.put(participantType.name(), true);
         }
 
+        String dropdownMenuLabel = getDropdownMenuLabel(question.showResponsesTo,
+                                                        question.showGiverNameTo, question.showRecipientNameTo);
+
         return new FeedbackQuestionVisibilitySettings(question.getVisibilityMessage(), isResponsesVisibleFor,
-                                                      isGiverNameVisibleFor, isRecipientNameVisibleFor);
+                                                      isGiverNameVisibleFor, isRecipientNameVisibleFor, dropdownMenuLabel);
+    }
+
+    String getDropdownMenuLabel(List<FeedbackParticipantType> showResponsesTo,
+            List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo) {
+        if (showResponsesTo.isEmpty() && showGiverNameTo.isEmpty() && showRecipientNameTo.isEmpty()) {
+            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("NO_ONE");
+        }
+
+        boolean responsesVisibleToNotJustGiver = !showResponsesTo.isEmpty();
+        boolean giverNameVisibleOnlyToGiver = showGiverNameTo.isEmpty();
+        if (responsesVisibleToNotJustGiver && giverNameVisibleOnlyToGiver) {
+            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("ANONYMOUS");
+        }
+
+        boolean responsesVisibleToNotJustInstructors = showResponsesTo.size() > 1;
+        boolean giverNameVisibleOnlyToInstructors = showGiverNameTo.size() == 1
+                                                    && showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        if (responsesVisibleToNotJustInstructors && giverNameVisibleOnlyToInstructors) {
+            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("ANONYMOUS_EXCEPT_INSTRUCTORS");
+        }
+
+        return "Custom visibility option:";
     }
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession, int nextQnNum) {

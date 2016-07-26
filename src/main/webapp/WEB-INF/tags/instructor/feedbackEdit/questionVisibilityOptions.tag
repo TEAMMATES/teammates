@@ -18,7 +18,7 @@
     </div>
     <div class="visibility-options-dropdown btn-group col-sm-12 background-color-light-green">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Please select a visibility option <span class="caret"></span>
+            ${fqForm.visibilitySettings.dropdownMenuLabel}
         </button>
         <ul class="dropdown-menu">
             <li class="dropdown-header">Common visibility options</li>
