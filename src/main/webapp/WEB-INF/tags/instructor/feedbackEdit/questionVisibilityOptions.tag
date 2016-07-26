@@ -16,18 +16,6 @@
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="visibility-title">Visibility</b> (Who can see the responses?)
     </div>
-    <div class="col-sm-6 btn-group" data-toggle="buttons">
-        <label class="btn btn-xs btn-info visibilityOptionsLabel"
-            id="visibilityOptionsLabel-${fqForm.questionIndex}"
-            onchange="toggleVisibilityEditTab(this)">
-            <input type="radio">
-            <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-        </label>
-        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-${fqForm.questionIndex}" onchange="toggleVisibilityPreviewTab(this)">
-            <input type="radio">
-            <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-        </label>
-    </div>
 </div>
 <div class="col-sm-12 background-color-light-green">
     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
