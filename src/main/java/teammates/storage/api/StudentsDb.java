@@ -209,8 +209,8 @@ public class StudentsDb extends EntitiesDb {
     }
     
     /**
-     * Works for both encrypted keys and unencrypted keys
-     *   (sent out before we started encrypting keys). <br>
+     * Works only for encrypted keys.
+     * 
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return null if no matching student.

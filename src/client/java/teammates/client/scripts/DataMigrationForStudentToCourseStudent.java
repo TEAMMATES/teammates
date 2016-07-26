@@ -59,9 +59,9 @@ public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
                         studentsDb.getStudentForCopyingToCourseStudent(student.course, student.email);
                 
                 if (isPreview) {
-                    System.out.println("Preview: copying " + studentToSave.getIdentificationString());
+                    System.out.println("Preview: will copy " + studentToSave.getIdentificationString());
                     continue;
-                } 
+                }
                 
                 // This replaces any copy of CourseStudent if it already exist
                 studentsDb.createEntityWithoutExistenceCheck(studentToSave);
