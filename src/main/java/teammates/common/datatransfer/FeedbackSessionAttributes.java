@@ -316,23 +316,23 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                && differenceBetweenDeadlineAndNow >= hours - 1
                && differenceBetweenDeadlineAndNow < hours;
     }
+    /*
+     * returns true if the session is closed within the past hour of calling this function
+     */
     
     public boolean isClosedWithinPastHour() {
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         // Fix the time zone accordingly
         now.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
 
-        Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        start.setTime(startTime);
-
         Calendar deadline = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         deadline.setTime(endTime);
+        deadline.add(Calendar.MINUTE, gracePeriod);
 
         long nowMillis = now.getTimeInMillis();
         long deadlineMillis = deadline.getTimeInMillis();
         long differenceBetweenNowAndDeadline = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
-        
-        return differenceBetweenNowAndDeadline == 0;
+        return differenceBetweenNowAndDeadline == 0 && deadlineMillis < nowMillis;
     }
 
     /**

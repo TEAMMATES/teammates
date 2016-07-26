@@ -1,8 +1,10 @@
 package teammates.test.cases.common;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -101,6 +103,39 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         
         ______TS("invalid parameters error messages");
         
+    }
+    
+    @Test
+    public void testIsClosedWithinPastHour() {
+        Calendar endCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+        fsa.setTimeZone(0);
+        fsa.setGracePeriod(0);
+        
+        ______TS("End time within past hour");
+        
+        endCalendar.add(Calendar.MINUTE, -10);
+        fsa.setEndTime(endCalendar.getTime());
+        assertTrue(fsa.isClosedWithinPastHour());
+        
+        ______TS("End time not within past hour");
+        
+        endCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        endCalendar.add(Calendar.MINUTE, -70);
+        fsa.setEndTime(endCalendar.getTime());
+        assertFalse(fsa.isClosedWithinPastHour());
+        
+        endCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        endCalendar.add(Calendar.MINUTE, 10);
+        fsa.setEndTime(endCalendar.getTime());
+        assertFalse(fsa.isClosedWithinPastHour());
+        
+
+        ______TS("Session ended but grace time left");
+        fsa.setGracePeriod(15);
+        endCalendar.add(Calendar.MINUTE, -10);
+        fsa.setEndTime(endCalendar.getTime());
+        assertFalse(fsa.isClosedWithinPastHour());
     }
     
     @AfterClass

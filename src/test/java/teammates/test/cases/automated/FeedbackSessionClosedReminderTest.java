@@ -109,14 +109,14 @@ public class FeedbackSessionClosedReminderTest extends BaseComponentUsingTaskQue
         while (counter != 10) {
             FeedbackSessionClosedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionClosedEmails();
-            //There are only 2 sessions closed reminder to be sent
-            if (FeedbackSessionClosedCallback.verifyTaskCount(2)) {
+            //There are only 1 sessions closed reminder to be sent
+            if (FeedbackSessionClosedCallback.verifyTaskCount(1)) {
                 break;
             }
             counter++;
         }
         if (counter == 10) {
-            assertEquals(FeedbackSessionClosedCallback.taskCount, 2);
+            assertEquals(FeedbackSessionClosedCallback.taskCount, 1);
         }
     }
 
