@@ -159,6 +159,14 @@ public final class HtmlHelper {
                     return generateStudentMotdPlaceholder(indentation);
                 }
             }
+        } else if (currentNode.getNodeName().equalsIgnoreCase("select")) {
+            NamedNodeMap attributes = currentNode.getAttributes();
+            for (int i = 0; i < attributes.getLength(); i++) {
+                Node attribute = attributes.item(i);
+                if (isTimeZoneSelectorAttribute(attribute)) {
+                    return generateTimeZoneSelectorPlaceholder(indentation);
+                }
+            }
         }
         
         return generateNodeStringRepresentation(currentNode, indentation, isPart);
@@ -170,6 +178,10 @@ public final class HtmlHelper {
     
     private static String generateStudentMotdPlaceholder(String indentation) {
         return indentation + "${studentmotd.container}\n";
+    }
+    
+    private static String generateTimeZoneSelectorPlaceholder(String indentation) {
+        return indentation + "${timezone.options}\n";
     }
     
     private static String generateNodeStringRepresentation(Node currentNode, String indentation, boolean isPart) {
@@ -242,6 +254,13 @@ public final class HtmlHelper {
      */
     private static boolean isMotdContainerAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "student-motd-container");
+    }
+    
+    /**
+     * Checks for timezone selectors (i.e a <code>select</code> with id <code>coursetimezone</code>)
+     */
+    private static boolean isTimeZoneSelectorAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "id", "coursetimezone");
     }
     
     private static boolean checkForAttributeWithSpecificValue(Node attribute, String attrType, String attrValue) {
