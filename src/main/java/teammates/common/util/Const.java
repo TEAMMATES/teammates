@@ -1,8 +1,11 @@
 package teammates.common.util;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -423,6 +426,21 @@ public final class Const {
     }
     
     public static class FeedbackQuestion {
+
+        public static final Map<String, String>
+                COMMON_VISIBILITY_OPTIONS;
+
+        static {
+            Map<String, String> initializer =
+                    new LinkedHashMap<String, String>();
+
+            initializer.put("NO_ONE", "Only feedback giver can see the response");
+            initializer.put("ANONYMOUS", "Anonymous to recipient and instructors");
+            initializer.put("ANONYMOUS_EXCEPT_INSTRUCTORS", "Anonymous to recipient, visible to instructors");
+            initializer.put("EVERYONE", "Visible to everyone in the class");
+
+            COMMON_VISIBILITY_OPTIONS = Collections.unmodifiableMap(initializer);
+        }
     
         // Mcq
         public static final int MCQ_MIN_NUM_OF_CHOICES = 2;
