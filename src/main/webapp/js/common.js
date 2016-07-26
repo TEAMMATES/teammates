@@ -565,7 +565,7 @@ var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
  * @param status type
  * @return created status message div
  */
-function createStatusMessageDiv(message, status) {
+function populateStatusMessageDiv(message, status) {
     var $statusMessageDivToUser = $(DIV_STATUS_MESSAGE);
     var $statusMessageDivContent = $('<div></div>');
     
@@ -592,7 +592,7 @@ function setStatusMessage(message, status) {
     if (message === '' || message === undefined || message === null) {
         return;
     }
-    var $statusMessageDivToUser = createStatusMessageDiv(message, status);
+    var $statusMessageDivToUser = populateStatusMessageDiv(message, status);
     $statusMessageDivToUser.show();
     scrollToElement($statusMessageDivToUser[0], { offset: window.innerHeight / 2 * -1 });
 }
@@ -610,7 +610,7 @@ function setStatusMessageToForm(message, status, form) {
         return;
     }
     // Copy the statusMessage and prepend to form
-    var $copyOfStatusMessagesToUser = createStatusMessageDiv(message, status).clone().show();
+    var $copyOfStatusMessagesToUser = populateStatusMessageDiv(message, status).clone().show();
     $(DIV_STATUS_MESSAGE).remove();
     $(form).prepend($copyOfStatusMessagesToUser);
 }
