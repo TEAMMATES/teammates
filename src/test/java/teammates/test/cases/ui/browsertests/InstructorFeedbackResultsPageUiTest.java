@@ -494,6 +494,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifySpecifiedPanelIdsAreCollapsed(new String[] { "0-2", "0-3", "0-4" });
 
         resultsPage.clickGroupByTeam();
+
+        resultsPage.displayByGiverRecipientQuestion();
+        resultsPage.clickSectionCollapseStudentsButton();
+        resultsPage.waitForSectionStudentPanelsToCollapse();
+
         resultsPage.displayByQuestion();
 
         ______TS("Typical case: panels expand/collapse");
