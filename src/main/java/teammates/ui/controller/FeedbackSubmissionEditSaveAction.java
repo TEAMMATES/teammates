@@ -174,9 +174,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
                
         if (isSendEmail) {
-            String user = getRequestParamValue(Const.ParamsNames.USER_ID);
-            String unregisteredStudentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-            String unregisteredStudentRegisterationKey = getRequestParamValue(Const.ParamsNames.REGKEY);
+            String user = account != null ? account.googleId : null;
+            String unregisteredStudentEmail = student != null ? student.email : null;
+            String unregisteredStudentRegisterationKey = student != null ? student.key : null;
      
             logic.sendConfirmationEmailForSubmission(courseId, feedbackSessionName, user,
                     unregisteredStudentEmail, unregisteredStudentRegisterationKey);

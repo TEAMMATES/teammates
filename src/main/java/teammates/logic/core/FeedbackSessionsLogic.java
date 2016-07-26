@@ -1593,7 +1593,6 @@ public class FeedbackSessionsLogic {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CONFIRM + courseId + "/" + feedbackSessionName);
         }
-        
         FeedbackSessionAttributes session = getFeedbackSession(feedbackSessionName, courseId);
         StudentAttributes student = null;
         InstructorAttributes instructor = null;
