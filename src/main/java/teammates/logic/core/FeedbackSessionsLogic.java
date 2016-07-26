@@ -1612,6 +1612,8 @@ public class FeedbackSessionsLogic {
             student.key = regKey;
         }
         
+        Assumption.assertFalse(student == null && instructor == null);
+        
         try {
             EmailWrapper email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmails(
                     session, student, instructor);

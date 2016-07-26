@@ -43,7 +43,7 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosing.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
-        public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =           
+        public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSubmissionConfirmation.html");
         public static final String USER_FEEDBACK_SESSION_UNPUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublished.html");

@@ -174,9 +174,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
                
         if (isSendEmail) {
-            String user = account != null ? account.googleId : null;
-            String unregisteredStudentEmail = student != null ? student.email : null;
-            String unregisteredStudentRegisterationKey = student != null ? student.key : null;
+            String user = account == null ? null : account.googleId;
+            String unregisteredStudentEmail = student == null ? null : student.email;
+            String unregisteredStudentRegisterationKey = student == null ? null : student.key;
      
             logic.sendConfirmationEmailForSubmission(courseId, feedbackSessionName, user,
                     unregisteredStudentEmail, unregisteredStudentRegisterationKey);

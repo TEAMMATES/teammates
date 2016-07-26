@@ -162,10 +162,6 @@ public class StudentsLogic {
     public boolean isStudentInAnyCourse(String googleId) {
         return studentsDb.getStudentsForGoogleId(googleId).size() != 0;
     }
-    
-    public boolean isStudentInCourseForGoogleId(String courseId, String googleId) {
-        return studentsDb.getStudentForGoogleId(courseId, googleId) != null;
-    }
 
     public boolean isStudentInCourse(String courseId, String studentEmail) {
         return studentsDb.getStudentForEmail(courseId, studentEmail) != null;
