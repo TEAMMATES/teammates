@@ -558,7 +558,7 @@ function scrollToTop(duration) {
 var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
 /**
- * Prepares a status message and the message status.
+ * Populates the status div with the message and the message status.
  * Default message type is info.
  *
  * @param message the text message to be shown to the user
