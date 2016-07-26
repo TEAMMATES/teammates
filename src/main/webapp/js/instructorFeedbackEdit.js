@@ -42,9 +42,6 @@ function readyFeedbackEditPage() {
     // Disable all questions
     disableAllQuestions();
 
-    // Hide option tables
-    $('.visibilityOptions').hide();
-    
     // Bind submit text links
     $('a[id|=questionsavechangestext]').click(function() {
         var form = $(this).parents('form.form_question');

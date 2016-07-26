@@ -12,6 +12,8 @@
 <c:set var="FEEDBACK_STUDENTS"><%=FeedbackParticipantType.STUDENTS.name()%></c:set>
 <c:set var="FEEDBACK_INSTRUCTORS"><%=FeedbackParticipantType.INSTRUCTORS.name()%></c:set>
 
+<c:set var="isCommonOptionSelected" value="${fqForm.visibilitySettings.dropdownMenuLabel ne 'Custom visibility option:'}"></c:set>
+
 <div class="col-sm-12 padding-15px background-color-light-green">
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="visibility-title">Visibility</b> (Who can see the responses?)
@@ -45,7 +47,7 @@
 </div>
 <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
 <div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
-    <div class="visibilityOptions" id="visibilityOptions-${fqForm.questionIndex}">
+    <div class="visibilityOptions" id="visibilityOptions-${fqForm.questionIndex}"<c:if test="${isCommonOptionSelected}"> style="display:none;"</c:if>>
         <table class="dataTable participantTable table table-striped text-center background-color-white">
             <tr>
                 <th class="text-center">User/Group</th>
