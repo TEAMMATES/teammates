@@ -450,7 +450,13 @@ function editCourse() {
     $('#btnSaveCourse').show();
     $('#' + COURSE_NAME).prop('disabled', false);
     $('#' + COURSE_TIME_ZONE).prop('disabled', false);
+    $('#auto-detect-timezone').prop('disabled', false);
     $('#courseEditLink').hide();
+}
+
+function autoDetectTimezone() {
+    var $selectElement = $('#' + COURSE_TIME_ZONE);
+    TimeZone.autoDetectAndUpdateTimeZone($selectElement);
 }
 
 $(document).ready(function() {
@@ -468,5 +474,9 @@ $(document).ready(function() {
         var $selectElement = $('#' + COURSE_TIME_ZONE);
         TimeZone.prepareTimeZoneInput($selectElement);
         TimeZone.updateTimeZone($selectElement, courseTimeZone);
+
+        $('#auto-detect-timezone').on('click', function() {
+            autoDetectTimezone();
+        });
     }
 });
