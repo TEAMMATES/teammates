@@ -26,27 +26,26 @@ import teammates.storage.entity.FeedbackQuestion;
  */
 public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClient {
     
-    private final boolean isPreview = true;
-    
     /**
      * 
      * BY_TIME: migration will affect questions created in the past {@code numDays} days
      * BY_COURSE: migration will affects questions in the specified {@code courseId}
-     * ALL: all questions will be migrated 
+     * ALL: all questions will be migrated
      */
     private enum ScriptTarget {
         BY_TIME, BY_COURSE, ALL;
     }
     
-    ScriptTarget target = ScriptTarget.ALL;
+    private static final boolean isPreview = true;
+    
+    private static final ScriptTarget target = ScriptTarget.ALL;
     
     // When using ScriptTarget.BY_TIME, numDays can be changed to target
     // questions created in the past number of days
-    private final int numDays = 100;
+    private static final int numDays = 100;
     
     // When using ScriptTarget.BY_COURSE, specify the course to target with courseId
-    private final String courseId = "";
-    
+    private static final String courseId = "";
     
     public static void main(String[] args) throws IOException {
         new DataMigrationForFeedbackQuestionsToQuestions().doOperationRemotely();
@@ -56,30 +55,31 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
     protected void doOperation() {
         
         Datastore.initialize();
-        List<FeedbackQuestion> feedbackQuestionsEntities;
+        List<FeedbackQuestion> feedbackQuestionEntities;
         if (target == ScriptTarget.BY_TIME) {
             Calendar startCal = Calendar.getInstance();
             startCal.add(Calendar.DAY_OF_YEAR, -1 * numDays);
             
-            feedbackQuestionsEntities = getOldQuestionsSince(startCal.getTime());
+            feedbackQuestionEntities = getOldQuestionsSince(startCal.getTime());
             
         } else if (target == ScriptTarget.BY_COURSE) {
-            feedbackQuestionsEntities = getFeedbackQuestionEntitiesForCourse(courseId);
+            feedbackQuestionEntities = getFeedbackQuestionEntitiesForCourse(courseId);
             
         } else if (target == ScriptTarget.ALL) {
-            feedbackQuestionsEntities = getAllOldQuestions();
+            feedbackQuestionEntities = getAllOldQuestions();
             
         } else {
-            feedbackQuestionsEntities = null;
+            feedbackQuestionEntities = null;
             Assumption.fail("no target selected");
         }
         
         List<FeedbackQuestionAttributes> feedbackQuestions =
-                FeedbackQuestionsDb.getListOfQuestionAttributes(feedbackQuestionsEntities);
+                FeedbackQuestionsDb.getListOfQuestionAttributes(feedbackQuestionEntities);
         System.out.println("Size of feedbackQuestions = " + feedbackQuestions.size());
-        int i = 0;
+        int i = 1;
         for (FeedbackQuestionAttributes old : feedbackQuestions) {
-            FeedbackSessionAttributes session = new Logic().getFeedbackSession(old.getFeedbackSessionName(), old.getCourseId());
+            FeedbackSessionAttributes session = new Logic().getFeedbackSession(
+                    old.getFeedbackSessionName(), old.getCourseId());
             if (session == null) {
                 System.out.println("Question: " + old.getIdentificationString());
                 System.out.println(String.format("Error finding session %s",
@@ -93,29 +93,29 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
                 FeedbackQuestionAttributes existingQn =
                         new QuestionsDb().getFeedbackQuestion(old.feedbackSessionName, old.courseId, old.getId());
                 if (existingQn == null) {
-                    System.out.println("Will create question: " + old.getIdentificationString());
+                    System.out.println(i + ". Will create question: " + old.getIdentificationString());
                 } else {
-                    System.out.println("New question type entity already exists for question:" + existingQn.getIdentificationString());
+                    System.out.println("New question type entity already exists for question:"
+                                       + existingQn.getIdentificationString());
                 }
             } else {
                 try {
                     new QuestionsDb().createFeedbackQuestion(session, old);
+                    System.out.println(i + ". Created question: " + old.getIdentificationString());
                 } catch (EntityDoesNotExistException | InvalidParametersException e) {
                     e.printStackTrace();
                     throw new RuntimeException(
-                            String.format("Unable to update existing session %s with question %s",
+                            String.format(i + ". Unable to update existing session %s with question %s",
                                     session.getIdentificationString(),
                                     old.getIdentificationString()),
                                     e);
                 } catch (EntityAlreadyExistsException e) {
                     // ignore if a copy of the old question already exists
-                    System.out.println("New question type entity already exists for question:" + old.getIdentificationString());
+                    System.out.println("New question type entity already exists for question:"
+                                       + old.getIdentificationString());
                 }
             }
             
-            if (i % 100 == 0) {
-                System.out.println("Migrating the " + i + "'th Question");
-            }
             i += 1;
         }
     }
@@ -135,8 +135,8 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
     private List<FeedbackQuestion> getAllOldQuestions() {
         String query = "SELECT FROM " + FeedbackQuestion.class.getName();
         @SuppressWarnings("unchecked")
-        List<FeedbackQuestion> feedbackQuestions = 
-            (List<FeedbackQuestion>) Datastore.getPersistenceManager().newQuery(query).execute();
+        List<FeedbackQuestion> feedbackQuestions =
+                (List<FeedbackQuestion>) Datastore.getPersistenceManager().newQuery(query).execute();
         return feedbackQuestions;
     }
     
@@ -145,9 +145,8 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
                         + " WHERE updatedAt >= startDate"
                         + " PARAMETERS java.util.Date startDate";
         @SuppressWarnings("unchecked")
-        List<FeedbackQuestion> feedbackQuestions = 
-            (List<FeedbackQuestion>) Datastore.getPersistenceManager().newQuery(query).execute(date);
+        List<FeedbackQuestion> feedbackQuestions =
+                (List<FeedbackQuestion>) Datastore.getPersistenceManager().newQuery(query).execute(date);
         return feedbackQuestions;
     }
-    
 }
