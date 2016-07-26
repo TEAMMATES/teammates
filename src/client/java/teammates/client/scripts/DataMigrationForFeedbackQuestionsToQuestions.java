@@ -76,16 +76,18 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
         List<FeedbackQuestionAttributes> feedbackQuestions =
                 FeedbackQuestionsDb.getListOfQuestionAttributes(feedbackQuestionEntities);
         System.out.println("Size of feedbackQuestions = " + feedbackQuestions.size());
-        int i = 1;
+        int i = 0;
         for (FeedbackQuestionAttributes old : feedbackQuestions) {
+            i += 1;
             FeedbackSessionAttributes session = new Logic().getFeedbackSession(
                     old.getFeedbackSessionName(), old.getCourseId());
             if (session == null) {
-                System.out.println("Question: " + old.getIdentificationString());
+                System.out.println(i + ". Question: " + old.getIdentificationString());
                 System.out.println(String.format("Error finding session %s",
                                                  old.getFeedbackSessionName() + ":"
                                                  + old.getCourseId()));
                 System.out.println("possibly due to orphaned responses");
+                
                 continue;
             }
             
@@ -95,7 +97,7 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
                 if (existingQn == null) {
                     System.out.println(i + ". Will create question: " + old.getIdentificationString());
                 } else {
-                    System.out.println("New question type entity already exists for question:"
+                    System.out.println(i + ". New question type entity already exists for question:"
                                        + existingQn.getIdentificationString());
                 }
             } else {
@@ -111,12 +113,11 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
                                     e);
                 } catch (EntityAlreadyExistsException e) {
                     // ignore if a copy of the old question already exists
-                    System.out.println("New question type entity already exists for question:"
+                    System.out.println(i + ". New question type entity already exists for question:"
                                        + old.getIdentificationString());
                 }
             }
             
-            i += 1;
         }
     }
 
