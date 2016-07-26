@@ -10,6 +10,9 @@ var CustomFeedbackPaths = {
     FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM_MEMBERS_INCLUDING_SELF: 'OWN_TEAM_MEMBERS_INCLUDING_SELF',
     FEEDBACK_PARTICIPANT_TYPE_NONE: 'NONE',
     TEAM_NAME_INSTRUCTORS: 'Instructors',
+    STUDENT_PARTICIPANT_TYPE_SUFFIX: ' (Student)',
+    INSTRUCTOR_PARTICIPANT_TYPE_SUFFIX: ' (Instructor)',
+    TEAM_PARTICIPANT_TYPE_SUFFIX: ' (Team)',
 
     // These variables are read-only and are not changed after they have been initialized
     // They are used to derive the data that is used to fill the spreadsheets
@@ -54,13 +57,16 @@ var CustomFeedbackPaths = {
         var i;
         for (i = 0; i < CustomFeedbackPaths.studentEmails.length; i++) {
             CustomFeedbackPaths.allPossibleFeedbackGivers.push(
-                    CustomFeedbackPaths.studentEmails[i] + ' (Student)');
+                    CustomFeedbackPaths.studentEmails[i] + CustomFeedbackPaths.STUDENT_PARTICIPANT_TYPE_SUFFIX);
         }
         for (i = 0; i < CustomFeedbackPaths.instructorEmails.length; i++) {
-            CustomFeedbackPaths.allPossibleFeedbackGivers.push(CustomFeedbackPaths.instructorEmails[i] + ' (Instructor)');
+            CustomFeedbackPaths.allPossibleFeedbackGivers.push(
+                    CustomFeedbackPaths.instructorEmails[i]
+                    + CustomFeedbackPaths.INSTRUCTOR_PARTICIPANT_TYPE_SUFFIX);
         }
         for (i = 0; i < CustomFeedbackPaths.teamNames.length; i++) {
-            CustomFeedbackPaths.allPossibleFeedbackGivers.push(CustomFeedbackPaths.teamNames[i] + ' (Team)');
+            CustomFeedbackPaths.allPossibleFeedbackGivers.push(
+                    CustomFeedbackPaths.teamNames[i] + CustomFeedbackPaths.TEAM_PARTICIPANT_TYPE_SUFFIX);
         }
 
         CustomFeedbackPaths.allPossibleFeedbackRecipients = CustomFeedbackPaths.allPossibleFeedbackGivers.slice();
@@ -202,9 +208,7 @@ var CustomFeedbackPaths = {
     },
     
     getFeedbackPathsDataUsingGiverToRecipientsMap: function(giverToRecipientsMap, giverType, recipientType) {
-        var studentParticipantTypeSuffix = ' (Student)';
-        var instructorParticipantTypeSuffix = ' (Instructor)';
-        var teamParticipantTypeSuffix = ' (Team)';
+
         
         var giverSuffix = '';
         var isGiverAStudent =
@@ -216,11 +220,11 @@ var CustomFeedbackPaths = {
                 giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS;
         
         if (isGiverAStudent) {
-            giverSuffix = studentParticipantTypeSuffix;
+            giverSuffix = CustomFeedbackPaths.STUDENT_PARTICIPANT_TYPE_SUFFIX;
         } else if (isGiverAnInstructor) {
-            giverSuffix = instructorParticipantTypeSuffix;
+            giverSuffix = CustomFeedbackPaths.INSTRUCTOR_PARTICIPANT_TYPE_SUFFIX;
         } else if (isGiverATeam) {
-            giverSuffix = teamParticipantTypeSuffix;
+            giverSuffix = CustomFeedbackPaths.TEAM_PARTICIPANT_TYPE_SUFFIX;
         }
         
         var recipientSuffix = '';
@@ -242,11 +246,11 @@ var CustomFeedbackPaths = {
                 || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM;
         
         if (isRecipientAStudent) {
-            recipientSuffix = studentParticipantTypeSuffix;
+            recipientSuffix = CustomFeedbackPaths.STUDENT_PARTICIPANT_TYPE_SUFFIX;
         } else if (isRecipientAnInstructor) {
-            recipientSuffix = instructorParticipantTypeSuffix;
+            recipientSuffix = CustomFeedbackPaths.INSTRUCTOR_PARTICIPANT_TYPE_SUFFIX;
         } else if (isRecipientATeam) {
-            recipientSuffix = teamParticipantTypeSuffix;
+            recipientSuffix = CustomFeedbackPaths.TEAM_PARTICIPANT_TYPE_SUFFIX;
         }
         
         var data = [];
