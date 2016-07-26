@@ -55,6 +55,70 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
     protected void doOperation() {
         
         Datastore.initialize();
+        List<FeedbackQuestionAttributes> feedbackQuestions = getFeedbackQuestionsToMigrate(target);
+        System.out.println("Size of feedbackQuestions = " + feedbackQuestions.size());
+        
+        int i = 0;
+        for (FeedbackQuestionAttributes old : feedbackQuestions) {
+            i += 1;
+            System.out.print(i + ". ");
+            FeedbackSessionAttributes session =
+                    new Logic().getFeedbackSession(old.getFeedbackSessionName(), old.getCourseId());
+            if (session == null) {
+                printErrorMessageForOrphanedQuestion(old);
+                continue;
+            }
+            
+            if (isPreview) {
+                previewMigratedQuestion(old);
+            } else {
+                migrateQuestionInSession(old, session);
+            }
+        }
+    }
+
+    private void printErrorMessageForOrphanedQuestion(FeedbackQuestionAttributes old) {
+        System.out.println("Question: " + old.getIdentificationString());
+        System.out.println(String.format("Error finding session %s",
+                                         old.getFeedbackSessionName() + ":"
+                                         + old.getCourseId()));
+        System.out.println("possibly due to orphaned responses");
+    }
+
+    /**
+     * Creates question in the given session
+     */
+    private void migrateQuestionInSession(FeedbackQuestionAttributes old,
+                                          FeedbackSessionAttributes session) {
+        try {
+            new QuestionsDb().createFeedbackQuestion(session, old);
+            System.out.println("Created question: " + old.getIdentificationString());
+        } catch (EntityDoesNotExistException | InvalidParametersException e) {
+            e.printStackTrace();
+            throw new RuntimeException(
+                    String.format("Unable to update existing session %s with question %s",
+                                 session.getIdentificationString(),
+                                 old.getIdentificationString()),
+                                 e);
+        } catch (EntityAlreadyExistsException e) {
+            // ignore if a copy of the old question already exists
+            System.out.println("New question type entity already exists for question:"
+                               + old.getIdentificationString());
+        }
+    }
+
+    private void previewMigratedQuestion(FeedbackQuestionAttributes old) {
+        FeedbackQuestionAttributes existingQn =
+                new QuestionsDb().getFeedbackQuestion(old.feedbackSessionName, old.courseId, old.getId());
+        if (existingQn == null) {
+            System.out.println("Will create question: " + old.getIdentificationString());
+        } else {
+            System.out.println("New question type entity already exists for question:"
+                               + existingQn.getIdentificationString());
+        }
+    }
+
+    private List<FeedbackQuestionAttributes> getFeedbackQuestionsToMigrate(ScriptTarget target) {
         List<FeedbackQuestion> feedbackQuestionEntities;
         if (target == ScriptTarget.BY_TIME) {
             Calendar startCal = Calendar.getInstance();
@@ -73,52 +137,7 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
             Assumption.fail("no target selected");
         }
         
-        List<FeedbackQuestionAttributes> feedbackQuestions =
-                FeedbackQuestionsDb.getListOfQuestionAttributes(feedbackQuestionEntities);
-        System.out.println("Size of feedbackQuestions = " + feedbackQuestions.size());
-        int i = 0;
-        for (FeedbackQuestionAttributes old : feedbackQuestions) {
-            i += 1;
-            FeedbackSessionAttributes session = new Logic().getFeedbackSession(
-                    old.getFeedbackSessionName(), old.getCourseId());
-            if (session == null) {
-                System.out.println(i + ". Question: " + old.getIdentificationString());
-                System.out.println(String.format("Error finding session %s",
-                                                 old.getFeedbackSessionName() + ":"
-                                                 + old.getCourseId()));
-                System.out.println("possibly due to orphaned responses");
-                
-                continue;
-            }
-            
-            if (isPreview) {
-                FeedbackQuestionAttributes existingQn =
-                        new QuestionsDb().getFeedbackQuestion(old.feedbackSessionName, old.courseId, old.getId());
-                if (existingQn == null) {
-                    System.out.println(i + ". Will create question: " + old.getIdentificationString());
-                } else {
-                    System.out.println(i + ". New question type entity already exists for question:"
-                                       + existingQn.getIdentificationString());
-                }
-            } else {
-                try {
-                    new QuestionsDb().createFeedbackQuestion(session, old);
-                    System.out.println(i + ". Created question: " + old.getIdentificationString());
-                } catch (EntityDoesNotExistException | InvalidParametersException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(
-                            String.format(i + ". Unable to update existing session %s with question %s",
-                                    session.getIdentificationString(),
-                                    old.getIdentificationString()),
-                                    e);
-                } catch (EntityAlreadyExistsException e) {
-                    // ignore if a copy of the old question already exists
-                    System.out.println(i + ". New question type entity already exists for question:"
-                                       + old.getIdentificationString());
-                }
-            }
-            
-        }
+        return FeedbackQuestionsDb.getListOfQuestionAttributes(feedbackQuestionEntities);
     }
 
     private List<FeedbackQuestion> getFeedbackQuestionEntitiesForCourse(String courseId) {
@@ -128,9 +147,9 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
         q.setFilter("courseId == courseIdParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackQuestion> feedbackQuestionList = (List<FeedbackQuestion>) q.execute(courseId);
+        List<FeedbackQuestion> feedbackQuestions = (List<FeedbackQuestion>) q.execute(courseId);
         
-        return feedbackQuestionList;
+        return feedbackQuestions;
     }
 
     private List<FeedbackQuestion> getAllOldQuestions() {
