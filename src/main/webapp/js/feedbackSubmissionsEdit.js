@@ -13,21 +13,17 @@ function isPreview() {
 $(document).ready(function() {
 
     /**
-     * Handles Keyup and Keydown on Text question to display response length
+     * Handles input on Text question to display response length
      */
-    $('textarea[id^="responsetext-"]').keyup(function() {
-        updateTextQuestionCharCount(this.id, $(this).data('lengthtextid'));
+    $('textarea[id^="responsetext-"]').on('input', function() {
+        updateTextQuestionWordsCount(this.id, $(this).data('length-text-id'), $(this).data('recommended-text'));
     });
-
-    $('textarea[id^="responsetext-"]').keydown(function() {
-        updateTextQuestionCharCount(this.id, $(this).data('lengthtextid'));
-    });
-
+    
     /**
-     * Triggering keyup event for all text question type textfields, to call
+     * Triggering input event for all text question type textfields, to call
      * function that finds out input length.
      */
-    $('textarea[id^="responsetext-"]').keyup();
+    $('textarea[id^="responsetext-"]').trigger('input');
 
     $('form[name="form_submit_response"]').submit(function() {
         formatRubricQuestions();
@@ -962,7 +958,23 @@ function getWarningMessage() {
  * @param textAreaId - Id of text area for which char are to be counted
  * @param charCountId - Id of Label to display length of text area
  */
-function updateTextQuestionCharCount(textAreaId, charCountId) {
-    var cs = $('#' + textAreaId).val().length;
-    $('#' + charCountId).text(cs);
+function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLength) {
+	
+    var response = $('#' + textAreaId).val();
+    var $wordsCountElement = $('#' + wordsCountId);
+
+    var wordsCount = response.split(/\s/g).filter(function(item) {
+        return item.match(/\w/);
+    }).length;
+
+    $wordsCountElement.text(wordsCount);
+
+    var upperLimit = recommendedLength + recommendedLength * 0.1;
+    var lowerLimit = recommendedLength - recommendedLength * 0.1;
+
+    if (wordsCount > lowerLimit && wordsCount < upperLimit) {
+        $wordsCountElement.css('color', 'green');
+    } else {
+        $wordsCountElement.css('color', 'gray');
+    }
 }

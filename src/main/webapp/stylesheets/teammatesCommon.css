@@ -557,6 +557,20 @@ Apply to thead to make headers not bold.
     min-width: 100px;
 }
 
+.question-recommended-length {
+    color: gray;
+}
+
+.question-recommended-length > span {
+    margin-left: 7px;
+    border-bottom: 1px dotted;
+}
+
+.question-recommended-length > input {
+    width: 80px;
+    display: inline;
+}
+
 .session-name-table-width {
     min-width: 130px;
 }
