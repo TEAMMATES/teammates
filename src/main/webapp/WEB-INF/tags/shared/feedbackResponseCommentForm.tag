@@ -190,9 +190,7 @@
     </div>
     <div class="form-group">
         <div id="rich-text-toolbar-comment-container-${divId}"></div>
-        <div class="panel panel-default panel-body"
-             rows="3"
-             id="${textAreaId}-${divId}">
+        <div class="panel panel-default panel-body" id="${textAreaId}-${divId}">
             ${frc.commentText}
         </div>
         <input type="hidden" name="responsecommenttext">

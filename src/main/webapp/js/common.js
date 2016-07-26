@@ -960,6 +960,9 @@ function hideSingleCollapse(e) {
     $(heading).find('a.btn').hide();
 }
 
+/**
+ * Destroys an instance of TinyMCE rich-text editor.
+ */
 function destroyEditor(id) {
     if (typeof tinyMCE === 'undefined') {
         return;

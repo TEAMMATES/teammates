@@ -263,8 +263,7 @@
                 </div>
                 <div class="form-group">
                     <div id="rich-text-toolbar-comment-container-${commentIndex}"></div>
-                    <div class="panel panel-default panel-body"
-                         id="commentText${commentIndex}">
+                    <div class="panel panel-default panel-body" id="commentText${commentIndex}">
                          ${comment.commentText}
                     </div>
                     <input type="hidden" name="commenttext">

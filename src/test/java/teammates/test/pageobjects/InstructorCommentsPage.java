@@ -166,8 +166,9 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx, String text) {
-        WebElement textarea = browser.driver.findElement(
-                By.id("responseCommentAddForm-" + sessionIdx + "-" + questionIdx + "-" + responseIdx));
+        String editorId = "responseCommentAddForm-" + sessionIdx + "-" + questionIdx + "-" + responseIdx;
+        WebElement textarea = browser.driver.findElement(By.id(editorId));
+        waitForRichTextEditorToLoad(editorId);
         click(textarea);
         textarea.clear();
         textarea.sendKeys(text);
@@ -176,10 +177,8 @@ public class InstructorCommentsPage extends AppPage {
     public void fillTextareaToEditResponseComment(int sessionIdx, int questionIdx, int responseIdx,
                                                   int commentIdx, String text) {
         String editorId = "responsecommenttext-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx;
-        WebElement textarea = browser.driver.findElement(
-                By.id(editorId));
         waitForRichTextEditorToLoad(editorId);
-        fillTextBox(textarea, text);
+        fillRichTextEditor(editorId, text);
     }
 
     public void addResponseComment(int sessionIdx, int questionIdx, int responseIdx) {
