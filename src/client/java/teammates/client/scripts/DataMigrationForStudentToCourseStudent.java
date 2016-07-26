@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -70,6 +69,7 @@ public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
                 System.out.println("Preview: copying " + studentToSave.getIdentificationString());
             } else {
                 try {
+                    // This replaces any copy of CourseStudent if it already exist
                     studentsDb.createEntityWithoutExistenceCheck(studentToSave);
                     System.out.println("Created CourseStudent for " + studentToSave.getIdentificationString());
                 } catch (InvalidParametersException e) {
@@ -113,10 +113,6 @@ public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
     @SuppressWarnings("deprecation")
     private List<StudentAttributes> getOldStudents() {
         return studentsDb.getAllOldStudents();
-    }
-
-    protected PersistenceManager getPm() {
-        return Datastore.getPersistenceManager();
     }
 
 }

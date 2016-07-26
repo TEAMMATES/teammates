@@ -16,8 +16,9 @@ public class StudentWithOldRegistrationKeyAttributes extends StudentAttributes {
         section = old.getSectionName();
         key = old.getRegistrationKey();
 
+        // copies the createdAt of the existing Student
+        // updatedAt is set to the time when CourseStudent is written to the database
         createdAt = old.getCreatedAt();
-        updatedAt = old.getUpdatedAt();
     }
     
     public CourseStudent toEntity() {

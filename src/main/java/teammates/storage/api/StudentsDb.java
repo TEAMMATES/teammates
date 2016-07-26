@@ -19,6 +19,7 @@ import teammates.common.datatransfer.StudentWithOldRegistrationKeyAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -194,7 +195,6 @@ public class StudentsDb extends EntitiesDb {
             return new StudentAttributes(courseStudentList.get(0));
         }
         
-        
         q = getPm().newQuery(Student.class);
         q.declareParameters("String googleIdParam, String courseIdParam");
         q.setFilter("ID == googleIdParam && courseID == courseIdParam");
@@ -226,8 +226,10 @@ public class StudentsDb extends EntitiesDb {
                 return new StudentAttributes(courseStudent);
             }
         } catch (Exception e) {
-            // no such student
-            return null;
+            // even if the student does not exist, it's not supposed to throw an exception
+            log.severe("Exception thrown trying to retrieve CourseStudent \n"
+                       + TeammatesException.toStringWithStackTrace(e));
+            // fall back on Student
         }
         
         try {
@@ -261,8 +263,8 @@ public class StudentsDb extends EntitiesDb {
             }
         }
         
-        List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
-        for (Student student : studentList) {
+        List<Student> studentEntities = getStudentEntitiesForGoogleId(googleId);
+        for (Student student : studentEntities) {
             // Check if StudentAttributes is already in list due to CourseStudent
             if (!JDOHelper.isDeleted(student)) {
                 StudentAttributes s = new StudentAttributes(student);
@@ -285,15 +287,15 @@ public class StudentsDb extends EntitiesDb {
         
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
         
-        List<CourseStudent> courseStudentList = getCourseStudentEntitiesForCourse(courseId);
-        for (CourseStudent student : courseStudentList) {
+        List<CourseStudent> courseStudentEntities = getCourseStudentEntitiesForCourse(courseId);
+        for (CourseStudent student : courseStudentEntities) {
             if (!JDOHelper.isDeleted(student)) {
                 studentDataList.add(new StudentAttributes(student));
             }
         }
         
-        List<Student> studentList = getStudentEntitiesForCourse(courseId);
-        for (Student student : studentList) {
+        List<Student> studentEntities = getStudentEntitiesForCourse(courseId);
+        for (Student student : studentEntities) {
             // Check if StudentAttributes is already in list due to CourseStudent
             if (!JDOHelper.isDeleted(student)) {
                 StudentAttributes s = new StudentAttributes(student);
@@ -350,16 +352,16 @@ public class StudentsDb extends EntitiesDb {
 
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
         
-        List<CourseStudent> courseStudentList = getCourseStudentEntitiesForSection(sectionName, courseId);
+        List<CourseStudent> courseStudentEntities = getCourseStudentEntitiesForSection(sectionName, courseId);
         
-        for (CourseStudent student : courseStudentList) {
+        for (CourseStudent student : courseStudentEntities) {
             if (!JDOHelper.isDeleted(student)) {
                 studentDataList.add(new StudentAttributes(student));
             }
         }
         
-        List<Student> studentList = getStudentEntitiesForSection(sectionName, courseId);
-        for (Student student : studentList) {
+        List<Student> students = getStudentEntitiesForSection(sectionName, courseId);
+        for (Student student : students) {
             // Check if StudentAttributes is already in list due to CourseStudent
             if (!JDOHelper.isDeleted(student)) {
                 StudentAttributes s = new StudentAttributes(student);
@@ -661,13 +663,13 @@ public class StudentsDb extends EntitiesDb {
         getPm().deletePersistentAll(studentList);
         
         // Delete from CourseStudent
-        List<CourseStudent> courseStudentList = getCourseStudentEntitiesForGoogleId(googleId);
+        List<CourseStudent> courseStudents = getCourseStudentEntitiesForGoogleId(googleId);
         if (hasDocument) {
             for (Student student : studentList) {
                 deleteDocument(new StudentAttributes(student));
             }
         }
-        getPm().deletePersistentAll(courseStudentList);
+        getPm().deletePersistentAll(courseStudents);
         
         
         getPm().flush();
