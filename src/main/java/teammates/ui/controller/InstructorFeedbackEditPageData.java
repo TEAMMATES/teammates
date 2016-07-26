@@ -121,7 +121,18 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                                    : 1);
         qnForm.setFeedbackPathSettings(feedbackPathSettings);
 
-        // maps for setting visibility
+        FeedbackQuestionVisibilitySettings visibilitySettings = configureVisibilitySettings(question);
+        qnForm.setVisibilitySettings(visibilitySettings);
+        
+        qnForm.setQuestionHasResponses(questionHasResponses.get(question.getId()));
+        
+        qnForm.setQuestionSpecificEditFormHtml(questionDetails.getQuestionSpecificEditFormHtml(questionIndex));
+        qnForm.setEditable(false);
+        
+        qnForms.add(qnForm);
+    }
+    
+    private FeedbackQuestionVisibilitySettings configureVisibilitySettings(FeedbackQuestionAttributes question) {
         Map<String, Boolean> isGiverNameVisibleFor = new HashMap<String, Boolean>();
         for (FeedbackParticipantType giverType : question.showGiverNameTo) {
             isGiverNameVisibleFor.put(giverType.name(), true);
@@ -136,19 +147,9 @@ public class InstructorFeedbackEditPageData extends PageData {
         for (FeedbackParticipantType participantType : question.showResponsesTo) {
             isResponsesVisibleFor.put(participantType.name(), true);
         }
-        FeedbackQuestionVisibilitySettings visibilitySettings = new FeedbackQuestionVisibilitySettings(
-                                                                        question.getVisibilityMessage(),
-                                                                        isResponsesVisibleFor,
-                                                                        isGiverNameVisibleFor,
-                                                                        isRecipientNameVisibleFor);
-        qnForm.setVisibilitySettings(visibilitySettings);
-        
-        qnForm.setQuestionHasResponses(questionHasResponses.get(question.getId()));
-        
-        qnForm.setQuestionSpecificEditFormHtml(questionDetails.getQuestionSpecificEditFormHtml(questionIndex));
-        qnForm.setEditable(false);
-        
-        qnForms.add(qnForm);
+
+        return new FeedbackQuestionVisibilitySettings(question.getVisibilityMessage(), isResponsesVisibleFor,
+                                                      isGiverNameVisibleFor, isRecipientNameVisibleFor);
     }
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession, int nextQnNum) {
