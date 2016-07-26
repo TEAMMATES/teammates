@@ -1504,6 +1504,9 @@ public class FeedbackSessionsLogic {
         sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
 
         updateFeedbackSession(sessionToUnpublish);
+        if (sessionToUnpublish.isPublishedEmailEnabled()) {
+            sendFeedbackSessionUnpublishedEmail(sessionToUnpublish);
+        }
     }
 
     public List<EmailWrapper> sendReminderForFeedbackSession(String courseId,
@@ -2669,6 +2672,10 @@ public class FeedbackSessionsLogic {
 
     private void sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
         addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_PUBLISHED);
+    }
+    
+    public void sendFeedbackSessionUnpublishedEmail(FeedbackSessionAttributes session) {
+        addFeedbackSessionReminderToEmailsQueue(session, EmailType.FEEDBACK_UNPUBLISHED);
     }
 
     private void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes session, EmailType emailType) {

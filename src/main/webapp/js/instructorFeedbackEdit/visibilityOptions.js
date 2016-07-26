@@ -82,9 +82,9 @@ function tallyCheckboxes(questionNum) {
         '.recipientCheckbox': FEEDBACK_QUESTION_SHOWRECIPIENTTO
     };
     
-    $.each(checkboxTypes, function(i, checkboxType) {
+    $.each(checkboxTypes, function(className, checkboxType) {
         var checked = [];
-        $(i + questionNum + ':checked').each(function() {
+        $('#form_editquestion-' + questionNum).find(className + ':checked').each(function() {
             checked.push($(this).val());
         });
         $('[name=' + checkboxType + ']').val(checked.toString());
@@ -96,24 +96,23 @@ function tallyCheckboxes(questionNum) {
  * cannot select an invalid combination.
  */
 function formatCheckBoxes() {
-    // TODO: change class -> name?
-    $('input[class*="answerCheckbox"]').change(function() {
+    $('input.answerCheckbox').change(function() {
         if (!$(this).is(':checked')) {
             var $editTabRows = $(this).closest('tr');
-            $editTabRows.find('input[class*="giverCheckbox"]').prop('checked', false);
-            $editTabRows.find('input[class*="recipientCheckbox"]').prop('checked', false);
+            $editTabRows.find('input.giverCheckbox').prop('checked', false);
+            $editTabRows.find('input.recipientCheckbox').prop('checked', false);
         }
     });
-    $('input[class*="giverCheckbox"]').change(function() {
+    $('input.giverCheckbox').change(function() {
         if ($(this).is(':checked')) {
             var $editTabRows = $(this).closest('tr');
-            $editTabRows.find('input[class*="answerCheckbox"]').prop('checked', true).trigger('change');
+            $editTabRows.find('input.answerCheckbox').prop('checked', true).trigger('change');
         }
     });
-    $('input[class*="recipientCheckbox"]').change(function() {
+    $('input.recipientCheckbox').change(function() {
         if ($(this).is(':checked')) {
             var $editTabRows = $(this).closest('tr');
-            $editTabRows.find('input[class*="answerCheckbox"]').prop('checked', true);
+            $editTabRows.find('input.answerCheckbox').prop('checked', true);
         }
     });
     $('input[name=receiverLeaderCheckbox]').change(function() {
@@ -226,7 +225,7 @@ function updatePreviewTab($containingForm) {
     var newQuestionNum = $('input[name=questionnum]').last().val();
     
     if (questionNum === newQuestionNum) {
-        tallyCheckboxes('');
+        tallyCheckboxes(NEW_QUESTION);
     } else {
         tallyCheckboxes(questionNum);
     }

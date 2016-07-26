@@ -45,11 +45,6 @@ function readyFeedbackEditPage() {
     // Hide option tables
     $('.visibilityOptions').hide();
     
-    // AddQuestion button should be disabled on click to prevent double submissions
-    $('#button_submit_add').click(function() {
-        addLoadingIndicator($(this), 'Saving ');
-    });
-    
     // Bind submit text links
     $('a[id|=questionsavechangestext]').click(function() {
         var form = $(this).parents('form.form_question');
@@ -74,6 +69,7 @@ function readyFeedbackEditPage() {
     });
 
     $('form.form_question').submit(function() {
+        addLoadingIndicator($('#button_submit_add'), 'Saving ');
         var formStatus = checkFeedbackQuestion(this);
         if (!formStatus) {
             removeLoadingIndicator($('#button_submit_add'), 'Save Question');
@@ -116,7 +112,7 @@ function readyFeedbackEditPage() {
 }
 
 function prepareDescription(form) {
-    var questionNum = form.find('input[name^="questionnum"]').val();
+    var questionNum = getQuestionNum(form);
     tinyMCE.get('questiondescription-' + questionNum).save();
     var descr = form.find('input[name^="questiondescription"]');
     descr.attr('name', 'questiondescription');
@@ -266,7 +262,7 @@ function enableEdit(questionNum, maxQuestions) {
  */
 function backupQuestion(questionNum) {
     questionsBeforeEdit[questionNum] = questionsBeforeEdit[questionNum]
-                                || $('#questionTable' + questionNum + ' > .panel-body').html();
+                                       || $('#questionTable-' + questionNum + ' > .panel-body').html();
 }
 
 /**
@@ -286,7 +282,7 @@ function enableQuestion(questionNum) {
     }
     $('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum).removeClass('well');
 
-    var $currentQuestionTable = $('#questionTable' + questionNum);
+    var $currentQuestionTable = $('#questionTable-' + questionNum);
     
     $currentQuestionTable.find('text,button,textarea,select,input')
                          .not('[name="receiverFollowerCheckbox"]')
@@ -328,7 +324,7 @@ function enableQuestion(questionNum) {
     
     $('#constSumOption_distributeUnevenly-' + questionNum).prop('disabled', false);
     
-    if ($('#questionTable' + questionNum).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
+    if ($('#questionTable-' + questionNum).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
         fixContribQnGiverRecipient(questionNum);
         setContribQnVisibilityFormat(questionNum);
     }
@@ -341,35 +337,32 @@ function enableQuestion(questionNum) {
 }
 
 function enableNewQuestion() {
-    var newQnSuffix = 'New';
-    
-    var $currentQuestionTableSuffix = $('#questionTable' + newQnSuffix);
-    var $currentQuestionTableNumber = $('#questionTable' + NEW_QUESTION);
-    
-    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION);
+    destroyEditor(FEEDBACK_QUESTION_DESCRIPTION + '-' + NEW_QUESTION);
     if (typeof richTextEditorBuilder !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION, {
+        richTextEditorBuilder.initEditor('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + NEW_QUESTION, {
             inline: true,
             fixed_toolbar_container: '#rich-text-toolbar-q-descr-container'
         });
         /* eslint-enable camelcase */
     }
 
-    $currentQuestionTableSuffix.find('text,button,textarea,select,input')
-                               .not('[name="receiverFollowerCheckbox"]')
-                               .not('.disabled_radio')
-                               .prop('disabled', false);
-    $currentQuestionTableSuffix.find('.removeOptionLink').show();
-    $currentQuestionTableSuffix.find('.addOptionLink').show();
+    var $newQuestionTable = $('#questionTable-' + NEW_QUESTION);
+    
+    $newQuestionTable.find('text,button,textarea,select,input')
+                     .not('[name="receiverFollowerCheckbox"]')
+                     .not('.disabled_radio')
+                     .prop('disabled', false);
+    $newQuestionTable.find('.removeOptionLink').show();
+    $newQuestionTable.find('.addOptionLink').show();
 
-    $currentQuestionTableNumber.find('#rubricAddChoiceLink-' + NEW_QUESTION).show();
-    $currentQuestionTableNumber.find('#rubricAddSubQuestionLink-' + NEW_QUESTION).show();
-    $currentQuestionTableSuffix.find('#rubricWeights-' + NEW_QUESTION).hide();
-    $currentQuestionTableNumber.find('.rubricRemoveChoiceLink-' + NEW_QUESTION).show();
-    $currentQuestionTableNumber.find('.rubricRemoveSubQuestionLink-' + NEW_QUESTION).show();
+    $newQuestionTable.find('#rubricAddChoiceLink-' + NEW_QUESTION).show();
+    $newQuestionTable.find('#rubricAddSubQuestionLink-' + NEW_QUESTION).show();
+    $newQuestionTable.find('#rubricWeights-' + NEW_QUESTION).hide();
+    $newQuestionTable.find('.rubricRemoveChoiceLink-' + NEW_QUESTION).show();
+    $newQuestionTable.find('.rubricRemoveSubQuestionLink-' + NEW_QUESTION).show();
 
-    moveAssignWeightsCheckbox($currentQuestionTableSuffix.find('#rubricAssignWeights-' + NEW_QUESTION));
+    moveAssignWeightsCheckbox($newQuestionTable.find('#rubricAssignWeights-' + NEW_QUESTION));
 
     if ($('#generateOptionsCheckbox-' + NEW_QUESTION).prop('checked')) {
         $('#mcqChoiceTable-' + NEW_QUESTION).hide();
@@ -407,12 +400,12 @@ function disableQuestion(questionNum) {
     }
     $('#' + FEEDBACK_QUESTION_DESCRIPTION + '-' + questionNum).addClass('well');
 
-    var $currentQuestionTable = $('#questionTable' + questionNum);
+    var $currentQuestionTable = $('#questionTable-' + questionNum);
 
     $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
     
-    $currentQuestionTable.find('#mcqAddOptionLink').hide();
-    $currentQuestionTable.find('#msqAddOptionLink').hide();
+    $currentQuestionTable.find('[id^="mcqAddOptionLink-"]').hide();
+    $currentQuestionTable.find('[id^="msqAddOptionLink-"]').hide();
     $currentQuestionTable.find('.removeOptionLink').hide();
     
     /* Check whether generate options for students/instructors/teams is selected
@@ -487,7 +480,7 @@ function restoreOriginal(questionNum) {
     if (questionNum === NEW_QUESTION) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
-        $('#questionTable' + questionNum + ' > .panel-body').html(questionsBeforeEdit[questionNum]);
+        $('#questionTable-' + questionNum + ' > .panel-body').html(questionsBeforeEdit[questionNum]);
 
         $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + questionNum).show();
         $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + questionNum).hide();
@@ -501,12 +494,12 @@ function restoreOriginal(questionNum) {
 }
 
 function hideNewQuestionAndShowNewQuestionForm() {
-    $('#questionTableNew').hide();
+    $('#questionTable-' + NEW_QUESTION).hide();
     $('#addNewQuestionTable').show();
 
     // re-enables all feedback path options, which may have been hidden by team contribution question
-    $('#givertype').find('option').show().prop('disabled', false);
-    $('#recipienttype').find('option').show().prop('disabled', false);
+    $('#givertype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
+    $('#recipienttype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
 }
 
 /**
@@ -528,27 +521,27 @@ function formatNumberBoxes() {
 }
 
 var updateVisibilityOfNumEntitiesBox = function() {
-    var questionNum = $(this).prop('id').split('-')[1];
-    questionNum = questionNum || '';
-
-    var value = $(this).val();
-
-    formatNumberBox(value, questionNum);
+    var questionNum = getQuestionNum($(this));
+    var participantType = $(this).val();
+    formatNumberBox(participantType, questionNum);
 };
 
 /**
  * Hides/shows the "Number of Recipients Box" of the question
  * depending on the participant type and formats the label text for it.
- * @param value, questionNum
+ * @param participantType, questionNum
  */
-function formatNumberBox(value, questionNum) {
-    if (value === 'STUDENTS' || value === 'TEAMS') {
-        $('div.numberOfEntitiesElements' + questionNum).show();
+function formatNumberBox(participantType, questionNum) {
+    var $questionForm = $('#form_editquestion-' + questionNum);
+    var $numberOfEntitiesBox = $questionForm.find('.numberOfEntitiesElements');
+
+    if (participantType === 'STUDENTS' || participantType === 'TEAMS') {
+        $numberOfEntitiesBox.show();
         
-        var $span = $('span#' + FEEDBACK_QUESTION_NUMBEROFENTITIES + '_text_inner-' + questionNum);
-        $span.html(value === 'STUDENTS' ? 'students' : 'teams');
+        var $numberOfEntitiesLabel = $numberOfEntitiesBox.find('.number-of-entities-inner-text');
+        $numberOfEntitiesLabel.html(participantType === 'STUDENTS' ? 'students' : 'teams');
     } else {
-        $('div.numberOfEntitiesElements' + questionNum).hide();
+        $numberOfEntitiesBox.hide();
     }
     
     tallyCheckboxes(questionNum);
@@ -567,9 +560,9 @@ function tallyCheckboxes(questionNum) {
         '.recipientCheckbox': FEEDBACK_QUESTION_SHOWRECIPIENTTO
     };
     
-    $.each(checkboxTypes, function(i, checkboxType) {
+    $.each(checkboxTypes, function(classSelector, checkboxType) {
         var checked = [];
-        $(i + questionNum + ':checked').each(function() {
+        $('#form_questionedit-' + questionNum).find(classSelector + ':checked').each(function() {
             checked.push($(this).val());
         });
         $('[name=' + checkboxType + ']').val(checked.toString());
@@ -584,19 +577,20 @@ function showNewQuestionFrame(type) {
 	
     copyOptions();
     prepareQuestionForm(type);
+    $('#questionTable-' + NEW_QUESTION).show();
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
-    $('#questionTableNew').show();
     enableNewQuestion();
     
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
-    scrollToElement($('#questionTableNew')[0], { duration: 1000 });
-    $('#questionTableNew').find('.visibilityOptions').hide();
+    scrollToElement($('#questionTable-' + NEW_QUESTION)[0], { duration: 1000 });
+    $('#questionTable-' + NEW_QUESTION).find('.visibilityOptions').hide();
 
-    getVisibilityMessageIfPreviewIsActive($('#questionTableNew'));
+    getVisibilityMessageIfPreviewIsActive($('#questionTable-' + NEW_QUESTION));
 }
 
 function hideAllNewQuestionForms() {
+    $('#textForm').hide();
     $('#mcqForm').hide();
     $('#msqForm').hide();
     $('#numScaleForm').hide();
@@ -613,6 +607,8 @@ function prepareQuestionForm(type) {
     switch (type) {
     case 'TEXT':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_TEXT);
+        
+        $('#textForm').show();
         break;
     case 'MCQ':
         $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + NEW_QUESTION).val(2);
@@ -657,9 +653,9 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
         
         $('#contribForm').show();
-        fixContribQnGiverRecipient();
-        setDefaultContribQnVisibility();
-        setContribQnVisibilityFormat();
+        fixContribQnGiverRecipient(NEW_QUESTION);
+        setDefaultContribQnVisibility(NEW_QUESTION);
+        setContribQnVisibilityFormat(NEW_QUESTION);
         break;
     case 'RUBRIC':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
@@ -711,7 +707,7 @@ function copyOptions() {
     $currRecipient.val($prevRecipient.val());
     
     // Number of recipient setup
-    formatNumberBox($currRecipient.val(), '');
+    formatNumberBox($currRecipient.val(), NEW_QUESTION);
     var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
     var $currRadioButtons = $('table[class~="questionTable"]').last().find('input[name="numofrecipientstype"]');
     
@@ -853,11 +849,14 @@ function bindCopyEvents() {
     });
 }
 
-function getQuestionIdSuffix(questionNum) {
-    var isValidQuestionNumber = questionNum > 0 || questionNum === NEW_QUESTION;
-    
-    var idSuffix = isValidQuestionNumber ? '-' + questionNum : '';
-    return idSuffix;
+function getQuestionNum($elementInQuestionForm) {
+    var $questionForm = $elementInQuestionForm.closest('form');
+    var cssId = $questionForm.attr('id');
+    if (cssId.endsWith('-' + NEW_QUESTION)) {
+        return NEW_QUESTION;
+    }
+    var splitCssId = cssId.split('-');
+    return splitCssId[splitCssId.length - 1];
 }
 
 function bindParticipantSelectChangeEvents() {
