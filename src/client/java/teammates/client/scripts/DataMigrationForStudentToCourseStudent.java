@@ -20,9 +20,19 @@ import teammates.storage.entity.Student;
 public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
     
     private static final boolean isPreview = true;
+    
+    // When using ScriptTarget.BY_TIME, numDays can be changed to target
+    // questions created in the past number of days
     private static final int numDays = 100;
+    
+    // When using ScriptTarget.BY_COURSE, specify the course to target with courseId
     private static final String courseId = "";
     
+    /**
+     * BY_TIME: migration will affect students created in the past {@code numDays} days
+     * BY_COURSE: migration will affects students in the specified {@code courseId}
+     * ALL: all students will be migrated
+     */
     private enum ScriptTarget {
         BY_TIME, BY_COURSE, ALL;
     }
@@ -39,6 +49,31 @@ public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
     protected void doOperation() {
         Datastore.initialize();
 
+        List<StudentAttributes> students = getOldStudentsForMigration(target);
+        
+        System.out.println("Creating a CourseStudent copy of students ...");
+        
+        try {
+            for (StudentAttributes student : students) {
+                StudentWithOldRegistrationKeyAttributes studentToSave =
+                        studentsDb.getStudentForCopyingToCourseStudent(student.course, student.email);
+                
+                if (isPreview) {
+                    System.out.println("Preview: copying " + studentToSave.getIdentificationString());
+                    continue;
+                } 
+                
+                // This replaces any copy of CourseStudent if it already exist
+                studentsDb.createEntityWithoutExistenceCheck(studentToSave);
+                System.out.println("Created CourseStudent for " + studentToSave.getIdentificationString());
+                
+            }
+        } catch (InvalidParametersException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private List<StudentAttributes> getOldStudentsForMigration(ScriptTarget target) {
         List<StudentAttributes> students;
         if (target == ScriptTarget.BY_TIME) {
             Calendar startCal = Calendar.getInstance();
@@ -50,35 +85,13 @@ public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
             students = getOldStudentsForCourse(courseId);
             
         } else if (target == ScriptTarget.ALL) {
-            students = getOldStudents();
+            students = getAllOldStudents();
             
         } else {
             students = null;
             Assumption.fail("no target selected");
         }
-        
-        if (isPreview) {
-            System.out.println("Creating a CourseStudent copy of students ...");
-        }
-        
-        for (StudentAttributes student : students) {
-            StudentWithOldRegistrationKeyAttributes studentToSave =
-                    studentsDb.getStudentForCopyingToCourseStudent(student.course, student.email);
-            
-            if (isPreview) {
-                System.out.println("Preview: copying " + studentToSave.getIdentificationString());
-            } else {
-                try {
-                    // This replaces any copy of CourseStudent if it already exist
-                    studentsDb.createEntityWithoutExistenceCheck(studentToSave);
-                    System.out.println("Created CourseStudent for " + studentToSave.getIdentificationString());
-                } catch (InvalidParametersException e) {
-                    System.out.println("Failed to create CourseStudent " + studentToSave.getIdentificationString());
-                    e.printStackTrace();
-                    break;
-                }
-            }
-        }
+        return students;
     }
 
     private List<StudentAttributes> getOldStudentsSince(Date date) {
@@ -111,7 +124,7 @@ public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
     }
 
     @SuppressWarnings("deprecation")
-    private List<StudentAttributes> getOldStudents() {
+    private List<StudentAttributes> getAllOldStudents() {
         return studentsDb.getAllOldStudents();
     }
 
