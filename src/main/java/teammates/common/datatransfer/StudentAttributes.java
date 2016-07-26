@@ -129,11 +129,11 @@ public class StudentAttributes extends EntityAttributes {
         this.name = student.getName();
         this.lastName = student.getLastName();
         this.comments = Sanitizer.sanitizeTextField(student.getComments());
-        this.team = Sanitizer.sanitizeTitle(student.getTeamName());
-        this.section = (student.getSectionName() == null) ? Const.DEFAULT_SECTION
-                                                          : Sanitizer.sanitizeTitle(student.getSectionName());
-        this.googleId = (student.getGoogleId() == null) ? ""
-                                                        : student.getGoogleId();
+        this.team = student.getTeamName();
+        this.section = student.getSectionName() == null ? Const.DEFAULT_SECTION
+                                                        : student.getSectionName();
+        this.googleId = student.getGoogleId() == null ? ""
+                                                      : student.getGoogleId();
         this.key = student.getRegistrationKey();
         /*
          * TODO: this is for backward compatibility with old system.
