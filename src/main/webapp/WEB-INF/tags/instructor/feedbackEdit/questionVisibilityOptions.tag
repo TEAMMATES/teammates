@@ -16,6 +16,21 @@
     <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b class="visibility-title">Visibility</b> (Who can see the responses?)
     </div>
+    <div class="visibility-options-dropdown btn-group col-sm-12 background-color-light-green">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Please select a visibility option <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li class="dropdown-header">Common visibility options</li>
+            <c:forEach items="<%= Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS %>" var="visibilityOption">
+                <li>
+                    <a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="${visibilityOption.key}">${visibilityOption.value}</a>
+                </li>
+            </c:forEach>
+            <li role="separator" class="divider"></li>
+            <li><a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="OTHER">Custom visibility option...</a></li>
+        </ul>
+    </div>
 </div>
 <div class="col-sm-12 background-color-light-green">
     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
