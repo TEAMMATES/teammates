@@ -325,13 +325,13 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertTrue(updatedCopiedStudent.isEnrollInfoSameAs(copiedStudent));
         
         
-        ______TS("getStudentForRegistrationKey works for a student only with CourseStudent");
+        ______TS("update works for a student only with CourseStudent");
         StudentAttributes movedStudent =
                 moveOldStudentEntityToCourseStudent(oldStudent.email, oldStudent.course);
         
         assertFalse(isOldStudentExists(movedStudent));
         assertTrue(isNewStudentExists(movedStudent));
-        movedStudent.name = "new name";
+        movedStudent.name = "new name 2";
         studentsDb.updateStudentWithoutSearchability(
                 movedStudent.course, movedStudent.email, movedStudent.name, movedStudent.team,
                 movedStudent.section, movedStudent.email, movedStudent.googleId,
@@ -383,7 +383,33 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         studentsDb.deleteStudent(s.course, s.email);
 
+        ______TS("Can delete old student entity without a CourseStudent copy");
         
+        StudentAttributes oldStudent = createOldStudentAttributes("deleteStudent");
+        assertTrue("Old student entity should be created", isOldStudentExists(oldStudent));
+        assertFalse("New student entity should not be created", isNewStudentExists(oldStudent));
+        
+        studentsDb.deleteStudent(oldStudent.course, oldStudent.email);
+        assertNull(studentsDb.getStudentForEmail(oldStudent.course, oldStudent.email));
+        
+        ______TS("delete works for a student having both Student and CourseStudent");
+        oldStudent = createOldStudentAttributes("deleteStudent");
+        copyOldStudentEntityToCourseStudent(oldStudent.email, oldStudent.course);
+        assertTrue(isOldStudentExists(oldStudent));
+        assertTrue(isNewStudentExists(oldStudent));
+        studentsDb.deleteStudent(oldStudent.course, oldStudent.email);
+        assertNull(studentsDb.getStudentForEmail(oldStudent.course, oldStudent.email));
+        
+        ______TS("delete works for a student only with CourseStudent");
+        oldStudent = createOldStudentAttributes("deleteStudent");
+        StudentAttributes movedStudent =
+                moveOldStudentEntityToCourseStudent(oldStudent.email, oldStudent.course);
+        
+        assertFalse(isOldStudentExists(movedStudent));
+        assertTrue(isNewStudentExists(movedStudent));
+        studentsDb.deleteStudent(oldStudent.course, oldStudent.email);
+        assertNull(studentsDb.getStudentForEmail(oldStudent.course, oldStudent.email));
+
     }
     
     private StudentAttributes createOldStudentAttributes(String testName)
