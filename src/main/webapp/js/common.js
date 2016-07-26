@@ -610,9 +610,8 @@ function setStatusMessageToForm(message, status, form) {
         return;
     }
     // Copy the statusMessage and prepend to form
-    var $statusMessageDivToUser = createStatusMessageDiv(message, status).clone().show();
-    var $copyOfStatusMessagesToUser = $statusMessageDivToUser;
-    $statusMessageDivToUser.remove();
+    var $copyOfStatusMessagesToUser = createStatusMessageDiv(message, status).clone().show();
+    $(DIV_STATUS_MESSAGE).remove();
     $(form).prepend($copyOfStatusMessagesToUser);
 }
 
