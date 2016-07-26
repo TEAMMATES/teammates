@@ -360,12 +360,8 @@ public class StudentAttributes extends EntityAttributes {
         }
     }
     
-    public CourseStudent toCourseStudentEntity() {
-        return new CourseStudent(email, name, googleId, comments, course, team, section);
-    }
-    
     public Object toEntity() {
-        return toCourseStudentEntity();
+        return new CourseStudent(email, name, googleId, comments, course, team, section);
     }
     
     @Override

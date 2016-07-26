@@ -391,14 +391,20 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         studentsDb.deleteStudent(oldStudent.course, oldStudent.email);
         assertNull(studentsDb.getStudentForEmail(oldStudent.course, oldStudent.email));
+        assertFalse(isOldStudentExists(oldStudent));
         
         ______TS("delete works for a student having both Student and CourseStudent");
         oldStudent = createOldStudentAttributes("deleteStudent");
         copyOldStudentEntityToCourseStudent(oldStudent.email, oldStudent.course);
+        
         assertTrue(isOldStudentExists(oldStudent));
         assertTrue(isNewStudentExists(oldStudent));
+        
         studentsDb.deleteStudent(oldStudent.course, oldStudent.email);
         assertNull(studentsDb.getStudentForEmail(oldStudent.course, oldStudent.email));
+        
+        assertFalse(isOldStudentExists(oldStudent));
+        assertFalse(isNewStudentExists(oldStudent));
         
         ______TS("delete works for a student only with CourseStudent");
         oldStudent = createOldStudentAttributes("deleteStudent");
@@ -409,6 +415,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertTrue(isNewStudentExists(movedStudent));
         studentsDb.deleteStudent(oldStudent.course, oldStudent.email);
         assertNull(studentsDb.getStudentForEmail(oldStudent.course, oldStudent.email));
+        
+        assertFalse(isNewStudentExists(oldStudent));
 
     }
     
