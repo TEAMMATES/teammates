@@ -474,46 +474,28 @@ public class FeedbackQuestionsLogic {
             }
             break;
         case CUSTOM:
-            List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(question.courseId);
-            Map<String, String> studentEmailToStudentNameMap = new HashMap<String, String>();
-            List<InstructorAttributes> instructorList =
-                    instructorsLogic.getInstructorsForCourse(question.courseId);
-            Map<String, String> instructorEmailToInstructorNameMap = new HashMap<String, String>();
-            
-            for (StudentAttributes student : studentList) {
-                studentEmailToStudentNameMap.put(student.getEmail(), student.getName());
-            }
-            for (InstructorAttributes instructor : instructorList) {
-                instructorEmailToInstructorNameMap.put(instructor.getEmail(), instructor.getName());
-            }
+            Map<String, String> studentEmailToStudentNameMap =
+                    getStudentEmailToStudentNameMap(question.courseId);
+            Map<String, String> instructorEmailToInstructorNameMap =
+                    getInstructorEmailToInstructorNameMap(question.courseId);
             
             for (FeedbackPathAttributes feedbackPath : question.feedbackPaths) {
-                boolean isUserStudentAndFeedbackPathGiver =
-                        isStudentGiver
-                        && feedbackPath.isStudentFeedbackPathGiver(studentGiver);
-                
-                boolean isUserInstructorAndFeedbackPathGiver =
-                        isInstructorGiver
-                        && feedbackPath.isInstructorFeedbackPathGiver(instructorGiver.getEmail());
-                
                 boolean isUserFeedbackPathGiver =
-                        isUserStudentAndFeedbackPathGiver || isUserInstructorAndFeedbackPathGiver;
+                        isUserFeedbackPathGiver(feedbackPath, isStudentGiver, isInstructorGiver,
+                                                studentGiver, instructorGiver);
                 
                 if (isUserFeedbackPathGiver) {
-                    String feedbackPathRecipientId = feedbackPath.getRecipientId();
-                    String name = "";
-                    
-                    if (feedbackPath.isFeedbackPathRecipientAStudent()) {
-                        name = studentEmailToStudentNameMap.get(feedbackPathRecipientId);
-                    } else if (feedbackPath.isFeedbackPathRecipientAnInstructor()) {
-                        name = instructorEmailToInstructorNameMap.get(feedbackPathRecipientId);
-                    } else if (feedbackPath.isFeedbackPathRecipientTheClass()) {
+                    String feedbackPathRecipientId;
+                    String name;
+                    if (feedbackPath.isFeedbackPathRecipientTheClass()) {
                         feedbackPathRecipientId = Const.GENERAL_QUESTION;
                         name = Const.GENERAL_QUESTION;
                     } else {
-                        name = feedbackPathRecipientId;
+                        feedbackPathRecipientId = feedbackPath.getRecipientId();
+                        name = getRecipientName(studentEmailToStudentNameMap,
+                                                instructorEmailToInstructorNameMap,
+                                                feedbackPath, feedbackPathRecipientId);
                     }
-                    
                     recipients.put(feedbackPathRecipientId, name);
                 }
             }
@@ -841,5 +823,55 @@ public class FeedbackQuestionsLogic {
         }
         return questionsWithRecipients;
     }
-
+    
+    private Map<String, String> getStudentEmailToStudentNameMap(String courseId) {
+        Map<String, String> studentEmailToStudentNameMap = new HashMap<String, String>();
+        List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
+        for (StudentAttributes student : studentList) {
+            studentEmailToStudentNameMap.put(student.getEmail(), student.getName());
+        }
+        return studentEmailToStudentNameMap;
+    }
+    
+    private Map<String, String> getInstructorEmailToInstructorNameMap(String courseId) {
+        Map<String, String> instructorEmailToInstructorNameMap = new HashMap<String, String>();
+        List<InstructorAttributes> instructorList =
+                instructorsLogic.getInstructorsForCourse(courseId);
+        for (InstructorAttributes instructor : instructorList) {
+            instructorEmailToInstructorNameMap.put(instructor.getEmail(), instructor.getName());
+        }
+        return instructorEmailToInstructorNameMap;
+    }
+    
+    private boolean isUserFeedbackPathGiver(
+            FeedbackPathAttributes feedbackPath, boolean isStudentGiver, boolean isInstructorGiver,
+            StudentAttributes studentGiver, InstructorAttributes instructorGiver) {
+        boolean isUserStudentAndFeedbackPathGiver =
+                isStudentGiver
+                && feedbackPath.isStudentFeedbackPathGiver(studentGiver);
+        
+        boolean isUserInstructorAndFeedbackPathGiver =
+                isInstructorGiver
+                && feedbackPath.isInstructorFeedbackPathGiver(instructorGiver.getEmail());
+        
+        boolean isUserFeedbackPathGiver =
+                isUserStudentAndFeedbackPathGiver || isUserInstructorAndFeedbackPathGiver;
+        
+        return isUserFeedbackPathGiver;
+    }
+    
+    private String getRecipientName(
+            Map<String, String> studentEmailToStudentNameMap,
+            Map<String, String> instructorEmailToInstructorNameMap,
+            FeedbackPathAttributes feedbackPath,
+            String feedbackPathRecipientId) {
+        
+        if (feedbackPath.isFeedbackPathRecipientAStudent()) {
+            return studentEmailToStudentNameMap.get(feedbackPathRecipientId);
+        } else if (feedbackPath.isFeedbackPathRecipientAnInstructor()) {
+            return instructorEmailToInstructorNameMap.get(feedbackPathRecipientId);
+        } else {
+            return feedbackPathRecipientId;
+        }
+    }
 }
