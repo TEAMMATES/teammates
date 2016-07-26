@@ -133,11 +133,14 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         q3.questionNumber = 1;
         FeedbackQuestionAttributes q4 = getQuestionFromDatastore("qn4InSession1InCourse1");
         q4.questionNumber = 4;
+        FeedbackQuestionAttributes q5 = getQuestionFromDatastore("qn5InSession1InCourse1");
+        q5.questionNumber = 5;
         
         expectedList.add(q3);
         expectedList.add(q1);
         expectedList.add(q2);
         expectedList.add(q4);
+        expectedList.add(q5);
         
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 1;
@@ -161,11 +164,14 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         q3.questionNumber = 3;
         q4 = getQuestionFromDatastore("qn4InSession1InCourse1");
         q4.questionNumber = 4;
+        q5 = getQuestionFromDatastore("qn5InSession1InCourse1");
+        q5.questionNumber = 5;
         
         expectedList.add(q1);
         expectedList.add(q2);
         expectedList.add(q3);
         expectedList.add(q4);
+        expectedList.add(q5);
         
         questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 3;
@@ -213,18 +219,21 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         q3.questionNumber = 3;
         FeedbackQuestionAttributes q4 = getQuestionFromDatastore("qn4InSession1InCourse1");
         q4.questionNumber = 4;
-        FeedbackQuestionAttributes q5 = getQuestionFromDatastore("qn1InSession1InCourse1");
+        FeedbackQuestionAttributes q5 = getQuestionFromDatastore("qn5InSession1InCourse1");
         q5.questionNumber = 5;
+        FeedbackQuestionAttributes q6 = getQuestionFromDatastore("qn1InSession1InCourse1");
+        q6.questionNumber = 6;
         
         expectedList.add(q1);
         expectedList.add(q2);
         expectedList.add(q3);
         expectedList.add(q4);
         expectedList.add(q5);
+        expectedList.add(q6);
 
         //Appends a question to the back of the current question list
         FeedbackQuestionAttributes newQuestion = getQuestionFromDatastore("qn1InSession1InCourse1");
-        newQuestion.questionNumber = 5;
+        newQuestion.questionNumber = 6;
         newQuestion.setId(null); //new question should not have an ID.
         fqLogic.createFeedbackQuestion(newQuestion);
         
@@ -238,16 +247,17 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 
         ______TS("add new question to the front of the list");
         
-        FeedbackQuestionAttributes q6 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        FeedbackQuestionAttributes q7 = getQuestionFromDatastore("qn4InSession1InCourse1");
         
-        q6.questionNumber = 1;
+        q7.questionNumber = 1;
         q1.questionNumber = 2;
         q2.questionNumber = 3;
         q3.questionNumber = 4;
         q4.questionNumber = 5;
         q5.questionNumber = 6;
+        q6.questionNumber = 7;
         
-        expectedList.add(0, q6);
+        expectedList.add(0, q7);
         
         //Add a question to session1course1 and sets its number to 1
         newQuestion = getQuestionFromDatastore("qn4InSession1InCourse1");
@@ -264,14 +274,15 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         ______TS("add new question inbetween 2 existing questions");
         
-        FeedbackQuestionAttributes q7 = getQuestionFromDatastore("qn4InSession1InCourse1");
-        q7.questionNumber = 3;
+        FeedbackQuestionAttributes q8 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        q8.questionNumber = 3;
         q2.questionNumber = 4;
         q3.questionNumber = 5;
         q4.questionNumber = 6;
         q5.questionNumber = 7;
+        q6.questionNumber = 8;
         
-        expectedList.add(2, q7);
+        expectedList.add(2, q8);
         
         //Add a question to session1course1 and place it between existing question 2 and 3
         newQuestion = getQuestionFromDatastore("qn4InSession1InCourse1");
@@ -437,6 +448,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
         expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
+        expectedQuestions.add(getQuestionFromDatastore("qn5InSession1InCourse1"));
         actualQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1",
                                                           "instructor1@course1.tmt");

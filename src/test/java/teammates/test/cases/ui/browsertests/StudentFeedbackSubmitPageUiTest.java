@@ -137,28 +137,28 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         String responseText = "Test Self Feedback";
         submitPage.fillResponseTextBox(1, 0, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(1, 0));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(1, 0));
         
         responseText = "Response to Benny.";
         submitPage.selectRecipient(2, 0, "Benny Charles");
         submitPage.fillResponseTextBox(2, 0, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(2, 0));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 0));
         
         responseText = "Response to student who is going to drop out.";
         submitPage.selectRecipient(2, 1, "Drop out");
         submitPage.fillResponseTextBox(2, 1, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(2, 1));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 1));
         
         responseText = "Response to extra guy.";
         submitPage.selectRecipient(2, 2, "Extra guy");
         submitPage.fillResponseTextBox(2, 2, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(2, 2));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 2));
         submitPage.fillResponseTextBox(14, 0, "1");
 
         // Test partial response for question
         responseText = "Feedback to team 3";
         submitPage.fillResponseTextBox(4, 1, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(4, 1));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(4, 1));
 
         submitPage.verifyOtherOptionTextUnclickable(6, 0);
         submitPage.chooseMcqOption(6, 0, "");
@@ -275,19 +275,19 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // + fill up rest of responses at the same time
         String editedResponse = "Edited response to Benny.";
         submitPage.fillResponseTextBox(2, 0, editedResponse);
-        assertEquals(editedResponse.length(), submitPage.getResponseTextBoxLengthLabelValue(2, 0));
+        assertEquals(editedResponse.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 0));
         
         responseText = "Feedback to instructors";
         submitPage.fillResponseTextBox(3, 0, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(3, 0));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(3, 0));
         
         responseText = "Feedback to team 2.";
         submitPage.fillResponseTextBox(4, 1, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(4, 1));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(4, 1));
         
         responseText = "Feedback to teammate.";
         submitPage.fillResponseTextBox(5, 0, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(5, 0));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(5, 0));
 
         submitPage.chooseMcqOption(6, 0, "UI");
         submitPage.chooseMcqOption(7, 0, "UI"); // Changed from "Algo" to "UI"
@@ -406,29 +406,29 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         responseText = "Test Self Feedback";
         submitPage.fillResponseTextBox(1, 0, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(1, 0));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(1, 0));
         
         responseText = "Response to Benny.";
         submitPage.selectRecipient(2, 0, "Benny Charles");
         submitPage.fillResponseTextBox(2, 0, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(2, 0));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 0));
         
         responseText = "Response to student who is number 1.";
         submitPage.selectRecipient(2, 1, "Alice Betsy</option></td></div>'\"");
         submitPage.fillResponseTextBox(2, 1, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(2, 1));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 1));
         
         responseText = "Response to extra guy.";
         submitPage.selectRecipient(2, 2, "Extra guy");
         submitPage.fillResponseTextBox(2, 2, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(2, 2));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 2));
         
         submitPage.fillResponseTextBox(14, 0, "1");
 
         // Test partial response for question
         responseText = "Feedback to team 3";
         submitPage.fillResponseTextBox(4, 0, responseText);
-        assertEquals(responseText.length(), submitPage.getResponseTextBoxLengthLabelValue(4, 0));
+        assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(4, 0));
         
         submitPage.chooseMcqOption(7, 1, "Algo");
         submitPage.toggleMsqOption(9, 1, "UI");

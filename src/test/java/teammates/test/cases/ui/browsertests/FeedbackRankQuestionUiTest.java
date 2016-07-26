@@ -326,7 +326,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickEditQuestionButton(1);
         
         // Verify that fields are editable
-        feedbackEditPage.verifyHtmlPart(By.id("questionTable1"),
+        feedbackEditPage.verifyHtmlPart(By.id("questionTable-1"),
                                         "/instructorFeedbackRankQuestionEdit.html");
         
         feedbackEditPage.fillEditQuestionBox("edited Rank qn text", 1);
