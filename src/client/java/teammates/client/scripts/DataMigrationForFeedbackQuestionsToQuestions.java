@@ -60,8 +60,10 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
         
         int i = 0;
         for (FeedbackQuestionAttributes old : feedbackQuestions) {
+            if (i % 100 == 0) {
+                System.out.println("Question " + i);
+            }
             i += 1;
-            System.out.print(i + ". ");
             FeedbackSessionAttributes session =
                     new Logic().getFeedbackSession(old.getFeedbackSessionName(), old.getCourseId());
             if (session == null) {
@@ -92,7 +94,6 @@ public class DataMigrationForFeedbackQuestionsToQuestions extends RemoteApiClien
                                           FeedbackSessionAttributes session) {
         try {
             new QuestionsDb().createFeedbackQuestion(session, old);
-            System.out.println("Created question: " + old.getIdentificationString());
         } catch (EntityDoesNotExistException | InvalidParametersException e) {
             e.printStackTrace();
             throw new RuntimeException(
