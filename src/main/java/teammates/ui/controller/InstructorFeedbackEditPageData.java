@@ -164,14 +164,14 @@ public class InstructorFeedbackEditPageData extends PageData {
         boolean responsesVisibleToNotJustGiver = !showResponsesTo.isEmpty();
         boolean giverNameVisibleOnlyToGiver = showGiverNameTo.isEmpty();
         if (responsesVisibleToNotJustGiver && giverNameVisibleOnlyToGiver) {
-            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("ANONYMOUS");
+            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS");
         }
 
         boolean responsesVisibleToNotJustInstructors = showResponsesTo.size() > 1;
         boolean giverNameVisibleOnlyToInstructors = showGiverNameTo.size() == 1
                                                     && showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
         if (responsesVisibleToNotJustInstructors && giverNameVisibleOnlyToInstructors) {
-            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("ANONYMOUS_EXCEPT_INSTRUCTORS");
+            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS");
         }
 
         return "Custom visibility option:";

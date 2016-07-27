@@ -435,8 +435,8 @@ public final class Const {
                     new LinkedHashMap<String, String>();
 
             initializer.put("NO_ONE", "Only feedback giver can see the response");
-            initializer.put("ANONYMOUS", "Anonymous to recipient and instructors");
-            initializer.put("ANONYMOUS_EXCEPT_INSTRUCTORS", "Anonymous to recipient, visible to instructors");
+            initializer.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS", "Anonymous to recipient and instructors");
+            initializer.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS", "Anonymous to recipient, visible to instructors");
             initializer.put("EVERYONE", "Visible to everyone in the class");
 
             COMMON_VISIBILITY_OPTIONS = Collections.unmodifiableMap(initializer);
