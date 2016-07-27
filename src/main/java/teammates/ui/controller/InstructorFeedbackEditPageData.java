@@ -174,6 +174,14 @@ public class InstructorFeedbackEditPageData extends PageData {
             return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS");
         }
 
+        boolean responsesVisibleOnlyToInstructors = showResponsesTo.size() == 1
+                                                    && showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean recipientNameVisibleOnlyToInstructors = showRecipientNameTo.size() == 1
+                                                        && showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        if (responsesVisibleOnlyToInstructors && giverNameVisibleOnlyToInstructors && recipientNameVisibleOnlyToInstructors) {
+            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("VISIBLE_TO_INSTRUCTORS_ONLY");
+        }
+
         return "Custom visibility option:";
     }
 
