@@ -251,8 +251,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
-        feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");
-        feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.TEAMS, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
         
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionEditToTeamToTeam.html");
 
@@ -276,8 +276,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         //change back
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
-        feedbackEditPage.selectGiverTypeForQuestion1("Feedback session creator (i.e., me)");
-        feedbackEditPage.selectRecipientTypeForQuestion1("Other students in the course");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.clickquestionSaveForQuestion1();
         
         
@@ -526,11 +526,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickQuestionEditForQuestion1();
         
         ______TS("change giver to \"Students in this course\" from \"Me (Session creator)\"");
-        feedbackEditPage.selectGiverTypeForQuestion1("Students in this course");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         assertTrue(feedbackEditPage.isAllRecipientOptionsDisplayed(1));
         
         ______TS("change giver to \"Instructors in this course\" from \"Students in this course\"");
-        feedbackEditPage.selectGiverTypeForQuestion1("Instructors in this course");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.INSTRUCTORS, 1);
         assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.SELF, 1));
         assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.STUDENTS, 1));
         assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.INSTRUCTORS, 1));
@@ -542,7 +542,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.NONE, 1));
         
         ______TS("change giver to \"Teams in this course\" from \"Instructors in this course\"");
-        feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.TEAMS, 1);
         assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.SELF, 1));
         assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.STUDENTS, 1));
         assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.INSTRUCTORS, 1));
@@ -627,7 +627,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickQuestionEditForQuestion1();
         feedbackEditPage.clickEditLabel(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
-        feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
 
         assertFalse(feedbackEditPage.verifyPreviewLabelIsActive(1));
         assertTrue(feedbackEditPage.verifyEditLabelIsActive(1));
@@ -833,7 +833,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
-        feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
         feedbackEditPage.clickquestionSaveForQuestion1();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         

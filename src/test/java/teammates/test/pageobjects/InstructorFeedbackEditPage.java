@@ -692,14 +692,6 @@ public class InstructorFeedbackEditPage extends AppPage {
                 browser.driver.findElement(By.id("constSumPoints" + pointsOption + "-" + questionNumber)));
     }
     
-    public void selectGiverTypeForQuestion1(String giverType) {
-        selectDropdownByVisibleValue(giverDropdownForQuestion1, giverType);
-    }
-    
-    public void selectRecipientTypeForQuestion1(String recipientType) {
-        selectDropdownByVisibleValue(recipientDropdownForQuestion1, recipientType);
-    }
-    
     public String getGiverTypeForQuestion1() {
         return giverDropdownForQuestion1.getAttribute("value");
     }
