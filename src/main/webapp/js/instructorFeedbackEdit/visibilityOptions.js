@@ -236,8 +236,6 @@ function updatePreviewTab($containingForm) {
     var $previewTab = $containingForm.find('.visibilityMessage');
     
     if (previousFormDataMap[questionNum] === formData) {
-        $editTab.hide();
-        $previewTab.show();
         return;
     }
 
@@ -256,8 +254,6 @@ function updatePreviewTab($containingForm) {
             previousFormDataMap[questionNum] = formData;
             
             $previewTab.html(formatPreviewTabHtml(data.visibilityMessage));
-            $previewTab.show();
-            $editTab.hide();
         },
         error: function() {
             updateToggleVisibilityPreviewButton($containingForm, false);
