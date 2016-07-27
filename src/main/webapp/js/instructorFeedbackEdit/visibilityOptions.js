@@ -52,8 +52,11 @@ function getVisibilityMessage(clickedButton) {
 
 function attachVisibilityDropdownEvent() {
     $('body').on('click', '.visibility-options-dropdown-option', function(event) {
-        var selectedOption = $(event.target).data('optionName');
-        var $containingForm = $(event.target).closest('form');
+        var $clickedElem = $(event.target);
+        var selectedOption = $clickedElem.data('optionName');
+        var $containingForm = $clickedElem.closest('form');
+
+        setVisibilityDropdownMenuText($clickedElem.html(), $containingForm);
 
         var $editTab = $containingForm.find('.visibilityOptions');
         if (selectedOption !== 'OTHER') {
@@ -72,6 +75,16 @@ function attachVisibilityDropdownEvent() {
 // ////////////// //
 // HELPER METHODS //
 // ////////////// //
+
+function setVisibilityDropdownMenuText (text, containingForm) {
+    var visibilityDropdown = containingForm.find('.visibility-options-dropdown');
+
+    if (text === 'Custom visibility option...') {
+        visibilityDropdown.find('button').html('Custom visibility option:');
+    } else {
+        visibilityDropdown.find('button').html(text);
+    }
+}
 
 var checkCheckbox = function(index, checkbox) {
     checkbox.checked = true;
