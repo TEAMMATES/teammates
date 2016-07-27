@@ -45,12 +45,9 @@ function toggleVisibilityPreviewTab(clickedButton) {
     $disabledInputs.prop('disabled', true);
 }
 
-function getVisibilityMessageIfPreviewIsActive(clickedButton) {
+function getVisibilityMessage(clickedButton) {
     var $containingForm = $(clickedButton).closest('form');
-    
-    if ($containingForm.find('.visibilityMessageButton').hasClass('active')) {
-        updatePreviewTab($containingForm);
-    }
+    updatePreviewTab($containingForm);
 }
 
 function attachVisibilityDropdownEvent() {

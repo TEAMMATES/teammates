@@ -584,7 +584,7 @@ function showNewQuestionFrame(type) {
     scrollToElement($('#questionTable-' + NEW_QUESTION)[0], { duration: 1000 });
     $('#questionTable-' + NEW_QUESTION).find('.visibilityOptions').hide();
 
-    getVisibilityMessageIfPreviewIsActive($('#questionTable-' + NEW_QUESTION));
+    getVisibilityMessage($('#questionTable-' + NEW_QUESTION));
 }
 
 function hideAllNewQuestionForms() {
