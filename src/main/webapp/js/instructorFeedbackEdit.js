@@ -21,6 +21,7 @@ $(document).ready(function() {
     updateUncommonSettingsInfo();
     hideUncommonPanels();
     hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
+    attachVisibilityDropdownEvent();
 });
 
 function addLoadingIndicator(button, loadingText) {

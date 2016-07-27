@@ -53,9 +53,74 @@ function getVisibilityMessageIfPreviewIsActive(clickedButton) {
     }
 }
 
+function attachVisibilityDropdownEvent() {
+    $('body').on('click', '.visibility-options-dropdown-option', function(event) {
+        var selectedOption = $(event.target).data('optionName');
+        var $containingForm = $(event.target).closest('form');
+
+        checkCorrespondingCheckboxes(selectedOption, $containingForm);
+        updatePreviewTab($containingForm);
+    });
+}
+
 // ////////////// //
 // HELPER METHODS //
 // ////////////// //
+
+var checkCheckbox = function(index, checkbox) {
+    checkbox.checked = true;
+};
+
+var uncheckCheckbox = function(index, checkbox) {
+    checkbox.checked = false;
+};
+
+function uncheckAllVisibilityOptionCheckboxes($containingForm) {
+    $containingForm.find('input[type="checkbox"]').each(uncheckCheckbox);
+}
+
+function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
+    if (selectedOption === 'OTHER') {
+        // not a common visibility option
+        return;
+    }
+
+    uncheckAllVisibilityOptionCheckboxes($containingForm);
+    switch (selectedOption) {
+    case 'NO_ONE':
+        // keep all checkboxes unchecked
+        return;
+    case 'ANONYMOUS': // recipient and instructor can see answer, but not giver name
+        allowRecipientToSee('.answerCheckbox', $containingForm);
+        allowRecipientToSee('.recipientCheckbox', $containingForm);
+        allowInstructorToSee('.answerCheckbox', $containingForm);
+        allowInstructorToSee('.recipientCheckbox', $containingForm);
+        break;
+    case 'ANONYMOUS_EXCEPT_INSTRUCTORS': // instructor can additionally see giver name
+        $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]').each(checkCheckbox);
+        break;
+    default:
+        throw 'Unexpected common visibility option type';
+    }
+}
+
+function allowRecipientToSee(checkboxClass, $containingForm) {
+    var recipientType = $containingForm.find('select[name="recipienttype"]').val();
+    var giverType = $containingForm.find('select[name="givertype"]').val();
+
+    if (recipientType === 'SELF' || recipientType === 'NONE') {
+        return;
+    } else if (giverType === 'STUDENTS' && recipientType === 'OWN_TEAM') {
+        $containingForm.find('input[type="checkbox"][value="OWN_TEAM_MEMBERS"]').filter(checkboxClass).each(checkCheckbox);
+    }
+}
+
+function allowInstructorToSee(checkboxClass, $containingForm) {
+    var recipientType = $containingForm.find('select[name="recipienttype"]').val();
+    var giverType = $containingForm.find('select[name="givertype"]').val();
+
+    $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]').filter(checkboxClass).each(checkCheckbox);
+}
 
 /**
  * Updates the Edit Visibility tab to show/hide visibility option rows
