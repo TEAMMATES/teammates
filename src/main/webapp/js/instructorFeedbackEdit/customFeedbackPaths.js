@@ -208,8 +208,6 @@ var CustomFeedbackPaths = {
     },
     
     getFeedbackPathsDataUsingGiverToRecipientsMap: function(giverToRecipientsMap, giverType, recipientType) {
-
-        
         var giverSuffix = '';
         var isGiverAStudent =
                 giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS;
