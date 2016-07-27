@@ -297,6 +297,10 @@ public final class Templates {
             public static final String CONSTSUM_OPTION_POINT = "${constSumOptionPoint}";
             public static final String CONSTSUM_OPTION_VALUE = "${constSumOptionValue}";
             public static final String CONSTSUM_PARAM_POINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
+            public static final String CONSTSUM_PARAM_POINTSFOREACHOPTION =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}";
+            public static final String CONSTSUM_PARAM_POINTSFOREACHRECIPIENT =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}";
             public static final String CONSTSUM_TO_RECIPIENTS_VALUE = "${constSumToRecipientsValue}";
             public static final String CONSTSUM_TO_RECIPIENTS =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}";
