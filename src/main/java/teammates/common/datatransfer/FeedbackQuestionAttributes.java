@@ -87,6 +87,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.createdAt = other.getCreatedAt();
         this.updatedAt = other.getUpdatedAt();
         
+        this.feedbackPaths = other.feedbackPaths;
+        
         removeIrrelevantVisibilityOptions();
     }
     

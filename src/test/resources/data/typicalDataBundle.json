@@ -784,7 +784,7 @@
             "showRecipientNameTo":[
                 "INSTRUCTORS"
             ],
-            "feedbackPathAttributesList":[]
+            "feedbackPaths":[]
             
         },
         "qn2InSession1InCourse1":{
@@ -810,7 +810,7 @@
                 "INSTRUCTORS",
                 "RECEIVER"
             ],
-            "feedbackPathAttributesList":[]
+            "feedbackPaths":[]
             
         },
         "qn3InSession1InCourse1":{
@@ -843,7 +843,7 @@
                 "STUDENTS",
                 "INSTRUCTORS"
             ],
-            "feedbackPathAttributesList":[]
+            "feedbackPaths":[]
             
         },
         "qn4InSession1InCourse1":{
