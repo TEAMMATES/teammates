@@ -12,7 +12,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/index.html">TEAMMATES</a>
+            <a class="navbar-brand" href="/index.jsp">TEAMMATES</a>
         </div>
 
         <div class="collapse navbar-collapse" id="contentLinks">
@@ -60,8 +60,10 @@
                     <a id="btnLogout" class="nav logout" href="<%= Const.ActionURIs.LOGOUT %>">
                         <span class="glyphicon glyphicon-user"></span> Logout
                         
-                        (<span class="text-info" data-toggle="tooltip" data-placement="bottom"
-                                title="${data.account.googleId}">
+                        (<span class="text-info" 
+                                <c:if test="${data.account.googleId != data.account.truncatedGoogleId}">
+                                data-toggle="tooltip" title="${data.account.googleId}" data-placement="bottom"
+                                </c:if>>
                                 ${data.account.truncatedGoogleId}
                         </span>)
                     </a>  

@@ -1013,7 +1013,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         ElementTag responseElement =
                 new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick",
                                "toggleSort(this)", "style", "min-width: 95px;");
-        ElementTag actionElement = new ElementTag("Actions");
+        ElementTag actionElement = new ElementTag("Actions", "class", "action-header");
 
         columnTags.add(giverTeamElement);
         columnTags.add(giverElement);
@@ -1065,7 +1065,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         ElementTag responseElement =
                 new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick",
                                "toggleSort(this)", "style", "min-width: 95px;");
-        ElementTag actionElement = new ElementTag("Actions");
+        ElementTag actionElement = new ElementTag("Actions", "class", "action-header");
 
         columnTags.add(photoElement);
         columnTags.add(giverTeamElement);
@@ -1723,7 +1723,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorFeedbackResultsSessionPanel getSessionPanel() {
         return new InstructorFeedbackResultsSessionPanel(
                 bundle.feedbackSession, getInstructorFeedbackSessionEditLink(),
-                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection, isMissingResponsesShown);
+                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection,
+                isMissingResponsesShown, isStatsShown());
     }
     
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {

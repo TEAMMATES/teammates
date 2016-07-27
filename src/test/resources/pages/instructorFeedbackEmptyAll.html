@@ -45,8 +45,8 @@
 </script>
 <script src="/js/instructorFeedbacksSpecific.js" type="text/javascript">
 </script>
-<link href="http://localhost:8888/js/lib/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
-<link href="http://localhost:8888/js/lib/skins/lightgray/content.inline.min.css" rel="stylesheet">
+<link href="${lib.path}/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
+<link href="${lib.path}/skins/lightgray/content.inline.min.css" rel="stylesheet">
 </head>
 <body spellcheck="false">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -63,7 +63,7 @@
         <span class="icon-bar">
         </span>
       </button>
-      <a class="navbar-brand" href="/index.html">
+      <a class="navbar-brand" href="/index.jsp">
         TEAMMATES
       </a>
     </div>
@@ -100,7 +100,7 @@
           </a>
         </li>
         <li>
-          <a class="nav help" href="/instructorHelp.html" target="_blank">
+          <a class="nav help" href="/instructorHelp.jsp" target="_blank">
             Help
           </a>
         </li>
@@ -109,7 +109,7 @@
         <li>
           <a class="nav logout" href="/logout" id="btnLogout">
             Logout (
-            <span class="text-info" data-original-title="CFeedbackUiT.nocourses" data-placement="bottom" data-toggle="tooltip" title="">
+            <span class="text-info">
               CFeedbackUiT.nocourses
             </span>
             )
@@ -145,7 +145,7 @@
           </div>
           <div class="col-xs-1">
             <h5>
-              <a href="/instructorHelp.html#fbSetupSession" target="_blank">
+              <a href="/instructorHelp.jsp#fbSetupSession" target="_blank">
                 <span class="glyphicon glyphicon-info-sign">
                 </span>
               </a>
@@ -337,6 +337,8 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
+                  <div id="richtext-toolbar-container">
+                  </div>
                   <div class="panel panel-default panel-body mce-content-body" contenteditable="true" id="instructions" spellcheck="false" style="position: relative;">
                     <p>
                       Please answer all the given questions.
@@ -914,7 +916,7 @@
             Status
           </th>
           <th>
-            <span data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
+            <span class="tool-tip-decorate" data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
               Response Rate
             </span>
           </th>
@@ -1087,7 +1089,7 @@
       <div class="col-md-2">
         <span>
           [
-          <a href="/index.html">
+          <a href="/index.jsp">
             TEAMMATES
           </a>
           V${version}]
@@ -1103,7 +1105,7 @@
       <div class="col-md-2">
         <span>
           [Send
-          <a class="link" href="../contact.html" target="_blank">
+          <a class="link" href="/contact.jsp" target="_blank">
             Feedback
           </a>
           ]

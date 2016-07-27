@@ -81,7 +81,9 @@ public class FeedbackQuestionsLogic {
         return fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
     }
     
-    public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId,
+    public FeedbackQuestionAttributes copyFeedbackQuestion(
+            String oldCourseId, String oldFeedbackSessionName,
+            String feedbackQuestionId,
             String feedbackSessionName, String courseId, String instructorEmail)
             throws InvalidParametersException {
 

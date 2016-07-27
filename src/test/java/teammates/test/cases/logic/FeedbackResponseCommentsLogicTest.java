@@ -194,7 +194,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         ______TS("fail: invalid params");
         
         frComment.courseId = "invalid course name";
-        verifyExceptionThrownWhenUpdateFrComment(frComment, "not acceptable to TEAMMATES as a Course ID");
+        verifyExceptionThrownWhenUpdateFrComment(frComment, "not acceptable to TEAMMATES as a/an course ID");
         restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
         
         ______TS("typical success case");

@@ -89,7 +89,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public StudentProfilePage submitEditedProfile() {
-        submitButton.click();
+        click(submitButton);
         waitForPageToLoad();
         return changePageType(StudentProfilePage.class);
     }
@@ -101,7 +101,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void showPictureEditor() {
-        uploadPopupButton.click();
+        click(uploadPopupButton);
         waitForUploadEditModalVisible();
     }
 
@@ -128,13 +128,13 @@ public class StudentProfilePage extends AppPage {
     public void selectGender(String gender) {
         switch (gender) {
         case Const.GenderTypes.MALE:
-            genderMaleRadio.click();
+            click(genderMaleRadio);
             break;
         case Const.GenderTypes.FEMALE:
-            genderFemaleRadio.click();
+            click(genderFemaleRadio);
             break;
         case Const.GenderTypes.OTHER:
-            genderOtherRadio.click();
+            click(genderOtherRadio);
             break;
         default:
             fail("Given gender " + gender + " is not valid!");
@@ -181,28 +181,29 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void uploadPicture() {
-        uploadPictureSubmit.click();
+        click(uploadPictureSubmit);
         waitForPageToLoad();
     }
 
     public void editProfilePhoto() {
-        editPictureZoomIn.click();
-        editPictureZoomOut.click();
-        editPictureZoomIn.click();
+        click(editPictureZoomIn);
+        click(editPictureZoomOut);
+        click(editPictureZoomIn);
 
-        editPictureRotateRight.click();
-        editPictureRotateLeft.click();
-        editPictureRotateRight.click();
+        click(editPictureRotateRight);
+        click(editPictureRotateLeft);
+        click(editPictureRotateRight);
 
-        editPicturePanDown.click();
-        editPicturePanUp.click();
-        editPicturePanDown.click();
+        click(editPicturePanDown);
+        click(editPicturePanUp);
+        click(editPicturePanDown);
 
-        editPicturePanLeft.click();
-        editPicturePanRight.click();
-        editPicturePanLeft.click();
+        click(editPicturePanLeft);
+        click(editPicturePanRight);
+        click(editPicturePanLeft);
 
-        editPictureSubmit.click();
+        click(editPictureSubmit);
+        waitForPageToLoad();
     }
 
     public void verifyPhotoSize(int height, int width) {
@@ -224,7 +225,7 @@ public class StudentProfilePage extends AppPage {
     public void closeEditPictureModal() {
         WebElement closeButton = browser.driver.findElement(By.className("close"));
         waitForElementVisibility(closeButton);
-        closeButton.click();
+        click(closeButton);
     }
 
 }

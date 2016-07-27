@@ -20,7 +20,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         boolean isMissingResponsesShown = getRequestParamAsBoolean(
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
         String filterText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT);
-        
+        boolean isStatsShown = getRequestParamAsBoolean(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
+
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
@@ -35,13 +36,14 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         try {
             if (section == null || "All".equals(section)) {
                 fileContent = logic.getFeedbackSessionResultSummaryAsCsv(
-                        courseId, feedbackSessionName, instructor.email, filterText, isMissingResponsesShown);
+                        courseId, feedbackSessionName, instructor.email, filterText, isMissingResponsesShown, isStatsShown);
                 fileName = courseId + "_" + feedbackSessionName;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
                               + " in Course " + courseId + " was downloaded";
             } else {
                 fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
-                        courseId, feedbackSessionName, instructor.email, section, filterText, isMissingResponsesShown);
+                        courseId, feedbackSessionName, instructor.email, section,
+                        filterText, isMissingResponsesShown, isStatsShown);
                 fileName = courseId + "_" + feedbackSessionName + "_" + section;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
                               + " in Course " + courseId + " within " + section + " was downloaded";

@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -196,8 +197,8 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_EDITED);
         
         ______TS("action: delete student comment");
-        commentsPage.clickHiddenElementAndCancel("commentdelete-" + 1);
-        commentsPage.clickHiddenElementAndConfirm("commentdelete-" + 1);
+        commentsPage.clickAndCancel(browser.driver.findElement(By.id("commentdelete-" + 1)));
+        commentsPage.clickAndConfirm(browser.driver.findElement(By.id("commentdelete-" + 1)));
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_DELETED);
         
         commentsPage.loadResponseComments();

@@ -1,11 +1,13 @@
 package teammates.test.cases;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.testng.AssertJUnit;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.TestProperties;
@@ -114,6 +116,37 @@ public class BaseTestCase {
         assertTrue(true);
     }
     
+    /**
+     * Invokes the method named {@code methodName} as defined in the {@code definingClass}.
+     * @param definingClass     the class which defines the method
+     * @param methodName
+     * @param parameterTypes    the parameter types of the method,
+     *                          which must be passed in the same order defined in the method
+     * @param invokingObject    the object which invokes the method, can be {@code null} if the method is static
+     * @param args              the arguments to be passed to the method invocation
+     */
+    protected static Object invokeMethod(Class<?> definingClass, String methodName, Class<?>[] parameterTypes,
+                                         Object invokingObject, Object[] args)
+            throws ReflectiveOperationException {
+        Method method = definingClass.getDeclaredMethod(methodName, parameterTypes);
+        method.setAccessible(true);
+        return method.invoke(invokingObject, args);
+    }
+    
+    protected static String getPopulatedErrorMessage(String messageTemplate, String userInput,
+                                                     String fieldName, String errorReason)
+            throws ReflectiveOperationException {
+        return getPopulatedErrorMessage(messageTemplate, userInput, fieldName, errorReason, 0);
+    }
+
+    protected static String getPopulatedErrorMessage(String messageTemplate, String userInput,
+                                                     String fieldName, String errorReason, int maxLength)
+            throws ReflectiveOperationException {
+        return (String) invokeMethod(FieldValidator.class, "getPopulatedErrorMessage",
+                                     new Class<?>[] { String.class, String.class, String.class, String.class, int.class },
+                                     null, new Object[] { messageTemplate, userInput, fieldName, errorReason, maxLength });
+    }
+
     /*
      * Here are some of the most common assertion methods provided by JUnit.
      * They are copied here to prevent repetitive importing in test classes.

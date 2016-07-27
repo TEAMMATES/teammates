@@ -124,17 +124,19 @@ public class SanitizerTest extends BaseTestCase {
                                 + "<p style=\"text-align:center\"><strong>Content</strong></p>"
                                 + "<div onmouseover=\"alert('onmouseover');\"></div>"
                                 + "<iframe></iframe>"
-                                + "<input></input>";
+                                + "<input></input>"
+                                + "<span style=\"color:#339966\">Content</span>";
         String expectedRichText = "<a href=\"https://teammatesv4.appspot.com\"></a>"
                                   + "<h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6>"
                                   + "<hr />"
                                   + "<img src=\"https://teammatesv4.appspot.com/images/overview.png\" />"
                                   + "<p style=\"text-align:center\"><strong>Content</strong></p>"
-                                  + "<div></div>";
+                                  + "<div></div>"
+                                  + "<span style=\"color:#339966\">Content</span>";
         String sanitized = Sanitizer.sanitizeForRichText(actualRichText);
         assertEquals(expectedRichText, sanitized);
     }
-    
+
     @Test
     public void testSanitizeForCsv() {
         sanitizeCsv_receivesUnsanitized_returnsSanitized();

@@ -122,6 +122,7 @@
                                 </label>
                             </h5>
                             <div class="col-sm-10">
+                                <div id="richtext-toolbar-container"></div>
                                 <div id="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>" class="panel panel-default panel-body">
                                     ${fsForm.instructions}
                                 </div>

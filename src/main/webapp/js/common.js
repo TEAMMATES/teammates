@@ -56,6 +56,7 @@ var FEEDBACK_QUESTION_NUMSCALE_MAX = 'numscalemax';
 var FEEDBACK_QUESTION_NUMSCALE_STEP = 'numscalestep';
 var FEEDBACK_QUESTION_NUMBER = 'questionnum';
 var FEEDBACK_QUESTION_TEXT = 'questiontext';
+var FEEDBACK_QUESTION_DESCRIPTION = 'questiondescription';
 var FEEDBACK_QUESTION_EDITTEXT = 'questionedittext';
 var FEEDBACK_QUESTION_DISCARDCHANGES = 'questiondiscardchanges';
 var FEEDBACK_QUESTION_EDITTYPE = 'questionedittype';
@@ -161,6 +162,18 @@ $(document).on('ajaxComplete ready', function() {
     if (isTouchDevice()) {
         $tooltips.tooltip('disable');
     }
+    
+    /**
+     * Underlines all span elements with tool-tips except for
+     * the ones without a text value. This is to exclude elements
+     * such as 'icons' from underlining.
+    */
+    $('span[data-toggle="tooltip"]').each(function() {
+        textValue = $(this).text().replace(/\s/g, '');
+        if (textValue) {
+            $(this).addClass('tool-tip-decorate');
+        }
+    });
 });
 
 /**

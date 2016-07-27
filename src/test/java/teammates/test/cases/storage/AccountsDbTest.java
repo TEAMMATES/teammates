@@ -159,9 +159,10 @@ public class AccountsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException(" - InvalidParametersException");
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
-                    "invalid email",
-                    FieldValidator.REASON_INCORRECT_FORMAT),
+                    getPopulatedErrorMessage(
+                        FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
+                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.EMAIL_MAX_LENGTH),
                     e.getMessage());
         }
         

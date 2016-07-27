@@ -77,7 +77,8 @@ dependencies {
                     "com.google.appengine:appengine-testing:${appengineVersion}",
                     "httpunit:httpunit:1.7",
                     "javax.mail:mail:1.4.5",
-                    "org.seleniumhq.selenium:selenium-java:2.46.0",
+                    "org.apache.commons:commons-lang3:3.4",
+                    "org.seleniumhq.selenium:selenium-java:2.53.0",
                     "org.testng:testng:6.8.7"
 
     testExclude     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"

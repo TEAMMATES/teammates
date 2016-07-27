@@ -69,20 +69,22 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
         
         ______TS("empty options");
 
         feedbackEditPage.fillNewQuestionBox("Test question text");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.",
-                     feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (single answer) question. "
+                                      + "Minimum number of options is: 2.");
 
         ______TS("remove when 1 left");
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
         feedbackEditPage.fillNewQuestionBox("Test question text");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
 
         feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
@@ -93,14 +95,15 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMcqOptionLink(0, -1);
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.",
-                     feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (single answer) question. "
+                                      + "Minimum number of options is: 2.");
         
         ______TS("remove when 1 left and select Add Other Option");
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
         feedbackEditPage.fillNewQuestionBox("Test question text");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
 
         feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
@@ -150,9 +153,10 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MCQ: add question action success");
 
         feedbackEditPage.fillNewQuestionBox("mcq qn");
+        feedbackEditPage.fillNewQuestionDescription("more details");
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         
         //NOTE: Tests feedback giver/recipient and visibility options are copied from previous question.
@@ -166,11 +170,12 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("edited mcq qn text", 1);
+        feedbackEditPage.fillEditQuestionDescription("more details", 1);
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
         feedbackEditPage.clickRemoveMcqOptionLink(0, 1);
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionEditSuccess.html");
 
@@ -178,6 +183,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillEditQuestionBox("generated mcq qn text", 1);
+        feedbackEditPage.fillEditQuestionDescription("more details", 1);
         assertTrue(feedbackEditPage.isElementVisible("mcqAddOptionLink"));
         feedbackEditPage.verifyFieldValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
@@ -191,7 +197,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(feedbackEditPage.isElementVisible("mcqAddOptionLink"));
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
         assertFalse(feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
         assertTrue(feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
@@ -224,15 +230,15 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MCQ: qn delete then cancel");
 
-        feedbackEditPage.getDeleteQuestionLink(1).click();
+        feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         ______TS("MCQ: qn delete then accept");
 
-        feedbackEditPage.getDeleteQuestionLink(1).click();
+        feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     

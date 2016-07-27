@@ -98,7 +98,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase {
             instructorsLogic.createInstructor(instr);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("\"" + instr.email + "\" is not acceptable to TEAMMATES as an email",
+            AssertHelper.assertContains("\"" + instr.email + "\" is not acceptable to TEAMMATES as a/an email",
                                 e.getMessage());
         }
         

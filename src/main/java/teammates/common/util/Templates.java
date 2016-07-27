@@ -321,7 +321,6 @@ public final class Templates {
             public static final String RECIPIENT_DISPLAY = "${recipientDisplay}";
             public static final String PER_OPTION_CHECKED = "${perOptionChecked}";
             public static final String PER_RECIPIENT_CHECKED = "${perRecipientChecked}";
-            public static final String OPTIONRECIPIENTDISPLAYNAME = "${optionRecipientDisplayName}";
             
             // Contribution
             public static final String CONTRIB_SELECT_FRAGMENTS_HTML = "${contribSelectFragmentsHtml}";

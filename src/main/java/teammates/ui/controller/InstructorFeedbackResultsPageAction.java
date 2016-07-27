@@ -24,6 +24,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String filterText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT);
+        String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
 
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
@@ -54,12 +55,12 @@ public class InstructorFeedbackResultsPageAction extends Action {
         boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         if (isLoadingCsvResultsAsHtml) {
             return createAjaxResultForCsvTableLoadedInHtml(
-                    courseId, feedbackSessionName, instructor, data, selectedSection, filterText, isMissingResponsesShown);
+                    courseId, feedbackSessionName, instructor, data, selectedSection,
+                    filterText, isMissingResponsesShown, Boolean.valueOf(showStats));
         }
         data.setSessionResultsHtmlTableAsString("");
         data.setAjaxStatus("");
         
-        String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
@@ -201,7 +202,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private ActionResult createAjaxResultForCsvTableLoadedInHtml(String courseId, String feedbackSessionName,
                                     InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                    String selectedSection, String filterText, boolean isMissingResponsesShown)
+                                    String selectedSection, String filterText, boolean isMissingResponsesShown,
+                                    boolean isStatsShown)
                                     throws EntityDoesNotExistException {
         try {
             if (selectedSection.contentEquals(ALL_SECTION_OPTION)) {
@@ -209,13 +211,13 @@ public class InstructorFeedbackResultsPageAction extends Action {
                         StringHelper.csvToHtmlTable(
                                 logic.getFeedbackSessionResultSummaryAsCsv(
                                         courseId, feedbackSessionName, instructor.email,
-                                        filterText, isMissingResponsesShown)));
+                                        filterText, isMissingResponsesShown, isStatsShown)));
             } else {
                 data.setSessionResultsHtmlTableAsString(
                         StringHelper.csvToHtmlTable(
                                 logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                                         courseId, feedbackSessionName, instructor.email,
-                                        selectedSection, filterText, isMissingResponsesShown)));
+                                        selectedSection, filterText, isMissingResponsesShown, isStatsShown)));
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block

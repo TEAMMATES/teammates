@@ -284,7 +284,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.RECIPIENT_DISPLAY, distributeToRecipients ? "" : "style=\"display:none\"",
                 Slots.PER_OPTION_CHECKED, !distributeToRecipients && pointsPerOption ? "checked" : "",
                 Slots.PER_RECIPIENT_CHECKED, distributeToRecipients && pointsPerOption ? "checked" : "",
-                Slots.OPTIONRECIPIENTDISPLAYNAME, distributeToRecipients ? "recipient" : "option",
                 Slots.OPTION_RECIPIENT_DISPLAY_NAME, distributeToRecipients ? "recipient" : "option",
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, forceUnevenDistribution ? "checked" : "",
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
@@ -554,10 +553,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public String getQuestionTypeChoiceOption() {
         // Constant sum has two options for user to select.
         return "<li data-questiontype = \"CONSTSUM_OPTION\">"
-                 + "<a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</a>"
+                 + "<a href=\"javascript:;\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</a>"
              + "</li>"
              + "<li data-questiontype = \"CONSTSUM_RECIPIENT\">"
-                 + "<a>" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</a>"
+                 + "<a href=\"javascript:;\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</a>"
              + "</li>";
     }
     

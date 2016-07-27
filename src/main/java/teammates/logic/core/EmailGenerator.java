@@ -251,9 +251,10 @@ public class EmailGenerator {
                 "${feedbackSessionName}", session.getFeedbackSessionName(),
                 "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
                 "${instructorFragment}",
-                        "The email below has been sent to students of course: " + course.getId() + ".<p/><br>",
-                "${submitUrl}", "{The student's unique submission url appears here}",
-                "${reportUrl}", "{The student's unique results url appears here}",
+                        "The email below has been sent to students of course: " + course.getId()
+                        + ".<p/><br><br>=== Email message as seen by the students ===<br>",
+                "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
+                "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${supportEmail}", Config.SUPPORT_EMAIL);
         
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
