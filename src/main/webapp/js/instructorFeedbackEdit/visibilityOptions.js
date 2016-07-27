@@ -107,11 +107,17 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
     case 'ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS': // recipient and instructor can see answer, but not giver name
         allowRecipientToSee('.answerCheckbox', $containingForm);
         allowRecipientToSee('.recipientCheckbox', $containingForm);
+
         allowInstructorToSee('.answerCheckbox', $containingForm);
         allowInstructorToSee('.recipientCheckbox', $containingForm);
         break;
     case 'ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS': // instructor can additionally see giver name
-        $containingForm.find('input[type="checkbox"][value="INSTRUCTORS"]').each(checkCheckbox);
+        allowRecipientToSee('.answerCheckbox', $containingForm);
+        allowRecipientToSee('.recipientCheckbox', $containingForm);
+
+        allowInstructorToSee('.answerCheckbox', $containingForm);
+        allowInstructorToSee('.giverCheckbox', $containingForm);
+        allowInstructorToSee('.recipientCheckbox', $containingForm);
         break;
     default:
         throw 'Unexpected common visibility option type';
@@ -126,6 +132,8 @@ function allowRecipientToSee(checkboxClass, $containingForm) {
         return;
     } else if (giverType === 'STUDENTS' && recipientType === 'OWN_TEAM') {
         $containingForm.find('input[type="checkbox"][value="OWN_TEAM_MEMBERS"]').filter(checkboxClass).each(checkCheckbox);
+    } else {
+        $containingForm.find('input[type="checkbox"][value="RECEIVER"]').filter(checkboxClass).each(checkCheckbox);
     }
 }
 
