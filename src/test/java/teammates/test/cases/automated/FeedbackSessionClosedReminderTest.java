@@ -76,7 +76,7 @@ public class FeedbackSessionClosedReminderTest extends BaseComponentUsingTaskQue
             assertEquals(FeedbackSessionClosedCallback.taskCount, 0);
         }
         
-        ______TS("typical case, two sessions closed, " + "1 session closed with disabled closing reminder.");
+        ______TS("typical case, two sessions closed, 1 session closed with disabled closing reminder.");
         // Modify session to closed.
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
 

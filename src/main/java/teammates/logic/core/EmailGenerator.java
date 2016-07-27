@@ -181,9 +181,7 @@ public class EmailGenerator {
                                                  ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                                                  : new ArrayList<InstructorAttributes>();
                                                  
-        List<EmailWrapper> emails = generateFeedbackSessionClosedEmail(course, session, instructors);
-
-        return emails;
+        return generateFeedbackSessionClosedEmail(course, session, instructors);
     }
     
     /**

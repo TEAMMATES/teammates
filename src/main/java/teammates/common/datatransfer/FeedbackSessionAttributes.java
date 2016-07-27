@@ -316,10 +316,10 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                && differenceBetweenDeadlineAndNow >= hours - 1
                && differenceBetweenDeadlineAndNow < hours;
     }
-    /*
+    
+    /**
      * returns true if the session is closed within the past hour of calling this function
      */
-    
     public boolean isClosedWithinPastHour() {
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         // Fix the time zone accordingly
