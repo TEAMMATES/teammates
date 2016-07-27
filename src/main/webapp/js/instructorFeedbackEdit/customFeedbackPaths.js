@@ -10,6 +10,9 @@ var CustomFeedbackPaths = {
     FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM_MEMBERS_INCLUDING_SELF: 'OWN_TEAM_MEMBERS_INCLUDING_SELF',
     FEEDBACK_PARTICIPANT_TYPE_NONE: 'NONE',
     TEAM_NAME_INSTRUCTORS: 'Instructors',
+    STUDENT_PARTICIPANT_TYPE_SUFFIX: ' (Student)',
+    INSTRUCTOR_PARTICIPANT_TYPE_SUFFIX: ' (Instructor)',
+    TEAM_PARTICIPANT_TYPE_SUFFIX: ' (Team)',
 
     // These variables are read-only and are not changed after they have been initialized
     // They are used to derive the data that is used to fill the spreadsheets
@@ -51,15 +54,21 @@ var CustomFeedbackPaths = {
         // Empty string added to provide an empty option in spreadsheet dropdown
         // It prevents a feedback participant from being selected upon clicking away from dropdown
         CustomFeedbackPaths.allPossibleFeedbackGivers = [''];
-        CustomFeedbackPaths.allPossibleFeedbackGivers =
-                CustomFeedbackPaths.allPossibleFeedbackGivers.concat(CustomFeedbackPaths.studentEmails);
-        for (var i = 0; i < CustomFeedbackPaths.instructorEmails.length; i++) {
-            if (!CustomFeedbackPaths.allPossibleFeedbackGivers.includes(CustomFeedbackPaths.instructorEmails[i])) {
-                CustomFeedbackPaths.allPossibleFeedbackGivers.push(CustomFeedbackPaths.instructorEmails[i]);
-            }
+        var i;
+        for (i = 0; i < CustomFeedbackPaths.studentEmails.length; i++) {
+            CustomFeedbackPaths.allPossibleFeedbackGivers.push(
+                    CustomFeedbackPaths.studentEmails[i] + CustomFeedbackPaths.STUDENT_PARTICIPANT_TYPE_SUFFIX);
         }
-        CustomFeedbackPaths.allPossibleFeedbackGivers =
-                CustomFeedbackPaths.allPossibleFeedbackGivers.concat(CustomFeedbackPaths.teamNames);
+        for (i = 0; i < CustomFeedbackPaths.instructorEmails.length; i++) {
+            CustomFeedbackPaths.allPossibleFeedbackGivers.push(
+                    CustomFeedbackPaths.instructorEmails[i]
+                    + CustomFeedbackPaths.INSTRUCTOR_PARTICIPANT_TYPE_SUFFIX);
+        }
+        for (i = 0; i < CustomFeedbackPaths.teamNames.length; i++) {
+            CustomFeedbackPaths.allPossibleFeedbackGivers.push(
+                    CustomFeedbackPaths.teamNames[i] + CustomFeedbackPaths.TEAM_PARTICIPANT_TYPE_SUFFIX);
+        }
+
         CustomFeedbackPaths.allPossibleFeedbackRecipients = CustomFeedbackPaths.allPossibleFeedbackGivers.slice();
         CustomFeedbackPaths.allPossibleFeedbackRecipients.push(CustomFeedbackPaths.TEAM_NAME_INSTRUCTORS);
         CustomFeedbackPaths.allPossibleFeedbackRecipients.push('Class');
@@ -75,7 +84,13 @@ var CustomFeedbackPaths = {
         var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
         var giverType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_GIVERTYPE + '"]').val();
         var recipientType = $questionForm.find('select[id^="' + FEEDBACK_QUESTION_RECIPIENTTYPE + '"]').val();
-        var data = CustomFeedbackPaths.getDataForFeedbackPathsSpreadsheet(giverType, recipientType);
+        var data;
+        if (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM
+                && recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM) {
+            data = JSON.parse($questionForm.find('.custom-feedback-paths-spreadsheet-data-input').val());
+        } else {
+            data = CustomFeedbackPaths.getDataForFeedbackPathsSpreadsheet(giverType, recipientType);
+        }
         var columns = CustomFeedbackPaths.getColumnsForFeedbackPathsSpreadsheet(giverType, recipientType);
         $container.handsontable({
             data: data,
@@ -87,8 +102,28 @@ var CustomFeedbackPaths = {
             columns: columns,
             manualColumnResize: true,
             manualRowResize: true,
-            stretchH: 'all'
+            stretchH: 'all',
+            afterChange: function() {
+                CustomFeedbackPaths.updateCustomFeedbackPathsSpreadsheetDataInput($questionForm);
+            }
         });
+    },
+    
+    updateCustomFeedbackPathsSpreadsheetDataInput: function($questionForm) {
+        var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
+        var data = $container.handsontable('getData');
+        
+        var dataWithoutPartiallyFilledOrEmptyRows = [];
+
+        for (var i = 0; i < data.length; i++) {
+            if (!data[i].includes('') && !data[i].includes(null)) {
+                dataWithoutPartiallyFilledOrEmptyRows.push(data[i]);
+            }
+        }
+        
+        var $customFeedbackPathsSpreadsheetDataInput = $questionForm.find('.custom-feedback-paths-spreadsheet-data-input');
+        $customFeedbackPathsSpreadsheetDataInput.attr(
+                'value', JSON.stringify(dataWithoutPartiallyFilledOrEmptyRows));
     },
     
     updateFeedbackPathsSpreadsheet: function($questionForm) {
@@ -168,15 +203,62 @@ var CustomFeedbackPaths = {
         default:
             // no change
         }
-        return CustomFeedbackPaths.getFeedbackPathsDataUsingGiverToRecipientsMap(giverToRecipientsMap);
+        return CustomFeedbackPaths.getFeedbackPathsDataUsingGiverToRecipientsMap(
+                giverToRecipientsMap, giverType, recipientType);
     },
     
-    getFeedbackPathsDataUsingGiverToRecipientsMap: function(giverToRecipientsMap) {
+    getFeedbackPathsDataUsingGiverToRecipientsMap: function(giverToRecipientsMap, giverType, recipientType) {
+        var giverSuffix = '';
+        var isGiverAStudent =
+                giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS;
+        var isGiverAnInstructor =
+                giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
+                || giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS;
+        var isGiverATeam =
+                giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS;
+        
+        if (isGiverAStudent) {
+            giverSuffix = CustomFeedbackPaths.STUDENT_PARTICIPANT_TYPE_SUFFIX;
+        } else if (isGiverAnInstructor) {
+            giverSuffix = CustomFeedbackPaths.INSTRUCTOR_PARTICIPANT_TYPE_SUFFIX;
+        } else if (isGiverATeam) {
+            giverSuffix = CustomFeedbackPaths.TEAM_PARTICIPANT_TYPE_SUFFIX;
+        }
+        
+        var recipientSuffix = '';
+        var isRecipientAStudent =
+                recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
+                && giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS
+                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_STUDENTS
+                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM_MEMBERS
+                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM_MEMBERS_INCLUDING_SELF;
+        var isRecipientAnInstructor =
+                recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
+                && (giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
+                        || giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS)
+                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_INSTRUCTORS;
+        var isRecipientATeam =
+                recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_SELF
+                && giverType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS
+                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_TEAMS
+                || recipientType === CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_OWN_TEAM;
+        
+        if (isRecipientAStudent) {
+            recipientSuffix = CustomFeedbackPaths.STUDENT_PARTICIPANT_TYPE_SUFFIX;
+        } else if (isRecipientAnInstructor) {
+            recipientSuffix = CustomFeedbackPaths.INSTRUCTOR_PARTICIPANT_TYPE_SUFFIX;
+        } else if (isRecipientATeam) {
+            recipientSuffix = CustomFeedbackPaths.TEAM_PARTICIPANT_TYPE_SUFFIX;
+        }
+        
         var data = [];
         for (var giver in giverToRecipientsMap) {
             if (giverToRecipientsMap.hasOwnProperty(giver)) {
                 for (var i = 0; i < giverToRecipientsMap[giver].length; i++) {
-                    data.push([giver, giverToRecipientsMap[giver][i]]);
+                    var dataRow = [];
+                    dataRow.push(giver + giverSuffix);
+                    dataRow.push(giverToRecipientsMap[giver][i] + recipientSuffix);
+                    data.push(dataRow);
                 }
             }
         }

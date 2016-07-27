@@ -8,10 +8,12 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
+import teammates.storage.entity.FeedbackPath;
 import teammates.storage.entity.FeedbackQuestion;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
@@ -32,6 +34,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
+    public List<FeedbackPathAttributes> feedbackPaths;
     protected transient Date createdAt;
     protected transient Date updatedAt;
     private String feedbackQuestionId;
@@ -61,6 +64,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.createdAt = fq.getCreatedAt();
         this.updatedAt = fq.getUpdatedAt();
         
+        this.feedbackPaths = getFeedbackPaths(fq.getFeedbackPaths());
+        
         removeIrrelevantVisibilityOptions();
     }
 
@@ -81,6 +86,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         
         this.createdAt = other.getCreatedAt();
         this.updatedAt = other.getUpdatedAt();
+        
+        this.feedbackPaths = other.feedbackPaths;
         
         removeIrrelevantVisibilityOptions();
     }
@@ -111,7 +118,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
                                     questionMetaData, questionDescription, questionNumber, questionType, giverType,
                                     recipientType, numberOfEntitiesToGiveFeedbackTo,
-                                    showResponsesTo, showGiverNameTo, showRecipientNameTo);
+                                    showResponsesTo, showGiverNameTo, showRecipientNameTo, getFeedbackPathEntities());
     }
 
     @Override
@@ -126,7 +133,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                + ", numberOfEntitiesToGiveFeedbackTo="
                + numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
                + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
-               + ", showRecipientNameTo=" + showRecipientNameTo + "]";
+               + ", showRecipientNameTo=" + showRecipientNameTo
+               + ", feedbackPaths=" + feedbackPaths + "]";
     }
 
     @Override
@@ -265,7 +273,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     public boolean isRecipientNameHidden() {
         return recipientType == FeedbackParticipantType.NONE
-               || recipientType == FeedbackParticipantType.SELF;
+               || recipientType == FeedbackParticipantType.SELF
+               || recipientType == FeedbackParticipantType.CUSTOM
+               && hasClassAsRecipientInFeedbackPaths();
     }
 
     public boolean isRecipientAStudent() {
@@ -652,4 +662,78 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
     }
     
+    public List<FeedbackPathAttributes> getFeedbackPaths(List<FeedbackPath> feedbackPathEntities) {
+        List<FeedbackPathAttributes> feedbackPaths =
+                new ArrayList<FeedbackPathAttributes>();
+        for (FeedbackPath feedbackPath : feedbackPathEntities) {
+            feedbackPaths.add(new FeedbackPathAttributes(feedbackPath));
+        }
+        return feedbackPaths;
+    }
+    
+    public List<FeedbackPath> getFeedbackPathEntities(List<FeedbackPathAttributes> feedbackPaths) {
+        List<FeedbackPath> feedbackPathEntities = new ArrayList<FeedbackPath>();
+        if (feedbackPaths != null) {
+            for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+                feedbackPathEntities.add(feedbackPath.toEntity());
+            }
+        }
+        
+        return feedbackPathEntities;
+    }
+    
+    public List<FeedbackPath> getFeedbackPathEntities() {
+        return getFeedbackPathEntities(feedbackPaths);
+    }
+    
+    /** 
+     * Returns true if the given student is a giver in the question's feedback paths
+     */
+    public boolean hasStudentAsGiverInFeedbackPaths(StudentAttributes student) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isStudentFeedbackPathGiver(student)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /** 
+     * Returns true if the given instructor is a giver in the question's feedback paths
+     */
+    public boolean hasInstructorAsGiverInFeedbackPaths(String instructorEmail) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isInstructorFeedbackPathGiver(instructorEmail)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /** 
+     * Returns true if whether the class is a recipient in the question's feedback paths
+     */
+    public boolean hasClassAsRecipientInFeedbackPaths() {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isFeedbackPathRecipientTheClass()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static List<FeedbackPathAttributes> getFeedbackPathsFromSpreadsheetData(
+            String courseId, String customFeedbackPathsSpreadsheetData) {
+        Gson gson = new Gson();
+        TypeToken<List<List<String>>> token = new TypeToken<List<List<String>>>(){};
+        List<List<String>> customFeedbackPaths =
+                gson.fromJson(customFeedbackPathsSpreadsheetData, token.getType());
+        List<FeedbackPathAttributes> feedbackPaths = new ArrayList<FeedbackPathAttributes>();
+        for (List<String> feedbackPath : customFeedbackPaths) {
+            feedbackPaths.add(
+                    new FeedbackPathAttributes(courseId, feedbackPath.get(0), feedbackPath.get(1)));
+        }
+        
+        return feedbackPaths;
+    }
 }

@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackPathAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -233,6 +234,16 @@ public class FeedbackQuestionsLogic {
         if (isInstructor) {
             questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
                             feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));
+            
+            List<FeedbackQuestionAttributes> questionsWithCustomFeedbackPaths =
+                    fqDb.getFeedbackQuestionsForGiverType(
+                            feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
+            
+            for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
+                if (question.hasInstructorAsGiverInFeedbackPaths(instructor.getEmail())) {
+                    questions.add(question);
+                }
+            }
         }
         Collections.sort(questions);
         return questions;
@@ -270,6 +281,16 @@ public class FeedbackQuestionsLogic {
         // Return all self (creator) questions
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
                 courseId, FeedbackParticipantType.SELF));
+        
+        List<FeedbackQuestionAttributes> questionsWithCustomFeedbackPaths =
+                fqDb.getFeedbackQuestionsForGiverType(
+                        feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
+        
+        for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
+            if (question.hasInstructorAsGiverInFeedbackPaths(fsa.getCreatorEmail())) {
+                questions.add(question);
+            }
+        }
         
         Collections.sort(questions);
         return questions;
@@ -336,6 +357,37 @@ public class FeedbackQuestionsLogic {
             }
         }
         
+        return questions;
+    }
+    
+    /**
+     * Gets a {@code List} of all questions for the given session that
+     * the student can view/submit.
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudent(
+            String feedbackSessionName, String courseId, StudentAttributes student) {
+
+        List<FeedbackQuestionAttributes> questions =
+                new ArrayList<FeedbackQuestionAttributes>();
+        
+        questions.addAll(
+                fqDb.getFeedbackQuestionsForGiverType(
+                        feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS));
+        questions.addAll(
+                fqDb.getFeedbackQuestionsForGiverType(
+                        feedbackSessionName, courseId, FeedbackParticipantType.TEAMS));
+        
+        List<FeedbackQuestionAttributes> questionsWithCustomFeedbackPaths =
+                fqDb.getFeedbackQuestionsForGiverType(
+                        feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
+        
+        for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
+            if (question.hasStudentAsGiverInFeedbackPaths(student)) {
+                questions.add(question);
+            }
+        }
+        
+        Collections.sort(questions);
         return questions;
     }
     
@@ -421,6 +473,37 @@ public class FeedbackQuestionsLogic {
             for (StudentAttributes student : teamMembers) {
                 // accepts self feedback too
                 recipients.put(student.email, student.name);
+            }
+            break;
+        case CUSTOM:
+            Map<String, String> studentEmailToStudentNameMap =
+                    getStudentEmailToStudentNameMap(question.courseId);
+            Map<String, String> instructorEmailToInstructorNameMap =
+                    getInstructorEmailToInstructorNameMap(question.courseId);
+            
+            for (FeedbackPathAttributes feedbackPath : question.feedbackPaths) {
+                boolean isUserFeedbackPathGiver =
+                        isUserFeedbackPathGiver(feedbackPath, isStudentGiver, isInstructorGiver,
+                                                studentGiver, instructorGiver);
+                
+                if (!isUserFeedbackPathGiver) {
+                    continue;
+                }
+                
+                String feedbackPathRecipientId;
+                String name;
+                
+                if (feedbackPath.isFeedbackPathRecipientTheClass()) {
+                    feedbackPathRecipientId = Const.GENERAL_QUESTION;
+                    name = Const.GENERAL_QUESTION;
+                } else {
+                    feedbackPathRecipientId = feedbackPath.getRecipientId();
+                    name = getRecipientName(studentEmailToStudentNameMap,
+                                            instructorEmailToInstructorNameMap,
+                                            feedbackPath, feedbackPathRecipientId);
+                }
+                
+                recipients.put(feedbackPathRecipientId, name);
             }
             break;
         case NONE:
@@ -746,5 +829,55 @@ public class FeedbackQuestionsLogic {
         }
         return questionsWithRecipients;
     }
-
+    
+    private Map<String, String> getStudentEmailToStudentNameMap(String courseId) {
+        Map<String, String> studentEmailToStudentNameMap = new HashMap<String, String>();
+        List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
+        for (StudentAttributes student : studentList) {
+            studentEmailToStudentNameMap.put(student.getEmail(), student.getName());
+        }
+        return studentEmailToStudentNameMap;
+    }
+    
+    private Map<String, String> getInstructorEmailToInstructorNameMap(String courseId) {
+        Map<String, String> instructorEmailToInstructorNameMap = new HashMap<String, String>();
+        List<InstructorAttributes> instructorList =
+                instructorsLogic.getInstructorsForCourse(courseId);
+        for (InstructorAttributes instructor : instructorList) {
+            instructorEmailToInstructorNameMap.put(instructor.getEmail(), instructor.getName());
+        }
+        return instructorEmailToInstructorNameMap;
+    }
+    
+    private boolean isUserFeedbackPathGiver(
+            FeedbackPathAttributes feedbackPath, boolean isStudentGiver, boolean isInstructorGiver,
+            StudentAttributes studentGiver, InstructorAttributes instructorGiver) {
+        boolean isUserStudentAndFeedbackPathGiver =
+                isStudentGiver
+                && feedbackPath.isStudentFeedbackPathGiver(studentGiver);
+        
+        boolean isUserInstructorAndFeedbackPathGiver =
+                isInstructorGiver
+                && feedbackPath.isInstructorFeedbackPathGiver(instructorGiver.getEmail());
+        
+        boolean isUserFeedbackPathGiver =
+                isUserStudentAndFeedbackPathGiver || isUserInstructorAndFeedbackPathGiver;
+        
+        return isUserFeedbackPathGiver;
+    }
+    
+    private String getRecipientName(
+            Map<String, String> studentEmailToStudentNameMap,
+            Map<String, String> instructorEmailToInstructorNameMap,
+            FeedbackPathAttributes feedbackPath,
+            String feedbackPathRecipientId) {
+        
+        if (feedbackPath.isFeedbackPathRecipientAStudent()) {
+            return studentEmailToStudentNameMap.get(feedbackPathRecipientId);
+        } else if (feedbackPath.isFeedbackPathRecipientAnInstructor()) {
+            return instructorEmailToInstructorNameMap.get(feedbackPathRecipientId);
+        } else {
+            return feedbackPathRecipientId;
+        }
+    }
 }

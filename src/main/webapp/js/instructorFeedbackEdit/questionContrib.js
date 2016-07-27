@@ -98,13 +98,15 @@ function fixContribQnGiverRecipient(questionNum) {
     var $recipientType = $('#recipienttype' + idSuffix);
 
     // Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
-    $giverType.find('option').not('[value="STUDENTS"]').hide();
-    $recipientType.find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').hide();
+    $giverType.find('option').not('[value="STUDENTS"], [value="CUSTOM"]').hide();
+    $recipientType.find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"], [value="CUSTOM"]').hide();
 
-    $giverType.find('option').not('[value="STUDENTS"]').prop('disabled', true);
-    $recipientType.find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('disabled', true);
-
-    $giverType.find('option').filter('[value="STUDENTS"]').prop('selected', true);
-    $recipientType.find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('selected', true);
+    $giverType.find('option').not('[value="STUDENTS"], [value="CUSTOM"]').prop('disabled', true);
+    $recipientType.find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"], [value="CUSTOM"]').prop('disabled', true);
+    
+    if (questionNum === undefined) {
+        $giverType.find('option').filter('[value="STUDENTS"]').prop('selected', true);
+        $recipientType.find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('selected', true);
+    }
 }
 

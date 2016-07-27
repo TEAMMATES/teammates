@@ -209,6 +209,17 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
         
+        if (newQuestion.giverType == FeedbackParticipantType.CUSTOM
+                && newQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
+            String customFeedbackPathsSpreadsheetData =
+                    HttpRequestHelper.getValueFromParamMap(
+                            requestParameters, "custom-feedback-paths-spreadsheet-data");
+            
+            newQuestion.feedbackPaths =
+                    FeedbackQuestionAttributes.getFeedbackPathsFromSpreadsheetData(
+                            newQuestion.courseId, customFeedbackPathsSpreadsheetData);
+        }
+        
         newQuestion.showResponsesTo = getParticipantListFromParams(
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));

@@ -886,7 +886,8 @@ function toggleCustomFeedbackPathsDisplay(toggleLink) {
 
 function regenerateCustomFeedbackPathsSpreadsheet(questionNum) {
     var data = customFeedbackPathsDataForEachQuestionBeforeEdit[questionNum];
-    var $container = $('#questionTable' + questionNum + ' .custom-feedback-paths-spreadsheet');
+    var $questionForm = $('#form_editquestion-' + questionNum);
+    var $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
     $container.handsontable({
         data: data,
         minRows: 15,
@@ -897,6 +898,9 @@ function regenerateCustomFeedbackPathsSpreadsheet(questionNum) {
         columns: [{ readOnly: true }, { readOnly: true }],
         manualColumnResize: true,
         manualRowResize: true,
-        stretchH: 'all'
+        stretchH: 'all',
+        afterChange: function() {
+            CustomFeedbackPaths.updateCustomFeedbackPathsSpreadsheetDataInput($questionForm);
+        }
     });
 }

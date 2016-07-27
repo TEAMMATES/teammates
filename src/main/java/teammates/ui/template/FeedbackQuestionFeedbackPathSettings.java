@@ -1,6 +1,11 @@
 package teammates.ui.template;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import teammates.common.datatransfer.FeedbackPathAttributes;
+import teammates.common.util.Sanitizer;
 
 /**
  * Data model for the settings common to all question types,
@@ -15,6 +20,8 @@ public class FeedbackQuestionFeedbackPathSettings {
     
     private boolean isNumberOfEntitiesToGiveFeedbackToChecked;
     private int numOfEntitiesToGiveFeedbackToValue;
+    
+    private String customFeedbackPathsSpreadsheetData;
 
     public List<ElementTag> getGiverParticipantOptions() {
         return giverParticipantOptions;
@@ -48,4 +55,20 @@ public class FeedbackQuestionFeedbackPathSettings {
         this.numOfEntitiesToGiveFeedbackToValue = numOfEntitiesToGiveFeedbackToValue;
     }
     
+    public String getCustomFeedbackPathsSpreadsheetData() {
+        return customFeedbackPathsSpreadsheetData;
+    }
+
+    public void setCustomFeedbackPathsSpreadsheetData(List<FeedbackPathAttributes> feedbackPaths) {
+        List<List<String>> customFeedbackPaths = new ArrayList<List<String>>();
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            customFeedbackPaths.add(Arrays.asList(feedbackPath.getGiver(),
+                                                  feedbackPath.getRecipient()));
+        }
+        List<String> customFeedbackPathStrings = new ArrayList<String>();
+        for (List<String> customFeedbackPath : customFeedbackPaths) {
+            customFeedbackPathStrings.add(Sanitizer.sanitizeListForCsv(customFeedbackPath).toString());
+        }
+        customFeedbackPathsSpreadsheetData = Sanitizer.sanitizeForHtml(customFeedbackPathStrings).toString();
+    }
 }
