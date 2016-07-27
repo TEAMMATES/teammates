@@ -55,7 +55,16 @@ function attachVisibilityDropdownEvent() {
         var selectedOption = $(event.target).data('optionName');
         var $containingForm = $(event.target).closest('form');
 
-        checkCorrespondingCheckboxes(selectedOption, $containingForm);
+        var $editTab = $containingForm.find('.visibilityOptions');
+        if (selectedOption !== 'OTHER') {
+            // only uncheck all checkboxes and update accordingly if a common option is selected
+            uncheckAllVisibilityOptionCheckboxes($containingForm);
+            checkCorrespondingCheckboxes(selectedOption, $containingForm);
+            $editTab.hide();
+        } else {
+            $editTab.show();
+        }
+
         updatePreviewTab($containingForm);
     });
 }
@@ -77,13 +86,8 @@ function uncheckAllVisibilityOptionCheckboxes($containingForm) {
 }
 
 function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
-    if (selectedOption === 'OTHER') {
-        // not a common visibility option
-        return;
-    }
-
-    uncheckAllVisibilityOptionCheckboxes($containingForm);
     switch (selectedOption) {
+    case 'OTHER':
     case 'NO_ONE':
         // keep all checkboxes unchecked
         return;
