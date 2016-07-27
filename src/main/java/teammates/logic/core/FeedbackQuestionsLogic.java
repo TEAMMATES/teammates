@@ -484,20 +484,24 @@ public class FeedbackQuestionsLogic {
                         isUserFeedbackPathGiver(feedbackPath, isStudentGiver, isInstructorGiver,
                                                 studentGiver, instructorGiver);
                 
-                if (isUserFeedbackPathGiver) {
-                    String feedbackPathRecipientId;
-                    String name;
-                    if (feedbackPath.isFeedbackPathRecipientTheClass()) {
-                        feedbackPathRecipientId = Const.GENERAL_QUESTION;
-                        name = Const.GENERAL_QUESTION;
-                    } else {
-                        feedbackPathRecipientId = feedbackPath.getRecipientId();
-                        name = getRecipientName(studentEmailToStudentNameMap,
-                                                instructorEmailToInstructorNameMap,
-                                                feedbackPath, feedbackPathRecipientId);
-                    }
-                    recipients.put(feedbackPathRecipientId, name);
+                if (!isUserFeedbackPathGiver) {
+                    continue;
                 }
+                
+                String feedbackPathRecipientId;
+                String name;
+                
+                if (feedbackPath.isFeedbackPathRecipientTheClass()) {
+                    feedbackPathRecipientId = Const.GENERAL_QUESTION;
+                    name = Const.GENERAL_QUESTION;
+                } else {
+                    feedbackPathRecipientId = feedbackPath.getRecipientId();
+                    name = getRecipientName(studentEmailToStudentNameMap,
+                                            instructorEmailToInstructorNameMap,
+                                            feedbackPath, feedbackPathRecipientId);
+                }
+                
+                recipients.put(feedbackPathRecipientId, name);
             }
             break;
         case NONE:

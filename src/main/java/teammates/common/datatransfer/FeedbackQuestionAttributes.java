@@ -634,7 +634,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
     
     /** 
-     * Verifies whether the given student is a giver in the question's feedback paths
+     * Returns true if the given student is a giver in the question's feedback paths
      */
     public boolean hasStudentAsGiverInFeedbackPaths(StudentAttributes student) {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
@@ -646,7 +646,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
     
     /** 
-     * Verifies whether the given instructor is a giver in the question's feedback paths
+     * Returns true if the given instructor is a giver in the question's feedback paths
      */
     public boolean hasInstructorAsGiverInFeedbackPaths(String instructorEmail) {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
@@ -658,7 +658,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
     
     /** 
-     * Verifies whether the class is a recipient in the question's feedback paths
+     * Returns true if whether the class is a recipient in the question's feedback paths
      */
     public boolean hasClassAsRecipientInFeedbackPaths() {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
