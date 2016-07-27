@@ -87,9 +87,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
                 
-        Assumption.assertNotNull("Null points", pointsString);
-        Assumption.assertNotNull("Null points", pointsForEachOptionString);
-        Assumption.assertNotNull("Null points", pointsForEachRecipientString);
+        Assumption.assertNotNull("Null points in total", pointsString);
+        Assumption.assertNotNull("Null points for each option", pointsForEachOptionString);
+        Assumption.assertNotNull("Null points for each recipient", pointsForEachRecipientString);
         forceUnevenDistributionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
