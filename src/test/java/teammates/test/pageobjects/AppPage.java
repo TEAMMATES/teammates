@@ -1003,4 +1003,13 @@ public abstract class AppPage {
         browser.driver.manage().window().maximize();
     }
 
+    /**
+     * Checks if element is in viewport.
+     */
+    public boolean isElementInViewport(String id) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        String script = "return isWithinView(document.getElementById('" + id + "'));";
+        return (boolean) jsExecutor.executeScript(script);
+    }
+
 }

@@ -147,6 +147,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 editedSession.getInstructions(), editedSession.getGracePeriod());
         
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+        assertTrue(feedbackEditPage.isElementInViewport(Const.ParamsNames.STATUS_MESSAGES_LIST));
+
         FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(
                 editedSession.getCourseId(), editedSession.getFeedbackSessionName());
         editedSession.setInstructions(new Text("<p>" + editedSession.getInstructionsString() + "</p>"));
