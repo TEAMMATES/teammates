@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentWithOldRegistrationKeyAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -438,8 +437,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     
     private StudentAttributes copyOldStudentEntityToCourseStudent(String email, String course)
             throws InvalidParametersException {
-        StudentWithOldRegistrationKeyAttributes s =
-                studentsDb.getStudentForCopyingToCourseStudent(course, email);
+        StudentAttributes s = studentsDb.getStudentForEmail(course, email);
         
         studentsDb.createEntityWithoutExistenceCheck(s);
         
@@ -448,8 +446,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     
     private StudentAttributes moveOldStudentEntityToCourseStudent(String email, String course)
             throws InvalidParametersException {
-        StudentWithOldRegistrationKeyAttributes s =
-                studentsDb.getStudentForCopyingToCourseStudent(course, email);
+        StudentAttributes s = studentsDb.getStudentForEmail(course, email);
         
         studentsDb.deleteStudent(course, email);
         studentsDb.createEntityWithoutExistenceCheck(s);

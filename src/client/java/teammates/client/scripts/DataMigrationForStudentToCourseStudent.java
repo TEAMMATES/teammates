@@ -6,15 +6,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentWithOldRegistrationKeyAttributes;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Student;
 
 public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
@@ -51,26 +51,37 @@ public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
 
         List<StudentAttributes> students = getOldStudentsForMigration(target);
         
-        System.out.println("Creating a CourseStudent copy of students ...");
+        System.out.println("Creating CourseStudent copies of students ...");
         
-        try {
-            for (StudentAttributes student : students) {
-                StudentWithOldRegistrationKeyAttributes studentToSave =
-                        studentsDb.getStudentForCopyingToCourseStudent(student.course, student.email);
-                
-                if (isPreview) {
-                    System.out.println("Preview: will copy " + studentToSave.getIdentificationString());
-                    continue;
-                }
-                
-                // This replaces any copy of CourseStudent if it already exist
-                studentsDb.createEntityWithoutExistenceCheck(studentToSave);
-                System.out.println("Created CourseStudent for " + studentToSave.getIdentificationString());
-                
+        List<CourseStudent> studentsToSave = new ArrayList<>();
+        int i = 0;
+        PersistenceManager persistenceManager = Datastore.getPersistenceManager();
+        
+        System.out.println("Total size is " + students.size());
+        for (StudentAttributes student : students) {
+            i += 1;
+            CourseStudent studentToSave =
+                    studentsDb.getStudentForCopyingToCourseStudent(student.course, student.email);
+            
+            if (isPreview) {
+                System.out.println("Preview: will copy "
+                                   + studentToSave.getCourseId() + "/" + studentToSave.getEmail());
+                continue;
             }
-        } catch (InvalidParametersException e) {
-            e.printStackTrace();
+            
+            studentsToSave.add(studentToSave);
+            
+            if (i % 50 == 0) {
+                // This replaces any copy of CourseStudent if it already exist
+                persistenceManager.makePersistentAll(studentsToSave);
+                persistenceManager.close();
+                studentsToSave.clear();
+                System.out.println("Created CourseStudents for " + i);
+            }
         }
+        persistenceManager.makePersistentAll(studentsToSave);
+        persistenceManager.close();
+        System.out.println("completed " + (i + studentsToSave.size()));
     }
     
     private List<StudentAttributes> getOldStudentsForMigration(ScriptTarget target) {

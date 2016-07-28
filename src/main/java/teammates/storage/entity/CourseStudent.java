@@ -43,7 +43,7 @@ public class CourseStudent implements StoreCallback {
     private Date updatedAt;
 
     @Persistent
-    private transient String registrationKey;    
+    private transient String registrationKey;
 
     /**
      * The student's Google ID. Links to the Account object.
@@ -118,6 +118,22 @@ public class CourseStudent implements StoreCallback {
         this.registrationKey = generateRegistrationKey();
     }
     
+    public CourseStudent(Student student) {
+        googleId = student.getGoogleId();
+        name = student.getName();
+        lastName = student.getLastName();
+        email = student.getEmail();
+        courseId = student.getCourseId();
+        comments = student.getComments();
+        teamName = student.getTeamName();
+        sectionName = student.getSectionName();
+        registrationKey = student.getRegistrationKey();
+        
+        // copies the createdAt of the existing Student
+        // updatedAt is still set to the time when CourseStudent is written to the database
+        createdAt = student.getCreatedAt();
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -195,6 +211,10 @@ public class CourseStudent implements StoreCallback {
     // null comment setting are not tested
     public void setComments(String comments) {
         this.comments = comments == null ? null : comments.trim();
+    }
+    
+    public String getRegistrationKey() {
+        return registrationKey;
     }
  
     public String getCourseId() {

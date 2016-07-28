@@ -15,7 +15,6 @@ import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
-import teammates.common.datatransfer.StudentWithOldRegistrationKeyAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -162,7 +161,7 @@ public class StudentsDb extends EntitiesDb {
         return new StudentAttributes(s);
     }
     
-    public StudentWithOldRegistrationKeyAttributes getStudentForCopyingToCourseStudent(
+    public CourseStudent getStudentForCopyingToCourseStudent(
                                                             String courseId, String email) {
         Student s = getStudentEntityForEmail(courseId, email);
 
@@ -171,7 +170,7 @@ public class StudentsDb extends EntitiesDb {
             return null;
         }
     
-        return new StudentWithOldRegistrationKeyAttributes(s);
+        return new CourseStudent(s);
     }
 
     /**
@@ -234,7 +233,6 @@ public class StudentsDb extends EntitiesDb {
         
         try {
             // Student
-            // First, try to retrieve the student by assuming the given registrationKey key is encrypted
             String decryptedKey = StringHelper.decrypt(registrationKey.trim());
             Student student = getPm().getObjectById(Student.class,
                                                     KeyFactory.stringToKey(decryptedKey));
