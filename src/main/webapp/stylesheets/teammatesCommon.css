@@ -310,7 +310,10 @@ Apply to thead to make headers not bold.
 
 .text-preserve-space {
     white-space: pre-wrap;
-    word-break: break-all;
+}
+
+.word-wrap-break {
+	word-wrap: break-word;
 }
 
 .text-strike {
@@ -724,6 +727,10 @@ Apply to thead to make headers not bold.
 
 .table-column-no-float {
     float: none !important;
+}
+
+.fixed-table-layout {
+	table-layout: fixed;
 }
 
 /*////////////////////////////////////////////////////////////
