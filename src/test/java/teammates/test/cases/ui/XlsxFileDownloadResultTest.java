@@ -1,5 +1,7 @@
 package teammates.test.cases.ui;
 
+import java.io.IOException;
+
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -10,29 +12,20 @@ import teammates.ui.controller.XlsxFileDownloadResult;
 public class XlsxFileDownloadResultTest extends BaseTestCase {
 
     @Test
-    public void testNullContentXslFileDownloadResult() {
-        String fileContent = null;
-        XlsxFileDownloadResult download = new XlsxFileDownloadResult("/page/instructorFeedbackResultsDownload",
-                null, null, "Normal name",
-                fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
-        assertEquals("attachment; filename=\"Normal name.xlsx\";filename*= UTF-8''Normal+name.xlsx",
-                download.getContentDispositionHeader());
-        assertEquals(0, download.getWorkBook().getSheetAt(0).getLastRowNum());
-    }
-
-    @Test
     public void testEmptyContentXslFileDownloadResult() {
         String fileContent = "";
-        XlsxFileDownloadResult download = new XlsxFileDownloadResult("/page/instructorFeedbackResultsDownload",
+        XlsxFileDownloadResult download = new XlsxFileDownloadResult(
+                "/page/instructorFeedbackResultsDownload",
                 null, null, "Normal name",
                 fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
-        assertEquals(0, download.getWorkBook().getSheetAt(0).getLastRowNum());
+        assertEquals(1, download.getWorkBook().getSheetAt(0).getLastRowNum());
     }
 
     @Test
     public void testOneWordContentXslFileDownloadResult() {
         String fileContent = "one";
-        XlsxFileDownloadResult download = new XlsxFileDownloadResult("/page/instructorFeedbackResultsDownload",
+        XlsxFileDownloadResult download = new XlsxFileDownloadResult(
+                "/page/instructorFeedbackResultsDownload",
                 null, null, "Normal name",
                 fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
         assertEquals(1, download.getWorkBook().getSheetAt(0).getLastRowNum());
@@ -42,7 +35,8 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
     @Test
     public void testTwoWordsContentXslFileDownloadResult() {
         String fileContent = "one,two";
-        XlsxFileDownloadResult download = new XlsxFileDownloadResult("/page/instructorFeedbackResultsDownload",
+        XlsxFileDownloadResult download = new XlsxFileDownloadResult(
+                "/page/instructorFeedbackResultsDownload",
                 null, null, "Normal name",
                 fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
         assertEquals(1, download.getWorkBook().getSheetAt(0).getLastRowNum());
@@ -53,7 +47,8 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
     @Test
     public void testTwoRowsContentXslFileDownloadResult() {
         String fileContent = "one,two" + Const.EOL + "three, four";
-        XlsxFileDownloadResult download = new XlsxFileDownloadResult("/page/instructorFeedbackResultsDownload",
+        XlsxFileDownloadResult download = new XlsxFileDownloadResult(
+                "/page/instructorFeedbackResultsDownload",
                 null, null, "Normal name",
                 fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
         assertEquals(2, download.getWorkBook().getSheetAt(0).getLastRowNum());
@@ -65,7 +60,8 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
     public void testWordsWithCommaContentXslFileDownloadResult() {
         String fileContent = "one,two" + Const.EOL + "three, four" + Const.EOL
                 + Sanitizer.sanitizeForCsv("five, six");
-        XlsxFileDownloadResult download = new XlsxFileDownloadResult("/page/instructorFeedbackResultsDownload",
+        XlsxFileDownloadResult download = new XlsxFileDownloadResult(
+                "/page/instructorFeedbackResultsDownload",
                 null, null, "Normal name",
                 fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
         assertEquals(3, download.getWorkBook().getSheetAt(0).getLastRowNum());
@@ -75,5 +71,20 @@ public class XlsxFileDownloadResultTest extends BaseTestCase {
         // comma included.
         assertEquals(1, download.getWorkBook().getSheetAt(0).getRow(3).getLastCellNum());
 
+    }
+
+    @Test
+    public void testQuestionFormattingChanges() throws IOException {
+        String fileContent = "one,two" + Const.EOL + "Question 1,"
+                + Sanitizer.sanitizeForCsv("Hi What do you think about Calculus, Differential Classes ?");
+        XlsxFileDownloadResult download = new XlsxFileDownloadResult(
+                "/page/instructorFeedbackResultsDownload",
+                null, null, "Normal name",
+                fileContent, Const.FeedbackSessionResultsDownloadTypes.XLSX);
+        assertEquals(2, download.getWorkBook().getSheetAt(0).getLastRowNum());
+        assertEquals(2, download.getWorkBook().getSheetAt(0).getRow(1).getLastCellNum());
+        assertEquals(2, download.getWorkBook().getSheetAt(0).getRow(2).getLastCellNum());
+        assertEquals(true, download.getWorkBook().getSheetAt(0).getRow(2).getRowStyle().getFont().getBold());
+        assertEquals(15, download.getWorkBook().getSheetAt(0).getRow(2).getRowStyle().getFont().getFontHeightInPoints());
     }
 }
