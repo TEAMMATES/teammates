@@ -111,11 +111,6 @@ public class StudentAttributes extends EntityAttributes {
         this.googleId = (student.getGoogleId() == null) ? ""
                                                         : student.getGoogleId();
         this.key = student.getRegistrationKey();
-        /*
-         * TODO: this is for backward compatibility with old system.
-         * Old system considers "" as unregistered.
-         * It should be changed to consider null as unregistered.
-         */
         
         this.createdAt = student.getCreatedAt();
         this.updatedAt = student.getUpdatedAt();
@@ -135,11 +130,6 @@ public class StudentAttributes extends EntityAttributes {
         this.googleId = student.getGoogleId() == null ? ""
                                                       : student.getGoogleId();
         this.key = student.getRegistrationKey();
-        /*
-         * TODO: this is for backward compatibility with old system.
-         * Old system considers "" as unregistered.
-         * It should be changed to consider null as unregistered.
-         */
         
         this.createdAt = student.getCreatedAt();
         this.updatedAt = student.getUpdatedAt();
