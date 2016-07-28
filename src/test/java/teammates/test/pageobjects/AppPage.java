@@ -1004,7 +1004,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Checks if element is in viewport.
+     * @return true if the element is in the user's visible area of a web page.
      */
     public boolean isElementInViewport(String id) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
