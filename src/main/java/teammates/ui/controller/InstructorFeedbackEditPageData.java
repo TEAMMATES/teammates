@@ -182,6 +182,15 @@ public class InstructorFeedbackEditPageData extends PageData {
             return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("VISIBLE_TO_INSTRUCTORS_ONLY");
         }
 
+        if (showResponsesTo.size() == 2 && showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                    && showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+            && showGiverNameTo.size() == 2 && showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                       && showGiverNameTo.contains(FeedbackParticipantType.RECEIVER)
+            && showRecipientNameTo.size() == 2 && showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
+                       && showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER)) {
+            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS");
+        }
+
         return "Custom visibility option:";
     }
 

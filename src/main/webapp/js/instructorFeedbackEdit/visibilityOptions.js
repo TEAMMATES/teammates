@@ -124,6 +124,15 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
         allowInstructorToSee('.giverCheckbox', $containingForm);
         allowInstructorToSee('.recipientCheckbox', $containingForm);
         break;
+    case 'VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS':
+        allowRecipientToSee('.answerCheckbox', $containingForm);
+        allowRecipientToSee('.giverCheckbox', $containingForm);
+        allowRecipientToSee('.recipientCheckbox', $containingForm);
+
+        allowInstructorToSee('.answerCheckbox', $containingForm);
+        allowInstructorToSee('.giverCheckbox', $containingForm);
+        allowInstructorToSee('.recipientCheckbox', $containingForm);
+        break;
     default:
         throw 'Unexpected common visibility option type';
     }
