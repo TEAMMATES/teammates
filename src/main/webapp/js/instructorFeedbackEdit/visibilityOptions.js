@@ -66,6 +66,7 @@ function attachVisibilityDropdownEvent() {
             $editTab.hide();
         } else {
             $editTab.show();
+            updateEditTab($containingForm);
         }
 
         updatePreviewTab($containingForm);
