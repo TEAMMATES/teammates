@@ -995,7 +995,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * Get the displayable section name from an email.
      * If the email is not an email of someone in the class roster, an empty string is returned.
      * 
-     * If the email of an instructor or "%GENERAL%" is passed in, "Not in a section" is returned.
+     * If the email of an instructor or "%GENERAL%" is passed in, "No specific recipient" is returned.
      * @param participantIdentifier
      */
     public String getSectionFromRoster(String participantIdentifier) {
@@ -1007,7 +1007,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             return roster.getStudentForEmail(participantIdentifier)
                          .section;
         } else if (isInstructor || participantIsGeneral) {
-            return Const.USER_NOT_IN_A_SECTION;
+            return Const.NO_SPECIFIC_RECIEPIENT;
         } else {
             return "";
         }

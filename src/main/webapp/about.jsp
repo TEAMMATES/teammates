@@ -697,6 +697,10 @@
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amariasam1"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
+                <li>Niklas Wuensche 
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ANWuensche"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>                
                 <li>Nilesh Suthar 
                     [bug reporting/fixing, enhancements]
                 </li>
@@ -724,6 +728,10 @@
                 </li>
                 <li>Rajiv Jha 
                     [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Arajivjhaimin"
+                        target="_blank">bug reporting/fixing, enhancements</a>]
+                </li>
+                <li>Rohith Mukku 
+                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ANaruto8"
                         target="_blank">bug reporting/fixing, enhancements</a>]
                 </li>
                 <li>Shiv Kandikuppa 

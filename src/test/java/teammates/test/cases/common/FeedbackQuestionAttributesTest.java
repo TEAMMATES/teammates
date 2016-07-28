@@ -10,9 +10,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.datatransfer.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -21,6 +23,8 @@ import teammates.test.cases.BaseTestCase;
 import com.google.appengine.api.datastore.Text;
 
 public class FeedbackQuestionAttributesTest extends BaseTestCase {
+    
+    private DataBundle typicalBundle = getTypicalDataBundle();
 
     private class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
         
@@ -177,6 +181,24 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER);
 
         assertTrue(fq.isValid());
+    }
+    
+    @Test
+    public void testGetQuestionDetails() {
+
+        ______TS("Text question: new Json format");
+        
+        FeedbackQuestionAttributes fq = typicalBundle.feedbackQuestions.get("qn5InSession1InCourse1");
+        FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("New format text question");
+        fq.setQuestionDetails(questionDetails);
+        
+        assertTrue(fq.isValid());
+        assertEquals(fq.getQuestionDetails().getQuestionText(), "New format text question");
+        
+        ______TS("Text question: old string format");
+        
+        fq = typicalBundle.feedbackQuestions.get("qn2InSession1InCourse1");
+        assertEquals(fq.getQuestionDetails().getQuestionText(), "Rate 1 other student's product");
     }
 
     @Test
