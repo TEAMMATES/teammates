@@ -14,6 +14,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -177,17 +178,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertNotNull("New registration key can be used to retrieve student",
                       studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(updatedStudent.key)));
         
-        ______TS("getStudentForRegistrationKey works for a student only with CourseStudent");
-        StudentAttributes movedStudent =
-                moveOldStudentEntityToCourseStudent(oldStudent.email, oldStudent.course);
-        
-        assertFalse(isOldStudentExists(movedStudent));
-        assertTrue(isNewStudentExists(movedStudent));
-        
-        assertNotNull("Old registration key can be used to retrieve student",
-                studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(oldStudent.key)));
-        assertNotNull("New registration key can be used to retrieve student",
-                studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(updatedStudent.key)));
         
         ______TS("non existant student case");
 
@@ -323,22 +313,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
                 copiedStudent.course, copiedStudent.email);
         assertTrue(updatedCopiedStudent.isEnrollInfoSameAs(copiedStudent));
         
-        
-        ______TS("update works for a student only with CourseStudent");
-        StudentAttributes movedStudent =
-                moveOldStudentEntityToCourseStudent(oldStudent.email, oldStudent.course);
-        
-        assertFalse(isOldStudentExists(movedStudent));
-        assertTrue(isNewStudentExists(movedStudent));
-        movedStudent.name = "new name 2";
-        studentsDb.updateStudentWithoutSearchability(
-                movedStudent.course, movedStudent.email, movedStudent.name, movedStudent.team,
-                movedStudent.section, movedStudent.email, movedStudent.googleId,
-                    movedStudent.comments);
-        StudentAttributes updatedMovedStudent = studentsDb.getStudentForEmail(
-                movedStudent.course, movedStudent.email);
-        assertTrue(updatedMovedStudent.isEnrollInfoSameAs(movedStudent));
-        
     }
 
     @SuppressWarnings("deprecation")
@@ -405,18 +379,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertFalse(isOldStudentExists(oldStudent));
         assertFalse(isNewStudentExists(oldStudent));
         
-        ______TS("delete works for a student only with CourseStudent");
-        oldStudent = createOldStudentAttributes("deleteStudent");
-        StudentAttributes movedStudent =
-                moveOldStudentEntityToCourseStudent(oldStudent.email, oldStudent.course);
-        
-        assertFalse(isOldStudentExists(movedStudent));
-        assertTrue(isNewStudentExists(movedStudent));
-        studentsDb.deleteStudent(oldStudent.course, oldStudent.email);
-        assertNull(studentsDb.getStudentForEmail(oldStudent.course, oldStudent.email));
-        
-        assertFalse(isNewStudentExists(oldStudent));
-
     }
     
     private StudentAttributes createOldStudentAttributes(String testName)
@@ -437,20 +399,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     
     private StudentAttributes copyOldStudentEntityToCourseStudent(String email, String course)
             throws InvalidParametersException {
-        StudentAttributes s = studentsDb.getStudentForEmail(course, email);
-        
-        studentsDb.createEntityWithoutExistenceCheck(s);
-        
-        return studentsDb.getStudentForEmail(course, email);
-    }
-    
-    private StudentAttributes moveOldStudentEntityToCourseStudent(String email, String course)
-            throws InvalidParametersException {
-        StudentAttributes s = studentsDb.getStudentForEmail(course, email);
-        
-        studentsDb.deleteStudent(course, email);
-        studentsDb.createEntityWithoutExistenceCheck(s);
-        
+        studentsDb.copyStudentToCourseStudent(course, email);
         return studentsDb.getStudentForEmail(course, email);
     }
     

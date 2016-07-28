@@ -104,18 +104,18 @@ public class CourseStudent implements StoreCallback {
      */
     public CourseStudent(String email, String name, String googleId, String comments, String courseId,
                          String teamName, String sectionName) {
-        this.setEmail(email);
-        this.setName(name);
-        this.setGoogleId(googleId);
-        this.setComments(comments);
-        this.setCourseId(courseId);
-        this.setTeamName(teamName);
-        this.setSectionName(sectionName);
+        setEmail(email);
+        setName(name);
+        setGoogleId(googleId);
+        setComments(comments);
+        setCourseId(courseId);
+        setTeamName(teamName);
+        setSectionName(sectionName);
         
-        this.setCreatedAt(new Date());
+        setCreatedAt(new Date());
 
-        this.setId(this.getEmail() + '%' + this.getCourseId());
-        this.registrationKey = generateRegistrationKey();
+        setId(getEmail() + '%' + getCourseId());
+        registrationKey = generateRegistrationKey();
     }
     
     public CourseStudent(Student student) {
@@ -132,6 +132,8 @@ public class CourseStudent implements StoreCallback {
         // copies the createdAt of the existing Student
         // updatedAt is still set to the time when CourseStudent is written to the database
         createdAt = student.getCreatedAt();
+        
+        setId(getEmail() + '%' + getCourseId());
     }
 
     public Date getCreatedAt() {

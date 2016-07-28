@@ -161,16 +161,14 @@ public class StudentsDb extends EntitiesDb {
         return new StudentAttributes(s);
     }
     
-    public CourseStudent getStudentForCopyingToCourseStudent(
-                                                            String courseId, String email) {
-        Student s = getStudentEntityForEmail(courseId, email);
-
-        if (s == null) {
-            log.info("Trying to get non-existent Student: " + courseId + "/" + email);
-            return null;
-        }
+    public void copyStudentToCourseStudent(String courseId, String email) {
+        copyStudentToCourseStudent(getStudentEntityForEmail(courseId, email));
+    }
     
-        return new CourseStudent(s);
+    public void copyStudentToCourseStudent(Student student) {
+        CourseStudent courseStudent = new CourseStudent(student);
+        getPm().makePersistent(courseStudent);
+        getPm().close();
     }
 
     /**

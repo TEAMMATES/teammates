@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -14,7 +13,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Student;
 
 public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
@@ -53,35 +51,15 @@ public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
         
         System.out.println("Creating CourseStudent copies of students ...");
         
-        List<CourseStudent> studentsToSave = new ArrayList<>();
-        int i = 0;
-        PersistenceManager persistenceManager = Datastore.getPersistenceManager();
-        
         System.out.println("Total size is " + students.size());
         for (StudentAttributes student : students) {
-            i += 1;
-            CourseStudent studentToSave =
-                    studentsDb.getStudentForCopyingToCourseStudent(student.course, student.email);
-            
             if (isPreview) {
-                System.out.println("Preview: will copy "
-                                   + studentToSave.getCourseId() + "/" + studentToSave.getEmail());
-                continue;
-            }
-            
-            studentsToSave.add(studentToSave);
-            
-            if (i % 50 == 0) {
-                // This replaces any copy of CourseStudent if it already exist
-                persistenceManager.makePersistentAll(studentsToSave);
-                persistenceManager.close();
-                studentsToSave.clear();
-                System.out.println("Created CourseStudents for " + i);
+                System.out.println("Preview: will copy " + student.course + "/" + student.email);
+            } else {
+                // if an existing CourseStudent already exists, this overwrites it
+                studentsDb.copyStudentToCourseStudent(student.course, student.email);
             }
         }
-        persistenceManager.makePersistentAll(studentsToSave);
-        persistenceManager.close();
-        System.out.println("completed " + (i + studentsToSave.size()));
     }
     
     private List<StudentAttributes> getOldStudentsForMigration(ScriptTarget target) {
