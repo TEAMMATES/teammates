@@ -63,6 +63,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String distributeToRecipientsString = null;
         String pointsPerOptionString = null;
         String pointsString = null;
+        String pointsForEachOptionString = null;
+        String pointsForEachRecipientString = null;
         String forceUnevenDistributionString = null;
         boolean distributeToRecipients = false;
         boolean pointsPerOption = false;
@@ -78,14 +80,28 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         pointsString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
-        Assumption.assertNotNull("Null points", pointsString);
+        pointsForEachOptionString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION);
+        pointsForEachRecipientString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
+                
+        Assumption.assertNotNull("Null points in total", pointsString);
+        Assumption.assertNotNull("Null points for each option", pointsForEachOptionString);
+        Assumption.assertNotNull("Null points for each recipient", pointsForEachRecipientString);
         forceUnevenDistributionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
         
         distributeToRecipients = "true".equals(distributeToRecipientsString);
         pointsPerOption = "true".equals(pointsPerOptionString);
-        points = Integer.parseInt(pointsString);
+        if (pointsPerOption) {
+            points = distributeToRecipients ? Integer.parseInt(pointsForEachRecipientString)
+                                            : Integer.parseInt(pointsForEachOptionString);
+        } else {
+            points = Integer.parseInt(pointsString);
+        }
         forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
         
         if (distributeToRecipients) {
@@ -198,6 +214,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
                 Slots.CONSTSUM_PARAM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
+                Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
                 );
     }
@@ -252,6 +271,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
                 Slots.CONSTSUM_PARAM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
+                Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
                 );
     }
@@ -289,6 +311,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_PARAM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
+                Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
 
     }

@@ -8,9 +8,11 @@
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 <%@ attribute name="nextQnNum" required="true"%>
 
-<form class="form-horizontal form_question" role="form" method="post"
+<c:set var="NEW_QUESTION" value="-1" />
+
+<form id="form_editquestion-${NEW_QUESTION}" class="form-horizontal form_question" role="form" method="post"
     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
-    name="form_addquestions" onsubmit="tallyCheckboxes('')" >
+    name="form_addquestions" onsubmit="tallyCheckboxes('${NEW_QUESTION}')" >
     <div class="well well-plain inputTable" id="addNewQuestionTable">
        
         <div class="row">
@@ -45,7 +47,7 @@
         </div>
     </div>
 
-    <div class="panel panel-primary questionTable" id="questionTableNew" style="display:none;">
+    <div class="panel panel-primary questionTable" id="questionTable-${NEW_QUESTION}" style="display:none;">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-sm-7">
@@ -67,7 +69,7 @@
                 <div class="col-sm-5 mobile-margin-top-10px">
                     <span class="mobile-no-pull pull-right">
                         <a class="btn btn-primary btn-xs"
-                            onclick="discardChanges(-1)" data-toggle="tooltip" data-placement="top"
+                            onclick="discardChanges(${NEW_QUESTION})" data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_CANCEL_NEW %>">
                             Cancel
                         </a>
@@ -79,7 +81,7 @@
             <div class="col-sm-12 margin-15px background-color-light-blue">
                 <div class="form-group" style="padding: 15px;">
                     <h5 class="col-sm-2">
-                        <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>">
+                        <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-${NEW_QUESTION}">
                             Question
                         </label>
                     </h5>
@@ -87,7 +89,7 @@
                         <%-- Do not add whitespace between the opening and closing tags --%>
                         <textarea class="form-control textvalue nonDestructive" rows="2"
                             name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>"
-                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>"
+                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-${NEW_QUESTION}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS %>"
                             tabindex="9"
@@ -97,14 +99,14 @@
                 <div class="form-group" style="padding: 0 15px;">
                     <h5 class="col-sm-2">
                         <label class="align-left"
-                            for="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>">
+                            for="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${NEW_QUESTION}">
                             [Optional]<br>Description
                         </label>
                     </h5>
                     <div class="col-sm-10">
                         <div id="rich-text-toolbar-q-descr-container"></div>
                         <div class="panel panel-default panel-body" rows="5"
-                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>"
+                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${NEW_QUESTION}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_DESCRIPTION %>"
                             tabindex="9">
@@ -119,8 +121,9 @@
           
             <div>
                 <span class="pull-right">
-                    <input id="button_submit_add" class="btn btn-primary"
-                        type="submit" value="Save Question" tabindex="9">
+                    <button id="button_submit_add" class="btn btn-primary" type="submit" tabindex="9">
+                        Save Question
+                    </button>
                 </span>
             </div>
         </div>

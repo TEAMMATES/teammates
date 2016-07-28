@@ -40,6 +40,7 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionPublishedMailAction;
+import teammates.logic.automated.FeedbackSessionUnpublishedMailAction;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -1865,7 +1866,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         fsLogic.publishFeedbackSession(
                 sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
 
-        HashMap<String, String> paramMap = createParamMapForAction(sessionUnderTest);
+        HashMap<String, String> paramMap = createParamMapForAction(sessionUnderTest, EmailType.FEEDBACK_PUBLISHED);
         EmailAction fsPublishedAction = new FeedbackSessionPublishedMailAction(paramMap);
         fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
         
@@ -1892,6 +1893,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         fsLogic.unpublishFeedbackSession(
                 sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
+        
+        paramMap = createParamMapForAction(sessionUnderTest, EmailType.FEEDBACK_UNPUBLISHED);
+        EmailAction fsUnpublishedAction = new FeedbackSessionUnpublishedMailAction(paramMap);
+        fsUnpublishedAction.getPreparedEmailsAndPerformSuccessOperations();
+        assertFalse(fsLogic.getFeedbackSession(sessionUnderTest.getFeedbackSessionName(),
+                sessionUnderTest.getCourseId()).isSentPublishedEmail());
         
         sessionUnderTest.setSentPublishedEmail(false);
         sessionUnderTest.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
@@ -2261,11 +2268,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         printTestClassFooter();
     }
 
-    private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {
-        // Prepare parameter map to be used with FeedbackSessionPublishedMailAction
+    private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs, EmailType emailType) {
         HashMap<String, String> paramMap = new HashMap<String, String>();
 
-        paramMap.put(ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_PUBLISHED.toString());
+        paramMap.put(ParamsNames.EMAIL_TYPE, emailType.toString());
         paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.getFeedbackSessionName());
         paramMap.put(ParamsNames.EMAIL_COURSE, fs.getCourseId());
 
