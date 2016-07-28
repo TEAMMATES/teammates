@@ -212,14 +212,12 @@ public class FeedbackResponsesLogic {
 
         // Add responses that the user submitted himself
         addNewResponses(viewableResponses,
-                        getFeedbackResponsesFromGiverForQuestionInSection(
-                                question.getId(), userEmail, section));
+                        getFeedbackResponsesFromGiverForQuestionInSection(question.getId(), userEmail, section));
 
         // Add responses that user is a receiver of when question is visible to receiver.
         if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             addNewResponses(viewableResponses,
-                            getFeedbackResponsesForReceiverForQuestionInSection(
-                                    question.getId(), userEmail, section));
+                            getFeedbackResponsesForReceiverForQuestionInSection(question.getId(), userEmail, section));
         }
 
         switch (role) {
@@ -246,9 +244,8 @@ public class FeedbackResponsesLogic {
      * Checks if the name is visible to the given user.
      * If {@code isGiverName} is false, it checks for recipient name instead.
      */
-    public boolean isNameVisibleTo(FeedbackQuestionAttributes question,
-            FeedbackResponseAttributes response, String userEmail,
-            UserType.Role role, boolean isGiverName, CourseRoster roster) {
+    public boolean isNameVisibleTo(FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
+                                   String userEmail, UserType.Role role, boolean isGiverName, CourseRoster roster) {
 
         if (question == null) {
             return false;
@@ -329,17 +326,8 @@ public class FeedbackResponsesLogic {
      */
     private boolean isUserGiverOfResponse(FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response, String userEmail, CourseRoster roster) {
-        if (question.giverType == FeedbackParticipantType.TEAMS) {
-            // check if user is part of team if responses are given by teams
-            if (roster.isStudentsInSameTeam(response.giver, userEmail)) {
-                return true;
-            }
-        } else {
-            if (response.giver.equals(userEmail)) {
-                return true;
-            }
-        }
-        return false;
+        return question.giverType == FeedbackParticipantType.TEAMS && roster.isStudentsInSameTeam(response.giver, userEmail)
+                || question.giverType != FeedbackParticipantType.TEAMS && response.giver.equals(userEmail);
     }
     
     /**

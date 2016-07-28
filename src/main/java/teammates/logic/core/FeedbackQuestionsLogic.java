@@ -371,25 +371,19 @@ public class FeedbackQuestionsLogic {
         
         String giverTeam = getTeamNameForUser(giver, instructorGiver, studentGiver);
         
-        Map<String, String> recipients =
-                getRecipientsBasedOnRecipientType(question, giver, studentGiver, recipientType, giverTeam);
-        return recipients;
+        return getRecipientsBasedOnRecipientType(question, giver, studentGiver, recipientType, giverTeam);
     }
 
     private String getTeamNameForUser(String giver, InstructorAttributes instructorGiver,
             StudentAttributes studentGiver) {
-        String giverTeam = null;
-        
         boolean isStudentGiver = studentGiver != null;
         boolean isInstructorGiver = instructorGiver != null;
         if (isStudentGiver) {
-            giverTeam = studentGiver.team;
+            return studentGiver.team;
         } else if (isInstructorGiver) {
-            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-        } else {
-            giverTeam = giver;
+            return Const.USER_TEAM_FOR_INSTRUCTOR;
         }
-        return giverTeam;
+        return giver;
     }
 
     /**

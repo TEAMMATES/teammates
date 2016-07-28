@@ -240,7 +240,7 @@ public class FeedbackResponseCommentsLogic {
         }
         
         return doesVisibilityRecipientTypeMatchUserDetails(response, userEmail, roster, showNameTo, responseGiverTeam,
-                responseRecipientTeam, currentUserTeam);
+                                                           responseRecipientTeam, currentUserTeam);
     }
 
     /**
