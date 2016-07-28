@@ -41,21 +41,9 @@ public class CourseStudent implements StoreCallback {
     
     @Persistent
     private Date updatedAt;
-    
-    
-    /**
-     * Copied from old student class
-     * Null if using new registration key instead.
-     */
-    @Persistent
-    private transient String oldRegistrationKey;
 
-    /**
-     * Registration key, not used if old registration key is not null.
-     */
     @Persistent
-    private transient String registrationKey;
-    
+    private transient String registrationKey;    
 
     /**
      * The student's Google ID. Links to the Account object.
@@ -127,7 +115,7 @@ public class CourseStudent implements StoreCallback {
         this.setCreatedAt(new Date());
 
         this.setId(this.getEmail() + '%' + this.getCourseId());
-        this.setRegistrationKey(generateRegistrationKey());
+        this.registrationKey = generateRegistrationKey();
     }
     
     public Date getCreatedAt() {
@@ -207,22 +195,6 @@ public class CourseStudent implements StoreCallback {
     // null comment setting are not tested
     public void setComments(String comments) {
         this.comments = comments == null ? null : comments.trim();
-    }
-
-    public String getRegistrationKey() {
-        if (oldRegistrationKey == null) {
-            return registrationKey;
-        } else {
-            return oldRegistrationKey;
-        }
-    }
-    
-    public void setRegistrationKey(String key) {
-        this.registrationKey = key;
-    }
-    
-    public void setOldRegistrationKey(String key) {
-        this.oldRegistrationKey = key;
     }
  
     public String getCourseId() {

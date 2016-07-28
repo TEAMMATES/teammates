@@ -846,20 +846,13 @@ public class StudentsDb extends EntitiesDb {
     @SuppressWarnings("unchecked")
     private CourseStudent getCourseStudentEntityForRegistrationKey(String registrationKey) {
         
-        // Look up both old and new registration keys.
-        
-        Query q1 = getPm().newQuery(CourseStudent.class);
-        q1.declareParameters("String registrationKeyParam");
-        q1.setFilter("oldRegistrationKey == registrationKeyParam");
-
-        Query q2 = getPm().newQuery(CourseStudent.class);
-        q2.declareParameters("String registrationKeyParam");
-        q2.setFilter("registrationKey == registrationKeyParam");
+        Query query = getPm().newQuery(CourseStudent.class);
+        query.declareParameters("String registrationKeyParam");
+        query.setFilter("registrationKey == registrationKeyParam");
         
         try {
             List<CourseStudent> studentList = new ArrayList<CourseStudent>();
-            studentList.addAll((List<CourseStudent>) q1.execute(registrationKey));
-            studentList.addAll((List<CourseStudent>) q2.execute(registrationKey));
+            studentList.addAll((List<CourseStudent>) query.execute(registrationKey));
     
             // If registration key detected is not unique, something is wrong
             if (studentList.size() > 1) {
