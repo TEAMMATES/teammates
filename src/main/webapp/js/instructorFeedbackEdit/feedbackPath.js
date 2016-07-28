@@ -56,6 +56,11 @@ var FeedbackPath = {
         containingForm.find('[id^=recipienttype]').trigger('change');
     },
 
+    getDropdownText: function(containingForm) {
+        var feedbackPathDropdown = containingForm.find('.feedback-path-dropdown');
+        return feedbackPathDropdown.find('button').html();
+    },
+
     setDropdownText: function(text, containingForm) {
         var feedbackPathDropdown = containingForm.find('.feedback-path-dropdown');
         feedbackPathDropdown.find('button').html(text);
@@ -63,6 +68,10 @@ var FeedbackPath = {
 
     getContainingForm: function(elem) {
         return elem.closest('form');
+    },
+
+    isCommonOptionSelected: function(containingForm) {
+        return containingForm.find('.feedback-path-dropdown > button').html() !== 'Predefined combinations:';
     }
 };
 

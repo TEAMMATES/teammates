@@ -707,6 +707,17 @@ function copyOptions() {
     
     $currRecipient.val($prevRecipient.val());
     
+    // Hide other feedback path options and update common feedback path dropdown text if a common option is selected
+    var $prevQuestionForm = $('form[id^="form_editquestion-"]').eq(-2);
+    var $newQuestionForm = $('#form_editquestion-' + NEW_QUESTION);
+
+    var isPrevQuestionUsingCommonOption = FeedbackPath.isCommonOptionSelected($prevQuestionForm);
+    if (isPrevQuestionUsingCommonOption) {
+        FeedbackPath.hideOtherOption($newQuestionForm);
+        var prevQuestionSelectedOption = FeedbackPath.getDropdownText($prevQuestionForm);
+        FeedbackPath.setDropdownText(prevQuestionSelectedOption, $newQuestionForm);
+    }
+
     // Number of recipient setup
     formatNumberBox($currRecipient.val(), NEW_QUESTION);
     var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
