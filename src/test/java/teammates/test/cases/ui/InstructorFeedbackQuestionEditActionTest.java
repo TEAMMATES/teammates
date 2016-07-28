@@ -1400,7 +1400,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = fsLogic.getFeedbackSessionDetails(fs);
         assertEquals(numStudentRespondents, details.stats.submittedTotal);
-        assertEquals(totalStudents + 1, details.stats.expectedTotal);
+        assertEquals(totalStudents + 2, details.stats.expectedTotal);
     }
 
     private InstructorFeedbackQuestionEditAction getAction(String... submissionParams) {
