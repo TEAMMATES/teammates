@@ -114,7 +114,7 @@ public class CourseStudent implements StoreCallback {
         
         setCreatedAt(new Date());
 
-        setId(makeId());
+        this.id = makeId();
         registrationKey = generateRegistrationKey();
     }
 
@@ -134,7 +134,7 @@ public class CourseStudent implements StoreCallback {
         // see jdoPreStore
         createdAt = student.getCreatedAt();
         
-        setId(makeId());
+        this.id = makeId();
     }
     
     private String makeId() {
@@ -164,10 +164,6 @@ public class CourseStudent implements StoreCallback {
         return this.id;
     }
     
-    public void setId(String uniqueId) {
-        this.id = uniqueId;
-    }
-
     public String getEmail() {
         return email;
     }
