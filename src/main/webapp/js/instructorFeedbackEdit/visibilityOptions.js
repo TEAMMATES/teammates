@@ -130,16 +130,7 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
 }
 
 function allowRecipientToSee(checkboxClass, $containingForm) {
-    var recipientType = $containingForm.find('select[name="recipienttype"]').val();
-    var giverType = $containingForm.find('select[name="givertype"]').val();
-
-    if (recipientType === 'SELF' || recipientType === 'NONE') {
-        return;
-    } else if (giverType === 'STUDENTS' && recipientType === 'OWN_TEAM') {
-        $containingForm.find('input[type="checkbox"][value="OWN_TEAM_MEMBERS"]').filter(checkboxClass).each(checkCheckbox);
-    } else {
-        $containingForm.find('input[type="checkbox"][value="RECEIVER"]').filter(checkboxClass).each(checkCheckbox);
-    }
+    $containingForm.find('input[type="checkbox"][value="RECEIVER"]').filter(checkboxClass).each(checkCheckbox);
 }
 
 function allowInstructorToSee(checkboxClass, $containingForm) {
