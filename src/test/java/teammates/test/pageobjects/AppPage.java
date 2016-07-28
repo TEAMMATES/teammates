@@ -637,35 +637,12 @@ public abstract class AppPage {
     }
     
     /**
-     * Clicks the hidden element and clicks 'Yes' in the follow up dialog box.
-     * Fails if there is no dialog box.
-     * @return the resulting page.
-     */
-    public AppPage clickHiddenElementAndConfirm(String elementId) {
-        click(By.id(elementId));
-        waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
-        return this;
-    }
-    
-    /**
      * Clicks the element and clicks 'No' in the follow up dialog box.
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
     public void clickAndCancel(WebElement elementToClick) {
         click(elementToClick);
-        waitForConfirmationModalAndClickCancel();
-        waitForPageToLoad();
-    }
-    
-    /**
-     * Clicks the hidden element and clicks 'No' in the follow up dialog box.
-     * Fails if there is no dialog box.
-     * @return the resulting page.
-     */
-    public void clickHiddenElementAndCancel(String elementId) {
-        click(By.id(elementId));
         waitForConfirmationModalAndClickCancel();
         waitForPageToLoad();
     }
