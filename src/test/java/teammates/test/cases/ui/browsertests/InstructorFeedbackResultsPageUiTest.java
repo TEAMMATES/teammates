@@ -54,6 +54,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     @Test
     public void testFrontEndActions() throws Exception {
+        testDefaultSort();
         testSortAction();
         testFilterAction();
         testPanelsCollapseExpand();
@@ -579,6 +580,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
     }
 
+    public void testDefaultSort() throws Exception {
+
+        ______TS("Typical case: test default sort Team Name-->Giver display name");
+
+        resultsPage.fillSearchBox("default sort");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultDefaultSort.html");
+    }
+
+    
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.
     public void testFeedbackResponseCommentActions() throws Exception {
 
