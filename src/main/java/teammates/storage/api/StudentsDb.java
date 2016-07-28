@@ -2,7 +2,6 @@ package teammates.storage.api;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -162,15 +161,11 @@ public class StudentsDb extends EntitiesDb {
     }
     
     public void copyStudentToCourseStudent(String courseId, String email) {
-        copyStudentToCourseStudent(getStudentEntityForEmail(courseId, email));
-    }
-    
-    public void copyStudentToCourseStudent(Student student) {
-        CourseStudent courseStudent = new CourseStudent(student);
+        CourseStudent courseStudent = new CourseStudent(getStudentEntityForEmail(courseId, email));
         getPm().makePersistent(courseStudent);
         getPm().close();
     }
-
+    
     /**
      * Preconditions:
      * <br> * All parameters are non-null.
@@ -427,10 +422,8 @@ public class StudentsDb extends EntitiesDb {
     public List<StudentAttributes> getAllCourseStudents() {
         List<StudentAttributes> list = new LinkedList<StudentAttributes>();
         List<CourseStudent> entities = getCourseStudentEntities();
-        Iterator<CourseStudent> it = entities.iterator();
-        while (it.hasNext()) {
-            CourseStudent student = it.next();
-            
+        
+        for (CourseStudent student : entities) {
             if (!JDOHelper.isDeleted(student)) {
                 list.add(new StudentAttributes(student));
             }
@@ -887,40 +880,35 @@ public class StudentsDb extends EntitiesDb {
         return (List<CourseStudent>) q.execute(courseIds);
     }
 
+    @SuppressWarnings("unchecked")
     private List<CourseStudent> getCourseStudentEntitiesForGoogleId(String googleId) {
         Query q = getPm().newQuery(CourseStudent.class);
         q.declareParameters("String googleIdParam");
         q.setFilter("googleId == googleIdParam");
         
-        @SuppressWarnings("unchecked")
-        List<CourseStudent> studentList = (List<CourseStudent>) q.execute(googleId);
-        
-        return studentList;
+        return (List<CourseStudent>) q.execute(googleId);
     }
 
+    @SuppressWarnings("unchecked")
     private List<CourseStudent> getCourseStudentEntitiesForTeam(String teamName, String courseId) {
         Query q = getPm().newQuery(CourseStudent.class);
         q.declareParameters("String teamNameParam, String courseIDParam");
         q.setFilter("teamName == teamNameParam && courseId == courseIDParam");
         
-        @SuppressWarnings("unchecked")
-        List<CourseStudent> studentList = (List<CourseStudent>) q.execute(teamName, courseId);
-        
-        return studentList;
+        return (List<CourseStudent>) q.execute(teamName, courseId);
     }
 
+    @SuppressWarnings("unchecked")
     private List<CourseStudent> getCourseStudentEntitiesForSection(String sectionName, String courseId) {
         Query q = getPm().newQuery(CourseStudent.class);
         q.declareParameters("String sectionNameParam, String courseIDParam");
         q.setFilter("sectionName == sectionNameParam && courseId == courseIDParam");
 
-        @SuppressWarnings("unchecked")
-        List<CourseStudent> studentList = (List<CourseStudent>) q.execute(sectionName, courseId);
-
-        return studentList;
+        return (List<CourseStudent>) q.execute(sectionName, courseId);
     }
     
     @Deprecated
+    @SuppressWarnings("unchecked")
     /**
      * Retrieves all course student entities. This function is not scalable.
      */
@@ -928,10 +916,7 @@ public class StudentsDb extends EntitiesDb {
         
         Query q = getPm().newQuery(CourseStudent.class);
         
-        @SuppressWarnings("unchecked")
-        List<CourseStudent> studentList = (List<CourseStudent>) q.execute();
-        
-        return studentList;
+        return (List<CourseStudent>) q.execute();
     }
     
     /**

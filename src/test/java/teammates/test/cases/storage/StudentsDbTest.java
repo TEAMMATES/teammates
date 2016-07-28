@@ -29,7 +29,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
      * {@code CourseStudent}.
      * 
      */
-    private class OldStudentEntityPersistanceAttributes extends StudentAttributes {
+    private class OldStudentEntityPersistenceAttributes extends StudentAttributes {
         @Override
         public Student toEntity() {
             return new Student(email, name, googleId, comments, course, team, section);
@@ -382,7 +382,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     
     private StudentAttributes createOldStudentAttributes(String testName)
             throws InvalidParametersException {
-        StudentAttributes s = new OldStudentEntityPersistanceAttributes();
+        StudentAttributes s = new OldStudentEntityPersistenceAttributes();
         s.name = "valid student";
         s.course = "valid-course" + testName;
         s.email = "validOldStudent" + testName + "@email.com";
