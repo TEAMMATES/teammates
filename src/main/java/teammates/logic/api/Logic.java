@@ -1559,12 +1559,12 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail) {
+    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, StudentAttributes student) {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
     
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, student);
     }
     
     /**

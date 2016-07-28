@@ -1998,7 +1998,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         fs = dataBundle.feedbackSessions.get("empty.session");
         
-        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.email));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student));
     }
     
     public void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
@@ -2057,7 +2057,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.getCourseId());
         for (StudentAttributes s : studentList) {
             EmailWrapper emailToStudent = getEmailToStudent(s, emailsSent);
-            if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s.email)) {
+            if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s)) {
                 String errorMessage = "Email sent to " + s.email + " when he already completed the session.";
                 assertNull(errorMessage, emailToStudent);
             } else {

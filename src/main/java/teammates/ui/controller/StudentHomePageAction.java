@@ -76,10 +76,8 @@ public class StudentHomePageAction extends Action {
     private boolean getStudentStatusForSession(FeedbackSessionAttributes fs, String googleId) {
         StudentAttributes student = logic.getStudentForGoogleId(fs.getCourseId(), googleId);
         Assumption.assertNotNull(student);
-
-        String studentEmail = student.email;
         
-        return logic.hasStudentSubmittedFeedback(fs, studentEmail);
+        return logic.hasStudentSubmittedFeedback(fs, student);
     }
     
     private boolean isCourseIncluded(String recentlyJoinedCourseId, List<CourseDetailsBundle> courses) {

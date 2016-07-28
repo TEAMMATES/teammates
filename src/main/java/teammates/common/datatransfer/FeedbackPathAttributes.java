@@ -91,22 +91,27 @@ public class FeedbackPathAttributes extends EntityAttributes {
     }
     
     public boolean isStudentFeedbackPathGiver(StudentAttributes student) {
-        if (isFeedbackPathParticipantAStudent(giver)) {
-            String studentFeedbackPathGiver = getStudentEmail(giver);
-            return studentFeedbackPathGiver.equals(student.getEmail());
-        } else if (isFeedbackPathParticipantATeam(giver)) {
-            String teamFeedbackPathGiver = getTeamName(giver);
-            return teamFeedbackPathGiver.equals(student.getTeam());
-        }
-        return false;
+        return this.isStudentFeedbackPathParticipant(student, giver);
+    }
+    
+    public boolean isStudentFeedbackPathRecipient(StudentAttributes student) {
+        return isStudentFeedbackPathParticipant(student, recipient);
     }
     
     public boolean isInstructorFeedbackPathGiver(String instructorEmail) {
-        if (isFeedbackPathParticipantAnInstructor(giver)) {
-            String instructorFeedbackPathGiver = getInstructorEmail(giver);
-            return instructorFeedbackPathGiver.equals(instructorEmail);
-        }
-        return false;
+        return isInstructorFeedbackPathParticipant(instructorEmail, giver);
+    }
+    
+    public boolean isInstructorFeedbackPathRecipient(String instructorEmail) {
+        return isInstructorFeedbackPathParticipant(instructorEmail, recipient);
+    }
+    
+    public boolean isTeamFeedbackPathGiver(String teamName) {
+        return isTeamFeedbackPathParticipant(teamName, giver);
+    }
+    
+    public boolean isTeamFeedbackPathRecipient(String teamName) {
+        return isTeamFeedbackPathParticipant(teamName, recipient);
     }
     
     public String getGiverId() {
@@ -117,12 +122,28 @@ public class FeedbackPathAttributes extends EntityAttributes {
         return getParticipantId(recipient);
     }
     
+    public boolean isFeedbackPathGiverAStudent() {
+        return isFeedbackPathParticipantAStudent(giver);
+    }
+    
+    public boolean isFeedbackPathGiverAnInstructor() {
+        return isFeedbackPathParticipantAnInstructor(giver);
+    }
+    
+    public boolean isFeedbackPathGiverATeam() {
+        return isFeedbackPathParticipantATeam(giver);
+    }
+    
     public boolean isFeedbackPathRecipientAStudent() {
         return isFeedbackPathParticipantAStudent(recipient);
     }
     
     public boolean isFeedbackPathRecipientAnInstructor() {
         return isFeedbackPathParticipantAnInstructor(recipient);
+    }
+    
+    public boolean isFeedbackPathRecipientATeam() {
+        return isFeedbackPathParticipantATeam(recipient);
     }
 
     public boolean isFeedbackPathRecipientTheClass() {
@@ -137,7 +158,7 @@ public class FeedbackPathAttributes extends EntityAttributes {
         } else if (isFeedbackPathParticipantATeam(participant)) {
             return getTeamName(participant);
         } else if (isFeedbackPathParticipantTheClass(participant)) {
-            return participant;
+            return Const.GENERAL_QUESTION;
         } else {
             return "";
         }
@@ -184,5 +205,29 @@ public class FeedbackPathAttributes extends EntityAttributes {
     
     private int getTeamParticipantTypeIndex(String participant) {
         return participant.length() - FEEDBACK_PARTICIPANT_TYPE_TEAM.length();
+    }
+    
+    private boolean isStudentFeedbackPathParticipant(StudentAttributes student, String participant) {
+        if (isFeedbackPathParticipantAStudent(participant)) {
+            String studentFeedbackPathParticipant = getStudentEmail(participant);
+            return studentFeedbackPathParticipant.equals(student.getEmail());
+        }
+        return false;
+    }
+    
+    private boolean isInstructorFeedbackPathParticipant(String instructorEmail, String participant) {
+        if (isFeedbackPathParticipantAnInstructor(participant)) {
+            String instructorFeedbackPathParticipant = getInstructorEmail(participant);
+            return instructorFeedbackPathParticipant.equals(instructorEmail);
+        }
+        return false;
+    }
+    
+    private boolean isTeamFeedbackPathParticipant(String teamName, String participant) {
+        if (isFeedbackPathParticipantATeam(participant)) {
+            String teamFeedbackPathParticipant = getTeamName(participant);
+            return teamFeedbackPathParticipant.equals(teamName);
+        }
+        return false;
     }
 }
