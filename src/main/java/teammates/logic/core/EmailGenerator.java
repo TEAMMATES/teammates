@@ -172,16 +172,31 @@ public class EmailGenerator {
     
     /**
      * Generates the feedback session closed emails for the given {@code session}.
+     * @throws EntityDoesNotExistException
      */
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSessionAttributes session) {
 
-        boolean isEmailNeeded = fsLogic.isFeedbackSessionForStudentsToAnswer(session);
+        boolean isEmailNeededForStudents = false;
+        try {
+            isEmailNeededForStudents = fsLogic.isFeedbackSessionHasQuestionForStudents(
+                    session.getSessionName(), session.getCourseId());
+        } catch (EntityDoesNotExistException e) {
+            // TODO Auto-generated catch block
+        }
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        List<InstructorAttributes> instructors = isEmailNeeded
-                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
-                                                 : new ArrayList<InstructorAttributes>();
+        
+        List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
+        List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+        if (!session.isPrivateSession()) {
+            instructors = instructorsLogic.getInstructorsForCourse(session
+                    .getCourseId());
+
+            students = isEmailNeededForStudents
+                    ? studentsLogic.getStudentsForCourse(session.getCourseId())
+                    : new ArrayList<StudentAttributes>();
+        }
                                                  
-        return generateFeedbackSessionClosedEmail(course, session, instructors);
+        return generateFeedbackSessionClosedEmail(course, session, instructors, students);
     }
     
     /**
@@ -300,7 +315,7 @@ public class EmailGenerator {
     
     private List<EmailWrapper> generateFeedbackSessionClosedEmail(
             CourseAttributes course, FeedbackSessionAttributes session,
-            List<InstructorAttributes> instructors) {
+            List<InstructorAttributes> instructors, List<StudentAttributes> students) {
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
@@ -317,6 +332,23 @@ public class EmailGenerator {
                     "${supportEmail}", Config.SUPPORT_EMAIL);
 
             EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
+            email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
+            email.setContent(emailBody);
+
+            emails.add(email);
+        }
+        
+        for (StudentAttributes student : students) {
+
+            String emailBody = Templates.populateTemplate(template,
+                    "${userName}", student.name,
+                    "${courseName}", course.getName(),
+                    "${courseId}", course.getId(),
+                    "${feedbackSessionName}", session.getFeedbackSessionName(),
+                    "${deadline}", TimeHelper.formatTime12H(session.getEndTime()),
+                    "${supportEmail}", Config.SUPPORT_EMAIL);
+
+            EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
             email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
             email.setContent(emailBody);
 

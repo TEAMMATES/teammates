@@ -134,7 +134,7 @@ public class FeedbackSessionClosedReminderTest extends BaseComponentUsingTaskQue
         String course1Name = CoursesLogic.inst().getCourse(session1.getCourseId()).getName();
         
         EmailAction fsClosedAction = new FeedbackSessionClosedMailAction(paramMap);
-        int course1InstructorCount = 5;
+        int course1InstructorCount = 10;
         
         List<EmailWrapper> preparedEmails = fsClosedAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1InstructorCount, preparedEmails.size());

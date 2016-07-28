@@ -138,7 +138,7 @@ public class EmailGeneratorTest extends BaseComponentTestCase {
         ______TS("feedback session closed alerts");
         
         emails = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
-        assertEquals(5, emails.size());
+        assertEquals(10, emails.size());
         
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
