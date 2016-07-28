@@ -5,7 +5,7 @@
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
-<c:set var="isNewQuestion" value="${empty fqForm.questionIndex}" />
+<c:set var="isNewQuestion" value="${fqForm.questionIndex eq -1}" />
 
 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
     <div class="col-sm-12 padding-0 margin-bottom-7px">
