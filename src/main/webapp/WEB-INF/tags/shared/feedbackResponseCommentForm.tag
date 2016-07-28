@@ -44,8 +44,8 @@
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
-                    <th class="text-center">Can see your comment</th>
-                    <th class="text-center">Can see your name</th>
+                    <th class="text-center">Can see this comment</th>
+                    <th class="text-center">Can see comment giver's name</th>
                 </tr>
                 <tr id="response-giver-${divId}">
                     <td class="text-left">

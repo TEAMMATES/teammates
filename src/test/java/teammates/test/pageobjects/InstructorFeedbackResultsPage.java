@@ -31,6 +31,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "collapse-panels-button-team-0")
     public WebElement instructorPanelCollapseStudentsButton;
 
+    @FindBy(id = "collapse-panels-button-section-0")
+    public WebElement sectionCollapseStudentsButton;
+
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
     
@@ -444,12 +447,22 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(instructorPanelCollapseStudentsButton);
     }
 
+    public void clickSectionCollapseStudentsButton() {
+        click(sectionCollapseStudentsButton);
+    }
+
     public void waitForInstructorPanelStudentPanelsToCollapse() {
         List<WebElement> studentPanels = browser.driver.findElements(
                 By.cssSelector("#panelBodyCollapse-0-1 .panel-collapse"));
         waitForElementsToDisappear(studentPanels);
     }
-    
+
+    public void waitForSectionStudentPanelsToCollapse() {
+        List<WebElement> studentPanels = browser.driver.findElements(
+                By.cssSelector("#panelBodyCollapse-section-0-1 .panel-collapse"));
+        waitForElementsToDisappear(studentPanels);
+    }
+
     public void verifyPanelForParticipantIsDisplayed(String participantIdentifier) {
         WebElement panel = browser.driver.findElement(
                 By.xpath("//div[contains(@class, 'panel-primary') or contains(@class, 'panel-default')]"

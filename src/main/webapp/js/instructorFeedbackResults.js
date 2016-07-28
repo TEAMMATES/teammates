@@ -291,7 +291,7 @@ $(document).ready(function() {
         toggleCollapse(this, panels);
     });
 
-    $('a[id^="collapse-panels-button-team-"]').on('click', function() {
+    $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', function() {
         var panels = $(this).closest('.panel-warning')
                             .children('.panel-collapse')
                             .find(participantPanelType)
