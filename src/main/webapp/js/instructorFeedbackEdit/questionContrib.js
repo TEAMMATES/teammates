@@ -98,7 +98,7 @@ function fixContribQnGiverRecipient(questionNum) {
     $giverType.find('option').not('[value="STUDENTS"], [value="CUSTOM"]').prop('disabled', true);
     $recipientType.find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"], [value="CUSTOM"]').prop('disabled', true);
     
-    if (questionNum === undefined) {
+    if (questionNum === NEW_QUESTION) {
         $giverType.find('option').filter('[value="STUDENTS"]').prop('selected', true);
         $recipientType.find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('selected', true);
     }
