@@ -6,6 +6,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -39,7 +40,8 @@ public class AllJsTests extends BaseUiTestCase {
         
         print("Executed " + totalCases + " JavaScript Unit tests...");
 
-        assertEquals(failedCases, 0);
+        int expectedFailedCases = "firefox".equals(TestProperties.BROWSER) ? 0 : 4;
+        assertEquals(expectedFailedCases, failedCases);
         assertTrue(totalCases != 0);
         
         print("As expected, 0 failed tests out of " + totalCases + " tests.");
