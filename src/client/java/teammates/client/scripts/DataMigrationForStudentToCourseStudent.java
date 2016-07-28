@@ -22,7 +22,7 @@ public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
     private static final boolean isPreview = true;
     
     // When using ScriptTarget.BY_TIME, numDays can be changed to target
-    // questions created in the past number of days
+    // students created in the past number of days
     private static final int numDays = 100;
     
     // When using ScriptTarget.BY_COURSE, specify the course to target with courseId
@@ -37,7 +37,7 @@ public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
         BY_TIME, BY_COURSE, ALL;
     }
     
-    ScriptTarget target = ScriptTarget.BY_TIME;
+    private ScriptTarget target = ScriptTarget.BY_TIME;
     
     private StudentsDb studentsDb = new StudentsDb();
     
@@ -74,24 +74,20 @@ public class DataMigrationForStudentToCourseStudent extends RemoteApiClient {
     }
     
     private List<StudentAttributes> getOldStudentsForMigration(ScriptTarget target) {
-        List<StudentAttributes> students;
-        if (target == ScriptTarget.BY_TIME) {
+        switch (target) {
+        case BY_TIME:
             Calendar startCal = Calendar.getInstance();
             startCal.add(Calendar.DAY_OF_YEAR, -1 * numDays);
             
-            students = getOldStudentsSince(startCal.getTime());
-            
-        } else if (target == ScriptTarget.BY_COURSE) {
-            students = getOldStudentsForCourse(courseId);
-            
-        } else if (target == ScriptTarget.ALL) {
-            students = getAllOldStudents();
-            
-        } else {
-            students = null;
+            return getOldStudentsSince(startCal.getTime());
+        case BY_COURSE:
+            return getOldStudentsForCourse(courseId);
+        case ALL:
+            return getAllOldStudents();
+        default:
             Assumption.fail("no target selected");
+            return null;
         }
-        return students;
     }
 
     private List<StudentAttributes> getOldStudentsSince(Date date) {
