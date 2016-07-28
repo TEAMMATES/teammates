@@ -17,12 +17,13 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.datastore.Datastore;
 
 public class DataMigrationForSanitizedDataInInstructorAttributes extends RemoteApiClient {
-    private final boolean isPreview = true;
+    private static final boolean isPreview = true;
     private InstructorsDb instructorsDb = new InstructorsDb();
     private InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     
     public static void main(String[] args) throws IOException {
-        DataMigrationForSanitizedDataInInstructorAttributes migrator = new DataMigrationForSanitizedDataInInstructorAttributes();
+        DataMigrationForSanitizedDataInInstructorAttributes migrator =
+                new DataMigrationForSanitizedDataInInstructorAttributes();
         migrator.doOperationRemotely();
     }
 
@@ -38,12 +39,12 @@ public class DataMigrationForSanitizedDataInInstructorAttributes extends RemoteA
         
         try {
             for (InstructorAttributes instructor : allInstructors) {
-                if (!isPreview) {
-                    fixSanitizedDataForInstructor(instructor);
-                } else {
+                if (isPreview) {
                     if (previewSanitizedDataForInstructor(instructor)) {
                         numberOfAffectedInstructors++;
                     }
+                } else {
+                    fixSanitizedDataForInstructor(instructor);
                 }
             }
         } catch (Exception e) {
@@ -78,13 +79,15 @@ public class DataMigrationForSanitizedDataInInstructorAttributes extends RemoteA
         return hasSanitizedData;
     }
 
-    private boolean isSanitizedString(String s){
-        if (s == null) return false;
-        if ((s.indexOf('<') >= 0) || (s.indexOf('>') >= 0) || (s.indexOf('\"') >= 0) || 
-            (s.indexOf('/') >= 0) || (s.indexOf('\'') >= 0)) {
+    private boolean isSanitizedString(String s) {
+        if (s == null) {
             return false;
-        } else if ((s.indexOf("&lt;") >= 0) || (s.indexOf("&gt;") >= 0) || (s.indexOf("&quot;") >= 0) || 
-                    (s.indexOf("&#x2f;") >= 0) || (s.indexOf("&#39;") >= 0) || (s.indexOf("&amp;") >= 0)) {
+        }
+        if (s.indexOf('<') >= 0 || s.indexOf('>') >= 0 || s.indexOf('\"') >= 0
+                || s.indexOf('/') >= 0 || s.indexOf('\'') >= 0) {
+            return false;
+        } else if (s.indexOf("&lt;") >= 0 || s.indexOf("&gt;") >= 0 || s.indexOf("&quot;") >= 0
+                || s.indexOf("&#x2f;") >= 0 || s.indexOf("&#39;") >= 0 || s.indexOf("&amp;") >= 0) {
             return true;
         }
         return false;
@@ -99,7 +102,7 @@ public class DataMigrationForSanitizedDataInInstructorAttributes extends RemoteA
     
     private boolean checkInstructorHasSanitizedData(InstructorAttributes instructor) {
         
-        return isSanitizedString(instructor.role) || isSanitizedString(instructor.displayedName) 
+        return isSanitizedString(instructor.role) || isSanitizedString(instructor.displayedName)
                 || isSanitizedString(instructor.name);
     }
     
@@ -109,7 +112,7 @@ public class DataMigrationForSanitizedDataInInstructorAttributes extends RemoteA
         instructor.role = fixSanitization(instructor.role);
     }
     
-    private void fixSanitizedDataForInstructor(InstructorAttributes instructor) 
+    private void fixSanitizedDataForInstructor(InstructorAttributes instructor)
             throws InvalidParametersException, EntityDoesNotExistException {
         boolean hasSanitizedData = checkInstructorHasSanitizedData(instructor);
         if (hasSanitizedData) {
@@ -118,7 +121,7 @@ public class DataMigrationForSanitizedDataInInstructorAttributes extends RemoteA
         }
     }
 
-    protected PersistenceManager getPM() {
+    protected PersistenceManager getPm() {
         return Datastore.getPersistenceManager();
     }
 
