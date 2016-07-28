@@ -291,11 +291,11 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          */
     
         String courseId = "CCAddUiTest.course1";
-        coursesPage.getDeleteLink(courseId).click();
+        coursesPage.clickDeleteLink(courseId);
         coursesPage.waitForConfirmationModalAndClickCancel();
         assertNotNull(BackDoor.getCourseAsJson(courseId));
 
-        coursesPage.getDeleteLink(courseId).click();
+        coursesPage.clickDeleteLink(courseId);
         coursesPage.waitForConfirmationModalAndClickOk();
         coursesPage.verifyHtmlMainContent("/instructorCoursesDeleteSuccessful.html");
         

@@ -404,8 +404,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(addMsqOtherOptionCheckboxForNewQuestion);
     }
     
-    public WebElement getDeleteSessionLink() {
-        return fsDeleteLink;
+    public void clickDeleteSessionLink() {
+        click(fsDeleteLink);
     }
     
     public void clickDeleteQuestionLink(int qnIndex) {
@@ -785,7 +785,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public InstructorFeedbacksPage deleteSession() {
-        click(getDeleteSessionLink());
+        clickDeleteSessionLink();
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);

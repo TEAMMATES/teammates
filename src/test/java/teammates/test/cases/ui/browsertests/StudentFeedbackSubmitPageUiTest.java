@@ -3,7 +3,6 @@ package teammates.test.cases.ui.browsertests;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -66,11 +65,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.logout();
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
-        browser.driver.findElement(By.id("studentHomeNavLink")).click();
+        submitPage.clickStudentHomeNavLink();
         submitPage.waitForConfirmationModalAndClickCancel();
-        browser.driver.findElement(By.id("studentProfileNavLink")).click();
+        submitPage.clickStudentProfileNavLink();
         submitPage.waitForConfirmationModalAndClickCancel();
-        browser.driver.findElement(By.id("studentCommentsNavLink")).click();
+        submitPage.clickStudentCommentsNavLink();
         submitPage.waitForConfirmationModalAndClickCancel();
     }
 

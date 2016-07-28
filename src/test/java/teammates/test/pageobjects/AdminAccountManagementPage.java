@@ -45,15 +45,13 @@ public class AdminAccountManagementPage extends AppPage {
     }
 
     public AdminAccountManagementPage clickAndCancelDeleteAccountLink(String googleId) {
-        WebElement deleteAccountLink = getDeleteAccountLink(googleId);
-        deleteAccountLink.click();
+        clickDeleteAccountLink(googleId);
         waitForConfirmationModalAndClickCancel();
         return this;
     }
 
     public AdminAccountManagementPage clickAndConfirmDeleteAccountLink(String googleId) {
-        WebElement deleteAccountLink = getDeleteAccountLink(googleId);
-        deleteAccountLink.click();
+        clickDeleteAccountLink(googleId);
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return this;
@@ -63,8 +61,8 @@ public class AdminAccountManagementPage extends AppPage {
         assertTrue(containsExpectedPageContents());
     }
 
-    private WebElement getDeleteAccountLink(String googleId) {
-        return browser.driver.findElement(By.id(googleId + "_deleteAccount"));
+    private void clickDeleteAccountLink(String googleId) {
+        click(browser.driver.findElement(By.id(googleId + "_deleteAccount")));
     }
     
     private WebElement getAccountTable() {
