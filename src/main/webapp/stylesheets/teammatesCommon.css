@@ -957,7 +957,7 @@ Prevent Long URL From Breaking Out of Container
 }
 
 .content-editor {
-    padding-top: 5px;
+    padding: 5px 10px;
 }
 
 .content-editor:before {
