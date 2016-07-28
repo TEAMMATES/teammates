@@ -70,15 +70,15 @@ public class InstructorCourseEditPageData extends PageData {
     }
 
     private void createCourseRelatedButtons(InstructorAttributes currentInstructor) {
-        boolean isEditDeleteButtonDisabled = !currentInstructor.isAllowedForPrivilege(
-                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+        boolean isEditDeleteCourseButtonDisabled = !currentInstructor.isAllowedForPrivilege(
+                                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
         
-        editCourseButton = createEditCourseButton(isEditDeleteButtonDisabled);
-        deleteCourseButton = createDeleteCourseButton(isEditDeleteButtonDisabled);
+        editCourseButton = createEditCourseButton(isEditDeleteCourseButtonDisabled);
+        deleteCourseButton = createDeleteCourseButton(isEditDeleteCourseButtonDisabled);
 
-        boolean isAddButtonDisabled = !currentInstructor.isAllowedForPrivilege(
-                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-        addInstructorButton = createAddInstructorButton(isAddButtonDisabled);
+        boolean isAddInstructorButtonDisabled = !currentInstructor.isAllowedForPrivilege(
+                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+        addInstructorButton = createAddInstructorButton(isAddInstructorButtonDisabled);
     }
     
     private CourseEditInstructorPanel createInstructorPanel(InstructorAttributes currentInstructor,
